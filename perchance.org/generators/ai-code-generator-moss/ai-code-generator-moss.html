@@ -1,4 +1,4 @@
-<h1>AI Code Generator Moss</h1>
+<h1>AI Code Generator Mosberg</h1>
 
 <link
   rel="shortcut icon"
@@ -34,8 +34,7 @@
       localStorage.currentMode = this.value;
       modeDescriptionEl.textContent = modes[currentMode].description || '';
       instructionEl.placeholder =
-        modes[currentMode].instructionPlaceholder ||
-        instructionEl.dataset.defaultPlaceholder;
+        modes[currentMode].instructionPlaceholder || instructionEl.dataset.defaultPlaceholder;
     "
     style="text-align: left"
   >
@@ -43,13 +42,7 @@
   </select>
   <div
     id="modeDescriptionEl"
-    style="
-      font-size: 75%;
-      opacity: 0.6;
-      max-width: 500px;
-      margin: 0 auto;
-      padding-top: 0.25rem;
-    "
+    style="font-size: 75%; opacity: 0.6; max-width: 500px; margin: 0 auto; padding-top: 0.25rem"
   ></div>
   <script>
     modeDescriptionEl.textContent = modes[currentMode].description || "";
@@ -83,8 +76,7 @@
     </script>
     <script>
       instructionEl.placeholder =
-        modes[currentMode].instructionPlaceholder ??
-        instructionEl.dataset.defaultPlaceholder;
+        modes[currentMode].instructionPlaceholder ?? instructionEl.dataset.defaultPlaceholder;
     </script>
     <button
       id="instructionDeleteBtn"
@@ -100,13 +92,7 @@
         }
         localStorage.instruction = instructionEl.value;
       "
-      style="
-        position: absolute;
-        top: -0.75rem;
-        right: 0.5rem;
-        font-size: 60%;
-        display: none;
-      "
+      style="position: absolute; top: -0.75rem; right: 0.5rem; font-size: 60%; display: none"
     ></button>
     <script>
       if (instructionEl.value.trim()) {
@@ -155,9 +141,7 @@
           display: inline-flex;
           align-items: center;
         "
-        ><button id="stopBtn" style="font-size: 80%; display: none">
-          🛑 stop
-        </button></span
+        ><button id="stopBtn" style="font-size: 80%; display: none">🛑 stop</button></span
       >
     </div>
   </div>
@@ -217,13 +201,7 @@
           this.innerText = '📋 copy';
         }, 2000);
       "
-      style="
-        position: absolute;
-        top: -0.75rem;
-        right: 0.5rem;
-        font-size: 60%;
-        display: none;
-      "
+      style="position: absolute; top: -0.75rem; right: 0.5rem; font-size: 60%; display: none"
     >
       📋 copy
     </button>
@@ -236,18 +214,14 @@
         min-width: max-content;
       "
     >
-      <button disabled id="continueBtn" onclick="generate()" style="">
-        ▶️ continue
-      </button>
+      <button disabled id="continueBtn" onclick="generate()">▶️ continue</button>
       <button
         disabled
         id="retryBtn"
         onclick="
-          responseEl.value =
-            window.responseContentBeforeLastGenerate || responseEl.value;
+          responseEl.value = window.responseContentBeforeLastGenerate || responseEl.value;
           generate();
         "
-        style=""
       >
         🔁 retry
       </button>
@@ -288,29 +262,13 @@
         min-width: max-content;
       "
     >
-      <button disabled id="bottomContinueBtn" onclick="generate()" style="">
-        ▶️ continue
-      </button>
+      <button disabled id="bottomContinueBtn" onclick="generate()">▶️ continue</button>
       <button id="bottomStopBtn" style="display: none">🛑 stop</button>
     </div>
   </div>
 </div>
 
 <div id="renderedOutputEl" style="margin-top: 3rem"></div>
-
-<br />
-<p style="font-size: 80%">
-  Also check out the
-  <a href="https://perchance.org/ai-story-generator" target="_blank"
-    >AI Story Generator</a
-  >, the
-  <a href="https://perchance.org/ai-text-rewriter" target="_blank"
-    >AI Text Rewriter</a
-  >, and the
-  <a href="https://perchance.org/ai-text-to-image-generator" target="_blank"
-    >AI Image Generator</a
-  >.
-</p>
 
 <br />
 
@@ -321,13 +279,12 @@
 <script>
   function createCommentsSectionHtml() {
     let startVisible = false;
-    if (window.commentsEl && window.commentsEl.style.display !== "none")
-      startVisible = true;
+    if (window.commentsEl && window.commentsEl.style.display !== "none") startVisible = true;
     commentsCtn.innerHTML = ""; // must delete existing comments section first because comments plugin has code which cause it to not output any HTML if that comments section already exists on the page
     let commentsPluginHtml = comments({
       width: "min(750px, 100%)",
       height: "min(70vh, 600px)",
-      forceColorScheme: localStorage.forceColorScheme || null,
+      forceColorScheme: localStorage.forceColorScheme || null
     });
     commentsCtn.innerHTML = `
       <p><button onclick="if(commentsEl.style.display == 'none') { commentsEl.style.display=''; this.textContent='hide comments'; } else { commentsEl.style.display='none'; this.textContent='💬 show comments'; }">${startVisible ? "hide comments" : "💬 show comments"}</button></p>
@@ -359,8 +316,7 @@
     setColorScheme(newColorScheme);
     // if chosen mode matches current OS default, we remove manual "forced" mode:
     let systemColorScheme =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
+      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
     if (systemColorScheme === newColorScheme) {
@@ -371,8 +327,7 @@
     if (localStorage.forceColorScheme !== undefined) {
       return localStorage.forceColorScheme;
     } else {
-      return window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
     }
@@ -380,8 +335,7 @@
   function setColorScheme(scheme) {
     if (scheme !== "dark" && scheme !== "light")
       throw new Error("scheme should be 'light' or 'dark'");
-    document.querySelector("#darkModeBtn").textContent =
-      scheme === "dark" ? "🌄" : "🌃";
+    document.querySelector("#darkModeBtn").textContent = scheme === "dark" ? "🌄" : "🌃";
     if (scheme === "dark") {
       document.documentElement.style.colorScheme = "dark";
       document.body.style.color = "#d8d4cf";
@@ -400,23 +354,14 @@
   } else {
     // user has not manually overwritten, so we use OS default:
     let systemIsInDarkMode = !!(
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
+      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
     );
     setColorScheme(systemIsInDarkMode ? "dark" : "light");
   }
 </script>
 
 <!-- FEEDBACK STUFF -->
-<div
-  style="
-    position: fixed;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    text-align: right;
-    z-index: 100;
-  "
->
+<div style="position: fixed; bottom: 0.5rem; right: 0.5rem; text-align: right; z-index: 100">
   <div id="feedbackCommentsCtn"></div>
   <button
     id="feedbackBtn893745ykfuhd"
@@ -439,12 +384,10 @@
       channel: "feedback",
       hideComments: location.hash.includes("#showfeedback") ? false : true,
       height: location.hash.includes("#showfeedback") ? 500 : 120,
-      commentPlaceholderText:
-        "Share some feedback. Do not share personal info, data is public.",
-      submitButtonText: "submit feedback",
+      commentPlaceholderText: "Share some feedback. Do not share personal info, data is public.",
+      submitButtonText: "submit feedback"
     };
-    if (localStorage.forceColorScheme)
-      options.forceColorScheme = localStorage.forceColorScheme;
+    if (localStorage.forceColorScheme) options.forceColorScheme = localStorage.forceColorScheme;
     return comments(options);
   }
 </script>
