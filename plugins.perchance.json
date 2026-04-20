@@ -8,122 +8,122 @@
       "snippet": ""
     },
     {
-      "label": "ai-text-rewriter-framework (local)",
+      "label": "ai-text-rewriter-framework",
       "description": "Framework UI shell for AI text rewriter generators",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/ai-text-rewriter-framework",
+      "url_edit": "https://perchance.org/ai-text-rewriter-framework#edit",
       "snippet": "generateHTML = {import:ai-text-rewriter-framework}"
     },
     {
-      "label": "ai-text-rewriter-framework-v2 (local)",
+      "label": "ai-text-rewriter-framework-v2",
       "description": "Advanced framework with mode filters, profiles, history, and batch rewrite tools",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/ai-text-rewriter-framework-v2",
+      "url_edit": "https://perchance.org/ai-text-rewriter-framework-v2#edit",
       "snippet": "generateHTML = {import:ai-text-rewriter-framework-v2}"
     },
     {
-      "label": "ai-text-rewriter-prompt-character (local)",
+      "label": "ai-text-rewriter-prompt-character",
       "description": "Character-focused rewrite mode pack",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/ai-text-rewriter-prompt-character",
+      "url_edit": "https://perchance.org/ai-text-rewriter-prompt-character#edit",
       "snippet": "promptCharacterModes = {import:ai-text-rewriter-prompt-character}"
     },
     {
-      "label": "workspace-state-kit (local)",
+      "label": "workspace-state-kit",
       "description": "Namespaced state buckets with persistence and JSON migration",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/workspace-state-kit",
+      "url_edit": "https://perchance.org/workspace-state-kit#edit",
       "snippet": "stateKit = {import:workspace-state-kit}"
     },
     {
-      "label": "event-lanes-kit (local)",
+      "label": "event-lanes-kit",
       "description": "Event queue lanes for decoupled workflows",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/event-lanes-kit",
+      "url_edit": "https://perchance.org/event-lanes-kit#edit",
       "snippet": "events = {import:event-lanes-kit}"
     },
     {
-      "label": "module-registry-kit (local)",
+      "label": "module-registry-kit",
       "description": "Shared module/config registry for large generators",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/module-registry-kit",
+      "url_edit": "https://perchance.org/module-registry-kit#edit",
       "snippet": "modules = {import:module-registry-kit}"
     },
     {
-      "label": "feature-flags-kit (local)",
+      "label": "feature-flags-kit",
       "description": "Scope-aware feature toggles with presets",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/feature-flags-kit",
+      "url_edit": "https://perchance.org/feature-flags-kit#edit",
       "snippet": "flags = {import:feature-flags-kit}"
     },
     {
-      "label": "schema-guard-kit (local)",
+      "label": "schema-guard-kit",
       "description": "Validation and sanitation helpers for data contracts",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/schema-guard-kit",
+      "url_edit": "https://perchance.org/schema-guard-kit#edit",
       "snippet": "schema = {import:schema-guard-kit}"
     },
     {
-      "label": "audit-log-kit (local)",
+      "label": "audit-log-kit",
       "description": "Structured logging lanes for runtime diagnostics",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/audit-log-kit",
+      "url_edit": "https://perchance.org/audit-log-kit#edit",
       "snippet": "audit = {import:audit-log-kit}"
     },
     {
-      "label": "command-router-kit (local)",
+      "label": "command-router-kit",
       "description": "Command registration, aliasing, middleware, and dispatch routing",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/command-router-kit",
+      "url_edit": "https://perchance.org/command-router-kit#edit",
       "snippet": "router = {import:command-router-kit}"
     },
     {
-      "label": "pipeline-orchestrator-kit (local)",
+      "label": "pipeline-orchestrator-kit",
       "description": "Composable execution pipelines with step reports and toggles",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/pipeline-orchestrator-kit",
+      "url_edit": "https://perchance.org/pipeline-orchestrator-kit#edit",
       "snippet": "pipelines = {import:pipeline-orchestrator-kit}"
     },
     {
-      "label": "dependency-graph-kit (local)",
+      "label": "dependency-graph-kit",
       "description": "Dependency graph analysis with cycle checks and topological sort",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/dependency-graph-kit",
+      "url_edit": "https://perchance.org/dependency-graph-kit#edit",
       "snippet": "graph = {import:dependency-graph-kit}"
     },
     {
-      "label": "prompt-template-kit (local)",
+      "label": "prompt-template-kit",
       "description": "Scoped prompt templates with token extraction and rendering",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/prompt-template-kit",
+      "url_edit": "https://perchance.org/prompt-template-kit#edit",
       "snippet": "prompts = {import:prompt-template-kit}"
     },
     {
-      "label": "scenario-rules-kit (local)",
+      "label": "scenario-rules-kit",
       "description": "Priority-based rule evaluation for branching generator behavior",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/scenario-rules-kit",
+      "url_edit": "https://perchance.org/scenario-rules-kit#edit",
       "snippet": "rules = {import:scenario-rules-kit}"
     },
     {
-      "label": "data-diff-kit (local)",
+      "label": "data-diff-kit",
       "description": "Object diffing and deterministic patch utilities",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/data-diff-kit",
+      "url_edit": "https://perchance.org/data-diff-kit#edit",
       "snippet": "diffKit = {import:data-diff-kit}"
     },
     {
-      "label": "quota-budget-kit (local)",
+      "label": "quota-budget-kit",
       "description": "Scope-based quota windows for controlled resource usage",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/quota-budget-kit",
+      "url_edit": "https://perchance.org/quota-budget-kit#edit",
       "snippet": "quota = {import:quota-budget-kit}"
     },
     {
-      "label": "snapshot-archive-kit (local)",
+      "label": "snapshot-archive-kit",
       "description": "Versioned in-memory snapshots with rollback and pruning",
-      "url": "",
-      "url_edit": "",
+      "url": "https://perchance.org/snapshot-archive-kit",
+      "url_edit": "https://perchance.org/snapshot-archive-kit#edit",
       "snippet": "archive = {import:snapshot-archive-kit}"
     },
     {
