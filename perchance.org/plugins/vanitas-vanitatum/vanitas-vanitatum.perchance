@@ -1,0 +1,118 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$output()=>
+
+  if (window.matchMedia("(orientation: portrait)").matches) {
+    return `
+
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background:#000; z-index:999999999">
+        <img style="max-width: 100%; max-height: 100%; object-fit: contain;" src="https://user.uploads.dev/file/bc252f575ad508a1758ffc50943470be.webp">
+        <h2 style="background:#000000bf; color:#bd376a; border-radius:5px; position:fixed; bottom:10%; left:50%; transform:translate(-50%, 0%); z-index:100;"><a href="https://perchance.org/ai-art-generator-advanced" style="color: inherit;">Visit the original here:\nhttps://perchance.org/ai-art-generator-advanced</a></h2>
+      </div>
+      `;
+
+  } else {
+    return `
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background:#000; z-index:999999999">
+        <img style="max-width: 100%; max-height: 100%; object-fit: contain;" src="https://user.uploads.dev/file/eb44622446707d13c9daa1ed5487dee2.webp">
+        <h2 style="background:#000000bf; color:#bd376a; border-radius:5px; position:fixed; bottom:10%; left:50%; transform:translate(-50%, 0%); z-index:100;"><a href="https://perchance.org/ai-art-generator-advanced" style="color: inherit;">Visit the original here:\nhttps://perchance.org/ai-art-generator-advanced</a></h2>
+      </div>
+      `;
+  }

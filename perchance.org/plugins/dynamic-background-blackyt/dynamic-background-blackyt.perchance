@@ -1,0 +1,326 @@
+// This create the UI wallpaper for user interaction.
+// CopyPaste, line 2 in perhance panel, line 3 and 4 in html panel.
+// DBG = {import:dynamic-background-blackyt}
+// <div id="bGround">[DBG.BGCustom(defaultImageList, defaultImageList, image1List)]</div>
+// [DBG.MainRender]
+// Create any list or variable in the perchance panel, put the image links in there, and replace the name 'defaultImageList' by your list in the two arguments in the function BGCustom() above.
+// Do the same for the image1List but with a different list and images.
+// if not, then the default images from this... anh... plugin?, will be used.
+
+// Made by BlackYT
+// I use plugin below to do the wallpaper change.
+bg = {import:background-image-plugin}
+
+size = [localStorage.IMAsize || 'cover']
+position = [localStorage.IMAposition || 'center']
+repeat = [localStorage.IMArepeat || 'no-repeat']
+opacity = [localStorage.IMAopacity || 0.75]
+blur = [localStorage.IMAblur || 0]
+IMA = [localStorage.IMASaved || ""] // Variable to store the uploaded image
+
+bgData
+  url = [IMA || localStorage.getItem('whatBG') || image || ""]
+  size = [size]
+  position = [position]
+  repeat = [repeat]
+  filter = opacity([opacity]) blur([blur]px)
+
+getBackground(defaultImageList, image1List, image2List)=>
+  defaultImageList ? image = defaultImageList : "";
+  image1List ? im1 = image1List : "";
+  image2List ? im2 =  image2List : "";
+  return "";
+
+image
+  [adjustWallpaper('https://user.uploads.dev/file/bc252f575ad508a1758ffc50943470be.webp', 'https://user.uploads.dev/file/eb44622446707d13c9daa1ed5487dee2.webp')]
+
+im0
+
+im1
+  https://user.uploads.dev/file/bc252f575ad508a1758ffc50943470be.webp
+  //https://user-uploads.perchance.org/file/55474b435e62372b3111cab5dcb8b2ee.png
+  //https://user-uploads.perchance.org/file/650ae6b738da0c64ba54813cacfe0026.png
+im2 //
+  https://user.uploads.dev/file/eb44622446707d13c9daa1ed5487dee2.webp
+  //https://user-uploads.perchance.org/file/6216f1494627cce992d367671fa51885.png
+  //https://user-uploads.perchance.org/file/4332d5ca08d1cc31369ff67355de90c4.png
+  //https://user-uploads.perchance.org/file/ddf0b943dd8ed06b73d1f08b5cfce3d7.png
+
+noimage
+
+adjustWallpaper(portraitLink, widescreenLink)=>
+  if (window.matchMedia("(orientation: portrait)").matches) {
+    return portraitLink;
+  } else {
+    return widescreenLink;
+  }
+
+ImageRandomBG(url)=>
+  IMA = "";
+  localStorage.IMASaved = "";
+  if (url === "BG0") {
+    updateBlur(0);
+    updateOpacity(0.75);
+    RepeatHandler('no-repeat');
+    PositionHandler('center center');
+    sizeHandler('cover');
+    localStorage.setItem('whatBG', '[image]'); // the default list
+  }
+  if (url === "BG1") {  // 💗
+    updateBlur(0);
+    updateOpacity(0.75);
+    RepeatHandler('no-repeat');
+    PositionHandler('center center');
+    sizeHandler('cover');
+    localStorage.setItem('whatBG', '[im1]');
+  }
+  if (url === "BG2") {
+    updateBlur(0);
+    updateOpacity(0.6);
+    RepeatHandler('no-repeat');
+    PositionHandler('center center');
+    sizeHandler('cover');
+    localStorage.setItem('whatBG', '[im2]');
+  }
+  update(bGround);
+changeIconMenu(icon1, icon2, icon3) =>
+  const btn1 = document.getElementById('dbgHeart');
+  const btn2 = document.getElementById('dbgDroplet');
+  const btn3 = document.getElementById('dbgRing');
+  btn1.textContent = icon1;
+  btn2.textContent = icon2;
+  btn3.textContent = icon3;
+  return "";
+changeIconMenuStatus(icon1, icon2, icon3)=>
+  const btn1 = document.getElementById('dbgHeart');
+  const btn2 = document.getElementById('dbgDroplet');
+  const btn3 = document.getElementById('dbgRing');
+  btn1.hidden = icon1 === "hidden" ? true : false;
+  btn2.hidden = icon2 === "hidden" ? true : false;
+  btn3.hidden = icon3 === "hidden" ? true : false;
+  return "";
+
+ImageBG(url)=>
+  const urLink = url.trim();
+  IMA = urLink;
+  localStorage.IMASaved = urLink;
+  update(bGround);
+uploadImage(event)=>
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      IMA = e.target.result; // Save the image data in the IMA variable
+      localStorage.IMASaved = e.target.result;
+      update(bGround);
+      console.log('Image uploaded and saved in IMA variable');
+    };
+    reader.readAsDataURL(file);
+  }
+clearImage()=>
+  localStorage.removeItem('IMASaved');
+  IMA = '';
+  localStorage.removeItem('whatBG');
+  localStorage.removeItem('IMAblur');
+  localStorage.removeItem('IMAopacity');
+  localStorage.removeItem('IMArepeat');
+  localStorage.removeItem('IMAposition');
+  localStorage.removeItem('IMAsize');
+  localStorage.setItem('whatBG', '[noimage]')
+  update(bGround);
+sizeHandler(value, inputType)=>
+  if (value === "") {
+    update(bGround);
+    return "";
+  }
+  if (value !== 'customSize' && inputType !== 'input') {
+    size = value;
+    localStorage.IMAsize = value;
+    bgCustomSize.hidden = true;
+    btnCustomSize.hidden = true;
+    update(bGround);
+  } else if (inputType === 'input') {
+    size = value;
+    localStorage.IMAsize = value;
+
+  } else {
+    bgCustomSize.hidden = false;
+    btnCustomSize.hidden = false;
+  }
+PositionHandler(value, inputType)=>
+  if (value === "") {
+    update(bGround);
+    return "";
+  }
+  if (value !== 'customPosition' && inputType !== 'input') {
+    position = value;
+    localStorage.IMAposition = value;
+    bgCustomPosition.hidden = true;
+    btnCustomPosition.hidden = true;
+    update(bGround);
+  } else if (inputType === 'input') {
+    position = value;
+    localStorage.IMAposition = value;
+    update(bGround);
+  } else {
+    bgCustomPosition.hidden = false;
+    btnCustomPosition.hidden = false;
+  }
+RepeatHandler(value, inputType)=>
+  if (value === "") {
+    update(bGround);
+    return "";
+  }
+  repeat = value;
+  localStorage.IMArepeat = value;
+  update(bGround);
+updateOpacity(value)=>
+  opacity = parseFloat(value);
+  localStorage.IMAopacity = parseFloat(value);
+  opacityValue.textContent = opacity.toFixed(2);
+  update(bGround);
+updateBlur(value)=>
+  blur = parseFloat(value);
+  localStorage.IMAblur = parseFloat(value);
+  blurValue.textContent = blur.toFixed(2);
+  update(bGround);
+DBG
+  ImageRandomBG(url)=>
+    ImageRandomBG(url);
+  ImageBG(url)=>
+    ImageBG(url);
+  uploadImage(event)=>
+    uploadImage(event);
+  clearImage()=>
+    clearImage();
+  sizeHandler(value, inputType)=>
+    sizeHandler(value, inputType);
+  PositionHandler(value, inputType)=>
+    PositionHandler(value, inputType);
+  RepeatHandler(value, inputType)=>
+    RepeatHandler(value, inputType);
+  updateOpacity(value)=>
+    updateOpacity(value);
+  updateBlur(value)=>
+    updateBlur(value);
+  BGCustom()=>
+    return bg(bgData);
+
+newImgChangeRender() =>
+  let html = `
+  <div id="menuBG" class="menu-bg" style="border-radius:10px; text-align:left; padding:5px 10px;">
+    <span>Enter a valid image url</span>
+    <br>
+    <input class="default-border" type="url" id="urlBGMenu" placeholder="img url" onchange="DBG.ImageBG(this.value)" style="background-color:var(--blackwhite-rgba-08, rgba(0,0,0,0.8)); color:var(--whiteblack, #fff); border-radius:5px;">
+    <br>
+    <span style="margin:5px">or</span>
+    <br>
+    <input type="file" id="imageInput" accept="image/*" onchange="DBG.uploadImage(event)">
+    <div style="display:flex; gap:5px; margin:10px 0; align-items:center;">
+      <button style="background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; padding:2px 5px;"
+        class="default-border"
+        onclick="DBG.clearImage()">🗑️ Clear</button>
+      ⋮⋮⋮
+      <button style="background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; padding:2px;"
+        id="dbgHeart"
+        class="default-border"
+        onclick="DBG.ImageRandomBG('BG1')">💗</button>
+      <button style="background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; padding:2px;"
+        id="dbgDroplet"
+        class="default-border"
+        onclick="DBG.ImageRandomBG('BG2')">💦</button>
+      <button style="background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; padding:2px;"
+        id="dbgRing"
+        class="default-border"
+        onclick="DBG.ImageRandomBG('BG0')" hidden>💍</button>
+    </div>
+
+    <hr class="default-border">
+    <div style="display:flex; flex-direction:column; gap:5px; justify-content:left;">
+      <label>Size:
+      <select id="sizeSelect"
+      class="bg-menu-select darklight-el"
+      style="max-width:50%"
+      onchange="DBG.sizeHandler(this.value)">
+        <option value=''>Select</option>
+        <option value='cover'>Fill screen</option>
+        <option value='contain'>Fit screen</option>
+        <option value='auto'>Original</option>
+        <option value="customSize">Custom</option>
+      </select>
+      </label>
+
+      <input id="bgCustomSize"
+        class="default-border darklight-el"
+        style="max-width:50%;"
+        placeholder="values in px, rem or % (e.g. 800px)" hidden>
+
+      <button id="btnCustomSize"
+        class="default-border"
+        style="max-width:25%; background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; padding:2px; margin-bottom:15px;"
+        onclick="DBG.sizeHandler(bgCustomSize.value, 'input')" hidden>Apply</button>
+
+      <label>Position:
+      <select class="bg-menu-select darklight-el"
+        style="max-width:50%;"
+        onchange="DBG.PositionHandler(this.value)">
+        <option value=''>select</option><option value='center center'>Center</option>
+        <option value='center top'>Center Top</option>
+        <option value='center bottom'>Center Bottom</option>
+        <option value='left center'>Left Center</option><option value='left top'>Left Top</option>
+        <option value='left bottom'>Left Bottom</option>
+        <option value='right center'>Right Center</option>
+        <option value='right top'>Right Top</option>
+        <option value='right bottom'>Right Bottom</option>
+        <option value="customPosition">Custom</option>
+      </select>
+      </label>
+
+      <input id="bgCustomPosition"
+      class="default-border darklight-el"
+        style="max-width:50%"
+        placeholder="values in px, rem or %" hidden>
+
+      <button id="btnCustomPosition"
+        class="default-border"
+        style="max-width:25%; background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; padding:2px;"
+        onclick="DBG.PositionHandler(bgCustomPosition.value, 'input')" hidden>Apply</button>
+
+      <select class="bg-menu-select darklight-el"
+        style="max-width:50%;"
+        onchange="DBG.RepeatHandler(this.value)">
+        <option value=''>select</option>
+        <option value='no-repeat'>No repeat</option>
+        <option value='repeat'>Repeat</option>
+      </select>
+    </div>
+
+    <hr class="default-border">
+    <div>
+      <label for="opacitySlider">Opacity:</label>
+      <span id="opacityValue">1</span>
+      <br>
+      <input style="max-width:480px;" type="range" id="opacitySlider" min="0" max="1" step="0.01" value="1"
+        oninput="DBG.updateOpacity(this.value)">
+    </div>
+
+    <div>
+      <label for="blurSlider">Blur:</label>
+      <span id="blurValue">10</span>
+      <br>
+      <input style="max-width:480px;" type="range" id="blurSlider" min="0" max="10" step="0.1" value="0" oninput="DBG.updateBlur(this.value)">
+    </div>
+  </div>
+  <br>
+  `;
+  return html
+
+MainRender = [newImgChangeRender()]
+
+BGCustom(defaultImageList, image1List, image2List)=>
+  defaultImageList ? image = defaultImageList : "";
+  image1List ? im1 = image1List : "";
+  image2List ? im2 =  image2List : "";
+  return bg(bgData);
+
+/////////////// END /////////////

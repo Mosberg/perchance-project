@@ -1,0 +1,363 @@
+advRng = {import:item-randomizer-byt} // 👄🍆
+DESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + ", " : "")]
+endDESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ", " + input.description : "")]
+NEGATIVES = [input.negative ? input.negative + ", " : ""]
+endNEGATIVE = [input.negative ? ", " + input.negative : ""]
+//
+DESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + ".\n\n" : "")]
+endDESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ".\n\n" + input.description : "")]
+
+$output
+//t2i
+  //AnimeStyle
+  🎲*️⃣ T2I Styles (30)🔻
+    prompt = [advRng("t2iAnimeStyle", t2iAnimeStyleBanlist = banList1, $output)][window.S1TITLE = randomt2iAnimeStyle, randomt2iAnimeStyle.prompt]
+    negative = [randomt2iAnimeStyle ? randomt2iAnimeStyle.negative : ""]
+
+  🎌 Anime
+    prompt = anime art[DESCRIPTION ? ' of ' + DESCRIPTION : ', ']world-class masterpiece, 4k, best quality, anime art.\n\nOverall, it's an absolute world-class masterpiece anime-inspired artwork. It's an aesthetically pleasing anime art with impeccable attention to detail and beautiful composition
+    negative = [NEGATIVES]
+    meta:tags = [({basicAnime:100, anime:60, drawing:50, cartoon:30})]
+    modifiers = [animeModifiers]
+  🎌 Anime Screencap
+    prompt = Anime screencap[endDESCRIPTION]. It's an anime screencap from a popular anime. Beautiful visual quality, remastered, extremely high quality, very aesthetic, high production value, high-skill masterpiece. The image shows impeccable and beautiful composition and contrast. It's an exquisite anime screencap style image.
+    negative = [NEGATIVES]faded, washed out, low quality
+    meta:tags = [({anime:65, drawing:80, cartoon:45})]
+    modifiers = [animeModifiers]
+  🎌 Cute Anime
+    prompt = adorable, cute, kawaii, [DESCRIPTION]cute moe anime character portrait, adorable, featured on pixiv, kawaii moé masterpiece, cuteness overload, very detailed, sooooo adorable.\n\nOverall, it's an absolute world-class masterpiece anime-inspired artwork. It's an aesthetically pleasing anime art with impeccable attention to detail and beautiful composition
+    negative = [NEGATIVES]
+    meta:tags = [({anime:55, drawing:50, cuteAnime:100, cartoon:30})]
+    modifiers = [animeModifiers]
+  🎌 Drawn Anime
+    prompt = anime-style illustration with perfect clean lines, illustration of [DESCRIPTION]anime drawing/art, bold linework, illustration, cel shaded, anime-style digital illustration. It's an anime-inspired 2D-style anime illustration. Aesthetic high-skill, professional anime illustration, which looks like a screencap from an anime series. It has clean line work and a pleasant, appealing drawn aesthetic style. \n\nOverall, it's a world-class illustration with flawless line work, perfect composition, and impeccable attention to detail
+    negative = [NEGATIVES]
+    meta:tags = [({anime:60, drawing:85, drawnAnime:100, cartoon:40})]
+    modifiers = [animeModifiers]
+  🎌 Painted Anime
+    prompt = {[DESCRIPTION]art by atey ghailan, painterly anime style at pixiv, art by kantoku, in art style of redjuice/necömi/rella/tiv pixiv collab, your name anime art style, masterpiece digital painting, exquisite lighting and composition, inspired by wlop art style, 8k, sharp, very detailed, high resolution, illustration.\n\nOverall, it's an absolute world-class masterpiece painterly anime-inspired digital art. It's an aesthetically pleasing painterly anime-inspired digital artwork with impeccable attention to detail and impressive composition. ^2|↔️^0|painterly anime artwork, [DESCRIPTION], world-class masterpiece, fine details, breathtaking artwork, painterly art style, high quality, 8k, very detailed, high resolution, exquisite composition and lighting.\n\nOverall, it's an absolute world-class masterpiece painterly anime artwork. It's an aesthetically pleasing painterly anime artwork with impeccable attention to detail and impressive composition}
+    negative = [NEGATIVES]
+    meta:tags = [({anime:100, painting:100, paintedAnime:100, drawing:55, cartoon:50})]
+    modifiers = [animeModifiers]
+  🎌 Soft Anime
+    prompt = [DESCRIPTION]anime masterpiece with soft lighting, gentle intricate style, highly detailed, pixiv, anime art, 4k, art from your name anime, garden of words style art, high quality.\n\nOverall, it's an absolute world-class masterpiece soft beautiful anime-inspired artwork. It's an aesthetically pleasing, soft, beautiful anime art with impeccable attention to detail and beautiful composition
+    negative = [NEGATIVES]
+    meta:tags = [({anime:50, drawing:50, cartoon:30})]
+    modifiers = [animeModifiers]
+  🎌 Vintage Anime
+    prompt = [DESCRIPTION]1990s anime, vintage anime, 90's anime style, by hajime sorayama, by greg tocchini, anime masterpiece, pixiv, akira-style art, akira anime art, 4k, high quality.\n\nOverall, it's an absolute world-class masterpiece vintage anime artwork. It's an aesthetically pleasing vintage anime artwork with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({anime:40, vintage:50, drawing:50})]
+  🎌 Neon Vintage Anime
+    prompt = [DESCRIPTION]neon vintage anime style, 90's anime style, 1990s anime, hajime sorayama, greg tocchini, neon vintage anime masterpiece, anime art, 4k, high quality.\n\nOverall, it's an absolute world-class masterpiece neon vintage anime artwork. It's an aesthetically pleasing neon vintage anime artwork with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({anime:30, vintage:50})]
+  🎌 50s Infomercial Anime
+    prompt = [DESCRIPTION]1950s infomercial style, delicate linework, paprika anime art style, chromatic aberration glow, 2d painted cel animation, soft focus, 2D pixiv 1950s
+    negative = [NEGATIVES]
+    meta:tags = [({painting:30, anime:50, vintage:60, cartoon:50})]
+  🎌 Studio Ghibli
+    prompt = Studio Ghibli style artwork[DESCRIPTION ? ' of ' + DESCRIPTION : ', ']Studio Ghibli style art film still, sharp, very detailed, high resolution, inspired by Hayao Miyazaki, anime, film still from Spirited Away. In the style of Kiki Delivery Service, with a similar art style to Princess Mononoke. Aesthetically similar to My Neighbor Totoro's art style.\n\nOverall, it's an absolute world-class masterpiece Studio Ghibli-inspired artwork. It's an aesthetically pleasing classic Studio Ghibli style artwork with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({ghibli:100, anime:50, cartoon:50})]
+  🎌 Waifu
+    prompt = [DESCRIPTION]waifu character portrait, 1girl, very high resolution, semi-realistic anime art. Intricate and impressive anime artwork with stunningly beautiful composition and style.\n\nOverall, it's an absolute world-class masterpiece anime artwork. It's an aesthetically pleasing waifu artwork with impeccable attention to detail and impressive composition. It's an aesthetically pleasing character portrait. It's an aesthetically pleasing image. It's an aesthetically pleasing image. It's an aesthetically pleasing image. It's an aesthetically pleasing image
+    negative = [NEGATIVES]
+    meta:tags = [({anime:40, waifu:100, cartoon:20})]
+    modifiers = [animeModifiers]
+  🎌 YuGiOh Art
+    prompt = yugioh card art[DESCRIPTION ? ' for ' + DESCRIPTION : ', ']art by genzoman, by Akina Fujiwara, by rossdraws, yugioh monster, close up, painterly details, breathtaking art, centered, masterpiece, amazing composition[endDESCRIPTION.length < 30 ? endDESCRIPTION : ""].\n\nOverall, it's an absolute world-class masterpiece 'Yu-Gi-Oh!'-inspired artwork. It's an aesthetically pleasing Yu-Gi-Oh inspired artwork with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({yugioh:100})]
+  🎌 Manga
+    prompt = [DESCRIPTION]incredible hand-drawn manga, black and white, by Takehiko Inoue, by Katsuhiro Otomo and akira toriyama manga, hand-drawn art by rumiko takahashi and Inio Asano, Ken Akamatsu manga art.\n\nverall, it's an absolute world-class masterpiece black and white manga-style artwork. It's an aesthetically pleasing black and white manga artwork with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({anime:40, drawing:50, manga:100, comic:20, cartoon:30})]
+
+  //CartoonStyle
+  🏰 3D Disney Character
+    prompt = 3D cartoon Disney character portrait render. [DESCRIPTION]bokeh, 4k, highly detailed, Pixar render, CGI Animation, Disney, cute big circular reflective eyes, dof, cinematic film, Disney realism, subtle details, breathtaking Pixar short, fine details, close up, sharp focus, HDR, Disney-style octane render, incredible composition, superb lighting and detail[endDESCRIPTION].\n\nOverall, it's an absolute world-class masterpiece 3D Disney-inspired Character. It's an aesthetically pleasing 3D Disney-inspired piece with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({disney:95})] //, render:80, portrait:75, cartoon:90})]
+  🏰 2D Disney Character
+    prompt = 2D cartoon Disney character digital art[DESCRIPTION ? ' of ' + DESCRIPTION : '']. Superb linework, classic 2D Disney style art, inspired by the art styles of Glen Keane and Aaron Blaise, Disney-style character concept with a Disney-style face, trending on artstation, Disney-style version[endDESCRIPTION ? ' of ' + endDESCRIPTION : '']\n\nOverall, it's an absolute world-class masterpiece 2D Disney-inspired Character. It's an aesthetically pleasing 2D Disney-inspired piece with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({disney:90})] //, portrait:75, cartoon:100, comic:80, drawing:75})]
+  🏰 Disney Sketch
+    prompt = Glen Keane character concept art black and white pencil sketch[DESCRIPTION ? ' of ' + DESCRIPTION : '']. rough pencil sketch by Glen Keane, rough pencil sketch, close up, loose Disney-style character concept art sketch, nice sketchy pencil strokes, Disney character design sketch, pencil texture, a concept art pencil sketch[DESCRIPTION ? ' of ' + DESCRIPTION : ','] by Glen Keane.\n\nOverall, it's an charmingly aesthetic and well-composed Disney-style sketch.
+    negative = [NEGATIVES]
+    meta:tags = [({disney:90})] //, cartoon:85, sketch:80, comic:80, drawing:70})]
+  📺 Cartoon
+    prompt = [DESCRIPTION]cartoon-style art, superb linework, nice colors and composition, bold linework, masterpiece, cute art by Dana Terrace, by Rebecca Sugar, by ry-spirit, amazing and wholesome cartoon-style art, cute art style, (trending on artstation)
+    negative = [NEGATIVES]
+    meta:tags = [({cartoon:95, basicCartoon:100})]
+  🎬 Claymation
+    prompt = [DESCRIPTION]claymation, incredible claymation style, kubo and the two strings style art, Missing Link 2019 art style, clay texture, clay animation, stop-motion clay
+    negative = [NEGATIVES]
+    meta:tags = [({claymation:100})]
+
+  //ComicStyle
+  🗯 Vintage Comic
+    prompt = comic book style art[DESCRIPTION ? " of " + DESCRIPTION : ", "]drawing, by Dave Stevens, by Adam Hughes, 1940's, 1950's, hand-drawn, color, high resolution, best quality, closeup
+    negative = [NEGATIVES]
+    meta:tags = [({vintage:80, comic:90, cartoon:70})]
+    modifiers = [comicModifiers]
+  🗯 Franco-Belgian Comic
+    prompt = franco-belgian color comic[DESCRIPTION ? " about " + DESCRIPTION : ", "]bande dessinée, franco-belgian comic panel, masterpiece, breathtaking composition, intricate, detailed, best quality
+    negative = [NEGATIVES]
+    meta:tags = [({vintage:75, comic:85, cartoon:75})]
+    modifiers = [FrancoBelgeModifiers]
+  🗯 Tintin Comic
+    prompt = color comic panel in the style of Hergé[DESCRIPTION ? " about " + DESCRIPTION : ", "]by Hergé, tintin style, french comic panel, franco-belgian style, masterpiece, high-resolution Hergé style
+    negative = [NEGATIVES]
+    meta:tags = [({vintage:77, comic:87, cartoon:77})]
+
+  //GameStyle
+  👾 Pixel Art
+    prompt = [DESCRIPTION.length > 40 ? "(pixel art), " : ""][DESCRIPTION]best pixel art, neo-geo graphical style, retro nostalgic masterpiece, 128px, 16-bit pixel art[DESCRIPTION.length < 10 ? " of "+ DESCRIPTION : ""], 2D pixel art style, adventure game pixel art, inspired by the art style of hyper light drifter, masterful dithering, superb composition, beautiful palette, exquisite pixel detail
+    negative = [NEGATIVES]
+    meta:tags = [({pixelArt:90, vintage:70})]
+  MTG Card
+    prompt = [DESCRIPTION]magic the gathering card
+    negative = [NEGATIVES] //low-quality, deformed, blurry, bad art
+
+  //PokemonStyle
+  🦚 3D Pokemon
+    prompt = An incredibly perfect high-quality 3D render of a pokemon creature, [window.DISABLESTYLEPROMPT === "true" ? "" : input.description ? DESCRIPTION : ''][input.pokemonType ? input.pokemonType+", " : ""]8k render, beautiful pokemon digital art, fakemon, pokemon creature, cryptid, fakemon, masterpiece, soft focus, best quality, high quality. Perfect soft lighting, beautiful composition. It's an impressive CGI image from the upcoming Pokemon Movie \(2026\).\n\nOverall, it's an absolute world-class masterpiece 3D-rendered Pokemon-inspired creature. It's an aesthetically pleasing 3D Pokemon-inspired piece with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({pokemon:100})]
+
+  🦚 Painted Pokemon
+    prompt = Beautiful, very high-quality painterly digital concept art, [window.DISABLESTYLEPROMPT === "true" ? "" : input.description ? DESCRIPTION : ''][input.pokemonType ? input.pokemonType+", " : ""]8k digital painting of a pokemon, amazing pokemon creature art by piperdraws, cryptid creations by Piper Thibodeau, by Naoki Saito and {Tokiya|Mitsuhiro Arita}, incredible composition.\n\nOverall, it's an absolute world-class masterpiece painterly Pokemon-inspired artwork. It's an aesthetically pleasing painterly Pokemon-inspired artwork with impeccable attention to detail and impressive composition
+    negative = [NEGATIVES]
+    meta:tags = [({pokemon:98})]
+
+  🦚 2D Pokemon
+    prompt = [window.DISABLESTYLEPROMPT === "true" ? "" : input.description ? DESCRIPTION : ''][input.pokemonType ? input.pokemonType+", " : ""]pokemon creature concept, superb line art, beautiful colors and composition, 2D art style, beautiful pokemon digital art, fakemon, by Sowsow, pokemon creature, cryptid, fakemon, masterpiece, by Yuu Nishida, 4k. The Pokémon-like creature is centered within this anime-style 2D image. It's from the upcoming Pokemon Movie \(2026\) which has the classic 2D Pokemon art style.\n\nOverall, it's an absolute world-class masterpiece 2D Pokemon-inspired artwork. It's an aesthetically pleasing 2D Pokemon-inspired artwork with impeccable attention to detail and impressive composition. Clean, perfect linework, impeccable clean 2D anime-inspired art style
+    negative = [NEGATIVES]messy, garbled, confusing, incoherent, unclear
+    meta:tags = [({pokemon:99})] //, drawing:50, cartoon:35})]
+
+  //FurryStyle
+  🐺 Furry - Oil
+    prompt = [window.DISABLESTYLEPROMPT === "true" ? "" : input.description ? DESCRIPTION : '']crisp vibrant detailed soft painterly digital art, volumetric lighting, natural lighting, realistic lighting, vibrant colors, crisp oil painting, painterly realism, depth of field, subtle soft details, vivid, fresh, striking, by chunie, by darkgem, by honovy, by zaush, by anhes, by puinkey, by caraid, by dagasi, by taranfiddler, by atey ghailan, by MilletGustave, by Curbet, Charlie Bowater, lol art.\n\nOverall, it's a world-class painterly masterpiece. It's aesthetically pleasing digitial art with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({furryOil:100, furry:100})]
+    modifiers = [furryModifiers]
+  🐺 Furry - Cinematic
+    prompt = [DESCRIPTION]cinematic shot, dynamic lighting, 75mm, Technicolor, Panavision, cinemascope, sharp focus, fine details, 8k, HDR, realism, realistic, key visual, film still, cinematic color grading, depth of field.\n\nOverall, it's an absolute world-class masterpiece. It's an aesthetically pleasing image with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({furry:97, photo:60, portrait:40, render:75, cinematic:65})]
+    modifiers = [MOD.Furry]
+
+  🐺 Furry - Painted
+    prompt = anthro [DESCRIPTION]digital art, masterpiece, 4k, fine details. It's an absolute world-class masterpiece artwork.\n\nOverall, it's an aesthetically pleasing artwork with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({furry:96})]
+    modifiers = [furryModifiers]
+  🐺 Furry - Drawn
+    prompt = anthro [DESCRIPTION]illustration, hand-drawn, bold linework, anthro illustration, cel shaded, 4k, fine details, masterpiece.\n\nOverall, it's an absolute world-class masterpiece artwork. It's an aesthetically pleasing artwork with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({furry:95})]
+    modifiers = [furryModifiers]
+
+// text2image-gen Style
+  🎲*️⃣ text2image-gen Styles (5)🔻
+    prompt = [advRng("txt2imgAnimeStyle", txt2imgAnimeStyleBanlist = banList2, $output)][window.S1TITLE = randomtxt2imgAnimeStyle, randomtxt2imgAnimeStyle.prompt]
+    negative = [randomtxt2imgAnimeStyle ? randomtxt2imgAnimeStyle.negative : ""]
+  //AnimeStyle
+  》Classic anime
+    prompt = [DESCRIPTION]anime style, painted anime, classic anime
+    negative = [NEGATIVES]bad art, deformed
+  》Modern anime
+    prompt = [DESCRIPTION]anime style, art by Pixiv, modern anime, soft lighting
+    negative = [NEGATIVES]bad art, deformed
+  》Realistic anime
+    prompt = Anime art, [DESCRIPTION]full body shot, real eyes and face, detailed photo, anime style, real hair, hyperrealistic surroundings, realistic background, detailed, real photo, realistic lighting, 8k UHD, proper shading and shadows, realistic face and fingers, proper body, in frame, high quality photo, proper fingers and face
+    negative = [NEGATIVES]bad quality, deformed, drawn, painted, blurry, computer generated, unnatural, bad image, bad anatomy
+  》Manga
+    prompt = [DESCRIPTION]manga, Japanese manga, hand drawn art
+    negative = [NEGATIVES]photo
+
+  //GameStyle
+  》Pixel art
+    prompt = [DESCRIPTION]pixel art, pixelated, 16-bit pixel art
+    negative = [NEGATIVES] //photo
+
+// vionet20
+  🎲*️⃣ Vionet20 Styles (13)🔻
+    prompt = [advRng("vionet20AnimeStyle", vionet20AnimeStyleBanlist = banList3, $output)][window.S1TITLE = randomvionet20AnimeStyle, randomvionet20AnimeStyle.prompt]
+    negative = [randomvionet20AnimeStyle ? randomvionet20AnimeStyle.negative : ""]
+
+  // AnimeStyle - from: https://perchance.org/vionet20-t2i-styles-importable-v2
+  Anime-Impressionism Paintings
+    meta:tags = [({anime: 100, painting:100, oilPainting:50, portrait:40, landscape:40, cinematic:30})]
+    prompt = [DESCRIPTION]impressionist art painting in style of Claude Monet, Mary Cassatt, and James McNeill Whistler with soft diffused lighting, in anime style by Stanley Lau and Wlop, impressionism art movement, raw photo
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+  Anime-Realism Paintings
+    meta:tags = [({anime: 100, painting:100, oilPainting:50, portrait:40, landscape:40, cinematic:30})]
+    prompt = [DESCRIPTION]realist art painting in style of Ilya Repin, Gustave Couebrt, and Anders Zorn with soft diffused lighting, in anime style by Stanley Lau and Wlop, realism art movement, raw photo
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+  Colored Patterns Anime
+    meta:tags = [({illustration:100,anime:70, color:50,patterns: 40})]
+    prompt = [DESCRIPTION]littered with patterns and shapes of Ernst Wilhelm Nay + Stanley Pinker + Clovis Trouille, digitally illustrated, in anime style of Sui Ishida + Frank Hong + Kohei Horikoshi in 600 PPI/DPI resolution
+    negative = [NEGATIVES]highly detailed, 3d render and photo, noisy and grainy
+
+  Color Pop Anime Illustration
+    meta:tags = [({illustration:100,anime:70, color:50,pop: 40})]
+    prompt = [DESCRIPTION]limited color palette in cel shading with popping vibrant colors, digitally illustrated, in anime style of Sui Ishida + Kohei Horikoshi in 300 PPI/DPI resolution
+    negative = [NEGATIVES]highly detailed, 3d render and photo, noisy and grainy
+
+  Comic/Manga Illustration
+    meta:tags = [({illustration:100,comic:70, manga:50,fantasy: 40, anime:40})]
+    prompt = [DESCRIPTION]smooth cel-shaded digital illustration with details by Siya Oum, Ruan Jia, and character design style by Alex Toth, Jim Lee, Neal Adams
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+  Cute Cartoon Illustrations
+    meta:tags = [({illustration:100,cartoon:70, cute:50, digitalPainting:30, anime:5})]
+    prompt = [DESCRIPTION]digitally illustrated in 300 PPI/DPI print with insanely intricate details, in cartoon style by Apollonia Saintclair
+    negative = [NEGATIVES]3d render, photograph, painting, noisy and grainy, watermark and signature
+
+  Detailed Cartoony Illustrations
+    meta:tags = [({illustration:100,cartoon:70, ghibli:50, digitalPainting:30, anime:10})]
+    prompt = [DESCRIPTION]digitally illustrated in 300 PPI/DPI print, in cartoon style of Hayao Miyazaki, and rendering by Zac Retz and Brian Kesinger, with insanely intricate details
+    negative = [NEGATIVES]3d render, photograph, noisy and grainy, watermark and signature
+
+  General High Quality Anime
+    meta:tags = [({illustration:100,anime:70, color:50})]
+    prompt = [DESCRIPTION]digitally illustrated in 4k UHD resolution, in anime style of Kohei Horikoshi + Keith Negley + Makoto Yukimura
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, watermarks and signatures
+
+  Old Style Anime A
+    meta:tags = [({illustration:100,anime:70, comic:70, manga:50,fantasy: 40})]
+    prompt = [DESCRIPTION]digitally illustrated, in old anime style of Yoshiyuki Sadamoto + Makoto Yukimura + Katsuhiro Otomo + Makoto Shinkai, with line art in Zebra G Nib and colored with Copic markers
+    negative = [NEGATIVES]highly detailed, noisy and grainy
+
+  Old Style Anime B
+    meta:tags = [({illustration:100,anime:70, comic:70, manga:50,fantasy: 40})]
+    prompt = [DESCRIPTION]in anime style of Gosho Aoyama + Osamu Tezuka + Katsuhiro Otomo, 1890s manga comics, heavily stylized cartoon anime
+    negative = [NEGATIVES]noisy and grainy, highly detailed
+
+  *Realistic* Anime
+    meta:tags = [({photograph:100,anime:70,realism: 40})]
+    prompt = [DESCRIPTION]realistic anime painting in anime style of Anders Zorn and Mike Dargas with smooth cel-shading, digitally painted in 8k resolution, realistic art
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, watermarks and signatures
+
+  Vintage Anime-Realistic Render
+    meta:tags = [({anime: 100, illustration:100, drawing:50, portrait:40, landscape:40, cinematic:30})]
+    prompt = [DESCRIPTION]vintage anime illustration in style of Hajime Sorayama, Scott Naismith, and Anton Fadeev in 1200 dpi resolution
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+
+  // GameStyle
+  Sims/Runescape Graphics
+    meta:tags = [({render:100, cinematic:50, threeDimensional:60, fantasy:30})]
+    prompt = [DESCRIPTION]ray-traced 3d render in Unreal Engine 4, with volumetric lighting in 8k resolution, and in the universe of The Sims 4 and Old School RuneScape
+    negative = [NEGATIVES]highly detailed, noisy and grainy, illustration, painting, drawing, watermarks and signatures
+
+// The character, scenery and clothes descriptions confuses the ai when they comes after the 'composition description', so I need to do put.
+lastPart(tags) =>
+  window.endTags !== "" ? window.endTags += "\n" + String(tags) : window.endTags = String(tags);
+  return "";
+
+MOD
+  Furry
+    effect = [furryModifiers.effect]
+    shot = [photoModifiers.shot]
+    color = [photoModifiers.color]
+    photo effect = [photoModifiers.effect]
+comicModifiers
+  effect
+    retrofuturism = , (retrofuturism, atompunk)
+    gritty noir = , (gritty noir)
+    pop art = , (pop art style)
+    cyberpunk = , (cyberpunk aesthetic)
+    steampunk = , (steampunk)
+    watercolor = , (watercolor wash)
+    sketchy ink = , sketchy ink work
+    manga fusion = , (manga fusion)
+    psychedelic = , psychedelic imagery
+    pulp magazine = , pulp magazine look
+    heroic proportions = , heroic proportions
+FrancoBelgeModifiers
+  modifier
+    single-panel = , splash panel, full cover image
+    multi-panel = , multi-panel comic book page, comic panel layout
+    cyberpunk = , (cyberpunk aesthetic)
+    steampunk = , (steampunk)
+    manga fusion = , (manga fusion)
+    psychedelic = , psychedelic imagery
+    pulp magazine = , pulp magazine look
+    heroic proportions = , heroic proportions
+photoModifiers
+  shot
+    extreme close-up = , extreme close-up
+    low-angle = , low-angle shot
+    high-angle = , high-angle shot
+    aerial = , aerial shot
+    close-up = , close-up shot
+    portrait = , close-up portrait
+    macro = , macro shot
+    wide-angle = , wide-angle shot
+    establishing = , establishing shot
+    over-the-shoulder = , over-the-shoulder shot
+    telephoto = , telephoto shot
+    handheld = , handheld shot
+    panoramic = , panoramic shot
+    dramatic = , dramatic angle, extreme angle shot
+  color
+    vibrant = , vibrant color grading
+    warm = , warm color grading
+    cool = , cool-toned color grading
+    pastel = , pastel color grading
+    bright = , bright color grading
+    muted = , muted color grading
+    neon = , neon color grading
+    duotone = , duotone color grading
+    monochrome = , monochrome
+    sterile = , cool-toned sterile colors
+  effect
+    bokeh = , bokeh
+    tilt-shift = , tilt-shift effect
+    soft focus = , soft focus
+    background blur = , shallow depth of field
+    chromatic aberrations = , chromatic aberrations
+    light leaks = , light leaks
+    rear projection = , rear projection
+    lens flare = , lens flare
+    long exposure = , long exposure
+    golden hour = , golden hour
+    silhouette = , silhouette
+animeModifiers
+  style
+    Ghibli = , Ghibli art style, Spirited Away art style
+    Your Name = , (Your Name art style:1.3)
+    Paprika = , Paprika art style
+    My Hero Academia = , My Hero Academia art style
+    Hunter x Hunter = , Hunter x Hunter art style
+    Attack on Titan = , (Attack on Titan art style:1.3)
+  effect
+    multi-view = , (multiple views:1.2)
+    toon = , (cartoon-style bold line work:1.2), vibrant colors, cel shading
+    vintage = , (cel shading, vintage anime:1.25)
+    ethereal = , (glow, god rays, ethereal, dreamy, heavenly, otherworldly, dream-like, breathtaking, captivating, divine)
+    outline = , outline, white outline
+furryModifiers
+  effect
+    humanoid face = , (human face, not furry:1.3)
+    multi-view = , (multiple views:1.2)
+    toon = , (cartoon-style bold line work:1.2), vibrant colors, cel shading
+    vintage = , (cel shading, vintage anime:1.25)
+    ethereal = , (glow, god rays, ethereal, dreamy, heavenly, otherworldly, dream-like, breathtaking, captivating, divine)
+    outline = , outline, white outline
+
+t2iPerchanceStyles = [["🎲*️⃣ T2I Styles (30)🔻", "🎌 Anime", "🎌 Anime Screencap", "🎌 Cute Anime", "🎌 Drawn Anime", "🎌 Painted Anime", "🎌 Soft Anime", "🎌 Vintage Anime", "🎌 Neon Vintage Anime", "🎌 50s Infomercial Anime", "🎌 Studio Ghibli", "🎌 Waifu", "🎌 YuGiOh Art", "🎌 Manga", "🏰 3D Disney Character", "🏰 2D Disney Character", "🏰 Disney Sketch", "📺 Cartoon", "🎬 Claymation", "🗯 Vintage Comic", "🗯 Franco-Belgian Comic", "🗯 Tintin Comic", "👾 Pixel Art", "MTG Card", "🦚 3D Pokemon", "🦚 Painted Pokemon", "🦚 2D Pokemon", "🐺 Furry - Oil", "🐺 Furry - Cinematic", "🐺 Furry - Painted", "🐺 Furry - Drawn"]]
+text2imageGenStyles = [["🎲*️⃣ text2image-gen Styles (5)🔻", "》Classic anime", "》Modern anime", "》Realistic anime", "》Manga", "》Pixel art"]]
+vionet20Styles = [["🎲*️⃣ Vionet20 Styles (13)🔻", "Anime-Impressionism Paintings", "Anime-Realism Paintings", "Colored Patterns Anime", "Color Pop Anime Illustration", "Comic/Manga Illustration", "Cute Cartoon Illustrations", "Detailed Cartoony Illustrations", "General High Quality Anime", "Old Style Anime A", "Old Style Anime B", "*Realistic* Anime", "Vintage Anime-Realistic Render", "Sims/Runescape Graphics"]]
+createBanList1 = [text2imageGenStyles.selectAll.join(",") + ",🎲*️⃣ T2I Styles (30)🔻," + vionet20Styles.selectAll.join(",")]
+banList1 = [String(createBanList1).split(",")]
+createBanList2 = [t2iPerchanceStyles.selectAll.join(",") + ",🎲*️⃣ text2image-gen Styles (5)🔻," + vionet20Styles.selectAll.join(",")]
+banList2 = [String(createBanList2).split(",")]
+createBanList3 = [t2iPerchanceStyles.selectAll.join(",") + ",🎲*️⃣ Vionet20 Styles (13)🔻," + text2imageGenStyles.selectAll.join(",")]
+banList3 = [String(createBanList3).split(",")]

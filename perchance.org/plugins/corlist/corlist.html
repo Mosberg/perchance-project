@@ -1,0 +1,670 @@
+<!--
+VOID
+!-->
+
+<br /><br />
+<div id="CC">[TheCurrentColor]</div>
+<div id="paintedColor">
+  <br />
+  <label>[Color]</label
+  ><select name="colors" id="colorList" onchange="GetSelectedColor(this)">
+    <option value="none" class="none">none...</option>
+    <option value="red" class="red">Red</option>
+    <option value="scarlet" class="scarlet">Scarlet</option>
+    <option value="crimson" class="crimson">Crimson</option>
+    <option value="ruby" class="ruby">Ruby</option>
+    <option value="raspberry" class="raspberry">Raspberry</option>
+    <option value="cherry" class="cherry">Cherry</option>
+    <option value="pink" class="pink">Pink</option>
+    <option value="baby pink" class="baby-pink">Baby Pink</option>
+    <option value="burgundy" class="burgundy">Burgundy</option>
+    <option value="maroon" class="maroon">Maroon</option>
+    <option value="orange" class="orange">Orange</option>
+    <option value="tangerine" class="tangerine">Tangerine</option>
+    <option value="burnt orange" class="burnt-orange">Burnt Orange</option>
+    <option value="coral" class="coral">Coral</option>
+    <option value="peach" class="peach">Peach</option>
+    <option value="apricot" class="apricot">Apricot</option>
+    <option value="butter yellow" class="butter-yellow">Butter Yellow</option>
+    <option value="mustard" class="mustard">Mustard</option>
+    <option value="gold" class="gold">Gold</option>
+    <option value="yellow" class="yellow">Yellow</option>
+    <option value="canary yellow" class="canary-yellow">Canary Yellow</option>
+    <option value="lemon yellow" class="lemon-yellow">Lemon Yellow</option>
+    <option value="lemon" class="lemon">Lemon</option>
+    <option value="lime" class="lime">Lime</option>
+    <option value="chartreuse" class="chartreuse">Chartreuse</option>
+    <option value="lime green" class="lime-green">Lime Green</option>
+    <option value="forest green" class="forest-green">Forest Green</option>
+    <option value="green" class="green">Green</option>
+    <option value="sea green" class="sea-green">Sea Green</option>
+    <option value="jade" class="jade">Jade</option>
+    <option value="emerald" class="emerald">Emerald</option>
+    <option value="mint green" class="mint-green">Mint Green</option>
+    <option value="olive" class="olive">Olive</option>
+    <option value="powder blue" class="powder-blue">Powder Blue</option>
+    <option value="sky blue" class="sky-blue">Sky Blue</option>
+    <option value="baby blue" class="baby-blue">Baby Blue</option>
+    <option value="azure" class="azure">Azure</option>
+    <option value="blue" class="blue">Blue</option>
+    <option value="cobalt" class="cobalt">Cobalt</option>
+    <option value="sapphire" class="sapphire">Sapphire</option>
+    <option value="navy" class="navy">Navy</option>
+    <option value="teal" class="teal">Teal</option>
+    <option value="turquoise" class="turquoise">Turquoise</option>
+    <option value="cyan" class="cyan">Cyan</option>
+    <option value="indigo" class="indigo">Indigo</option>
+    <option value="lavender" class="lavender">Lavender</option>
+    <option value="lilac" class="lilac">Lilac</option>
+    <option value="violet" class="violet">Violet</option>
+    <option value="amethyst" class="amethyst">Amethyst</option>
+    <option value="magenta" class="magenta">Magenta</option>
+    <option value="fuchsia" class="fuchsia">Fuchsia</option>
+    <option value="beige" class="beige">Beige</option>
+    <option value="tan" class="tan">Tan</option>
+    <option value="camel" class="camel">Camel</option>
+    <option value="khaki" class="khaki">Khaki</option>
+    <option value="chocolate" class="chocolate">Chocolate</option>
+    <option value="mahogany" class="mahogany">Mahogany</option>
+    <option value="sienna" class="sienna">Sienna</option>
+    <option value="bronze" class="bronze">Bronze</option>
+    <option value="copper" class="copper">Copper</option>
+    <option value="gray" class="gray">Gray</option>
+    <option value="slate" class="slate">Slate</option>
+    <option value="charcoal" class="charcoal">Charcoal</option>
+    <option value="pewter" class="pewter">Pewter</option>
+    <option value="silver" class="silver">Silver</option>
+    <option value="white" class="white">White</option>
+    <option value="ivory" class="ivory">Ivory</option>
+    <option value="cream" class="cream">Cream</option>
+    <option value="off-white" class="off-white">Off-White</option>
+    <option value="onyx" class="onyx">Onyx</option>
+    <option value="black" class="black">Black</option>
+    <option value="jet black" class="jet-black">Jet Black</option>
+  </select>
+  <br /><br /><br /><br />
+</div>
+<div id="paintedColorTwo">
+  <br />
+  <label>[Color]</label
+  ><select
+    name="colorsTwo"
+    id="colorListTwo"
+    onchange="GetSelectedColorTwo(this)"
+  >
+    <option value="none" class="none">none...</option>
+    <option value="red" class="red">Red</option>
+    <option value="scarlet" class="scarlet">Scarlet</option>
+    <option value="crimson" class="crimson">Crimson</option>
+    <option value="ruby" class="ruby">Ruby</option>
+    <option value="raspberry" class="raspberry">Raspberry</option>
+    <option value="cherry" class="cherry">Cherry</option>
+    <option value="pink" class="pink">Pink</option>
+    <option value="baby pink" class="baby-pink">Baby Pink</option>
+    <option value="burgundy" class="burgundy">Burgundy</option>
+    <option value="maroon" class="maroon">Maroon</option>
+    <option value="orange" class="orange">Orange</option>
+    <option value="tangerine" class="tangerine">Tangerine</option>
+    <option value="burnt orange" class="burnt-orange">Burnt Orange</option>
+    <option value="coral" class="coral">Coral</option>
+    <option value="peach" class="peach">Peach</option>
+    <option value="apricot" class="apricot">Apricot</option>
+    <option value="butter yellow" class="butter-yellow">Butter Yellow</option>
+    <option value="mustard" class="mustard">Mustard</option>
+    <option value="gold" class="gold">Gold</option>
+    <option value="yellow" class="yellow">Yellow</option>
+    <option value="canary yellow" class="canary-yellow">Canary Yellow</option>
+    <option value="lemon yellow" class="lemon-yellow">Lemon Yellow</option>
+    <option value="lemon" class="lemon">Lemon</option>
+    <option value="lime" class="lime">Lime</option>
+    <option value="chartreuse" class="chartreuse">Chartreuse</option>
+    <option value="lime green" class="lime-green">Lime Green</option>
+    <option value="forest green" class="forest-green">Forest Green</option>
+    <option value="green" class="green">Green</option>
+    <option value="sea green" class="sea-green">Sea Green</option>
+    <option value="jade" class="jade">Jade</option>
+    <option value="emerald" class="emerald">Emerald</option>
+    <option value="mint green" class="mint-green">Mint Green</option>
+    <option value="olive" class="olive">Olive</option>
+    <option value="powder blue" class="powder-blue">Powder Blue</option>
+    <option value="sky blue" class="sky-blue">Sky Blue</option>
+    <option value="baby blue" class="baby-blue">Baby Blue</option>
+    <option value="azure" class="azure">Azure</option>
+    <option value="blue" class="blue">Blue</option>
+    <option value="cobalt" class="cobalt">Cobalt</option>
+    <option value="sapphire" class="sapphire">Sapphire</option>
+    <option value="navy" class="navy">Navy</option>
+    <option value="teal" class="teal">Teal</option>
+    <option value="turquoise" class="turquoise">Turquoise</option>
+    <option value="cyan" class="cyan">Cyan</option>
+    <option value="indigo" class="indigo">Indigo</option>
+    <option value="lavender" class="lavender">Lavender</option>
+    <option value="lilac" class="lilac">Lilac</option>
+    <option value="violet" class="violet">Violet</option>
+    <option value="amethyst" class="amethyst">Amethyst</option>
+    <option value="magenta" class="magenta">Magenta</option>
+    <option value="fuchsia" class="fuchsia">Fuchsia</option>
+    <option value="beige" class="beige">Beige</option>
+    <option value="tan" class="tan">Tan</option>
+    <option value="camel" class="camel">Camel</option>
+    <option value="khaki" class="khaki">Khaki</option>
+    <option value="chocolate" class="chocolate">Chocolate</option>
+    <option value="mahogany" class="mahogany">Mahogany</option>
+    <option value="sienna" class="sienna">Sienna</option>
+    <option value="bronze" class="bronze">Bronze</option>
+    <option value="copper" class="copper">Copper</option>
+    <option value="gray" class="gray">Gray</option>
+    <option value="slate" class="slate">Slate</option>
+    <option value="charcoal" class="charcoal">Charcoal</option>
+    <option value="pewter" class="pewter">Pewter</option>
+    <option value="silver" class="silver">Silver</option>
+    <option value="white" class="white">White</option>
+    <option value="ivory" class="ivory">Ivory</option>
+    <option value="cream" class="cream">Cream</option>
+    <option value="off-white" class="off-white">Off-White</option>
+    <option value="onyx" class="onyx">Onyx</option>
+    <option value="black" class="black">Black</option>
+    <option value="jet black" class="jet-black">Jet Black</option></select
+  ><br /><br /><br />
+
+  <br />
+</div>
+<div id="CCTwo">[TheCurrentColorBelow]</div>
+
+<style>
+  #colorList {
+    option:not(.white, .ivory, .cream, .off-white) {
+      color: white;
+    }
+  }
+
+  /* Reds and Pinks */
+  .crimson {
+    background-color: #dc143c;
+  }
+  .scarlet {
+    background-color: #ff2400;
+  }
+  .cherry {
+    background-color: #de3163;
+  }
+  .ruby {
+    background-color: #e0115f;
+  }
+  .red {
+    background-color: #ff0000;
+  }
+  .raspberry {
+    background-color: #e30b5d;
+  }
+  .pink {
+    background-color: #ffc0cb;
+  }
+  .baby-pink {
+    background-color: #f4c2c2;
+  }
+  .maroon {
+    background-color: #800000;
+  }
+  .burgundy {
+    background-color: #800020;
+  }
+
+  /* Oranges */
+  .orange {
+    background-color: #ffa500;
+  }
+  .tangerine {
+    background-color: #f28500;
+  }
+  .peach {
+    background-color: #ffdab9;
+  }
+  .apricot {
+    background-color: #fbceb1;
+  }
+  .burnt-orange {
+    background-color: #cc5500;
+  }
+  .coral {
+    background-color: #ff7f50;
+  }
+
+  /* Yellows */
+  .yellow {
+    color: blue;
+    background-color: #ffff00;
+  }
+  .lemon {
+    background-color: #fff44f;
+  }
+  .lime {
+    background-color: #bfff00;
+  }
+  .lime-green {
+    background-color: #32cd32;
+  }
+  .chartreuse {
+    background-color: #7fff00;
+  }
+  .canary-yellow {
+    background-color: #ffef00;
+  }
+  .butter-yellow {
+    background-color: #fffacd;
+  }
+  .gold {
+    background-color: #ffd700;
+  }
+  .mustard {
+    background-color: #ffdb58;
+  }
+  .lemon-yellow {
+    background-color: #fff700;
+  }
+
+  /* Greens */
+  .green {
+    background-color: #008000;
+  }
+  .emerald {
+    background-color: #50c878;
+  }
+  .jade {
+    background-color: #00a86b;
+  }
+  .olive {
+    background-color: #808000;
+  }
+  .forest-green {
+    background-color: #228b22;
+  }
+  .sea-green {
+    background-color: #2e8b57;
+  }
+  .mint-green {
+    background-color: #98ff98;
+  }
+
+  /* Blues */
+  .blue {
+    background-color: #0000ff;
+  }
+  .sky-blue {
+    background-color: #87ceeb;
+  }
+  .baby-blue {
+    background-color: #89cff0;
+  }
+  .powder-blue {
+    background-color: #b0e0e6;
+  }
+  .azure {
+    background-color: #007fff;
+  }
+  .cobalt {
+    background-color: #0047ab;
+  }
+  .sapphire {
+    background-color: #0f52ba;
+  }
+  .turquoise {
+    background-color: #40e0d0;
+  }
+  .teal {
+    background-color: #008080;
+  }
+  .cyan {
+    background-color: #00ffff;
+  }
+  .indigo {
+    background-color: #4b0082;
+  }
+  .navy {
+    background-color: #000080;
+  }
+
+  /* Purples */
+  .lavender {
+    background-color: #e6e6fa;
+  }
+  .lilac {
+    background-color: #c8a2c8;
+  }
+  .violet {
+    background-color: #8a2be2;
+  }
+  .amethyst {
+    background-color: #9966cc;
+  }
+  .magenta {
+    background-color: #ff00ff;
+  }
+  .fuchsia {
+    background-color: #ff00ff;
+  }
+
+  /* Browns */
+  .tan {
+    background-color: #d2b48c;
+  }
+  .beige {
+    background-color: #f5f5dc;
+  }
+  .camel {
+    background-color: #c19a6b;
+  }
+  .khaki {
+    background-color: #f0e68c;
+  }
+  .chocolate {
+    background-color: #d2691e;
+  }
+  .mahogany {
+    background-color: #c04000;
+  }
+  .sienna {
+    background-color: #a0522d;
+  }
+  .bronze {
+    background-color: #cd7f32;
+  }
+  .copper {
+    background-color: #b87333;
+  }
+
+  /* Grays */
+  .gray {
+    background-color: #808080;
+  }
+  .slate {
+    background-color: #708090;
+  }
+  .charcoal {
+    background-color: #36454f;
+  }
+  .pewter {
+    background-color: #91a3b0;
+  }
+  .silver {
+    background-color: #c0c0c0;
+  }
+
+  /* Whites */
+  .white {
+    background-color: #ffffff;
+  }
+  .ivory {
+    background-color: #fffff0;
+  }
+  .cream {
+    background-color: #fffdd0;
+  }
+  .off-white {
+    background-color: #faf9f6;
+  }
+
+  /* Blacks */
+  .black {
+    background-color: #000000;
+  }
+  .onyx {
+    background-color: #353839;
+  }
+  .jet-black {
+    background-color: #343434;
+  }
+</style>
+
+<script>
+  TheCurrentColor = "There is not a color currently..."; //Keeps the color name
+  TheCurrentColorBelow = "There is not a color currently...";
+  Color = "";
+
+  function GetSelectedColor(itemToPaint) {
+    let CurrentColor = "";
+    CurrentColor = itemToPaint.value;
+    Color = CurrentColor;
+    let selectedColor = itemToPaint.options[itemToPaint.selectedIndex];
+    let ColorClass = selectedColor.className;
+    document.getElementById("paintedColor").className = ColorClass;
+    TheCurrentColor = "The current color is " + String(Color);
+    update(CC);
+  }
+
+  function GetSelectedColorTwo(itemToPaint) {
+    let CurrentColor = "";
+    CurrentColor = itemToPaint.value;
+    Color = CurrentColor;
+    let selectedColor = itemToPaint.options[itemToPaint.selectedIndex];
+    let ColorClass = selectedColor.className;
+    document.getElementById("paintedColorTwo").className = ColorClass;
+    TheCurrentColorBelow = "The current color is " + String(Color);
+    update(CCTwo);
+  }
+</script>
+
+<!-- All colors in the list
+
+ColorList
+  //none...
+  Red
+  Scarlet
+  Crimson
+  Ruby
+  Raspberry
+  Cherry
+  Pink
+  Baby Pink
+  Burgundy
+  Maroon
+  Orange
+  Tangerine
+  Burnt Orange
+  Coral
+  Peach
+  Apricot
+  Butter Yellow
+  Mustard
+  Gold
+  Yellow
+  Canary Yellow
+  Lemon Yellow
+  Lemon
+  Lime
+  Chartreuse
+  Lime Green
+  Forest Green
+  Green
+  Sea Green
+  Jade
+  Emerald
+  Mint Green
+  Olive
+  Powder Blue
+  Sky Blue
+  Baby Blue
+  Azure
+  Blue
+  Cobalt
+  Sapphire
+  Navy
+  Teal
+  Turquoise
+  Indigo
+  Lavender
+  Lilac
+  Violet
+  Amethyst
+  Magenta
+  Fuchsia
+  Beige
+  Tan
+  Camel
+  Khaki
+  Chocolate
+  Mahogany
+  Sienna
+  Bronze
+  Copper
+  Gray
+  Slate
+  Charcoal
+  Pewter
+  Silver
+  White
+  Ivory
+  Cream
+  Off-White
+  Onyx
+  Black
+  Jet Black
+
+AllColorsList
+  Golden
+  Mustard
+  Canary Yellow
+  Yellow
+  Amber
+  Yellow Orange
+  Orange Yellow
+  Orange Red
+  Burnt Orange
+  Tangerine
+  Ginger
+  Apricot
+  Peach
+  Coral
+  Salmon
+  Orange Pink
+  Orange Brown
+  Brown Orange
+  Dark Brown
+  Chocolate
+  Brown
+  Cooper
+  Sienna
+  Bronze
+  Yellow Brown
+  Tan
+  Camel
+  Khaki
+  Beige
+  Pink Brown
+  Mahogany
+  Brown Red
+  Maroon
+  Burgundy
+  Dark Red
+  Red
+  Scarlet
+  Crimson
+  Ruby
+  Raspberry
+  Cherry
+  Magenta
+  Fuchsia
+  Hot Pink
+  Red Pink
+  Baby Pink
+  Pink Violet
+  Dark Violet
+  Dark Purple
+  Purple
+  Amethyst
+  Lavender
+  Lilac
+  Red Lilac
+  Red Violet
+  Blue Violet
+  Indigo
+  Navy
+  Dark Blue
+  Sapphire
+  Cobalt
+  Azure
+  Cerulean
+  Light Blue
+  Baby Blue
+  Sky Blue
+  Powder Blue
+  Blue Green
+  Cyan
+  Teal
+  Turquoise
+  Olive
+  Green Brown
+  Brown Green
+  Forest Green
+  Dark green
+  Esmerald
+  Jade
+  Yellow Green
+  Lemon Yellow
+  Lemon
+  Lime
+  Lime Green
+  Grey Green
+  Mint Green
+  White Green
+  Onyx
+  Charcoal
+  Pewter
+  Silver
+  Brown Gray
+  Purple Gray
+  Blue Gray
+  Green Gray
+  Off-white
+  Ivory
+  Cream
+  Brown White
+  Purple White
+  Blue White
+  Green White
+
+<!-->
+
+<!-- Trash: This is a trashcan, obsolete code, not really useful, leave it here, im keeping them as log.
+ DELETE EVERYTHING BELOW LATER
+
+
+  ----
+
+  RandomUncommonColors(colorPallete, itemToColor)=>
+  if (typeof window[colorPallete] === "undefined") {
+    window[colorPallete] = [];
+  }
+
+  if (typeof ColorsFullList === "undefined") {
+    const NegativesCleanse = ColorNegatives;
+    AllColors = UncommonColors.selectAll.join("|").split("|").map(w => w);
+    ColorsFullList = AllColors.filter(fn => fn !== "random");
+    ColorNegatives = NegativesCleanse;
+  };
+
+  if (window[colorPallete].length >= ColorsFullList.length) {
+    window[colorPallete] = [];
+  };
+
+  window[itemToColor] = UncommonColors.selectOne;
+
+  if (window[colorPallete].includes(window[itemToColor])) {
+    RandomUncommonColors(colorPallete, itemToColor);
+  } else {
+    window[colorPallete].push(window[itemToColor]);
+  };
+
+  return "";
+
+  // NEGATIVES (for t2i generators)
+  ColorNgtv = [""]
+  ColorNgtvFun(...neg)=>
+ //To use it in t2i generator you just need to put a 'flag', the "ColorNgtv" above in the negatives. e.g. "[input.artStyle][Colors.ColorNgtv]. You also need to put [Colors.ColorNgtv = "", ""] at the begining of prompt (not the negatives, because the prompt data goes before the negative data) to reset the variable, otherwise it will return the same or wrong value to every generated pic.
+  let LocalNgtv = neg.join(", ");
+  ColorNgtv += ", " + LocalNgtv;
+  return "";
+
+<!--
+END
+!-->

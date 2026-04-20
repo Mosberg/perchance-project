@@ -1,0 +1,74 @@
+// AdvRS = {import:item-randomizer-byt}
+$output(name, banList, ...args) =>
+
+  if (!window["AlreadySelectedList_" + name] || window["AlreadySelectedList_" + name].length <= 0) {
+    window["AlreadySelectedList_" + name] = [...banList];
+  }
+
+  if (!window[name + "_entries"]) {
+  window[name + "_entries"] = [...args]
+    .flatMap(obj => Object.entries(obj)); // Flatten into [key, value] pairs
+  }
+
+  const entries = window[name + "_entries"];
+
+  const already = new Set(window["AlreadySelectedList_" + name]); // Using Set
+
+  const filtered = entries.filter(([key]) => !already.has(key));
+
+  // Choose a random item
+  const randomEntry = filtered[Math.floor(Math.random() * filtered.length)];
+
+  if (!randomEntry) {
+    window["AlreadySelectedList_" + name] = [...banList]; // or Empty []
+    return $output(name, banList, ...args);
+  }
+
+  const [selectedKey, selectedValue] = randomEntry;
+
+  // Those are the variable names, the 'name' in the argument is only to give a name for those variables so they can be 'unique' and this function can be used in others differents styles without overwritten them (without having to create several functions too).
+  // so the names will be (change 'name' by the choose name):
+    // nameRandomItem -> it will have the values including prompt and negative, but to call those values is necessary to use like this: nameRandomItem.prompt, if the list have mixed items: [nameRandomItem.prompt || nameRandomItem].
+    // RandomItemName -> is the name... also is the same as nameRandomItem.getName if is t2i-style.
+    // nameAlreadySelected -> The array with all the items banned and already selected.
+
+  window["random" + name] = selectedValue;
+  window["getNameRandom" + name] = selectedKey;
+  window["AlreadySelectedList_" + name].push(window["getNameRandom" + name]);
+
+  if (window.admLog === "active") {
+    console.groupCollapsed(`AdvRandomizer → ${name}`);
+    console.log("Selected key:", window["getNameRandom" + name]);
+    console.log("Selected value:", window["random" + name]);
+    console.log("Already selected:", window["AlreadySelectedList_" + name]);
+    console.log("Entries:", entries.length);
+    console.log("Filtered:", filtered.length);
+    console.groupEnd();
+  }
+
+  return ""; //
+
+
+
+
+AnimeStyles
+  Basic Anime
+    11, anime style, high-quality, UHD.
+  Cute Anime
+    11, create a lovely, very cute anime character, extremely cute moe and kawai, cute aesthetic
+
+RealisticStyles
+  Professional Photography
+    prompt = Is a real, professional photography, editorial photography, with cinematic lighting, colored, DSLR photo
+    negative = cel-shading
+
+OthersStyles
+  VAPORWAVE
+    Vaporwave aesthetic style, synthwave style, retrofuture style, glitchart, saturated glow, neon-lit
+  Pixel
+    Is pixel art, retro
+
+  Well sink
+    well well well, let that sink in
+
+UglyList = [["Well sink", "Pixel"]]

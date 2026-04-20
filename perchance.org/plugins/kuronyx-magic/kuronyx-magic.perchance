@@ -1,0 +1,24 @@
+$output(KuronyxProtection)=>
+  let Mutation = localStorage.getItem("bannedWords") || "defaultList";
+  let FT = localStorage.getItem('TheFirstTime2');
+  if (window.generatorName === 'ai-art-generator-advanced' || window.generatorName === 'kaw-ai' || window.generatorName === 'backup-ai-art-generator-advanced' || window.generatorName === 'ai-art-generator-advanced-v3') {
+    KuronyxProtection = KuronyxProtection.replace(/vanitas-vanitatum/g, "aagaframev7-t2iframev2"); //"");
+    KuronyxProtection = KuronyxProtection.replace(/showFeedback = true/g, "showFeedback = false");
+    KuronyxProtection = KuronyxProtection.replace(/showFeedback = false/g, "showFeedback = true");
+    if (Mutation !== "defaultList") {
+      if (Mutation === "banned_List_A") { Mutation = "CustomFilterA" };
+      KuronyxProtection = KuronyxProtection.replace("EmptyFilterA", Mutation);
+    }
+    if (!FT || FT === null) { localStorage.setItem("bannedWords", "CustomFilterA"); KuronyxProtection = KuronyxProtection.replace("EmptyFilterA", "CustomFilterA"); };
+    KuronyxProtection = KuronyxProtection.replace(/illusion/g, "kaw-aii");
+    return KuronyxProtection;
+  } else if (window.generatorName === 'backup-aaga09022024') {
+    KuronyxProtection = KuronyxProtection.replace(/the-eyes-of-horus/g, "aagaframev6-t2iframev2");
+    window.generatorName = "ai-art-generator-advanced";
+    return KuronyxProtection;
+  } else {
+    KuronyxProtection = KuronyxProtection.replace(/vanitas-vanitatum/g, "omnia-vanitas");
+    KuronyxProtection = KuronyxProtection.replace(/prompt/g, "omnia-vanitas");
+    KuronyxProtection = KuronyxProtection.replace(/settings/g, "omnia-vanitas");
+    return KuronyxProtection;
+  }

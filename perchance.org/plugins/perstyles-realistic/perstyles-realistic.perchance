@@ -1,0 +1,229 @@
+advRng = {import:item-randomizer-byt} // 👄🍆
+
+DESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? String(input.description) + ", " : "")]
+NEGATIVES = [input.negative ? String(input.negative) + ", " : ""]
+
+$output
+// t2iStyles
+  🎲✴️ T2I Styles (11)🔻
+    prompt = [advRng("t2iRealisticStyle", t2iRealisticStyleBanlist = banList1, $output)][window.S2TITLE = randomt2iRealisticStyle, randomt2iRealisticStyle.prompt]
+    negative = [randomt2iRealisticStyle ? randomt2iRealisticStyle.negative : ""]
+
+  // RealisticStyle
+  📷 Casual Photo
+    prompt = A casual photo. A casual photo[input.description ? " of " + input.description.replace(/\b(realistic)\b/i, "actual") : ""]. It's a casual photo. //A casual photo[input.description ? " of " + input.description : ""]. It's a casual photo.
+    negative = [NEGATIVES]
+    meta:tags = [({photo:98, casualPhoto:100, portrait:80})]
+    modifiers = [photoModifiers]
+
+  📷 Professional Photo
+    prompt = [DESCRIPTION]{sharp|soft} focus, depth of field, 8k photo, HDR, professional lighting, taken with Canon EOS R5, DSLR, 75mm lens
+    negative = [NEGATIVES]
+    meta:tags = [({photo:95, portrait:60})]
+    modifiers = [photoModifiers]
+
+  📷 1990s Photo
+    prompt = [DESCRIPTION]90s home video, nostalgic 90s photo, taken with kodak disposable camera
+    negative = [NEGATIVES]
+    meta:tags = [({photo:61, vintage:80})]
+    modifiers = [photoModifiers]
+
+  📷 1980s Photo
+    prompt = famous vintage 80s photo, [DESCRIPTION]grainy photograph, 80s photo with film grain, Kodacolor II 80s photo with vignetting, retro, r/OldSchoolCool, 80s photo with wear and tear and minor creasing and scratches, vintage color photo
+    negative = [NEGATIVES]
+    meta:tags = [({photo:60, vintage:90, portrait:72})]
+    modifiers = [MOD.oldPhoto]
+
+  📷 1970s Photo
+    prompt = famous vintage 70s photo, [DESCRIPTION]grainy photograph, 1970s photo with film grain, 70s photo with vignetting, retro, r/OldSchoolCool, 70s photo, vintage photo
+    negative = [NEGATIVES]
+    meta:tags = [({photo:59, vintage:80})]
+    modifiers = [MOD.oldPhoto]
+
+  📷 1960s Photo
+    prompt = famous vintage 60s photo, [DESCRIPTION]grainy photograph, 1960s photo with film grain, 60s photo with vignetting, retro, r/OldSchoolCool, 60s photo, vintage photo
+    negative = [NEGATIVES]
+    meta:tags = [({photo:58, vintage:80})]
+    modifiers = [MOD.oldPhoto]
+
+  📷 1950s Photo
+    prompt = famous vintage 50s photo, [DESCRIPTION]grainy photograph, 1950s photo with film grain, 1950s photo with vignetting, retro, r/OldSchoolCool, 1950s photo, vintage photo
+    negative = [NEGATIVES]
+    meta:tags = [({photo:57, vintage:80})]
+    modifiers = [MOD.oldPhoto]
+
+  📷 1940s Photo
+    prompt = famous vintage 1940s photo, [DESCRIPTION]grainy photograph, 1940s photo with film grain, 1940s photo with vignetting, retro, r/OldSchoolCool, 1940s photo, vintage photo
+    negative = [NEGATIVES]
+    meta:tags = [({photo:56, vintage:80})]
+    modifiers = [MOD.oldPhoto]
+
+  📷 1930s Photo
+    prompt = famous vintage 1930s photo, [DESCRIPTION]grainy photograph, 1930s photo with film grain, 1930s photo with vignetting, retro, r/OldSchoolCool, 1930s photo, vintage photo
+    negative = [NEGATIVES]
+    meta:tags = [({photo:55, vintage:80})]
+    modifiers = [MOD.oldPhoto]
+
+  📷 1920s Photo
+    prompt = famous vintage 1920s photo, [DESCRIPTION]1920s photo, restored photograph, {sepia|black and white}, historical archive photo
+    negative = [NEGATIVES]
+    meta:tags = [({photo:54, vintage:80})]
+    modifiers = [MOD.oldPhoto]
+
+  🎬 Cinematic
+    prompt = [DESCRIPTION]cinematic shot, dynamic lighting, 75mm, Technicolor, Panavision, cinemascope, sharp focus, fine details, 8k, HDR, realism, realistic, key visual, film still, cinematic color grading, depth of field.\n\nOverall, it's an absolute world-class cinematic masterpiece. It's an aesthetically pleasing cinematic shot with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({photo:100, portrait:85, render:70, cinematic:100})]
+    modifiers = [MOD.cinemaPhoto]
+
+// text2image
+  🎲✴️ text2image-gen Styles (3)
+    prompt = [advRng("text2imgRealisticStyle", text2imgRealisticStyleBanlist = banList2, $output)][window.S2TITLE = randomtext2imgRealisticStyle, randomtext2imgRealisticStyle.prompt]
+    negative = [randomtext2imgRealisticStyle ? randomtext2imgRealisticStyle.negative : ""]
+
+  // RealisticStyle
+  》Cinematic
+    prompt = [DESCRIPTION]Professional photo, hyperrealistic lighting and features, UHD, RTX,  dynamic lighting, 75mm, Technicolor, Panavision, Cinemascope, depth of field
+    negative = [NEGATIVES] //bad lighting, low-quality, deformed, text, poorly drawn, holding camera, bad image, bad angle, low-resolution, worst quality, bad composition, disfigured
+  //》Casual photo
+    //prompt = [DESCRIPTION]casual photo
+    //negative = [NEGATIVES] //bad photo, bad lighting, unnatural studio lighting, commercial photoshoot, photoshopped, bad photo, deformed, disfigured, popular model
+  》Realistic images
+    prompt = [DESCRIPTION]high quality image, 4k, 8k, HD, UHD, Sharp Focus, In Frame, AMD graphics, RTX
+    negative = [NEGATIVES] //low quality, deformed, blurry, bad art, drawing, painting, horrible resolutions, low DPI, low PPI, blurry, glitch, error
+  》Realistic humans
+    prompt = [DESCRIPTION]high quality image, 4k, 8k, HD, UHD, realistic face, realistic fingers, sharp focus, in frame, real image, AMD graphics, RTX
+    negative = [NEGATIVES] //low quality, deformed, blurry, bad art, drawing, painting, incorrect anatomy, ugliness, ugly, horrible resolutions, low DPI, low PPI, bad character positioning, absurd anatomy, tiling, pixelization, low pixel count, blurry, low-res face, low poly, Poorly Drawn Characters, Badly Drawn Eyes, Badly Drawn Mouth, Badly Drawn Ears, Badly Drawn Nose, Badly Drawn Hands, Badly Drawn Feet, Badly Drawn Legs, Badly Drawn Hair, Badly Drawn Clothing, bad anatomy, (ugly), missing arms, bad proportions, tiling, missing legs, blurry, (poorly drawn feet), morbid, cloned face, ((extra limbs)), (mutated hands), cropped, (disfigured), mutation, deformed, (mutilated), dehydrated, body out of frame, out of frame, (disfigured), ((bad anatomy)), (poorly drawn face), duplicate, cut off, (poorly drawn hands), error, low contrast, signature, (extra arms), underexposed, text, (extra fingers), overexposed, (too many fingers), (extra legs), bad art, ugly, (extra limbs), beginner, username, (fused fingers), amateur, watermark, (distorted face), worst quality, jpeg artifacts, low quality, (malformed limbs), long neck, low-res, (poorly Rendered face), low resolution, low saturation, (bad composition), Images cut out at the top, left, right, bottom, (deformed body features), (poorly rendered hands)
+
+// vionet20
+  🎲✴️ Vionet20 Styles (3)🔻
+    prompt = [advRng("vionet20RealisticStyle", vionet20RealisticStyleBanlist = banList3, $output)][window.S2TITLE = randomvionet20RealisticStyle, randomvionet20RealisticStyle.prompt]
+    negative = [randomvionet20RealisticStyle ? randomvionet20RealisticStyle.negative : ""]
+
+  // RealisticStyle
+  B&W Portrait
+    meta:tags = [({portrait:100, photo:80, cinematic:50, vintage:10})]
+    prompt = [DESCRIPTION]b/w stock photo in style of David Bailey in 8k raw resolution with monochromatic palette, contrast lighting
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, illustration, watermarks and signatures
+
+  //Glamrock Quilt Fashion
+    //meta:tags = [({portrait:50, casualPhoto:30})]
+    //prompt = [DESCRIPTION]candid headshot, photography, quilt, \[quiltglamrock:crazy quilt textured:0.2\] fashion, sfx, \[John Singer Sargent:Anders Zorn:0.6\]
+    //negative = [NEGATIVES]
+
+  *Realistic* Portraits
+    meta:tags = [({portrait:100, photo:100, casualPhoto:50, cinematic:30})]
+    prompt = [DESCRIPTION]amateur portrait photo, shot candidly in 8k resolution without color grading and correction, raw photo
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, illustration, drawing, watermarks and signatures
+
+  Wetplate Photo Look
+    meta:tags = [({portrait:70, photo:70, cinematic:50, vintage:60, creepy:30})]
+    prompt = [DESCRIPTION]age-old wet plate photo retrieved from a time capsule in 4k with grunge texture
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, watermarks and signatures
+
+
+MOD
+  photo
+    shot = [photoModifiers.shot]
+    color = [photoModifiers.color]
+    effect = [photoModifiers.effect]
+  oldPhoto
+    shot = [photoModifiers.shot]
+    effect = [photoModifiers.effect]
+  cinemaPhoto
+    shot = [photoModifiers.shot]
+    color = [photoModifiers.color]
+    effect = [photoModifiers.effect]
+    genre = [CinematicModif.genre]
+
+CinematicModif
+  genre
+    adventure = , adventure
+    b-horror = , b-horror film screencap
+    epic fantasy = , epic fantasy
+    sci-fi = , sci-fi
+    film noir = , film noir
+    horror = , horror
+    indie = , indie film screencap
+    western = , western, wild west
+    thriller = , thriller
+photoModifiers
+  shot
+    extreme close-up = , extreme close-up
+    low-angle = , low-angle shot
+    high-angle = , high-angle shot
+    aerial = , aerial shot
+    close-up = , close-up shot
+    portrait = , close-up portrait
+    macro = , macro shot
+    wide-angle = , wide-angle shot
+    establishing = , establishing shot
+    over-the-shoulder = , over-the-shoulder shot
+    telephoto = , telephoto shot
+    handheld = , handheld shot
+    panoramic = , panoramic shot
+    dramatic = , dramatic angle, extreme angle shot
+  color
+    vibrant = , vibrant color grading
+    warm = , warm color grading
+    cool = , cool-toned color grading
+    pastel = , pastel color grading
+    bright = , bright color grading
+    muted = , muted color grading
+    neon = , neon color grading
+    duotone = , duotone color grading
+    monochrome = , monochrome
+    sterile = , cool-toned sterile colors
+  effect
+    bokeh = , bokeh
+    tilt-shift = , tilt-shift effect
+    soft focus = , soft focus
+    background blur = , shallow depth of field
+    chromatic aberrations = , chromatic aberrations
+    light leaks = , light leaks
+    rear projection = , rear projection
+    lens flare = , lens flare
+    long exposure = , long exposure
+    golden hour = , golden hour
+    silhouette = , silhouette
+    mist = , misty
+    reflection = , water reflection
+    sun flare = , sun flare
+    starburst = , starburst effect
+    light trails = , light trails
+
+landscapeModifiers
+  shot
+    aerial = , aerial view
+    low-angle = , low-angle view
+    high-angle = , high-angle view
+    wide-angle = , wide-angle view
+  color
+    vibrant = , vibrant color tones
+    warm = , warm-toned colors
+    cool = , cool-toned colors
+    pastel = , pastel tones
+    muted = , muted color grading
+    sunset = , sunset color tones
+    monochrome = , monochrome
+  effect
+    tilt-shift = , tilt-shift effect
+    golden hour = , golden hour
+    mist = , misty
+    reflection = , water reflection
+    sun flare = , sun flare
+    starburst = , starburst effect
+    light trails = , light trails
+    long exposure = , long exposure
+    soft focus = , soft focus
+
+t2iPerchanceStyles = [["🎲✴️ T2I Styles (11)🔻", "📷 Casual Photo", "📷 Professional Photo", "📷 1990s Photo", "📷 1980s Photo", "📷 1970s Photo", "📷 1960s Photo", "📷 1950s Photo", "📷 1940s Photo", "📷 1930s Photo", "📷 1920s Photo", "🎬 Cinematic"]]
+vionet20Styles = [["🎲✴️ Vionet20 Styles (3)🔻", "B&W Portrait", "*Realistic* Portraits", "Wetplate Photo Look"]]
+text2imageGenStyles = [["🎲✴️ text2image-gen Styles (3)🔻", "》Cinematic", "》Realistic images", "》Realistic humans"]]
+
+createBanList1 = [text2imageGenStyles.selectAll.join(",") + ",🎲✴️ T2I Styles (11)🔻," + vionet20Styles.selectAll.join(",")]
+banList1 = [String(createBanList1).split(",")]
+createBanList2 = [t2iPerchanceStyles.selectAll.join(",") + ",🎲✴️ text2image-gen Styles (3)🔻," + vionet20Styles.selectAll.join(",")]
+banList2 = [String(createBanList2).split(",")]
+createBanList3 = [t2iPerchanceStyles.selectAll.join(",") + ",🎲✴️ Vionet20 Styles (3)🔻," + text2imageGenStyles.selectAll.join(",")]
+banList3 = [String(createBanList3).split(",")]

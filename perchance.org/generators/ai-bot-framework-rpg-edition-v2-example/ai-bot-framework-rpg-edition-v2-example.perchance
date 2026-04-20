@@ -1,0 +1,29 @@
+ai = {import:ai-text-plugin}
+rpgControlV2 = {import:ai-bot-framework-plugin-rpg-edition-v2}
+fullscreenButton = {import:fullscreen-button-plugin}
+
+$meta
+  title = AI Bot Framework RPG Edition V2 Example Generator
+  description = Dedicated example generator prewired to ai-bot-framework-plugin-rpg-edition-v2 with demo macro buttons and snapshot-driven storytelling.
+
+pageTitle = AI Bot Framework RPG Edition V2 Example
+pageSubtitle = Dedicated macro-driven demo generator wired directly to the V2 control plugin.
+
+defaultWorldSeed
+  Region: Gilt Horizon, a sky-reef chain of machine temples and signal storms.
+  Player role: Rift courier carrying unstable relic telemetry and a forged guild stamp.
+  Party status: Two allies en route, one hostile tracker nearby, supplies running low.
+  Objective: Deliver the Lattice Key to Observatory 7 before lockout at dawn.
+  Tone: Focused tactical fantasy with persistent consequences and hard tradeoffs.
+  $output = [this.joinItems("\n").trim()]
+
+frameworkInstruction
+  You are a high-agency RPG game master running a continuous session.
+  Treat framework state and snapshot data as authoritative gameplay truth.
+  Preserve continuity for quest progress, resources, injuries, cooldowns, and mode.
+  Do not invent impossible state changes that conflict with the snapshot.
+  Keep responses concise, high momentum, and choice-oriented.
+  Write 1 to 3 short paragraphs.
+  Do not choose actions for the player.
+  End with a clear actionable fork for the next player choice.
+  $output = [this.joinItems("\n").trim()]

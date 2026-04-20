@@ -1,0 +1,205 @@
+<h2
+  style="
+    margin: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+  "
+>
+  Image Metadata Reader
+</h2>
+<div
+  id="imgMainWrapper"
+  style="
+    background: var(--blackwhite-rgba-05, rgba(0, 0, 0, 0.5));
+    border-radius: 5px;
+    width: max-content;
+    max-width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2px;
+    max-height: 95vh;
+    overflow-y: auto;
+  "
+></div>
+
+<div style="border-radius: 5px; position: fixed; bottom: 1.5rem; left: 0.5rem">
+  <div id="privateGalleryCtn97364827">
+    <button
+      style="
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px inset #0cccf7;
+        border-radius: 5px;
+      "
+      onclick="window.createMediaGallery().show()"
+    >
+      📁
+    </button>
+  </div>
+</div>
+<br />
+<span style="color: #fff"
+  >Generate new images here:<br /><a
+    href="https://perchance.org/ai-art-generator-advanced"
+    target="_blank"
+    >https://perchance.org/ai-art-generator-advanced</a
+  ></span
+>
+<script>
+  window.sITS = "active";
+  if (!window.t2i_privateGallerySave) {
+    window.createMediaGallery = dyn("mgp-adv");
+    console.log("Private gallery save created!");
+    function animateImageIntoTarget({
+      imgEl,
+      sourceEl,
+      targetEl,
+      durationMs,
+      wiggle,
+    } = {}) {
+      const srcRect = sourceEl.getBoundingClientRect();
+      let tgtRect = targetEl.getBoundingClientRect();
+      imgEl.style.cssText = `position:fixed;top:${srcRect.top}px;left:${srcRect.left}px;width:${srcRect.width}px;height:${srcRect.height}px;margin:0;pointer-events:none;z-index:9999;transition:top ${durationMs}ms cubic-bezier(.4,0,.2,1),left ${durationMs}ms cubic-bezier(.4,0,.2,1),width ${durationMs}ms cubic-bezier(.4,0,.2,1),height ${durationMs}ms cubic-bezier(.4,0,.2,1)`;
+      if (!imgEl.parentNode) document.body.appendChild(imgEl);
+      imgEl.getBoundingClientRect(); // force reflow
+      imgEl.style.top = tgtRect.top + tgtRect.height / 2 + "px";
+      imgEl.style.left = tgtRect.left + tgtRect.width / 2 + "px";
+      imgEl.style.width = imgEl.style.height = "0px";
+
+      imgEl.addEventListener(
+        "transitionend",
+        () => {
+          imgEl.remove();
+          if (!wiggle) return;
+          const anim = "wiggle" + Math.random().toString(36).slice(2);
+          const styleEl = Object.assign(document.createElement("style"), {
+            id: anim,
+            textContent: `@keyframes ${anim}{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-5deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(3deg)}}`,
+          });
+          document.head.appendChild(styleEl);
+          targetEl.style.animation = `${anim} 400ms ease-in-out`;
+          targetEl.addEventListener(
+            "animationend",
+            () => {
+              targetEl.style.animation = "";
+              styleEl.remove();
+            },
+            { once: true },
+          );
+        },
+        { once: true },
+      );
+    }
+    window.t2i_privateGallerySave = async function (btn, imageCtn) {
+      window.t2i_privateGallery = createMediaGallery(); // Assign it here so it updates the active gallery every time, otherwise the active gallery is the one that was active when the page loads.
+      try {
+        if (!imageCtn.querySelector("iframe").textToImagePluginOutput)
+          return alert(
+            "Please wait for the image to finish generating before using the 'private save' feature.",
+          );
+        btn.disabled = true;
+        let textToImagePluginOutput =
+          imageCtn.querySelector("iframe").textToImagePluginOutput;
+        let { prompt, negativePrompt, seed, guidanceScale } =
+          textToImagePluginOutput.inputs;
+        let imageBlob = await fetch(textToImagePluginOutput.dataUrl).then((r) =>
+          r.blob(),
+        );
+        await window.t2i_privateGallery.add(imageBlob, {
+          info: { prompt, negativePrompt, seed, guidanceScale },
+        });
+
+        privateGalleryCtn97364827.hidden = false;
+
+        // Animate the image into gallery button:
+        let imgEl = document.createElement("img");
+        imgEl.src = textToImagePluginOutput.dataUrl;
+        animateImageIntoTarget({
+          imgEl,
+          sourceEl: imageCtn.querySelector("iframe"),
+          targetEl: privateGalleryCtn97364827.querySelector("button"),
+          durationMs: 700,
+          wiggle: true,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      setTimeout(() => {
+        btn.disabled = false; // we re-enable since they can click the (within-iframe) 'regenerate' button on this image and submit another image
+      }, 1000);
+    };
+  }
+  window.onload = () => {
+    readerHtmlRender("#imgMainWrapper");
+  };
+</script>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(
+      20deg,
+      #000,
+      #ed0c13,
+      #ed0c93,
+      #cb0ced,
+      #aa0ced,
+      #710ced,
+      #482078,
+      #000
+    );
+    color: #000;
+  }
+
+  iframe.text-to-image-plugin-image-iframe {
+    max-width: 100%;
+  }
+
+  @keyframes rainbow-flicker {
+    0% {
+      background-color: red;
+    }
+    14% {
+      background-color: orange;
+    }
+    28% {
+      background-color: yellow;
+    }
+    42% {
+      background-color: green;
+    }
+    57% {
+      background-color: blue;
+    }
+    71% {
+      background-color: indigo;
+    }
+    85% {
+      background-color: violet;
+    }
+    100% {
+      background-color: red;
+    }
+  }
+  .rainbow-effect {
+    animation: rainbow-flicker 0.5s linear infinite;
+  }
+</style>
+
+<style>
+  .default-border {
+    border-top: 1px solid #0cccf7;
+    border-right: 1px solid #fa4dc3;
+    border-bottom: 1px solid #7933f2;
+    border-left: 1px solid #3350f2;
+    border-radius: 5px;
+  }
+  .box-1 {
+    background: var(--blackwhite, rgb(0, 0, 0));
+    color: var(--whiteblack, #fff) !important;
+  }
+  .box-08 {
+    background: var(--blackwhite-rgba-08, rgba(0, 0, 0, 0.8));
+    color: var(--whiteblack, #fff) !important;
+  }
+</style>

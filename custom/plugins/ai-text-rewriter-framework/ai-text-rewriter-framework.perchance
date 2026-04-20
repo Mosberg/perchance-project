@@ -1,0 +1,136 @@
+// Parser-safe framework for AI text rewriter generators.
+//
+// Expected generator-side symbols:
+// - async generate()
+// - generateModesHtml() -> returns <option>...</option> HTML
+//
+// Optional settings keys consumed by this framework:
+// - pageTitle
+// - metaDescription
+// - metaKeywords
+// - metaAuthor
+// - favicon
+// - helperLinkHtml
+// - modeOptionsHtml
+
+$output(settings) =>
+  settings = settings || {};
+
+  let pageTitle = settings.pageTitle || "AI Text Rewriter";
+  let metaDescription = settings.metaDescription || "Rewrite text in different styles with AI.";
+  let metaKeywords = settings.metaKeywords || "AI, text rewriter, rewrite";
+  let metaAuthor = settings.metaAuthor || "Perchance";
+  let favicon = settings.favicon || "https://user.uploads.dev/file/8c7563d0ece7c9ed36c8a83f8361a7a7.webp";
+  let helperLinkHtml = settings.helperLinkHtml || "Built with <a href=\"https://perchance.org/ai-text-plugin\" target=\"_blank\">ai-text-plugin</a>.";
+  let modeOptionsHtml = settings.modeOptionsHtml || "";
+
+  function escapeHtml(text) {
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  let storedMode = localStorage.currentMode || "custom";
+  let storedInstruction = escapeHtml(localStorage.instruction || "");
+  let storedResponse = escapeHtml(localStorage.response || "");
+  let storedCustomInstruction = escapeHtml(localStorage.customModeInstruction || "");
+  let shouldShowCustom = storedMode === "custom";
+  let hasResponse = storedResponse.length > 0;
+  let hasInstruction = storedInstruction.length > 0;
+
+  return `<html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="${favicon}" type="image/x-icon" />
+      <meta name="description" content="${metaDescription}" />
+      <meta name="keywords" content="${metaKeywords}" />
+      <meta name="author" content="${metaAuthor}" />
+      <title>${pageTitle}</title>
+    </head>
+    <body style="margin:0;padding:16px;background:#f4f7fb;color:#1f2a38;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.45;">
+      <div style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;">
+        <h1 style="margin:0 0 2px;text-align:center;font-size:1.75rem;font-weight:700;letter-spacing:-0.02em;">${pageTitle}</h1>
+
+        <section style="background:#ffffff;border:1px solid #d7dde5;border-radius:8px;padding:12px;">
+          <div style="margin:0 0 8px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6e7784;">Mode</div>
+          <select
+            id="currentModeEl"
+            style="width:100%;padding:10px 12px;border:1px solid #d7dde5;border-radius:6px;background:#fff;color:#1f2a38;"
+            onchange="localStorage.currentMode=this.value;customModeInstructionCtn.style.display=this.value==='custom'?'':'none';"
+          >
+            ${modeOptionsHtml}
+          </select>
+        </section>
+
+        <section id="customModeInstructionCtn" style="background:#ffffff;border:1px solid #d7dde5;border-radius:8px;padding:12px;${shouldShowCustom ? "" : "display:none;"}">
+          <div style="margin:0 0 8px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6e7784;">Custom Instruction</div>
+          <textarea
+            id="customModeInstructionEl"
+            placeholder="Type your custom rewriting instruction here."
+            style="width:100%;min-height:84px;padding:10px 12px;border:1px solid #d7dde5;border-radius:6px;background:#fff;color:#1f2a38;"
+            oninput="localStorage.customModeInstruction=this.value;"
+          >${storedCustomInstruction}</textarea>
+        </section>
+
+        <section style="background:#ffffff;border:1px solid #d7dde5;border-radius:8px;padding:12px;">
+          <div style="margin:0 0 8px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6e7784;">Input Text</div>
+          <div style="position:relative;">
+            <textarea
+              id="inputTextEl"
+              placeholder="Paste the text that you wish to convert."
+              style="width:100%;min-height:140px;padding:10px 12px;border:1px solid #d7dde5;border-radius:6px;background:#fff;color:#1f2a38;"
+              oninput="inputTextDeleteBtn.style.display=this.value.trim()===''?'none':'';localStorage.instruction=this.value;"
+            >${storedInstruction}</textarea>
+            <button
+              id="inputTextDeleteBtn"
+              data-mode="delete"
+              style="position:absolute;right:8px;bottom:8px;padding:6px 10px;border:none;border-radius:6px;background:#c53d3d;color:#fff;cursor:pointer;${hasInstruction ? "" : "display:none;"}"
+              onclick="this.dataset.mode==='delete'?(window.deletedInputText=inputTextEl.value,inputTextEl.value='',this.dataset.mode='undo',this.textContent='undo'):(inputTextEl.value=window.deletedInputText||'',this.dataset.mode='delete',this.textContent='delete');localStorage.instruction=inputTextEl.value;"
+            >delete</button>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;">
+            <button
+              id="generateBtn"
+              style="padding:9px 14px;border:none;border-radius:6px;background:#2d78d2;color:#fff;font-weight:600;cursor:pointer;"
+              onclick="responseEl.value='';responseDeleteBtn.style.display='none';continueBtn.disabled=true;bottomContinueBtn.disabled=true;generateBtn.textContent='Convert Text';generate();"
+            >${hasResponse ? "Regenerate" : "Convert Text"}</button>
+            <button id="stopBtn" style="display:none;padding:9px 14px;border:none;border-radius:6px;background:#8a2a2a;color:#fff;font-weight:600;cursor:pointer;">Stop</button>
+            <div id="loaderEl" style="min-height:20px;display:inline-flex;align-items:center;"></div>
+          </div>
+        </section>
+
+        <section style="background:#ffffff;border:1px solid #d7dde5;border-radius:8px;padding:12px;">
+          <div style="margin:0 0 8px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6e7784;">Output Text</div>
+          <div style="position:relative;">
+            <textarea
+              id="responseEl"
+              placeholder="The converted text will appear here."
+              style="width:100%;min-height:300px;padding:10px 12px;border:1px solid #d7dde5;border-radius:6px;background:#fff;color:#1f2a38;"
+              oninput="isEmpty=this.value.trim()==='';continueBtn.disabled=isEmpty;bottomContinueBtn.disabled=isEmpty;generateBtn.textContent=isEmpty?'Convert Text':'Regenerate';responseDeleteBtn.style.display=isEmpty?'none':'';localStorage.response=this.value;retryBtn.disabled=true;"
+            >${storedResponse}</textarea>
+            <button
+              id="responseDeleteBtn"
+              data-mode="delete"
+              style="position:absolute;right:8px;bottom:8px;padding:6px 10px;border:none;border-radius:6px;background:#c53d3d;color:#fff;cursor:pointer;${hasResponse ? "" : "display:none;"}"
+              onclick="this.dataset.mode==='delete'?(stopBtn.offsetParent?stopBtn.click():null,window.deletedResponse=responseEl.value,responseEl.value='',this.dataset.mode='undo',this.textContent='undo'):(responseEl.value=window.deletedResponse||'',this.dataset.mode='delete',this.textContent='delete');localStorage.response=responseEl.value;"
+            >delete</button>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;">
+            <button id="continueBtn" ${hasResponse ? "" : "disabled"} style="padding:9px 14px;border:none;border-radius:6px;background:#2d78d2;color:#fff;font-weight:600;cursor:pointer;" onclick="generate();">Continue</button>
+            <button id="retryBtn" disabled style="padding:9px 14px;border:none;border-radius:6px;background:#2d78d2;color:#fff;font-weight:600;cursor:pointer;" onclick="responseEl.value=window.responseContentBeforeLastGenerate||responseEl.value;generate();">Retry</button>
+            <button id="bottomStopBtn" style="display:none;padding:9px 14px;border:none;border-radius:6px;background:#8a2a2a;color:#fff;font-weight:600;cursor:pointer;">Stop</button>
+          </div>
+
+          <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+            <button id="bottomContinueBtn" ${hasResponse ? "" : "disabled"} style="padding:9px 14px;border:none;border-radius:6px;background:#2d78d2;color:#fff;font-weight:600;cursor:pointer;" onclick="generate();">Continue</button>
+          </div>
+        </section>
+
+        <p style="margin:4px 0 0;text-align:center;font-size:0.85rem;color:#6e7784;">${helperLinkHtml}</p>
+      </div>
+    </body>
+  </html>`;

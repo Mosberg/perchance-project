@@ -1,0 +1,1027 @@
+<!-- Main container with overall styling -->
+<div style="display:flex
+; flex-direction:column; max-width:1200px; margin:0 auto; text-align:left; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height:100vh; padding:10px;">
+
+  <!-- Character Creation Screen -->
+  <div id="characterCreationCtn" style="background-color:#f0f0f0; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2);">
+    <h1 style="color:#333; text-align:center; margin-bottom:30px;">AI Romance RPG</h1>
+
+    <div style="display:flex; flex-wrap:wrap; gap:20px;">
+      <!-- Player Character Creation -->
+      <div style="flex:1; min-width:300px; background:#fff; padding:15px; border-radius:8px;">
+        <h2>Your Character</h2>
+
+        <div class="inputGroup" style="margin-bottom:15px;">
+          <label for="playerNameInput" style="display:block; margin-bottom:5px; font-weight:bold;">Name:</label>
+          <input id="playerNameInput" type="text" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+        </div>
+
+        <div class="inputGroup" style="margin-bottom:15px;">
+          <label for="playerAppearanceInput" style="display:block; margin-bottom:5px; font-weight:bold;">Appearance:</label>
+          <textarea id="playerAppearanceInput" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; height:100px; resize:vertical;"></textarea>
+        </div>
+
+        <div class="inputGroup" style="margin-bottom:15px;">
+          <label for="playerPersonalitySelect" style="display:block; margin-bottom:5px; font-weight:bold;">Personality:</label>
+          <select id="playerPersonalitySelect" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            <option value="shy">Shy and Reserved</option>
+            <option value="confident">Confident and Assertive</option>
+            <option value="playful">Playful and Humorous</option>
+            <option value="intellectual">Intellectual and Curious</option>
+            <option value="mysterious">Mysterious and Enigmatic</option>
+            <option value="caring">Caring and Compassionate</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Romantic Interest Creation -->
+      <div style="flex:1; min-width:300px; background:#fff; padding:15px; border-radius:8px;">
+        <h2>Your Romantic Interest</h2>
+
+        <div class="inputGroup" style="margin-bottom:15px;">
+          <label for="aiNameInput" style="display:block; margin-bottom:5px; font-weight:bold;">Name:</label>
+          <input id="aiNameInput" type="text" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+        </div>
+
+        <div class="inputGroup" style="margin-bottom:15px;">
+          <label for="aiAppearanceInput" style="display:block; margin-bottom:5px; font-weight:bold;">Appearance:</label>
+          <textarea id="aiAppearanceInput" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; height:100px; resize:vertical;"></textarea>
+        </div>
+
+        <div class="inputGroup" style="margin-bottom:15px;">
+          <label for="aiPersonalitySelect" style="display:block; margin-bottom:5px; font-weight:bold;">Personality:</label>
+          <select id="aiPersonalitySelect" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+            <option value="flirty">Flirty and Confident</option>
+            <option value="serious">Serious and Intense</option>
+            <option value="sweet">Sweet and Nurturing</option>
+            <option value="tsundere">Tsundere (Cold outside, warm inside)</option>
+            <option value="mysterious">Mysterious and Alluring</option>
+            <option value="protective">Protective and Loyal</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario -->
+    <div style="background:#fff; padding:15px; border-radius:8px; margin-top:20px;">
+      <h2>Scenario</h2>
+      <div class="inputGroup">
+        <label for="scenarioInput" style="display:block; margin-bottom:5px; font-weight:bold;">Describe your scenario:</label>
+        <textarea id="scenarioInput" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; height:120px; resize:vertical;" placeholder="Example: We meet at a coffee shop during a rainstorm. We're both stranded as the storm gets worse..."></textarea>
+      </div>
+    </div>
+
+    <!-- Start Game Button -->
+    <div style="text-align:center; margin-top:30px;">
+      <button id="startGameBtn" style="background-color:#4CAF50; color:white; padding:12px 30px; border:none; border-radius:6px; font-size:18px; cursor:pointer; transition:all 0.3s;" onmouseover="this.style.backgroundColor='#45a049'" onmouseout="this.style.backgroundColor='#4CAF50'" onclick="startGame()">Start Your Romance</button>
+    </div>
+  </div>
+
+  <!-- Game Interface -->
+  <div id="gameInterfaceCtn" style="display:none; flex:1; display:flex; gap:20px; margin-top:20px;">
+
+    <!-- Left Panel - Story and Choices -->
+    <div id="leftPanelCtn" style="flex:2; display:flex; flex-direction:column; min-width:400px;">
+
+      <!-- Dialog History Tabs -->
+      <div id="dialogTabsCtn" style="display:flex; margin-bottom:10px;">
+        <div class="dialogTab" style="flex:1; text-align:center; padding:8px; background-color:#e0e0e0; border-radius:5px 5px 0 0; cursor:pointer; margin-right:5px;" onclick="showDialogHistory('recent')">Previous 5 Lines</div>
+        <div class="dialogTab" style="flex:1; text-align:center; padding:8px; background-color:#e0e0e0; border-radius:5px 5px 0 0; cursor:pointer; margin-right:5px;" onclick="showDialogHistory('earlier')">Earlier Exchanges</div>
+        <div class="dialogTab" style="flex:1; text-align:center; padding:8px; background-color:#e0e0e0; border-radius:5px 5px 0 0; cursor:pointer;" onclick="showDialogHistory('full')">Full Log</div>
+      </div>
+
+      <!-- Dialog History Window (Initially Hidden) -->
+      <div id="dialogHistoryCtn" style="display:none; background-color:#fff; border-radius:10px; padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.1); margin-bottom:10px; max-height:400px; overflow-y:auto;">
+        <div id="dialogHistoryTextEl" style="white-space:pre-wrap; text-align:left;"></div>
+      </div>
+
+      <!-- Main Text Window -->
+      <div id="mainTextCtn" style="flex:1; background-color:#fff; border-radius:10px; padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.1); overflow-y:auto; height:400px;">
+        <div id="storyTextEl" style="white-space:pre-wrap; text-align:left;"></div>
+      </div>
+
+      <!-- Choice Buttons -->
+      <div id="choicesCtn" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
+        <div class="choiceBtnCtn" style="position:relative; display:none;">
+          <button class="choiceBtn" style="width:100%; padding:12px; background-color:#fff; border:1px solid #ddd; border-radius:6px; text-align:left; cursor:pointer; transition:all 0.2s;"
+                  onmouseover="this.style.backgroundColor='#f5f5f5'; showTooltip(this)"
+                  onmouseout="this.style.backgroundColor='#fff'; hideTooltip(this)"
+                  onclick="selectChoice(0)">Choice 1</button>
+          <div class="tooltipText" style="position:absolute; top:-40px; left:0; background-color:#333; color:#fff; padding:5px 10px; border-radius:4px; display:none;"></div>
+        </div>
+        <div class="choiceBtnCtn" style="position:relative; display:none;">
+          <button class="choiceBtn" style="width:100%; padding:12px; background-color:#fff; border:1px solid #ddd; border-radius:6px; text-align:left; cursor:pointer; transition:all 0.2s;"
+                  onmouseover="this.style.backgroundColor='#f5f5f5'; showTooltip(this)"
+                  onmouseout="this.style.backgroundColor='#fff'; hideTooltip(this)"
+                  onclick="selectChoice(1)">Choice 2</button>
+          <div class="tooltipText" style="position:absolute; top:-40px; left:0; background-color:#333; color:#fff; padding:5px 10px; border-radius:4px; display:none;"></div>
+        </div>
+        <div class="choiceBtnCtn" style="position:relative; display:none;">
+          <button class="choiceBtn" style="width:100%; padding:12px; background-color:#fff; border:1px solid #ddd; border-radius:6px; text-align:left; cursor:pointer; transition:all 0.2s;"
+                  onmouseover="this.style.backgroundColor='#f5f5f5'; showTooltip(this)"
+                  onmouseout="this.style.backgroundColor='#fff'; hideTooltip(this)"
+                  onclick="selectChoice(2)">Choice 3</button>
+          <div class="tooltipText" style="position:absolute; top:-40px; left:0; background-color:#333; color:#fff; padding:5px 10px; border-radius:4px; display:none;"></div>
+        </div>
+        <div class="choiceBtnCtn" style="position:relative; display:none;">
+          <button class="choiceBtn" style="width:100%; padding:12px; background-color:#fff; border:1px solid #ddd; border-radius:6px; text-align:left; cursor:pointer; transition:all 0.2s;"
+                  onmouseover="this.style.backgroundColor='#f5f5f5'; showTooltip(this)"
+                  onmouseout="this.style.backgroundColor='#fff'; hideTooltip(this)"
+                  onclick="selectChoice(3)">Choice 4</button>
+          <div class="tooltipText" style="position:absolute; top:-40px; left:0; background-color:#333; color:#fff; padding:5px 10px; border-radius:4px; display:none;"></div>
+        </div>
+        <div class="choiceBtnCtn" style="position:relative; display:none;">
+          <button class="choiceBtn" style="width:100%; padding:12px; background-color:#fff; border:1px solid #ddd; border-radius:6px; text-align:left; cursor:pointer; transition:all 0.2s;"
+                  onmouseover="this.style.backgroundColor='#f5f5f5'; showTooltip(this)"
+                  onmouseout="this.style.backgroundColor='#fff'; hideTooltip(this)"
+                  onclick="selectChoice(4)">Choice 5</button>
+          <div class="tooltipText" style="position:absolute; top:-40px; left:0; background-color:#333; color:#fff; padding:5px 10px; border-radius:4px; display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel - RPG Elements -->
+    <div id="rightPanelCtn" style="flex:1; min-width:300px;">
+
+      <!-- Player Level & RPG Stats -->
+      <div class="rpgWindowCtn" style="background-color:#fff; border-radius:10px; padding:10px; margin-bottom:15px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+        <div class="windowHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">
+          <h3 style="margin:0;">🎖 Player Level & Stats</h3>
+          <button class="toggleBtn" onclick="toggleWindow(this.parentElement.parentElement)" style="background:none; border:none; font-size:18px; cursor:pointer;">-</button>
+        </div>
+        <div class="windowContent">
+          <div class="levelBar" style="background-color:#f0f0f0; height:20px; border-radius:10px; margin-bottom:10px; overflow:hidden;">
+            <div id="levelProgressEl" style="background-color:gold; height:100%; width:5%; transition:width 1s;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span>Level:</span>
+            <span id="playerLevelEl">1</span>
+          </div>
+          <div id="statsListEl" style="margin-top:10px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+              <span>Charisma:</span>
+              <span>5</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+              <span>Empathy:</span>
+              <span>5</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+              <span>Strength:</span>
+              <span>5</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+              <span>Luck:</span>
+              <span>5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Statistics & Reactions -->
+      <div class="rpgWindowCtn" style="background-color:#fff; border-radius:10px; padding:10px; margin-bottom:15px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+        <div class="windowHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">
+          <h3 style="margin:0;">📊 Reactions</h3>
+          <button class="toggleBtn" onclick="toggleWindow(this.parentElement.parentElement)" style="background:none; border:none; font-size:18px; cursor:pointer;">-</button>
+        </div>
+        <div class="windowContent">
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span>Affection:</span>
+            <span id="affectionEl">0</span>
+          </div>
+          <div id="reactionsListEl" style="margin-top:10px; max-height:150px; overflow-y:auto;">
+            <!-- Reactions will be added here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory -->
+      <div class="rpgWindowCtn" style="background-color:#fff; border-radius:10px; padding:10px; margin-bottom:15px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+        <div class="windowHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">
+          <h3 style="margin:0;">🎒 Inventory</h3>
+          <button class="toggleBtn" onclick="toggleWindow(this.parentElement.parentElement)" style="background:none; border:none; font-size:18px; cursor:pointer;">-</button>
+        </div>
+        <div class="windowContent">
+          <div id="inventoryListEl" style="margin-top:10px; max-height:150px; overflow-y:auto;">
+            <div style="color:#888; text-align:center; font-style:italic;">Inventory is empty</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side Quest -->
+      <div class="rpgWindowCtn" style="background-color:#fff; border-radius:10px; padding:10px; margin-bottom:15px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+        <div class="windowHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">
+          <h3 id="sideQuestTitleEl" style="margin:0;">🧩 Side Quest</h3>
+          <button class="toggleBtn" onclick="toggleWindow(this.parentElement.parentElement)" style="background:none; border:none; font-size:18px; cursor:pointer;">-</button>
+        </div>
+        <div class="windowContent">
+          <div id="sideQuestContentEl" style="margin-top:10px;">
+            <div style="color:#888; text-align:center; font-style:italic;">No active side quests</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location & Environment -->
+      <div class="rpgWindowCtn" style="background-color:#fff; border-radius:10px; padding:10px; margin-bottom:15px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+        <div class="windowHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">
+          <h3 style="margin:0;">🌦 Location</h3>
+          <button class="toggleBtn" onclick="toggleWindow(this.parentElement.parentElement)" style="background:none; border:none; font-size:18px; cursor:pointer;">-</button>
+        </div>
+        <div class="windowContent">
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span>Where:</span>
+            <span id="locationNameEl">Unknown</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span>Time:</span>
+            <span id="timeOfDayEl">Unknown</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span>Weather:</span>
+            <span id="weatherEl">Unknown</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span>Inside/Outside:</span>
+            <span id="indoorOutdoorEl">Unknown</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div id="loadingCtn" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; flex-direction:column;">
+    <div style="width:80px; height:80px; border:8px solid #f3f3f3; border-top:8px solid #3498db; border-radius:50%; animation:spin 1s linear infinite;"></div>
+    <div id="loadingTextEl" style="color:white; margin-top:20px; font-size:18px;">Generating story...</div>
+  </div>
+
+  <style>
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .tooltipText {
+      z-index: 10;
+      white-space: nowrap;
+    }
+    .blinkingTitle {
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes blink {
+      from { color: #4CAF50; }
+      to { color: #FF9800; }
+    }
+    .dialogTab {
+      transition: all 0.3s;
+    }
+    .dialogTab:hover {
+      background-color: #d0d0d0;
+    }
+    .dialogTab.active {
+      background-color: #fff;
+      font-weight: bold;
+    }
+  </style>
+
+  <script>
+    // Game state
+    let gameState = {
+      player: {
+        name: "",
+        appearance: "",
+        personality: "",
+        level: 1,
+        stats: {
+          charisma: 5,
+          empathy: 5,
+          strength: 5,
+          luck: 5
+        },
+        inventory: []
+      },
+      romanticInterest: {
+        name: "",
+        appearance: "",
+        personality: "",
+        affection: 0
+      },
+      scenario: "",
+      reactions: [],
+      location: {
+        name: "Unknown",
+        timeOfDay: "Unknown",
+        weather: "Unknown",
+        indoorOutdoor: "Unknown"
+      },
+      sideQuest: null,
+      storyHistory: [],
+      dialogHistory: [], // Store all dialogue exchanges including player choices and AI responses
+      currentDialogExchanges: [] // Store only the current 3-5 exchanges to display
+    };
+
+    // Start the game
+    async function startGame() {
+      // Validate inputs
+      if (!playerNameInput.value || !aiNameInput.value || !scenarioInput.value) {
+        alert("Please fill in all required fields!");
+        return;
+      }
+
+      // Store player and romantic interest information
+      gameState.player.name = playerNameInput.value;
+      gameState.player.appearance = playerAppearanceInput.value;
+      gameState.player.personality = playerPersonalitySelect.value;
+
+      gameState.romanticInterest.name = aiNameInput.value;
+      gameState.romanticInterest.appearance = aiAppearanceInput.value;
+      gameState.romanticInterest.personality = aiPersonalitySelect.value;
+
+      gameState.scenario = scenarioInput.value;
+
+      // Show loading
+      loadingCtn.style.display = "flex";
+      loadingTextEl.textContent = "Creating your romantic adventure...";
+
+      // Hide character creation and show game interface
+      characterCreationCtn.style.display = "none";
+      gameInterfaceCtn.style.display = "flex";
+
+      // Generate initial story and choices
+      await generateStory();
+
+      // Hide loading
+      loadingCtn.style.display = "none";
+    }
+
+    // Generate story and choices using AI
+    async function generateStory() {
+      // Show loading
+      loadingCtn.style.display = "flex";
+
+      try {
+        // Get existing story thus far
+        let storyContext = gameState.storyHistory.join("\n\n");
+
+        // Generate the next part of the story
+        let prompt = `You are running an AI romance RPG chat. You're both the storyteller and you roleplay as ${gameState.romanticInterest.name}, the romantic interest.
+
+Player character: ${gameState.player.name}, ${gameState.player.appearance}, Personality: ${gameState.player.personality}
+Romantic interest: ${gameState.romanticInterest.name}, ${gameState.romanticInterest.appearance}, Personality: ${gameState.romanticInterest.personality}
+Scenario: ${gameState.scenario}
+
+${storyContext ? "Story so far: " + storyContext : "This is the beginning of the story."}
+
+Continue the story from a BRIEF first-person perspective (as the player). Keep descriptions concise. Include ONLY direct dialogue from ${gameState.romanticInterest.name}. End with a situation where the player needs to make a choice.
+
+Then, provide EXACTLY 5 possible choices for what the player could do next. Format each choice as "Choice: [brief description]" followed by "Tooltip: [longer explanation of potential consequences]" on the next line.
+
+Additionally, provide the following environmental details:
+Location: [where the scene takes place]
+Time: [time of day]
+Weather: [current weather]
+Inside/Outside: [whether the characters are indoors or outdoors]`;
+
+        let response = await generateText(prompt);
+
+        // Parse the response
+        let storyPart = response.split("Choice:")[0].trim();
+        let choices = [];
+
+        // Extract choices and tooltips
+        let choiceParts = response.match(/Choice:(.*?)(?=Choice:|Location:|$)/gs);
+        if (choiceParts && choiceParts.length > 0) {
+          for (let i = 0; i < Math.min(choiceParts.length, 5); i++) {
+            let choiceText = choiceParts[i].replace("Choice:", "").trim();
+            let tooltip = "";
+
+            if (choiceText.includes("Tooltip:")) {
+              let parts = choiceText.split("Tooltip:");
+              choiceText = parts[0].trim();
+              tooltip = parts[1].trim();
+            }
+
+            choices.push({text: choiceText, tooltip: tooltip});
+          }
+        }
+
+        // Extract location details
+        let locationMatch = response.match(/Location:(.*?)(?=\n|$)/);
+        let timeMatch = response.match(/Time:(.*?)(?=\n|$)/);
+        let weatherMatch = response.match(/Weather:(.*?)(?=\n|$)/);
+        let indoorOutdoorMatch = response.match(/Inside\/Outside:(.*?)(?=\n|$)/);
+
+        if (locationMatch) gameState.location.name = locationMatch[1].trim();
+        if (timeMatch) gameState.location.timeOfDay = timeMatch[1].trim();
+        if (weatherMatch) gameState.location.weather = weatherMatch[1].trim();
+        if (indoorOutdoorMatch) gameState.location.indoorOutdoor = indoorOutdoorMatch[1].trim();
+
+        // Add AI response to dialogue history
+        gameState.dialogHistory.push({
+          type: "ai",
+          text: storyPart
+        });
+
+        // Update the story
+        updateStory(storyPart, choices);
+
+        // Update location display
+        updateLocationDisplay();
+
+        // Add to story history
+        gameState.storyHistory.push(storyPart);
+
+        // Occasionally trigger a side quest (10% chance if no active side quest)
+        if (!gameState.sideQuest && Math.random() < 0.1) {
+          triggerSideQuest();
+        }
+      } catch (error) {
+        console.error("Error generating story:", error);
+        storyTextEl.innerHTML += "\n\nAn error occurred while generating the story. Please try again.";
+      }
+
+      // Hide loading
+      loadingCtn.style.display = "none";
+    }
+
+    // Update the story display and choices
+    function updateStory(storyText, choices) {
+      // Update current dialogue exchanges
+      if (gameState.currentDialogExchanges.length >= 5) {
+        // Remove oldest exchanges to maintain only 3-5 exchanges
+        gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+      }
+
+      // Add new AI response
+      gameState.currentDialogExchanges.push({
+        type: "ai",
+        text: storyText
+      });
+
+      // Display only the current exchanges
+      refreshDialogDisplay();
+
+      // Update choice buttons
+      const choiceBtnContainers = document.querySelectorAll('.choiceBtnCtn');
+      const choiceBtns = document.querySelectorAll('.choiceBtn');
+      const tooltips = document.querySelectorAll('.tooltipText');
+
+      // Hide all choices first
+      choiceBtnContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+
+      // Display only available choices
+      for (let i = 0; i < choices.length; i++) {
+        if (i < choiceBtnContainers.length) {
+          choiceBtnContainers[i].style.display = 'block';
+          choiceBtns[i].textContent = choices[i].text;
+          choiceBtns[i].dataset.tooltip = choices[i].tooltip;
+        }
+      }
+    }
+
+    // Handle choice selection
+    async function selectChoice(index) {
+      const choiceBtns = document.querySelectorAll('.choiceBtn');
+      if (index >= choiceBtns.length) return;
+
+      const choiceText = choiceBtns[index].textContent;
+
+      // Add player's choice to dialogue history
+      gameState.dialogHistory.push({
+        type: "player",
+        text: choiceText
+      });
+
+      // Add to current dialogue exchanges
+      if (gameState.currentDialogExchanges.length >= 5) {
+        // Remove oldest exchange
+        gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+      }
+
+      gameState.currentDialogExchanges.push({
+        type: "player",
+        text: choiceText
+      });
+
+      // Refresh dialogue display
+      refreshDialogDisplay();
+
+      // Hide all choice buttons
+      const choiceBtnContainers = document.querySelectorAll('.choiceBtnCtn');
+      choiceBtnContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+
+      // Add to story history
+      gameState.storyHistory.push(choiceText);
+
+      // Random chance to increase/decrease player stats or affection
+      let chanceResult = Math.random();
+      if (chanceResult < 0.3) {
+        // Positive reaction
+        let affectionGain = Math.floor(Math.random() * 3) + 1;
+        gameState.romanticInterest.affection += affectionGain;
+        addReaction("liked", `+${affectionGain} affection`, "Your choice was well received!");
+      } else if (chanceResult > 0.8) {
+        // Negative reaction
+        let affectionLoss = Math.floor(Math.random() * 2) + 1;
+        gameState.romanticInterest.affection -= affectionLoss;
+        addReaction("disliked", `-${affectionLoss} affection`, "That didn't go over well...");
+      } else {
+        // Neutral reaction
+        addReaction("neutral", "+0 affection", "A neutral response.");
+      }
+
+      // Update affection display
+      affectionEl.textContent = gameState.romanticInterest.affection;
+
+      // Check for level up (every 10 affection points)
+      if (gameState.romanticInterest.affection > 0 && gameState.romanticInterest.affection % 10 === 0) {
+        levelUp();
+      }
+
+      // Generate next part of story
+      await generateStory();
+    }
+
+    // Refresh the dialogue display with current exchanges
+    function refreshDialogDisplay() {
+      storyTextEl.innerHTML = "";
+
+      // Display current exchanges
+      for (let i = 0; i < gameState.currentDialogExchanges.length; i++) {
+        let exchange = gameState.currentDialogExchanges[i];
+        if (exchange.type === "player") {
+          storyTextEl.innerHTML += `<div style="margin-bottom:10px; color:#6EE5FF;">${exchange.text}</div>`;
+        } else {
+          storyTextEl.innerHTML += `<div style="margin-bottom:10px;">${exchange.text}</div>`;
+        }
+      }
+
+      // Auto-scroll to bottom
+      mainTextCtn.scrollTop = mainTextCtn.scrollHeight;
+    }
+
+    // Show dialogue history based on selected tab
+    function showDialogHistory(type) {
+      // Activate the selected tab
+      const tabs = document.querySelectorAll('.dialogTab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      const tabIndex = type === 'recent' ? 0 : (type === 'earlier' ? 1 : 2);
+      tabs[tabIndex].classList.add('active');
+
+      // Show the history container
+      dialogHistoryCtn.style.display = 'block';
+      dialogHistoryTextEl.innerHTML = "";
+
+      // Display appropriate dialogue history
+      if (type === 'recent') {
+        // Previous 5 lines
+        const recentHistory = gameState.dialogHistory.slice(-10, -5);
+        if (recentHistory.length === 0) {
+          dialogHistoryTextEl.innerHTML = "<p style='text-align:center; color:#888;'>No previous dialogue yet</p>";
+        } else {
+          for (let i = 0; i < recentHistory.length; i++) {
+            let exchange = recentHistory[i];
+            if (exchange.type === "player") {
+              dialogHistoryTextEl.innerHTML += `<div style="margin-bottom:10px; color:#6EE5FF;">${exchange.text}</div>`;
+            } else {
+              dialogHistoryTextEl.innerHTML += `<div style="margin-bottom:10px;">${exchange.text}</div>`;
+            }
+          }
+        }
+      } else if (type === 'earlier') {
+        // Earlier exchanges
+        const earlierHistory = gameState.dialogHistory.slice(0, -10);
+        if (earlierHistory.length === 0) {
+          dialogHistoryTextEl.innerHTML = "<p style='text-align:center; color:#888;'>No earlier dialogue yet</p>";
+        } else {
+          for (let i = 0; i < earlierHistory.length; i++) {
+            let exchange = earlierHistory[i];
+            if (exchange.type === "player") {
+              dialogHistoryTextEl.innerHTML += `<div style="margin-bottom:10px; color:#6EE5FF;">${exchange.text}</div>`;
+            } else {
+              dialogHistoryTextEl.innerHTML += `<div style="margin-bottom:10px;">${exchange.text}</div>`;
+            }
+          }
+        }
+      } else {
+        // Full log
+        if (gameState.dialogHistory.length === 0) {
+          dialogHistoryTextEl.innerHTML = "<p style='text-align:center; color:#888;'>No dialogue yet</p>";
+        } else {
+          for (let i = 0; i < gameState.dialogHistory.length; i++) {
+            let exchange = gameState.dialogHistory[i];
+            if (exchange.type === "player") {
+              dialogHistoryTextEl.innerHTML += `<div style="margin-bottom:10px; color:#6EE5FF;">${exchange.text}</div>`;
+            } else {
+              dialogHistoryTextEl.innerHTML += `<div style="margin-bottom:10px;">${exchange.text}</div>`;
+            }
+          }
+        }
+      }
+
+      // Auto-scroll to top
+      dialogHistoryCtn.scrollTop = 0;
+    }
+
+    // Level up the player
+    function levelUp() {
+      gameState.player.level++;
+      playerLevelEl.textContent = gameState.player.level;
+
+      // Update level progress bar
+      let progressPercent = ((gameState.player.level - 1) / 99) * 100;
+      levelProgressEl.style.width = `${progressPercent}%`;
+
+      // Randomly increase one stat
+      let stats = ['charisma', 'empathy', 'strength', 'luck'];
+      let randomStat = stats[Math.floor(Math.random() * stats.length)];
+      gameState.player.stats[randomStat]++;
+
+      // Update stats display
+      updateStatsDisplay();
+
+      // Add level-up message
+      gameState.dialogHistory.push({
+        type: "system",
+        text: `Level Up! You are now level ${gameState.player.level}. Your ${randomStat} increased!`
+      });
+
+      if (gameState.currentDialogExchanges.length >= 5) {
+        gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+      }
+
+      gameState.currentDialogExchanges.push({
+        type: "system",
+        text: `Level Up! You are now level ${gameState.player.level}. Your ${randomStat} increased!`
+      });
+
+      refreshDialogDisplay();
+    }
+
+    // Add a reaction to the reactions list
+    function addReaction(type, points, message) {
+      let reaction = {type, points, message, timestamp: new Date()};
+      gameState.reactions.unshift(reaction);
+
+      // Limit to last 10 reactions
+      if (gameState.reactions.length > 10) {
+        gameState.reactions.pop();
+      }
+
+      // Update reactions display
+      updateReactionsDisplay();
+    }
+
+    // Add an item to inventory
+    function addInventoryItem(name, description) {
+      let item = {name, description};
+      gameState.player.inventory.push(item);
+
+      // Update inventory display
+      updateInventoryDisplay();
+
+      // Add message to dialogue
+      gameState.dialogHistory.push({
+        type: "system",
+        text: `Item Added to Inventory: ${name}`
+      });
+
+      if (gameState.currentDialogExchanges.length >= 5) {
+        gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+      }
+
+      gameState.currentDialogExchanges.push({
+        type: "system",
+        text: `Item Added to Inventory: ${name}`
+      });
+
+      refreshDialogDisplay();
+    }
+
+    // Trigger a side quest
+    function triggerSideQuest() {
+      gameState.sideQuest = {
+        title: "Secret Admirer",
+        description: "Find out who sent the mysterious note",
+        completed: false,
+        timeLimit: 5 // Number of choices before it expires
+      };
+
+      // Update side quest display
+      updateSideQuestDisplay();
+
+      // Make the side quest title blink
+      sideQuestTitleEl.classList.add("blinkingTitle");
+    }
+
+    // Toggle window content
+    function toggleWindow(windowEl) {
+      const content = windowEl.querySelector('.windowContent');
+      const toggleBtn = windowEl.querySelector('.toggleBtn');
+
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        toggleBtn.textContent = '-';
+      } else {
+        content.style.display = 'none';
+        toggleBtn.textContent = '+';
+      }
+    }
+
+    // Show tooltip on hover
+    function showTooltip(buttonEl) {
+      const tooltip = buttonEl.parentElement.querySelector('.tooltipText');
+      if (buttonEl.dataset.tooltip) {
+        tooltip.textContent = buttonEl.dataset.tooltip;
+        tooltip.style.display = 'block';
+      }
+    }
+
+    // Hide tooltip on mouseout
+    function hideTooltip(buttonEl) {
+      const tooltip = buttonEl.parentElement.querySelector('.tooltipText');
+      tooltip.style.display = 'none';
+    }
+
+    // Update the location display
+    function updateLocationDisplay() {
+      locationNameEl.textContent = gameState.location.name;
+      timeOfDayEl.textContent = gameState.location.timeOfDay;
+      weatherEl.textContent = gameState.location.weather;
+      indoorOutdoorEl.textContent = gameState.location.indoorOutdoor;
+    }
+
+    // Update the stats display
+    function updateStatsDisplay() {
+      statsListEl.innerHTML = '';
+      for (const [stat, value] of Object.entries(gameState.player.stats)) {
+        statsListEl.innerHTML += `
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span>${stat.charAt(0).toUpperCase() + stat.slice(1)}:</span>
+            <span>${value}</span>
+          </div>
+        `;
+      }
+    }
+
+    // Update the reactions display
+    function updateReactionsDisplay() {
+      reactionsListEl.innerHTML = '';
+
+      if (gameState.reactions.length === 0) {
+        reactionsListEl.innerHTML = '<div style="color:#888; text-align:center; font-style:italic;">No reactions yet</div>';
+        return;
+      }
+
+      for (const reaction of gameState.reactions) {
+        let color = 'inherit';
+        if (reaction.type === 'liked') color = 'gold';
+        if (reaction.type === 'disliked') color = 'darkred';
+
+        reactionsListEl.innerHTML += `
+          <div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid #eee;">
+            <div style="color:${color};">${reaction.points}</div>
+            <div>${reaction.message}</div>
+          </div>
+        `;
+      }
+    }
+
+    // Update the inventory display
+    function updateInventoryDisplay() {
+      inventoryListEl.innerHTML = '';
+
+      if (gameState.player.inventory.length === 0) {
+        inventoryListEl.innerHTML = '<div style="color:#888; text-align:center; font-style:italic;">Inventory is empty</div>';
+        return;
+      }
+
+      for (const item of gameState.player.inventory) {
+        inventoryListEl.innerHTML += `
+          <div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid #eee;">
+            <div style="font-weight:bold;">${item.name}</div>
+            <div style="font-style:italic; color:#666; font-size:0.9em;">${item.description}</div>
+            <div style="display:flex; gap:5px; margin-top:5px;">
+              <button onclick="useItem('${item.name}')" style="padding:3px 8px; background:#f0f0f0; border:1px solid #ddd; border-radius:3px; cursor:pointer; font-size:0.8em;">Use</button>
+              <button onclick="giveItem('${item.name}')" style="padding:3px 8px; background:#f0f0f0; border:1px solid #ddd; border-radius:3px; cursor:pointer; font-size:0.8em;">Give</button>
+              <button onclick="discardItem('${item.name}')" style="padding:3px 8px; background:#f0f0f0; border:1px solid #ddd; border-radius:3px; cursor:pointer; font-size:0.8em;">Discard</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Update side quest display
+    function updateSideQuestDisplay() {
+      if (gameState.sideQuest) {
+        sideQuestContentEl.innerHTML = `
+          <div>
+            <div style="font-weight:bold;">${gameState.sideQuest.title}</div>
+            <div style="margin-top:5px;">${gameState.sideQuest.description}</div>
+            <div style="margin-top:10px;">
+              <button onclick="completeSideQuest()" style="padding:5px 10px; background:#4CAF50; color:white; border:none; border-radius:3px; cursor:pointer;">Complete Quest</button>
+            </div>
+          </div>
+        `;
+      } else {
+        sideQuestContentEl.innerHTML = '<div style="color:#888; text-align:center; font-style:italic;">No active side quests</div>';
+        sideQuestTitleEl.classList.remove("blinkingTitle");
+      }
+    }
+
+    // Complete side quest
+    function completeSideQuest() {
+      if (!gameState.sideQuest) return;
+
+      // Add message to dialogue
+      gameState.dialogHistory.push({
+        type: "system",
+        text: `Side Quest Completed: ${gameState.sideQuest.title}! +5 affection`
+      });
+
+      if (gameState.currentDialogExchanges.length >= 5) {
+        gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+      }
+
+      gameState.currentDialogExchanges.push({
+        type: "system",
+        text: `Side Quest Completed: ${gameState.sideQuest.title}! +5 affection`
+      });
+
+      refreshDialogDisplay();
+
+      // Give rewards
+      gameState.romanticInterest.affection += 5;
+      affectionEl.textContent = gameState.romanticInterest.affection;
+
+      // Mark as completed
+      gameState.sideQuest = null;
+
+      // Update side quest display
+      updateSideQuestDisplay();
+    }
+
+    // Item functions
+    function useItem(itemName) {
+      // Add message to dialogue
+      gameState.dialogHistory.push({
+        type: "player",
+        text: `You use the ${itemName}.`
+      });
+
+      if (gameState.currentDialogExchanges.length >= 5) {
+        gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+      }
+
+      gameState.currentDialogExchanges.push({
+        type: "player",
+        text: `You use the ${itemName}.`
+      });
+
+      refreshDialogDisplay();
+
+      // Generate item usage effect with AI
+      processItemUsage(itemName, "use");
+    }
+
+    function giveItem(itemName) {
+      // Add message to dialogue
+      gameState.dialogHistory.push({
+        type: "player",
+        text: `You give the ${itemName} to ${gameState.romanticInterest.name}.`
+      });
+
+      if (gameState.currentDialogExchanges.length >= 5) {
+        gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+      }
+
+      gameState.currentDialogExchanges.push({
+        type: "player",
+        text: `You give the ${itemName} to ${gameState.romanticInterest.name}.`
+      });
+
+      refreshDialogDisplay();
+
+      // Generate item usage effect with AI
+      processItemUsage(itemName, "give");
+
+      // Remove item from inventory
+      removeItemFromInventory(itemName);
+    }
+
+    function discardItem(itemName) {
+      // Add message to dialogue
+      gameState.dialogHistory.push({
+        type: "player",
+        text: `You discard the ${itemName}.`
+      });
+
+      if (gameState.currentDialogExchanges.length >= 5) {
+        gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+      }
+
+      gameState.currentDialogExchanges.push({
+        type: "player",
+        text: `You discard the ${itemName}.`
+      });
+
+      refreshDialogDisplay();
+
+      // Remove item from inventory
+      removeItemFromInventory(itemName);
+    }
+
+    // Process item usage with AI
+    async function processItemUsage(itemName, action) {
+      // Show loading
+      loadingCtn.style.display = "flex";
+      loadingTextEl.textContent = "Processing item usage...";
+
+      try {
+        let prompt = `In the romance RPG story, the player just decided to ${action} the item "${itemName}".
+        Generate a BRIEF, CONCISE response from ${gameState.romanticInterest.name} (just direct dialogue, no narrative) about this action.
+
+        The romantic interest is ${gameState.romanticInterest.name} who has a ${gameState.romanticInterest.personality} personality.
+        The current location is ${gameState.location.name} during ${gameState.location.timeOfDay}.`;
+
+        let response = await generateText(prompt);
+
+        // Add the response to dialogue history
+        gameState.dialogHistory.push({
+          type: "ai",
+          text: response
+        });
+
+        if (gameState.currentDialogExchanges.length >= 5) {
+          gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+        }
+
+        gameState.currentDialogExchanges.push({
+          type: "ai",
+          text: response
+        });
+
+        refreshDialogDisplay();
+
+        // Add to story history
+        gameState.storyHistory.push(response);
+
+        // Random chance to increase affection if giving an item
+        if (action === "give" && Math.random() < 0.7) {
+          let affectionGain = Math.floor(Math.random() * 3) + 1;
+          gameState.romanticInterest.affection += affectionGain;
+          addReaction("liked", `+${affectionGain} affection`, `${gameState.romanticInterest.name} appreciated the gift!`);
+
+          // Update affection display
+          affectionEl.textContent = gameState.romanticInterest.affection;
+        }
+      } catch (error) {
+        console.error("Error processing item usage:", error);
+        // Add error message to dialogue
+        gameState.dialogHistory.push({
+          type: "system",
+          text: "An error occurred while processing the item usage."
+        });
+
+        if (gameState.currentDialogExchanges.length >= 5) {
+          gameState.currentDialogExchanges = gameState.currentDialogExchanges.slice(-4);
+        }
+
+        gameState.currentDialogExchanges.push({
+          type: "system",
+          text: "An error occurred while processing the item usage."
+        });
+
+        refreshDialogDisplay();
+      }
+
+      // Hide loading
+      loadingCtn.style.display = "none";
+    }
+
+    // Remove item from inventory
+    function removeItemFromInventory(itemName) {
+      gameState.player.inventory = gameState.player.inventory.filter(item => item.name !== itemName);
+      updateInventoryDisplay();
+    }
+
+    // For testing - add sample item to inventory
+    function addSampleItem() {
+      addInventoryItem("Love Letter", "A carefully folded note with beautiful handwriting.");
+    }
+
+    // Initialize displays
+    updateStatsDisplay();
+    updateReactionsDisplay();
+    updateInventoryDisplay();
+    updateSideQuestDisplay();
+
+    // For debugging - expose gameState to console
+    window.gameState = gameState;
+    window.addSampleItem = addSampleItem;
+  </script>
+</div>

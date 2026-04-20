@@ -1,0 +1,1160 @@
+//////
+Intro() =>
+  about = `
+    - This list uses some descriptions made by Chat GPT and Gemini, and others descriptions are made based on web research and danbooru tags.
+    - This means that most of the outfits here are made to be used in t2i generators, in anime style, I dont know how well it works in realistic.
+    - It also uses dynamic negatives, you dont have to worry if you dont want it, but if you want them, you need to look up in the code on the https://perchance.org/ai-art-generator-advanced, how the LocalTempFashion works.
+    - Some descriptions are written in a weird way because it is the only way they work in perchance, also, skirts in anime style are harder, the ai likes red pleated skirt so much.
+  `
+AdvRS = {import:adv-random-styles}
+// Please give credits in the painel of your generator, you can copy past the line below to import:
+// Fashion = {import:female-outfit-list-flux} // Made by BlackYT👄🍆 - AI ART GENERATOR ADVANCED
+
+
+////////////////
+Fabric
+  //Lurex (lack data)
+  🎲 Random Fabric/Texture (32)
+    [AdvRS('Fabric', banFabric = ['🎲 Random Fabric/Texture (32)'], Fabric), FabricRandomItem]
+
+
+  /// Smooth
+  Chiffon //A lightweight, sheer fabric known for its smooth, flowing texture. It's often used for flowing skirts, blouses, and overlays.
+    made of chiffon fabric, with gauze quality, gossamer texture, rich in sheer and shimmery //, (chiffon texture:1.4)
+  Crepe // OK, updated flux
+    made from crêpe, a fabric with crinkled or pebbled texture, with grainy appearance, giving the clothes a textured matte finishh //
+  Mesh
+    made of mesh, a lightweight material with a nettexture that features a gridpattern of small holes
+  Microfiber //Offers a very smooth and soft texture.
+    made of microfiber, fabric soft and lightweight, with an ultra-fine texture. provides a sleek finish and modern aesthetic
+  Polyester //Can be engineered to mimic the smoothness of natural fibers like silk.
+    made of smooth polyester, resilient texture providing a sleek fabric, ensures a polished appearance
+  Rayon //Provides a silky smoothness at a slightly lower cost than silk.
+    made of rayon, fabric that features smooth texture{, enhancing any clothes with a subtle sheen^0.6|^1.5}
+  Satin //Known for its lustrous, smooth surface.
+    made of satin, fabric with smooth surface, giving the lustrous satin texture
+  Silk //Offers a luxurious, silky feel.
+    made of silk, lustrous, offers a luxurious, silky feel, silky texture
+  Spandex //A synthetic fabric with excellent elasticity. While it can have a slightly textured appearance when used alone, it's often blended with other fabrics to create a smooth, stretchy material.
+    made of spandex, fabric with smooth, sleek appearance, its glossy surface gives the clothes a polished look
+  Suede //A soft, leather-like material with a smooth finish.
+    made of suede fabric, that has a plush texture, giving the clothes a subtle depth
+  Taffeta
+    made from taffeta fabric, a crisp, smooth and tightly woven fabric, plain taffeta texture
+  Tulle
+    made with tulle fabric, lightweight, very fine, stiff netting //, tulle texture
+  Velvet //While it has a plush appearance, its surface is typically smooth.
+    made of velvet, a fabric with plush texture, and a soft sheen that enhances its velvet texture
+
+  /// Rough
+  Bouclé //A yarn with loops or curls, creating a textured fabric.
+    made of boucle fabric, boucle texture. Has a looped, textured fabric that feels  soft, its distinctive yarn loops create a plush texture //
+
+  Burlap //A coarse, heavy fabric with a rough, rustic appearance.
+    made of burlap, that has a coarse, rough texture, with visible fibers woven in a loose, open pattern{, making the fabric visually raw, giving it a rustic aesthetic|}
+  Chinchilla //This luxurious fur has a dense, rough texture.
+    made of chinchilla fur fabric, dense chinchilla fur texture, has an incredibly plush feel and velvety surface, its fine fibers create a smooth, cushiony feel //
+  Chunky knit //Creates a bulky, textured look.
+    made of chunky knit, chunky knit texture, creates a cozy, plush look, adding dimension to the outfit
+  Corduroy //A fabric with raised, parallel ridges, creating a textured appearance.
+    made of corduroy fabric, corduroy texture, fabric with ribbed texture, consisting of parallel ridges
+  Denim //Offers a rugged, textured look.
+    made of denim, a twill-woven fabric. The material has a rugged, slightly coarse surface.
+  Faux fur //Provides a soft but textured feel.
+    made of faux fur fabric, faux fur texture, offering a dense, plush texture. Its fibers have a luxurious feel that creates depth //
+  Lace //Can have a delicate yet textured appearance, depending on the type of lace.
+    made of lace, fabric with lace texture. Its fine, sheer appearance often adds a feminine touch while offering a soft, elegant finish
+  Latex //A synthetic material known for its elasticity and shine. While it can be smooth, it often has a slightly textured or glossy appearance, especially when used in thicker or patterned forms.
+    made of latex, a smooth, high-gloss fabric, known for its tight, skin-like fit and reflective texture, its glossy finish makes a sleek outfit
+  Leather //A natural material with a distinct, textured surface. While it can be smoothed and polished, it typically retains a certain roughness. In dresses, leather is often used for accents, details, or full-length skirts.
+    made of leather, sleek, smoothed and polished, retains a certain roughness from leather texture //
+  Linen //Known for its wrinkled, natural texture.
+    made of linen fabric, linen texture, that has slightly textured surface, its lightweight, slightly coarse fibers create a crisp appearance that softens
+  Tweed //A coarse, woolen fabric with a distinctive pattern and texture.
+    made of tweed fabric, tweed texture, a textured fabric, featuring a rough, nubby surface with visible fibers
+
+  /// Special
+  Cloth of gold
+    made from gold cloth, cloth of gold, fabric woven with a gold-wrapped, spun gold strip
+  Foil Shimmer
+    all made of foil shimmer, with a reflective, holographic texture
+    //made of foil shimmer, with beautiful visual effect that have holographic texture, rainbow iridescence, reflective surface, prismatic shine, metallic light scattering, micro square pattern
+  Foil Shimmer+
+    all made of foil shimmer, with a reflective, holographic texture, and micro-square pattern that scatters a metallic light with a prismatic shine
+  Glitter Satin
+    made from glitter satin, features glittery elements incorporated into the satin weave, adding a subtle shimmer to the fabric
+  Grid Net
+    all made of a grid net material
+  Lamé
+    made from lamé fabric, fabric made with metallic fiber, metallic sheen, is a luxurious fabric //, lamé texture
+  Mesh Lace
+    made from mesh lace embellished with glittery details, such as {metallic threads|glitter-coated surfaces}
+  Metallic
+    made from metallic fabric, incorporates metallic threads, metallic fibers, creating a lustrous and reflective outfit surface{, with a subtle metallic sheen|, with bold}, high-shine finishes, metallic texture
+  Plastic
+    made of a plastic-like material, transparent fabric that completely revels the character skin, exposing the body underneath
+  Sequin
+    made with shiny sequin, decorated with sequin, sequin texture
+  Sheer fabric
+    made from sheer fabric, the sheer texture accentuates the wearer's allure.
+  Slimy
+    made of a slimy-like material, the fabric has a sticky texture, with a transparency that revels the body underneath
+// OUTFIT LIST 🔻
+
+/////////////📌 Head
+Hats
+  🎲👒 🅷🅰🆃 🔻
+    [AdvRS('Hats', banHats = ['🎲👒 🅷🅰🆃 🔻'], Hats), HatsRandomItem]
+  Normal Hat
+    hat
+  Backwards Hat
+    //[COLORHEAD]Backwards Hat
+  Baseball Cap
+    //[COLORHEAD]Baseball Cap
+  Beanie
+    //[COLORHEAD]Beanie
+  Beret
+    //[COLORHEAD]Beret
+  Bonnet
+    //[COLORHEAD]Bonnet
+  Bowler Hat
+    //[COLORHEAD]Bowler Hat
+  Bucket Hat
+    //[COLORHEAD]Bucket Hat
+  Cabbie Hat
+    //[COLORHEAD]Cabbie Hat
+  Cloche Hat
+    //[COLORHEAD]Cloche Hat
+  Cowboy Hat
+    //[COLORHEAD]Cowboy Hat
+  Flat Cap
+    //[COLORHEAD]Flat Cap
+  Fedora
+    //[COLORHEAD]Fedora
+  Kepi
+    //[COLORHEAD]Kepi
+  Newsboy Cap
+    //[COLORHEAD]Newsboy Cap
+  Peaked Cap
+    //[COLORHEAD]Peaked Cap
+  Pith Helmet
+    //[COLORHEAD]pith helmet
+  Sailor Hat
+    //[COLORHEAD]sailor hat
+  Straw Hat
+    //[COLORHEAD]Straw Hat
+  Straw boater
+    a straw boater with a flat rigid brim and adorned with a grosgrain ribbon //[COLORHEAD]straw boater with a flat rigid brim and adorned with a grosgrain ribbon
+  Sun Hat
+    //[COLORHEAD]sun hat
+  Trilby
+    //[COLORHEAD]Trilby
+  Ushanka
+    //[COLORHEAD]Ushanka
+  Visor
+    //[COLORHEAD]Visor
+  Witch Hat
+    //[COLORHEAD]Witch Hat
+HairAccessories
+  🎲🎀 🅷🅰🅸🆁 🅰🅲🅲.🔻
+    [AdvRS('HairAccessories', banHairAccessories = ['🎲🎀 🅷🅰🅸🆁 🅰🅲🅲.🔻'], HairAccessories), HairAccessoriesRandomItem]
+  Hair Accessory
+    ////[COLORHEAD]Hair Accessory
+  Hair Ornament
+    ////[COLORHEAD]Hair Ornament
+  Hair Bow
+    ////[COLORHEAD]Hair Bow
+  Hair Ribbon
+    //[COLORHEAD]Hair Ribbon
+  Hair Clips
+    //[COLORHEAD]Hair Clips
+  Hair Tie
+    //[COLORHEAD]Hair Tie
+  Hairband
+    //[COLORHEAD]Hairband
+  Hair Bobbles
+    //[COLORHEAD]Hair Bobbles
+  Hair Bobbles
+    //[COLORHEAD]Hair Bobbles
+  Hair Scrunchie
+    //[COLORHEAD]Hair Scrunchie
+HeadAccessories
+  🎲 Head 🔻
+    [AdvRS('HeadAccessories', banHeadAccessories = ['🎲 Head 🔻'], HeadAccessories), HeadAccessoriesRandomItem]
+  Bandana
+    //[COLORHEAD]
+  Headband
+    //[COLORHEAD]
+  Head Scarf
+    //[COLORHEAD]
+  Hijab
+    //[COLORHEAD]
+  Mantilla
+    //[COLORHEAD]
+  Turban
+    //[COLORHEAD]
+  Tiara
+    //[COLORHEAD]
+  Crown
+    //[COLORHEAD]
+  Mini Crown
+    //[COLORHEAD]
+  Glasses
+    //[COLORHEAD]
+  Sunglasses
+    //[COLORHEAD]
+  Shades
+    //[COLORHEAD]
+  Headhones
+    //[COLORHEAD]
+  VR Headset
+    //[COLORHEAD]
+  Pirate Eyepatch
+    //[COLORHEAD]
+  Surgical Mask
+    //[COLORHEAD]
+
+///////////// 📌
+Outerwear
+  🎲🥼 🅾🆄🆃🅴🆁🆆🅴🅰🆁 🔻
+    [AdvRS('Outerwear', banOuterwear = ['🎲🥼 🅾🆄🆃🅴🆁🆆🅴🅰🆁 🔻'], Outerwear), OuterwearRandomItem]
+  Anorak
+    [COLOROUTWEAR]Anorak
+  Blazer
+    [COLOROUTWEAR]Blazer
+  Bomber Jacket
+    [COLOROUTWEAR]bomber jacket
+  Cape
+    [COLOROUTWEAR]cape
+  Cardigan
+    [COLOROUTWEAR]cardigan, collarless, with a front closure
+  Cloak ///Overwrap
+    [COLOROUTWEAR]cloak
+  Coat
+    [COLOROUTWEAR]coat
+  Denim Jacket
+    [COLOROUTWEAR]denim jacket
+  //duffel coat (winter)
+  Duster Coat
+    [COLOROUTWEAR]duster coat
+  Field Jacket
+    [COLOROUTWEAR]field jacket
+  Fleece Jacket
+    [COLOROUTWEAR]fleece jacket
+  Fur coat
+    [COLOROUTWEAR]fur coat
+  Gilet //(Puffer Vest)
+    [COLOROUTWEAR]gilet
+  Hoodie
+    [COLOROUTWEAR]hoodie
+  Jacket
+    [COLOROUTWEAR]jacket
+  //Kimono
+  Jumper/Sweater
+    [COLOROUTWEAR]{jumper|sweater} //. long-sleeved garment, (pulled over the head:0.9)
+  Leather Jacket
+    [COLOROUTWEAR]leather jacket
+  Overcoat
+    [COLOROUTWEAR]overcoat
+  Parka
+    [COLOROUTWEAR]parka
+  Peacoat
+    [COLOROUTWEAR]peacoat
+  Poncho
+    [COLOROUTWEAR]poncho
+  Puffer Jacket
+    [COLOROUTWEAR]puffer jacket
+  Quilted Jacket
+    [COLOROUTWEAR]quilted jacket
+  Rain coat
+    [COLOROUTWEAR]rain coat
+  Rain coat (see-through)
+    [COLOROUTWEAR]see-through rain coat
+  Shawl
+    [COLOROUTWEAR]shawl
+  Shrug
+    [COLOROUTWEAR]shrug
+  Sport Coat
+    [COLOROUTWEAR]sport coat
+  Suit Jacket //male
+    [COLOROUTWEAR]suit jacket
+  Sweatshirt
+    [COLOROUTWEAR]sweatshirt //. long-sleeved pullover (made of {cotton|fleece}:0.9)
+  Track Jacket
+    [COLOROUTWEAR]track jacket
+  Trench Coat
+    [COLOROUTWEAR]trench coat
+  Tunic
+    long and loose [COLOROUTWEAR]tunic
+  Tuxedo Jacket
+    [COLOROUTWEAR]tuxedo jacket
+  Utility Vest
+    [COLOROUTWEAR]utility vest
+  Varsity Jacket
+    [COLOROUTWEAR]varsity jacket
+  Vest
+    [COLOROUTWEAR]vest
+  Waistcoat
+    [COLOROUTWEAR]waistcoat
+  Windbreaker
+    [COLOROUTWEAR]windbreaker
+/////////////📌 Torso
+UpperGarments
+  🎲👕 🆄🅿🅿🅴🆁 🅿🅸🅴🅲🅴🆂 🔻
+    [AdvRS('upperPieces', banUperPieces = ['🎲👕 🆄🅿🅿🅴🆁 🅿🅸🅴🅲🅴🆂 🔻'], UpperGarments), upperPiecesRandomItem]
+
+  Shirt
+    [COLORTORSO]shirt, collared
+  Button-up Shirt
+    Button-up [COLORTORSO]Shirt
+  Casual Shirt
+    casual [COLORTORSO]shirt, collared, looser-fitting, made of softer fabrics
+  Chambray Shirt
+    Chambray [COLORTORSO]Shirt
+  Cropped Shirt
+    cropped [COLORTORSO]shirt, collared
+  Flannel Shirt
+    Flannel [COLORTORSO]Shirt
+  Henley Shirt
+    henley [COLORTORSO]shirt, collarless, with a short placket of few buttons
+  Oversized Casual Shirt
+    oversized casual [COLORTORSO]shirt, collared, looser-fitting, slouchy, made of softer fabrics
+  Plaid Shirt
+    Plaid [COLORTORSO]Shirt
+  V-neck shirt
+    V-neck [COLORTORSO]shirt, with a V-shaped neckline
+  Western Shirt
+    western [COLORTORSO]shirt, with pointed yokes and snaps
+
+  T-shirt
+    [COLORTORSO]T-shirt //, with a round-neckline
+  Cropped T-shirt
+    cropped [COLORTORSO]T-shirt //, with a round-neckline
+  Oversized Casual T-shirt
+    oversized casual [COLORTORSO]T-shirt, looser-fitting, slouchy, made of softer fabrics
+  Plaid T-shirt
+    Plaid [COLORTORSO]T-shirt
+
+  Bardot Top
+    [COLORTORSO]Bardot Top
+  Blazer
+    [COLORTORSO]blazer
+  Blouse
+    [COLORTORSO]blouse
+  Button-up Blouse
+    Button-up [COLORTORSO]blouse
+  Ruffle Blouse
+    Ruffle [COLORTORSO]blouse
+
+  Camisole
+    [COLORTORSO]Camisole
+   // long structured camisole that offers more coverage  //camisole. lightweight, sleeveless top with thin straps
+
+  Crop Top
+    [COLORTORSO]Crop Top
+
+  Keyhole
+    [COLORTORSO]keyhole, features a small, decorative cutout near the {neckline^0.5|chest^2}
+
+  Peplum Top
+    [COLORTORSO]peplum top with a {flared^0.5|ruffled^1.5} fabric at the waist
+  Pin Tuck
+    [COLORTORSO]pin tuck top, with small folds of fabric sewn into the garment //, adding texture and detail
+  //Polo
+    //polo, a short-sleeved with a collar
+  Princess vest
+    [COLORTORSO]princess vest, a form-fitting vest with vertical seams that contour the body
+  Smock
+    [COLORTORSO]smock, a loose-fitting garment{, with gathering at the neckline and cuffs|}
+  Sports bra
+    [COLORTORSO]sports bra
+  Tank top
+    [COLORTORSO]tank top //. sleeveless, fitted top with wide shoulder straps
+  Tubetop
+    [COLORTORSO]tubetop, strapless, form-fitting top that covers the chest and upper torso
+  Turtleneck
+    [COLORTORSO]turtleneck, high-collared
+  Tuxedo
+    [COLORTORSO]tuxedo
+Dresses
+  🎲🥻 🅳🆁🅴🆂🆂 🔻
+    [AdvRS('Dresses', banDresses = ['🎲🥻 🅳🆁🅴🆂🆂 🔻'], Dresses), DressesRandomItem]
+  A-line dress
+    [COLORTORSO]A-line dress, widens from the waist to the hem, creating an A-shaped skirt
+  Asymmetrical dress
+    [COLORTORSO]asymmetrical dress, with uneven hemline, longer on one side
+  Bodycon dress
+    [COLORTORSO]bodycon dress that fits tightly to the body
+  Cocktail dress
+    [COLORTORSO]cocktail dress //{cocktaildress|cocktail dress}
+  //Corset dress
+    //dress, a dresscorset, (features a fitted bodice with boning, creating a structured outfit:1.2)[TempNgtvFun('corset:0.5')]
+  Fit and Flare Dress
+    [COLORTORSO]fit and flare dress
+  Gala dress
+    [COLORTORSO]gala dress, formal and elegant{, with a full skirt|}
+  Halter dress
+    [COLORTORSO]halter dress, with straps that tie around the neck
+  //Handkerchief dress
+    //(handkerchief dress:1.2), features a loose, flowing silhouette with a tied neckline[TempNgtvFun('tied:0.1')]
+  High-low dress
+    [COLORTORSO]high-low dress, high-low hemline in front, floor-length in back
+  House Dress
+    [COLORTORSO]house dress
+  Kaftan
+    [COLORTORSO]kaftan dress, loose-fitting, tunic-style dress with wide sleeves
+  Maxi dress
+    [COLORTORSO]long maxi dress
+  Midi dress
+    [COLORTORSO]{midi dress^1.2|minidress^0|midi-dress}, with length reaching the ankle
+  Mini dress
+    [COLORTORSO]mini dress, short dress, above the knee //
+  Party dress
+    [COLORTORSO]party dress //, designed for special occasions //
+  Pencil dress
+    [COLORTORSO]pencil dress, a slim-fitting dress that follows the body's contours //
+  Peplum dress
+    [COLORTORSO]peplum dress that has a flared peplum overlay at the waistline
+  Sheath dress
+    [COLORTORSO]sheath dress, a straight-fitting dress with a sheath-like silhouette
+  Shift dress
+    [COLORTORSO]shift dress, a loose-fitting boxy dress
+  Shirt dress
+    [COLORTORSO]shirt dress, a dress inspired by men shirt{, with buttons down the front|}
+  Skater dress
+    [COLORTORSO]skater dress, have a flared skirt that creates a skater-like outfit //
+  //Side-slit Mini Dress
+    //[COLORTORSO]micro dress //, with an open side-tie, and side-slit in the micro dress //
+  Slip dress
+    [COLORTORSO]slip dress, with a slip-like outfit
+
+  Smock dress
+    [COLORTORSO]smock dress, with smocking details
+  Sweater dress
+    [COLORTORSO]sweater dress, knitted dress that resembles a sweater
+  T-shirt dress
+    [COLORTORSO]t-shirt dress //, a simple (t-shirt dress
+  Tube dress
+    [COLORTORSO]tube dress, a tight-fitting dress
+  Wrap dress
+    [COLORTORSO]wrap dress, a dress that wraps around the body and ties at the waist
+  Bodycon gown
+    [COLORTORSO]bodycon gown, contours the entire body emphasizing the wearer's figure
+  Cocktail gown
+    [COLORTORSO]cocktail gown, a flattering fit-and-flare, which fits her torso and waist, emphasizing her figure //
+  Nightgown
+    [COLORTORSO]{[Fs = "nightgown"]^1.5|[Fs = "night gown"]|[Fs = "nightie"]^0.7}, loose and flowing, designed to skim over the body without clinging //. features a relaxed silhouette, soft fabrics, and minimal structure.
+Corsets
+  🎲 🅲🅾🆁🆂🅴🆃🆂 🔻
+    [AdvRS('Corsets', banCorsets = ['🎲 🅲🅾🆁🆂🅴🆃🆂 🔻'], Corsets), CorsetsRandomItem]
+  Victorian corset
+    tightly fitted [COLORTORSO]victorian corset designed to create an hourglass figure, with a high bustline and long waist //corse?
+  //Flapper corset (very inaccurate) // realistic flapper corse?, straight-cut corse? used in the 1920s to create a boyish figure
+  Gothic corset
+    [COLORTORSO]gothit corset, with elements used in gothic fashion. Features black lace, leather, and metal accents
+  Underbust corset
+    [COLORTORSO]underbust corset, starts below the bust and extends down to the hips, providing waist cinching //without
+  //Overbust corset (bad inaccurate) //detailed overbust corse?, extends over the bust, offering full (torso coverage).
+  Steampunk corset
+    [COLORTORSO]steampunk-corset, influenced by victorian designs, with added elements like brass buckles and straps
+  Waist cincher
+    [COLORTORSO]waist cincher, shorter, designed to cinch the waist more dramatically
+  //Elizabethan corset (also bad)
+    //detailed, realistic elizabethan corse?, creating a conical torso shape, inspired by the Elizabethan era and is accompanied by a ruff.
+Bras
+  🎲 🍒 🅱🆁🅰 🔻
+    [AdvRS('Bras', banBras = ['🎲 🍒 🅱🆁🅰 🔻'], Bras), BrasRandomItem]
+  Bra
+    [COLORTORSO]bra
+  Strapless Bra
+    [COLORTORSO]Strapless Bra
+  Front-tie bra
+    [COLORTORSO]front-tie bra
+  Bralette
+    [COLORTORSO]bralette
+  Halter Bra
+    [COLORTORSO]halter bra
+  Bandeau
+    [COLORTORSO]bandeau
+  Pasties 🔞
+    [COLORTORSO]decorative pasties on the nipples //. topless, chest with decorative pasties
+  Invisible Bra 🔞
+    no bra // nipples
+Lingerie
+  🎲💋 🅻🅸🅽🅶🅴🆁🅸🅴 🔻
+    [AdvRS('Lingerie', banLingerie = ['🎲💋 🅻🅸🅽🅶🅴🆁🅸🅴 🔻'], Lingerie), LingerieRandomItem]
+  Babydoll
+    [COLORTORSO]babydoll{|, a short, flirty outfit, featuring a fitted bust and a loose flowing that ends at the upper thigh.{^2| Has intricate details such as {bows|ruffles|lace} {and {thin straps|halter neckline}, |}making it a delicate and feminine garment}}
+  Bridal Lingerie
+    [COLORTORSO]bridal lingerie
+  Bustier
+    [COLORTORSO]lace bustier
+  Camisole (lingerie)
+    longer, {sheer |}[COLORTORSO]camisole made of soft and lightweight fabric
+  Camisole (short)
+    [COLORTORSO]crop camisole, a {sheer |}camisole made of soft and lightweight fabric
+  Chemise
+    [COLORTORSO]chemise
+  Negligee
+    [COLORTORSO]negligee, figure-skimming garment designed to be elegant and alluring, drapes smoothly over the body
+
+TraditionalAttireTop
+  Traditional 🔻
+    [COLORTORSO]{japanese dress|chinese dress}
+  Qipao (short) 『China dress』
+    [COLORTORSO]short qipao
+  China dress (short)
+    [COLORTORSO]china short dress
+  China dress (long qipao)
+    [COLORTORSO]china long dress
+  Kimono
+    [COLORTORSO]kimono
+  Yukata
+    [COLORTORSO]yukata
+Suits
+  🎲🐰 🅱🅾🅳🆈🆂🆄🅸🆃 🔻
+    [AdvRS('Suits', banSuits = ['🎲🐰 🅱🅾🅳🆈🆂🆄🅸🆃 🔻'], Suits), SuitsRandomItem]
+  Bodysuit
+    [COLORTORSO]bodysuit
+  Bunnysuit
+    [COLORTORSO]bunnysuit
+  Bunnysuit (Playboy)
+    [COLORTORSO]playboy bunny
+  Catsuit (women bodysuit)
+    [COLORTORSO]catsuit
+  Leotard
+    [COLORTORSO]leotard
+  Halter leotard
+    [COLORTORSO]halter leotard
+  Strapless leotard
+    [COLORTORSO]strapless leotard
+  Unitard
+    [COLORTORSO]unitard, a one-piece garment with long legs{| and long sleeves}
+  Plugsuit
+    [COLORTORSO]plugsuit //({[Fs = "plugsuit"]|[Fs = "plug suit"]|[FS = "plug-suit"]})
+  Skintight
+    [COLORTORSO]skintight //({[Fs = "skintight"]^1.5|[Fs = "skin tight"]|[Fs = "skin-tight"]})
+  Skinwear
+    [COLORTORSO]skinwear //({[Fs = "skinwear"]|[Fs = "skin wear"]})
+/////////////📌 Hands
+Gloves
+  🎲🧤 🅶🅻🅾🆅🅴🆂 🔻
+    [AdvRS('Gloves', banGloves = ['🎲🧤 🅶🅻🅾🆅🅴🆂 🔻'], Gloves), GlovesRandomItem]
+  Short Gloves
+    [COLORHANDS]Short Gloves
+  Elbow Gloves
+    [COLORHANDS]Elbow Gloves
+  Fingerless Gloves
+    [COLORHANDS]Fingerless Gloves
+  Fishnet Gloves
+    [COLORHANDS]Fishnet Gloves
+  Lace Gloves
+    [COLORHANDS]Lace Gloves
+  Mittens
+    [COLORHANDS]Mittens
+  Gauntlets
+    [COLORHANDS]Gauntlets
+
+/////////////📌 Waist
+Skirts
+  🎲👗 🆂🅺🅸🆁🆃🆂 🔻
+    [AdvRS('Skirts', banSkirts = ['🎲👗 🆂🅺🅸🆁🆃🆂 🔻'], Skirts), SkirtsRandomItem]
+  A-Line Skirt
+    [COLORWAIST]A-line skirt, creates a flattering, flowing shape that widens toward the hem
+  //Box Pleats Skirt
+    //box pleats skirt. (The deep evenly spaced pleats add volume and shape, the structured nature of the pleats also creates clean lines:0.9)[TempNgtvFun('cardboard, box, holding box')]
+  //Gathered Skirt
+    //(gathered skirt:1.3), adding volume and fullness. The gathered fabric creates folds that drape elegantly, creating a flowing, airy effect[TempNgtvFun('pleated:0.3, holding skirt:0.7')]
+  //Godet Skirt
+    //(godet skirt), has graceful flares that add volume from the knees downward. The godet inserts create a flowing, slightly flared shape. These inserts add subtle fullness
+  High-Low Skirt
+    [COLORWAIST]high-low skirt, where the hemline is asymmetrical, the front portion of the high-low skirt is significantly shorter //high-low skirt, characterized by its asymmetrical hemline, with the front portion of the skirt being significantly shorter
+  High Waist Skirt
+    [COLORWAIST]high waist skirt, with a higher waistline //(high waist skirt), elongating her legs and defining her waistline. The skirt sits above her natural waist. The structured fit of the skirt gives her a polished, refined look
+  Hoop Skirt (classic)
+    classic [COLORWAIST]hoop skirt
+  Maxi skirt
+    long [COLORWAIST]maxi skirt
+
+  Miniskirt
+    [COLORWAIST]miniskirt
+  Miniskirt (denim)
+    [COLORWAIST]denim miniskirt //, micro miniskirt{| that exposes entirely her upper thighs and intimate parts^0.3}
+  Miniskirt (leather)
+    [COLORWAIST]leather miniskirt //{| that exposes entirely her upper thighs and intimate parts^0.3}
+  Pencil Miniskirt
+    [COLORWAIST]pencil miniskirt
+  Pleated Miniskirt
+    [COLORWAIST]pleated miniskirt
+ // Miniskirt (slit + side-tie)
+    //a revealing, side-tie miniskirt, very short, with slits that exposes entirely the upper thighs  //side-tie miniskirt with slits
+
+  Microskirt
+    an ultra micro, significantly small sized [COLORWAIST]microskirt
+  Denin microskirt
+    a significantly small, ultra short [COLORWAIST]denim skirt with ultra short length and a very micro size
+  Frilled microskirt
+    a significantly small, ultra short [COLORWAIST]frilled skirt with ultra short length and a very micro size
+  Pencil microskirt
+    a significantly small, ultra short [COLORWAIST]pencil skirt with ultra short length and a very micro size
+  Pleated microskirt
+    a significantly small, ultra short [COLORWAIST]pleated skirt with ultra short length and a very micro size
+
+  //Panel Skirt
+    //(panel skirt). constructed with vertical panels of fabric for a structured look). These panels create clean, straight lines, giving her a taller and slender appearance. The panel skirt have (long length).
+
+  Pencil Skirt (long)
+    long [COLORWAIST]pencil skirt
+
+  Peplum Skirt
+    [COLORWAIST]peplum skirt, adding a flared layer around her hips  //, creating a stylish and flattering silhouette. The peplum detail accentuates her waist while adding volume just above the skirt[TempNgtvFun('flare:0.5')]
+
+  Pleated Skirt (medium)
+    [COLORWAIST]pleated medium skirt
+
+  Pleated Skirt (long)
+    [COLORWAIST]pleated long skirt
+
+  Sarong Skirt
+    [COLORWAIST]sarong skirt //, a wrapped design that ties at the waist or hip.
+  //Straight Skirt
+    //(straight skirt), a simple, classic style that falls directly from her hips to the hemline. This shape creates clean, vertical lines that elongate her figure.
+ // Yoke Skirt
+   // (yoke skirt). (creating a smooth look around her hips and waist before flaring out. The yoke is a structured waistband or panel at the top of the skirt. The yoke skirt offers a casual, boho-inspired style:0.9)
+  Tiered Skirt
+    [COLORWAIST]tiered skirt which is voluminous and has several layers //tiered skirt that has multiple tiers that creates volume  //, layered, cascading design that adds volume. The multiple tiers create a soft, flowing silhouette, giving her a relaxed and bohemian-inspired look.
+  Wrap Skirt
+    [COLORWAIST]wrap skirt  //(has a flowing design. The wrap style, which ties at the waist, emphasizes her waistline in a flattering way. The fabric overlaps and creates a soft, diagonal line across her body. The skirt drapes around her hips and legs:0.9)
+
+Shorts
+  🎲🩳 🆂🅷🅾🆁🆃🆂 🔻
+    [AdvRS('Shorts', banShorts = ['🎲🩳 🆂🅷🅾🆁🆃🆂 🔻'], Shorts), ShortsRandomItem]
+  Baggy Shorts
+    [COLORWAIST]baggy shorts, loose-fitting shorts that offer a relaxed, oversized silhouette
+  Bib Shorts
+    [COLORWAIST]bib shorts
+  Cargo Shorts
+    [COLORWAIST]cargo shorts, loose-fitting shorts with pockets //The slightly loose cut extends to mid-thigh or just above the knee, maintaining a casual, rugged outfit
+  Chino Shorts
+    [COLORWAIST]chino shorts //(it has a flat front, structured waistline, and minimal detailing, giving a clean and refined look. The chino shorts sit comfortably on her hips, with a neat fit that flatters her silhouette. The mid-thigh length of the chino shorts highlights her legs:0.9)
+  Compression Shorts
+    [COLORWAIST]Compression Shorts
+  Cutoff Shorts (denim)
+    [COLORWAIST]cutoff shorts, {mid-rise|high-rise} waist. The frayed edges create a carefree look, while the snug denim fit her hips and legs, highlighting her figure
+  Gym Shorts
+    [COLORWAIST]gym shorts, loose-fitting, with an elastic waistband //. The gym shorts are usually cut higher on the legs. The elastic waistband sit comfortably on her hips
+  High-waisted Shorts
+    [COLORWAIST]high-waisted shorts //. The high-waisted design adds a touch of vintage charm{^1.5|, features design elements like belt}
+  Hotpants
+    extremely short [COLORWAIST]hotpants  //. The snug fit accentuates her figure{^1.5|. The hotpants have embellishments such as {frayed edges|prints}}
+  Skorts
+    [COLORWAIST]skorts, a hybrid between a skirt and shorts, offering the appearance of a skirt in the front and shorts underneath, the skorts front panel creates the illusion of a classic skirt, with the hidden shorts underneath
+Pants
+  🎲👖 🅿🅰🅽🆃🆂 🔻
+    [AdvRS('Pants', banPants = ['🎲👖 🅿🅰🅽🆃🆂 🔻'], Pants), PantsRandomItem]
+  Bell Bottoms
+    [COLORWAIST]bell bottoms, fitted through the thighs with flared bottoms that widen significantly below the knee
+  Capri pants
+    [COLORWAIST]capri pants, Three-quarter length pants that hit between the knee and ankle, typically slim-fitting
+  Cargo Pants
+    [COLORWAIST]cargo pants, Loose-fitting, with large pockets
+  Chinos
+    [COLORWAIST]chinos, a lightweight cotton or cotton-blend trousers, with a {straight|slim} cut
+  Cullotes
+    [COLORWAIST]cullotes, wide-legged, knee-length that resemble a skirt, flowy and roomy
+  Harem pants
+    [COLORWAIST]harem pants, loose-fitting pants with a dropped crotch and tapered legs, gathered at the ankles
+  High-waisted pants
+    [COLORWAIST]high-waisted pants
+  Jeans
+    [COLORWAIST]jeans, {skinny|straight|bootcut} jeans
+  Jeans (distressed)
+    [COLORWAIST]distressed jeans pants with rips, fraying, faded areas
+  Jodhpurs
+    [COLORWAIST]Jodhpurs
+  Joggers
+    [COLORWAIST]joggers, sporty, with a tapered leg and elasticated cuffs at the ankles
+  Leggings
+    [COLORWAIST]leggings, stretchy, fit closely to the body
+  Low-rise pants
+    [COLORWAIST]low-rise pants
+  Palazzo pants
+    [COLORWAIST]palazzo pants, wide-legged, flowing pants that are loose
+  Slit pants
+    [COLORWAIST]slit pants, featuring a slit along the {side|front|side and front^0.5} of the legs
+  Sweatpants
+    [COLORWAIST]soft, comfortable sweatpants
+  Track pants
+    [COLORWAIST]track pants{, featuring {side stripes|piping}|^1.2}
+  Trousers
+    [COLORWAIST]trousers, tailored
+  Wide-Leg pants
+    [COLORWAIST]wide-leg pants, loose and wide
+  Yoga pants
+    [COLORWAIST]yoga pants, stretchy, comfortable, form-fitting
+Panties
+  🎲🩲 🅿🅰🅽🆃🅸🅴🆂 🔻
+    [AdvRS('Panties', banPanties = ['🎲🩲 🅿🅰🅽🆃🅸🅴🆂 🔻'], Panties), PantiesRandomItem]
+  Boyshorts
+    [COLORWAIST]boyshorts, a type of underwear
+  Boxers
+    [COLORWAIST]boxers
+  Briefs
+    [COLORWAIST]briefs
+  Bloomers
+    [COLORWAIST]Bloomers
+  Cheeky
+    [COLORWAIST]cheeky underwear, offers moderate coverage but is cut to reveal part of the buttcheeks
+  Seamless panties
+    [COLORWAIST]seamless panties, giving her a polished and comfortable look
+  Tanga
+    [COLORWAIST]tanga, visibly worn as the bottom piece.
+  Thong
+    [COLORWAIST]thong
+  Invisible panties 🔞
+    no panties
+  Normal Panties
+    [COLORWAIST]panties
+PantiesAnime
+  🎲 Panties with Patterns 🔻
+    [AdvRS('PantiesAnime', banPantiesAnime = ['🎲 Panties with Patterns 🔻'], PantiesAnime), PantiesAnimeRandomItem]
+  Bear print panties
+    bear print [COLORWAIST]panties
+  Rabbit print panties
+    Rabbit print [COLORWAIST]panties
+  Cat print panties
+    cat print [COLORWAIST]panties
+
+  Checkered panties
+    Checkered [COLORWAIST]panties
+  Lace panties
+    [COLORWAIST]Lace panties
+  Lace-trimmed panties
+    [COLORWAIST]Lace-trimmed panties
+  Plaid panties
+    [COLORWAIST]Plaid panties
+  Polka dot panties
+    Polka dot [COLORWAIST]panties
+  Print panties
+    [COLORWAIST]Print panties
+  Strawberry print panties
+    strawberry print [COLORWAIST]panties
+  Striped panties
+    Striped [COLORWAIST]panties
+  Vertical-striped panties
+    Vertical-striped [COLORWAIST]panties
+TraditionalAttireBottom
+  Traditional 🔻
+    [COLORWAIST]Hakama
+  Hakama shorts
+    [COLORWAIST]hakama shorts
+  Hakama long skirt
+    [COLORWAIST]Hakama long skirt
+  Hakama short skirt
+    [COLORWAIST]hakama short skirt
+  Hakama Pants
+    [COLORWAIST]Hakama Pants
+  🔞 Loincloth
+    [COLORWAIST]loincloth
+  🔞 Pelvic curtain
+    [COLORWAIST]pelvic curtain
+TraditionalAttirePrivate
+  Fundoshi
+    [COLORWAIST]Fundoshi
+
+/////////////📌 Legs
+Stockings
+  🎲 Stockings 🔻
+    [AdvRS('Stockings', banStockings = ['🎲 Stockings 🔻'], Stockings), StockingsRandomItem]
+  Bodystocking
+    [COLORLEGS]{[Fs = "bodystocking"]|[Fs = "body stocking"]}
+  Fishnet
+    [COLORLEGS]fishnet stockings
+  Garter Belt
+    [COLORLEGS]Garter Belt
+  Garter Straps
+    [COLORLEGS]Garter Straps
+  Pantyhose
+    [COLORLEGS]pantyhose //({[Fs = "pantyhose"]^2|[Fs = "panty hose"]^0.4|[Fs = "panty-hose"]^0.4})
+  Thighhighs
+    [COLORLEGS]thighhighs //({[Fs = "thighhighs"]^2|[Fs = "thigh highs"]^0.5})
+  Lace Thighhighs
+    [COLORLEGS]lace thighhighs
+Socks
+  🎲🧦 Socks 🔻
+    {[AdvRS('Socks', banSocks = ['🎲🧦 Socks 🔻'], Socks), SocksRandomItem]|socks}
+  Ankle Socks
+    [COLORLEGS]Ankle Socks
+  Crew Socks
+    [COLORLEGS]Crew Socks
+  Calf Socks
+    [COLORLEGS]Calf Socks
+  Knee Length Socks
+    [COLORLEGS]Knee Length Socks
+
+/////////////Foot
+Footwear
+  🎲👠 🅵🅾🅾🆃🆆🅴🅰🆁 🔻
+    [AdvRS('Footwear', banFootwear = ['🎲👠 🅵🅾🅾🆃🆆🅴🅰🆁 🔻'], Footwear), FootwearRandomItem]
+  Pointy Footwear
+    [COLORFEET]Pointy Footwear
+  Roller Shoes
+    [COLORFEET]Roller Shoes
+  Rudder Footwear
+    [COLORFEET]Rudder Footwear
+  Slippers
+    [COLORFEET]Slippers
+  Sneakers
+    [COLORFEET]Sneakers
+  High Tops
+    [COLORFEET]High Tops
+  Toeless Footwear
+    [COLORFEET]Toeless Footwear
+  👞 Shoes 🔻
+    [COLORFEET]Shoes
+  Flats
+    [COLORFEET]Flats
+  Hull Shoes
+    [COLORFEET]Hull Shoes
+  Kiltie Loafers
+    [COLORFEET]Kiltie Loafers
+  Loafers
+    [COLORFEET]Loafers
+  Mary Janes
+    [COLORFEET]Mary Janes
+  Oxfords
+    [COLORFEET]Oxfords
+  Saddler Shoes
+    [COLORFEET]Saddler Shoes
+  👠 Heels 🔻
+    [COLORFEET]heels
+  High Heels
+    [COLORFEET]High Heels
+  Kitten Heels
+    [COLORFEET]Kitten Heels
+  Platform Footwear
+    [COLORFEET]Platform Footwear
+  Pumps
+    [COLORFEET]Pumps
+  Strappy Hells
+    [COLORFEET]{strappy heels|strappy-heels}
+  Stiletto Heels
+    [COLORFEET]stiletto
+  Wedge Heels
+    [COLORFEET]wedge //(inaccurate together with heels)
+  👢 Boots 🔻
+    [COLORFEET]boots
+  Ankle Boots
+    [COLORFEET]ankle boots
+  Knee Boots
+    [COLORFEET]knee boots
+  Thigh Boots
+    [COLORFEET]long boots{|, thigh boots^1.5}
+  Cowboy Boots
+    [COLORFEET]Cowboy Boots
+  High Heel Boots
+    [COLORFEET]High Heel Boots
+  Platform Boots
+    [COLORFEET]Platform Boots
+  Ugg Boots^0.2
+    [COLORFEET]Ugg Boots
+  👡 Sandals 🔻
+    [COLORFEET]sandals
+  Cross-laced Sandals
+    [COLORFEET]Cross-laced Sandals
+  Flip-flops
+    [COLORFEET]Flip-flops
+  Geta (traditional)
+    [COLORFEET]geta
+  Slides
+    [COLORFEET]Slides
+
+///////////📌 UNIQUE
+Bikinis
+  🎲👙 🅱🅸🅺🅸🅽🅸 🔻
+    [AdvRS('Bikinis', banBikinis = ['🎲👙 🅱🅸🅺🅸🅽🅸 🔻'], Bikinis), BikinisRandomItem]
+  Bikini skirt
+    bikini skirt
+  Bikini shorts
+    bikini shorts
+  Front-tie bikini top
+    front-tie bikini
+  Frilled bikini
+    frilled bikini
+  High-waisted bikini
+    high-cut kini
+  Lace-trimmed bikini
+    lace-trimmed bikini
+  Maid bikini
+    maid bikini{, sleeveless|}
+  Micro bikini
+    micro bikini
+  Monokini
+    monokini, one-piece only
+  Multi-strapped bikini
+    multi strapped bikini
+  O-ring bikini
+    //ring bikini, an (o-ring bikini)
+  Sailor bikini
+    sailor bikini, features a sailor collar, sleeveless
+  Slingkini
+    slingkini, a top slingkini, neck slingkini
+  Slingbikini
+    slingbikini
+  Tankini
+    tankini, combines a {tank top|crop top} with a bikini bottom
+  Thong bikini
+    thong bikini
+
+OnePieceGarments
+  🎲 🅾🅽🅴-🅿🅸🅴🅲🅴 🔻
+    [AdvRS('OnePieceGarments', banOnePieceGarments = ['🎲 🅾🅽🅴-🅿🅸🅴🅲🅴 🔻'], OnePieceGarments), OnePieceGarmentsRandomItem]
+  Boiler Suit
+  Coverall / Dungarees
+    {coverall|dungarees}
+  Jumpsuit
+  Jumpsuit Shorts
+  Overalls
+  Naked Overalls
+  Playsuit
+  Romper
+  Swimsuit //swimsui summer
+   // ({[Fs = "swimsui"]|[Fs = "swim sui"]|[Fs = "swim-sui?"]|[Fs = "summer swimsui"]}:1.2)
+  Swimwear
+    swimwear{, perfect to wear in the summer, emphasizing the cuteness and sensuality^1.5|}.
+  School swimsuit
+    school swimsuit
+  Rash guard
+    rash guard //({[Fs = "rash guard"]|[Fs = "rashguard"]})
+Uniforms
+  🎲 Uniforms/Costunes (35)🔻
+    [AdvRS('Uniforms', banUniforms = ['🎲 Uniforms/Costunes (35)🔻'], Uniforms), UniformsRandomItem]
+  // Teens
+  Art smock
+    art smock{|, a protective garment worn over clothing during art activities, usually made of durable, easy-to-clean fabric}.
+  Ballet costume
+    ballet costume{|, a classic outfit for ballet performances, including a tutu, leotard, and sometimes a tiara or ballet slippers}.
+    tutu.^0.5
+  Cheerleader
+    cheerleader uniform{|, a colorful outfit including a fitted top, pleated skirt, and often matching pom-poms, worn for cheerleading activities}.
+  Dance recital costume
+    dance recital costume{|, a specialized outfit for dance performances, which can vary from tutus and leotards to more elaborate costumes}.
+  Girl Scout uniform
+    girl Scout uniform{|, a distinctive outfit featuring a button-up shirt, sash or vest, and khaki or green pants or skirt, worn by Girl Scouts}.
+  Gymnastics leotard
+    gymnastics leotard{|, a fitted, one-piece outfit made of stretchy fabric, designed for gymnastics practice and competitions}.
+  Gym uniform
+    gym uniform, gym shirt{| under a {closed |jacket partially removed, }track jacket^0.5}, paired with {{loose| }gym shorts|buruma|track pants|bike shorts}.
+  Martial arts gi
+    martial arts gi{|, a traditional outfit for martial arts practice, including a jacket, pants, and belt, often in white or other solid colors}.
+  Music performance outfit
+    music performance outfit{|, a coordinated outfit for school or concert performances, which can include a dress, skirt and blouse, or pantsuit}.
+  School uniform
+    school uniform{|, a standard outfit for students, typically consisting of a button-up shirt, blazer or sweater, and plaid skirt or trousers}.
+  Sports team uniform
+    sports team uniform{|, a coordinated outfit including a team jersey, shorts or skort, and sometimes matching socks, used for various sports}.
+  Summer camp uniform
+    summer camp uniform{|, a casual outfit provided by summer camps, often including a camp t-shirt and shorts or lightweight pants}.
+  swim team suit
+    Swim team suit{|, a form-fitting swimsuit designed for competitive swimming, often featuring the team’s colors and logo}.
+  Tennis uniform
+    tennis uniform{|, a sporty outfit consisting of a polo shirt and skirt or shorts, designed for playing tennis}.
+
+  // Women
+  Business suit
+    business suit{|, a professional outfit typically consisting of a tailored blazer and matching trousers or skirt, often worn in corporate settings}.
+  Chef’s uniform
+    vhef’s uniform{|, a kitchen outfit including a white chef’s coat, apron, and chef’s hat, designed for food preparation and cooking}.
+  Construction worker uniform
+    construction worker uniform{|, a durable outfit including a high-visibility vest, hard hat, and work boots, designed for safety on construction sites}.
+  Firefighter uniform
+    firefighter uniform{|, a protective outfit including a jacket, pants, helmet, and boots, designed for safety in firefighting operations}.
+  Flight attendant uniform
+    flight attendant uniform{|, a formal outfit including a blazer, skirt or trousers, and often a distinctive scarf or hat, worn by airline staff}.
+  Hotel concierge uniform
+    hotel concierge uniform{|, a formal outfit including a blazer, dress shirt, and often a name tag, worn by hotel staff assisting guests}.
+  Medical scrubs
+    medical scrubs{|, a uniform worn by healthcare professionals, including a short-sleeve top and matching pants, often in bright colors or patterns}.
+  Nurse uniform
+    nurse uniform{|, a professional outfit including scrubs or a dress with a coordinating apron, often worn in healthcare settings}.
+  Police uniform
+    police uniform{|, a structured outfit including a shirt, pants, and badge, often featuring a hat and utility belt, worn by law enforcement officers}.
+  Postal worker uniform
+    postal worker uniform{|, a practical outfit including a shirt, trousers, and often a cap, worn by postal employees}.
+  Retail associate uniform
+    retail associate uniform{|, a casual or semi-formal outfit including a branded shirt or polo and coordinating pants or skirt, worn by store employees}.
+  Tour guide uniform
+    tour guide uniform{|, a professional yet casual outfit, often including a branded shirt and comfortable trousers, worn by those leading tours}.
+  Waitstaff uniform
+    waitstaff uniform{|, a coordinated outfit often including a button-up shirt, apron, and dress pants or skirt, worn by restaurant servers}.
+
+  Maid
+    maid costume.
+  Jersey Maid
+    apron, maid apron, maid headdress, jersey maid, unconventional maid, {thighhighs|thigh strap}, {track jacket|jacket}, skirt, {sneakers|}.
+ // Others
+  Bellydancer outfit
+    {belly dancer^1.2|harem} outfit, featuring: {bra|bustier|tube top} paired with {baggy pants|harem pants|loincloth|long skirt}, also wearing {headdress|a sheer veil} and {loose sleeves|puffy long sleeves}, embellishments as {earrings|bracelets|necklaces|anklets}{|, {gold trim|jewelry|thighlet}}.
+  Hazmat suit
+    hazmat suit.
+  Nun
+    traditional nun outfit, featuring: habit, ascot, veil, cross, long sleeves, two-sided fabric, capelet, black {zipper |}dress, puffy sleeves, gloves{, black footwear|}, and guimpe.
+  Nun (sensual)
+    a sensual nun outfit, featuring: black dress, black {thighhighs|pantyhose|garter belt}, bracelet, {breastcurtains^0.5|corset^0.5}, dress, groin, jewelry, {gloves, |}pelvic curtain, see-through clothes, see-through dress, black habit, black coif, {^1.2|black veil, ^0.7}skindentation{, black footwear|}
+  Priest
+    robe, {hat, ^0.5|}with long sleeves, a cassock, stole, mitre, and jewelry.
+  Witch
+    witch hat, a dress that {fully|partially} exposes the collarbones, collar, cloak.
+    robe, a dress with juliet sleeves that are long, puffy sleeves, and a wizard hat.
+AnimalCos
+  🎲🐶 Animal Cosplay 🔻
+    [AdvRS('AnimalCos', banAnimalCos = ['🎲🐶 Animal Cosplay 🔻'], AnimalCos), AnimalCosRandomItem]
+  Animal costume
+  Kigurumi
+  Bear costume
+  Boar costume
+  Cat costume
+  Cow costume
+  Dog costume
+  Monkey costume
+  Mouse costume
+  Panda costume
+  Penguin costume
+  Pig costume
+  Rabbit costume
+  Reindeer costume
+  Seal costume
+  Sheep costume
+  Tiger costume
+Armor
+  Bikini Armor
+    bikini, with short gauntlets and shin guard
+  Crystal Armor
+    crystal body protection, translucent crystal covers and protects the chest, waist, arms, and legs
+  Full Armor
+    full black armor: chest and waist has full armor, the arms, shoulder, upper thighs and legs are full covered by armor
+  Full Gold Armor
+    full gold armor: chest and waist has full armor, the arms, shoulder, upper thighs and legs are full covered by armor
+  Full Silver Armor
+    full silver armor: chest and waist has full armor, the arms, shoulder, upper thighs and legs are full covered by armor
+  Full Bronze Armor
+    full bronze armor: chest and waist has full armor, the arms, shoulder, upper thighs and legs are full covered by armor
+  Full Black Armor
+    full black armor: chest and waist has full armor, the arms, shoulder, upper thighs and legs are full covered by armor
+  Minimalist Armor
+    minimalist armor: the chest has a partial plate that covers only the middle, the waist is covered by a small piece of metal, the arms wear short gauntlets, shin guards on the legs; the shoulders, thighs, and abdomen are exposed and have no protection
+  Minimalist Gold Armor
+    minimalist golden armor: the chest has a partial plate that covers only the middle, the waist is covered by a small piece of metal, the arms wear short gauntlets, shin guards on the legs; the shoulders, thighs, and abdomen are exposed and have no protection
+  Minimalist Silver Armor
+    minimalist silver armor: the chest has a partial plate that covers only the middle, the waist is covered by a small piece of metal, the arms wear short gauntlets, shin guards on the legs; the shoulders, thighs, and abdomen are exposed and have no protection
+  Minimalist Bronze Armor
+    minimalist bronze armor: the chest has a partial plate that covers only the middle, the waist is covered by a small piece of metal, the arms wear short gauntlets, shin guards on the legs; the shoulders, thighs, and abdomen are exposed and have no protection
+  Minimalist Black Armor
+    minimalist black armor: the chest has a partial plate that covers only the middle, the waist is covered by a small piece of metal, the arms wear short gauntlets, shin guards on the legs; the shoulders, thighs, and abdomen are exposed and have no protection
+/////////////📌 Accessories
+AllAccessories
+  🎲 All Acessories
+    [AdvRS('allAcc', banAcc = [], HeadJewelry, TorsoAccessories, ArmAccessories, HandAccessories, WaistAccessories, LegAccessories, FootAccessories), allAccRandomItem]
+HeadJewelry
+  Earrings
+NeckAccessories
+  🎲 Neck Only🔻
+    [AdvRS('NeckAccessories', banNeckAccessories = ['🎲 Neck Only🔻'], NeckAccessories), NeckAccessoriesRandomItem]
+  Ascot
+  Bowtie
+  Necktie
+  Neck Ribbon
+  Choker
+  Pendant Choker
+  Ribbon Choker
+  Pendant
+  Amulet
+  Locket
+  Magatama
+  Pentacle
+  Necklace
+  Neck bell
+TorsoAccessories
+  Cape
+  Capelet
+  Side cape
+  Chestbinder
+ArmAccessories
+  Armlet
+  Bangle
+  Bracelet
+  Bracer
+  Wristband
+HandAccessories
+  Ring
+WaistAccessories
+  Belt
+  Womb Tatoo
+LegAccessories
+  Thighlet
+  Thigh Strap
+FootAccessories
+  Anklet // Not a foot accessory, but it is so low that is better to put in the foot option
+
+// Compatibility
+PnT = [Panties]
+PnTAnime = [PantiesAnime]
+Lngr = [Lingerie]
+Brs = [Bras]
+Stk = [Stockings]
+
+NeckAcessories = [NeckAccessories]
+Acessories = [ArmAccessories]
+BodyAcessories = [LegAccessories]
+
+/////////////
+SleeveList
+  Sleeveless
+    a sleeveless [input.outfitTorso]
+  Short Sleeves
+    [input.outfitTorso], with short sleeves
+  Long Sleeves
+    [input.outfitTorso], with long sleeves
+  Cold Shoulder
+    a cold shoulder [input.outfitTorso]
+  Off Shoulder
+    a off shoulder [input.outfitTorso]
+  Detached Sleeves
+    [input.outfitTorso], with detached sleeves
+  Puffy Sleeves
+    [input.outfitTorso], with puffy sleeves gathered at the shoulder
+  Wide Sleeves
+    [input.outfitTorso], with wide, bell sleeves
+
+defineUG() =>
+  if (window.upperGarment) return;
+  if (!window.input) window.input = {outfitTorso: "outfit"};
+  window.upperGarment = window.input.outfitTorso;
+  return ""
+
+//
+defineInputColor() =>
+  if (!window.initializeColor) {
+    if (!window.input) {window.input = {};}
+    if (!input.outfitColor01) {input.outfitColor01 = "";}
+    if (!input.outfitColor02) {input.outfitColor02 = "";}
+    if (!input.outfitColor03) {input.outfitColor03 = "";}
+    if (!input.outfitColor04) {input.outfitColor04 = "";}
+    if (!input.outfitColor05) {input.outfitColor05 = "";}
+    if (!input.outfitColor06) {input.outfitColor06 = "";}
+    window.initializeColor = "colors defined";
+  }
+  return "";
+
+// Colors
+COLOROUTWEAR = [""]
+COLORTORSO = [defineInputColor()][input.outfitColor02 ? `${input.outfitColor02} ` : ""]
+COLORWAIST = [""] //[defineInputColor()][input.outfitColor02 ? `${input.outfitColor02} ` : ""]
+COLORLEGS = [""] //[defineInputColor()][input.outfitColor03 ? `${input.outfitColor03} ` : ""]
+COLORHANDS = [""] //[defineInputColor()][input.outfitColor04 ? `${input.outfitColor04} ` : ""]
+COLORFEET = [""] //[defineInputColor()][input.outfitColor05 ? `${input.outfitColor05} ` : ""]
+COLORHEAD = [""] //[defineInputColor()][input.outfitColor06 ? `${input.outfitColor06} ` : ""]
+
+/////////////
+// END
+/////////////

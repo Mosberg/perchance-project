@@ -1,0 +1,244 @@
+// Colors = {import:corlist}
+// This list was made for use in https://perchance.org/ai-art-generator-advanced.
+// Anyone can use it, but please put credits on your perchance panel code (this list is not pure ctrl c+v, some research and filter was made.)
+
+//🔽 Corlor list
+CommonColors
+  ⚫ Black
+    black
+  ⚙️ Grey
+    grey
+  ⚪ White
+    white
+  🟡 Yellow
+    yellow
+  🟠 Orange
+    orange
+  🟤 Brown
+    brown
+  🔴 Red
+    red
+  💓 Pink
+    pink
+  🟣 Purple
+    purple
+  🔵 Blue
+    blue
+  🟢 Green
+    green
+UncommonColors
+  🟨 Golden 🔻
+    Golden
+    negative = (gold bar, gold:0.9)
+  //Mustard
+  //Amber (inaccurate)
+    //Amber
+  //Canary Yellow
+  Yellow Orange
+  Orange Yellow (~Amber)
+    Orange Yellow
+  Orange Red
+  🟧 Burnt Orange 🔻
+    Burnt Orange
+  Tangerine
+    tangerine
+  Ginger
+  Apricot
+    apricot
+  Peach
+    peach
+  Coral (going Pink)
+    Coral
+  Salmon
+    salmon
+  Orange Pink
+  Orange Brown
+  Brown Orange
+
+  🟫 Dark Brown (~Chocolate) 🔻
+    Dark Brown
+  Brown
+  //Cooper // inaccurate
+  //Sienna // inaccurate
+  Bronze
+
+  Yellow Brown (going Yellow)
+    Yellow Brown
+  Tan
+  Camel
+    camel
+  Khaki
+    khaki
+  Beige
+  Pink Brown
+  🟥 Mahogany (going Brown) 🔻
+    Mahogany
+  Brown Red
+  Maroon
+  Burgundy
+  Dark Red
+  Red
+  Scarlet
+  Crimson
+  Ruby
+  Raspberry
+    raspberry
+  Cherry
+
+  💓 Magenta 🔻
+    Magenta
+  Fuchsia
+  Hot Pink
+  Red Pink
+  Baby Pink
+    baby pink
+  Pink Violet
+  🟪 Dark Violet 🔻
+    Dark Violet
+  Dark Purple
+  Purple
+  Amethyst
+    amethyst
+  Lavender
+    lavender
+  Lilac
+  Red Lilac (~Pink)
+    Red Lilac
+  Red Violet
+
+  Blue Violet
+  Indigo (going Violet)
+    Indigo
+  🟦 Navy 🔻
+    Navy
+  Dark Blue
+  Sapphire
+    sapphire
+  Cobalt
+  Azure
+  Cerulean (inaccurate)
+    Cerulean
+  Light Blue (~Baby Blue)
+    Light Blue
+  Baby Blue
+    baby blue
+  Sky Blue
+    sky blue
+  Powder Blue
+
+  ⛎ Blue Green (~Aqua) 🔻
+    Blue Green
+  Cyan
+  Teal
+  Turquoise
+
+  🟩 Green Brown (~Olive) 🔻
+    Green Brown
+  Brown Green
+  //Forest Green
+  Dark green (~forest green)
+    Dark Green
+  Esmerald
+    esmerald
+  Jade
+  Yellow Green
+  //Lemon Yellow
+  //Lemon
+  //Lime
+  Lime Green
+    lime green
+  Grey Green (Silver Green)
+    Grey Green
+  Mint Green
+    mint green
+  White Green (~Mint)
+    White Green
+
+  ⬛ Onyx (inaccurate)
+    Onyx
+  Charcoal
+  ⚙️ Pewter 🔻
+    Pewter
+  Silver
+  Brown Gray
+  Purple Gray
+  Blue Gray
+  Green Gray
+
+  //Off-white
+  ⬜ Ivory (Yellow White) 🔻
+    Ivory
+  Cream // inaccurate
+    cream
+  Brown White
+  Purple White
+  Blue White
+  Green White
+
+  //🎲 🆄🅽🅲🅾🅼🅼🅾🅽^0
+    //prompt = [RandomUncommonColors('AREyesColor', 'RECo'), RECo]
+    //random
+
+//🔽 Functions
+RandomColors(item, itemFullList, itemArray, randomItem)=>
+  if (typeof window[itemArray] === "undefined") {
+    window[itemArray] = [];
+  }
+
+  if (typeof window[itemFullList] === "undefined") {
+
+    let AllItems = item.selectAll.join("|").split("|").map(w => w);
+    window[itemFullList] = AllItems.filter(fn => fn !== "random");
+
+  };
+
+  if (window[itemArray].length >= window[itemFullList].length) {
+    window[itemArray] = [];
+  };
+
+  window[randomItem] = item.selectOne;
+
+  if (window[itemArray].includes(window[randomItem])) {
+    RandomColors(item, itemFullList, itemArray, randomItem);
+  } else {
+    window[itemArray].push(window[randomItem]);
+  };
+
+  return "";
+RandomColorsWithNegatives(item, itemFullList, itemArray, randomItem)=>
+  if (typeof window[itemArray] === "undefined") {
+    window[itemArray] = [];
+  }
+
+  if (typeof window[itemFullList] === "undefined") {
+    const NegativesCleanse = ColorNegatives;
+    let AllItems = item.selectAll.join("|").split("|").map(w => w);
+    window[itemFullList] = AllItems.filter(fn => fn !== "random");
+    ColorNegatives = NegativesCleanse;
+  };
+
+  if (window[itemArray].length >= window[itemFullList].length) {
+    window[itemArray] = [];
+  };
+
+  window[randomItem] = item.selectOne;
+
+  if (window[itemArray].includes(window[randomItem])) {
+    RandomColors(item, itemFullList, itemArray, randomItem);
+  } else {
+    window[itemArray].push(window[randomItem]);
+  };
+
+  return "";
+
+// Negatives ||
+  return "";
+ColorNegatives = [""]
+
+
+//🔽 This is a drop down menu that work like the ones shown at the right ->, it uses only the colors in "ColorList". Do not import it, if you want to use, ctrl c+v to adjust, because they need some <style> aesthetics.  Just use the ctrl+f after clickig in this painel to search for "id=" and "class=" to configure or change.
+//THey are deactivated to economize data whem this page is imported.
+ColorHtml
+//  compact = [`<div id="idZero" onclick="show()"> <p class="pThree">Color List</p> <div id="idOne"><div class="colorBG red"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Red</p></button></div><div class="colorBG scarlet"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Scarlet</p></button></div><div class="colorBG crimson"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Crimson</p></button></div><div class="colorBG ruby"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Ruby</p></button></div><div class="colorBG raspberry"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Raspberry</p></button></div><div class="colorBG cherry"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Cherry</p></button></div><div class="colorBG pink"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Pink</p></button></div><div class="colorBG baby-pink"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Baby Pink</p></button></div><div class="colorBG burgundy"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Burgundy</p></button></div><div class="colorBG maroon"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Maroon</p></button></div><div class="colorBG orange"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Orange</p></button></div><div class="colorBG tangerine"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Tangerine</p></button></div><div class="colorBG burnt-orange"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Burnt Orange</p></button></div><div class="colorBG coral"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Coral</p></button></div><div class="colorBG peach"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Peach</p></button></div><div class="colorBG apricot"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Apricot</p></button></div><div class="colorBG butter-yellow"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Butter Yellow</p></button></div><div class="colorBG mustard"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Mustard</p></button></div><div class="colorBG gold"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Gold</p></button></div><div class="colorBG yellow"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Yellow</p></button></div><div class="colorBG canary-yellow"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Canary Yellow</p></button></div><div class="colorBG lemon-yellow"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Lemon Yellow</p></button></div><div class="colorBG lemon"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Lemon</p></button></div><div class="colorBG lime"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Lime</p></button></div><div class="colorBG chartreuse"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Chartreuse</p></button></div><div class="colorBG lime-green"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Lime Green</p></button></div><div class="colorBG forest-green"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Forest Green</p></button></div><div class="colorBG green"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Green</p></button></div><div class="colorBG sea-green"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Sea Green</p></button></div><div class="colorBG jade"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Jade</p></button></div><div class="colorBG emerald"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Emerald</p></button></div><div class="colorBG mint-green"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Mint Green</p></button></div><div class="colorBG olive"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Olive</p></button></div><div class="colorBG powder-blue"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Powder Blue</p></button></div><div class="colorBG sky-blue"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Sky Blue</p></button></div><div class="colorBG baby-blue"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Baby Blue</p></button></div><div class="colorBG azure"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Azure</p></button></div> <div class="colorBG blue"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Blue</p></button></div><div class="colorBG cobalt"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Cobalt</p></button></div><div class="colorBG sapphire"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Sapphire</p></button></div><div class="colorBG navy"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Navy</p></button></div><div class="colorBG teal"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Teal</p></button></div><div class="colorBG turquoise"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Turquoise</p></button></div><div class="colorBG indigo"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Indigo</p></button></div><div class="colorBG lavender"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Lavender</p></button></div><div class="colorBG lilac"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Lilac</p></button></div><div class="colorBG violet"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Violet</p></button></div><div class="colorBG amethyst"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Amethyst</p></button></div><div class="colorBG magenta"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Magenta</p></button></div><div class="colorBG fuchsia"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Fuchsia</p></button></div><div class="colorBG beige"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Beige</p></button></div><div class="colorBG tan"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Tan</p></button></div><div class="colorBG camel"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Camel</p></button></div><div class="colorBG khaki"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Khaki</p></button></div><div class="colorBG chocolate"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Chocolate</p></button></div><div class="colorBG mahogany"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Mahogany</p></button></div><div class="colorBG sienna"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Sienna</p></button></div><div class="colorBG bronze"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Bronze</p></button></div><div class="colorBG copper"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Copper</p></button></div><div class="colorBG gray"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Gray</p></button></div><div class="colorBG slate"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Slate</p></button></div><div class="colorBG charcoal"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Charcoal</p></button></div><div class="colorBG pewter"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Pewter</p></button></div><div class="colorBG silver"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Silver</p></button></div><div class="colorBG white"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">White</p></button></div><div class="colorBG ivory"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Ivory</p></button></div><div class="colorBG cream"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Cream</p></button></div><div class="colorBG off-white"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Off-White</p></button></div><div class="colorBG onyx"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Onyx</p></button></div><div class="colorBG black"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Black</p></button></div><div class="colorBG jet-black"><button class="colorMenuBtn" onclick="GetColor(this)"><p class="colorText">Jet Black</p></button></div></div></div>`]
+
+////END

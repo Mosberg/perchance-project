@@ -1,0 +1,715 @@
+// 👄🍆
+copyText = {import:copy-text-plugin}
+
+visor(text) =>
+  if (!text) return
+  const visorEl = document.getElementById("formatTxTDisplayInfo");
+  visorEl.innerText = `Characters: ${text.length}`;
+
+tagCase(element, text, caseType) =>
+  const input = document.querySelector(element); //document.getElementById(element);
+  const { selectionStart, selectionEnd, value } = input;
+
+  const selected = value.slice(selectionStart, selectionEnd);
+  let target = selected || text; // use selected text or full text
+  if (!target) return;
+
+  // Transform based on caseType
+  let newText;
+  switch (caseType) {
+    case "UC": // Uppercase
+      newText = target.toUpperCase();
+      break;
+
+    case "LC": // lowercase
+      newText = target.toLowerCase();
+      break;
+
+    case "SC": // Sentence case
+      newText = target.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+      break;
+
+    case "CC": // Capitalized / Title Case
+      newText = target.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+      break;
+
+    default:
+      newText = target;
+  }
+
+  // If there was no selection, just return transformed text
+  if (!selected) return newText;
+
+  // Replace selection in textarea/input
+  input.value = value.slice(0, selectionStart) + newText + value.slice(selectionEnd);
+
+  // Restore selection
+  input.selectionStart = selectionStart;
+  input.selectionEnd = selectionStart + newText.length;
+  input.focus();
+
+TagCleaner(text) => // Works with danbooru and gelbooru, in desktop and mobile.
+  const tagString = text
+    // 1️⃣ Remove section headers (Artist, Character, Copyright, Metadata, Tag)
+    .replace(/\b(?:Artist|Character|Characters|Copyright|Copyrights|Metadata|Meta|Tag|Tags|General|Statistics)\b\??/g, '')
+
+    // 2️⃣ Remove the weird "+ -" or "+", "-" markers that come before tags
+    .replace(/\?\s*(?:\+|-|\+\s*-|-?\s*\+)\s*/g, '? ')   // normalize things like "? + -"
+    .replace(/[?+–-]\s+/g, '? ')                         // any stray + or - left
+
+    // 3️⃣ Remove numeric counters only when trailing
+
+    .replace(/\s+\d+(?=\s*(?:$|\?|[\r\n]))/g, '')
+    .replace(/\s+\d+(?:\.\d+)?(k|m)(?=\s*(?:$|\?|[\r\n]))/gi, '')
+    .replace(/ (?<!\?\s)(\d+)(?=[A-Za-z])/g, '\n?') // When using gelbooru or copying from mobile, the tags do not have '?' and line break, so it add to be separated with commas below.
+
+
+    // 4️⃣ Replace "?" markers with a consistent separator (space)
+    .replace(/\?\s*/g, '\n? ') // When using gelbooru the tags do not have line break, so add it to be separated with commas below.
+    .replace(/\?\s*/g, ' ')
+
+    // 5️⃣ Remove undesirable tags
+    .replace(/\bcensored\b|bar censor|blank censor|blur censor|glitch censor|heart censor|light censor|mosaic censoring|scribble censor|novelty censor|character censor|censored by text|flower censor|interface censor|emoji censor|artist name|commentary|text|4koma|dialog|commentary|twitter username|patreon username|Artist|Character|Characters|Copyright|Copyrights|Metadata|Meta|Tag|Tags|General|Statistics/gi, "")
+
+    // 6️⃣ Collapse multiple spaces and trim
+    .replace(/\s{2,}/g, ', ')
+    .replace(/^,|,$/g, '') // remove comma at start or end
+    .trim();
+
+  return tagString;
+
+TextCleaner(text) =>
+  return text
+    .replace(/^\s*,+/gm, "") // leading commas
+    .replace(/ {2,}/g, " ") // duplicate spaces
+    .replace(/^ /gm, "") // leading spaces
+    .replace(/,\s?,+/g, ", ")
+    .replace(/,\s*$/gm, "") // Removes a trailing comma at the end of the line.
+    .replace(/\.,/g, ".")
+    .replace(/,\./g, ".")
+    .replace(/, (?=[A-Z]\b(?![A-Z]))/g, '. ')
+    .replace(/^\s*\.\s*$/gm, "") // Lonely dots on new lines
+    .replace(/(\. ?)([a-z])/g, (_, dot, char) => dot + char.toUpperCase())
+    .replace(/(?<!\.)\.\.(?!\.)/g, '.')
+  //  .replace(/(^|\n)([a-z])/g, (_, sep, char) => sep + char.toUpperCase())
+    .replace(/[\[]/g, "\\[").replace(/[\]]/g, "\\]");
+
+ParenthesesConverter(text)=>
+  // Add until ))) or removes.
+  return text
+    .split(',')
+    .map(word => {
+    let trimmed = word.trim();
+      if (trimmed.startsWith('(((') && trimmed.endsWith(')))')) {
+        return trimmed.replace(/[\(\)]/g, '');
+      } else {
+        return `(${trimmed})`;
+      }
+    })
+    .join(', ');
+
+PipeConverter(text)=>
+  if (text.includes('|')) {
+    return text.replace(/[{}]/g, '').replace(/\|/g, ', ');
+  } else {
+    let PipeString = text
+    .replace(/\n|,/g, "|")
+    .replace(/\s*\|\s*/g, "|")
+    .replace(/^\s+|\s+$/g, "");
+    return "\{" + PipeString + "\}";
+  };
+
+LineBreakRemover(text)=>
+  // If it has line breaks → convert to comma-space
+  if (/\n/.test(text)) {
+    return text.replace(/\n+/g, ", ");
+  }
+
+  // Otherwise → convert commas to line breaks
+  return text.replace(/,\s*/g, "\n");
+
+QMarksRemoverOld(element, text)=>
+  const input = document.querySelector(element); //document.getElementById(element);
+  const { selectionStart, selectionEnd, value } = input;
+
+  // Get the selected text
+  const selected = value.slice(selectionStart, selectionEnd);
+  if (!selected) {
+    let AspaString = text.replace(/"|'/g, "");
+    return AspaString;
+  }; // nothing selected, only remove quotations marks from the entire textarea/input
+
+  // Toggle quotes
+  let replaced;
+  if (
+    (selected.startsWith('"') && selected.endsWith('"')) ||
+    (selected.startsWith("'") && selected.endsWith("'"))
+  ) {
+    replaced = selected.slice(1, -1); // remove quotes
+  } else {
+    replaced = `"${selected}"`; // add quotes
+  }
+
+  // Replace in the textarea
+  input.value = value.slice(0, selectionStart) + replaced + value.slice(selectionEnd);
+
+  // Restore selection to the new text
+  input.selectionStart = selectionStart;
+  input.selectionEnd = selectionStart + replaced.length;
+  input.focus();
+QMarksRemover(element, text) =>
+  const input = document.querySelector(element);
+  const { selectionStart, selectionEnd, value } = input;
+
+  const selected = value.slice(selectionStart, selectionEnd);
+
+  // ✅ CASE 1 — THERE IS SELECTION (your original behavior)
+  if (selected) {
+    let replaced;
+
+    if (/["']/.test(selected)) {
+      replaced = selected.replace(/["']/g, "");
+    } else {
+      replaced = `"${selected}"`;
+    }
+
+    input.value =
+      value.slice(0, selectionStart) +
+      replaced +
+      value.slice(selectionEnd);
+
+    input.selectionStart = selectionStart;
+    input.selectionEnd = selectionStart + replaced.length;
+    input.focus();
+    return;
+  }
+
+  // ✅ CASE 2 — NO SELECTION
+
+  // 2.1 → quotes already exist anywhere → remove all
+  if (/["']/.test(text)) {
+    return text.replace(/["']/g, "");
+  }
+
+  // 2.2 → comma separated
+  else if (text.includes(",")) {
+    return text
+      .split(",")
+      .map(item => `"${item.trim()}"`)
+      .join(", ");
+  }
+
+  // 2.3 → line-break separated
+  else if (text.includes("\n")) {
+    return text
+      .split("\n")
+      .map(item => `"${item.trim()}"`)
+      .join("\n");
+  }
+
+  // 2.4 → nothing to do
+  return text;
+
+
+
+ULineRemover(element, text)=>
+  const input = document.querySelector(element); //document.getElementById(element);
+
+  const { selectionStart, selectionEnd, value } = input;
+  const selected = value.slice(selectionStart, selectionEnd);
+  if (!selected) {
+    let UString
+    if (/_/.test(text)) {
+      UString = text.replace(/_/g, " ");
+    } else {
+      UString = text.replace(/ +/g, '_').replace(/,_/g, ', ');
+    }
+
+    return UString;
+  }; // no text selected
+
+  let replaced;
+
+  // If text already contains underscores → remove them (convert to spaces)
+  if (selected.includes('_')) {
+    replaced = selected.replace(/_/g, ' ');
+  } else {
+    // Otherwise, replace spaces with underscores
+    replaced = selected.replace(/ +/g, '_').replace(/,_/g, ', ');
+  }
+
+  // Replace the text in the input
+  input.value = value.slice(0, selectionStart) + replaced + value.slice(selectionEnd);
+
+  // Restore selection and focus
+  input.selectionStart = selectionStart;
+  input.selectionEnd = selectionStart + replaced.length;
+  input.focus();
+
+AlphabeticOrder(text) =>
+  let items;
+  // Detect separator
+  if (text.includes('\n')) {
+    items = text.split('\n').map(t => t.trim());
+  } else if (text.includes(',')) {
+    items = text.split(',').map(t => t.trim());
+  } else {
+    items = text.split(/\s+/).map(t => t.trim());
+  }
+
+  // Alphabetical sort
+  items = items.filter(t => t.length > 0).sort((a, b) =>
+    a.localeCompare(b)
+  );
+
+  // Rejoin using the original format
+  if (text.includes('\n')) return items.join('\n');
+  if (text.includes(',')) return items.join(', ');
+  return items.join(' ');
+
+ReverseOrder(text)=>
+  let delimiter;
+  let joiner; // Unecessary now but can be useful in future changes? Maybe
+
+  if (text.includes(",")) {
+    delimiter = ",";
+    joiner = ", ";
+  } else if (text.includes("\n")) {
+    delimiter = "\n";
+    joiner = "\n";
+  } else {
+    delimiter = " ";
+    joiner = " ";
+  }
+
+  return text
+    .split(delimiter)
+    .map(w => w.trim())
+    .reverse()
+    .join(joiner);
+
+compress(text) =>
+  if (/\n/.test(text)) {
+    return text.replace(/\n+/g, "\\n");
+  }
+  return text.replace(/\\n/g, "\n\n");
+
+createVar(text) =>
+  const name = prompt("insert the name") || "NONAME";
+  let count = 0;
+  let arrayList = text.split("\n").filter(item => item !== "");
+  let textArray = [];
+  arrayList.forEach(item => {
+    count++;
+    let newItem = `${name.toUpperCase()}${count} = ${item}`;
+    textArray.push(newItem);
+  })
+  return textArray.join("\n")
+
+
+// Helper: get search parameters
+getSearchInfo(element) =>
+  (!window.lastSearch) ? window.lastSearch = "" : "";
+  (!window.lastIndex) ? window.lastIndex = -1 : "";
+  const query = document.getElementById("findTag").value;
+  const caseSensitive = document.getElementById("checkCase").checked;
+  const textarea = document.querySelector(element);
+  const text = textarea.value;
+
+  return { query, caseSensitive, textarea, text };
+
+// Case-insensitive indexOf
+indexOfCI(haystack, needle, start) =>
+  return haystack.toLowerCase().indexOf(needle.toLowerCase(), start);
+
+// Case-insensitive lastIndexOf
+lastIndexOfCI(haystack, needle, start) =>
+  return haystack.toLowerCase().lastIndexOf(needle.toLowerCase(), start);
+
+findNext(element) =>
+  const { query, caseSensitive, textarea, text } = getSearchInfo(element);
+  if (!query) return prompt('none');
+
+  // Reset search when the term changes
+  if (query !== window.lastSearch) {
+    window.lastSearch = query;
+    window.lastIndex = -1;
+  }
+
+  const startPos = window.lastIndex + query.length;
+
+  let found = caseSensitive
+    ? text.indexOf(query, startPos)
+    : indexOfCI(text, query, startPos);
+
+  // Wrap to beginning
+  if (found === -1) {
+    found = caseSensitive
+      ? text.indexOf(query)
+      : indexOfCI(text, query, 0);
+  }
+  if (found === -1) return; // no matches
+
+  selectText(textarea, found, found + query.length);
+  window.lastIndex = found;
+
+findPrev(element) =>
+  (!window.lastSearch) ? window.lastSearch = "" : "";
+  (!window.lastIndex) ? window.lastIndex = -1 : "";
+
+  const { query, caseSensitive, textarea, text } = getSearchInfo(element);
+  if (!query) return;
+
+  if (query !== window.lastSearch) {
+    window.lastSearch = query;
+    window.lastIndex = text.length;
+  }
+
+  let found = caseSensitive
+    ? text.lastIndexOf(query, window.lastIndex - 1)
+    : lastIndexOfCI(text, query, window.lastIndex - 1);
+
+  // Wrap to end
+  if (found === -1) {
+    found = caseSensitive
+      ? text.lastIndexOf(query)
+      : lastIndexOfCI(text, query, text.length);
+  }
+  if (found === -1) return;
+
+  selectText(textarea, found, found + query.length);
+  window.lastIndex = found;
+
+selectText(input, start, end) =>
+  input.focus();
+  input.selectionStart = start;
+  input.selectionEnd = end;
+
+  // Auto-scroll to the selection
+  const before = input.value.substr(0, start).split("\n").length;
+  const lineHeight = 20;
+  input.scrollTop = (before - 1) * lineHeight;
+
+replaceOne(textEl, tagEl, newTagEl, caseEl) =>
+  const textarea = document.querySelector(textEl);
+  const find = document.getElementById(tagEl).value;
+  const replace = document.getElementById(newTagEl).value;
+  const caseSensitive = document.getElementById(caseEl).checked;
+
+  if (!find) return;
+
+  const { value, selectionStart, selectionEnd } = textarea;
+  const selected = value.slice(selectionStart, selectionEnd);
+
+  // Escape for regex testing
+  const escapedFind = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const flags = caseSensitive ? "" : "i";
+  const regex = new RegExp(escapedFind, flags);
+
+  // 1) If there is a selected text AND it matches the search -> replace it.
+  if (selected && regex.test(selected)) {
+    const newText =
+      value.slice(0, selectionStart) +
+      replace +
+      value.slice(selectionEnd);
+
+    textarea.value = newText;
+
+    // Reselect replaced area
+    textarea.focus();
+    textarea.selectionStart = selectionStart;
+    textarea.selectionEnd = selectionStart + replace.length;
+    return;
+  }
+
+  // 2) Otherwise, search for the next match after the current selection end.
+  // Start searching just after the selection end so repeated clicks move forward.
+  const searchStart = (selectionEnd && selectionEnd > selectionStart) ? selectionEnd : 0;
+
+  const hay = caseSensitive ? value : value.toLowerCase();
+  const needle = caseSensitive ? find : find.toLowerCase();
+
+  let index = hay.indexOf(needle, searchStart);
+
+  // If not found after selection -> wrap to start
+  if (index === -1 && searchStart !== 0) {
+    index = hay.indexOf(needle, 0);
+  }
+
+  if (index === -1) return; // nothing found anywhere
+
+  // Replace the found match (preserve everything else)
+  const newText =
+    value.slice(0, index) +
+    replace +
+    value.slice(index + find.length);
+
+  textarea.value = newText;
+
+  // Select the replaced text so the user sees it
+  textarea.focus();
+  textarea.selectionStart = index;
+  textarea.selectionEnd = index + replace.length;
+
+replaceAllTags(textEl, tagEl, newTagEl, caseEl)=>
+  let text = document.querySelector(textEl).value;
+  const tag = document.getElementById(tagEl).value;
+  const newTag = document.getElementById(newTagEl).value;
+  const sensitiveCase = document.getElementById(caseEl).checked;
+  let tagRegex;
+  if (sensitiveCase === true) {
+    tagRegex = new RegExp(tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+  }
+  if (sensitiveCase === false) {
+    tagRegex = new RegExp(tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  }
+  document.querySelector(textEl).value = text.replace(tagRegex, newTag);
+
+// Create HTML Elements
+textToolsHtmlRender(targetEl) =>
+
+  if (!document.getElementById('txtToolsCtn')) { // Create the html elements first time
+    const mainCtn = document.createElement('div');
+    mainCtn.id = "txtToolsCtn";
+    mainCtn.style.display = "none";
+    mainCtn.innerHTML =
+      `<div id="formatTxT" style="background:var(--blackwhite-rgba-05); border-radius:5px; padding:1px">
+        <div style="display:flex; gap:1px; margin-bottom:5px;">
+          <!--button id="formatTxTDisplayInfo" class="default-border box-08" onclick="insert('visor')">Count characters</button-->
+          <button class="default-border box-08" style="margin-left:auto" onclick="textToolsInfo()">Info</button>
+          <button id="CloseFormatTxTBtn" class="default-border box-08">Close</button>
+        </div>
+        <div class="flexCtn" style="width:500px; max-width:95vw">
+          <button onclick="insert('UC')" class="default-border box-08">AA</button>
+          <button onclick="insert('LC')" class="default-border box-08">aa</button>
+          <button onclick="insert('SC')" class="default-border box-08">Aa aa</button>
+          <button onclick="insert('CC')" class="default-border box-08">Aa Aa</button>
+          <button onclick="insert('LB')" class="default-border box-08">¶ ⇆ <span style="display:inline-block;transform: scale(2.2);transform-origin:bottom;">,</span></button>
+          <button onclick="insert('Pth')" class="default-border box-08">( )</button>
+          <button onclick="insert('PLine')" class="default-border box-08">\{|\}</button>
+          <button onclick="insert('QM')" class="default-border box-08">❝</button>
+          <button onclick="insert('UL')" class="default-border box-08">▁</button>
+          <button onclick="insert('AZOrder')" class="default-border box-08">AZ</button>
+          <button onclick="insert('Order')" class="default-border box-08">⇆</button>
+
+          <button onclick="insert('TC')" class="default-border box-08">Text 🧹️</button>
+          <button onclick="insert('BF')" class="default-border box-08">Booru Tag 🧹️</button>
+          <button onclick="insert('ZIP')" class="default-border box-08">Parapraph⇆Line</button>
+          <button onclick="insert('VAR')" class="default-border box-08">Name=Value</button>
+        </div>
+
+        <div id="findInputCtn" class="flexCtn" style="justify-content: left;">
+          <input placeholder="Find" id="findTag">
+          <button onclick="insert('findPrev')">⇧</button>
+          <button onclick="insert('findNext')">⇩</button>
+          case <input type="checkbox" id="checkCase">
+        </div>
+
+        <div id="replaceInputCtn" class="flexCtn" style="justify-content: left;">
+          <input placeholder="Replace" id="replaceTag">
+          <button onclick="insert('ReplaceOne')">➔</button>
+          <button onclick="insert('ReplaceAll')">all</button>
+        </div>
+      </div>
+      <hr id="hrFT" style="max-width:100%; padding:0px; margin:0px; opacity:0;">
+      `
+    document.getElementById('HTMLframework').appendChild(mainCtn);
+    const closeBtn = document.getElementById("CloseFormatTxTBtn");
+    closeBtn.onclick = () => {
+      document.querySelector('#txtToolsCtn').appendChild(document.getElementById('formatTxT'));
+      document.querySelector('#txtToolsCtn').appendChild(document.getElementById('hrFT'));
+    }
+    console.log(`#txtToolsCtn created!`)
+    if (!window.textToolsInfo) window.textToolsInfo = () => textToolsInfo();
+  }
+
+  if (!targetEl) return "No element selected"; // This is the container where the textFormat will be inserted.
+  targetEl.startsWith("#") ? "" : targetEl = "#" + targetEl; // For older compatibility
+  if (document.querySelector(targetEl).innerHTML !== "") {
+    document.querySelector('#txtToolsCtn').appendChild(document.getElementById('formatTxT'));
+    document.querySelector('#txtToolsCtn').appendChild(document.getElementById('hrFT'));
+    //console.log(document.querySelector('#txtToolsCtn'));
+  } else {
+    const hr = document.getElementById('hrFT');
+    document.querySelector(targetEl).appendChild(document.getElementById('formatTxT'));
+    document.querySelector(targetEl).insertAdjacentElement('afterend', hr);
+    //console.log(document.querySelector(targetEl));
+  }
+
+textToolsInfo() =>
+  let cssStyle = document.createElement("style");
+  cssStyle.textContent = `
+    .info-text-tools span:not(.par) {
+      background: var(--whiteblack-rgba-02, rgba(255,255,255,0.2));
+      padding: 1px;
+    }`;
+
+  let html = `
+    <div class="info-text-tools" style="border-radius:5px; width:700px; top:10%; left:50%; transform:translateX(-50%); max-width:95vw; height:500px; max-height:80vh; overflow-y:auto; display:flex; flex-direction:column; gap:12px; position:fixed; background:var(--blackwhite, #000);">
+      <button class="info-text-tools-closeBtn" style="position:sticky; top:0; width:80px; margin-left:auto; background:red">Close X</button>
+      <span class="par"> <button class="default-border box-08">AA</button> UPPER CASE </span>
+      <span> <button class="default-border box-08">aa</button> lower case </span>
+      <span class="par"> <button class="default-border box-08">Aa aa</button> Sentence case</span>
+      <span> <button class="default-border box-08">Aa Aa</button> Title Case</span>
+      <span class="par"> <button class="default-border box-08">¶ ⇆ <span class="par" style="display:inline-block;transform: scale(2.2);transform-origin:bottom;">,</span></button> Change line/paragraph break to comma or vice versa</span>
+      <span> <button class="default-border box-08">( )</button> Remove or add parentheses (up to 3)</span>
+      <span class="par"> <button class="default-border box-08">\{|\}</button> Place text separated by commas or line breaks within square brackets \{item1|item2\} to be used randomly.</span>
+      <span> <button class="default-border box-08">❝</button> Put quotation marks around the selected item (you need to select the word or text).</span>
+      <span class="par"> <button class="default-border box-08">▁</button> Place an underscore "_" between the spaces in the selected item (if nothing is selected, it will place it around the entire text).</span>
+      <span> <button class="default-border box-08">AZ</button> Put in alphabetical order</span>
+      <span class="par"> <button class="default-border box-08">⇆</button> Reverse the order of each item.</span>
+
+      <span> <button class="default-border box-08">Text 🧹️</button> Corrects some punctuation errors.</span>
+      <span class="par"> <button class="default-border box-08">Booru Tag 🧹️</button> Converts the tags from the Danbooru and Gelbooru websites, removing unnecessary tags and items, and removing underscores, leaving the text clean for use as a prompt. How to use? Simply select all the tags from the mentioned website, paste them, and click the button 'Booru Tag 🧹️'.</span>
+      <span> <button class="default-border box-08">Parapraph⇆Line</button> Converts text with multiple paragraphs/line breaks into a single line for use in notepads, without removing the line break. Or vice versa. Example:</span>
+      <div style="border: 1px dashed red;">
+        <p>Text one.</p>
+        <p>Text two.</p>
+        <p>Text three.</p>
+        To: Text one\\nText two\\nText three
+      </div>
+      <span><button class="default-border box-08">Name=Value</button> This is for use in Notepad (or Perchance page), using a list of items (paragraph format). It gives each item in the list a name. You need to choose the name, and a number will be associated with that name plus an item from the list. Example:</span>
+      <div style="border: 1px dashed red;">
+      List Before:
+        <p>Item 1</p>
+        <p>Item 2</p>
+        <p>Item 3</p>
+        To (after):
+        <p>CHOSENNAME1 = Item 1</p>
+        <p>CHOSENNAME2 = Item 2</p>
+        <p>CHOSENNAME3 = Item 3</p>
+      </div>
+    </div>
+  `
+  const newDiv = document.createElement('div');
+  newDiv.innerHTML = html;
+
+  const closeBtn = newDiv.querySelector('.info-text-tools-closeBtn');
+  closeBtn.onclick = () => {
+    newDiv.remove();
+  }
+
+  document.body.appendChild(newDiv);
+
+  const cssExists = [...document.querySelectorAll("style")].some(style => style.textContent.includes(".info-text-tools"));
+  if (!cssExists) document.head.appendChild(cssStyle);
+
+  return "";
+
+createTextArea(targetEl) =>
+  const ctn = document.createElement('div');
+  const btnGrid = document.createElement('div');
+  const bCopy = document.createElement('button');
+  const bSelect = document.createElement('button');
+  const t = document.createElement('textarea');
+
+  ctn.style = "display:flex; flex-direction:column; margin: 0.5rem 0; padding:1px;";
+
+  btnGrid.style = "display:flex; flex-direction:row;";
+
+  bCopy.textContent = "Copy";
+  bCopy.onclick = () => {
+    copyText(t.value);
+  }
+
+  bSelect.textContent = "Select All";
+  bSelect.onclick = () => {
+    t.focus();
+    t.select();
+  }
+
+  t.id = "userText";
+  t.className = "default-border box-08";
+  t.placeholder = "Past your text here..."
+
+  btnGrid.appendChild(bCopy);
+  btnGrid.appendChild(bSelect);
+  ctn.appendChild(btnGrid);
+  ctn.appendChild(t);
+
+  if (!targetEl) return "No element selected";
+  targetEl.startsWith("#") ? "" : targetEl = "#" + targetEl;
+  document.querySelector(targetEl).prepend(ctn);
+
+// Handle buttons
+//inputElForTextTools = ['#userText']
+insert(type) =>
+  if (!window.inputElForTextTools) return;
+  let convertEl = String(window.inputElForTextTools); //.replace("|-", "[").replace("-|", "]"); // To escape perchance syntax.
+  let targetEl = document.querySelector(convertEl);
+    if (!targetEl) {
+      targetEl = document.querySelector(`[data-name="${convertEl}"]`);
+    }
+  let el = targetEl;
+  let text = el.value;
+  let formatedText;
+
+  if (type === "visor") {
+    visor(text);
+    return
+  }
+  if (type === "LB") {
+    formatedText = LineBreakRemover(text);
+  }
+  if (type === "Pth") {
+    formatedText = ParenthesesConverter(text);
+  }
+  if (type === "PLine") {
+    formatedText = PipeConverter(text);
+  }
+  if (type === "QM") {
+    formatedText = QMarksRemover(convertEl, text);
+    if (!formatedText) return
+  }
+  if (type === "UL") {
+    formatedText = ULineRemover(convertEl, text);
+    if (!formatedText) return
+  }
+  if (type === "AZOrder") {
+    formatedText = AlphabeticOrder(text);
+  }
+  if (type === "Order") {
+    formatedText = ReverseOrder(text);
+  }
+
+  if (["UC", "LC", "SC", "CC"].includes(type)) {
+    formatedText = tagCase(convertEl, text, type);
+    if (!formatedText) return
+  }
+
+  if (type ==="TC") {
+    formatedText = TextCleaner(text);
+  }
+
+  if (type ==="BF") {
+    formatedText = TagCleaner(text);
+  }
+
+  if (type ==="ZIP") {
+    formatedText = compress(text);
+  }
+
+  if (type ==="VAR") {
+    formatedText = createVar(text);
+  }
+
+  if (type === "findPrev") {
+    findPrev(convertEl);
+    return
+  }
+
+  if (type === "findNext") {
+    findNext(convertEl);
+    return
+  }
+  if (type === "ReplaceOne") {
+    replaceOne(convertEl, 'findTag', 'replaceTag', 'checkCase');
+    return
+  }
+  if (type === "ReplaceAll") {
+    replaceAllTags(convertEl, 'findTag', 'replaceTag', 'checkCase');
+    return
+  }
+
+  el.value = formatedText;
+  el.dispatchEvent(new Event('input', { bubbles: true }));

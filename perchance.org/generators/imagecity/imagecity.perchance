@@ -1,0 +1,448 @@
+generateHTML = {import:ewzqi9hyzz}  // <-- this is a little DIY 'framework' plugin that itself importes the text-to-image plugin and generates the user interface using the settings below
+date = {import:date-plugin}
+
+// made by 9gin
+// version 1.5.0.6
+// original link: https://perchance.org/image-generator-professional
+// If you reading this, i need more idea.. help me and make better
+
+
+// 20
+
+
+
+$meta
+  title = AI Image Generator Professional - V2
+  image = https://user-uploads.perchance.org/file/082ebf130b1d01c5cdf729bde235f880.png
+
+settings
+  pageTitle = Image Generator Professional V2
+  numImages = [Number(input.numImages)]
+
+  // introMessage = <span style="font-size:120%;"><a href="https://perchance.org/k73a1e5nfj" target="_blank" style="white-space:pre;"><b>Try Random Character Generator<br>(part of this generator)</b></a><span style="font-size:80%;"><br><br>Version <b>1.4.1</b><br>Add a description, then click <b>generate</b>.<br><br>This generator has <b>more professional features than other generators</b>!<br><br><span style="font-size:80%; color:grey; max-width:370px; display:inline-block;">This generator was made using the <a href="https://perchance.org/text-to-image-plugin" target="_blank" style="white-space:pre;">text-to-image-plugin</a>.<br>The brain button feature uses the <a href="https://perchance.org/ai-text-plugin" target="_blank" style="white-space:pre;">ai-text-plugin</a>..</span>
+  introMessage = Version 1.5.0.6
+
+  socialFeatures = button
+
+  // note:the t2i-framework-plugin makes all user inputs from the `userInputs` list accessible by name as [input.theNameOfTheInput], as shown here:
+  imageOptions // <-- options for the text-to-image plugin that generates the images: https://perchance.org/text-to-image-plugin
+    saveTitle = ([input.artStyle.getName]) [input.imagename] // .getName is a built-in Perchance property that gets the name of a given list/sublist/node
+    saveDescription = Upload Date: [date().utc().format("DD MMM HH:mm:ss")] ([date().format("DD MMM HH:mm:ss")]), Used '[input.artStyle.getName]' + '[input.artStyleMix.getName]' Art Style, GuidanceScale: [input.Gscale]
+    prompt = [input.artStyle.prompt], [input.artStyleMix.prompt]
+    negativePrompt = [input.artStyle.negative], [input.artStyleMix.negative]
+    resolution = [input.shape]
+    guidanceScale = [input.Gscale]
+    seed = [input.seed]
+
+  userInputs // you can add more user inputs to this list, and then use them like [input.nameOfInput] in the `prompt`, `negativePrompt`, `artStyle.prompt`, etc.
+
+    scratchpad // Note: the 'remember' option storage is 'based on' this 'scratchpad' name, so if you change that name to something else like 'notepad', people will lose all their saved scratchpad text. But it's safe to change the 'label', below.
+      label = ✏ <b>Notepad</b>
+      type = paragraph
+      remember = true // <-- the text that the user inputs will be remembered so it's still there even if they close/refresh the page
+      width = 100%
+      height = 30vh
+      takesUpFullRow = true
+      foldToggleState = hidden // or 'shown' if you want it to start shown, or delete this line if you don't want it to be show-able/hide-able
+      examples
+        You can use this text box to store your prompts and other notes. The text you put here will be remembered even after you've closed/refreshed this page so long as you're not in in incognito browsing mode.\n\nNote: If you clear your "site data"/cookies for this site, your notepad data will be lost.
+
+    description
+      label = <b>Prompt</b>
+      tip = Tip: If you write something like &lcub;blue|red|green&rcub; as part of your description, then a random one will be chosen for each image.\n\nYou can see the prompt that was used for a particular generated image by hovering your mouse over it, or long-pressing on mobile.\n\nAdd brackets around text (like this) to get the AI to pay more attention to it.
+      type = paragraph
+      width = 100%
+      takesUpFullRow = true
+      remember = true
+      modifiers = [input.artStyle?.modifiers || null]
+      modifierUpdates = event:description.input, event:artStyle.change
+      enterKeyTriggersGeneration = true // <-- can still use shift+enter to create a new line
+      // we use artstyle-specific random prompts if available, otherwise fall back to randomDescriptions list:
+      examples = [input.artStyle?.randomPrompt || randomDescription] // <-- the placeholder examples that rotate in the text box
+      random = [input.artStyle?.randomPrompt || randomDescription] // <-- added to the text box when the 'random' button gets clicked
+
+    negative
+      label = <b>Negative Prompt</b>
+      tip = Write things you don't want in the image here, such as: low quality, bad hands
+      type = paragraph
+      width = 100%
+      takesUpFullRow = true
+      foldToggleState = shown
+      remember = true
+      examples
+        Things you dont want in the image
+
+    numImages
+      label = <b>Number Of Images</b>
+      // type = text
+      type = select
+      remember = true // <-- the selected option will be remembered even if the user refreshes/closes the page
+      examples = 6 - 30 recommended
+      options
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+        11
+        12
+        13
+        14
+        15
+        17
+        19
+        20
+        21
+        24
+        27
+        25
+        30
+        35
+        36
+        40
+        42
+        45
+        48
+        50
+        54
+        57
+        60
+
+    artStyle
+      label = 🎨 <b>Art Style</b>
+      type = select
+      remember = true // <-- makes it so the selected option will be remembered even if the user refreshes/closes the page
+      options
+        meta:import
+          from = {import:art-style-updated} // <-- imports a bunch of 'default' styles (you can delete this, or put it at the end, below 'No style' if you want)
+        MTG Card // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], magic the gathering
+          negative = [input.negative], low-quality, deformed, blurry, bad art
+        Realistic images
+          prompt = [input.description], high quality image, 4k, 8k, HD, UHD, Sharp Focus, In Frame
+          negative = [input.negative], low quality, deformed, blurry, bad art, drawing, painting, horrible resolutions, low DPI, low PPI, blurry, glitch, error
+          meta:position = 5
+        Realistic humans
+          prompt = [input.description], high quality image, 4k, 8k, HD, UHD
+          negative = [input.negative], low quality, deformed, blurry, bad art, drawing, painting, incorrect anatomy, ugliness, ugly, horrible resolutions, low DPI, low PPI, bad character positioning, absurd anatomy, tiling, pixelization, low pixel count, blurry, low-res face, low poly, Poorly Drawn Characters, Badly Drawn Eyes, Badly Drawn Mouth, Badly Drawn Ears, Badly Drawn Nose, Badly Drawn Hands, Badly Drawn Feet, Badly Drawn Legs, Badly Drawn Hair, Badly Drawn Clothing, bad anatomy, (ugly), missing arms, bad proportions, tiling, missing legs, blurry, (poorly drawn feet), morbid, cloned face, ((extra limbs)), (mutated hands), cropped, (disfigured), mutation, deformed, (mutilated), dehydrated, body out of frame, out of frame, (disfigured), ((bad anatomy)), (poorly drawn face), duplicate, cut off, (poorly drawn hands), error, low contrast, signature, (extra arms), underexposed, text, (extra fingers), overexposed, (too many fingers), (extra legs), bad art, ugly, (extra limbs), beginner, username, (fused fingers), amateur, watermark, (distorted face), worst quality, jpeg artifacts, low quality, (malformed limbs), long neck, low-res, (poorly Rendered face), low resolution, low saturation, (bad composition), Images cut out at the top, left, right, bottom, (deformed body features), (poorly rendered hands)
+          modifiers = [nsfwModifiers]
+          meta:position = 6
+        𝗡𝗼 𝘀𝘁𝘆𝗹𝗲
+          prompt = [input.description]
+          negative = [input.negative]
+          meta:position = 7
+        Anti-NSFW
+          prompt = [input.description], SFW
+          negative = [input.negative], NSFW, inappropriate, nudity, 18+ content
+          meta:position = 8
+        League of Legends
+          prompt = [input.description], fyptt.toconcept art, digital art, illustration, (league of legends style concept art), inspired by wlop style, 8k, fine details, sharp, very detailed, high resolution,anime, (realistic) ,magic the gathering, colorful background, no watermark,wallpaper, normal eyes
+          negative = [input.negative], low-quality, deformed, blurry, bad art, (watermark), (text), (bad eyes)
+          meta:position = 9
+        Jester
+          prompt = [input.description] (((jester laughing maniacally anime art style))) (((jester anime art style))) (((pointy jester hat anime art style))) (((yugioh anime art style))) (((neon colors))) (((vibrant colors))) (((bright colors))) (((lens flare))) (((light leaks))) (((long exposure)))
+          negative = [input.negative] (((yugioh hair))) (((low-quality))) (((deformed))) (((blurry))) (((bad art)))
+        Ninja
+          prompt = [input.description], one character, ninja gaiden anime art style, ninja scroll anime art style, martial arts anime art style, 3D anime art style, heavy outlines art style, light leaks, lens flare, long exposure
+          negative = [input.negative], two or more characters, low-quality, deformed, blurry, bad art
+        Random Girl 1
+          prompt = [input.description], one character, female in her late 20s, {dark|light|medium} skin complexion, smooth skin, american face, {dark|light|medium} {blue|green|gray|hazel|brown} eyes, pretty lips, pretty eyes, light makeup, abstract halftone background, thick border around image, vibrant colors, bright colors, high contrast, {amazingly beautiful|embodiment of perfection|stunningly gorgeous} girl anime art style
+          negative = [input.negative], more than one character, low-quality, deformed, blurry, bad art, muscular female, more than two arms, less than two arms, more than two hands, less than two hands, floating body parts, floating limbs, torso twisted backwards from legs, legs twisted backwards from torso, random legs that don't belong, random arms that don't belong, random limbs that don't belong, nipples in the wrong place, pale skin, leg in the wrong place, arm in the wrong place, knee bent the wrong way, deformed legs, flat nose, pointy nose, unnatural skin colors
+        Random Girl 2
+          prompt = one character, female in her late 20s, {dark|light|medium} skin complexion, smooth skin, american face, {dark|light|medium} {blue|green|gray|hazel|brown} eyes, pretty lips, pretty eyes, light makeup, wearing {jeans|short shorts|a revealing outfit|a skin-tight bodysuit|a punk rock outfit|a steampunk outfit|a college cheerleader uniform|a skater girl outfit|a swimsuit|a bikini|underwear and a t-shirt|fancy underwear|a minidress with stockings|a miniskirt with stockings|leggings}, view from {the front|behind, rear projection}, {character portrait|{high-angle|low-angle|close up|over-the-shoulder|wide-angle|profile|full body|telephoto|panoramic|handheld|pov} shot|pov shot}, abstract halftone background, thick border around image, vibrant colors, bright colors, high contrast, {amazingly beautiful|embodiment of perfection|stunningly gorgeous} girl anime art style
+          negative = more than one character, low-quality, deformed, blurry, bad art, muscular female, more than two arms, less than two arms, more than two hands, less than two hands, floating body parts, floating limbs, torso twisted backwards from legs, legs twisted backwards from torso, random legs that don't belong, random arms that don't belong, random limbs that don't belong, nipples in the wrong place, pale skin, leg in the wrong place, arm in the wrong place, knee bent the wrong way, deformed legs, flat nose, pointy nose, unnatural skin colors
+        Lego
+          prompt = ([input.description]), (legos art style:1.3), (lego video game art style:1.3)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Skittles
+          prompt = ([input.description]), (skittles art style:1.3), (taste the rainbow art style:1.3), skittles, tropical skittles, sour skittles, neon color grading, bright color grading, vibrant color grading, light leaks, lens flare, long exposure
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Webcore
+          prompt = ([input.description]), (bold colors made in MS Paint and retro graphic design art style:1.3), (pixel art style:1.3), (neon color grading:1.2)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Terraria
+          prompt = ([input.description]), (Terrarria Art Style:1.3), (Pixel Art Style:1.3), (Vibrant Color Grading:1.3)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Final Fantasy
+          prompt = ([input.description]), (Final Fantasy Art Style:1.3), (CGI Video Game Art Style:1.3), (3D Video Game Art Style:1.3), (light leaks:1.1), (lens flare:1.1)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Star Wars Character
+          prompt = ([input.description]), (((one character:1.5))),(Star Wars Art Style:1.3), (Animated Star Wars Art style:1.3), (Star Wars Anime Art style:1.3), (Anime Art style:1.3), (bright color grading:1.2), (vibrant color grading:1.2), (light leaks), (lens flare)
+          negative = ([input.negative]), (((two or more characters:1.5))), (floating lightsabers:1.3), (unaccompanied lightsabers:1.3), low-quality, deformed, blurry, bad art
+        Star Wars Battle
+          prompt = ([input.description]), (((epic space battle:1.5))),(Star Wars Space Battle Art Style:1.3), (Animated Star Wars Art style:1.3), (Space Battle Anime Art style:1.3), (Anime Art style:1.3), (Starship Battle Art Style:1.3), (bright color grading:1.2), (vibrant color grading:1.2), (light leaks), (lens flare)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Dragonball
+          prompt = ([input.description]), (Dragonball Anime Art Style:1.1), (YuGiOh art style:1.3), (bright color grading:1.2), (vibrant color grading:1.2), (light leaks), (lens flare)
+          negative = ([input.negative]), (yugioh hair:1.5), low-quality, deformed, blurry, bad art
+        Undertale?
+          prompt = ([input.description]), (Undertale Anime Art Style:1.3)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        ENA
+          prompt = ([input.description]), (AND NEW GAME created by Peruvian animator Joel Guerra art style:1.3), (Surrealist crossed with Late 90s and Early 2000s Computer software and obscure console gaming imagery art style:1.3), (bright color grading:1.2)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Neko (Catgirl)
+          prompt = (((one character:1.5))), (human catgirl with a cat tail anime art style:1.3), (waifu anime art style:1.3), (gorgeous anime art style:1.3), (yugioh art style:1.3), (2d disney character art style:1.1), (catgirl anime art style:1.3), (neko anime art style:1.3), (vibrant color grading:1.6), (bright color grading:1.6), adult female catgirl, perfect body, {dark|light|medium} skin complexion, pretty lips, pretty eyes, light makeup, ({character portrait|{high-angle|low-angle|close up|over-the-shoulder|wide-angle|profile|full body|telephoto|panoramic|handheld} shot}:1.3)
+          negative = (((two or more characters:1.5))), (yugioh hair:1.5),low-quality, deformed, blurry, bad art, muscular female, more than two arms, less than two arms, more than two hands, less than two hands, floating body parts, floating limbs, unnatural female anatomy
+        American Girl
+          prompt = (((one character:1.5))), (perfect gorgeous anime art style:1.3), (yugioh art style:1.3), (2d disney character art style:1.3), (gen13 comic art style), (stormwatch comic art style), tall adult female in her early 20s, perfect body, {dark|light|medium} skin complexion, smooth skin, american face, pretty lips, pretty eyes, light makeup, wearing {jeans|short shorts|a revealing outfit|a skin-tight bodysuit|a punk rock outfit|a steampunk outfit|a college cheerleader uniform|a skater girl outfit|a swimsuit|a bikini|underwear and a t-shirt with no bra|fancy underwear|a minidress with stockings|a miniskirt with stockings|leggings}:1.2, (view from {the front|behind}), ({character portrait|{high-angle|low-angle|close up|over-the-shoulder|wide-angle|profile|full body|telephoto|panoramic|handheld} shot}:1.3)
+          negative = (((two or more characters:1.5))), (pointy nose:1.5), (yugioh hair:1.5), low-quality, deformed, blurry
+        𝐍𝐒𝐅𝐖 - 𝐑𝐞𝐚𝐥𝐢𝐬𝐭𝐢𝐜 // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], highly realistic, realistic portrait, (nsfw), anatomically correct, realistic photograph, real colors, award winning photo, detailed face, realistic eyes, beautiful, sharp focus, high resolution, volumetric lighting, incredibly detailed, masterpiece, breathtaking, exquisite, great attention to skin and eyes
+          modifiers = [nsfwModifiers]
+          negative = [input.negative], unrealistic, animated, 3d, sketches, (text), low-quality, deformed, extra limbs, blurry, bad art, (logo), watermark, blurred, cut off, extra fingers, bad quality, distortion of proportions, deformed fingers, elongated body, cropped image, deformed hands, deformed legs, deformed face, twisted fingers, double image, long neck, extra limb, plastic, disfigured, mutation, sloppy, ugly, pixelated, bad hands, aliasing, overexposed, oversaturated, burnt image, fuzzy, poor quality, deformed arms
+        𝐍𝐒𝐅𝐖 - 𝐀𝐧𝐢𝐦𝐞 // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], intricate detail, hyper-anime, trending on artstation, 8k, fluid motion, stunning shading, anime, highly detailed, realistic, (nsfw), dramatic lighting, beautiful, animation, sharp focus, award winning, masterpiece, cinematic, dynamic, cinematic lighting, breathtaking, exquisite, great attention to skin and eyes, exceptional, exemplary, unsurpassed, viral, popular, buzzworthy, up-and-coming, emerging, promising, acclaimed, premium
+          negative = [input.negative], photography, low-quality, deformed, (text), blurry, bad art, (logo), watermark, blurred, cut off, extra fingers, bad quality, distortion of proportions, deformed fingers, elongated body, cropped image, deformed hands, deformed legs, deformed face, twisted fingers, double image, long neck, extra limb, plastic, disfigured, mutation, sloppy, ugly, pixelated, bad hands, aliasing, overexposed, oversaturated, burnt image, fuzzy, poor quality, extra limbs, deformed arms
+          modifiers = [animeModifiers]
+        // No Human (cannot filter 100%)
+        //   prompt = [input.description]
+        //   negative = [input.negative], (human), person, (girl), low-quality, watermark, bad art, blurry, people, woman, man, kid, young human, young girl
+        𝐍𝐒𝐅𝐖 - 𝐑𝐞𝐚𝐥𝐢𝐬𝐭𝐢𝐜 (Stronger)  // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], highly realistic, realistic portrait, (((nsfw))), anatomically correct, realistic photograph, real colors, award winning photo, detailed face, realistic eyes, beautiful, sharp focus, high resolution, volumetric lighting, incredibly detailed, masterpiece, breathtaking, exquisite, great attention to skin and eyes
+          modifiers = [nsfwModifiers]
+          negative = [input.negative], unrealistic, animated, sketches, (text), low-quality, deformed, extra limbs, blurry, bad art, (logo), watermark, blurred, cut off, extra fingers, bad quality, distortion of proportions, deformed fingers, elongated body, cropped image, deformed hands, deformed legs, deformed face, twisted fingers, double image, long neck, extra limb, plastic, disfigured, mutation, sloppy, ugly, pixelated, bad hands, aliasing, overexposed, oversaturated, burnt image, fuzzy, poor quality, deformed arms
+        𝐍𝐒𝐅𝐖 - 𝐀𝐧𝐢𝐦𝐞 (Stronger) // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], intricate detail, hyper-anime, trending on artstation, 8k, fluid motion, stunning shading, anime, highly detailed, realistic, (((nsfw))), dramatic lighting, beautiful, animation, sharp focus, award winning, masterpiece, cinematic, dynamic, cinematic lighting, breathtaking, exquisite, great attention to skin and eyes, exceptional, exemplary, unsurpassed, viral, popular, buzzworthy, up-and-coming, emerging, promising, acclaimed, premium
+          modifiers = [animeModifiers]
+          negative = [input.negative], photography, low-quality, deformed, (text), blurry, bad art, (logo), watermark, blurred, cut off, extra fingers, bad quality, distortion of proportions, deformed fingers, elongated body, cropped image, deformed hands, deformed legs, deformed face, twisted fingers, double image, long neck, extra limb, plastic, disfigured, mutation, sloppy, ugly, pixelated, bad hands, aliasing, overexposed, oversaturated, burnt image, fuzzy, poor quality, extra limbs, deformed arms, Mosaic
+        NSFW Painted Anime
+          prompt // this style is biased towards female characters due to the biases of the artists mentioned, so we alter the description if 'male' is mentioned to boost 'maleness' and supress 'femaleness'
+            ([/\b(male|man)\b/i.test(input.description) ? input.description.replace(/\b(male|man)\b/i, "(male, masculine, masc, male)") : input.description]), art by atey ghailan, painterly anime style at pixiv, art by kantoku, in art style of redjuice/necömi/rella/tiv pixiv collab, your name anime art style, masterpiece digital painting, exquisite lighting and composition, inspired by wlop art style, 8k, sharp, very detailed, high resolution, illustration ^2
+            painterly anime artwork, [input.description], masterpiece, fine details, breathtaking artwork, painterly art style, high quality, 8k, very detailed, high resolution, exquisite composition and lighting, ((NSFW))
+          negative
+            (worst quality, low quality, blurry:1.3), [input.negative], low-quality, deformed, text, poorly drawn[/\bmale\b/i.test(input.description) ? ", female, feminine, fem, female" : ""]
+            [input.negative], (worst quality, low quality, blurry:1.3), black and white, low-quality, deformed, text, poorly drawn, bad art, bad anatomy, bad lighting, disfigured, faded, blurred face
+          meta:tags = [({anime:100, painting:100, paintedAnime:100, drawing:55, cartoon:50})]
+          modifiers = [animeModifiers]
+        Realistic Human Generator
+          prompt = [input.description], in soft gaze, looking straight at the camera, skin blemishes, imperfect skin, skin pores, no makeup, no cosmetics, matured, solo, centered, RAW photo, detailed, clear features, sharp focus, film grain, 8k uhd, candid portrait, natural lighting
+          negative = [input.negative], (wrong sex, wrong gender, wrong age, perfect skin, facial hair on women: 1.1), (black and white, monochrome, highly saturated, overexposure:1.1), (cropped, collage, multiple people:1.1), (famous people, models, artists, celebrities), makeup, cosmetics, denim, gore, blood, camera, deviantart, artstation, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, illustration, painting, cross eyes, have strabismus, hands, jpeg
+
+    artStyleMix
+      label = 🎨 <b>Art Style Mixing</b>
+      tip = Real prompt = input prompt + art style + art style mixing
+      type = select
+      // remember = true // <-- makes it so the selected option will be remembered even if the user refreshes/closes the page
+      options
+        Not Mix
+          prompt = ,
+          negative = ,
+        NSFW
+          prompt = , nsfw
+          negative = ,
+        meta:import
+          from = {import:art-style-updated}
+
+        MTG Card // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], magic the gathering
+          negative = [input.negative], low-quality, deformed, blurry, bad art
+        Realistic images
+          prompt = [input.description], high quality image, 4k, 8k, HD, UHD, Sharp Focus, In Frame
+          negative = [input.negative], low quality, deformed, blurry, bad art, drawing, painting, horrible resolutions, low DPI, low PPI, blurry, glitch, error
+          meta:position = 5
+        Realistic humans
+          prompt = [input.description], high quality image, 4k, 8k, HD, UHD
+          negative = [input.negative], low quality, deformed, blurry, bad art, drawing, painting, incorrect anatomy, ugliness, ugly, horrible resolutions, low DPI, low PPI, bad character positioning, absurd anatomy, tiling, pixelization, low pixel count, blurry, low-res face, low poly, Poorly Drawn Characters, Badly Drawn Eyes, Badly Drawn Mouth, Badly Drawn Ears, Badly Drawn Nose, Badly Drawn Hands, Badly Drawn Feet, Badly Drawn Legs, Badly Drawn Hair, Badly Drawn Clothing, bad anatomy, (ugly), missing arms, bad proportions, tiling, missing legs, blurry, (poorly drawn feet), morbid, cloned face, ((extra limbs)), (mutated hands), cropped, (disfigured), mutation, deformed, (mutilated), dehydrated, body out of frame, out of frame, (disfigured), ((bad anatomy)), (poorly drawn face), duplicate, cut off, (poorly drawn hands), error, low contrast, signature, (extra arms), underexposed, text, (extra fingers), overexposed, (too many fingers), (extra legs), bad art, ugly, (extra limbs), beginner, username, (fused fingers), amateur, watermark, (distorted face), worst quality, jpeg artifacts, low quality, (malformed limbs), long neck, low-res, (poorly Rendered face), low resolution, low saturation, (bad composition), Images cut out at the top, left, right, bottom, (deformed body features), (poorly rendered hands)
+          modifiers = [nsfwModifiers]
+          meta:position = 6
+        Anti-NSFW
+          prompt = [input.description], SFW
+          negative = [input.negative], NSFW, inappropriate, nudity, 18+ content
+          meta:position = 8
+        League of Legends
+          prompt = [input.description], fyptt.toconcept art, digital art, illustration, (league of legends style concept art), inspired by wlop style, 8k, fine details, sharp, very detailed, high resolution,anime, (realistic) ,magic the gathering, colorful background, no watermark,wallpaper, normal eyes
+          negative = [input.negative], low-quality, deformed, blurry, bad art, (watermark), (text), (bad eyes)
+          meta:position = 9
+        Jester
+          prompt = [input.description] (((jester laughing maniacally anime art style))) (((jester anime art style))) (((pointy jester hat anime art style))) (((yugioh anime art style))) (((neon colors))) (((vibrant colors))) (((bright colors))) (((lens flare))) (((light leaks))) (((long exposure)))
+          negative = [input.negative] (((yugioh hair))) (((low-quality))) (((deformed))) (((blurry))) (((bad art)))
+        Ninja
+          prompt = [input.description], one character, ninja gaiden anime art style, ninja scroll anime art style, martial arts anime art style, 3D anime art style, heavy outlines art style, light leaks, lens flare, long exposure
+          negative = [input.negative], two or more characters, low-quality, deformed, blurry, bad art
+        Random Girl 1
+          prompt = [input.description], one character, female in her late 20s, {dark|light|medium} skin complexion, smooth skin, american face, {dark|light|medium} {blue|green|gray|hazel|brown} eyes, pretty lips, pretty eyes, light makeup, abstract halftone background, thick border around image, vibrant colors, bright colors, high contrast, {amazingly beautiful|embodiment of perfection|stunningly gorgeous} girl anime art style
+          negative = [input.negative], more than one character, low-quality, deformed, blurry, bad art, muscular female, more than two arms, less than two arms, more than two hands, less than two hands, floating body parts, floating limbs, torso twisted backwards from legs, legs twisted backwards from torso, random legs that don't belong, random arms that don't belong, random limbs that don't belong, nipples in the wrong place, pale skin, leg in the wrong place, arm in the wrong place, knee bent the wrong way, deformed legs, flat nose, pointy nose, unnatural skin colors
+        Random Girl 2
+          prompt = one character, female in her late 20s, {dark|light|medium} skin complexion, smooth skin, american face, {dark|light|medium} {blue|green|gray|hazel|brown} eyes, pretty lips, pretty eyes, light makeup, wearing {jeans|short shorts|a revealing outfit|a skin-tight bodysuit|a punk rock outfit|a steampunk outfit|a college cheerleader uniform|a skater girl outfit|a swimsuit|a bikini|underwear and a t-shirt|fancy underwear|a minidress with stockings|a miniskirt with stockings|leggings}, view from {the front|behind, rear projection}, {character portrait|{high-angle|low-angle|close up|over-the-shoulder|wide-angle|profile|full body|telephoto|panoramic|handheld|pov} shot|pov shot}, abstract halftone background, thick border around image, vibrant colors, bright colors, high contrast, {amazingly beautiful|embodiment of perfection|stunningly gorgeous} girl anime art style
+          negative = more than one character, low-quality, deformed, blurry, bad art, muscular female, more than two arms, less than two arms, more than two hands, less than two hands, floating body parts, floating limbs, torso twisted backwards from legs, legs twisted backwards from torso, random legs that don't belong, random arms that don't belong, random limbs that don't belong, nipples in the wrong place, pale skin, leg in the wrong place, arm in the wrong place, knee bent the wrong way, deformed legs, flat nose, pointy nose, unnatural skin colors
+        Lego
+          prompt = ([input.description]), (legos art style:1.3), (lego video game art style:1.3)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Skittles
+          prompt = ([input.description]), (skittles art style:1.3), (taste the rainbow art style:1.3), skittles, tropical skittles, sour skittles, neon color grading, bright color grading, vibrant color grading, light leaks, lens flare, long exposure
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Webcore
+          prompt = ([input.description]), (bold colors made in MS Paint and retro graphic design art style:1.3), (pixel art style:1.3), (neon color grading:1.2)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Terraria
+          prompt = ([input.description]), (Terrarria Art Style:1.3), (Pixel Art Style:1.3), (Vibrant Color Grading:1.3)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Final Fantasy
+          prompt = ([input.description]), (Final Fantasy Art Style:1.3), (CGI Video Game Art Style:1.3), (3D Video Game Art Style:1.3), (light leaks:1.1), (lens flare:1.1)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Star Wars Character
+          prompt = ([input.description]), (((one character:1.5))),(Star Wars Art Style:1.3), (Animated Star Wars Art style:1.3), (Star Wars Anime Art style:1.3), (Anime Art style:1.3), (bright color grading:1.2), (vibrant color grading:1.2), (light leaks), (lens flare)
+          negative = ([input.negative]), (((two or more characters:1.5))), (floating lightsabers:1.3), (unaccompanied lightsabers:1.3), low-quality, deformed, blurry, bad art
+        Star Wars Battle
+          prompt = ([input.description]), (((epic space battle:1.5))),(Star Wars Space Battle Art Style:1.3), (Animated Star Wars Art style:1.3), (Space Battle Anime Art style:1.3), (Anime Art style:1.3), (Starship Battle Art Style:1.3), (bright color grading:1.2), (vibrant color grading:1.2), (light leaks), (lens flare)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Dragonball
+          prompt = ([input.description]), (Dragonball Anime Art Style:1.1), (YuGiOh art style:1.3), (bright color grading:1.2), (vibrant color grading:1.2), (light leaks), (lens flare)
+          negative = ([input.negative]), (yugioh hair:1.5), low-quality, deformed, blurry, bad art
+        Undertale?
+          prompt = ([input.description])
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        ENA
+          prompt = ([input.description]), (AND NEW GAME created by Peruvian animator Joel Guerra art style:1.3), (Surrealist crossed with Late 90s and Early 2000s Computer software and obscure console gaming imagery art style:1.3), (bright color grading:1.2)
+          negative = ([input.negative]), low-quality, deformed, blurry, bad art
+        Neko (Catgirl)
+          prompt = (((one character:1.5))), (human catgirl with a cat tail anime art style:1.3), (waifu anime art style:1.3), (gorgeous anime art style:1.3), (yugioh art style:1.3), (2d disney character art style:1.1), (catgirl anime art style:1.3), (neko anime art style:1.3), (vibrant color grading:1.6), (bright color grading:1.6), adult female catgirl, perfect body, {dark|light|medium} skin complexion, pretty lips, pretty eyes, light makeup, ({character portrait|{high-angle|low-angle|close up|over-the-shoulder|wide-angle|profile|full body|telephoto|panoramic|handheld} shot}:1.3)
+          negative = (((two or more characters:1.5))), (yugioh hair:1.5),low-quality, deformed, blurry, bad art, muscular female, more than two arms, less than two arms, more than two hands, less than two hands, floating body parts, floating limbs, unnatural female anatomy
+        American Girl
+          prompt = (((one character:1.5))), (perfect gorgeous anime art style:1.3), (yugioh art style:1.3), (2d disney character art style:1.3), (gen13 comic art style), (stormwatch comic art style), tall adult female in her early 20s, perfect body, {dark|light|medium} skin complexion, smooth skin, american face, pretty lips, pretty eyes, light makeup, wearing {jeans|short shorts|a revealing outfit|a skin-tight bodysuit|a punk rock outfit|a steampunk outfit|a college cheerleader uniform|a skater girl outfit|a swimsuit|a bikini|underwear and a t-shirt with no bra|fancy underwear|a minidress with stockings|a miniskirt with stockings|leggings}:1.2, (view from {the front|behind}), ({character portrait|{high-angle|low-angle|close up|over-the-shoulder|wide-angle|profile|full body|telephoto|panoramic|handheld} shot}:1.3)
+          negative = (((two or more characters:1.5))), (pointy nose:1.5), (yugioh hair:1.5), low-quality, deformed, blurry
+        𝐍𝐒𝐅𝐖 - 𝐑𝐞𝐚𝐥𝐢𝐬𝐭𝐢𝐜 // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], highly realistic, realistic portrait, (nsfw), anatomically correct, realistic photograph, real colors, award winning photo, detailed face, realistic eyes, beautiful, sharp focus, high resolution, volumetric lighting, incredibly detailed, masterpiece, breathtaking, exquisite, great attention to skin and eyes
+          modifiers = [nsfwModifiers]
+          negative = [input.negative], unrealistic, animated, 3d, sketches, (text), low-quality, deformed, extra limbs, blurry, bad art, (logo), watermark, blurred, cut off, extra fingers, bad quality, distortion of proportions, deformed fingers, elongated body, cropped image, deformed hands, deformed legs, deformed face, twisted fingers, double image, long neck, extra limb, plastic, disfigured, mutation, sloppy, ugly, pixelated, bad hands, aliasing, overexposed, oversaturated, burnt image, fuzzy, poor quality, deformed arms
+        𝐍𝐒𝐅𝐖 - 𝐀𝐧𝐢𝐦𝐞 // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], intricate detail, hyper-anime, trending on artstation, 8k, fluid motion, stunning shading, anime, highly detailed, realistic, (nsfw), dramatic lighting, beautiful, animation, sharp focus, award winning, masterpiece, cinematic, dynamic, cinematic lighting, breathtaking, exquisite, great attention to skin and eyes, exceptional, exemplary, unsurpassed, viral, popular, buzzworthy, up-and-coming, emerging, promising, acclaimed, premium
+          negative = [input.negative], photography, low-quality, deformed, (text), blurry, bad art, (logo), watermark, blurred, cut off, extra fingers, bad quality, distortion of proportions, deformed fingers, elongated body, cropped image, deformed hands, deformed legs, deformed face, twisted fingers, double image, long neck, extra limb, plastic, disfigured, mutation, sloppy, ugly, pixelated, bad hands, aliasing, overexposed, oversaturated, burnt image, fuzzy, poor quality, extra limbs, deformed arms
+          modifiers = [animeModifiers]
+        // No Human (cannot filter 100%)
+        //   prompt = [input.description]
+        //   negative = [input.negative], (human), person, (girl), low-quality, watermark, bad art, blurry, people, woman, man, kid, young human, young girl
+        𝐍𝐒𝐅𝐖 - 𝐑𝐞𝐚𝐥𝐢𝐬𝐭𝐢𝐜 (Stronger)  // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], highly realistic, realistic portrait, (((nsfw))), anatomically correct, realistic photograph, real colors, award winning photo, detailed face, realistic eyes, beautiful, sharp focus, high resolution, volumetric lighting, incredibly detailed, masterpiece, breathtaking, exquisite, great attention to skin and eyes
+          modifiers = [nsfwModifiers]
+          negative = [input.negative], unrealistic, animated, sketches, (text), low-quality, deformed, extra limbs, blurry, bad art, (logo), watermark, blurred, cut off, extra fingers, bad quality, distortion of proportions, deformed fingers, elongated body, cropped image, deformed hands, deformed legs, deformed face, twisted fingers, double image, long neck, extra limb, plastic, disfigured, mutation, sloppy, ugly, pixelated, bad hands, aliasing, overexposed, oversaturated, burnt image, fuzzy, poor quality, deformed arms
+        𝐍𝐒𝐅𝐖 - 𝐀𝐧𝐢𝐦𝐞 (Stronger) // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], intricate detail, hyper-anime, trending on artstation, 8k, fluid motion, stunning shading, anime, highly detailed, realistic, (((nsfw))), dramatic lighting, beautiful, animation, sharp focus, award winning, masterpiece, cinematic, dynamic, cinematic lighting, breathtaking, exquisite, great attention to skin and eyes, exceptional, exemplary, unsurpassed, viral, popular, buzzworthy, up-and-coming, emerging, promising, acclaimed, premium
+          modifiers = [animeModifiers]
+          negative = [input.negative], photography, low-quality, deformed, (text), blurry, bad art, (logo), watermark, blurred, cut off, extra fingers, bad quality, distortion of proportions, deformed fingers, elongated body, cropped image, deformed hands, deformed legs, deformed face, twisted fingers, double image, long neck, extra limb, plastic, disfigured, mutation, sloppy, ugly, pixelated, bad hands, aliasing, overexposed, oversaturated, burnt image, fuzzy, poor quality, extra limbs, deformed arms, Mosaic
+        NSFW Painted Anime
+          prompt // this style is biased towards female characters due to the biases of the artists mentioned, so we alter the description if 'male' is mentioned to boost 'maleness' and supress 'femaleness'
+            ([/\b(male|man)\b/i.test(input.description) ? input.description.replace(/\b(male|man)\b/i, "(male, masculine, masc, male)") : input.description]), art by atey ghailan, painterly anime style at pixiv, art by kantoku, in art style of redjuice/necömi/rella/tiv pixiv collab, your name anime art style, masterpiece digital painting, exquisite lighting and composition, inspired by wlop art style, 8k, sharp, very detailed, high resolution, illustration ^2
+            painterly anime artwork, [input.description], masterpiece, fine details, breathtaking artwork, painterly art style, high quality, 8k, very detailed, high resolution, exquisite composition and lighting, ((NSFW))
+          negative
+            (worst quality, low quality, blurry:1.3), [input.negative], low-quality, deformed, text, poorly drawn[/\bmale\b/i.test(input.description) ? ", female, feminine, fem, female" : ""]
+            [input.negative], (worst quality, low quality, blurry:1.3), black and white, low-quality, deformed, text, poorly drawn, bad art, bad anatomy, bad lighting, disfigured, faded, blurred face
+          meta:tags = [({anime:100, painting:100, paintedAnime:100, drawing:55, cartoon:50})]
+          modifiers = [animeModifiers]
+        Realistic Human Generator
+          prompt = [input.description], in soft gaze, looking straight at the camera, skin blemishes, imperfect skin, skin pores, no makeup, no cosmetics, matured, solo, centered, RAW photo, detailed, clear features, sharp focus, film grain, 8k uhd, candid portrait, natural lighting
+          negative = [input.negative], (wrong sex, wrong gender, wrong age, perfect skin, facial hair on women: 1.1), (black and white, monochrome, highly saturated, overexposure:1.1), (cropped, collage, multiple people:1.1), (famous people, models, artists, celebrities), makeup, cosmetics, denim, gore, blood, camera, deviantart, artstation, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, illustration, painting, cross eyes, have strabismus, hands, jpeg
+
+    shape
+      label = 🖼 <b>Shape of image(s)</b>   ㅤ
+      type = select
+      remember = true // <-- the selected option will be remembered even if the user refreshes/closes the page
+      options
+        Portrait(512x768px) = 512x768
+        Square(512x512px) = 512x512
+        Landscape(768x512px) = 768x512
+
+    Gscale
+      label = ✒️ <b>Guidance scale</b>
+      type = select
+      tip = (You will not have to change this much unless you have a very specific use case.)This is how much the AI tries to copy your prompt. Low numbers let the AI wander more from your prompt(which sometims makes the image blurry), and high numbers make the AI try to stick to the prompt as much as possible(however this might create deformed of scrambled images if the prompt is not specific enough)
+      remember = true // <-- the selected option will be remembered even if the user refreshes/closes the page
+      options
+        default(7) = 7
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+        11
+        12
+        13
+        14
+        15
+        16
+        17
+        18
+        19
+        20
+        21
+        22
+        23
+        24
+        25
+        26
+        27
+        28
+        29
+        30
+
+    seed
+      label = 🌱 <b>Image Seed</b> (Positive numbers only, VERY OPTIONAL)
+      type = text
+      remember = true
+      tip = (This is not used often, so don't use it if you don't understand it.)The seed determines the image. Same seed plus same prompt equals same image. leave blank or type "-1" for a random seed. This is mostly useful for replicating images or making slight edits because Same Seed + Similar Prompt = Similar Image.
+      examples
+        {Leave blank for random seed. |Same seed + same prompt = same |Same seed + similar prompt = similar}
+
+    imagename
+      label = 🏷 <b>Title of image</b> (if shared to online gallery)
+      remember = true
+      tip = This will not affect your image, this is what the title of the image will be if it is shared in the gallery.
+      type = text
+      examples
+        Type a name for your image here.
+
+  defaultCommentOptions // for comments plugin: https://perchance.org/comments-plugin
+    width = 100%
+    height = 400
+    commentPlaceholderText = Leave friendly comments..
+    submitButtonText = submit comment
+    bannedUsers = [bannedUsersList]
+
+  commentChannels
+    allowCustomChannels = true
+    chat01
+      label = Talk
+      adminFlair = Admin
+      adminPasswordHash = a2dbc62c712bcd446c6098cbebb7594407273e29500241942437c0c9f1bb7745
+    chat02
+      label = Talk SFW
+      adminFlair = Admin
+      adminPasswordHash = a2dbc62c712bcd446c6098cbebb7594407273e29500241942437c0c9f1bb7745
+      commentPlaceholderText = NSFW = Delete or Ban
+    chat03
+      label = Talk NSFW
+      adminFlair = Admin
+      adminPasswordHash = a2dbc62c712bcd446c6098cbebb7594407273e29500241942437c0c9f1bb7745
+    chat04
+      label = Prompts
+      adminFlair = Admin
+      adminPasswordHash = a2dbc62c712bcd446c6098cbebb7594407273e29500241942437c0c9f1bb7745
+      commentPlaceholderText = Share a cool prompt/style. It may officially add prompts to this generator.
+      submitButtonText = Share
+    chat05
+      label = FeedBack
+      adminFlair = Admin
+      adminPasswordHash = a2dbc62c712bcd446c6098cbebb7594407273e29500241942437c0c9f1bb7745
+      commentPlaceholderText = Bad feedback makes ban
+      submitButtonText = FeedBack
+
+
+  galleryOptions
+    gallery = true
+    sort = trending
+    hideIfScoreIsBelow = -1
+    adaptiveHeight = true // <-- expand gallery height so it never has its own scrollbar
+    contentFilter = none // <-- or 'none' for no default filter
+
+  showFeedback = false // you can temporarily change this to 'true' and then click the feedback button to view feedback

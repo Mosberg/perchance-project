@@ -1,0 +1,503 @@
+// ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭
+//       BYT  👄🍆  ✭ ✭
+// ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭
+
+// qolf = {import:qol-functions-blackyt}
+
+dateNow(format) =>
+  const now = new Date();
+
+  // Format: 1764688755256 // Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT.
+  const fullTime = now.getTime();
+
+  // Format: "December 01 - 14:57"
+  const timestamp = now.toLocaleString(undefined, {
+    month: "long",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+    });
+
+  if (format === "full") {
+    return fullTime;
+  }
+
+  return timestamp;
+peformanceReaderNow(ms) =>
+  let s = Math.floor(ms / 1000);
+  const h = Math.floor(s / 3600);
+  s %= 3600;
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+
+  const parts = [];
+  if (h) parts.push(`${h} hour${h > 1 ? 's' : ''}`);
+  if (m) parts.push(`${m} min${m > 1 ? 's' : ''}`);
+  if (r || !parts.length) parts.push(`${r} sec${r > 1 ? 's' : ''}`);
+
+  return parts.join(' and ');
+/// /// /// /// /// /// /// /// /// ///
+
+scrollWindow(ctnID, time) => // pass: (string, number)
+  let ctn = document.getElementById(ctnID);
+ // if (!ctn) { ctn = document.querySelector(ctnID); }
+  if (!ctn) { ctn = ctnID };
+
+  ctn.scrollTop = ctn.scrollHeight;
+
+  if (time) {
+    setTimeout(() => {
+      ctn.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, time);
+  }
+
+scrollToPage(element, time) => // pass the element name, NOT a string
+  if (time) {
+    setTimeout(() => {
+      element.scrollIntoView({behavior: 'smooth'});
+    }, time);
+  } else {
+    element.scrollIntoView({behavior: 'smooth'});
+  }
+
+setDisableDelay(el, time) =>
+  el.startsWith("#") ? "" : el = "#" + el;
+  const element = document.querySelector(el);
+  element.disable = true;
+  element.style.opacity = 0.6;
+  setTimeout(() => {
+    element.disable = false;
+    element.style.opacity = 1;
+  }, time)
+
+// This is to add/remove a class to some button or element
+LightButton(btnID, activeClass) => // (string or *this*, string)
+  let ButtonID = typeof btnID === "string" ? document.getElementById(btnID) : btnID;
+  let OnStatus = ButtonID.classList.contains(activeClass);
+  if (OnStatus) {
+    ButtonID.classList.remove(activeClass);
+  } else {
+    ButtonID.classList.add(activeClass);
+  }
+
+// Fast element visual effect, it 'activates' for a short time, giving a class and removing after some time.
+fastEffect(elementID, Time, className) => // (*this* or string, number, string)
+  let element = typeof elementID === "string" ? document.getElementById(elementID) : elementID;
+  if (!element) return;
+  element.classList.add(className);
+  setTimeout(() => {
+    element.classList.remove(className);
+  }, Time);
+
+// This is for global variables, change the variable status and the button
+ActiveButton(VarName, StatusActive, StatusInactive, btnID, activeClass) => // Everything a string, the VarName is a global variable and if it do not exists, it is created here, the btnID can be *this*.
+  let el = typeof btnID === "string" ? document.getElementById(btnID) : btnID;
+
+  let varStatus;
+
+  if (localStorage.getItem("ActiveButtonStatus" + VarName)) {
+    varStatus = localStorage.getItem("ActiveButtonStatus" + VarName);
+  }
+
+  if (!window[VarName]) { window[VarName] = varStatus || StatusInactive };
+
+  window[VarName] = window[VarName] === StatusActive ? StatusInactive : StatusActive;
+
+  if (window[VarName] === StatusActive) {
+    el.classList.add(activeClass)
+  } else {
+    el.classList.remove(activeClass)
+  }
+
+  localStorage.setItem("ActiveButtonStatus" + VarName, window[VarName]); // Save all with "ActiveButtonStatus" prefix
+
+LoadButtonStatus(VarName, className, defaultStatus) => // Only works on perchance panel (i guess?). Returns a value based on the localStorage item saved with ActiveButton(), this can be used to set a class if the value is true.
+  // defaultStatus is the default class, if the default is nothing, use ""
+  let status = "";
+
+  if (localStorage.getItem("ActiveButtonStatus" + VarName)) {
+    status = localStorage.getItem("ActiveButtonStatus" + VarName);
+  }
+
+  if (status === "active") {
+    return className;
+  }
+  else if (status === "inactive") {
+    return "";
+  }
+  else if (status === "") {
+    return defaultStatus || "";
+  }
+
+
+
+
+// Hide/Shows element. Can be used with hiddenStatusOf(hiddenStatusOfelementID, status) in perchance left panel.
+OpenHiddenContent(CtnID, Save, Time) => // (string, string), example: ("mainMenu", "save"). To NOT save, dont pass the second argument.
+  const Content = document.getElementById(CtnID);
+  Content.hidden = Content.hidden === false ? true : false;
+
+  if (Time) {
+    let opacityValue = Content.hidden === false ? '1' : '0';
+    setTimeout(() => {
+      Content.style.opacity = opacityValue;
+    }, Time);
+  }
+
+  if (Save === "save" && Content.hidden === false) {
+    localStorage.setItem(`hiddenStatusOf${CtnID}`, Content.hidden);
+  }
+  if (Save === "save" && Content.hidden === true) {
+    localStorage.removeItem(`hiddenStatusOf${CtnID}`);
+  }
+
+changeDisplayStatus(CtnID, activeStatus, inactiveStatus) =>
+  let Content = document.getElementById(CtnID);
+  if (!Content) Content = CtnID;
+  const Status = Content.style.display === inactiveStatus ? activeStatus : inactiveStatus;
+  Content.style.display = Status;
+
+changeDisplayStatusPlus(btnID, className, CtnID, activeStatus, inactiveStatus) =>
+  let button = document.getElementById(btnID);
+  const Content = document.getElementById(CtnID);
+  const Status = Content.style.display === inactiveStatus ? activeStatus : inactiveStatus;
+  Content.style.display = Status;
+
+  if (Content.style.display === activeStatus) {
+    localStorage.setItem(`displayStatusOf${CtnID}`, Content.style.display);
+    button.classList.add(className);
+    localStorage.setItem(`activeStatusOf${btnID}`, className);
+  }
+  if (Content.style.display === inactiveStatus) {
+    localStorage.removeItem(`displayStatusOf${CtnID}`);
+    button.classList.remove(className);
+    localStorage.removeItem(`activeStatusOf${btnID}`)
+  }
+
+restoreDisplayStatus(className) =>
+  const defaultClass = className;
+
+  // Loop through all keys in localStorage
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+
+    // Only handle keys that start with "displayStatusOf"
+    if (key.startsWith("displayStatusOf")) {
+      // Extract the ID part (everything after "displayStatusOf")
+      const elementId = key.replace("displayStatusOf", "");
+
+      // Get the stored display value (e.g., "none" or "block")
+      const displayValue = localStorage.getItem(key);
+
+      // Find the element with that ID
+      const el = document.getElementById(elementId);
+
+      // If the element exists, apply the saved display style
+      if (el) {
+        el.style.display = displayValue;
+      }
+    }
+  }
+
+  for (let b = 0; b < localStorage.length; b++) {
+    const key = localStorage.key(b);
+
+    if (key.startsWith("activeStatusOf")) {
+      const buttonId = key.replace("activeStatusOf", "");
+      const activeClass = localStorage.getItem(key);
+      const btn = document.getElementById(buttonId);
+
+      if (btn) {
+        if (activeClass === "removeClass") {
+          btn.classList.remove(defaultClass);
+        }
+        else {
+          btn.classList.add(activeClass);
+        }
+      }
+    }
+  }
+
+// Return a value based on localStorage. Hidden, none or "".
+hiddenStatusOf(hiddenStatusOfelementID, status) => // ('hiddenStatusOfElementID' or 'displayStatusOfElementID', 'hidden' or 'none' or whatever)
+  const reader = localStorage.getItem(hiddenStatusOfelementID);
+  if (reader === "false") {
+    return ""
+  } else {
+    return status;
+  }
+
+// This changes ONLY the text content of an element based on the display status of another element, e.g. a button that shows OPEN when a div display:none, and CLOSE when the div display:block.
+iconDisplayContent(CtnID, btnID, Status, iconToOpen, iconToClose) => // Everything a string, emojis can be used.
+  const Content = document.getElementById(CtnID);
+  const btn = document.getElementById(btnID);
+  btn.textContent = Content.style.display === Status ? iconToOpen : iconToClose;
+
+iconDisplayActiveEl(btnID, variableName, variableActiveValue, iconToOpen, iconToClose) => // Everything a string, emojis can be used.
+  const btn = typeof btnID === "string" ? document.getElementById(btnID) : btnID;
+  if (!window[variableName]) { return }
+  const activeStatus = window[variableName] === variableActiveValue ? "active" : "inactive";
+  btn.textContent = activeStatus === "active" ? iconToOpen : iconToClose;
+
+///     ///     ///
+// This function shows only one element while set the others to 'display:none'. Useful in menu
+displayCtnGrid(target, displayStatus, className, saveOption, ...elements) => // elements must have "Ctn" and the buttons should have the same name but with "Btn" instead
+
+  const shown = document.getElementById(target);
+  const activeBtn = document.getElementById(target.replace("Ctn", "Btn"));
+
+  elements.forEach(id => {
+    const btnId = id.replace("Ctn", "Btn");
+    const el = document.getElementById(id);
+    const btnEl = document.getElementById(btnId);
+
+    if (el) {
+      el.style.display = "none";
+      btnEl.classList.remove(className);
+    }
+  });
+
+  if (shown) {
+    shown.style.display = displayStatus;
+    activeBtn.classList.add(className);
+  }
+
+  // Save - use 'save' in saveOption
+  if (saveOption === "save") {
+    window.displayStates = JSON.parse(localStorage.getItem("displayStates") || "{}"); //
+    window.btnStates = JSON.parse(localStorage.getItem("btnStates") || "{}"); //
+    //(!window.displayStates) ? window.displayStates = {} : "";
+    //(!window.btnStates) ? window.btnStates = {} : "";
+
+    elements.forEach(id => {
+      const btnId = id.replace("Ctn", "Btn");
+      const el = document.getElementById(id);
+      if (el) {
+        window.displayStates[id] = el.style.display || "none";
+        window.btnStates[btnId] = "inactive";
+      }
+    });
+
+    window.displayStates[target] = shown.style.display || ""; //
+    window.btnStates[target.replace("Ctn", "Btn")] = "active";
+
+    localStorage.setItem("displayStates", JSON.stringify(window.displayStates));
+    localStorage.setItem("btnStates", JSON.stringify(window.btnStates));
+  }
+
+loadDisplayCtnGrid(className) =>
+  if (!className) return "";
+  const savedCtnStates = JSON.parse(localStorage.getItem("displayStates") || "{}");
+  const savedBtnStates = JSON.parse(localStorage.getItem("btnStates") || "{}");
+  //window.displayStates = JSON.parse(localStorage.getItem("displayStates") || "{}"); //
+  //window.btnStates = JSON.parse(localStorage.getItem("btnStates") || "{}"); //
+
+  Object.entries(savedCtnStates).forEach(([id, displayValue]) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.display = displayValue;
+    }
+  });
+
+  Object.entries(savedBtnStates).forEach(([id, activeValue]) => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      if (activeValue === "active") {
+        btn.classList.add(className);
+      }
+      if (activeValue === "inactive") {
+        btn.classList.remove(className);
+      }
+    }
+  });
+
+changeElOpacityCtnGrid(target, opacityValue, saveOption, ...elements) => // Arguments are all strings. To save, use "save", otherwise use other thing like "no" or "GreatPizza"
+
+  const shown = document.getElementById(target);
+
+  elements.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.opacity = opacityValue;
+    }
+  });
+
+  if (shown) {
+    shown.style.opacity = "1";
+  }
+
+  // Save
+  if (saveOption === "save") {
+    const opacityStrength = {};
+
+    elements.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        opacityStrength[id] = el.style.opacity || opacityValue;
+      }
+    });
+
+    opacityStrength[target] = shown.style.opacity || "1"; //
+
+    localStorage.setItem("opacityStrength", JSON.stringify(opacityStrength));
+  }
+
+loadElOpacityCtnGrid() =>
+
+  const savedStates = JSON.parse(localStorage.getItem("opacityStrength") || "{}");
+
+  Object.entries(savedStates).forEach(([id, opacityValue]) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.opacity = opacityValue;
+    }
+  });
+///     ///     ///
+
+// Display dialogs
+showDialogModal(dialogID) =>
+  let diag = document.getElementById(dialogID);
+  diag.style.borderRadius = "5px";
+  diag.showModal();
+  return "";
+
+//
+closeDialogModal(dialogID) =>
+  let diag = document.getElementById(dialogID);
+  diag.close();
+  return "";
+
+// simple save
+setLocalStorageItems(ItemName, ItemValue) =>
+  const storedItem = localStorage.getItem(ItemName) || null;
+  if (storedItem === ItemValue) {
+    localStorage.removeItem(ItemName);
+  } else {
+    localStorage.setItem(ItemName, ItemValue);
+  }
+
+resetSomeOptions(Index, ctnID, ...selectors) =>
+  const rstContainer = document.getElementById(ctnID);
+  const selectOptions = rstContainer.querySelectorAll(selectors);
+
+  if (Index === "random") {
+    // get option count from first select
+    const exclude = 1; // EXCLUDE index 1
+
+    selectOptions.forEach(select => {
+      let r;
+
+      do {
+        r = Math.floor(Math.random() * select.options.length);
+      } while (r === exclude); // || r === exclude2);
+
+      select.selectedIndex = r;
+      select.dispatchEvent(new Event("change"));
+    });
+
+  } else {
+    selectOptions.forEach(select => {
+      select.selectedIndex = Index;
+      select.dispatchEvent(new Event("change"));
+    });
+  }
+
+
+insertTextPlus(targetEl, separator, text) =>
+  // updated 01/12/25 mm/dd/yy
+  let inputArea = document.querySelector(targetEl);
+    if (!inputArea) {
+      inputArea = document.querySelector(`[data-name="${targetEl}"]`);
+    }
+
+  if (inputArea) {
+    const whitespace = separator || ", ";
+    const textToInsert = whitespace + String(text);
+    const start = inputArea.selectionStart;
+    const end = inputArea.selectionEnd;
+    const originalText = inputArea.value;
+
+    inputArea.value = originalText.substring(0, start) + textToInsert + originalText.substring(end);
+
+    const newCursor = start + textToInsert.length;
+    inputArea.selectionStart = inputArea.selectionEnd = newCursor;
+
+    inputArea.focus();
+    // inputArea.blur();
+    inputArea.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+// 🔽 Clear text // // // //
+clearPrompt(element) =>
+  let targetEl = document.querySelector(element);
+  if (!targetEl) {
+    targetEl = document.querySelector(`[data-name="${element}"]`);
+  }
+
+  if (targetEl) {
+    targetEl.value = '';
+    targetEl.focus(); // Focus on the target targetEl
+    targetEl.blur(); // Immediately remove focus
+    targetEl.dispatchEvent(new Event('input', { bubbles: true })); // Manually dispatch an input event to trigger an update
+  }
+
+  // 🔽 Safe button/function to clear text without the risk of miss-click
+toggleClear(btnID, element, label1, label2) =>
+  if (window['await' + btnID]) {
+    let targetEl = document.querySelector(element);
+    if (!targetEl) {
+      targetEl = document.querySelector(`[data-name="${element}"]`);
+    }
+    console.log(`🗑️ ${dateNow()} DELETED: ${targetEl.value}`);
+  };
+
+  let button = document.getElementById(btnID);
+  if (!button) button = btnID;
+  if (!window['await' + btnID]) {
+
+    // First click - Was it itentional?
+    button.classList.add('clearBtn');
+    button.textContent = "⌛";
+    showBalloonMessage(button, 'Click again to clear');
+    window['await' + btnID] = true;
+
+    // Yes it was, going back to sleep
+    window['clearTimeout' + btnID] =
+      setTimeout(() => {
+        button.classList.remove('clearBtn');
+        button.textContent = label1;
+      window['await' + btnID] = false;
+      }, 5000);
+  } else {
+
+    // Second click - Ok
+    clearTimeout(window['clearTimeout' + btnID]); // Stop the reset timer
+    button.classList.remove('clearBtn');
+    button.textContent = label2;
+    window['await' + btnID] = false;
+    clearPrompt(element); // Finally the textbox can be clean!
+  }
+showBalloonMessage(button, message) =>
+  // Create the balloon element
+  const balloon = document.createElement('div');
+  balloon.textContent = message;
+  balloon.className = 'balloon-message';
+  balloon.style = 'background:rgba(0, 0, 0, 0.4); border-radius:5px; padding:5px; color:red; text-shadow:1px -1px 1px #000000; pointer-events:none; user-select:none;'
+
+  // Position above the button
+  const rect = button.getBoundingClientRect();
+  balloon.style.position = 'absolute';
+  balloon.style.left = `${rect.left + window.scrollX - 100}px`;
+  balloon.style.top = `${rect.top + window.scrollY - 30}px`; // 30px above
+
+  // Add to the body
+  document.body.appendChild(balloon);
+
+  // Remove after 2 seconds
+  setTimeout(() => {
+    balloon.remove();
+  }, 2000);
+// // // // // // // // // //

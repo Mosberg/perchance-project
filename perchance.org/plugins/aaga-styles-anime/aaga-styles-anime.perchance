@@ -1,0 +1,291 @@
+intro()=>
+  return `
+    AI ART GENERATOR ADVANCED
+    https://perchance.org/ai-art-generator-advanced
+    `
+///////////////
+// Styles ⤵️
+
+$output //Anime
+  AI Art Gen. Advanced Styles 🔻^0
+    prompt = [""]
+    negative = [""]
+    meta:tags = [({AAGA:100})]
+
+  🎐 Basic Anime
+    prompt = high-quality anime[endDESCRIPTION]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Basic Anime II
+    prompt = newest anime, masterpiece, best quality, very aesthetic. Smooth anime render with perfect edge definition, high lighting and shadows contrast, ultra high quality[endDESCRIPTIONFLUX] //high-quality anime, anime with perfect quality, high contrast, digitally enhanced and beautifully detailed, masterpiece, best quality, perfect drawn with no errors, very aesthetic, ultra high-definition
+    negative = worst quality. bad quality. low quality. lowres. low resolution. badly drawn. error. chromatic aberration. glitch. fused. merged. blur. blurry. blurred. noise. pixelated. oversaturared. simple background. white background. sepia. censorship. bad eyes. bad hair. bad hand. bad fingers. overly simplistic. lack of detail[endNEGATIVES]
+    CFG = 20
+
+  🎐 Kivotos 😇
+    prompt = anime-style illustration in the spirit of Blue Archive, soft lighting, clear linework, vibrant yet gentle colors, clean anime shading, smooth gradients, playful and polished aesthetic, cute, whimsical, modern and youthful tone, bright and airy atmosphere, high-quality, beautifully composed, extremely detailed, illustration-quality art[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Soft Fantasy
+    prompt = In the spirit of Granblue Fantasy, Granblue Fantasy art style. Granblue Fantasy mobile, textured painterly style, sketchy ink outlines, made with visible brush strokes, softer lighting, colored line art, gently highlight[endDESCRIPTION]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Anime Illustration/Mobile
+    prompt = High-quality mobile game illustration. Stunning mobile game character art, gacha character. Breathtaking novel illustration rendered with exceptional clarity and expert detail. High detailed character, 8k UHD.[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Cute Kawaii
+    prompt = cute kawaii anime style, sugar love, cutest character, adorable character, expressive, masterpiece, best quality, amazing quality[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Cute Kawaii 4K
+    prompt = cute kawaii anime style. sugar love. cutest character. super adorable character. very expressive. kawaii details. vibrant colors. high contrast highlights. masterpiece. best quality. amazing quality. absurdres. 4K[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Enhanced Anime
+    prompt = a breathtaking anime-inspired scene, semi realistic, superb lighting and composition, depth of field. Professional lighting, smooth shades and shadows, soft glow, soft focus, ultra high definition[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Glossy Anime
+    prompt = hyper-gloss wet-look latex anime style, vinyl doll-like surfaces with artificial plastic finish, all surfaces rendered as ultra-gloss latex, mirror-like specular highlights, non-physical reflections, hard studio lighting with ring light glare, overexposed highlights, zero pores, zero texture, smooth inflated surfaces[endDESCRIPTIONFLUX]
+    negative = matte. dry skin. natural skin texture. pores. fabric fibers. realistic lighting. soft lighting. cinematic realism. photographic realism. skin roughness. figurine. toy. doll. chibi doll. barbie doll. miniature[endNEGATIVES]
+    CFG = 20
+
+  🎐 Real-like Anime
+    prompt = a high quality real photo gently stylized in anime3D aesthetics, very realistic, hyperrealistic skin, hyperrealistic character body proportions, realistic lighting and shadows, hyperrealistic, photorealism, uhd[endDESCRIPTION]
+    negative = lineart[endNEGATIVES]
+    CFG = 7
+    modifiers = [MOD.PhotoQualy]
+
+  🎐 Simple Anime Illustration
+    prompt = 2D minimalist anime illustration. Simple lineart, clean lines. A plain, flat illustration with minimal detail. Flat colors. High contrast. Very minimal and simple lineart, beautiful plain illustration, masterpiece[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Beautiful Waifu
+    prompt = very beautiful character art, 1girl, an emphemeral beauty, feminine, beautiful hair, beautiful eyes, emphasizing her beautiful body, lovely and detailed outfit, in frame, steady gaze, surrounded by a soft nebula with a gentle glow that highlights her beautiful body, soft focus, soft illumination, depth of field, [DESCRIPTION]beautiful background, beautiful composition, breathtaking masterpiece, ultra high quality
+    negative = pointillism. ugly. grainy, polarized[endNEGATIVES]
+    CFG = 7
+    modifiers = [MOD.Qualy]
+
+  🎐 7 Dragon Balls
+    prompt = influenced by Akira Toriyama art, Akira Toriyama style. Dragon Quest style. DBZ style. Bold lines, vibrant saturated colors, crisp anime outlines, dramatic shadows[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 The Ninja Way
+    prompt = mimic the Shippuden art style with precision and great fidelity, Shippuden art Style, high quality Shippuden character art, clean linework, flat cel-shading with high-contrast shadows, vibrant cel-shading, flat saturated colors, sharp dynamic shadows, detailed, 4k[endDESCRIPTION]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Academic Hero
+    prompt = inspired by Boku no Hero Academia style. Mimic My Hero Academia character art style, bold cinematic shading, heavy black shadows, crisp thin linework, parallel hatching, clean digital screentones[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 Zodiac (Sainty Seiya)
+    prompt = anime in Saint Seiya aesthetic. classic Knights of the Zodiac Saint Seya art style. retro cel-shaded animation, high-contrast, vibrant colors, Saint Seya character design with elegant elongated proportions, sharp facial features; hand-painted backgrounds; composition with subtle metallic luster and reflective chrome in accessories or clothes; gently glowing cosmic aura with stardust and nebulae[endDESCRIPTION]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  ⭐ Dark Skin 🖤🤎 (BETA)
+    prompt = high-quality anime inspired by Mickalene Thomas style, Frank Bowling style, Ernie Barnes style, dark skinned character[endDESCRIPTION]
+    negative = [NEGATIVES]
+    CFG = 7
+
+  🎐 Chibi
+    prompt = is a 2D chibi art, chibi style, large head, expressive eyes, cute adorable chibi, [DESCRIPTION]high definition
+    negative = [NEGATIVES]
+    CFG = 7
+
+  🎐 Terraria Pixel
+    prompt = Terraria style, high-quality pixel block style. Small sized, miniature Terraria character sprite, detailed. Breathtaking Terraria scenery, side-scrolling view of a beautiful world made of blocky pixels, rich flora and fauna, colored, glowing effects[endDESCRIPTIONFLUX]
+    negative = [NEGATIVES]
+    CFG = 20
+
+  🎐 3D Anime
+    prompt = highly detailed 3D anime render, modern stylized 3D character, realistic skin, subsurface scattering, cinematic lighting, PBR materials, physically based rendering, studio rim lighting, high quality textures, crisp details, soft shadows, lifelike but stylized, anime3D aesthetic[endDESCRIPTION]
+    negative = [NEGATIVES]
+    CFG = 7
+
+  🎐 3D General
+    prompt = highly detailed 3D render in modern video game style, AAA graphics quality, high-poly model, subsurface scattering, real-time rendering aesthetic, advanced dynamic lighting, cinematic effects, ambient occlusion, detailed shading and reflections, realistic physically based materials, sharp textures[endDESCRIPTION]
+    negative = [NEGATIVES]
+
+  🎐 Retro Game General
+    prompt = old PlayStation 1 graphics, low-poly 3D render in the style of early 2000s console games, old PS2 graphics, visible polygons, low-resolution textures, low-quality textures, vertex lighting, flat shading, old-school 3D game aesthetic, old, retro console rendering, blocky models, low-poli, low ppi[endDESCRIPTION]
+    negative = high-quality. realistic[endNEGATIVES]
+    modifiers = [MOD.Game]
+
+  🔶 3D Disney 🏰 (simplified)
+    prompt = CGI Disney Animation, superb lighting and detail, incredible composition, subtle details. Fine details, cinematic film, dof, breathtaking Pixar short, HDR, Disney realism[DESCRIPTION]
+    negative = [NEGATIVES]
+    CFG = 7
+
+  //🔻 Outdated styles (SD) 🔻^0
+    //prompt = [""]
+    //negative = [""]
+
+
+
+
+/////////////////
+// Modifiers ⤵️
+
+MOD
+  Game
+    game quality
+      PS2 = , Playstation 2 style,  ps2 graphics style, psx
+      ➖ Less quality = , low textures, low resolution
+      ➕ More quality = , cel-shading, unreal engine
+      ➕ Even more quality = , high ppi, high polycount, high resolution, uhd
+      8-bit = , 8-bit graphics
+      16-bit = , 16-bit graphics
+      32-bit = , 32-bit graphics
+      64-bit = , 64-bit graphics
+      128-bit = , 128-bit graphics
+      256-bit = , 256-bit graphics
+      512-bit = , 512-bit graphics
+
+  Qualy
+    +extra
+      innocent beauty = , cuteness, innocence, beautiful big eyes, cute lovely outfit
+      emphemeral beauty effects = , featuring: twilight, petal, dewdrop, ripple
+
+  PhotoQualy
+    +quality tags
+      HD = , 8k, high definition
+      Details and soft focus = ,  depth, fine details, superb lighting, kodak, f/22, soft focus
+
+  LoveLive
+    μ's girls = [LoveLiveMoD.MuseGirls]
+    Aqours girls = [LoveLiveMoD.AqoursGirls]
+    Scenery = [LoveLiveMoD.ShowScene]
+
+LoveLiveMoD
+  MuseGirls
+    Ayase Eli = , blue eyes, long hair, ponytail, blonde hair, ayase eli
+    Hoshizora Rin = , greenyellow eyes, ((very short hair)), orange hair, (hoshizora rin)
+    Koizumi Hanayo = , purple eyes, short hair, brown hair, koizumi hanayo
+    Kosaka Honoka = , blue eyes, medium hair, orange hair, one side up, kosaka honoka
+    Minami Kotori = , brown eyes, long hair, gray brown hair, minami kotori
+    Nishikino Maki = , purple eyes, medium hair, red hair, nishikino maki
+    Sonoda Umi = , yellow eyes, long hair, dark blue hair, sonoda umi
+    Tojo Nozomi = , blue green eyes, long hair, purple hair, tojo nozomi
+    Yazawa Nico = , red eyes, black hair, twintails, yazawa nico
+  AqoursGirls
+    Takami Chika = , red eyes, short hair, ahoge, orange hair, takami chika
+    Watanabe You = , blue eyes, short hair, brown grey hair, watanabe you
+    Sakurauchi Riko = , yellow eyes, long hair, red hair, sakurauchi riko
+    Kunikida Hanamaru = , yellow eyes, long hair, brown hair, kunikida hanamaru
+    Kurosawa Ruby = , blue green eyes, short hair, two side up, red hair, kurosawa ruby
+    Tsushima Yoshiko (Yohane) = , red eyes, long hair, blue hair, tsushima yoshiko
+    Matsuura Kanan = , purple eyes, long hair, ponytail, blue hair, matsuura kanan
+    Kurosawa Dia = , blue green eyes, long hair, blunt bangs, black hair, kurosawa dia
+    Ohara Mari = , green yellow eyes, mediun hair, blonde hair, ohara mari
+
+  ShowScene
+    Live Stage = , multiple girls, superb idol performance, vibrant stage lighting, jewelry, subtle glitter, shining, unique idol outfit, detailed outfit, volumetric lighting, depth
+
+////////////////////////////////
+// Functions and other shit ⤵️
+$meta
+  title = Anime styles - Ai Art Generator Advanced
+
+IM = {import:text-to-image-plugin}
+// Period/Line Break
+DESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + ".\n\n" : "")]
+endDESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ".\n\n" + input.description : "")]
+// Commas
+DESCRIPTION = [input.description ? input.description + ", " : ""]
+endDESCRIPTION = [input.description ? ", " + input.description : ""]
+NEGATIVES = [input.negative ? input.negative + ", " : ""]
+endNEGATIVES = [input.negative ? ". " + input.negative : ""]
+TgWV = [window.generatorName === "ai-art-generator-advanced" ? "-100" : "100"]
+
+PortraitPrompt
+  prompt = [RND]
+  negativePrompt = [RandomAnimeStyle.negative || ""]
+  resolution = 512x768
+  width = [adjustedScreenWidth('portrait')]
+  hideGalleryButtons = true
+  guidanceScale = [RandomAnimeStyle.CFG || 5]
+
+LandscapePrompt
+  prompt = [RND]
+  negativePrompt = [RandomAnimeStyle.negative || ""]
+  resolution = 768x512
+  width = [adjustedScreenWidth()]
+  hideGalleryButtons = true
+  guidanceScale = [RandomAnimeStyle.CFG || 5]
+
+SquarePrompt
+  prompt = [RND]
+  negativePrompt = [RandomAnimeStyle.negative || ""]
+  resolution = 512x512
+  width = [adjustedScreenWidth('portrait')]
+  hideGalleryButtons = true
+  guidanceScale = [RandomAnimeStyle.CFG || 5]
+
+
+RND = [AdvancedRandomStyles("AnimeFullList", "AnimeSelectedList", "RandomAnimeStyle", $output)][RandomAnimeStyle.prompt][animezation(RandomAnimeStyle.prompt)]
+
+smartRandomness(...Words)=>
+  if (typeof WordList === "undefined") {
+    WordList = [...Words];
+  }
+  if (typeof WordArray === "undefined") {
+    WordArray = []
+  }
+  if (WordArray.length >= WordList.length) {
+    WordArray = [];
+  }
+  RNG = WordList.selectOne;
+  if (WordArray.includes(RNG)) {
+    smartRandomness(...Words);
+  } else {
+    WordArray.push(RNG);
+  }
+  return RNG + (RNG !== "" ? ", " : "");
+smartRandomnessGenModif(...genModifs)=>
+  if (typeof genModifList === "undefined") {
+    genModifList = [...genModifs];
+  }
+  if (typeof genModifArray === "undefined") {
+    genModifArray = []
+  }
+  if (genModifArray.length >= genModifList.length) {
+    genModifArray = [];
+  }
+  genModifRNG = genModifList.selectOne;
+  if (genModifArray.includes(genModifRNG)) {
+    smartRandomnessGenModif(...genModifs);
+  } else {
+    genModifArray.push(genModifRNG);
+  }
+  return genModifRNG
+
+lastPart(tags) =>
+  window.endTags !== "" ? window.endTags += ".\n\n" + String(tags) : window.endTags = String(tags);
+  return "";
+
+
+
+//endTags = [""]
+
+// GRAVEYARD
+
+    //✴️ Anime FLUX (ex)
+    //prompt = [DESCRIPTIONFLUX]Masterpiece, best quality, 4k, anime art[lastPart("Overall, it's an absolute world-class masterpiece anime-inspired artwork. It's an aesthetically pleasing anime art with impeccable attention to detail and beautiful composition.")]
+    //negative = abstract. fractal art. pointillism. painterly. low quality, low resolution, deformed character, bad anatomy, bad hand, messy and complicated, glitch or errors, border line[endNEGATIVES]
+    //CFG = 7
+
+  //🔥 Anime FLUX (Experimental)
+   // prompt = (masterpiece:1.2), (best quality:1.2), high resolution, clean anime style with clean lineart, a digital anime art, [DESCRIPTION]with realistic and perfect character skin, smooth skin, with realistic face, perfect body and anatomy[lastPart("sharp shadows and smooth shading, cel shading, high contrast lighting, (painting:0.3), (grainy:0.3), (sketch:0.4), (brush strokes:0.3), (abstract:0.3)")]
+   // CFG = 7

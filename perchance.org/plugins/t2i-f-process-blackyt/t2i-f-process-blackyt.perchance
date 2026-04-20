@@ -1,0 +1,81 @@
+betterSEQUENCE = {import:better-sequencer}
+
+newLineBreakFunctionPlus(mode, whitespace, filterList, firstItem, ...DataInputs)=>
+  let FinalData;
+  FinalData = firstItem + DataInputs
+    .filter(Boolean)
+    .filter(DI => !filterList.includes(DI)).join(whitespace);
+
+  if (mode === "active") {
+    FinalData = FinalData
+    .replace(/^\s*,+/gm, "") // leading commas
+    .replace(/^ /gm, "") // leading spaces
+    .replace(/,\s?,+/g, ", ") // Replaces things like ", , ,," with a single comma and space → ", "
+    .replace(/,\s*$/gm, "") // Removes a trailing comma at the end of the line.
+    .replace(/([^\s.!?])\s*$/gm, "$1.") // add period to text lines that don't have one.
+    .replace(/\.,/g, ".") // Changes "., " into just ".".
+    .replace(/,\s*?\./g, ".") // Turns ",." into ".".
+    .replace(/^\s*\.\s*$/gm, "\n") // Lonely dots on new lines
+    .replace(/ {2,}/g, " ") // duplicate spaces
+    //.replace(/, (?=[A-Z]\b(?![A-Z]))/g, '. ') // Makes it a new sentence if next word starts with capital e.g. ", Hello" into ". Hello"
+    .replace(/(?<!\.)\.\.(?!\.)/g, '.') // Turns stray double-dots .. into a single . without affecting "..."
+    .replace(/(\. ?)([a-z])/g, (_, dot, char) => dot + char.toUpperCase()) // Capitalizes the letter after a period. e.g. "hello. world" → "hello. World"
+    .replace(/(^|\n)([a-z])/g, (_, sep, char) => sep + char.toUpperCase()) // Capitalizes first letter of the text and first letter of each new line.
+    //.replace(/[\[]/g, "\\[").replace(/[\]]/g, "\\]");
+  }
+
+  if (window.forceRealistic && window.forceRealistic === "active") {
+    FinalData = FinalData.replace(/,/g, ".").replace(/a beautiful character with balanced proportions and well-made/i, "beautiful photograph of a real person").replace(/character/gi, "person");
+  }
+
+  return FinalData
+  //else {
+    //return FinalData;
+  //}
+
+commaFunctionPlus(filterList, ...DataInputs)=>
+  let FinalData = DataInputs
+    .filter(Boolean)
+    .filter(DI => !filterList.includes(DI))  // remove anything in filters
+    .join(", ");
+  return FinalData;
+
+TitleSeparatorFunction(...DataInputs)=>
+  const FinalData = DataInputs.filter(DI => DI !== "-" && DI !== "").join(" ⋆ ");
+  return FinalData;
+
+// Custom Guidance Scale Sequence
+getUserInputFromPrompt(message, errorMessage) =>
+  let previousValue = localStorage.getItem('savedCustomCFG') || ''; // Change to number if there are errors in new versions
+  let inputValue = prompt(message, previousValue);
+  if (inputValue === null) {
+    inputValue = "";
+  }
+  if (!/^[\d,\s]+$/.test(inputValue)) {
+    alert(errorMessage);
+    inputValue = "";
+  }
+  localStorage.setItem('savedCustomCFG', inputValue);
+  return String(inputValue);
+
+customCFG() =>
+  let message = '▼ ▼ ▼ ▼ ▼ ▼\n📢 Type the values you want separated by comma. Numbers must be between 1 and 30. Example: 6, 8, 9, 12\n';
+  let errorMessage = 'Invalid input. Only numbers separated by commas are allowed.';
+  if (!window.userCFG || window.userCFG === "") {
+    window.userCFG = getUserInputFromPrompt(message, errorMessage) || "7";
+  } else if (!/^[\d,\s]+$/.test(window.userCFG)) {
+    window.userCFG = getUserInputFromPrompt(message, errorMessage) || "7";
+  }
+
+  return betterSEQUENCE(",", 'customUserCFG', window.userCFG);
+
+customCFGTrigger(inputEl) =>
+  // It will run the function when the 'custom cfg' option is selected.
+  // Is necessary to call the function at the page load/start to add the event.
+  document.querySelector(`select[data-name="${inputEl}"]`).addEventListener('change', function () {
+    if (this.selectedIndex === 1) { // second item (index is 0-based)
+      window.userCFG = "";
+      customCFG(); //getCFGData();
+    }
+  });
+///////////////////////////

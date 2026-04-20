@@ -1,0 +1,372 @@
+<br />
+<div
+  style="
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 1rem 0;
+    display: flex;
+  "
+>
+  <div style="border-radius: 5px; max-height: 100vh; overflow-y: auto">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 95vw;
+      "
+    >
+      <div style="width: 500px; max-width: 95vw; position: relative">
+        <img
+          src="https://user-uploads.perchance.org/file/a93440edac791efb709745541b9ede2d.webp"
+          style="max-width: 100%; border-radius: 5px 5px 0 0; margin-bottom: 0"
+          alt="Kuronyx"
+        />
+
+        <div
+          id="initialComment"
+          style="
+            background: var(--blackwhite, #000);
+            color: var(--whiteblack, #fff);
+            border-radius: 0 0 5px 5px;
+            max-width: 100%;
+            margin: -4px 0;
+            padding: 10px;
+          "
+        >
+          Type something and Kuronyx will try to make a description.
+        </div>
+
+        <div
+          id="kuronyxComment"
+          style="
+            position: absolute;
+            top: 60%;
+            max-height: 38%;
+            left: 0;
+            right: 0;
+            overflow-y: auto;
+            background: var(--whiteblack-box-05, rgba(255, 255, 255, 0.5));
+            color: var(--blackwhite, #000);
+            transition: opacity 1s ease-in-out;
+            border-radius: 5px;
+            margin: 0 5px;
+            padding: 1px;
+          "
+        >
+          Ohayo!
+        </div>
+      </div>
+
+      <div
+        style="
+          background: var(--whiteblack-rgba-02, rgba(0, 0, 0, 0.5));
+          padding: 10px 0.5rem;
+          width: 500px;
+          max-width: 95vw;
+          display: flex;
+          justify-content: space-between;
+        "
+      >
+        <div>
+          <span id="DR" style="border-radius: 20px; padding: 1px">🤖</span>
+          <span class="" style="display: none">⚙️</span>
+        </div>
+        <div style="display: flex; gap: 5px">
+          <button id="copyBtnKyx" onclick="copy()" disabled>❐</button>
+          <button>?</button>
+        </div>
+      </div>
+
+      <div
+        style="
+          border-radius: 0 0 5px 5px;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          background: var(--blackwhite-box-05, rgba(0, 0, 0, 0.5));
+          padding: 5px 0;
+          overflow-y: auto;
+          width: 500px;
+          max-width: 95vw;
+        "
+      >
+        <div
+          id="kuronyxOutput"
+          style="
+            background: var(--whiteblack-rgba-02, rgba(255, 255, 255, 0.2));
+            color: var(--whiteblack, #fff);
+            border-radius: 5px;
+            width: 95%;
+            height: 125px;
+            align-self: center;
+            border: 2px solid transparent;
+            margin-bottom: 5px;
+            padding: 10px 5px;
+            text-align: justify;
+            overflow-y: auto;
+          "
+        ></div>
+
+        <textarea
+          id="userInputKyx"
+          placeholder="Type here..."
+          style="
+            background: var(--whiteblack-rgba-02, rgba(255, 255, 255, 0.2));
+            color: var(--whiteblack, #fff);
+            border-radius: 5px;
+            width: 95%;
+            height: 100px;
+            align-self: center;
+          "
+        ></textarea>
+
+        <div style="margin: 5px 0">
+          <button onclick="kuronyxReadsUserComment('description')">
+            Generate Description
+          </button>
+          <button onclick="kuronyxReadsUserComment('description-to-tag')">
+            Description to Tags
+          </button>
+          <button
+            onclick="kuronyxReadsUserComment('tag-to-description')"
+            style="display: none"
+          >
+            Tags to description
+          </button>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div></div>
+
+    <script>
+      function kuronyxReadsUserComment(mode) {
+        const userInputEl = document.getElementById("userInputKyx").value;
+        if (!userInputEl) alert("There's nothing written there.");
+
+        const kuronyxOutput = document.getElementById("kuronyxOutput");
+        const DRobot = document.getElementById("DR");
+        const copyBtn = document.getElementById("copyBtnKyx");
+
+        copyBtn.disabled = true;
+        DRobot.classList.add("bg-cyan-flicker");
+        if (userInputEl && mode === "description") {
+          Values = userInputEl;
+          kuronyxOutput.innerHTML = ai(descriptorRobot);
+        }
+        if (userInputEl && mode === "tag-to-description") {
+          Values = userInputEl;
+          kuronyxOutput.innerHTML = ai(tagTranslatorRobot);
+        }
+        if (userInputEl && mode === "description-to-tag") {
+          Values = userInputEl;
+          kuronyxOutput.innerHTML = ai(tagMakerRobot);
+        }
+        kuroyxCommentUserRequest();
+      }
+
+      function kuroyxCommentUserRequest(data) {
+        if (document.getElementById("initialComment").style.display !== "none")
+          document.getElementById("initialComment").style.display = "none";
+        const userInputEl = document.getElementById("userInputKyx").value;
+        if (!userInputEl) return;
+
+        const newDiv = document.createElement("div");
+        newDiv.innerHTML = ai(KuronyxPromptComment);
+
+        const kuronyxOutput = document.getElementById("kuronyxComment");
+        setTimeout(() => {
+          kuronyxOutput.style.opacity = 0;
+        }, 2000);
+      }
+
+      function copy() {
+        const comment = document.getElementById("kuronyxOutput").innerText;
+        copyText(comment);
+        qolf.fastEffect("copyBtnKyx", 500, "cyan-flicker");
+      }
+    </script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(
+          20deg,
+          #000,
+          #ed0c13,
+          #ed0c93,
+          #cb0ced,
+          #aa0ced,
+          #710ced,
+          #482078,
+          #000
+        );
+        color: #000;
+      }
+
+      button {
+        border-radius: 5px;
+        border-top: 1px solid #0cccf7;
+        border-right: 1px solid #fa4dc3;
+        border-bottom: 1px solid #7933f2;
+        border-left: 1px solid #3350f2;
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      @keyframes bgFlickerCyan {
+        0% {
+          background: #fa4dc3;
+        }
+        5% {
+          background: #00ffff;
+        }
+        10% {
+          background: #fa4dc3;
+        }
+        15% {
+          background: #00ffff;
+        }
+        20% {
+          background: #fa4dc3;
+        }
+        25% {
+          background: #00ffff;
+        }
+        30% {
+          background: #fa4dc3;
+        }
+        35% {
+          background: #00ffff;
+        }
+        40% {
+          background: #fa4dc3;
+        }
+        45% {
+          background: #00ffff;
+        }
+        50% {
+          background: #fa4dc3;
+        }
+        55% {
+          background: #00ffff;
+        }
+        60% {
+          background: #fa4dc3;
+        }
+        65% {
+          background: #00ffff;
+        }
+        70% {
+          background: #fa4dc3;
+        }
+        75% {
+          background: #00ffff;
+        }
+        80% {
+          background: #fa4dc3;
+        }
+        85% {
+          background: #00ffff;
+        }
+        90% {
+          background: #fa4dc3;
+        }
+        95% {
+          background: #00ffff;
+        }
+        100% {
+          background: #fa4dc3;
+        }
+      }
+      .bg-cyan-flicker {
+        animation: bgFlickerCyan 3s infinite;
+      }
+
+      @keyframes flickerCyan {
+        0% {
+          border-color: #fa4dc3;
+        }
+        5% {
+          border-color: #00ffff;
+        }
+        10% {
+          border-color: #fa4dc3;
+        }
+        15% {
+          border-color: #00ffff;
+        }
+        20% {
+          border-color: #fa4dc3;
+        }
+        25% {
+          border-color: #00ffff;
+        }
+        30% {
+          border-color: #fa4dc3;
+        }
+        35% {
+          border-color: #00ffff;
+        }
+        40% {
+          border-color: #fa4dc3;
+        }
+        45% {
+          border-color: #00ffff;
+        }
+        50% {
+          border-color: #fa4dc3;
+        }
+        55% {
+          border-color: #00ffff;
+        }
+        60% {
+          border-color: #fa4dc3;
+        }
+        65% {
+          border-color: #00ffff;
+        }
+        70% {
+          border-color: #fa4dc3;
+        }
+        75% {
+          border-color: #00ffff;
+        }
+        80% {
+          border-color: #fa4dc3;
+        }
+        85% {
+          border-color: #00ffff;
+        }
+        90% {
+          border-color: #fa4dc3;
+        }
+        95% {
+          border-color: #00ffff;
+        }
+        100% {
+          border-color: #fa4dc3;
+        }
+      }
+      .cyan-flicker {
+        animation: flickerCyan 1s;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .spin {
+        animation: spin 2s linear infinite;
+      }
+    </style>
+  </div>
+</div>

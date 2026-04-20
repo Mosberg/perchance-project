@@ -1,0 +1,63 @@
+<br /><br />
+<div style="color: red">This is an edit of T2I styles</div>
+
+<style>
+  body {
+    background-color: black;
+    height: 100vh;
+  }
+  .button {
+    padding: 5px 10px;
+    font-size: 18px;
+    margin: 0 5px;
+    border-radius: 20%;
+    text-decoration: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+</style>
+<br /><br />
+<a href="https://perchance.org/t2i-styles" class="button">T2I Styles</a>
+<br /><br />
+<a href="https://perchance.org/ai-art-generator-advanced" class="button"
+  >AI Art A. Gen</a
+>
+
+<script>
+  const colors = ["blue", "purple", "red"];
+  let colorIndex = 0;
+
+  function changeColor() {
+    colorIndex = (colorIndex + 1) % colors.length;
+    document.querySelectorAll(".button").forEach((button) => {
+      button.style.backgroundColor = colors[colorIndex];
+    });
+  }
+
+  setInterval(changeColor, 500); // Change color every 500ms
+
+  banAllList = [
+    "🔻✴️ T2I Styles🔻",
+    "📷 Casual Photo",
+    "📷 Professional Photo",
+    "📷 1990s Photo",
+    "📷 1980s Photo",
+    "📷 1970s Photo",
+    "📷 1960s Photo",
+    "📷 1950s Photo",
+    "📷 1940s Photo",
+    "📷 1930s Photo",
+    "📷 1920s Photo",
+    "🎬 Cinematic",
+    "🔻✴️ text2image-gen Styles🔻",
+    "》Cinematic",
+    "》Realistic images",
+    "》Realistic humans",
+    "🔻✴️ Vionet20 Styles🔻",
+    "B&W Portrait",
+    "*Realistic* Portraits",
+    "Wetplate Photo Look",
+  ];
+</script>

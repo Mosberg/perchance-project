@@ -1,0 +1,285 @@
+<h1>Female outfit list</h1>
+
+<div style="position: relative; display: inline-block">
+  <a href="https://perchance.org/ai-art-generator-advanced" target="_blank"
+    ><img
+      src="https://files.catbox.moe/c80l39.webp"
+      style="border-radius: 15px; max-width: 100%; height: auto"
+    />
+    <div
+      id="changingTextCtn"
+      style="
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        border-radius: 0 0 15px 15px;
+        font-size: small;
+        text-align: center;
+      "
+    >
+      <span id="changingTextEl" class="blue-neon"
+        >List used by the Ai Art Generator Advanced</span
+      >
+      <div>Visit the generator here</div>
+    </div></a
+  >
+</div>
+
+<style>
+  body,
+  html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    background: linear-gradient(135deg, #000000, #ff3366);
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+
+  h1 {
+    text-align: center;
+    padding: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .blue-neon {
+    text-shadow:
+      0 0 5px #00ffff,
+      0 0 10px #00ffff,
+      0 0 15px #00ffff;
+  }
+</style>
+
+<!--
+  Trash
+
+
+ARFabric = [ARFabric = []]
+RandomFabric()=>
+  if (typeof fabricFullList === "undefined") {
+    rF = Fabric.selectAll.join("|").split("|").map(w => w);
+    fabricFullList = rF.filter(fn => fn !== "random");
+  };
+  if (ARFabric.length >= fabricFullList.length) {
+    ARFabric = [];
+  };
+  RFab = Fabric.selectOne;
+  if (ARFabric.includes(RFab)) {
+    RandomFabric();
+  } else {
+    ARFabric.push(RFab);
+  };
+  return "";
+
+AROuterwear = [AROuterwear = []]
+RandomOutwear()=>
+  if (typeof outerwearFullList === "undefined") {
+    rOW = Outerwear.selectAll.join("|").split("|").map(w => w);
+    outerwearFullList = rOW.filter(fn => fn !== "random");
+  };
+  if (AROuterwear.length >= outerwearFullList.length) {
+    AROuterwear = [];
+  };
+  ROW = Outerwear.selectOne;
+  if (AROuterwear.includes(ROW)) {
+    RandomOutwear();
+  } else {
+    AROuterwear.push(ROW);
+  };
+  return "";
+
+ARDresses = [ARDresses = []]
+RandomDress()=>
+  if (typeof dressFullList === "undefined") {
+    rDress = Dresses.selectAll.join("|").split("|").map(w => w);
+    dressFullList = rDress.filter(fn => fn !== "random");
+  };
+  if (ARDresses.length >= dressFullList.length) {
+    ARDresses = [];
+  };
+  RDress = Dresses.selectOne;
+  if (ARDresses.includes(RDress)) {
+    RandomDress();
+  } else {
+    ARDresses.push(RDress);
+  };
+  return "";
+
+ARCorsets = [ARCorsets = []]
+RandomCorset()=>
+  if (typeof corsetFullList === "undefined") {
+    rCorset = Corsets.selectAll.join("|").split("|").map(w => w);
+    corsetFullList = rCorset.filter(fn => fn !== "random"); //[...new Set(rCorset)];
+  };
+  if (ARCorsets.length >= corsetFullList.length) {
+    ARCorsets = [];
+  };
+  RCorset = Corsets.selectOne;
+  if (ARCorsets.includes(RCorset)) {
+    RandomCorset();
+  } else {
+    ARCorsets.push(RCorset);
+  };
+  return "";
+
+ARUPGarments = [ARUPGarments = []]
+RandomUPGarment()=>
+  if (typeof upGarmentFullList === "undefined") {
+    rUPGarment = UpperGarmentsCatalog.selectAll.join("|").split("|").map(w => w);
+    upGarmentFullList = rUPGarment.filter(fn => fn !== "random");
+  };
+  if (ARUPGarments.length >= upGarmentFullList.length) {
+    ARUPGarments = [];
+  };
+  RUPGarment = UpperGarmentsCatalog.selectOne;
+  if (ARUPGarments.includes(RUPGarment)) {
+    RandomUPGarment();
+  } else {
+    ARUPGarments.push(RUPGarment);
+  };
+  return "";
+
+AROPGarments = [AROPGarments = []]
+RandomOPGarment()=>
+  if (typeof onePieceGarmentFullList === "undefined") {
+    rOPGarment = OnePieceGarments.selectAll.join("|").split("|").map(w => w);
+    onePieceGarmentFullList = rOPGarment.filter(fn => fn !== "random");
+  };
+  if (AROPGarments.length >= onePieceGarmentFullList.length) {
+    AROPGarments = [];
+  };
+  ROPGarment = OnePieceGarments.selectOne;
+  if (AROPGarments.includes(ROPGarment)) {
+    RandomOPGarment();
+  } else {
+    AROPGarments.push(ROPGarment);
+  };
+  return "";
+
+ARBikinis = [ARBikinis = []]
+RandomBikini()=>
+  if (typeof bikiniFullList === "undefined") {
+    rBikini = Bikinis.selectAll.join("|").split("|").map(w => w);
+    bikiniFullList = rBikini.filter(fn => fn !== "random");
+  };
+  if (ARBikinis.length >= bikiniFullList.length) {
+    ARBikinis = [];
+  };
+  RBikini = Bikinis.selectOne;
+  if (ARBikinis.includes(RBikini)) {
+    RandomBikini();
+  } else {
+    ARBikinis.push(RBikini);
+  };
+  return "";
+
+ARPanties = [ARPanties = []]
+RandomPanty()=>
+  if (typeof pantiesFullList === "undefined") {
+    rPanty = Panties.selectAll.join("|").split("|").map(w => w);
+    pantiesFullList = rPanty.filter(fn => fn !== "random");
+  };
+  if (ARPanties.length >= pantiesFullList.length) {
+    ARPanties = [];
+  };
+  RPanty = Panties.selectOne;
+  if (ARPanties.includes(RPanty)) {
+    RandomPanty();
+  } else {
+    ARPanties.push(RPanty);
+  };
+  return "";
+
+ARPatternPanties = [ARPatternPanties = []]
+RandomPatternPanty()=>
+  if (typeof patternPantiesFullList === "undefined") {
+    rPatternPanty = PantiesAnime.selectAll.join("|").split("|").map(w => w);
+    patternPantiesFullList = rPatternPanty.filter(fn => fn !== "random");
+  };
+  if (ARPatternPanties.length >= patternPantiesFullList.length) {
+    ARPatternPanties = [];
+  };
+  RPatternPanty = PantiesAnime.selectOne;
+  if (ARPatternPanties.includes(RPatternPanty)) {
+    RandomPatternPanty();
+  } else {
+    ARPatternPanties.push(RPatternPanty);
+  };
+  return "";
+
+ARSkirts = [ARSkirts = []]
+RandomSkirt()=>
+  if (typeof skirtsFullList === "undefined") {
+    rSkirt = Skirts.selectAll.join("|").split("|").map(w => w);
+    skirtsFullList = rSkirt.filter(fn => fn !== "random");
+  };
+  if (ARSkirts.length >= skirtsFullList.length) {
+    ARSkirts = [];
+  };
+  RSkirt = Skirts.selectOne;
+  if (ARSkirts.includes(RSkirt)) {
+    RandomSkirt();
+  } else {
+    ARSkirts.push(RSkirt);
+  };
+  return "";
+
+ARShorts = [ARShorts = []]
+RandomShorts()=>
+  if (typeof shortsFullList === "undefined") {
+    rShorts = Shorts.selectAll.join("|").split("|").map(w => w);
+    shortsFullList = rShorts.filter(fn => fn !== "random");
+  };
+  if (ARShorts.length >= shortsFullList.length) {
+    ARShorts = [];
+  };
+  RShorts = Shorts.selectOne;
+  if (ARShorts.includes(RShorts)) {
+    RandomShorts();
+  } else {
+    ARShorts.push(RShorts);
+  };
+  return "";
+
+ARPants = [ARPants = []]
+RandomPants()=>
+  if (typeof pantsFullList === "undefined") {
+    rPants = Pants.selectAll.join("|").split("|").map(w => w);
+    pantsFullList = rPants.filter(fn => fn !== "random");
+  };
+  if (ARPants.length >= pantsFullList.length) {
+    ARPants = [];
+  };
+  RPants = Pants.selectOne;
+  if (ARPants.includes(RPants)) {
+    RandomPants();
+  } else {
+    ARPants.push(RPants);
+  };
+  return "";
+
+
+FashionGroup(...DataInputs)=>
+  let FinalData = DataInputs
+    .filter(DI => DI !== "")
+    .map((item, index, array) =>
+      index === array.length - 1 ? item : (index % 2 === 0 ? item + ', paired with' : item + ', also wearing')
+    )
+    .join(" ");
+  return FinalData;
+
+
+  TempNgtvFun(...neg)=>
+  let LocalNgtv = neg.join(", ");
+  TempNgtv += ", " + LocalNgtv;
+  return "";
+TempNgtv = [""]
+
+
+##
+  !-->

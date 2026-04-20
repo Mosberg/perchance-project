@@ -1,0 +1,3510 @@
+<!--
+  💋🍆
+!-->
+<div id="loadingScreen" style="z-index:999999999999; position:fixed; width:100vw; height:100vh; background-color:#000; color:#fff; display:flex; align-items:center; justify-content:center; font-size:0.6rem;">
+  <div style="display:block">
+    <img src="https://files.catbox.moe/xm2qff.webp" style="max-width:50%">
+    <p>Ｌｏａｄｉｎｇ▪️▪️▫️</p></div></div>
+<!-- This before everything !-->
+
+<!-- Warning !-->
+<div style="display:none;">
+  [localStorage.getItem('TheFirstTimeV4') ? "" : (HtmlRender = dyn('aaga-tips'), KuroVideo(), qolf.showDialogModal('warning'))]
+</div>
+
+<dialog id="warning" class="fullWindow">
+  <div style="display:flex; justify-content:center; align-items:center; position:relative;">
+
+    <video id="vidKuronyx"
+      autoplay
+      muted
+      style="max-width:500px;"
+      onended="qolf.OpenHiddenContent('warningWindow', 'no', 100)"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='block'; qolf.OpenHiddenContent('warningWindow', 'no', 100);">
+    </video>
+
+    <img style="max-width:500px; display:none;"
+      src="[HtmlRender ? HtmlRender.SRC.kuronyxImage : '']"
+      alt="FallbackGirl">
+
+    <div id="warningWindow"
+      style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background-color:#000000cc; color:white; padding:5px; font-size:1rem; text-align:justify; max-height:500px; overflow-y:auto; width:320px; padding:10px; border-radius:5px; transition:opacity 1s ease, transform 0.5s ease; opacity:0;"
+      hidden>
+      <div style="text-align:center; color:#ff0000; font-size:1.3rem;">
+        <strong>WARNING!</strong> 🔞</div>
+      <p>[HtmlRender ? HtmlRender.warningMsg1 : ""]</p>
+      <div id="WarnRules"
+        style="text-align:center; left:50%;"
+        onclick="qolf.changeDisplayStatus('warnRulesCtn', '', 'none'); qolf.iconDisplayContent('warnRulesCtn', 'showWarnRules', 'none', '🔻 Click to Show 🔻', '🔺 Click to Hide 🔺')">
+        <span id="showWarnRules" style="padding:5px; border:1px solid #00ffff; border-radius:5px;">🔻 Click to Show 🔻</span></div>
+      <div id="warnRulesCtn" style="border:1px solid #00ffff; border-radius:15px; display:none; position:relative; width:300px; margin-right:10px; margin-top:5px; padding:10px; left:50%; transform:translate(-50%, 0%);">
+        [HtmlRender ? HtmlRender.warningMsgRules : ""]
+        <div style="text-align:center;">
+          <button style="color:#fff; background:#00000080; max-width:max-content; padding:10px; border-radius:5px; border:1px solid #00ffff;"
+            onclick="localStorage.setItem('TheFirstTimeV4', 'confirmed'); warning.close()">Click to Acess</button>
+        </div><br>
+      </div>
+      <br><br>
+      <div style="text-align:center; left:50%;">
+        <a style="text-decoration:none; color:#fff; background:#ff0000bf; border-radius:5px; max-width:max-content; padding:5px;"
+          href="https://duckduckgo.com/?q=cute+and+amazing+cats+with+headphones&t=h_&iar=images&iax=images&ia=images">Leave the site</a>
+      </div><br><br>
+    </div>
+
+    <div>
+      <button style="position:absolute; top:0; left:50%; transform:translateX(-50%); background:#000000" onclick="qolf.OpenHiddenContent('warningWindow', 'no', 100)">Problems? Click here</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- Main themes (Dark/Light and css variables) -->
+<style>
+  .fullWindow {
+    min-width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    background:#000;
+    border: none;
+  }
+  .fullWindow:focus {
+    outline: none;
+  }
+
+  :root {
+    --blackwhite: #000;
+    --blackwhite-rgba-08: rgba(0, 0, 0, 0.8);
+    --blackwhite-rgba-05: rgba(0, 0, 0, 0.5);
+    --blackwhite-rgba-02: rgba(0, 0, 0, 0.2);
+    --blackwhite-gradient: linear-gradient(180deg, rgba(0,0,0, 0.8), rgba(0,0,0, 0.7), rgba(0,0,0, 0.5), rgba(0,0,0, 0.2));
+    --blackwhite-select: rgba(0, 0, 0, 0.5);
+    --blackwhite-shadow-40: 1px 1px 0px #00000040;
+    --blackwhite-two-shadows-40: 1px 1px 3px #00000040, -1px -1px 3px #00000040;
+
+    --whiteblack: #fff;
+    --whiteblack-rgba-08: rgba(255, 255, 255, 0.8);
+    --whiteblack-rgba-05: rgba(255, 255, 255, 0.5);
+    --whiteblack-shadow-40: 1px 1px 0px #00000040;
+
+    --active-btn-color: #00ffff;
+    --active-btn-border: 1px solid #00ffff;
+    --main-icons-bg: linear-gradient(135deg, #00000080 0%, #ad07ad 10%, #00ffff);
+    --placeholder-color: #68ebfc80;
+    --backdrop-blur-5px: backdrop-filter: blur(5px);
+    --backdrop-blur-10px: backdrop-filter: blur(10px);
+  }
+
+  body {}
+
+  .bg-light-theme {
+    background-color: #F9A4FA;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3CradialGradient id='a' cx='0' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23bed3fd'/%3E%3Cstop offset='1' stop-color='%23bed3fd' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='b' cx='1200' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23fcd6fd'/%3E%3Cstop offset='1' stop-color='%23fcd6fd' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='c' cx='600' cy='0' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23c2fcff'/%3E%3Cstop offset='1' stop-color='%23c2fcff' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='d' cx='600' cy='800' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23F9A4FA'/%3E%3Cstop offset='1' stop-color='%23F9A4FA' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='e' cx='0' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2365F9FF'/%3E%3Cstop offset='1' stop-color='%2365F9FF' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='f' cx='1200' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23FFFFFF'/%3E%3Cstop offset='1' stop-color='%23FFFFFF' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='1200' height='800'/%3E%3Crect fill='url(%23b)' width='1200' height='800'/%3E%3Crect fill='url(%23c)' width='1200' height='800'/%3E%3Crect fill='url(%23d)' width='1200' height='800'/%3E%3Crect fill='url(%23e)' width='1200' height='800'/%3E%3Crect fill='url(%23f)' width='1200' height='800'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+  }
+  .bg-dark-theme {
+    background-color: #00817F;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3CradialGradient id='a' cx='0' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2300413f'/%3E%3Cstop offset='1' stop-color='%2300413f' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='b' cx='1200' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23040583'/%3E%3Cstop offset='1' stop-color='%23040583' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='c' cx='600' cy='0' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23420442'/%3E%3Cstop offset='1' stop-color='%23420442' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='d' cx='600' cy='800' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2300817F'/%3E%3Cstop offset='1' stop-color='%2300817F' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='e' cx='0' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23000000'/%3E%3Cstop offset='1' stop-color='%23000000' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='f' cx='1200' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23840984'/%3E%3Cstop offset='1' stop-color='%23840984' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='1200' height='800'/%3E%3Crect fill='url(%23b)' width='1200' height='800'/%3E%3Crect fill='url(%23c)' width='1200' height='800'/%3E%3Crect fill='url(%23d)' width='1200' height='800'/%3E%3Crect fill='url(%23e)' width='1200' height='800'/%3E%3Crect fill='url(%23f)' width='1200' height='800'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+  }
+
+
+  #DarkLightSwitch {}
+</style>
+
+<!-- First visit and theme scripts -->
+<script>
+  // First Visit script //
+  function KuroVideo() {
+    let kuronyxVideoSrc = HtmlRender.SRC.kuronyxVideo;
+    let videoElement = document.getElementById('vidKuronyx');
+    videoElement.src = kuronyxVideoSrc;
+
+    // Firefox bs fix, maybe
+    videoElement.addEventListener("loadedmetadata", () => {
+      videoElement.play().catch(() => {});
+    }, { once: true });
+  }
+  // End First Visit script //
+
+  NativeScheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? "LIGHT" : "DARK";
+
+  function DarkScheme(button) {
+    const ButtonChange = button;
+    const DLbtn = document.getElementById('DarkLightSwitch');
+    DLbtn.textContent = "🌄";
+    //
+
+    if (ButtonChange === "manual") {
+      document.documentElement.style.setProperty('--blackwhite', '#000');
+      document.documentElement.style.setProperty('--blackwhite-rgba-08', 'rgba(0, 0, 0, 0.8)');
+      document.documentElement.style.setProperty('--blackwhite-rgba-05', 'rgba(0, 0, 0, 0.5)');
+      document.documentElement.style.setProperty('--blackwhite-rgba-02', 'rgba(0, 0, 0, 0.2)');
+      document.documentElement.style.setProperty('--blackwhite-gradient', 'linear-gradient(180deg, rgba(0,0,0, 0.8), rgba(0,0,0, 0.7), rgba(0,0,0, 0.5), rgba(0,0,0, 0.2))');
+      document.documentElement.style.setProperty('--blackwhite-select', 'rgba(0, 0, 0, 0.2)');
+      document.documentElement.style.setProperty('--blackwhite-shadow-40', ' 1px 1px 0px #00000040');
+      document.documentElement.style.setProperty('--blackwhite-two-shadows-40', '1px 1px 3px #00000040, -1px -1px 3px #00000040');
+      document.documentElement.style.setProperty('--whiteblack', '#fff');
+      document.documentElement.style.setProperty('--whiteblack-rgba-08', 'rgba(255, 255, 255, 0.8);');
+      document.documentElement.style.setProperty('--whiteblack-rgba-05', 'rgba(255, 255, 255, 0.5)');
+      document.documentElement.style.setProperty('--active-btn-color', '#00ffff');
+      document.documentElement.style.setProperty('--active-btn-border', '1px solid #00ffff');
+      document.documentElement.style.setProperty('--main-icons-bg', 'linear-gradient(135deg, #00000080 0%, #ad07ad 10%, #00ffff)');
+    }
+
+    document.body.classList.remove("bg-light-theme");
+    document.body.classList.add("bg-dark-theme");
+  };
+
+  function LightScheme() {
+    const DLbtn = document.getElementById('DarkLightSwitch');
+    DLbtn.textContent = "🌃";
+    document.documentElement.style.setProperty('--blackwhite', '#fff');
+    document.documentElement.style.setProperty('--blackwhite-rgba-08', 'rgba(255, 255, 255, 0.8)');
+    document.documentElement.style.setProperty('--blackwhite-rgba-05', 'rgba(255, 255, 255, 0.5)');
+    document.documentElement.style.setProperty('--blackwhite-rgba-02', 'rgba(255, 255, 255, 0.2)');
+    document.documentElement.style.setProperty('--blackwhite-gradient', 'linear-gradient(180deg, rgba(255,255,255, 0.8), rgba(255,255,255, 0.7), rgba(255,255,255, 0.5), rgba(255,255,255, 0.2))');
+    document.documentElement.style.setProperty('--blackwhite-select', 'rgba(255, 255, 255, 0.1)');
+    document.documentElement.style.setProperty('--blackwhite-shadow-40', ' 1px 1px 0px #ffffff40');
+    document.documentElement.style.setProperty('--blackwhite-two-shadows-40', '1px 1px 3px #ffffff40, -1px -1px 3px #ffffff40');
+    document.documentElement.style.setProperty('--whiteblack', '#000');
+    document.documentElement.style.setProperty('--whiteblack-rgba-08', 'rgba(0, 0, 0, 0.8)');
+    document.documentElement.style.setProperty('--whiteblack-rgba-05', 'rgba(0, 0, 0, 0.5)');
+
+    document.documentElement.style.setProperty('--active-btn-color', '#000000bf');
+    document.documentElement.style.setProperty('--active-btn-border', '1px solid #3350f2');
+    document.documentElement.style.setProperty('--main-icons-bg', 'linear-gradient(130deg, #fff 0%, #00ffff 10%, #ad07adbf 75%)');
+    document.body.classList.remove("bg-dark-theme");
+    document.body.classList.add("bg-light-theme");
+  };
+
+  function ApplyTheme(button) {
+    if (NativeScheme === "DARK") {
+      if (localStorage.forceColorScheme !== "light") { // Apply Dark
+        DarkScheme(button);
+      } else if (localStorage.forceColorScheme === "light") { // Apply Light
+        LightScheme();
+      }
+      return ""; //
+
+    } else if (NativeScheme === "LIGHT") {
+      if (localStorage.forceColorScheme === "dark") { // Apply Dark
+        DarkScheme(button);
+      } else if (localStorage.forceColorScheme !== "dark") { // Apply Light
+        LightScheme();
+      }
+      return ""; //
+    }
+  };
+</script>
+
+[ApplyTheme()]
+
+<!-- BG and Title -->
+<div id="bGround">[DBG.BGCustom(wall1, wall2, wall3)]</div>
+
+<div class="titleMainCtn" style="margin-top: 10px;" onclick="displayAlloptions('allInputs')">
+  <h1>AI ART GENERATOR ADVANCED</h1>
+</div>
+<!-- Main Content -->
+<div id="HTMLframework" style="margin-top:5px;">
+  [generateHTML(settings)]
+</div>
+
+<!-- Update notes -->
+<div class="default-border" style="background:#f7d49e; color:#000; border-radius:5px; display:none; position:fixed; width:500px; max-width:85vw; max-height:70vh; bottom:0; left:50%; transform:translateX(-50%); margin-bottom:20px; padding:10px; overflow-y:scroll; scroll-behavior:contain;" id="updateID">
+  <button onclick="qolf.changeDisplayStatus('updateID', '', 'none'); readingUpdates()" style="color:#000; font-weight:500; position:sticky; top:0; z-index:10; background:rgba(255,255,255,0.7)">Close ❌</button>
+  <div style="display:flex; flex-direction:column; justify-content:start">
+    ❤️ Want an anime character (waifu)? You can contribute here: <a href="https://perchance.org/anime-waifu" target="_blank">https://perchance.org/anime-waifu</a>
+    <ul>Update 03/04/26 ddmmyy
+      <li>Things to prevent spam in the comments and gallery. Normal use will unlock what is locked</li>
+      <li>Fixed some things reported in feedback (not about negatives, negatives don't work anymore)</li></ul>
+    <ul>update 04/03/26 ddmmyy
+      <li>Negatives are no longer supported. They have been removed. However, if you insist on using them, you can try using this in the description: (negativePrompt:::prompt here)</li></ul>
+    <ul>updates 20/02/26 ddmmyy
+      <li>Zoom in/out slider in the gallery fixed for Mozilla users (i recommend using chrome or brave with this site)</li>
+      <li>0.8sec longer navi buttons (up down arrows).</li>
+      <li>Next update (maybe) ill create an option to pin the navi buttons</li>
+    </ul>
+    <ul>UI fix (06/02/26 ddmmyy)
+      <br>Adjustments for devices with a screen width of 360px (like S24)
+      <li>Changes in some icons and boxes max size.</li>
+      <li>Change the name "Description" to "Prompt" (more compact)</li>
+      <li>*If the UI was better for your before THIS update, click the button > <button style="border:1px inset red;" onclick="alert('ScreenWidth: ' + window.innerWidth)">screen size</button> and tell me in feedback your screen size.</li>
+    </ul>
+    <span style="font-size:small; margin-left:20px;">Some problems reported in the feedback (and anime character requests) will be solved in the future, I prioritize things that prevent someone from using the site.</span>
+    <ul>Small ui fix (02/02/2026 dd/mm/yy)
+      <li>Fixed feedback button showing over others windows</li>
+      <li>The same for others 2 elements don't being displayed correctly</li>
+      <li>Also thanks for the feedback in the feedback .-.</li></ul>
+    <ul>30/01/26 dd/mm/yy
+      <li>Changed some visual things in the regenerate window</li>
+      <li>saveTitle and saveDescription now included when saving to private gallery</li>
+      <li><img src="https://user.uploads.dev/file/808a8554d8e92e3c06e367382018a5e2.webp" style="width:300px;"><br>Updated some items in the list above.<br><span style="cursor:pointer;" onclick="generateIframe()"><u>Wan1.something changed to Wan2-2 14b (better quality)</u></span></li></ul>
+    <ul>28/01/26 dd/mm/yy
+      <li>Add some qol things in the UI/settings</li>
+      <li>Random options function improved for better peformance</li>
+      <li>Fixed bug in 'Eyes color' option (2 calls per image, first call dumped)</li>
+      <li>Terraria Style added in Anime/Toon</li>
+    </ul>
+    <ul>27/01/26 dd/mm/yy
+      <li>Added random style option for each author (🎲*️⃣ T2I Styles (30)🔻)</li>
+      <li>Some anime styles adjusted</li>
+      <li>Fixed bug in Add #tag#, Remove #tag# fix is in progress</li></ul>
+    <ul>23/01/26 dd/mm/aa
+      <li>Small visual optimizations, rules and discord link add in Home.</li>
+      <li>This is an ongoing update that I'm still working, not sure how effective it will be: for realistic images (real person), check <b>Force realistic (experimental)</b> in settings here: <button class="btn-icons icon-settings" onclick="qolf.changeDisplayStatus('promptSettings', '', 'none'); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon("fa-solid fa-gears", ".menu-icon-options")]</button>. This will replace each comma in the prompt with dots, as well others default changes if you use the select options.</li>
+      <li>Note: <b>Aesthetic (+) is for anime/illustrations or semi-realistic, disable it if you want real-looking people</b></li>
+      <li>Glossy style updated, Zodiac (sainty seya) style added, some armor options added in Outfit > Outfit Set.</li>
+      <li>Generic background prompt changed: "the background scenery is" to "The full scenery is", less white border in some seeds.</li>
+    </ul>
+    <ul>22/01/26
+      <li>Some text info (i) added in Aesthetic, Custom options and Seed box.</li>
+      <li>Image regeneration: images that finish loading now are queued in order (the first one goes to the last position).</li></ul>
+    <ul>20/01/26
+      <li>Small improvements in custom options from notepads: The options in the menu displays now the names in Title Case instead of UPPERCASE, so you can use type in your notepad "CHARACTER_NAME", and the option will display "Character Name".</li></ul>
+    <ul>07/01/2026 dd/mm/yy
+      <li>new: 🧱 background removal, to show this button uncheck the option that hides it in settings <button class="btn-icons icon-settings" onclick="qolf.changeDisplayStatus('promptSettings', '', 'none'); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon("fa-solid fa-gears", ".menu-icon-options")]</button></li>
+    </ul>
+    <ul>06/01/2026 dd/mm/yy
+      <li>New in the gallery <button>💯</button>: Show only images with high score.</li>
+      <li>Sorry the gallery custom filter was with problem again, but now it is really fixed. If you are already using it, add any new item in the list, save, them Apply. Then edit the list and remove the item you add, save and apply again (this is just to update the ban-file-list in your device with the fix. If you are not using it, don't need to do anything.
+      <img src="https://user.uploads.dev/file/af867d34c4aed47b754881a03c791542.jpg" style="width:100%"></li>
+      <li>The 'info' button from the text tools now has info about what each button do.</li>
+    </ul>
+    <ul>Small update 04/01/2026
+    <li>Option to fix the buttons in the right (🗨 🎴 📁), in settings: <button class="btn-icons icon-settings" onclick="qolf.changeDisplayStatus('promptSettings', '', 'none'); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon("fa-solid fa-gears", ".menu-icon-options")]</button></li></ul>
+    <div style="text-align:left; border:1px dashed red;"><del>This button "🌱" below the images automatically copies the seed <span style="font-weight:800">AND</span> also automatically sends it to the seed box <button class="btn-icons icon-seed" onclick="document.getElementById('seedBtn').click()">[icon("fa-solid fa-plant-wilt", ".menu-icon-seed")]</button>. You might click it by mistake and end up using the image's seed unintentionally. I recommend disabling this by accessing the settings here:-. I will change the behavior of this button in the next bug fix patch.</del> 🚩 Fixed. Click settings to enable autocopy</div>
+    <ul>Small update 02/01/2026
+      <li>Fixed issue with the gallery custom filter (was not working), IF you are already using it, change something (e.g. add a random word) and click apply, then after this, you can change back to the way it was.</li>
+      <li>Minor errors reported in the comments have been fixed.</li>
+      <li><button class="btn-icons icon-personality" onclick="closeSameMenu('advExtraCtn', 7)">[icon("fa-solid fa-microchip", ".menu-icon-persona")]</button>Old shared link converter fixed (was not working)</li>
+    </ul>
+    <ul>
+      <li>Old shared links no longer work in the current version. I apologize, but I had to change some options and because of this, the data in the *select options* was lost. This does not affect notepads and things in the descriptions.</li>
+    <li>Some other unimportant data was removed because it was obsolete or produced errors, but the important things, which are the private galleries and notepads, are all intact.</li>
+    <li>Images downloaded using the ⬇️ button below the images, or images saved from the private gallery (excluding full backups) contain the data used to generate them (prompt, negative, seed, etc.). Images saved by other means (such as using the right mouse button) do not have this data.</li>
+    <li>It is only possible to choose one main style now (anime, realistic, or other); to mix other styles, use the Mix option.</li>
+    <li>The last notepads can be used as customizable options; this saves automatically after typing, but you need to refresh the page for the new options to appear (or be removed) from the selectable options.</li>
+    <li>The "Repeat option" and an optional list of 'modifiers' have been removed. I don't believe anyone used that, but if anyone needs the list, ask in the "Reposts/Requests" comments.</li>
+    <li>The light theme is not the best, and there are some UI issues regarding focus and attention, on mobile there are several small options, which can be confusing. This will be resolved over time (I think).</li>
+    <li>Other things not listed here will be reported at another time. Any bugs/errors should be reported in the "Reposts/Requests" tab in the comments. Or use the old version here: <a href="https://perchance.org/ai-art-generator-advanced-v3" target="_blank">Adv. Generator V3</a></li>
+    </ul>
+
+  </div>
+</div>
+
+<!-- Rules -->
+<div class="default-border" style="background:rgb(242, 125, 125); color:#000; border-radius:5px; display:none; position:fixed; width:500px; max-width:85vw; max-height:70vh; bottom:0; left:50%; transform:translateX(-50%); margin-bottom:20px; padding:10px; overflow-y:scroll; scroll-behavior:contain;" id="rulesID">
+  <button onclick="qolf.changeDisplayStatus('rulesID', '', 'none')" style="color:#000; font-weight:500; position:sticky; top:0; z-index:10; background:rgba(255,255,255,0.7)">Close ❌</button>
+  <div style="display:flex; flex-direction:column; justify-content:start">
+    <!--This is temporary I need to put it in another page -->
+    <b>1. Do NOT SPAM public gallery.</b> Do not post 10 images in a roll about the same thing with only small differences.<br><br><b>2. DO NOT post realistic images (real people) of minors in public gallery.</b> If any of these images are found, they will be shadow-banned (from the gallery) and the prompt used will be banned or blocked. <strong>Abuse and persistence of posting</strong> such images will be penalized with IP ban and the prompt used will be filtered to negate the generation of such images (in short, if you do shit, don't post it, keep it to yourself). Avoid posting in public anime images of toddlercon and lolicon.<br>
+  </div>
+</div>
+
+<!-- casual iframe -->
+<div style="max-width:95vw; max-height:95vh; margin:10px; position:fixed; inset:0; display:none; flex-direction:column; background:#c2c2c2; border-radius:5px; border:none;">
+  <div style="display:flex; gap:5px; background:var(--blackwhite); border-radius:5px; padding:10px;">
+    <span style="font-size:1.2rem">Original link</span>
+    <a id="webFrameLink" href="" target="_blank"><b>here.</b></a>
+    <button class="default-border" style="background:red;" onclick="webFrame.src=''; this.parentElement.parentElement.style.display = 'none';">Close</button>
+  </div>
+  <iframe id="webFrame" src="" style="width:100%; height:100%; border:none;">
+  </iframe>
+</div>
+
+<!-- Bottom bar -->
+<div style="font-size:small; background:var(--blackwhite-rgba-02); padding-left:35px;">
+  <p style="margin:0;">This site is best viewed on mobile.</p>
+  🔨 Last update: [gns("lastEditTime")] 🌐 Views: [gns("views")]
+  </div>
+<!-- Custom Styles / Needs rework -->
+<div id="CustomStylesID" style="color:var(--whiteblack); flex-direction:column; position:fixed; display:none; left: 0.5rem; bottom: 4.2rem; z-index: 2;">
+  <button style="background:var(--blackwhite); border:1px inset #00ffffbf; color:var(--whiteblack); font-weight:500; padding:1px 15px; align-self:end;" onclick="qolf.changeDisplayStatus('CustomStylesID', 'flex', 'none')">Close ❌</button>
+  <div id="CSID" style="background:var(--blackwhite); backdrop-filter:blur(3px); border-radius:10px; max-height:70vh; bottom:4.7rem; line-height:1.5; max-width: 500px; padding:5px; overflow-y:auto; overscroll-behavior:contain;">
+    <p>Custom art styles  <button style="border: 1px solid cyan;" onclick="CSExplainID.hidden === true ? CSExplainID.hidden = false : CSExplainID.hidden = true">Show info🔻</button></p>
+    <div style="text-align:left; padding:15px;" id="CSExplainID" hidden>
+      <p>Create your own Art Styles and import them into the generator.<br>
+      Follow this example to start creating: <a style="text-decoration:none;" href="https://perchance.org/aaga-extra-styles1#edit" target="_blank">Custom styles example</a>.</p>
+      <p>🎬 Watch <a href="https://youtube.com/shorts/IbjXxFfcoqY" target="_blank">video guide here (1min)</a></p>
+      <p>Enter the link to the page in the fields below. Each category can have up to 3 pages.<br>As example, copy and past this link in the Art Style - Save1, and click Apply: <span style="color:cyan">https://perchance.org/aaga-extra-styles1</span></p>
+      <span style="font-size:0.9rem">▫️The Art Styles are saved on your device, only you have access to them, others cannot see or use them.<br>▫️If you want to share, put the link to your art styles in the "prompt" channel in the comments.</span>
+    </div>
+    <hr>
+    <p>Old SD styles <button style="border: 1px solid cyan;" onclick="sdStylesCtn.hidden === true ? sdStylesCtn.hidden = false : sdStylesCtn.hidden = true">Show🔻</button></p>
+    <div id="sdStylesCtn" hidden>
+    <button onclick="enableOlderStyles()" style="font-size:small;">Click to Enable/Disable SD Styles (depreciated)</button><br>
+    <input id="CustomUserStyle19" readonly><br>
+    <input id="CustomUserStyle20" readonly><br>
+    <input id="CustomUserStyle21" readonly><br>
+    <button style="border:1px solid cyan; box-shadow:none; margin:10px;" onclick="AdvBox.getCustomStylesValue(); location.reload()">Apply</button><br>
+    </div>
+    <hr>
+    <p>Art Style<br>
+    Save1 <input id="CustomUserStyle1"><br>
+    Save2 <input id="CustomUserStyle2"><br>
+    Save3 <input id="CustomUserStyle3"></p>
+    <p>Anime/Toon<br>
+    Save1 <input id="CustomUserStyle4"><br>
+    Save2 <input id="CustomUserStyle5"><br>
+    Save3 <input id="CustomUserStyle6"></p>
+    <p>Photo/Realistic<br>
+    Save1 <input id="CustomUserStyle7"><br>
+    Save2 <input id="CustomUserStyle8"><br>
+    Save3 <input id="CustomUserStyle9"></p>
+    <p>Mix 1<br>
+    Save1 <input id="CustomUserStyle10"><br>
+    Save2 <input id="CustomUserStyle11"><br>
+    Save3 <input id="CustomUserStyle12"></p>
+    <p>Mix 2<br>
+    Save1 <input id="CustomUserStyle13"><br>
+    Save2 <input id="CustomUserStyle14"><br>
+    Save3 <input id="CustomUserStyle15"></p>
+    <p>Mix 3<br>
+    Save1 <input id="CustomUserStyle16"><br>
+    Save2 <input id="CustomUserStyle17"><br>
+    Save3 <input id="CustomUserStyle18"></p>
+    <br><button style="border:1px solid cyan; box-shadow:none; margin:10px;" onclick="AdvBox.getCustomStylesValue(); location.reload()">Apply</button><button style="border: 1px solid red; box-shadow: none; margin:10px;" onclick="AdvBox.RemoveCustomStyles(); location.reload()">Reset</button><br>
+    <span style="font-size:0.9rem">▫️The page will reload after clicking Apply or Reset.<p>⚠️ If the page breaks and shows <span style="color:red">"syntax error"</span> below the title, click <strong>Reset</strong>. This error will occurs if you use a link or name from a page that don't exists, so check if you put the right link.<br></p></span>
+  </div>
+</div>
+
+<!-- shared link converter -->
+<div id="convertOldSharedLinkCtn" class="default-border box-1" style="display:none; flex-direction:column; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:325px; gap:5px;">
+  <button style="margin-left:auto; background:red; padding:1px 8px;" onclick="qolf.changeDisplayStatus('convertOldSharedLinkCtn', 'flex', 'none')">╳</button>
+  <div>
+    <div style="padding:1px 5px;">Shared links from the old version of this site don't work here, but you can still access them. Paste the link below and click convert.</div>
+    <input id="oldSharedLink" style="width:300px; margin:1px" placeholder="Paste the shared link here">
+    <button class="default-border box-05" onclick="convertOldSharedLink()">convert</button>
+  </div>
+  <span id="newSharedLink"></span><br>
+</div>
+
+<!-- imgMeta -->
+<div id="imgReaderWrapper" class="default-border box-1" style="position:fixed; display:none; top:50%; left:50%; transform:translate(-50%, -50%); max-width:95vw; max-height:85vh; overflow-y:auto; overscroll-behavior:contain; padding:5px;">
+  <span style="">Image Metadata Reader</span>
+  <button style="position:sticky; top:0; left:100%; z-index:1; padding:1px 5px; background:red; margin-bottom:1px"; onclick="qolf.changeDisplayStatus('imgReaderWrapper', '', 'none')">╳</button>
+  <div class="box-1" id="imgReader"></div>
+</div>
+
+<div id="promptSettings" style="z-index:1; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); display:none; height:600px; max-height:95vh; overflow-y:auto;">
+  <div class="default-border box-1" style="width:380px; max-width:95vw; display:flex; flex-direction:column; gap:3px; margin:5px;">
+    <button class="box-08"
+      style="width:40px; align-self:end; border-radius:5px; background:red;"
+      onclick="qolf.changeDisplayStatus('promptSettings', '', 'none')">╳</button>
+
+    <div style="text-align:left; padding: 5px 15px; border-bottom:1px dashed var(--whiteblack-rgba-05);">
+      <span><input type="checkbox" name="autoCorrect" onclick="checkVariable(this.name)"> Automatically correct punctuation errors (double commas, extra spaces, etc.).</span><br>
+      <span><input type="checkbox" name="characterQualityPrompt" onclick="checkVariable(this.name)" checked> Use character quality prompt when using the character options.</span><br>
+      <span><input type="checkbox" name="forceRealistic" onclick="checkVariable(this.name)"> Force realistic (experimental): replace or remove 'anime/illustration' terms with more 'realistic-friendly' words/settings</span>
+    </div>
+
+    <span style="padding-top:4px;">Separate each option (style, character, clothes, background) by:</span>
+    <div style="display:flex; flex-direction:column; align-items:flex-start; padding:5px 15px; border-bottom:1px dashed var(--whiteblack-rgba-05);">
+      <span><input type="checkbox" class="whitespace" name="NEWLINE" onclick="whispaceSelect(this.name)"> New Line (.\\n\\n)</span>
+      <span><input type="checkbox" class="whitespace" name="COMMA" onclick="whispaceSelect(this.name)"> Comma (, )</span>
+      <span><input type="checkbox" class="whitespace" name="SEMICOLON" onclick="whispaceSelect(this.name)"> Semicolon (; )</span>
+      <br>
+    </div>
+
+    <span style="padding-top:4px;">Hide buttons under image</span>
+    <div style="width:280px; display:flex; flex-direction:column; align-items:flex-start; padding:5px 15px; gap:5px;">
+      <span><input type="checkbox" onclick="cbDisplayMassCheck(this)"> ✅ Check/Uncheck All</span>
+      <span><input type="checkbox" class="cbDisplay" name="chat"> 💬 Hide chatbot</span>
+      <span><input type="checkbox" class="cbDisplay" name="private"> 📁 Hide private gallery</span>
+      <span><input type="checkbox" class="cbDisplay" name="download"> ⬇️ Hide download</span>
+      <span><input type="checkbox" class="cbDisplay" name="seed"> 🌱 Hide seed</span>
+      <span><input type="checkbox" class="cbDisplay" name="regenerate"> 🔃 Hide regenerate</span>
+      <span><input type="checkbox" class="cbDisplay" name="fw"> 🔎 Hide infoZoom</span>
+      <span><input type="checkbox" class="cbDisplay" name="removeBg"> 🧱 Hide background removal</span>
+    </div>
+    <div style="text-align:left; padding: 5px 15px; border-top:1px dashed var(--whiteblack-rgba-05);">
+      <span><input type="checkbox" name="copySeedToBox" onclick="checkVariable(this.name)"> Automatically copy to the seedbox when the seed button (🌱) is clicked.</span>
+    </div>
+    <div style="text-align:left; padding: 5px 15px; border-top:1px dashed var(--whiteblack-rgba-05);">
+      <span><input type="checkbox" name="rightButtonsVisibility" onclick="checkVariable(this.name); rightButtonsDisplay()"> Fix the right buttons (🗨 🎴 📁).</span><br>
+      <span><input type="checkbox" name="hideRightButtons" onclick="checkVariable(this.name); rightButtonsDisplay()"> Remove the navigator controls and buttons (🗨 🎴 📁).</span>
+    </div>
+    <br>
+  </div>
+</div>
+<div id="menuSettings"
+  class="default-border"
+  style="border-radius:5px; z-index:1; background:var(--blackwhite); display:none; flex-direction:column; position:fixed; overflow-y:auto; height:auto; max-height:calc(90vh - 6rem); max-width:90vw; bottom:4rem; left:0.5rem; padding:5px;">
+  <div style="display:flex; flex-flow:column wrap; gap:8px; width:400px; max-width:95vw;">
+    <button id="menuCloseBtn"
+      style="position:sticky; top:0; width:40px; align-self:flex-end; border-radius:5px; background:red;"
+      onclick="qolf.changeDisplayStatus('menuSettings', '', 'none')">╳</button>
+
+    <span style="align-self:start;">
+      <button id="DarkLightSwitch" class="default-border box-08";
+        onclick="document.getElementById('darkModeBtn_875979f948').click(); ApplyTheme('manual')">🌄</button>
+      Dark/Light Theme
+    </span>
+
+    <button style="text-align: left;"
+      onclick="qolf.changeDisplayStatus('bgSettings', 'flex', 'none')">﹀ Background Settings {🏞️|🏜️|🌉|🌁|🌌|🌋|🗻|🏔️}</button>
+    <div id="bgSettings"
+      style="display:none; flex-direction:column; max-height:100vh; max-width:90vw;">
+      [DBG.newImgChangeRender()]
+      <button style="text-align: left;"
+        onclick="qolf.changeDisplayStatus('bgSettings', 'flex', 'none')">Background Settings ︿</button>
+    </div>
+
+    <button style="text-align: left;"
+      onclick="qolf.changeDisplayStatus('CustomStylesID', 'flex', 'none')">﹀ Custom Styles 📚</button>
+    <!--div id="menuCustomStyles"
+      style="display:none; flex-direction:column; max-height:100vh;">
+      Custom Styles Menu Here
+      <button style="text-align: left;"
+        onclick="qolf.changeDisplayStatus('menuCustomStyles', 'flex', 'none')">Custom Styles ︿</button>
+    </div-->
+
+    <button style="text-align: left;"
+      onclick="qolf.changeDisplayStatus('menuUsefulTools', 'flex', 'none')">﹀ Others tools/services 💎</button>
+    <div id="menuUsefulTools"
+      style="display:none; flex-direction:column; max-height:100vh; max-width:90wv">
+      <ul>Others generators (perchance)
+        <li><a href="https://perchance.org/simple-ai-art-generator" target="_blank">Simple Ai Generator</a><span style="font-size:small">: Basic, simple and fast generator.</span></li>
+        <li><a href="https://perchance.org/kaw-ai" target="_blank">Kaw-ai</a><span style="font-size:small">: (outdated) In development, specializes in anime characters.</span></li>
+      </ul>
+
+      <ul>Services/Tools (perchance)
+        <li><a href="prompt-hunter" target="_blank">Prompt Hunter</a><span style="font-size:small">: Uncensored gallery, use to share galleries or view banned pics.</span></li>
+        <li><a href="image-compare" target="_blank">Image Compare</a><span style="font-size:small">: Compare 2 images with a slider.</span></li>
+        <li><a href="image-resize" target="_blank">Image Resize</a><span style="font-size:small">: Batch resize images</li>
+        <li><a href="image-metadata-byt" target="_blank">Adv. Image Metadata Reader</a><span style="font-size:small">: Read imagedata (prompt, seed, etc) from pics downloaded from this generator</li>
+        <li><a href="private-gallery-reader" target="_blank">Private Gallery Reader (json)</a><span style="font-size:small">: Read .json files that are created when you use 'full backup' in private gallery</li>
+        <li><a href="fancy-feast" target="_blank">Fancy Feast</a><span style="font-size:small">: Img to prompt, uncensored, read and describe images</span></li>
+        <li><a href="text-tools-blackyt" target="_blank">Simple Text Tools</a><span style="font-size:small">: The same from here, to format text</li>
+      </ul>
+
+      <ul>Etc
+        <li><button class="default-border box-05" onclick="generateIframe()">Image2Video (wan2-2 14B)</button><br><span style="font-size:small"> Uncensored but limited video generator (1 or 2 per day)</span></li>
+      </ul>
+
+      <button style="text-align: left;"
+        onclick="qolf.changeDisplayStatus('menuUsefulTools', 'flex', 'none')">Others tools/generators: ︿</button>
+    </div>
+    <div style="margin-top:auto;">
+      <p>Made by BlackYT👄🍆</p>
+    </div>
+  </div>
+</div>
+
+<div style="display:none">
+  <button id="commentPopBtn" class="waitingEl" style="pointer-events:auto;" onclick="commentPopup()">🗨</button>
+  <button id="galleryPopBtn" class="waitingEl" onclick="galleryPopup()">🎴</button>
+</div>
+
+
+<button style="width:28px; height:28px; position:fixed; bottom:2.2rem; left:0.5rem; display:flex; align-items:center; justify-content:center;"
+  onclick="qolf.fastEffect(this, 300, 'rainbow-effect'); qolf.changeDisplayStatus('menuSettings', 'flex', 'none')">⚙️</button>
+<!-- Start and create variables, event listeners, etc -->
+[createGlobalVar()]
+[startToolsEventListen()]
+[runAtStart()]
+
+<!-- Main options css -->
+<style>
+  /* hr class to put some space and/or be used as 'line break' between elements */
+  .menu-bar {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    opacity: 0;
+  }
+
+  /* To group the options */
+  .rowFlex {
+    width: 625px;
+    max-width: 95vw;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 3px;
+  }
+  .container-options {
+    display: flex;
+    gap: 1px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .gradient-border-top {
+    border-top: 2px solid transparent;
+    border-image: linear-gradient(to right, #fa4dc3, #7933f2, #3350f2, #0cccf7, #3350f2, #7933f2, #fa4dc3) 1;
+    border-image-slice: 1;
+    border-radius: 5px;
+  }
+
+  /* Rng buttons */
+  .select-buttons {
+    flex-grow: 1;
+  }
+
+  /* Notes */
+  .notesEl {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width:min(750px, 100%);
+  }
+  .notesEl textarea {
+    border: none;
+    outline: none;
+  }
+  .input-inner:has(textarea[data-name="scratchpad"]) {
+    border: 1px solid #00ffff;
+  }
+  .input-inner:has(textarea[data-name="scratchpad2"]) {
+    border: 1px solid #fa4dc3;
+  }
+  .input-inner:has(textarea[data-name="scratchpad3"]) {
+    border: 1px solid #7933f2;
+  }
+  .input-inner:has(textarea[data-name="scratchpad4"]) {
+    border: 1px solid #3350f2;
+  }
+  .input-inner:has(textarea[data-name="scratchpadex"]) {
+    border: 1px solid #fc0303;
+  }
+  .input-inner:has(textarea[data-name="scratchpadex2"]) {
+    border: 1px solid #16b841;
+  }
+  .input-inner:has(textarea[data-name="scratchpadStyles"]) {
+    border: 1px dashed #d9bd23;
+  }
+  .input-inner:has(textarea[data-name="scratchpadCharacters"]) {
+    border: 1px dashed #00ffa2;
+  }
+  .input-inner:has(textarea[data-name="scratchpadOutfit"]) {
+    border: 1px dashed #ffa200;
+  }
+  .input-inner:has(textarea[data-name="scratchpadBackground"]) {
+    border: 1px dashed #0091ff;
+  }
+
+  #userPromptArea {
+    display: contents;
+  }
+  #userPromptArea textarea {
+    border: none;
+  }
+
+  #topButtons {
+    flex-wrap: nowrap;
+    gap: 3px;
+    width: 525px;
+    overflow-x: auto;
+  }
+
+  @media (max-width:400px) {
+    #topButtons {
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+  }
+
+  /* Text Tools */
+  .flexCtn {
+    display: flex;
+    gap: 5px;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 0;
+    padding: 5px;
+  }
+
+  .button-grid {
+    display: flex;
+    flex-direction: row;
+  }
+
+  /* Select (options) categories */
+  /* #allSelectOptions { display: contents; } */
+  #artStylesCtn { display: contents; }
+  #mixCtn { display: none; }
+  #sceneryCtn { display: none; }
+  #characterCtn { display: none; }
+  #fashionCtn { display: none; }
+  #imgSettings { display: contents; }
+
+  #functionsCtn { display: none; align-items: center; }
+  #filterBtnCtn { display: flex; align-items: center;}
+
+  .mainStylesBtn {
+    padding: 10px 4px;
+    flex-grow: 1;
+  }
+
+  /* Art Style options */
+
+  [data-name="artStyleOne"],
+  [data-name="artStyleTwo"],
+  [data-name="artStyleThree"],
+  [data-name="userCustomStyle"] {
+    min-width: 615px !important;
+    max-width: 615px !important;
+  }
+  @media (max-width:630px) {
+    [data-name="artStyleOne"],
+    [data-name="artStyleTwo"],
+    [data-name="artStyleThree"],
+    [data-name="userCustomStyle"] {
+      min-width: calc(100vw - 8vw) !important;
+      max-width: calc(100vw - 8vw) !important;
+    }
+  }
+
+
+  /* Mix Styles options */
+  [data-name="artStyle4"],
+  [data-name="artStyle5"] ,
+  [data-name="artStyle6"],
+  [data-name="userArtStyleMix"] {
+    min-width: calc(600px / 4 - 10px) !important;
+    max-width: calc(600px / 4 - 10px) !important;
+  }
+   @media (max-width:630px) {
+     [data-name="artStyle4"],
+     [data-name="artStyle5"] ,
+     [data-name="artStyle6"],
+     [data-name="userArtStyleMix"] {
+      min-width: calc(100vw / 4 - 5vw) !important;
+      max-width: calc(100vw / 4 - 5vw) !important;
+    }
+   }
+
+  /* character options */
+  #charSkin {
+    border-radius: 5px;
+    width: 75px;
+    height: 45px;
+    padding: 2px;
+    margin-top: 5px;
+  }
+
+  [data-name="animeCharacter"],
+  [data-name="userCharacter"] {
+    min-width: calc(600px / 2 - 10px) !important;
+    max-width: calc(600px / 2 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="animeCharacter"],
+    [data-name="userCharacter"] {
+      min-width: calc(100vw / 2 - 5vw) !important;
+      max-width: calc(100vw / 2 - 5vw) !important;
+    }
+  }
+
+  [data-name="characterXES"],
+  [data-name="characterBody"],
+  [data-name="characterChest"] {
+    min-width: calc(600px / 3 - 10px) !important;
+    max-width: calc(600px / 3 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="characterXES"],
+    [data-name="characterBody"],
+    [data-name="characterChest"] {
+      min-width: calc(100vw / 3 - 5vw) !important;
+      max-width: calc(100vw / 3 - 5vw) !important;
+    }
+  }
+
+  [data-name="characterSkinColor"],
+  [data-name="characterEyeColor"],
+  [data-name="characterHairColor"] {
+    min-width: calc(600px / 3 - 10px) !important;
+    max-width: calc(600px / 3 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="characterSkinColor"],
+    [data-name="characterEyeColor"],
+    [data-name="characterHairColor"] {
+      min-width: calc(100vw / 3 - 4vw) !important;
+      max-width: calc(100vw / 3 - 4vw) !important;
+    }
+  }
+
+  [data-name="characterHairL"],
+  [data-name="characterHairT"],
+  [data-name="characterHairS"],
+  [data-name="characterHairB"],
+  [data-name="characterHairMisc"] {
+    min-width: calc(600px / 5 - 10px) !important;
+    max-width: calc(600px / 5 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="characterHairL"],
+    [data-name="characterHairT"],
+    [data-name="characterHairS"],
+    [data-name="characterHairB"],
+    [data-name="characterHairMisc"] {
+      min-width: calc(100vw / 5 - 4vw) !important;
+      max-width: calc(100vw / 5 - 4vw) !important;
+    }
+  }
+
+  [data-name="characterAngle"],
+  [data-name="characterGaze"],
+  [data-name="characterEmo"],
+  [data-name="characterAction"] {
+    min-width: calc(600px / 4 - 10px) !important;
+    max-width: calc(600px / 4 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="characterAngle"],
+    [data-name="characterGaze"],
+    [data-name="characterEmo"],
+    [data-name="characterAction"] {
+      min-width: calc(100vw / 4 - 4vw) !important;
+      max-width: calc(100vw / 4 - 4vw) !important;
+    }
+  }
+
+  /* Outfit options */
+  [data-name="outfitFabric"],
+  [data-name="outfitSet"],
+  [data-name="userOutfitSet"],
+  [data-name="outfitColor"],
+  [data-name="outfitCosplay"] {
+    min-width: calc(600px / 5 - 10px) !important;
+    max-width: calc(600px / 5 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="outfitFabric"],
+    [data-name="outfitSet"],
+    [data-name="userOutfitSet"] {
+      min-width: calc(100vw / 5 - 40px) !important;
+      max-width: calc(100vw / 5 - 27px) !important;
+    }
+    [data-name="outfitCosplay"] {
+      max-width: calc(100vw / 5 - 17px) !important;
+    }
+    [data-name="outfitColor"] {
+      min-width: 3rem !important;
+      max-width: 3.2rem !important;
+    }
+  }
+
+  [data-name="outfitOutwear"],
+  [data-name="outfitColor01"],
+  [data-name="outfitTorso"],
+  [data-name="outfitSleeves"],
+  [data-name="outfitColor02"] {
+    min-width: calc(600px / 5 - 10px) !important;
+    max-width: calc(600px / 5 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="outfitOutwear"],
+    [data-name="outfitColor01"],
+    [data-name="outfitTorso"],
+    [data-name="outfitSleeves"],
+    [data-name="outfitColor02"] {
+      min-width: calc(100vw / 5 - 4vw) !important;
+      max-width: calc(100vw / 5 - 4vw) !important;
+    }
+  }
+
+  [data-name="outfitWaist"],
+  [data-name="outfitColor03"],
+  [data-name="outfitLegs"],
+  [data-name="outfitColor04"],
+  [data-name="outfitFoot"],
+  [data-name="outfitColor05"] {
+    min-width: calc(600px / 6 - 10px) !important;
+    max-width: calc(600px / 6 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="outfitWaist"],
+    [data-name="outfitColor03"],
+    [data-name="outfitLegs"],
+    [data-name="outfitColor04"],
+    [data-name="outfitFoot"],
+    [data-name="outfitColor05"] {
+      min-width: calc(100vw / 6 - 4vw) !important;
+      max-width: calc(100vw / 6 - 4vw) !important;
+    }
+  }
+
+  [data-name="outfitHands"],
+  [data-name="outfitColor06"],
+  [data-name="outfitHead"],
+  [data-name="outfitColor07"] {
+    min-width: calc(600px / 4 - 10px) !important;
+    max-width: calc(600px / 4 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="outfitHands"],
+    [data-name="outfitColor06"],
+    [data-name="outfitHead"],
+    [data-name="outfitColor07"] {
+      min-width: calc(100vw / 4 - 4vw) !important;
+      max-width: calc(100vw / 4 - 4vw) !important;
+    }
+  }
+
+  [data-name="outfitAccA"],
+  [data-name="outfitAccB"],
+  [data-name="outfitAccC"],
+  [data-name="outfitColor08"],
+  [data-name="outfitColor09"],
+  [data-name="outfitColor10"] {
+    min-width: calc(600px / 6 - 10px) !important;
+    max-width: calc(600px / 6 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="outfitAccA"],
+    [data-name="outfitAccB"],
+    [data-name="outfitAccC"],
+    [data-name="outfitColor08"],
+    [data-name="outfitColor09"],
+    [data-name="outfitColor10"] {
+      min-width: calc(100vw / 6 - 4vw) !important;
+      max-width: calc(100vw / 6 - 4vw) !important;
+    }
+  }
+
+  /* Background optios */
+  [data-name="userBackground"],
+  [data-name="bgAngle"],
+  [data-name="bgScheme"] {
+    min-width: calc(600px / 3 - 10px) !important;
+    max-width: calc(600px / 3 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="userBackground"],
+    [data-name="bgAngle"],
+    [data-name="bgScheme"] {
+      min-width: calc(100vw / 3 - 5vw) !important;
+      max-width: calc(100vw / 3 - 5vw) !important;
+    }
+  }
+
+  [data-name="bgExterior"],
+  [data-name="bgInterior"],
+  [data-name="bgTime"],
+  [data-name="bgWeather"] {
+    min-width: calc(600px / 4 - 10px) !important;
+    max-width: calc(600px / 4 - 10px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="bgExterior"],
+    [data-name="bgInterior"],
+    [data-name="bgTime"],
+    [data-name="bgWeather"] {
+      min-width: calc(100vw / 4 - 5vw) !important;
+      max-width: calc(100vw / 4 - 5vw) !important;
+    }
+  }
+
+  /* Image Settings */
+
+  [data-name="qBooster"],
+  [data-name="shape"] {
+    min-width: calc(600px / 3 - 32px) !important;
+    max-width: calc(600px / 3 - 32px) !important;
+  }
+  @media (max-width:630px) {
+    [data-name="qBooster"] {
+      min-width: calc(100vw / 5) !important;
+      max-width: calc(100vw / 5) !important;
+    }
+  }
+
+  @media (max-width:630px) {
+    [data-name="shape"] {
+      min-width: calc(100vw / 5 - 28px) !important;
+      max-width: calc(100vw / 5 - 28px) !important;
+    }
+  }
+
+  [data-name="gScale"],
+  [data-name="numImages"] {
+    max-width: 100px !important;
+  }
+  @media (max-width:630px) {
+    [data-name="gScale"] {
+      min-width: calc(100vw / 5 - 25px) !important;
+      max-width: calc(100vw / 5 - 25px) !important;
+    }
+  }
+
+
+
+
+
+  /* Others buttons */
+
+  #infoBtn { width: 2rem; border:2px inset #00ffff; cursor:help; }
+  .ghost {
+    opacity: var(--ghostOpacity, 1);
+  }
+
+  #allInputs .paragraph-input {
+    border-radius: 5px;
+    padding: 10px;
+    background-color: var(--blackwhite-rgba-05);
+  }
+  #titleCtn .input-inner {
+    border-radius: 5px;
+    padding: 10px;
+    background-color: var(--blackwhite-rgba-05);
+  }
+  #titleCtn input {
+    border: none;
+    border-radius: 5px;
+    background-color: var(--blackwhite-rgba-05);
+  }
+  #hackCtn .paragraph-input {
+    border-radius: 5px;
+    padding: 10px;
+    background-color: var(--blackwhite-rgba-05);
+    border: none;
+  }
+</style>
+
+<!-- Menu buttons -->
+<style>
+  #iconCtn {
+    font-size: 1.5rem;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-align: center;
+    height: 2.9rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .btn-icons {
+    border: 1px solid #00000000;
+    margin: 2px 3px;
+    padding: 2px;
+    border-radius: 5px;
+    background-color: var(--blackwhite-rgba-02);
+    backdrop-filter: blur(10px);
+    min-width: 2.7rem;
+    min-height: 2.7rem;
+    text-shadow: 1px 1px 3px #00000080, -1px -1px 3px #00000080;
+  }
+  .menu-icon-options {
+    text-shadow: 1px 1px 3px #ffffff00;
+    background-image: var(--main-icons-bg);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .menu-icon-reset {
+    color: #fcca03;
+    text-shadow: 1px 1px 3px #ffffff00;
+    background-image: linear-gradient(130deg, #fff 0%, #00ffff 20%, #ff0000 40%);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .menu-icon-basic {
+    color: #fcca03;
+    text-shadow: 1px 1px 3px #ffffff00;
+    background-image: linear-gradient(130deg, #fff 0%, #fff 10%, #5a08cc 40%, #fff 97%);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .menu-icon-tools {
+    color: #fcca03;
+    text-shadow: 1px 1px 3px #ffffff00;
+    background-image: linear-gradient(130deg, #fff 0%, #00ffff 10%, #fcca03 40%, #0019fa 95%);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .menu-icon-seed {
+    color: #13fc03;
+    text-shadow: 1px 1px 3px #ffffff00;
+    background-image: linear-gradient(130deg, #fff 0%, #00ffff 10%, #13fc03 40%, #15850d 99%);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .menu-icon-persona {
+    color: #9003fc;
+    text-shadow: 1px 1px 3px #ffffff00;
+    background-image: linear-gradient(130deg, #fff 0%, #00ffff 8%, #9003fc 40%, #ff0000 95%);
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .icon-info::after { content: "Info"; }
+  .icon-styles::after { content: "Styles"; }
+  .icon-mix::after { content: "Mix"; }
+  .icon-scenery::after { content: "BG"; }
+  .icon-characters::after { content: "Char"; }
+  .icon-fashion::after { content: "Outfit"; }
+  .icon-reset::after { content: "Reset"; }
+  .icon-focus::after { content: "Basic"; }
+  .icon-tools::after { content: "Tools"; }
+  .icon-seed::after { content: "Seed"; }
+  .icon-title::after { content: "Title"; }
+  .icon-personality::after { content: "Extra"; }
+  .icon-desktop::after { content: "Desktop"; }
+  .icon-settings::after { content: "Settings"; }
+
+  [class*="icon-"]::after {
+  color: var(--whiteblack);
+  position: absolute;
+  text-align: center;
+  font-size: 10px;
+  top: 0%;
+  left: 5%;
+  font-weight: 500;
+  background-image: linear-gradient(0deg, var(--whiteblack), var(--whiteblack));
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  }
+
+  .home-icon {
+    min-width:30px;
+    max-width: 200px;
+    height: 40px;
+    max-height: 80px;
+    overflow: hidden;
+    padding:0 3px;
+  }
+</style>
+
+<!-- Tools/Functions elements -->
+<style>
+  /* Tools buttons */
+  .function-btn {
+    height: 2.5rem;
+    width: 4.5rem;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 1px 0px;
+    background-color: var(--blackwhite-rgba-05);
+    backdrop-filter: var(--backdrop-blur-10px);
+    border-radius: 5px;
+    border-top:1px solid #0cccf7;
+    border-right:1px solid #e814ff;
+    border-bottom:2px solid #7933f2;
+    border-left:1px solid #3350f2;
+    overflow: hidden;
+    font-size: 0.9rem;
+  }
+  .log-function-btn {
+    height: 2rem;
+    margin-top: 0.4rem;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    padding: 1px 5px;
+    background-color: #6f6f67;
+    backdrop-filter: var(--backdrop-blur-5px);
+    font-size: 0.9rem;
+  }
+</style>
+
+<!-- t2i-framework elements -->
+<style>
+  .input-inner {
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+  .input-type-paragraph .input-inner {
+    background-color: var(--blackwhite-rgba-05);
+  }
+
+  .input-type-select .input-inner {
+    background: var(--blackwhite-gradient);
+  }
+  .input-type-select select {
+    color: var(--whiteblack) !important;
+    background-color: var(--blackwhite-rgba-08);
+    border-radius: 5px;
+    border: none;
+    margin: 1px 0px;
+  }
+
+  button:not(.new-fixed-buttons, .default-border, .btn-icons, .function-btn) {
+    background-color: var(--blackwhite-rgba-05);
+    border-radius: 5px;
+    border: 1px solid #00000000;
+    box-shadow: 1px 1px 3px #80008040, -1px -1px 3px #00ffff40;
+  }
+
+  .input-label {
+    height:1.5rem;
+  }
+  .input-label span {
+    display: flex; align-items: center;
+  }
+
+  .input-ctn[data-fold-toggle-state='hidden'] .label-btn {
+    display:none;
+  }
+
+  .t2i-image-ctn:not(.new-variations) {
+    width: var(--t2i-image-ctn-width, 300px);
+  }
+
+  .random-input-btn-ctn {
+    margin-top: 5px;
+  }
+
+  .t2i-under-each-image-ctn {
+    font-size: 100% !important;
+  }
+  .t2i-under-each-image-ctn div {
+    display: flex;
+    opacity: 0;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .t2i-under-each-image-ctn button:not(.private-save-button) {
+    opacity: 1 !important;
+  }
+  .private-save-button {
+    opacity: 0 !important;
+    cursor: default;
+    margin-left: 0 !important;
+  }
+  .private-save-button-plus {
+    opacity: 1 !important;
+    cursor: pointer;
+  }
+  .t2i-under-each-image-ctn button {
+    padding: 1px;
+    transform-origin: center;
+  }
+  .t2i-under-each-image-ctn button:hover {
+    border-top:1px solid #0cccf7 !important;
+    border-right:1px solid #e814ff !important;
+    border-bottom:1px solid #7933f2 !important;
+    border-left:1px solid #3350f2 !important;
+    transform: scale(1.2);
+  }
+
+  .personality-chat-button {
+    display: var(--chat-button-display, inline-flex);
+  }
+
+  .private-save-button {
+    display: var(--private-button-display, inline-flex);
+  }
+
+  .t2i-downloadBtn {
+    display: var(--download-button-display, inline-flex);
+  }
+
+  .t2i-SeedBtn {
+    display: var(--seed-button-display, inline-flex);
+  }
+
+  .t2i-img-variationsBtn {
+    display: var(--regenerate-button-display, inline-flex);
+  }
+
+  .t2i-infoBtn {
+    display: var(--fw-button-display, inline-flex);
+  }
+
+  .t2i-RemoveBtn {
+    display: var(--removeBg-button-display, inline-flex);
+  }
+
+  .gallery-pop {
+    z-index: 8;
+    position: fixed;
+    bottom: 0.5rem;
+    right: 3rem;
+    max-width: 800px;
+    max-height: 95vh;
+    overflow-y: auto;
+    background: var(--blackwhite-rgba-08);
+    border-radius: 5px;
+    transform: scale(1) !important;
+    /*transform-origin: top right !important; */
+  }
+  @media (max-width:450px) {
+    .gallery-pop {
+      left: 2px;
+      max-width: 95vw;
+    }
+  }
+  .comment-pop {
+    z-index: 9;
+    position: fixed;
+    bottom: 1.5rem;
+    right: 3.25rem;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--blackwhite-rgba-08);
+    border-radius: 5px;
+  }
+  @media (max-width:450px) {
+    .comment-pop {
+      left: 2px;
+      max-width: 95vw;
+    }
+  }
+
+  #darkModeBtn_875979f948 { display: none; }
+  #feedbackBtn893745ykfuhd { /*display: none;*/ }
+  #privateGalleryCtn97364827 {
+    position: fixed;
+    right: 0.5rem !important;
+    left: auto !important;
+    bottom: 1.8rem !important; /*0.5*/
+    width: 40px !important;
+    display: var(--visibleStatus, none);
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin: 5px 0;
+    background: var(--blackwhite-rgba-08);
+    border-radius: 5px;
+    padding: 5px 0;
+    z-index: 1 !important;
+  }
+  /* @media (max-width:450px) {
+    #privateGalleryCtn97364827 {
+      top: 0 !important;
+      bottom: auto !important;
+      flex-direction: column-reverse;
+    }
+  } */
+  #privateGalleryCtn97364827 button {
+    font-size: 1.3rem;
+    padding: 0;
+    width: 30px;
+    pointer-events: auto;
+  }
+
+  .random-input-btn {
+    display: none;
+  }
+  .ai-suggest-btn {
+    display: none;
+  }
+</style>
+
+<!-- background colors -->
+
+<style>
+  /*🔽 TITLE */
+  .titleMainCtn {
+    text-align: center;
+    padding: 0.3rem 0.8rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    display: inline-block;
+    background: linear-gradient(45deg, #ffffff1a, #ffffff33, #ffffff1a); /* #ff00ff80, #00ffff80 */
+  }
+  h1 {
+    font-size: 1.2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #ff00ff, #00ffff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: colorShift 5s linear infinite;
+    text-shadow:
+      3px 3px 0 rgba(0,0,0,0.7),
+      -3px -3px 0 rgba(255,255,255,0.2),
+      5px 5px 15px rgba(255,0,255,0.4),
+      -5px -5px 15px rgba(0,255,255,0.4);
+  }
+  @keyframes colorShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Navigator */
+  .fixed-button:not(#backToGenerate) {
+    width: 30px;
+    aspect-ratio: 1 / 1;
+    border: none;
+    border-radius: 50%;
+    padding: 2px 0 0 0;
+    background: var(--blackwhite); opacity:0.8;
+    font-size: 25px;
+    color: var(--whiteblack) !important;
+    box-shadow: 0 0 3px 3px #00ffff40;
+  }
+  .nav-controls {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+  }
+  .nav-controls.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .new-fixed-buttons {
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    max-width: 100%;
+    font-size: 22px;
+    background: var(--blackwhite-rgba-02);
+  }
+
+  /*#backToTop {
+    position: fixed;
+    display: block;
+    right: 12px;
+    bottom: 220px;
+  }
+  #scrollToBottom {
+    position: fixed;
+    display: block;
+    right: 12px;
+    bottom: 120px;
+  }
+  #backToGenerate {
+    position: fixed;
+    display: block;
+    right: 12px;
+    bottom: 167px;
+    overflow: hidden;
+    width: 40px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: none;
+    background: #00000000;
+    font-size: 26px;
+    color: var(--whiteblack) !important;
+    text-shadow: 1px 1px 3px #00ffff80;
+    padding: 0 0 0 4px;
+  }*/
+
+  #galleryContentFilterCtn button {
+    padding:5px;
+    border-top: 1px solid #0cccf7;
+  }
+</style>
+
+
+
+<!-- Dialogs -->
+<div id="infoDialogs">
+  <dialog id="rstOptDialog" style="border:none; border-radius:5px;">
+    <p>Reset options to default?
+      <br>
+      <em style="font-size:0.8em;">(styles, mix, scenery, character and fashion options)</em>
+    </p>
+    <button class="fp-event" style="margin-right:25px; color:#fff; background-color:#ff0000; border-radius:5px; border:none; height:25px; width:70px;" onclick="qolf.resetSomeOptions(0, 'allSelectOptions', 'select'); rstOptDialog.close()"><b>Reset</b></button>
+    <button style="margin-left:25px; border-radius:5px; border:0.5px solid #cccccc; height:25px; width:70px; background:#00000000;" onclick="rstOptDialog.close()">Cancel</button>
+  </dialog>
+  [HtmlRender ? HtmlRender.dialogs('infoIcons') : ""]
+  [HtmlRender ? HtmlRender.dialogs('infoTools') : ""]
+  [HtmlRender ? HtmlRender.dialogs('DELETEDATA') : ""]
+  [autoGenBtnRender('choiceBtn')]
+</div>
+
+<div id="savedPromptMenu" class="default-border box-1" style="padding:10px; z-index:9; position:fixed; top:0; right:50%; transform:translate(50%, 50%); width:400px; max-width:90vw; display:none;">
+  <p>Saved prompt</p>
+  <select id="selectSavedPrompt" style="max-width:85%;" onchange="loadUserSavedPrompt('preview')">
+    <option data-key= "" value="">None</option>
+  </select>
+  <button style="margin: 0 5px;" onclick="deleteuserSavedPrompt()">🗑</button>
+  <br>
+  <textarea id="previewSavedPrompt" style="margin-top:5px; width:100%; height:175px; max-height:90vh; background:var(--blackwhite-rgba-02); border:none; outline:none; overscroll-behavior:contain;" readonly></textarea>
+  <button class="default-border box-05" style="margin:2px;" onclick="loadUserSavedPrompt(); qolf.changeDisplayStatus('savedPromptMenu', '', 'none')">Load</button>
+  <button style="margin:2px; border:1px solid red;" onclick="qolf.changeDisplayStatus('savedPromptMenu', '', 'none')">Cancel</button>
+</div>
+<!-- scroll !-->
+<div class="nav-controls" style="display:flex; flex-direction:column; gap:25px; justify-content:center; position:fixed; right:0.5rem; bottom:40%; background:var(--blackwhite-rgba-08); padding:5px; border-radius:10px; width:40px">
+  <button id="backToTop" class="new-fixed-buttons default-border" style="border-radius:10px;" onclick="scrollToTop()" aria-label="Back to Top">[icon("fa-solid fa-circle-up")]</button>
+  <button id="backToGenerate" class="new-fixed-buttons" style="text-shadow:-1px 1px 1px #0cccf7, 2px 2px 6px #fa4dc3, -2px -2px 6px #3350f2; border:none;" onclick="scrollToGenerate()" aria-label="Back to Generate">✨</button>
+  <button id="scrollToBottom" class="new-fixed-buttons default-border" style="border-radius:10px;" onclick="scrollToBottom()" aria-label="Scroll to Bottom">[icon("fa-solid fa-circle-down")]</button>
+
+</div>
+<br>
+
+
+<style>
+  .microchip-btn {
+    font-size: clamp(12px, 2vw, 1rem);
+  }
+
+  .special-bar { /* Search for elements with this and remove */
+  }
+  .menu-bars { /* Search for elements with this and remove */
+  }
+  .waitingEl {
+    display: var(--clickStatus) !important;
+  }
+
+  .nice-border {
+    border-top: 1px solid #0cccf7 !important;
+    border-right: 1px solid #fa4dc3 !important;
+    border-bottom: 1px solid #ffe84f !important;
+    border-left: 1px solid #3350f2 !important;
+  }
+
+  .box-05 {
+    background-color: var(--blackwhite-rgba-05);
+    border-radius:5px;
+  }
+
+  .default-border {
+    border-top: 1px solid #0cccf7;
+    border-right: 1px solid #fa4dc3;
+    border-bottom: 1px solid #7933f2;
+    border-left: 1px solid #3350f2;
+    border-radius: 5px;
+  }
+  .box-1 {
+    background: var(--blackwhite, rgb(0, 0, 0));
+    color: var(--whiteblack, #fff);
+  }
+  .box-08 {
+    background: var(--blackwhite-rgba-08, rgba(0, 0, 0, 0.8));
+    color: var(--whiteblack, #fff);
+  }
+  .box-05 {
+    background: var(--blackwhite-rgba-05, rgba(0, 0, 0, 0.5));
+    color: var(--whiteblack, #fff);
+  }
+
+  .redWarning {
+    border: 3px dashed red !important;
+    background:linear-gradient(125deg, rgba(51, 80, 242, 0.8), rgba(121, 51, 242, 0.8), rgba(250, 77, 195, 0.8), rgba(12, 204, 247, 0.8)) !important;
+  }
+
+  .active-btn-main {
+    color: var(--active-btn-color) !important;
+    font-weight: 600;
+    border: var(--active-btn-border) !important;
+    text-shadow: 1px -1px 0px #000, 2px 2px 0px #00FFFF40, -2px -2px 3px #00FFFF40, 0 0 1px #00FFFF80, 0 0 3px #00FFFF80, 0 0 6px #00FFFF80, 0 0 8px #00FFFF80, 0 0 10px #00FFFF80, 0 0 12px #00FFFF80, 0 0 10px #00FFFF80, 0 0 15px #00FFFF80 !important;
+  }
+
+  @keyframes rainbow-flicker {
+    0% { background-color: red; }
+    14% { background-color: orange; }
+    28% { background-color: yellow; }
+    42% { background-color: green; }
+    57% { background-color: blue; }
+    71% { background-color: indigo; }
+    85% { background-color: violet; }
+    100% { background-color: red; }
+  }
+  .rainbow-effect {
+    animation: rainbow-flicker 0.5s linear infinite;
+  }
+
+  @keyframes flickerCyan {
+    0% { border-color: #fa4dc3; }
+    5% { border-color: #00ffff; }
+    10% { border-color: #fa4dc3; }
+    15% { border-color: #00ffff; }
+    20% { border-color: #fa4dc3; }
+    25% { border-color: #00ffff; }
+    30% { border-color: #fa4dc3; }
+    35% { border-color: #00ffff; }
+    40% { border-color: #fa4dc3; }
+    45% { border-color: #00ffff; }
+    50% { border-color: #fa4dc3; }
+    55% { border-color: #00ffff; }
+    60% { border-color: #fa4dc3; }
+    65% { border-color: #00ffff; }
+    70% { border-color: #fa4dc3; }
+    75% { border-color: #00ffff; }
+    80% { border-color: #fa4dc3; }
+    85% { border-color: #00ffff; }
+    90% { border-color: #fa4dc3; }
+    95% { border-color: #00ffff; }
+    100% { border-color: #fa4dc3; }
+  }
+  .cyan-flicker {
+    animation: flickerCyan 1s;
+  }
+</style>
+
+<script>
+// ❇️ TITLE
+titleContainer = document.querySelector('.titleMainCtn');
+//theSameTitleContainer = titleContainer
+titleContainer.addEventListener('mousemove', (e) => {
+  const { left, top } = titleContainer.getBoundingClientRect();
+  const x = e.clientX - left;
+  const y = e.clientY - top;
+
+  titleContainer.style.background = `
+    radial-gradient(circle at ${x}px ${y}px,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.5) 20%,
+    rgba(255, 0, 255, 0.3) 50%,
+    rgba(0, 255, 255, 0.3) 80%,
+    rgba(255, 255, 255, 0.1) 100%)
+  `;
+});
+titleContainer.addEventListener('mouseleave', () => {
+  titleContainer.style.background = 'linear-gradient(45deg, #ffffff1a, #ffffff33, #ffffff1a)';
+});
+
+// Show/Hide everything when clicking the title
+function displayAlloptions(CtnID) {
+  const shareCtn = document.getElementById('shareLinkOuterCtn2893827');
+  let MainCtn = document.getElementById(CtnID);
+  MainCtn.style.display = MainCtn.style.display === "none" ? "contents" : "none";
+  let hiddenStatus = MainCtn.style.display === "none" ? true : false
+  shareCtn.hidden = hiddenStatus;
+}
+
+// ❇️ Scroll buttons
+nav = document.querySelector('.nav-controls');
+
+scrollTimeout = "";
+navigatorScroll = () => {
+  nav.classList.add('visible');
+  document.documentElement.style.setProperty("--visibleStatus", 'flex');
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    nav.classList.remove('visible');
+    document.documentElement.style.setProperty("--visibleStatus", 'none');
+  }, 1800);
+}
+window.addEventListener('scroll', navigatorScroll, { passive: true });
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function scrollToBottom() {
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+function scrollToGenerate(top) {
+  top ? generateButtonEl.scrollIntoView({behavior: 'smooth', block: 'start'}) :
+    generateButtonEl.scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+
+
+</script>
+
+
+<!-- ★ ★ ★ ★ ★
+// The functions here create the HTML elements that separate the <select> tags, as well as the other buttons and other things that will be inserted into the t2i-framework. -->
+<script>
+// The structure was designed to make it easier for me to read.
+// Menu icons
+function changeMenu(number) {
+  const menu = {
+    0: () => qolf.displayCtnGrid('emptyAreaCtn', 'contents', 'active-btn-main', 'save', 'artStylesCtn', 'sceneryCtn', 'characterCtn', 'fashionCtn', 'functionsCtn', 'advExtraCtn'),
+    1: () => qolf.displayCtnGrid('artStylesCtn', 'contents', 'active-btn-main', 'save', 'sceneryCtn', 'characterCtn', 'fashionCtn', 'functionsCtn', 'advExtraCtn', 'emptyAreaCtn'),
+    2: () => qolf.displayCtnGrid('sceneryCtn', 'contents', 'active-btn-main', 'save', 'artStylesCtn', 'characterCtn', 'fashionCtn', 'functionsCtn', 'advExtraCtn', 'emptyAreaCtn'),
+    3: () => qolf.displayCtnGrid('characterCtn', 'contents', 'active-btn-main', 'save', 'artStylesCtn', 'sceneryCtn', 'fashionCtn', 'functionsCtn', 'advExtraCtn', 'emptyAreaCtn'),
+    4: () => qolf.displayCtnGrid('fashionCtn', 'contents', 'active-btn-main', 'save', 'artStylesCtn', 'sceneryCtn', 'characterCtn', 'functionsCtn', 'advExtraCtn', 'emptyAreaCtn'),
+    5: () => qolf.displayCtnGrid('functionsCtn', 'contents', 'active-btn-main', 'save', 'artStylesCtn', 'sceneryCtn', 'characterCtn', 'fashionCtn', 'advExtraCtn', 'emptyAreaCtn'),
+    7: () => qolf.displayCtnGrid('advExtraCtn', 'contents', 'active-btn-main', 'save', 'artStylesCtn', 'sceneryCtn', 'characterCtn', 'fashionCtn', 'functionsCtn', 'emptyAreaCtn')
+  }
+  menu[number]();
+  return "";
+}
+function closeSameMenu(el, number) {
+  const ctn = document.getElementById(el);
+  if (ctn.style.display === "contents") {
+    changeMenu(0);
+  } else {
+    changeMenu(number);
+  }
+}
+function changeDescription(number) {
+  const input = {
+    0: () => qolf.displayCtnGrid('emptyTopAreaCtn', 'contents', 'active-btn-main', 'save', 'notepadCtn', 'promptDescriptionCtn', 'negativeCtn', 'fullPromptCtn'),
+    1: () => qolf.displayCtnGrid('notepadCtn', 'contents', 'active-btn-main', 'save', 'promptDescriptionCtn', 'negativeCtn', 'fullPromptCtn', 'emptyTopAreaCtn'),
+    2: () => qolf.displayCtnGrid('promptDescriptionCtn', 'contents', 'active-btn-main', 'save', 'negativeCtn', 'fullPromptCtn', 'notepadCtn', 'emptyTopAreaCtn'),
+    //3: () => qolf.displayCtnGrid('endPromptCtn', 'contents', 'active-btn-main', 'save', 'startPromptCtn', 'mainPromptCtn', 'negativeCtn', 'fullPromptCtn', 'emptyTopAreaCtn'),
+    4: () => qolf.displayCtnGrid('negativeCtn', 'contents', 'active-btn-main', 'save', 'promptDescriptionCtn', 'fullPromptCtn', 'notepadCtn', 'emptyTopAreaCtn'),
+    5: () => qolf.displayCtnGrid('fullPromptCtn', 'contents', 'active-btn-main', 'save', 'promptDescriptionCtn', 'negativeCtn', 'notepadCtn', 'emptyTopAreaCtn')
+    //6: () =>
+  }
+  input[number]();
+  return "";
+}
+function infoBtn() {
+  const menuRender = dyn("aaga-menuhelp");
+  const menuHtml = menuRender.menuIconHtmlRender();
+
+  const menuDiv = document.createElement("div");
+  menuDiv.innerHTML = menuHtml;
+  menuDiv.style = "width:600px; max-width:95vw; margin-top:5px; top:0; left:50%; transform:translateX(-50%); position:fixed; max-height:95vh; overflow-y:auto; overscroll-behavior:contain; background:#2a2b2b; color:#fff; padding: 1px 5px; border-radius:5px;";
+
+  const closeMenu = document.createElement("button");
+  closeMenu.textContent = "Close";
+  closeMenu.style = "position:sticky; top:0; left:100%; background:#ff0000";
+  closeMenu.onclick = () => {
+    menuDiv.remove();
+  }
+  menuDiv.prepend(closeMenu);
+  document.body.appendChild(menuDiv);
+}
+function mainButtons() {
+  let html = `
+  <hr class="menu-bar">
+  <div id="iconCtn">
+    <button id="infoIcoBtn" class="btn-icons icon-info" onclick="infoBtn()">[icon("fa-solid fa-question", ".menu-icon-options")]</button>
+
+    <button id="emptyAreaBtn" class="btn-icons" onclick="changeMenu(0)">[icon("fa-solid fa-house", ".menu-icon-options")]</button>
+
+    <button id="artStylesBtn" class="btn-icons icon-styles active-btn-main" onclick="closeSameMenu('artStylesCtn', 1);">[icon("fa-solid fa-palette", '.menu-icon-options')]</button>
+
+    <!-- button id="mixStylesBtn" class="btn-icons icon-mix" onclick="">[icon("fa-light fa-layer-group", ".menu-icon-options")]</button !-->
+
+    <button id="characterBtn" class="btn-icons icon-characters" onclick="closeSameMenu('characterCtn', 3)">[icon("fa-solid fa-user-pen", ".menu-icon-options")]</button>
+
+    <button id="fashionBtn" class="btn-icons icon-fashion" onclick="closeSameMenu('fashionCtn', 4)">[icon("fa-solid fa-shirt", ".menu-icon-options")]</button>
+
+    <button id="sceneryBtn" class="btn-icons icon-scenery" onclick="closeSameMenu('sceneryCtn', 2)">[icon("fa-solid fa-mountain-sun", ".menu-icon-options")]</button>
+
+    <button id="deselectBtn" class="btn-icons icon-reset" onclick="qolf.showDialogModal('rstOptDialog')">[icon("fa-solid fa-arrow-rotate-left", ".menu-icon-reset")]</button>
+
+    <button id="basicModeBtn" onclick="disableSelectStyles()" class="btn-icons icon-focus fp-event">[icon("fa-solid fa-keyboard", ".menu-icon-basic")]</button>
+
+    <button id="functionsBtn" class="btn-icons icon-tools" onclick="closeSameMenu('functionsCtn', 5)">[icon("fa-solid fa-wand-sparkles", ".menu-icon-tools")]</button>
+
+    <button id="seedBtn" class="btn-icons icon-seed" onclick="qolf.changeDisplayStatusPlus('seedBtn', 'active-btn-main', 'seedCtn', 'contents', 'none')">[icon("fa-solid fa-plant-wilt", ".menu-icon-seed")]</button>
+
+    <button id="titleBtn" class="btn-icons icon-title" onclick="qolf.changeDisplayStatusPlus('titleBtn', 'active-btn-main', 'titleCtn', 'contents', 'none')">[icon("fa-solid fa-pen-to-square", ".menu-icon-options")]</button>
+
+    <button id="advExtraBtn" class="btn-icons icon-personality" onclick="closeSameMenu('advExtraCtn', 7)">[icon("fa-solid fa-microchip", ".menu-icon-persona")]</button>
+
+    <button id="ConfigShortcutBtn" class="btn-icons icon-settings" onclick="qolf.changeDisplayStatus('promptSettings', '', 'none'); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon("fa-solid fa-gears", ".menu-icon-options")]</button>
+
+    <button class="btn-icons" id="detachBtn" onclick="detachMenu(); qolf.fastEffect(this, 300, 'rainbow-effect')" hidden>[icon("fa-solid fa-clone", ".menu-icon-options")]</button>
+
+    <!-- button id="desktopModeBtn" class="btn-icons icon-desktop" onclick="alert('Nothing happens')">[icon("fa-solid fa-computer", ".menu-icon-options")]</button -->
+  </div>
+  `;
+  return html;
+}
+function mainOptionsHtmlRender(number) {
+  let html = {
+    0: `
+<div id="allInputs" style="display: contents">
+    `,
+    1: `
+  <hr class="menu-bar">
+  <div id="userPromptArea">
+    <div id="topButtons" class="button-grid" style="max-width:100vw; justify-content:center; margin-bottom:5px;">
+      <button id="emptyTopAreaBtn" style="padding:0 10px; flex-grow:2" onclick="changeDescription(0)">[icon('fa-solid fa-border-none')]</button>
+      <button id="notepadBtn" style="flex-grow:3" onclick="changeDescription(1)">[icon("fa-solid fa-book", '.menu-icon-options')] Notes</button>
+      <button id="promptDescriptionBtn" style="flex-grow:3" onclick="changeDescription(2); checkEditablePrompt()">📚 Description</button>
+      <button id="negativeBtn" style="flex-grow:1; display:none" onclick="changeDescription(4); checkEditablePrompt()">⭕ Negative</button>
+      <button id="fullPromptBtn" style="flex-grow:1" onclick="changeDescription(5); checkEditablePrompt()">📖 Full Prompt</button>
+      <button id="kuroAI" style="padding:5px; flex-grow:0" onclick="kuroTab()">[icon('fa-solid fa-cat', 'color:#00ffff')]</button>
+    </div>
+    <hr class="menu-bar">
+    `,
+    // 0.2 > Notepads
+    2: `
+    <div id="fullPromptCtn" style="display:none">
+      <div id="positiveFullPromtCtn" style="display:contents">
+        `, // Full Prompt textarea
+        3: `
+        <div id="fullPromptFormat"></div>
+      </div>
+      <div id="negativeFullPromptCtn" style="display:contents">
+        `, // Full Negative Prompt textarea
+        4:`
+        <div id="negativeFullPromptFormat"></div>
+      </div>
+    </div>
+    `,
+      5:`
+    <div id="promptDescriptionCtn" style="display:contents">
+      <div id="mainPromptCtn" style="display:contents">
+        `, // Main Description
+        6: `
+      </div>
+      <hr class="menu-bar">
+      <div id="formatDescription"></div>
+        `,
+        7: `
+      <hr class="menu-bar">
+      <div id="startPromptCtn" style="display: contents">
+        `, // Start Description / DescriptionZero
+        8: `
+      </div>
+      <div id="formatStartDescription"></div>
+        `,
+        9: `
+      <div id="endPromptCtn" style="display:contents">
+        `, // Description 2 or End Description
+        10: `
+      </div>
+      <div id="formatEndDescription"></div>
+    </div>
+        `,
+      11: `
+    <div id="negativeCtn" style="display: none">
+        `, // Negative
+        12: `
+      <div id="formatNegative"></div>
+    </div>
+  </div>
+      `,
+    13: `
+  <hr class="menu-bar">
+  <div id="functionsCtn" class="ctn-inputs">
+    `, // Tools elements here - tagsBtnHtmlRender(number)
+
+    14: `
+    <hr class="menu-bar">
+    <div id="toolsTextareaCtn" style="display: contents;">
+        `, // FilterText
+        15: `
+      <div id="functionsTxtTools"></div>
+      <hr class="menu-bar">
+    </div>
+  </div>
+    `,
+    16: // Create the art styles div structure
+    `
+  <div id="allSelectOptions">
+    <div id="emptyAreaCtn" class="ctn-inputs" style="display:none">
+      <div class="box-05" style="display:flex; gap:3px; padding:10px; width:635px; max-width:95vw; justify-content:center; align-items:center;">
+        <button class="home-icon" onclick="PrivateGalleryBtn.click()">📁 Private Gallery</button>
+        <button class="home-icon waitingEl" onclick="galleryPopBtn.click()">🎴 Generator Gallery</button>
+        <button class="home-icon waitingEl" onclick="commentPopBtn.click()">🗨</button>
+        <button class="home-icon waitingEl" onclick='discordInvite.click()'>${icon('fa-brands fa-discord')}</button>
+        <a href="https://discord.gg/seKfv4gpF9" target="_blank" id="discordInvite" style="display:none;">Discord Link</a>
+        <button class="home-icon" id="updatesBtn" onclick="qolf.changeDisplayStatus('updateID', '', 'none')">📜</button>
+        <button class="home-icon" id="rulesBtn" onclick="qolf.changeDisplayStatus('rulesID', '', 'none')">${icon('fa-solid fa-book-skull')} Rules</button>
+      </div>
+    </div>
+    <div id="artStylesCtn" class="ctn-inputs" style="display:contents">
+      <hr class="menu-bar">
+      <div class="rowFlex" style="margin-top:10px;">
+        <div class="button-grid gradient-border-top" style="gap:5px; width:100%; max-width: 100vw; justify-content:center;">
+          <button id="style1Btn" class="mainStylesBtn fp-event" onclick="qolf.displayCtnGrid('style1Ctn', 'contents', 'active-btn-main', 'save', 'style2Ctn', 'style3Ctn', 'customStyle1Ctn'); mainStyleChange('anime')">Anime</button>
+          <button id="style2Btn" class="mainStylesBtn fp-event" onclick="qolf.displayCtnGrid('style2Ctn', 'contents', 'active-btn-main', 'save', 'style1Ctn', 'style3Ctn', 'customStyle1Ctn'); mainStyleChange('realistic')">Realistic</button>
+          <button id="style3Btn" class="mainStylesBtn fp-event" onclick="qolf.displayCtnGrid('style3Ctn', 'contents', 'active-btn-main', 'save', 'style1Ctn', 'style2Ctn', 'customStyle1Ctn'); mainStyleChange('other')">Artistic/Other</button>
+          <button id="customStyle1Btn" class="mainStylesBtn fp-event" onclick="qolf.displayCtnGrid('customStyle1Ctn', 'contents', 'active-btn-main', 'save', 'style1Ctn', 'style2Ctn', 'style3Ctn'); mainStyleChange('custom')">⚗️</button>
+          <button id="mixBtn" class="mainStylesBtn" onclick="qolf.changeDisplayStatusPlus('mixBtn', 'active-btn-main', 'mixCtn', 'contents', 'none')">Mix</button>
+        </div>
+      </div>
+
+      <hr class="menu-bar">
+      <div class="rowFlex" style="margin-top:0;">
+        <div class="container-options gradient-border-top">
+
+          <div id="style1Ctn" style="display:contents">
+            `,
+            17: `
+          </div>
+
+          <div id="style2Ctn" style="display:none">
+            `,
+            18: `
+          </div>
+
+          <div id="style3Ctn" style="display:none">
+            `,
+            191: `
+          </div>
+          <div id="customStyle1Ctn" style="display:none">
+            `,
+            19: `
+          </div>
+        </div>
+      </div>
+
+      <!-- Mix Ctn !-->
+      <div id="mixCtn" style="display:none;">
+        <hr class="menu-bar">
+        <div class="rowFlex">
+          <div class="container-options gradient-border-top">
+            <button class="select-buttons fp-event" onclick="runFunction('mixRS')">🎲❓ Select</button>
+            <button class="select-buttons fp-event" onclick="runFunction('mix')">🎲 Options</button>
+            <button class="select-buttons fp-event" onclick="runFunction('mixReset')">↩️ Reset</button>
+          </div>
+        </div>
+        <div class="rowFlex" style="align-self:start">
+          <div class="container-options gradient-border-top">
+          `,
+          20: `
+          </div>
+        </div>
+      </div>
+    </div>
+      `,
+
+    21: `
+    <div id="sceneryCtn" class="ctn-inputs">
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+          <button class="select-buttons fp-event" onclick="runFunction('sceneryRS')">🎲❓ Select</button>
+          <button class="select-buttons fp-event" onclick="runFunctionScnRng()">🎲 Options</button>
+          <button class="select-buttons fp-event" onclick="runFunction('sceneryReset')">↩️ Reset</button>
+        </div>
+      </div>
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+        `,
+      22: `
+        </div>
+
+        <div class="container-options gradient-border-top">
+        `,
+      23: `
+        </div>
+      </div>
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+        `,
+
+      24: `
+        </div>
+      </div>
+    </div>
+    `,
+
+    25: `
+    <div id="characterCtn" class="ctn-inputs">
+      <hr class="menu-bar">
+
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+          <button class="select-buttons fp-event" onclick="runFunction('characterRS')">🎲❓ Select</button>
+          <button class="select-buttons fp-event" onclick="runFunction('character')">🎲 Options</button>
+          <button class="select-buttons fp-event" onclick="runFunction('characterColor')">🎲🌈 Colors</button>
+          <button class="select-buttons fp-event" onclick="runFunction('characterReset')">↩️ Reset</button>
+        </div>
+      </div>
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+        `, // Character / My Characters
+      26: `
+        </div>
+      </div>
+      <button style="width:100%" onclick="characterSelectOptions.style.display = characterSelectOptions.style.display === 'contents' ? 'none' : 'contents'">︾</button>
+      <hr class="menu-bar">
+    <div id="characterSelectOptions" style="display:contents">
+      <div id="charBodyCtn" class="rowFlex">
+        <div class="container-options gradient-border-top">
+        `,
+
+        27: `
+        </div>
+      </div>
+
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+        `,
+        28: `
+        </div>
+      </div>
+
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+        `,
+
+        29: `
+        </div>
+      </div>
+
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+        `,
+
+        30: `
+        </div>
+      </div>
+    </div>
+    </div>
+    <div id="fashionCtn" class="ctn-inputs">
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+          <button class="select-buttons fp-event" onclick="runFunction('outfitRS')">🎲❓ Select</button>
+          <button class="select-buttons fp-event" onclick="runFunction('outfit')">🎲 Options</button>
+          <button class="select-buttons fp-event" onclick="runFunction('outfitColor')">🎲🌈 Colors</button>
+          <button class="select-buttons fp-event" onclick="runFunction('outfitReset')">↩️ Reset</button>
+        </div>
+      </div>
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+          `,
+          31: `
+        </div>
+
+        <div class="container-options gradient-border-top">
+          `,
+          32: `
+        </div>
+      </div>
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+          `, // Torso - Sleeves - Color
+          33: `
+        </div>
+      </div>
+
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+          `, // Waist
+          34: `
+        </div>
+
+        <div class="container-options gradient-border-top">
+          `, // Legs
+          35: `
+        </div>
+
+        <div class="container-options gradient-border-top">
+          `, // Foot
+          36: `
+        </div>
+      </div>
+
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+          `, // Head
+          37: `
+        </div>
+
+        <div class="container-options gradient-border-top">
+          `, // Hands
+          38: `
+        </div>
+      </div>
+
+      <hr class="menu-bar">
+      <div class="rowFlex">
+        <div class="container-options gradient-border-top">
+          `, // Acc1
+
+          39: `
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <hr class="menu-bar">
+
+    `,
+
+    40: `
+  <div id="bottomCtn" style="display:contents">
+    <hr class="menu-bar">
+    <div id="seedCtn" class="ctn-inputs" style="display:none;">
+      `,
+      41: `
+    </div>`, // Extra things
+      42: `
+    <hr class="menu-bar">
+    <div id="advExtraCtn" style="display:none">
+      <div class="box-05" style="display:flex; gap:5px; padding:10px;">
+    `,
+    43: `
+      </div>
+    </div>
+    <hr class="menu-bar">
+    <div id="imgSettings">
+      `,
+      44: `
+    </div>
+  </div>
+  `,
+      45: `
+  <hr class="menu-bar">
+  <div id="titleCtn" class="ctn-inputs" style="display:none">
+    `,
+      46: `
+  </div>
+      `
+
+  }
+return html[number];
+}
+function notepadHtmlRender(number) {
+  let html = {
+    1: `<div id="emptyTopAreaCtn" style="none"></div>
+        <div id="notepadCtn" class="ctn-inputs" style="display:none">
+          <hr class="menu-bar">
+          <div class="button-grid" style="width:min(750px, 100%); margin-top:5px;">
+            <div class="container-options" style="gap:5px;">
+
+              <button id="notepad1Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad1Ctn', 'contents', 'active-btn-main', 'save', 'notepad2Ctn', 'notepad3Ctn', 'notepad4Ctn', 'notepad5Ctn', 'notepad6Ctn', 'notepad7Ctn', 'notepad8Ctn', 'notepad9Ctn', 'notepad10Ctn')">1</button>
+
+              <button id="notepad2Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad2Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad3Ctn', 'notepad4Ctn', 'notepad5Ctn', 'notepad6Ctn', 'notepad7Ctn', 'notepad8Ctn', 'notepad9Ctn', 'notepad10Ctn')">2</button>
+
+              <button id="notepad3Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad3Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad2Ctn', 'notepad4Ctn', 'notepad5Ctn', 'notepad6Ctn', 'notepad7Ctn', 'notepad8Ctn', 'notepad9Ctn', 'notepad10Ctn')">3</button>
+
+              <button id="notepad4Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad4Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad2Ctn', 'notepad3Ctn', 'notepad5Ctn', 'notepad6Ctn', 'notepad7Ctn', 'notepad8Ctn', 'notepad9Ctn', 'notepad10Ctn')">4</button>
+
+              <button id="notepad5Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad5Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad2Ctn', 'notepad3Ctn', 'notepad4Ctn', 'notepad6Ctn', 'notepad7Ctn', 'notepad8Ctn', 'notepad9Ctn', 'notepad10Ctn')">5</button>
+
+              <button id="notepad6Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad6Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad2Ctn', 'notepad3Ctn', 'notepad4Ctn', 'notepad5Ctn', 'notepad7Ctn', 'notepad8Ctn', 'notepad9Ctn', 'notepad10Ctn')">6</button>
+
+              <button id="notepad7Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad7Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad2Ctn', 'notepad3Ctn', 'notepad4Ctn', 'notepad5Ctn', 'notepad6Ctn', 'notepad8Ctn', 'notepad9Ctn', 'notepad10Ctn')">🎨</button>
+
+              <button id="notepad8Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad8Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad2Ctn', 'notepad3Ctn', 'notepad4Ctn', 'notepad5Ctn', 'notepad6Ctn', 'notepad7Ctn', 'notepad9Ctn', 'notepad10Ctn')">🤺</button>
+
+              <button id="notepad9Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad9Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad2Ctn', 'notepad3Ctn', 'notepad4Ctn', 'notepad5Ctn', 'notepad6Ctn', 'notepad7Ctn', 'notepad8Ctn', 'notepad10Ctn')">👘</button>
+
+              <button id="notepad10Btn" class="mainStylesBtn" onclick="qolf.displayCtnGrid('notepad10Ctn', 'contents', 'active-btn-main', 'save', 'notepad1Ctn', 'notepad2Ctn', 'notepad3Ctn', 'notepad4Ctn', 'notepad5Ctn', 'notepad6Ctn', 'notepad7Ctn', 'notepad8Ctn', 'notepad9Ctn')">🎡</button>
+
+            </div>
+          </div>
+          <br>
+          <hr class="menu-bar">
+          <div class="notesEl">
+            <div class="">
+
+              <div id="notepad1Ctn" style="display:contents">
+                `, // notepad 1
+                2: `
+              </div>
+              <div id="notepad2Ctn" style="display:none">
+                `, // notepad 2
+                3: `
+              </div>
+              <div id="notepad3Ctn" style="display:none">
+                `, // notepad 3
+                4: `
+              </div>
+              <div id="notepad4Ctn" style="display:none">
+                `, // notepad 4
+                5: `
+              </div>
+              <div id="notepad5Ctn" style="display:none">
+                `, // notepad 5
+                6: `
+              </div>
+              <div id="notepad6Ctn" style="display:none">
+                `, // notepad 6
+                7: `
+              </div>
+              <div id="notepad7Ctn" style="display:none">
+                `, // notepad 7
+                8: `
+              </div>
+              <div id="notepad8Ctn" style="display:none">
+                `, // notepad 8
+                9: `
+              </div>
+              <div id="notepad9Ctn" style="display:none">
+                `, // notepad 9
+                10: `
+              </div>
+              <div id="notepad10Ctn" style="display:none">
+                `, // notepad 10
+                11: `
+              </div>
+            </div>
+          </div>
+        </div>
+        `
+  }
+  return html[number];
+}
+function runFunction(type) {
+  const f = {
+    mix: () => qolf.resetSomeOptions(1, 'mixCtn', '[data-name=artStyle4]', '[data-name=artStyle5]', '[data-name=artStyle6]', '[data-name=userArtStyleMix]'),
+
+    mixRS: () => qolf.resetSomeOptions('random', 'mixCtn', '[data-name=artStyle4]', '[data-name=artStyle5]', '[data-name=artStyle6]', '[data-name=userArtStyleMix]'),
+
+    mixReset: () => qolf.resetSomeOptions(0, 'mixCtn', '[data-name=artStyle4]', '[data-name=artStyle5]', '[data-name=artStyle6]', '[data-name=userArtStyleMix]'),
+
+    sceneryEx: () => qolf.resetSomeOptions(1, 'sceneryCtn', '[data-name=bgAngle]', '[data-name=bgScheme]', '[data-name=bgExterior]', '[data-name=bgTime]', '[data-name=bgWeather'),
+    sceneryIn: () => qolf.resetSomeOptions(1, 'sceneryCtn', '[data-name=bgAngle]', '[data-name=bgScheme]', '[data-name=bgInterior]', '[data-name=bgTime]', '[data-name=bgWeather'),
+
+    sceneryRS: () => qolf.resetSomeOptions('random', 'sceneryCtn', '[data-name=bgAngle]', '[data-name=bgScheme]', '[data-name=bgExterior]', '[data-name=bgInterior]', '[data-name=bgTime]', '[data-name=bgWeather'),
+
+    sceneryReset: () => qolf.resetSomeOptions(0, 'sceneryCtn', '[data-name=bgAngle]', '[data-name=bgScheme]', '[data-name=bgExterior]', '[data-name=bgInterior]', '[data-name=bgTime]', '[data-name=bgWeather'),
+
+    character: () => qolf.resetSomeOptions(1, 'characterCtn', '[data-name=characterBody]', '[data-name=characterHairL]', '[data-name=characterHairT]', '[data-name=characterHairS]', '[data-name=characterHairB]', '[data-name=characterGaze]', '[data-name=characterEmo]'),
+
+    characterColor: () => qolf.resetSomeOptions(1, 'characterCtn', '[data-name=characterEyeColor]', '[data-name=characterHairColor]'),
+
+    characterRS: () => qolf.resetSomeOptions('random', 'characterCtn', '[data-name=characterBody]', '[data-name=characterChest]', '[data-name=characterSkinColor]', '[data-name=characterHairL]', '[data-name=characterHairT]', '[data-name=characterHairS]', '[data-name=characterHairB]', '[data-name=characterHairMisc]', '[data-name=characterEyeColor]', '[data-name=characterHairColor]', '[data-name=characterEmo]', '[data-name=characterAction]', '[data-name=characterAngle]', '[data-name=characterGaze]'),
+
+    characterReset: () => qolf.resetSomeOptions(0, 'characterCtn', '[data-name=animeCharacter]', '[data-name=userCharacter]', '[data-name=characterXES]', '[data-name=characterBody]', '[data-name=characterChest]', '[data-name=characterSkinColor]', '[data-name=characterHairL]', '[data-name=characterHairT]', '[data-name=characterHairS]', '[data-name=characterHairB]', '[data-name=characterHairMisc]', '[data-name=characterEyeColor]', '[data-name=characterHairColor]', '[data-name=characterEmo]', '[data-name=characterAction]', '[data-name=characterAngle]', '[data-name=characterGaze]'),
+
+    outfit: () => qolf.resetSomeOptions(1, 'fashionCtn', '[data-name=outfitTorso]', '[data-name=outfitWaist]', '[data-name=outfitLegs]', '[data-name=outfitFoot]', '[data-name=outfitHands]', '[data-name=outfitHead]', '[data-name=outfitAccA]', '[data-name=outfitAccB]'),
+
+    outfitColor: () => qolf.resetSomeOptions(1, 'fashionCtn', '[data-name=outfitColor01]', '[data-name=outfitColor02]', '[data-name=outfitColor03]', '[data-name=outfitColor04]', '[data-name=outfitColor05]', '[data-name=outfitColor06]', '[data-name=outfitColor07]', '[data-name=outfitColor08]', '[data-name=outfitColor09]', '[data-name=outfitColor10]'),
+
+    outfitRS: () => qolf.resetSomeOptions('random', 'fashionCtn', '[data-name=outfitFabric]', '[data-name=outfitOutwear]', '[data-name=outfitTorso]', '[data-name=outfitSleeves]', '[data-name=outfitWaist]', '[data-name=outfitLegs]', '[data-name=outfitFoot]', '[data-name=outfitHands]', '[data-name=outfitHead]', '[data-name=outfitAccA]', '[data-name=outfitAccB]', '[data-name=outfitAccC]', '[data-name=outfitColor01]', '[data-name=outfitColor02]', '[data-name=outfitColor03]', '[data-name=outfitColor04]', '[data-name=outfitColor05]', '[data-name=outfitColor06]', '[data-name=outfitColor07]', '[data-name=outfitColor08]', '[data-name=outfitColor09]'),
+
+    outfitReset: () => qolf.resetSomeOptions(0, 'fashionCtn', '[data-name=outfitFabric]', '[data-name=outfitSet]', '[data-name=outfitColor]', '[data-name=outfitCosplay]', '[data-name=outfitTorso]', '[data-name=outfitSleeves]', '[data-name=outfitWaist]', '[data-name=outfitLegs]', '[data-name=outfitFoot]', '[data-name=outfitHands]', '[data-name=outfitHead]', '[data-name=outfitAccA]', '[data-name=outfitAccB]', '[data-name=outfitAccC]', '[data-name=outfitColor01]', '[data-name=outfitColor02]', '[data-name=outfitColor03]', '[data-name=outfitColor04]', '[data-name=outfitColor05]', '[data-name=outfitColor06]', '[data-name=outfitColor07]', '[data-name=outfitColor08]', '[data-name=outfitColor09]')
+
+  }
+
+  f[type]();
+}
+function runFunctionScnRng() {
+  const rng = Math.floor(Math.random() * 2);
+  if (rng >= 1) {
+    runFunction('sceneryEx');
+    qolf.resetSomeOptions(0, 'sceneryCtn', '[data-name=bgInterior]');
+  } else {
+    runFunction('sceneryIn');
+    qolf.resetSomeOptions(0, 'sceneryCtn', '[data-name=bgExterior]');
+  }
+}
+function tagsBtnHtmlRender(number) {
+  let button = {
+    0:`<div class="button-grid" style="flex-wrap:wrap; gap:5px; justify-content:center; background:var(--blackwhite-rgba-05); border-radius:5px; padding:5px 1px; margin:1px;">`,
+    1: `<button id="infoBtn" class="function-btn" onclick="HtmlRender = dyn('aaga-tips'); update(infoDialogs); qolf.showDialogModal('infoFunctionsBtn')">ⓘ</button>`,
+    2: `<button id="randomBtn" class="function-btn" onclick="toolsObjButtonSwitch('randomBtn', 'RNGKey'); toolsObjectSwitch('RNGKey'); tagsBtnTriggerEvent()">Shuffle #Words#</button>`,
+    3: `<button id="randomNegBtn" class="function-btn" style="display:none" onclick="toolsObjButtonSwitch('randomNegBtn', 'NRNGKey'); toolsObjectSwitch('NRNGKey'); tagsBtnTriggerEvent()">Shuffle #negative#</button>`,
+    4: `<button id="ReplaceTagPID" class="function-btn" onclick="toolsObjButtonSwitch('ReplaceTagPID', 'REPTGKey', 'D0REPTGKey', 'D2REPTGKey', 'NREPTGKey'); toolsObjectSwitch('REPTGKey', 'D0REPTGKey', 'D2REPTGKey', 'NREPTGKey'); tagsBtnTriggerEvent()">Replace #tag#</button>`,
+    5: `<button id="AddTagPID" class="function-btn" onclick="toolsObjButtonSwitch('AddTagPID', 'ADDTGKey', 'D0ADDTGKey', 'D2ADDTGKey', 'NADDTGKey'); toolsObjectSwitch('ADDTGKey', 'D0ADDTGKey', 'D2ADDTGKey', 'NADDTGKey'); tagsBtnTriggerEvent()">Add #tag#</button>`,
+    6: `<button id="RemoveTagPID" class="function-btn" onclick="toolsObjButtonSwitch('RemoveTagPID', 'RMVTGKey', 'D0RMVTGKey', 'D2RMVTGKey', 'NRMVTGKey'); toolsObjectSwitch('RMVTGKey', 'D0RMVTGKey', 'D2RMVTGKey', 'NRMVTGKey'); tagsBtnTriggerEvent()">Remove #tag#</button>`,
+    7: `<button id="WalkingTagPID" class="function-btn" onclick="toolsObjButtonSwitch('WalkingTagPID', 'WALKey', 'WALKey0', 'WALKey2', 'NWALKey'); toolsObjectSwitch('WALKey', 'WALKey0', 'WALKey2', 'NWALKey'); tagsBtnTriggerEvent()">Walking #tag#</button>`,
+    8: `<button id="seedLockTool" class="function-btn" style="font-weight:600;" onclick="randomSeedBtn.click();">Fixed Seed</button>`,
+    9: `<button class="function-btn" style="width:3rem" onclick="changeMenu(0)">❌</button></div>`,
+
+    10:`
+    <div id="logTagCtn" class="button-grid" style="flex-wrap:wrap; gap:5px; justify-content:center; background:var(--blackwhite-rgba-05); border-radius:5px; padding:5px 1px; margin:1px;">
+      <button class="log-function-btn" id="logTagBtn" style="cursor:default">Tags: ?</button>
+
+      <button id="logRecommendsBtn" class="log-function-btn" style="cursor:default" hidden>-</button>
+      <button id="setLogTagBtn" class="log-function-btn default-border box-05" onclick="setImageNumber(this.textContent); qolf.fastEffect(this, 500, 'rainbow-effect')">Number of images</button>
+
+    </div>`
+
+  }
+  return button[number];
+}
+
+// ❇️ Buttons at the right in TEXTAREA
+function makeButton({
+  id,
+  className,
+  text,
+  onClick,
+  style
+}) {
+  const btn = document.createElement('button');
+  if (id) btn.id = id;
+  if (className) btn.className = className;
+  btn.style = style;
+  btn.textContent = text;
+  btn.onclick = onClick;
+  return btn;
+}
+
+function addButtonGroup({
+    container,
+    inputName,
+    formatFn,
+    wipeId,
+    extraButtons = []
+  }) {
+  const wrap = document.createElement('div');
+  wrap.className = 'random-input-btn-ctn';
+
+  const buttons = [
+    makeButton({
+      className: 'createTextToolBtn',
+      text: '⊤',
+      style: BUTTON_STYLE,
+      onClick: () => {
+        changeInputElForTextTools(inputName);
+        textTools.textToolsHtmlRender(formatFn);
+      }
+    }),
+
+    wipeId && makeButton({
+      id: wipeId,
+      className: 'wipeButton',
+      text: '🗑️',
+      style: BUTTON_STYLE,
+      onClick: () => {
+        qolf.toggleClear(wipeId, inputName, '🗑️', '🗑️');
+      }
+    }),
+
+    makeButton({
+      className: 'newLine',
+      text: '↩',
+      style: BUTTON_STYLE,
+      onClick: () => {
+        qolf.insertTextPlus(inputName, '\n', '');
+      }
+    }),
+
+    ...extraButtons
+  ].filter(Boolean);
+
+  buttons.forEach(b => wrap.appendChild(b));
+  container.appendChild(wrap);
+}
+
+BUTTON_STYLE =
+  "font-size:1rem; margin-top:0.5rem; margin-bottom:0.5rem; padding:3px 0; width:35px; border-bottom:1px solid #ffe84f; border-left:1px solid #2c214a;";
+
+function t2iButtonsInsideBox() {
+
+  // 📒 description
+  addButtonGroup({
+    container: document.querySelector('.random-input-btn-ctn[data-input-name="description"]'),
+    inputName: 'description',
+    formatFn: 'formatDescription',
+    wipeId: 'wipeMD'
+  });
+
+  // 📗 start description
+  addButtonGroup({
+    container: document.querySelector('#startPromptCtn .input-wrapper'),
+    inputName: 'descriptionZero',
+    formatFn: 'formatStartDescription',
+    wipeId: 'sdWipe'
+  });
+
+  // 📘 end description
+  addButtonGroup({
+    container: document.querySelector('#endPromptCtn .input-wrapper'),
+    inputName: 'description2',
+    formatFn: 'formatEndDescription',
+    wipeId: 'edWipe'
+  });
+
+  // 📕 negative
+  //addButtonGroup({
+    //container: document.querySelector('#negativeCtn .input-wrapper'),
+    //inputName: 'negative',
+    //formatFn: 'formatNegative',
+    //wipeId: 'negativeWipe'
+  //});
+
+  // 📖 full prompt
+  addButtonGroup({
+    container: document.querySelector('#positiveFullPromtCtn .input-wrapper'),
+    inputName: 'fullPrompt',
+    formatFn: 'fullPromptFormat',
+    wipeId: 'fullPromptWipe',
+    extraButtons: [
+      makeButton({
+        text: '💾',
+        style: BUTTON_STYLE,
+        onClick: saveUserPrompt
+      }),
+      makeButton({
+        text: '📑',
+        style: BUTTON_STYLE,
+        onClick: () => {
+          selectSlot();
+          qolf.changeDisplayStatus('savedPromptMenu', '', 'none');
+          document
+            .getElementById("selectSavedPrompt")
+            .dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      })
+    ]
+  });
+
+  // 📕 negative full prompt
+  //const negFP = document.querySelector('#negativeFullPromptCtn .input-wrapper');
+  const negWrap = document.createElement('div');
+  negWrap.className = 'random-input-btn-ctn';
+  negWrap.appendChild(
+    makeButton({
+      id: 'negativeFPWipe',
+      className: 'wipeButton',
+      text: '🗑️',
+      style: BUTTON_STYLE,
+      onClick: () => {
+        qolf.toggleClear('negativeFPWipe', 'fullNegativePrompt', '🗑️', '🗑️');
+      }
+    })
+  );
+  //negFP.appendChild(negWrap);
+
+  // 🧰 tools textarea
+  addButtonGroup({
+    container: document.querySelector('#toolsTextareaCtn .input-wrapper'),
+    inputName: 'FilterText',
+    formatFn: 'functionsTxtTools',
+    wipeId: 'tagsAreaWipe'
+  });
+}
+
+function notepadWatcher() {
+  const notepadContainer = document.getElementById("notepadCtn");
+  let notepadTimeout;
+  notepadContainer.addEventListener("input", (event) => {
+    if (!event.target.matches("textarea")) return;
+    clearTimeout(notepadTimeout);
+    notepadTimeout = setTimeout(() => {
+      setNotepad();
+    }, 500); // runs once after 500ms of no typing
+  });
+}
+
+// ❇️ Kuronyx AI
+function kuroAiRender() {
+  kuronyx.cssRender();
+  const newDiv = document.createElement("div");
+  newDiv.id = "kuroAiMainWrapper"
+  newDiv.style = "background:#000;";
+  newDiv.innerHTML = kuronyx.deviceRender();
+  document.body.appendChild(newDiv);
+  const closeBtn = document.getElementById("closeBtnKyx");
+  closeBtn.onclick = () => {
+    qolf.changeDisplayStatus('kuroAiMainWrapper', '', 'none');
+  }
+}
+function kuroTab() {
+  const kuroImage = document.getElementById("kuroAiMainWrapper");
+  if (!kuroImage) {
+    kuroAiRender();
+  } else {
+    qolf.changeDisplayStatus('kuroAiMainWrapper', '', 'none');
+  }
+}
+</script>
+<!-- ★ ★ ★ ★ ★ -->
+
+
+<!-- ★ ★ General UI related ★ ★ -->
+<script>
+// Memory cards to save shit. I need to use it with others variables in the future.
+function setMC(state) {
+  localStorage.setItem("Memory_Card", JSON.stringify(state));
+}
+function getMC() {
+  return JSON.parse(localStorage.getItem("Memory_Card")) || {};
+}
+
+// Screen
+window.deviceType = /Mobi|Android/i.test(navigator.userAgent);
+
+function mobileMenuIcons() {
+  const isMobile = window.deviceType;
+  if (isMobile) {
+    const mobiBtn = document.getElementById('detachBtn');
+    const iconMenuCtn = document.getElementById('iconCtn');
+    mobiBtn.hidden = false;
+    iconMenuCtn.style.display = localStorage.getItem('menuIconCtnDisplay') || "block"; // Now it display all icons for mobile devices. (09/07/25)
+    iconMenuCtn.style.height = localStorage.getItem('menuIconCtnHeight') || "5.9rem";
+    iconMenuCtn.style.overflowY = localStorage.getItem('menuIconCtnOverflowY') || "auto";
+  }
+  if (!isMobile && window.imageCounter === 11) {
+    // Also change the position of the navigator buttons
+    const backToTopButton = document.getElementById("backToTop");
+    const scrollToBottomButton = document.getElementById("scrollToBottom");
+    const backToGenerateButton = document.getElementById("backToGenerate");
+    backToTopButton.style.bottom = "290px";
+    scrollToBottomButton.style.bottom = "190px";
+    backToGenerateButton.style.bottom = "237px";
+  }
+}
+function detachMenu() {
+    const iconMenuCtn = document.getElementById('iconCtn');
+    iconMenuCtn.style.display = iconMenuCtn.style.display === "block"? "flex" : "block";
+    iconMenuCtn.style.height = iconMenuCtn.style.height === "5.9rem" ? "2.7rem" : "5.9rem";
+    iconMenuCtn.style.overflowY = iconMenuCtn.style.overflowY === "auto" ? "hidden" : "auto";
+    localStorage.setItem('menuIconCtnDisplay', iconMenuCtn.style.display);
+    localStorage.setItem('menuIconCtnHeight', iconMenuCtn.style.height);
+    localStorage.setItem('menuIconCtnOverflowY', iconMenuCtn.style.overflowY);
+}
+function rightButtonsDisplay() {
+  if (!window.rightButtonsVisibility) window.rightButtonsVisibility = "inactive";
+  let shown = window.rightButtonsVisibility;
+  if (localStorage.getItem("navControlsStatus")) {
+      window.addEventListener('scroll', navigatorScroll, { passive: true });
+      localStorage.removeItem("navControlsStatus");
+  }
+  if (window.hideRightButtons && window.hideRightButtons === "active") {
+    shown = "hide";
+  }
+  if (shown === "active") {
+    document.getElementById("privateGalleryCtn97364827").style.display = "flex";
+  } else if (shown === "hide") {
+    window.removeEventListener('scroll', navigatorScroll)
+    localStorage.setItem("navControlsStatus", "Disabled");
+    document.getElementById("privateGalleryCtn97364827").style.display = "none";
+  } else {
+    document.getElementById("privateGalleryCtn97364827").style.display = "var(--visibleStatus, none)";
+  }
+  return shown
+}
+
+// ❇️  Notepad or Scratchpad set name
+function userGiveName(savedName, defaultName, btn) {
+  let name = localStorage.getItem(savedName);
+  if (btn) {
+    let newName = prompt('Set a name for this notepad. Max 75 characters');
+    if (!newName) return;
+    newName = String(newName).slice(0, 75);
+    localStorage.setItem(savedName, newName);
+    btn.textContent = newName;
+    return
+  }
+  if (!name) {
+    return defaultName;
+  } else {
+    return name;
+  }
+}
+
+// ❇️ Slider Display 🔎
+function createInputSlider(targetCtn) {
+  const ctn = document.getElementById(targetCtn);
+  // The elements will be created in the first interaction with the button.
+  if (!document.getElementById("displayCtn")) {
+    const savedValueOfT2iWidth = localStorage.getItem("t2iWidthSavedValue");
+    const inputSlider =
+      `
+      <div id="displayCtn" style="background:var(--blackwhite-rgba-05); padding:10px; border-radius:5px;">
+        <div class="button-grid" style="align-items:center;">
+        <span id="widthDisplayValue" style="font-size:small;">Displaying: 300px</span>
+        <button class="default-border box-05" style="margin-left:auto;" onclick="sizeShortcut('180')">180</button>
+        <button class="default-border box-05" style="margin-left:auto;" onclick="sizeShortcut('300')">300</button>
+        <button class="default-border box-05" style="margin-left:auto;" onclick="sizeShortcut('450')">450</button>
+        <button class="default-border box-05" style="margin-left:auto;" onclick="sizeShortcut('600')">600</button>
+        <button style="margin-left:auto;" onclick="qolf.changeDisplayStatus('displayCtn', '', 'none')">❌</button>
+        </div>
+        <div>
+          <input id="displaySlider" type="range" min="150" max="1000" value="300" step="10" style="width:340px; margin-top:20px;">
+        </div>
+      </div>
+    `
+    // Append
+
+    ctn.insertAdjacentHTML("beforeend", inputSlider);
+
+    window.imgDisplaySlider = document.getElementById("displaySlider");
+    window.valueDisplaySpan = document.getElementById("widthDisplayValue");
+
+    if (savedValueOfT2iWidth) {
+      window.imgDisplaySlider.value = savedValueOfT2iWidth.replace("px", "");
+      window.valueDisplaySpan.textContent = "Displaying: " + savedValueOfT2iWidth;
+    }
+
+    window.imgDisplaySlider.addEventListener("input", () => {
+      const px = window.imgDisplaySlider.value + "px";
+      document.documentElement.style.setProperty("--t2i-image-ctn-width", px);
+      window.valueDisplaySpan.textContent = "Displaying: " + px;
+      localStorage.setItem("t2iWidthSavedValue", px);
+    });
+
+    function setDisplaySize(value) {
+      window.imgDisplaySlider.value = value;
+      window.imgDisplaySlider.dispatchEvent(new Event("input"));
+    }
+    window.sizeShortcut = setDisplaySize;
+
+    console.log("Slide Display created!");
+  }
+  else {
+    qolf.changeDisplayStatus("displayCtn", "", "none");
+  }
+}
+function loadDisplayInputSlider() {
+  // Here a class with a variable is used to set the display size.
+  // Is important to use CSS to target the element property.
+  const savedValueOfT2iWidth = localStorage.getItem("t2iWidthSavedValue");
+  if (savedValueOfT2iWidth) {
+  document.documentElement.style.setProperty("--t2i-image-ctn-width", savedValueOfT2iWidth);
+  //console.log(`Display Size Value: ${savedValueOfT2iWidth}`);
+  }
+}
+
+// ❇️  Basic mode. Change selectors opacity
+function disableSelectStyles() {
+  qolf.ActiveButton('basicMode', 'active', 'inactive', 'basicModeBtn', 'active-btn-main');
+  if (window.basicMode === "active") {
+    document.querySelectorAll("#allSelectOptions .input-type-select").forEach(element => {
+      element.style.opacity = "0.3";
+    });
+  } else {
+    document.querySelectorAll("#allSelectOptions .input-type-select").forEach(element => {
+      element.style.opacity = "1";
+    });
+  }
+}
+function loadDisabledSelectedStyles() {
+  const basicModeState = localStorage.getItem("ActiveButtonStatusbasicMode") || "inactive";
+  if (basicModeState === "active") {
+    document.getElementById("basicModeBtn").classList.add('active-btn-main');
+    document.querySelectorAll("#allSelectOptions .input-type-select").forEach(element => {
+      element.style.opacity = "0.3";
+    });
+  }
+}
+
+// Prompt auto-cleaner
+function checkVariable(varName) {
+  if (!window[varName]) window[varName] = "inactive";
+  const checkbox = document.querySelector(`input[name="${varName}"]`);
+  const value = checkbox.checked ? "active" : "inactive";
+  window[varName] = value;
+
+  // Memory card
+  const state = getMC();
+  state[varName] = value;
+  setMC(state)
+}
+function loadcbVarStatus() { // Call it onload
+  const state = getMC();
+
+  for (const [name, value] of Object.entries(state)) {
+    const checkbox = document.querySelector(`input[name="${name}"]`);
+    if (!checkbox) continue;
+
+    checkbox.checked = value === "active";
+    window[name] = value;
+  }
+}
+// How the prompt options are separated
+function whispaceSelect(name) {
+  const boxes = document.querySelectorAll(".whitespace");
+  const box = document.querySelector(`.whitespace[name="${name}"]`);
+  boxes.forEach(b => b.checked = false);
+  box.checked = true;
+  setWhitespace(name);
+  localStorage.setItem("cbWhitespace", name);
+}
+function setWhitespace(whitespace) {
+  const type = {
+    NEWLINE: ".\n\n",
+    COMMA: ", ",
+    SEMICOLON: "; "
+  }
+  window.whitespace = type[whitespace]
+}
+function loadWhitespaceCb() {
+  let name = localStorage.getItem("cbWhitespace");
+  if (!name) name = "NEWLINE";
+  whispaceSelect(name);
+}
+// ❇️ Show/Hide the buttons below each page
+t2iUnderEachImg_STORAGE_KEY = "t2iBtnVisibility"; // Nothing important, just to store the name
+function applyVisibility(name, hidden) {
+  document.documentElement.style.setProperty(
+    `--${name}-button-display`, // use the css variable with this name in style->display
+    hidden ? "none" : ""
+  );
+}
+function t2iUnderEachImgSaveState(states) {
+  localStorage.setItem(t2iUnderEachImg_STORAGE_KEY, JSON.stringify(states));
+}
+function t2iUnderEachImgLoadState() {
+  return JSON.parse(localStorage.getItem(t2iUnderEachImg_STORAGE_KEY)) || {};
+}
+function t2iUnderEachImgDefaultChekedBoxes() {
+  const defaultCheck = localStorage.getItem("cbDisplayDefaultCheckbox");
+  if (!defaultCheck) {
+    setTimeout(() => {
+      document.querySelector("input.cbDisplay[name='removeBg']").click();
+      localStorage.setItem("cbDisplayDefaultCheckbox", "checked");
+    }, 1000);
+
+
+  }
+}
+function initT2iCheckboxes() {
+  const checkboxes = document.querySelectorAll(".cbDisplay");
+  const savedState = t2iUnderEachImgLoadState();
+  t2iUnderEachImgDefaultChekedBoxes() // For first checked boxes.
+
+  checkboxes.forEach(cb => {
+    const hidden = !!savedState[cb.name];
+    cb.checked = hidden;
+    applyVisibility(cb.name, hidden);
+
+    cb.addEventListener("change", () => {
+      savedState[cb.name] = cb.checked;
+      applyVisibility(cb.name, cb.checked);
+      t2iUnderEachImgSaveState(savedState);
+    });
+  });
+}
+// Call in window.onload: initT2iCheckboxes();
+function cbDisplayMassCheck(el) {
+    const ctn = el.parentElement.parentElement;
+    const checkboxes = ctn.querySelectorAll('input[type="checkbox"].cbDisplay');
+    const state = el.checked ? false : true; // Ivert xD
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = state;
+      checkbox.click();
+    })
+  }
+
+// ❇️  Format Text Tools
+window.inputElForTextTools = '[data-name="description"]';
+function changeInputElForTextTools(name) {
+  window.inputElForTextTools = `[data-name="${name}"]`;
+  return window.inputElForTextTools;
+}
+function insert(type) {
+  if (!window.inputElForTextTools) return;
+  let convertEl = window.inputElForTextTools;
+  let el = document.querySelector(convertEl);
+  let text = el.value;
+  let formatedText;
+
+  if (type === "LB") {
+    formatedText = textTools.LineBreakRemover(text);
+  }
+  if (type === "Pth") {
+    formatedText = textTools.ParenthesesConverter(text);
+  }
+  if (type === "PLine") {
+    formatedText = textTools.PipeConverter(text);
+  }
+  if (type === "QM") {
+    formatedText = textTools.QMarksRemover(convertEl, text);
+    if (!formatedText) return
+  }
+  if (type === "UL") {
+    formatedText = textTools.ULineRemover(convertEl, text);
+    if (!formatedText) return
+  }
+  if (type === "AZOrder") {
+    formatedText = textTools.AlphabeticOrder(text);
+  }
+  if (type === "Order") {
+    formatedText = textTools.ReverseOrder(text);
+  }
+  if (["UC", "LC", "SC", "CC"].includes(type)) {
+    formatedText = textTools.tagCase(convertEl, text, type);
+    if (!formatedText) return
+  }
+
+  if (type ==="TC") {
+    formatedText = textTools.TextCleaner(text);
+  }
+
+  if (type ==="BF") {
+    formatedText = textTools.TagCleaner(text);
+  }
+
+  if (type ==="ZIP") {
+    formatedText = textTools.compress(text);
+  }
+
+  if (type ==="VAR") {
+    formatedText = textTools.createVar(text);
+  }
+
+  if (type === "findPrev") {
+    textTools.findPrev(convertEl);
+    return
+  }
+
+  if (type === "findNext") {
+    textTools.findNext(convertEl);
+    return
+  }
+  if (type === "ReplaceOne") {
+    textTools.replaceOne(convertEl, 'findTag', 'replaceTag', 'checkCase');
+    return
+  }
+  if (type === "ReplaceAll") {
+    textTools.replaceAllTags(convertEl, 'findTag', 'replaceTag', 'checkCase');
+    return
+  }
+
+  el.value = formatedText;
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+// ❇️ Gallery shit
+function getGalleryData() {
+  const iframe = document.querySelector('iframe.text-to-image-plugin-gallery');
+  const urlSrc = iframe.src; // Data in src.
+
+  const url = new URL(urlSrc); //
+  const hash = url.hash;
+  const rawData = decodeURIComponent(hash)
+    .replace(/^#data=/, "") // remove #data=
+    .replace(/^"/, "") // remove starting quote
+    .replace(/"$/, ""); // remove ending quote;
+
+  //console.log(decodeURIComponent(hash));
+  const dataObj = {};
+  Object.assign(dataObj, JSON.parse(rawData));
+  //console.log(Object.entries(dataObj));
+
+  return dataObj;
+}
+function setGalleryScore(value, btnEl) {
+  const iframe = document.querySelector('iframe.text-to-image-plugin-gallery');
+  const url = new URL(iframe.src);
+  const score = url.searchParams.get('hideIfScoreIsBelow');
+  const newScore = score === value ? Prison.hscr : value;
+  if (newScore === value) {
+    btnEl.classList.add("active-btn-main");
+  } else {
+    btnEl.classList.remove("active-btn-main");
+  }
+  // change the query param
+  url.searchParams.set('hideIfScoreIsBelow', newScore);
+
+  // force reload (hash-only changes sometimes don’t reload)
+  iframe.src = 'about:blank';
+  setTimeout(() => {
+    iframe.src = url.toString();
+  }, 300);
+}
+function setBannedPromptTags(bannedTags) { // Also save the inputs in localStorage and use it to call it on load, more easier.
+    if (!bannedTags) bannedTags = "";
+    let dataObj = getGalleryData(); //
+
+  let tags = bannedTags
+    .split("\n")
+    .map(tag => tag.trim())
+    .filter(tag => tag !== "")
+    .map(tag => `/${tag}/i`);
+  //dataObj.bannedPromptPhrases.push(...tags); // Regex, but is this really helpful? :thinking:
+
+  // default ones
+  let defaultTags = Prison.defaultTags.selectAll.join("\n")
+    .split("\n")
+    .map(tag => tag.trim())
+    .filter(tag => tag !== "")
+    .map(tag => `/${tag}/i`);
+
+  dataObj.bannedPromptPhrases = [];
+  dataObj.bannedPromptPhrases.push(...defaultTags);
+  dataObj.bannedPromptPhrases.push(...tags);
+
+  const iframe = document.querySelector('iframe.text-to-image-plugin-gallery');
+  const url = new URL(iframe.src);
+
+  const newHash = "#data=" + encodeURIComponent(JSON.stringify(dataObj));
+  url.hash = newHash;
+
+  iframe.src = 'about:blank'; // to force reloads because '#'
+    setTimeout(() => {
+      iframe.src = url.toString(); // reload with updated hash
+      //console.log("NEW: " + decodeURIComponent(iframe.src));
+      console.log("Gallery updated!");
+    }, 200);
+}
+function banPredefinedPromptTags(permission) {
+  const animeCheck = document.getElementById("animeFilter");
+  const realistiCheck = document.getElementById("realisticFilter");
+  const safeCheck = document.getElementById("safeFilter");
+  const customFilterEl = document.getElementById("customFilterArea").value;
+
+  let message = "You will hide images containing the following words from the gallery:";
+  let banList = [];
+  if (animeCheck.checked) {
+    banList.push([Prison.animeTags.selectAll.join("\n")]);
+    message += "\n➤ Anime / Cartoon / Comic / Illustration / Anthro / Pokemon";
+  }
+  if (realistiCheck.checked) {
+    banList.push([Prison.realPhotoTags.selectAll.join("\n")]);
+    message += "\n➤ Canon Eos R5 | Casual Photo | Cinematic Shot | Professional Photo | Professional Photography | Raw Photo | Real Image | Realistic Face\n➤ And everything that doesn't contain any words related to anime";
+  }
+  if (safeCheck.checked) {
+    banList.push([Prison.obscene.selectAll.join("\n")]);
+    message += "\n➤ Anything that has genitals and sexual acts.";
+  }
+  if (customFilterEl) {
+      banList.push(customFilterEl.trim().split("\n").filter(f=> f!== "").map(tag => `\\b${tag}\\b`).join("\n"));
+      message += "\n➤ All the words in your Custom Filter";
+    }
+
+  // De-selecting = removing.
+  if (banList.length <= 0) {
+    if (localStorage.getItem("badWordsFilter")) {
+      localStorage.removeItem("badWordsFilter");
+      setBannedPromptTags(); // Update gallery with a nothing list.
+    } else { // But if there is nothing before.
+      alert("No option selected!");
+    }
+    return
+  }
+
+  const confirmFilter = permission || confirm(message);
+  if (!confirmFilter) return
+
+  const finalBanList = [...banList].join("\n");
+  localStorage.setItem("badWordsFilter", finalBanList);
+  alert("The gallery will be updated.");
+  setBannedPromptTags(finalBanList);
+} // End.
+function safeCheckSpecialMessage() {
+  const safeCheck = document.getElementById("safeFilter");
+  if (safeCheck.checked === false) {
+    alert("You are disabling the NSFW filter. If you are not seeing any NSFW images even after changing the 'pg13' filter to 'none', then it means you need to generate around 40 NSFW images using explicit NSFW words. This happens because of the perchance.org filter; you only need to generate the images and wait for them to load, you do NOT need to publish them.")
+  }
+}
+function saveCustomListBannedPrompTags() {
+  const customFilterEl = document.getElementById("customFilterArea");
+  if (customFilterEl.value) {
+    localStorage.setItem("savedCustomFilterList", customFilterEl.value);
+  } else {
+    localStorage.removeItem("savedCustomFilterList");
+  }
+} // End.
+function saveCheckboxBannedPromptTags() {
+  const animeCheck = document.getElementById("animeFilter");
+  const realistiCheck = document.getElementById("realisticFilter");
+  const safeCheck = document.getElementById("safeFilter");
+  const savedCheckList = [];
+
+
+  if (animeCheck.checked) savedCheckList.push("animeFilter");
+  if (realistiCheck.checked) savedCheckList.push("realisticFilter");
+  if (safeCheck.checked) savedCheckList.push("safeFilter");
+
+  if (savedCheckList.length === 0) { // Just to be safe.
+    localStorage.removeItem("savedCheckBoxes");
+    return
+  }
+  localStorage.setItem("savedCheckBoxes", savedCheckList);
+} // End.
+function loadCheckBoxBannedPromptTags() {
+  const customList = localStorage.getItem("savedCustomFilterList");
+  if (customList) {
+    document.getElementById("customFilterArea").value = customList;
+  }
+
+  const savedList = localStorage.getItem("savedCheckBoxes");
+  if (!savedList) return
+  let savedCheckList = savedList.split(",");
+  //return console.log(savedCheckList);
+  savedCheckList.forEach(checkbox => {
+    //console.log(checkbox);
+    const c = document.getElementById(checkbox);
+    c.checked = true;
+  });
+} // End.
+function buttonsGalleryNewFeatures() {
+  const activatedFiltersBtn = localStorage.getItem("badWordsFilterBtn");
+  if (!activatedFiltersBtn) return
+
+  const buttonList = activatedFiltersBtn.split(",");
+  buttonList.forEach(btn => {
+    const id = document.getElementById(btn);
+    id.textContent = id.textContent.replace("Hide", "Show");
+    id.style.color = "#ff0000";
+  })
+} // End.
+function defaultZoom() {
+  const el = document.getElementById("eSliderDisplay");
+  el.value = 100;
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+}
+function plus(type) {
+  const el = document.getElementById("eSliderDisplay");
+  let elValue = Number(el.value);
+  let value;
+  if (type === "+") elValue += 10;
+  if (type === "-") elValue -= 10;
+  el.value = elValue;
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+} // End.
+function galleryZoom(load) {
+  const galleryCtn = document.getElementById("imageGalleryCtn8569284");
+  const sliderEl = document.getElementById("eSliderDisplay")
+  let zoomValue = Number(sliderEl.value) / 100;
+
+  if (load) {
+    if (!localStorage.getItem("galleryCtnZoomDisplay")) return
+    zoomValue = Number(localStorage.getItem("galleryCtnZoomDisplay"));
+    galleryCtn.value = zoomValue;
+    sliderEl.value = zoomValue * 100; // Multiply back to the original value.
+    sliderEl.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  galleryCtn.style.transform = `scale(${zoomValue})`;
+  galleryCtn.style.width = `${100 / zoomValue}%`;
+  galleryCtn.style.transformOrigin = "top left";
+  localStorage.setItem("galleryCtnZoomDisplay", zoomValue)
+} // End.
+
+function renderGalleryNewFeatures() {
+  const imgCtn = document.getElementById("imageGalleryCtn8569284");
+  const newDiv = document.createElement("div");
+
+  newDiv.id = "galleryExtraOptionsCtn";
+  newDiv.style = "background:var(--blackwhite-rgba-02); padding: 10px 20px; display:flex; justify-content:center; margin-top:15px; margin-bottom:-16px;";
+  newDiv.innerHTML = `
+    <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:center;">
+      <div style="display:flex; max-width:200px;">
+        <button style="display:flex; align-items:center; justify-content:center; border:1px inset #00F7FF; border-radius:5px; padding:5px; height:20px; width:20px; margin-right:5px; user-select:none; background:#000000bf; color:#00F7FF; font-weight:600;" title="reset"
+          onclick="defaultZoom()">☉</button>
+        <div style="display:flex; align-items:center; justify-content:center; border:1px inset #00F7FF; border-radius:5px; padding:5px; height:20px; width:20px; margin-right:2px; user-select:none; background:#000000bf; color:#00F7FF; font-weight:600; cursor:zoom-out;"
+          onclick="plus('-')">-</div>
+        <input id="eSliderDisplay" type="range" min="30" max="180" value="100" step="10"
+          oninput="galleryZoom()" style="width:120px;">
+        <div style="display:flex; align-items:center; justify-content:center; border:1px inset #00F7FF; border-radius:5px; padding:5px; height:20px; width:20px; margin-left:2px; user-select:none; background:#000000bf; color:#00F7FF; font-weight:600; cursor: zoom-in;"
+          onclick="plus('+')">+</div>
+      </div>
+      <button onclick="qolf.changeDisplayStatus('galleryContentFilterCtn', 'flex', 'none')">Filter</button>
+      <button onclick="setGalleryScore('12', this)">💯</button>
+    </div>`; //<input placeholder="gallery name" style="width:180px;"><button>➔</button>
+  imgCtn.insertAdjacentElement('beforebegin', newDiv);
+
+  const contentFilter = document.createElement("div");
+  contentFilter.id = "galleryContentFilterCtn";
+  contentFilter.classList = "default-border";
+  contentFilter.style = "border-radius:5px; z-index:999; background:var(--blackwhite); position:fixed; display:none; flex-direction:column; gap:12px; width:350px; max-width:95vw; top:50%; left:50%; transform:translate(-50%,-50%); padding: 10px 5px;";
+  contentFilter.innerHTML = `
+    <span style="font-weight:600; margin-bottom:0;">🚫 Content Filter 🚱</span>
+    <span style="font-size:small; margin-bottom:0;">This filter is not perfect and may not catch all images.</span>
+    <div style="display:flex; flex-direction:column; justify-content:left; padding:10px;">
+      <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="animeFilter"> Hide anime images</label>
+      <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="realisticFilter"> Hide realistic images</label>
+      <span style="background:#ff0000bf; margin:5px 0; border-radius:5px;">- sensitive content 🔞 </span>
+      <label style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="safeFilter" onclick="safeCheckSpecialMessage()">Hide explicit genitals and sexual acts</label>
+    </div>
+    <span>▾</span>
+    <button onclick="qolf.changeDisplayStatus('galleryContentCustomFilterCtn', 'flex', 'none')">Custom filter<br><span style="font-size:small;">Select the words you want to hide</span></button>
+    <button class="default-border box-05" onclick="banPredefinedPromptTags(); saveCheckboxBannedPromptTags()" style="font-weight:600;">Apply</button>
+    <button class="default-border" style="background:rgba(255,3,3,0.7); border-radius:5px; position:absolute; top:2px; right:5px; padding:2px 10px;" onclick="qolf.changeDisplayStatus('galleryContentFilterCtn', 'flex', 'none')">╳</button>`;
+
+
+  const customFilter = document.createElement("div");
+  customFilter.id = "galleryContentCustomFilterCtn";
+  customFilter.classList = "default-border";
+  customFilter.style = "border-radius:5px; z-index:999; background:var(--blackwhite); width:400px; max-width:90vw; position:fixed; display:none; flex-direction:column; top:50%; left:50%; transform:translate(-50%, -50%); padding:5px;";
+  customFilter.innerHTML = `
+    <div style="display:flex; flex-direction:column;">
+      <textarea id="customFilterArea"
+        style="border-radius:5px; padding:5px; height:300px; max-height:90vh; width:100%;"
+        placeholder="Images that match these words will be hidden. Each rule occupies one line. Case insensitive. Example:\nnudity\nexplicit\ndead"></textarea>
+      <div style="display:flex; justify-content:center; width:100%; max-width:90vw;">
+        <button style="flex-grow:2; border-radius:5px;" onclick="saveCustomListBannedPrompTags(); qolf.changeDisplayStatus('galleryContentCustomFilterCtn', 'flex', 'none')">💾 Save</button>
+        <button style="flex-grow:1; border-radius:5px;" onclick="qolf.changeDisplayStatus('galleryContentCustomFilterCtn', 'flex', 'none')">❌ Cancel</button>
+      </div>
+    </div>`
+
+  newDiv.insertAdjacentElement('afterend', customFilter);
+  newDiv.insertAdjacentElement('afterend', contentFilter);
+  loadCheckBoxBannedPromptTags(); // Load checkbox status
+} // End.
+function renderGalleryAndComments() {
+  const socialCtn = document.getElementById('showHideGalleryAndCommentsButtonsCtn83728732671');
+  const commentBtn = document.getElementById('hideCommentsBtn85937402');
+  const galleryBtn = document.getElementById('hideGalleryBtn85937402');
+  socialCtn.style.display = "";
+
+  galleryBtn.textContent = "🎴 show gallery";
+  galleryBtn.classList.add("waitingEl");
+  const galleryClick = galleryBtn.onclick;
+  galleryBtn.onclick = function (e) {
+    if (galleryClick) galleryClick.call(this, e);
+    let firstClick; // Hack
+
+    // Open and hide gallery. Build the iframe in the first opening.
+    if (!imageGalleryCtn8569284.querySelector("iframe")) {
+      imageGalleryCtn8569284.innerHTML = "";
+      imageGalleryCtn8569284.innerHTML = window.generateImageGalleryHtml358402048();
+      imageGalleryCtn8569284.style.display = 'none';
+      firstClick = "yes"; // Hack
+      renderGalleryNewFeatures();
+      galleryZoom('load'); // Change the gallery display and the slider value first time.
+    }
+
+    // Change text content / after the status update
+    if (imageGalleryCtn8569284.style.display === 'none') { galleryBtn.textContent = "🎴 show gallery"; document.getElementById("galleryExtraOptionsCtn").style.display = "none";
+    } else if (imageGalleryCtn8569284.style.display === '') {
+      galleryBtn.textContent = "🎴 hide gallery";
+      document.getElementById("galleryExtraOptionsCtn").style.display = "flex";
+      imageGalleryCtn8569284.classList.remove("gallery-pop"); // remove class popup
+      galleryPopCloseBtn(); // remove close button
+    }
+
+    if (firstClick) { // I am hackerman. Autoclick the button again to... set status? idk
+    setTimeout(() => {
+      galleryBtn.click();
+       setBannedPromptTags(localStorage.getItem("badWordsFilter"));
+    }, 300)
+    }
+  } // end galleryBtn onclick.
+
+  commentBtn.textContent = "🗨 show comments";
+  commentBtn.classList.add("waitingEl");
+  const commentClick = commentBtn.onclick;
+  commentBtn.onclick = function (e) {
+    if (commentClick) commentClick.call(this, e);
+    let firstClick; // Hack
+
+    // Open and hide comments. Appends the iframe in the first opening.
+    if (!commentsPluginCtn654732.querySelector("iframe")) {
+      commentsPluginCtn654732.innerHTML = "";
+      commentsPluginCtn654732.appendChild(window.generateCommentsPluginElement85638294());
+      commentsPluginCtn654732.style.display = "";
+      firstClick = "yes"; // Hack
+    }
+
+    // Change text content / after the status update
+    if (commentsPluginCtn654732.style.display === 'none') { commentBtn.textContent = "🗨 show comments";
+    } else if (commentsPluginCtn654732.style.display === '') {
+      commentBtn.textContent = "🗨 hide comments";
+      commentsPluginCtn654732.classList.remove("comment-pop"); // remove class popup
+      commentPopCloseBtn(); // remove close button
+    }
+
+    if (firstClick) { //
+    setTimeout(() => {
+      commentBtn.click()}, 300);
+    }
+  } // end commentBtn onclick.
+} // End.
+function galleryPopup() {
+  const galleryCtn = document.getElementById('imageGalleryCtn8569284');
+  const galleryBtn = document.getElementById('hideGalleryBtn85937402');
+  if (!galleryCtn.querySelector("iframe")) { // Sweeping dirty code under the carpet 👀
+    galleryCtn.style.opacity = "0";
+    setTimeout(() => {
+      galleryCtn.classList.add("gallery-pop");
+      galleryCtn.style.opacity = "1";
+      galleryPopCloseBtn();
+    }, 350)
+  }
+  galleryBtn.click();
+  galleryCtn.classList.add("gallery-pop");
+  galleryPopCloseBtn();
+}
+function galleryPopCloseBtn() {
+  const ctn = document.getElementById("imageGalleryCtn8569284");
+  const existingDiv = ctn.querySelector("div .gallery-pop-close-btn");
+  if (ctn.classList.contains("gallery-pop")) {
+    if (existingDiv) return
+    const div = document.createElement("div");
+    div.classList = "gallery-pop-close-btn";
+    div.style = "position:sticky; height:22px; margin-bottom:7px; top:0;";
+    const btn = document.createElement("button");
+    btn.textContent = "╳";
+    btn.style = "position:absolute; right:0; width:32px; background:red;";
+    btn.onclick = () => { galleryPopup() }
+    div.append(btn);
+    ctn.prepend(div);
+  }
+  else {
+    if (existingDiv) existingDiv.remove();
+  }
+}
+function commentPopup() {
+  const commentCtn = document.getElementById('commentsPluginCtn654732');
+  const commentBtn = document.getElementById('hideCommentsBtn85937402');
+  if (commentCtn.innerHTML === "") { // Sweeping dirty code under the carpet 👀
+    commentCtn.style.opacity = "0";
+    setTimeout(() => {
+      commentCtn.classList.add("comment-pop");
+      commentPopCloseBtn();
+      commentCtn.style.opacity = "1";
+    }, 350)
+  }
+  commentBtn.click();
+  commentCtn.classList.add("comment-pop");
+  commentPopCloseBtn();
+}
+function commentPopCloseBtn() {
+  const ctn = document.getElementById("commentsPluginCtn654732");
+  const existingDiv = ctn.querySelector("div .comment-pop-close-btn");
+  if (ctn.classList.contains("comment-pop")) {
+    if (existingDiv) return
+    const div = document.createElement("div");
+    div.classList = "comment-pop-close-btn";
+    div.style = "position:relative; height:22px; margin-bottom:7px;";
+    const btn = document.createElement("button");
+    btn.textContent = "╳";
+    btn.style = "position:absolute; right:0; width:32px; background:red;";
+    btn.onclick = () => { commentPopup() }
+    div.append(btn);
+    ctn.prepend(div);
+  }
+  else {
+    if (existingDiv) existingDiv.remove();
+  }
+}
+
+// ❇️ Autobot
+function autoGenBtn(mode) {
+  const genBtn = document.getElementById('generateButtonEl');
+  const genBtnParent = genBtn.parentElement;
+  const autoBtn = document.getElementById("autoGenBtn")
+  const numberImg = document.querySelector('[data-name="numImages"]');
+
+
+  if (window.autoGenerateStatus === "stop") {
+    if (genBtn.style.opacity === "0.7") {
+      alert("Generate Button in delay! Try again.");
+      return
+    }
+
+    if (mode === "downld") window.autoGenerateDownload = "active";
+    if (mode === "gsave") window.autoGenerateGallerySave = "active";
+    autoBtn.textContent = "🛑 STOP 🛑";
+    window.autoGenerateStatus = "running";
+    window.imageCounter = 0;
+    autoGenerate();
+    document.getElementById('generateButtonEl').click();
+    genBtnParent.hidden = true;
+    numberImg.hidden = true;
+    document.getElementById("generateBtnTwo").parentElement.hidden = true;
+    wakeLockEnabled = true;
+    requestWakeLock();
+    return
+  }
+
+  if (window.autoGenerateStatus === "running") {
+    genBtnParent.hidden = false;
+    numberImg.hidden = false;
+    document.getElementById("generateBtnTwo").parentElement.style.order = "9";
+    document.getElementById("generateBtnTwo").parentElement.hidden = false;
+    autoBtn.textContent = "💫 Auto Generate";
+    window.autoGenerateStatus = "stop";
+    window.autoGenerateDownload = "inactive";
+    window.autoGenerateGallerySave = "inactive";
+    //window.imageCounter = 0;
+    wakeLockEnabled = false;
+    releaseWakeLock();
+    return
+  }
+}
+function autoGenChoose() {
+  if (window.autoGenerateStatus === "stop") {
+    qolf.showDialogModal('autoGenDialog')
+  } else {
+    autoGenBtn();
+  }
+}
+function autoGenBtnRender(html) {
+  const firstMsg = localStorage.getItem("autoBot1stNotice") ? "" : `<p><span style="font-size:small">This is a bot that will automatically click the "generate" button after all the images have loaded. Select to automatically save the images to your device or private gallery. <input type="checkbox" oninput="localStorage.setItem('autoBot1stNotice', 'isChecked'); this.closest('p').style.display='none'">✅Ok</span></p>`;
+  let button = {
+    startBtn: `
+      <div>
+        <button id="autoGenBtn" class="nice-border" style="max-height:2.9rem; max-width:100px; margin:3px 2px; padding: 5px;" onclick="autoGenChoose()">💫 Auto Generate</button>
+      </div>
+      `,
+    choiceBtn: `
+      <dialog id="autoGenDialog" class="default-border" style="width:400px; max-width:90vw; border-radius:5px;">
+        ${firstMsg}<p><span style="font-size:small">Note: It may not work properly if you switch to another window or lock your device screen.</span></p>
+        <div style="display:flex; flex-direction:column; gap:15px; content-justify:center; border-radius:5px; padding:10px;">
+          <button class="box-05 default-border" onclick="qolf.closeDialogModal('autoGenDialog'); autoGenBtn('downld')">⬇️ Auto download to your device</button>
+          <button class="box-05 default-border" onclick="qolf.closeDialogModal('autoGenDialog'); autoGenBtn('gsave')">📁 Auto save to your local gallery</button>
+          <button class="" onclick="qolf.closeDialogModal('autoGenDialog')">Cancel ❌</button>
+        </div>
+      </dialog>
+      `
+  }
+
+  return button[html];
+}
+// To keep the screen on
+wakeLock = null;
+wakeLockEnabled = false;
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      console.log('Wake Lock active');
+
+      wakeLock.addEventListener('release', () => {
+        console.log('Wake Lock released');
+      });
+    } else {
+      alert('Wake Lock API not supported in this browser');
+    }
+  } catch (err) {
+    console.error(err.name, err.message);
+  }
+}
+function releaseWakeLock() {
+  if (wakeLock) {
+    wakeLock.release();
+    wakeLock = null;
+  }
+}
+document.addEventListener('visibilitychange', async () => {
+  if (document.visibilityState === 'visible' && wakeLockEnabled) {
+    if (!wakeLock || wakeLock.released) {
+      await requestWakeLock();
+    }
+  }
+});
+
+// Backup
+function downloadNotepad(id, name) {
+  if (name.toLowerCase().includes("notepad")) name = name.replace(/notepad/i, "");
+  const confirmDownload = confirm(`Download notepad ${name} ?`);
+  if (!confirmDownload) return
+  let text = `* PERCHANCE - AI ART GENERATOR ADVANCED *\nCreated: ${date().format("MMMM Do YYYY, HH:mm:ss a")}\n\n#############\n# Notepad ${name} #\n#############\n\n${id}\n\nhttps://perchance.org/ai-art-generator-advanced`;
+  let blob = new Blob([text], { type: 'text/plain' });
+  let url = URL.createObjectURL(blob);
+  let a = document.createElement('a');
+  a.href = url;
+  a.download = `AI-ART-GENERATOR-ADVANCE (perchance) - Notepad ${name}`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Custom styles / Old SD styles babysitting
+function enableOlderStyles() {
+  const generalSD = document.getElementById('CustomUserStyle19');
+  const animeSD = document.getElementById('CustomUserStyle20');
+  const realisticSD = document.getElementById('CustomUserStyle21');
+  const olderStyles = localStorage.getItem('loadSDSTYLES') || 'none';
+  if (generalSD.value === "") {
+    generalSD.value = "aaga-styles-general-sd";
+    animeSD.value = "aaga-styles-anime-sd";
+    realisticSD.value = "aaga-styles-realistic-sd";
+    localStorage.setItem('loadSDSTYLES', 'enabledSDSTYLES');
+  } else {
+    generalSD.value = "";
+    animeSD.value = "";
+    realisticSD.value = "";
+    localStorage.removeItem('loadSDSTYLES');
+  }
+}
+
+// Old shared link 'compatibility'
+function convertOldSharedLink() {
+  const link = document.getElementById("oldSharedLink").value;
+  const match = link.match(
+    /(https?:\/\/)?perchance\.org\/ai-art-generator-advanced#data=[^\s'")]+\.gz/
+  );
+
+  if (!match) {
+    document.getElementById("newSharedLink").textContent =
+      "Invalid or unsupported shared link.";
+    return;
+  }
+
+  const cleanLink = match[0].startsWith("http")
+    ? match[0]
+    : "https://" + match[0];
+
+  const newLink = cleanLink.replace(
+    "perchance.org/ai-art-generator-advanced",
+    "perchance.org/ai-art-generator-advanced-v3"
+  );
+  document.getElementById("newSharedLink").innerHTML = `<a href="${newLink}" target="_blank">Open the new link here</a>`
+}
+
+// Iframe in settings
+function generateIframe() {
+  const iframe = document.getElementById("webFrame");
+  const linksrc = document.getElementById("webFrameLink");
+  iframe.src = "https://r3gm-wan2-2-fp8da-aoti-preview.hf.space/";
+  linksrc.href = "https://huggingface.co/spaces/r3gm/wan2-2-fp8da-aoti-preview"
+  iframe.parentElement.style.display = "flex";
+}
+if (!localStorage.sfc_tEnable_cm_gl_pg) localStorage.sfc_tEnable_cm_gl_pg = 0;
+function shaddyThingsAbout() {
+  if (!localStorage.sfc_tEnable_cm_gl_pg || localStorage.sfc_tEnable_cm_gl_pg < 20) {
+    document.documentElement.style.setProperty('--clickStatus', 'none');
+    const gBtn = document.getElementById('generateButtonEl');
+    function autoRender() {
+      gBtn.addEventListener('click', () => {
+        if (localStorage.sfc_tEnable_cm_gl_pg >= 20) {
+          document.documentElement.style.setProperty('--clickStatus', '');
+          settings.imageOptions.hideGalleryButtons = false;
+          window.sITS = "inactive";
+        }
+      });
+    }
+    gBtn.addEventListener('click', autoRender);
+    return;
+  } else {
+    return
+  }
+}
+function cnPst() {
+  return localStorage.sfc_tEnable_cm_gl_pg < 20
+}
+window.sITS = cnPst() === true ? "active" : "inactive";
+function newUpdates(savedFile) {
+  const updatesNoteClicked = localStorage.getItem(savedFile);
+  if (!updatesNoteClicked) {
+    const updatesNotesBtn = document.getElementById("updatesBtn");
+    //const homeBtn = document.getElementById("emptyAreaBtn");
+    updatesNotesBtn.classList.add("redWarning");
+    //homeBtn.classList.add("redWarning");
+  }
+}
+function readingUpdates() {
+  document.getElementById('updatesBtn').classList.remove('redWarning');
+  //document.getElementById("emptyAreaBtn").classList.remove('redWarning');;
+  localStorage.setItem('update2001', 'clicked')
+}
+function removeTrashfromOlderVersion() {
+  const keys = Object.keys(localStorage);
+  let trash = 0;
+  for (const key of keys) {
+    if (
+      key.startsWith("hiddenStatusOf") ||
+      key.startsWith("displayStatusOf") ||
+      key.startsWith("displayState-") ||
+      key.endsWith("StatusOpt") ||
+      key.endsWith("StrOpt") ||
+      key.startsWith("labelof") ||
+      key.startsWith("levelof")
+    ) {
+      console.log(`Removing: ${key}`);
+      localStorage.removeItem(key);
+      trash++;
+    }
+  }
+
+  // Explicit removals (safe)
+  const singleGarbage = [
+    "aagaWarnedJan",
+    "ADMODE",
+  //  "bannedWords",
+    "removeBlur",
+    "SelectStylesBtnStatus",
+    "AdvKey",
+    "isActive",
+    "ItemShow",
+    "PsnB",
+    "DMONB", // typo?
+    "DMON",
+    "menuIconCtnDisplay",
+    "menuIconCtnHeight",
+    "menuIconCtnOverflowY",
+    "loadSDSTYLES",
+    "functionsCtn",
+    "artStylesCtn",
+    "mixStylesCtn",
+    "sceneryCtn",
+    "characterCtn",
+    "fashionCtn",
+    "seedCtn",
+    "titleCtn",
+    "functionsBtn",
+    "artStylesBtn",
+    "mixStylesBtn",
+    "sceneryBtn",
+    "characterBtn",
+    "fashionBtn",
+    "seedBtn",
+    "titleBtn",
+    "currentZoomGallery",
+    "displayValue",
+    "userCustomDisplaySize",
+    "LabelBodyType",
+    "update2106",
+    "BodyType",
+    "privateGalleryDisplaySize",
+    "charactersBtn"
+  ]
+
+  for (const k of singleGarbage) {
+    if (localStorage.getItem(k) !== null) {
+      console.log(`Removing: ${k}`);
+      localStorage.removeItem(k);
+      trash++;
+    }
+  }
+
+  console.log("Remaining keys:", Object.keys(localStorage));
+  if (trash > 0) return "trash found"
+  return ""
+}
+
+function FirstTime() {
+  if (localStorage.getItem('TheFirstTimeV4')) {
+    return "";
+  } else {
+    const trash = removeTrashfromOlderVersion();
+    let initialSafeFilter = [];
+    initialSafeFilter.push([Prison.obscene.selectAll.join("\n")]);
+    localStorage.setItem("badWordsFilter", initialSafeFilter);
+    localStorage.setItem("savedCheckBoxes", "safeFilter");
+    //localStorage.setItem('TheFirstTimeV4');
+    if (trash === "trash found") {
+      setTimeout(() => {
+        location.reload();
+      }, 210);
+    }
+    return "";
+  }
+}
+</script>
+
+
+<!-- ★ ★ Load ★ ★ -->
+<script>
+  window.onload = () => {
+    FirstTime();
+    qolf.loadDisplayCtnGrid('active-btn-main');
+    qolf.restoreDisplayStatus('active-btn-main');
+    loadDisabledSelectedStyles(); // basicMode (keyboar button);
+    loadDisplayInputSlider();
+    mobileMenuIcons();
+    loadWhitespaceCb();
+    loadcbVarStatus();
+    initT2iCheckboxes();
+    if (promptInputCtn.style.display !== "none") {
+      setTimeout(() => {
+        checkEditablePrompt();
+        //console.log("Full Prompt Style Display: " + promptInputCtn.style.display);
+        //console.log("fullPrompt variable: " + fullPrompt);
+      }, 1000)
+    }
+    notepadWatcher();
+    shaddyThingsAbout();
+    renderGalleryAndComments(); // Set socialthings
+    rightButtonsDisplay();
+    newUpdates('update2001');
+  } // End OnLoad
+
+  window.addEventListener("load", function() {
+    const loadingScreen = document.getElementById("loadingScreen");
+    loadingScreen.style.display = "none";
+  });
+
+  window.addEventListener("load", () => {
+  console.log("----- PAGE LOAD METRICS -----");
+
+  // 1. Simple load time (ms since page started loading)
+  console.log("performance.now():", performance.now(), "ms");
+
+  // 2. Modern Navigation Timing API
+  const nav = performance.getEntriesByType("navigation")[0];
+  if (nav) {
+    console.log("DOM Content Loaded:", nav.domContentLoadedEventEnd, "ms");
+    console.log("Load Event End:", nav.loadEventEnd, "ms");
+    console.log("First Byte (TTFB):", nav.responseStart, "ms");
+    console.log("Page Fully Loaded:", nav.duration, "ms");
+  }
+
+  // 3. Legacy timing API (still works but deprecated)
+  const t = performance.timing;
+  const totalLoad = t.loadEventEnd - t.navigationStart;
+  console.log("Legacy load time:", totalLoad, "ms");
+
+  console.log("-----------------------------");
+  });
+</script>

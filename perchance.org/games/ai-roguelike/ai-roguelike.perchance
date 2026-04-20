@@ -1,0 +1,25 @@
+generateText = {import:ai-text-plugin}
+generateImage = {import:text-to-image-plugin}
+fullscreenButton = {import:fullscreen-button-plugin}
+
+randomcolorhex = {import:hex-color}
+randomUnicode = {import:r27a7fey6l}
+randomEmoji = {import:bw-emoji}
+randomMonster = {import:monster-type}
+randomBiome = {import:fantasy-biome}
+commentsPlugin = {import:comments-plugin}
+
+generateAtStart = 5
+
+commentOptions
+  forceColorScheme = dark
+
+randomChar
+  [randomEmoji]
+  [randomUnicode]
+
+$meta
+  title = ai roguelike
+  description = (WIP) an ai generated rougelike
+
+gameTheme = [themeInput.value]

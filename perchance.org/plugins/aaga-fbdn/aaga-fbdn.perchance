@@ -1,0 +1,445 @@
+// Prison - https://perchance.org/ai-art-generator-advanced
+
+// ⬇️ C
+UFilter
+  // That same user
+  BDAT-917fa1484933114c683d
+  U8NB-a8fed2675cedee5e02c9
+  SGMK-5308a03d0ea702ab93d4
+  OCMU-a33236d592f7116d945b
+  MTSJ-806412bb7414c5c88b07
+  BJ78-756f9ec9e9f128a29958
+  ZHX5-44caf8e3fad5384dec9c
+  39UW-3fffb39f8a08d6f79235
+  C2NT-b82619341cd90a091ca9
+  O907-9cc7ff45b1a8592929b5
+  V0I8-9e9349d741177bc0b0c2
+  J5YU-02c5e76b04b3f38e0229
+
+
+  // The "unblock all" user
+  KNDF-699c20701e9e37d7366b
+  IYKI-2fb63ab5793f36c961da
+  CG6A-a5b57ba5145d4ab9a172
+  RCO3-7aa35733c61a37b25eb2
+  4BKN-847a560dbba74fda2f46
+
+  // Shit ads
+  HO1T-2973b4cc70e2f3567f3f
+  DQIG-a0e75fce013f67b8fc43
+  JKOC-ea0f40965ec9592aea3f
+  ZJB0-9ec17f755958abeba2b4
+  8KNX-092dc5da0737491ab565
+  Z8Z6-1e4e138ebb452194f89c
+  DZCJ-0f22e25848951eb5c1d9
+  0WRS-8fb01ff85f474e84bf6f
+  XQPC-77759385cba324c98515
+  LLWW-ded6fc09655a25f597cc
+
+  // minus?
+  AXE0-7307241e7c6b38a65d6a
+  NAYM-40168b284b041e3f2ea5
+  NXLC-ac55bbb40d9ddd6ee438
+
+  // retards that likes to spam:
+  H6SI-51dc67182585a4bd3ea3
+  LU0V-dee03b9feeade28ca8c1
+  U8AW-e5fed3ef798e64e2294e
+  CMM7-af54d7159047885b87da
+  7J59-1e57857315d878aabec1
+  ROIG-7223ee3665ed8908ad96
+  2JH4-569b469b5bd132b99943
+  5SYV-6b4ec6dc019ccda53cdd
+
+WFilter
+  //#\S/
+  //\^#/
+
+  // ⬇️ I'm disabling it now because people are not abusing thee channel bug:
+  //#(?!sharedlink|data|edit|https://aigc|https://user.uploads.dev|https://imgur.com/)\S/
+
+  /unblock all/gi
+  /TSXCMXP/i
+  /TSXC/i
+  /QpXi/i
+  /KeyVisual/i
+  /urvillain/i
+  /ur-villain/i
+  /16kAICQNBkZ5DMXLY4D/i
+  www.nimo.tv
+  peoplenationsandtongues
+  pollo.ai
+  /zanananeuert/i
+  /dlive.tv/i
+  /https:\/\/kick.com\/thewatchmenstudio/i
+  /kick.com/i
+  /https:\/\/nations94.wordpress.com/i
+  /TrueGospelOfChrist/i
+  /secret.viralsachxd.com/gi
+  /relationshipsscams/i
+  /beforeitsnews/i
+  /deviantart.com\/lbww/i
+  /kjbv.tumblr.com/i
+  /tumblr.com/i
+  /wordpress.com/i
+  /QkmmEjfsNG4/i
+  /perchance.org/loley/i
+  /\bloley\b/i
+  /theconversation/i
+  /nutritionfacts/i
+  /Five Reasons Dinosaurs/i
+  /_9lMQlI32wE/i
+  /Shroud of Turin is the Burial Cloth of Jesus/i
+  /youtube/i
+  /there a channel called loli/i
+
+
+// ⬇️ G
+// USERS
+EmptyFilterB // Users
+  // Users who tried to generate realistic minors in nsfw
+  1615964c9019aedb8ba7bacbe26a394e40bcf8c531a708a0b20c22a38ac77be1
+  72d02d96bbe00787446ad3ad8b98cd04b1d2be7b81a33e3222941e153daf6788
+  46eac23fe9956c496bd8dc074e993006dc608ee10341c4dc806701df862bc9c9
+  30f687bcf1513b495206a62c4e9143b8ac57989086233740eafcc24f99dfdb49 // "silly signature" (22-07(2025))
+
+  // Spammers
+  422aa54b7a46e982263318e335296d71a513b717b0a71a9ec7b5969a7662b0d0
+  178d2a1ba9e995b9d46b987586d4ae957d73351d57ff008ba60b0829332ff728
+  284ee6021dab04a5911ab541a4af7bb2322762c2a39d2fb257a1aced19e3e01f // 25/05
+  d55381e3ec51837e3e7b47d89ea115768430478109526ddedee33c92c649f3b5 // 06/06 spamming cat
+  //d53d9e6ce3bcea61a3b00fad66345de0155435f104571f5f99d78f4385cb180e // my mistake, didn't spammed 21/06
+  0d1b064f712661b3ba19c89ca37a294054ef5fb670a39570b68da35ee6df124b // 23/07 - many orals
+      // 26/05
+  24ffb2a57ac7103833e490e4650b876d1c22dd5756092ed297efe86f624fa59b
+  46eac23fe9956c496bd8dc074e993006dc608ee10341c4dc806701df862bc9c9
+  a60714ecc1208843753a072b958d3b5d81480f875cd0c3c40bf84ac4b5124782
+  e4179a633e2a63bf3d0c2c83ef020bf27fcc277e326a9f9001b71ca0d9b887fe
+
+  a250deb20ff83ca5f73dd9d0ad904e42b459c16bca5379cacb3180052605719e // 02/06 - If spam ends, remove after 15days, if not, 30days after last spam.
+  41de39d0354b1bb57381d4e814f6f9f69fc095b90cd20a3eaf5b0d467eb4d4a1 // same user from above
+
+  2ce2dc9f92c66ca3bde13f40da76a7c0c7f7e187f1b0a38ff082472175297e89 // 19/06
+  3978dec399555cf9493704eeec063b283977a6a1d4fe93b63c0be4370049f118 // same user from above
+
+  //b1b36dd6f66cd740e3fd95127c7cbc3e78bf1b3d062e05ad74792e2aee470d12 // 22/06 (two girls nsfw) -> FREE in 22/07
+
+  18689936c34a34cb3872ccfaf4173559ad001100a8133322e31a0760442e5185 // 03/07 (girl with octopus) 40+pics
+
+  36880485400d5cf1a783ab5f5d31a75868859312c11e36a0c2b38e41ad177907 //24/07/25 many orals
+
+  // I just dislike because very disgusting pics
+  4aa65a7e10f7308c067afbb61096be062427869ebd33951ba474f730e6bc89cc // 22-07-25
+
+  b1b36dd6f66cd740e3fd95127c7cbc3e78bf1b3d062e05ad74792e2aee470d12 // dbz spam 28/07/25
+  f3303fd7a141000837e19a6dfce804ecf6232a5d00e8776da01948ffeab55356 // korean or asian spam 29/07/25
+  ee77d8bf229999787196883f038642a0c01ce80c7113369044b6c8cf8a155980 // 'filipino' young girl 31/07/25
+  499ada26c83b6519b559ca381b50561fd11f6598e4745fe3248725ace95bbd08 // 'gorgeus blonde 25-yo handjob/oral' 31/07/25
+  e32a191236a9e853afdd8fdb2369f3f2564ee3527aa45fd3c3a2aad861b396b8 // almost kid 04082055
+  43916cfa053c4d69ad43a670a3f5bb892e5a3e7cbe0fddcc7043fb868b30be51 // spam boring sex 07/08/2025
+  0a0b5d946f5f4d165b482b7f225d3aab963d0c71da173b083a4d1e1228cc6a03 // orange hair girl spam 10/08/25
+  af7b9c6a4ea6115c6081a0ac25b137af116c1ca09d20c8e792ecd725e2427693 // sailor moon spam 22/09/25
+  6d6eb783f3552a712f5e80be5cd9d7f767d356549ff93d25115655f82cd2ffda // Ugly belly spam 22/09/25
+  9ed388233782e57a5594d8e6c28c8010401e81de0a25e638e0c004f8a6c7698c // bj 07-10-25
+  62ba4a306e38739ecf7e26479b90d5854e8f9f33a7d50b24df141ad5411f2ddb // anime huge tits 07-10-25
+  749edb9075b2274d5cf770ed1dab87d283ee3a34ec77c3de3719167bdfa4cf23 // sex spam 14/10/25
+  3b8725220219129349ffff97bc6ce54f24e01959b808d9ba0374b88cf658731b // asian nude spam 16/10/25
+  06ae4c01fb6c3c712e2ed38a0b53fbad1e9bbcbf0dfd9c7bb1484df3731abfc7 // big tits nkd w 11/11/25
+  90e609a9c3e71038de198bb4b82240f956d6c81ffdf45d02cdadfe5ccdac82be // same shit as above the next day
+
+  8d738f6cd8e3a49ea13f79bce04b415075e3499e6ae271ae9241c79b4dcdbe1c // 05/12/25 dbz spam
+  173320c0cdb4c0690f38f6428f6afea721da8972431a2cbd9a5f478724144f5a // 05/12/25 dbz spam
+  c7f86646c2fbaf11d97e647a1911076f9cde5b194cb85913bac58852fa898817 // 05/12/25 dbz spam
+
+  9276ff92ca58aced4dfd5a11547de63743bce3f24a80f164967b45e3a073daa3 // 08/12/25 guns girls spam
+  cadaf4e7f5a64bcf104eb7c56fb3e90822ef7bfe9366de4d43e55079ac0a9428 // 08/12/25 guns girls spam
+  05369250e835efac004c52e922c44ecd0901921de28a1f90a26480bf6a5ea0a6 // 08/12/25 magazine spam
+  63c0fccf80709f366ebf9d1bb06f2ebad6b8894c1e7137c00093b3532893b40f // 09/12/25 queen spam
+
+  f02d16bff91f11d79c9a11ce4c77942f31b0adb601d022a3c2431fc90c83fcf6 // dont remember but banned anyway
+  cba07aef70d00a7315874b9b90263e30d37aa0e6979f5b1f7a29e6c5e603ae46 // 11/12/25 penis spam
+  8deb5b293d0284b12cd91a42212b19123a5b465134c37485d0eef85fc0409fd3 // 11/12/25 penis spam
+  ce1cf13bf36fdb7f1172811fc6fa34ce709f5c628a2411d441808af6757247c6 // 12/12/25 penis spam
+  a5a07f7bdd6098ae5eb17616a4eba0f314cafba5ab3963324e508ae951417de9 // 15/12/25 femboy spam
+  6379e889189fac7020865faa267878f268f34a54abbedf65eaec9394d9258f90 // 25/12/25 ugly woman spam
+  e34bb159933627df052f7292f7b1c1672e2cdd5cb890409e569ff8b0bfa70fe6 // 26/12/25 wooden mechanism spam
+  fc4e8b67efd98eb873ffe78b03a422e85fa3f30cd6dc6d9a4df11989a9c02ad1 // same
+  3013e1af129d3176ae0ba1c4bbe1aa5eb1a8ccd3d6d451ef78ce78c3058457ce // same
+  bb158033a003ca9e277eb683d8e7896318ead61fa94868538172999053a82705 // 27/12/25 bj
+
+  // Jan 2026
+  abff850ebb7b187d53b6ddd8dec15748609b7ffcfacc97b5441254d6f4c44ecc // 01/01/26 spam small catgirl
+  6ded87dc16eb40eaeb3753bd4e7a46fc28a34e38f71bf5027d4afd0363b85668 // 01/01/26
+  085e1799669f8e65b9217b97e933e6244f4cc15456aea166169e6136662f0ca7 // 02/01/26
+  4b263129acba18fc6c5cd3e8baacccb4031301732e9026110a598bdcaa31e7b7
+  56165d075f8bc9692d7cdc9cefaadeebc733270ed7e9b7ffa9aa8f530ef89dc2
+  4c49441b3754c18fb832bbe209a76997b7dae44e9a222f61366ba053cceb446e
+  0e7cd979c329e70442474225615b1b59900423c525d7354395f78bcf77a9fa25
+
+  // FEV 2026
+  640c883020fac0c313d110813c8def20eba5e60ab953cde89fdaf5411f09c4b8
+  d5b62626577e640ec1dd23b4219cfe34f156cf50efc590b589582fe3dc1355d9
+  7ab9d007296898f1475b5924ad2ce2dcf948b62a0ef4565c6fa83c2d91839ce0
+  4f6f2fd7d168530366dd9476cff03221f0cf51c9cdb09a33f90a257d25b1997f
+  5c91588ac3e0ccf026b92e16c72e85cda30cb96d688e09de3b6f2758f437d9f6
+  bbe94875bd6dd1da9c64a5cb9151b19703e360efc4fbb739cd1c0a3ba6049dbf
+  bab5ff269fa89442eada1cf85c762a507e7b7d41e96e7b7c768d97c04ffb77f0
+  d7ebf8715dd0f12d6f7bb51dca6be8a5fbc7227f1c9230e07d195c181be6da04
+  dd78f107044508335b4e491564a9b37b8cfb28dcefb277fbcfafbde807ba5a38
+  b3b3ca5cf1e9e1a2c7cdfa5e551cdb704416b7d2aaae16ffb7786f90a22f6d49
+  19376da9a28bb18141e3726de4d65445d12301dac47fc6497e051785cdf341e0
+  0f345bd766b552321ad89fd50aa64f25704c9383378e3d9033589459d068795c
+  8818669f23a3712b9280f36dc75e04c0fdb6f01c69a3068aa9f5ce3854e13dfe
+  dbf507449da19796d2e396f2fef5bde45c39cdf0e692d53d3cada981811e0dd3
+  3d63da8d9ec72106631c58c3692148e97972c9c860060dab110effa08c92c265
+  70247544d0a1bf559d0cead890216e0a2fcf3186816b54c0869ee33e3cd9fbf7
+  2e6776db80effdcf641c335c8a7c8589b563c74bba6e8ac81b7c9248b384ca1b
+  2de3ffd71e7930154810ba338a2f655f4e12337b7a81c5bfb190ac92a9a9d92a
+
+
+  // March 2026
+  4f02c4978009ebb2be770793522f28e888651e503eb949599a80f97c06378f9b
+  fc276a5a8725503b463c43c91749331d17a333d168b481435824f5ab699de4f3
+  b890e8242962dd7b254e68787227e88dd7ae72cd6a802c5c5c7ce44467544adb
+  640c883020fac0c313d110813c8def20eba5e60ab953cde89fdaf5411f09c4b8
+  ae18d1717ae1c25f289d1e20de8092ff2ade40db517c4ef922d7ab46b78ce56b
+  8f6904817f3fc2415a833ad98ac491f47814873776680f49fe11606f07fda059
+  ae18d1717ae1c25f289d1e20de8092ff2ade40db517c4ef922d7ab46b78ce56b
+  33a6c0eb8d87be7d60496430f16bd1a1561e3c6a11f38820914280fef6a9c4e9
+  7fbb271c54ffd8e6c4500d6d2d09b2032c46b94a025772cf0011955cd860193f
+
+  // April 2026
+  995609ee6c0daf182e4a30b142b2717eed0b6d103f3c56827954317ec166ef09
+  b5764809b540d9f12bc0698c71090eada1c1969a99e9e20d5db38bee9260e10d
+  c34f2a23653b85eb065987930d27b1a1ac73ce4c213c70f586ec5730d77f65d5
+  85391aa36e9e1230b24724300e47c2967ed1c1a8a9ad91a5cf0b7281aa747b5d
+  52b1ff1ac27f5a60bfdfec3fb8fa50f6f8339093679789dc904905c46e7357e8
+  4ba1c4b28eaa25b86afb486b409965eaa2be55b3110b7056aff442f823ec08cf
+  66674cda9bade7ebb90d2b4bcec17e4edbf1e3765d929321ccae7b6273101876
+  db2d66d83aa7f8d1f011b5e82e8e4d91acb63659d19f1941e2dd0c49b2276e42
+
+
+//uCustomFilterA
+
+
+EmptyFilterA
+  ///(diaper|diapers|diapered)/i
+  /child\b/
+  /(\b1yo|\b2yo|\b3yo|\b4yo|\b5yo|\b6yo|\b7yo|\b8yo|\b9yo|10yo|11yo|12yo|13yo|14yo)/i
+  ///\bkid/
+  // /\bbaby\b/
+  //toilet
+  /\bshit\b/
+  /diarrhea/i
+  /little.?yearoldgirl\b/i
+  /kindergartener/i
+  /\bsmall.?age\b/i
+  /(premature.?girl|girl.?premature)/i
+  /\bpre.?teenage body\b/i
+  /body who just turned/i
+  /smallchildloli/i
+  //students/i
+  /sexy11yochild/i
+  /she is very tiny/i
+  /she is tiny/i
+  /granny naked/i
+  /90-year-old/i
+  /90 year old/i
+
+
+CustomFilterA // no genitals
+  /penis\b/i
+  /anus\b/i
+  /pussy\b/i
+  /vagina/i
+  /cock\b/i
+  /handjog/i
+  /blowjob/i
+  /anal\b/i
+  /sex\b/i
+  /fuck\b/i
+  /fucks\b/i
+  /fucking/i
+  /doggystyle/i
+  /dick\b/i
+  /cum\b/i
+  /cumshot/i
+  /testicle/i
+  /(phallic|phallus)/i
+  /dildo\b/i
+  /(?\=.*\bbetween\b)(?=.*\blegs\b)(?\=.*\bveiny\b).*/i
+  /penetrated/i
+  /sexual act/i
+
+  ///// normal filter below /////
+  ///(diaper|diapers|diapered)/i
+  /child\b/
+  /(\b1yo|\b2yo|\b3yo|\b4yo|\b5yo|\b6yo|\b7yo|\b8yo|\b9yo|10yo|11yo|12yo|13yo|14yo)/i
+  ///\bkid/
+  // /\bbaby\b/
+  //toilet
+  /\bshit\b/
+  /diarrhea/i
+  /little.?yearoldgirl\b/i
+  /kindergartener/i
+  /\bsmall.?age\b/i
+  /(premature.?girl|girl.?premature)/i
+  /\bpre.?teenage body\b/i
+  /body who just turned/i
+  /smallchildloli/i
+  //students/i
+  /sexy11yochild/i
+  /she is very tiny/i
+  /she is tiny/i
+
+
+CustomFilterAB // weird abnormal
+
+  /(three breasts|three boob)/i
+
+CustomAnimeFilter // Shows only anime
+  /\^(?!.*(\b(anime|comic|anthro|illustration|1girl)\b)).*$/i
+
+  ///// normal filter below /////
+  ///(diaper|diapers|diapered)/i
+  /child\b/
+  /(\b1yo|\b2yo|\b3yo|\b4yo|\b5yo|\b6yo|\b7yo|\b8yo|\b9yo|10yo|11yo|12yo|13yo|14yo)/i
+  ///\bkid/
+  // /\bbaby\b/
+  //toilet
+  /\bshit\b/
+  /diarrhea/i
+  /little.?yearoldgirl\b/i
+  /kindergartener/i
+  /\bsmall.?age\b/i
+  /(premature.?girl|girl.?premature)/i
+  /\bpre.?teenage body\b/i
+  /body who just turned/i
+  /smallchildloli/i
+  //students/i
+  /sexy11yochild/i
+  /she is very tiny/i
+  /she is tiny/i
+
+CustomRealisticFilter // Blocks anime
+  /anime/i
+  /cartoon/i
+  /comic/i
+  /1girl/i
+  /manga/
+  /chibi/i
+  /illustration/i
+  /painting/i
+  /cel-?shading/i
+  /cel-?shaded/i
+  /watercolor artwork/i
+  /anthro/i
+  /pok.mon/i
+  /protogen/i
+
+  ///// normal filter below /////
+  ///(diaper|diapers|diapered)/i
+  /child\b/
+  /(\b1yo|\b2yo|\b3yo|\b4yo|\b5yo|\b6yo|\b7yo|\b8yo|\b9yo|10yo|11yo|12yo|13yo|14yo)/i
+  ///\bkid/
+  // /\bbaby\b/
+  //toilet
+  /\bshit\b/
+  /diarrhea/i
+  /little.?yearoldgirl\b/i
+  /kindergartener/i
+  /\bsmall.?age\b/i
+  /(premature.?girl|girl.?premature)/i
+  /\bpre.?teenage body\b/i
+  /body who just turned/i
+  /smallchildloli/i
+  //students/i
+  /sexy11yochild/i
+  /she is very tiny/i
+  /she is tiny/i
+
+
+// END
+defaultTags
+  (1yo|2yo|3yo|4yo|5yo|6yo|7yo|8yo|9yo|10yo|11yo|12yo|13yo|14yo)
+  (premature.?girl|girl.?premature)
+  //\bbaby\b
+  /diaper/
+  body who just turned
+  diarrhea
+  \bkid\b
+  kindergartener
+  little.?yearoldgirl
+  pre.?teenage body
+  sexy11yochild
+  she is tiny
+  she is very tiny
+  \bshit\b
+  small.?age
+  smallchildloli
+  (horse'?s?|bull'?s?) (cock|penis|dick|shaft|balls|testicles|glande)
+  //students\b
+  //toilet\b
+
+animeTags
+  1girl
+  anime
+  anthro
+  cartoon
+  (cel-?shading|cel-?shaded)
+  chibi
+  comic
+  drawing
+  fine line
+  illustration
+  (line-art|lineart|line art)
+  manga
+  painting
+  pixel
+  pok.mon
+  protogen
+  watercolor artwork
+
+realPhotoTags
+  \^(?!.*(1girl|anime|anthro|cartoon|cel-?shading|cel-?shaded|chibi|comic|drawing|disney|fine line|illustration|line-art|lineart|line art|manga|painting|pixel|pok.mon|protogen|watercolor artwork)).*$
+  ^(?=.*(canon eos r5|casual photo|cinematic shot|professional photo|professional photography|raw photo|real image|realistic face))(?!.*(1girl|anime|anthro|cartoon|cel-?shading|cel-?shaded|chibi|comic|drawing|disney|fine line|illustration|line-art|lineart|line art|manga|painting|pixel|pok.mon|protogen|watercolor artwork)).*
+
+
+  //canon EOS R5
+  //casual photo
+  //cinematic shot
+  //professional photo
+  //professional photography
+  //raw photo
+  //real image
+  //realistic face
+
+obscene
+  anal\b
+  anus\b
+  (?=.*\bbetween\b)(?=.*\blegs\b)(?=.*\bveiny\b).*
+  blowjob
+  cock\b
+  cum\b
+  cumshot
+  (deepthroat|deep throat)
+  dick\b
+  dildo\b
+  doggystyle
+  fuck\b
+  fucking
+  fucks\b
+  handjog
+  oral\b
+  penetrated
+  penis\b
+  (phallic|phallus)
+  pussy\b
+  sucking
+  sex\b
+  sexual act
+  testicle
+  vagina
+  veiny shaft
+
+hscr = -3

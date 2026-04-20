@@ -1,0 +1,53 @@
+//🔽 To import:
+// betterSEQUENCE = {import:better-sequencer}
+// new update 28/02/26 ddmmyy: filter list
+
+$output(separator, Name, tagsToSelect)=> // Use in the inputs (descriptions or negatives).
+  if (typeof tagsToSelect === "string") {
+    if (separator === "") { separator = "," }
+    tagsToSelect = tagsToSelect
+      .split(separator)
+      .map(s => s.trim());
+  } else {
+    if (separator === "" || separator.trim() === ",") { separator = "-#-" }
+    tagsToSelect = tagsToSelect.selectAll
+      .map(String)
+      .join(separator)
+      .split(separator)
+      .map(s => s.trim());
+  }
+
+  /*  new
+  Filter list, create a global array withe same name + BL like:
+    (window.listNameBL = ["item1", "item2"])
+      and it will be automatically filtered. */
+  if (window[Name + "BL"]) {
+    tagsToSelect = tagsToSelect.filter(bannedItems => !window[Name + "BL"].includes(bannedItems));
+  }
+  /* * * * * * * * * */
+
+  if (typeof window[Name + "ItemList"] === "undefined") {
+    window[Name + "ItemList"] = [...tagsToSelect];
+  }
+  if (String(window[Name + "ItemList"]) !== String(tagsToSelect)) {
+    window[Name + "ItemList"] = [...tagsToSelect];
+    window[Name + "ItemArray"] = [];
+  }
+  if (typeof window[Name + "ItemArray"] === "undefined") {
+    window[Name + "ItemArray"] = []
+  }
+  if (window[Name + "ItemArray"].length >= window[Name + "ItemList"].length) {
+    window[Name + "ItemArray"] = [];
+  }
+
+  window[Name + "SelectedItem"] = window[Name + "ItemList"][window[Name + "ItemArray"].length];
+
+  window[Name + "ItemArray"].push(window[Name + "SelectedItem"]);
+
+  return window[Name + "SelectedItem"];
+
+// A 'ban list' would be nice to exclude some items fron selection. Maybe in the future with a new version.
+
+$meta
+  title = Better Sequencer
+// 👄🍆

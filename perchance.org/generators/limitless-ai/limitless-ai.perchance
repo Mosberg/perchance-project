@@ -1,0 +1,314 @@
+generateHTML = {import:t2i-framework-plugin-v2}  // <-- this is a little DIY 'framework' plugin that itself importes the text-to-image plugin and generates the user interface using the settings below
+rainbow = {import:rainbow-plugin2}
+nr = {import:no-reason-js}
+
+$meta
+  title = Limitless AI Image Generator (free, no sign-up, unlimited)
+  description = AI text to image generator. Generate AI art from text, completely free, no login or sign-up, no daily credit limits, and it's fast. Most AI art generators have daily credits and require sign-up, or are slow - not this one. Use this AI to generate high quality art, photos, cartoons, drawings, anime, and more. Create OCs, anime characters, sexy villains, fanfic artwork, and pretty much anything else. It's an AI-based image generator that uses the Stable Diffusion text-to-image model. No watermark, no signup/login, unlimited images. Type words, get pics.
+  image = https://files.catbox.moe/ecdvq0.jpg
+
+// Feel free to edit the settings below and then save your own copy of this generator!
+// You'll probably just want to scroll down to the artStyle list and edit those - it's pretty self-explanatory, just follow the format.
+randLetter=&#x[nr.randHex("3400", "4dbf")];
+
+
+
+settings
+  pageTitle = <span class="e" id="notText">[randLetter.selectMany(5)], [randLetter.selectMany(5)].</span>
+  introMessage = <i>"Add a description, then click <b>generate</b>."</i><br>- The original AI image generator<br><br><span style="font-size:80%; fairfax hdcolor:grey; max-width:200px; display:inline-block;">This generator was made using the <a href="https://perchance.org/text-to-image-plugin" target="_blank">text-to-image plugin</a>.</span><p style="color:#ffffff44;font-size:10px">Oh by the way, This contains custom prompts from many other image generators on Perchance, which means it may break right here, right now.</p>
+  numImages = [Number(input.numImages)]
+  socialFeatures = button after 1 clicks // or 'button' or 'enabled' or 'disabled'
+
+  // note: the t2i-framework-plugin makes all user inputs from the `userInputs` list accessible by name as [input.theNameOfTheInput], as shown here:
+  imageOptions // <-- options for the text-to-image plugin that generates the images: https://perchance.org/text-to-image-plugin
+    saveTitle = [input.imgName || "("+input.artStyle.getName+") "+input.description] // .getName is a built-in Perchance property that gets the name of a given list/sublist/node
+    prompt = [input.artStyle.prompt]
+    negativePrompt = [input.artStyle.negative]
+    resolution = [input.shape]
+
+  userInputs // you can add more user inputs to this list, and then use them like [input.nameOfInput] in the `prompt`, `negativePrompt`, `artStyle.prompt`, etc.
+
+    scratchpad // Note: the 'remember' option storage is 'based on' this 'scratchpad' name, so if you change that name to something else like 'notepad', people will lose all their saved scratchpad text. But it's safe to change the 'label', below.
+      label = 🗒️ Notes
+      tip = Just a little notepad for you - doesn't affect your generated images. It 'remembers' the text that you put in it even after you refresh/close this page.\n\nThe text will only be forgotten if you clear your browser's "site data" (cookies, localStorage, etc.) for this particular site.
+      type = paragraph
+      remember = true // <-- the text that the user inputs will be remembered so it's still there even if they close/refresh the page
+      width = min(750px, 100%)
+      height = 30vh
+      takesUpFullRow = true
+      foldToggleState = hidden // or 'shown' if you want it to start shown, or delete this line if you don't want it to be show-able/hide-able
+      visible() =>
+        return Number(localStorage.generateClickCount) > 1; // so the scratchpad only shows up after they've clicked generate a couple of times (to reduce confusion/clutter for newbies)
+      examples
+        You can use this text box to store your prompts and other notes. The text you put here will be remembered even after you've closed/refreshed this page so long as you're not in in incognito browsing mode.\n\nNote: If you clear your "site data"/cookies for this site, your scratchpad data will be lost.
+
+    description
+      label = 📝 Prompt
+      tip = A very quick lesson about this image generator:\n\nThis runs on Stable Diffusion, which is a popular Image AI model.\nStable Diffusion has its own syntax:\n\nsubject, subject, subject = Basic splitting, better than using commas as a punctuation mark.\n(subject) ((subject)) (((subject))) = Emphasizing. \\\[e.g. woman, ((21 year old)), (blonde hair)\\\]\n(subject:number) = Controller: Controls how much of \\\[subject\\\] do you want on the image. \\\[e.g. woman, (details:1.1)\\\]\n\nNote about controller: number must be lower than 1.5, otherwise, the AI goes crazy and then basically does the computer version of splattering paint on your canvas
+      type = paragraph
+      width = min(750px, 100%)
+      takesUpFullRow = true
+      modifiers = [input.artStyle?.modifiers || null]
+      modifierUpdates = event:description.input, event:artStyle.change
+      enterKeyTriggersGeneration = true // <-- can still use shift+enter to create a new line
+      // we use artstyle-specific random prompts if available, otherwise fall back to randomDescriptions list:
+      examples = [input.artStyle?.randomPrompt || randomDescription] // <-- the placeholder examples that rotate in the text box
+      random = [input.artStyle?.randomPrompt || randomDescription] // <-- added to the text box when the 'random' button gets clicked
+      remember = true
+
+    side_desc
+      label = Side-prompt (aka. Hidden prompt (not really))
+      tip = The prompt, but it won't be shown when you send the image to the gallery.\n\nThe syntax is \\\[Actual prompt\\\] \\\[Hidden prompt\\\]
+      type = text
+      width = min(300px)
+      modifiers = [input.artStyle?.modifiers || null]
+      modifierUpdates = event:description.input, event:artStyle.change
+      enterKeyTriggersGeneration = true // <-- can still use shift+enter to create a new line
+      // we use artstyle-specific random prompts if available, otherwise fall back to randomDescriptions list:
+      examples = [input.artStyle?.randomPrompt || randomDescription] // <-- the placeholder examples that rotate in the text box
+
+    imgName
+      label = Image name
+      tip = The name for the image that it will show in the gallery.
+      type = text
+      remember = true
+      examples = name of the image
+      width = min(300px)
+
+    negative
+      label = <span style="color:red">🚫 Negative Prompt</span>
+      type = text
+      remember = true
+      examples
+        things you 𝗱𝗼𝗻'𝘁 want in the image
+
+    artStyle
+      label = 🎨 Art Style
+      tip = Some art styles don't support side-prompt, not working on it at all because i am lazy
+      type = select
+      remember = true // <-- makes it so the selected option will be remembered even if the user refreshes/closes the page
+      options
+        𝐍𝐨 𝐬𝐭𝐲𝐥𝐞
+          prompt = [input.description]
+          negative = [input.negative]
+        𝐍𝐨 𝐬𝐭𝐲𝐥𝐞 (Side-prompt)
+          prompt = [input.description], [input.side_desc]
+        Casual photo (Side-prompt)
+          prompt = [input.description], [input.side_desc], casual photo
+        Waifu (Side-prompt)
+          prompt = [input.description], [input.side_desc], waifu character portrait, art by Kazenoko, featured on pixiv, 1 girl, by Ilya Kuvshinov, Kantoku art, very detailed anime art by Redjuice
+          negative = (worst quality, low quality:1.3), [input.negative], bad photo, bad art, boring, bad 3D render, worst quality, ugly, blurry, low quality, poorly drawn, bad composition, deformed, bad 3D render, disfigured, bad anatomy, compression artifacts, dead, soulless, photorealistic
+        Furry (Side-prompt)
+          prompt = anthro [input.description], [input.side_desc]
+        meta:import
+          from = {import:t2i-styles} // <-- imports a bunch of 'default' styles (you can delete this, or put it at the end, below 'No style' if you want)
+        MTG Card // <-- example of a custom "Magic The Gathering" card style - just follow this format and add as many of them as you want to this 'options' list
+          prompt = [input.description], magic the gathering card, board game card
+          negative = [input.negative], low-quality, deformed, blurry, bad art
+        Video game texture
+          prompt = close-up of [input.description], 2D game texture asset
+          negative = [input.negative], backgrounds
+        PS1 game
+          prompt = [input.description], low poly 3D, PS1 game, low poly background, pixelated
+          negative = [input.negative], worst quality, ultra-realistic shading
+
+    shape
+      label = 🖼️ Shape
+      type = select
+      remember = true // <-- the selected option will be remembered even if the user refreshes/closes the page
+      options
+        Portrait = 512x768
+        Square = 512x512
+        Landscape = 768x512
+
+    numImages
+      label = 🔢 How many?
+      type = select
+      remember = true // <-- the selected option will be remembered even if the user refreshes/closes the page
+      options
+        1=1
+        2=2
+        3 = 3
+        4=4
+        5=5
+        6 = 6
+        7=7
+        8=8
+        9 = 9
+        10=10
+        11=11
+        12 = 12
+
+      visible() =>
+        return Number(localStorage.generateClickCount) > 1; // so this input only shows up after they've clicked generate a couple of times (to reduce confusion/clutter for newbies)
+
+  defaultCommentOptions // for comments plugin: https://perchance.org/comments-plugin
+    width = 100%
+    height = 400
+    loadFonts = space mono
+    commentPlaceholderText = Type a friendly comment...
+    submitButtonText = Post
+    bannedUsers = [bannedUsersList]
+    messageBubbleStyle = border-radius:15px;border:2px outset;text-shadow:0px 0px 5px;font-family:space mono;
+    inputAreaStyle = border-radius:15px;font-family:space mono
+    adminPasswordHash = f5237ae6855771a86a298a02239c91ea999834851f2bc160064cbdd8f0f47119
+    adminFlair = {import:emoji} D{3|e}v{e|3}l{0|o}p{3|e}r {import:emoji}
+    customEmojis
+      catjam = https://user-uploads.perchance.org/file/a43d0b52d94c91dddb00cf157dd8c989.webp
+      crythumbsup = https://user-uploads.perchance.org/file/14c78e8fbd9767e69a6b86d26817bacb.png
+      surprise = ( ˶°ㅁ°) !!
+      kekw (tags:lol,lmao) = https://user-uploads.perchance.org/file/ac26ce88558188d32dc08b2529a29a31.png
+      fireinthehole = https://user-uploads.perchance.org/file/72a450ee6a7d8df58d04ff77635a0c9c.png
+      aaaaa = https://user-uploads.perchance.org/file/d1903cab774bc148699de0e12effc710.jpeg
+      boom = https://user-uploads.perchance.org/file/7bf03572cc280c1c4174ddfbdb0cac88.gif
+      hi_chat = https://user-uploads.perchance.org/file/6cb1c590149592713c93b51de3e29790.gif
+      bye_chat = https://user-uploads.perchance.org/file/694e7553cf59f5c8192f6cf2e70336fb.gif
+      nah = https://user-uploads.perchance.org/file/8f99df591127d6331bf7af244fbd7de6.gif
+      noonecares = https://user-uploads.perchance.org/file/8f99df591127d6331bf7af244fbd7de6.gif
+      laugh = https://user-uploads.perchance.org/file/7526c03a56fe0c7d5bdcee1bb8fa732e.gif
+      vibe = https://user-uploads.perchance.org/file/0da7c0a683295af1d11d0e95f66f5a58.gif
+      notfunny = https://user-uploads.perchance.org/file/6b971f968d4a7fc9239e6b81f2b72a77.gif
+      smh = https://user-uploads.perchance.org/file/495062af700ed4adffde9db8523144b7.gif
+
+  commentChannels
+    general
+      label = General
+    chat1
+      label = Room 1
+    chat2
+      label = Room 2
+    chat3
+      label = Room 3
+    chat4
+      label = Room 4
+    chat5
+      label = Room 5
+    prompts
+      label = Prompts
+      commentPlaceholderText = Share a cool prompt/style. If it's good, it may get added to the Art Style selector.
+      submitButtonText = share prompt
+    rp
+      label = Roleplay
+    nsfw
+      label = NSFW
+
+
+  galleryOptions
+    gallery = true
+    sort = trending
+    hideIfScoreIsBelow = -1
+    adaptiveHeight = true // <-- expand gallery height so it never has its own scrollbar
+    contentFilter = pg13 // <-- or 'none' for no default filter
+
+  showFeedback = false // you can temporarily change this to 'true' and then click the feedback button to view feedback
+
+
+
+randDesc2 = {import:pretty-ai}
+randDesc3 = {import:ai-photo-generator}
+randDesc4 = {import:ai-character-generator}
+
+
+
+randomDescription
+  portrait of {a} {import:animal}-{man|woman}, {servant|god|priest|warrior|gardener|keeper} of {the underworld|the seven worlds|light|darkness|jungle world|cybercrystal|blue fire|electrical storms|the deep heart|the overworld|luxury|dragonkind}
+  {a} {cute |^3}{import:animal} x {import:animal} hybrid, pokemon-like creature
+  {cyborg|steampunk|magical} {mermaid|merman|dolphin} exploring {a coral reef|an underwater city|underwater dunes}
+  {steampunk|futuristic|ancient} explorer with {an airship|a hoverbike|a time-traveling artifact}
+  {graceful|agile|mysterious} {alien|human|robotic} dancer performing {on stage|in a street|in moonlight}
+  {neon|sunset|moonlit} cityscape during {a rainstorm|a snowfall|a meteor shower}
+  {magical|enchanted|cursed} forest guarded by {giant mushrooms|sentient trees|whimsical spirits}
+  {lonely|brave|curious} lighthouse keeper with {a ghostly|an animal|a supernatural} companion
+  {haunted|abandoned|ancient} mansion inhabited by {quirky|creepy|kind} spirits
+  {futuristic|old-fashioned|magical} train racing through {a desert|a tundra|a jungle} landscape
+  {underwater|sky|space} pirate captain with {a submarine|an airship|a spaceship} ship
+  {time-traveling|interdimensional|supernatural} detective with {a pet dinosaur|a ghostly sidekick|a shape-shifting familiar}
+  {robotic|medieval|fantasy} knight jousting on {a mechanical|a fire-breathing|a spectral} horse
+  {ethereal|ancient|cosmic} space goddess floating among {stars|nebulae|galaxies}
+  {wise|ancient|intelligent} {tree|rock|cloud} spirit with {a magical staff|a crystal orb|an enchanted flute}
+  {superhero|villain|antihero} with the ability to control {plants|weather|fire}
+  {flying|hovering|submersible} car chase through {a futuristic|an underwater|a post-apocalyptic} city
+  {underwater|floating|hidden} cityscape lit by {bioluminescent plants|ancient crystals|magical torches}
+  {mystical|cursed|prehistoric} cave with {glowing crystal|shimmering ice|luminescent fungus} formations
+  {post-apocalyptic|futuristic|ancient} wanderer with {a pet robot|a loyal animal companion|a supernatural guide}
+  {masked|armored|stealthy} vigilante perched {on a skyscraper|in a tree|atop a cliff}
+  {sorceress|witch|alchemist} brewing {a potion|a spell|a concoction} in {her hidden lair|a secret cave|an enchanted laboratory}
+  {steampunk|cyberpunk|fantasy} inventor with {a mechanical|a magical|a sentient} companion
+  {cyberpunk|interstellar|paranormal} hacker in {a digital world|a secret network|an alternate reality}
+  {enchanted|fairy-tale|secret} garden filled with {mythical|unusual|magical} creatures
+  {cute|fierce|friendly} monster family {going on a picnic|exploring a forest|visiting a village}
+  {astronaut|alien|time-traveler} discovering {an alien oasis|a hidden planet|a realm beyond time}
+  {old-fashioned|modern|magical} {ice cream|candy|dessert} parlour with {magical|unusual|dangerous} flavors
+  {abandoned|haunted|enchanted} amusement park {reclaimed by nature|inhabited by spirits|guarded by creatures}
+  {warrior|sorceress|queen} riding {a mythical|a giant|an elemental} beast
+  {vintage|modern|otherworldly} circus with {supernatural|magical|dangerous} performers
+  {otherworldly|majestic|mysterious} library filled with {ancient|enchanted|forbidden} tomes
+  {intrepid|fearless|daring} explorer navigating {a perilous|a mysterious|an enchanted} jungle
+  {cozy|remote|enchanted} cottage in {the mountains|a forest|a magical realm} with {magical|supernatural|ancient} neighbors
+  {street|stage|televised} magician performing {a jaw-dropping|a dangerous|an enchanting} illusion
+  {mighty|ancient|winged} dragon {slumbering|guarding|hiding} atop {a hoard of treasure|enchanted crystals|cursed artifacts}
+  {chibi-style|cartoon|realistic} superheroes {saving the day|battling villains|protecting a city}
+  {whimsical|industrial|supernatural} factory where {dreams|nightmares|wishes} are manufactured
+  {space|intergalactic|time-traveling} cowboy hunting {intergalactic outlaws|ancient threats|supernatural foes}
+  {necromancer|summoner|witch} raising {an army of the undead|elemental creatures|magical beings}
+  {brave|cursed|legendary} warrior with {a haunted|an enchanted|a sentient} weapon
+  {interdimensional|cosmic|paranormal} {coffee|tea|dessert} shop frequented by {odd|magical|alien} patrons
+  {enchanted|bewitched|sacred} forest populated by {sentient|magical|cursed} trees
+  {cybernetic|supernatural|mystical} musician creating {otherworldly|haunting|hypnotic} tunes
+  {alien|lost|ancient} civilization thriving on {a floating island|a hidden continent|an undiscovered planet}
+  [randDesc2.randomDescription]^1
+  [randDesc3.randomDescription]^1
+  [randDesc4.randomDescription]^1
+
+bannedUsersList
+  bc1fcaee323bb814a90b
+  465b9234479607b40f66
+  224ce382e80983fdd5f0
+  8366eebe591939239c5e
+  a67b60e2a97aef42584a
+  d0be072bf68e8ccde3ef
+  08102ccd25373b373a05
+  fd7c09e9f6afd038ab25
+  034fa4072177e4a16624
+  436fd3dad1d2f690682d
+  824a10d41014455bfcde
+  4ed5c79d72af33da6606
+  ff4e338ab405b78d0882
+  dada105214441a883e91
+  ba1e03de6390f34d2ae0
+  d0fa20d240b6a36b795f
+  18576abec56cf04bbb47
+  225af84547f6b8cecd32
+  498dedc2f2d9f51d83a6
+  f87716c6bba6ae6b9e03
+  b7d91eeffa46845925b1
+  25f41fbdca8174293343
+  67382e6b36a2ac7bdef3
+  c2c2f158b8031b507b2f
+  10e7aefa20bbf6fe7f1a
+  5d967bcb5c1b0dab2b44
+  6c8b50927a15b34b4c5b
+  7dec0c175ff0bf1af243
+  fa984ea74cbcd4fd59ec
+  cf9bb0c51663d6d6f567
+  91ebdee1ca60d2837544
+  8eaaa282bcc2ba121fa2
+  f1a1c0f2bd704e67baaf
+  099ebc92d5f61488c88a
+  2737a96e836eee89f9dc
+  bb26f42d55dcdfe1241d
+  ec7ff7a84b0f7c296f64
+  c36d43b9a9b01652900d
+  836e2803b38ac7439db9
+  dea3b240900b6b1853fc
+  8783f17c2f258e67c25d
+  127c0571733e6c6fe9b6
+  66678bd8747a788401f2
+  df26ffadf6e2fb387144
+  1624bfee153d7a6fc0d2
+  1134cacff6986d7f789c
+  8f5dec6f9f96e56dc775
+  09b989be6b40b957aea1
+  c6755e6e238d158af379
+  22a2edab7d4943f2626a
+  3f3228de2aa47a92e93e

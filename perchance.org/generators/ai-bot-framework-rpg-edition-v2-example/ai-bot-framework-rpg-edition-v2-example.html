@@ -1,0 +1,800 @@
+<div hidden>[rpgControlV2()]</div>
+
+<header class="hero">
+  <h1>[root.pageTitle]</h1>
+  <p>[root.pageSubtitle]</p>
+</header>
+
+<main class="layout">
+  <section class="panel controlDeck">
+    <h2>V2 Macro Deck</h2>
+    <div id="bridgeBadge" class="badge unknown">Plugin status: checking...</div>
+
+    <div class="row">
+      <button onclick="openControlCenter()">Open V2 Control Center</button>
+      <button onclick="refreshSnapshot()" data-variant="soft">
+        Refresh Snapshot
+      </button>
+      <button onclick="runFrameworkCommand('/status')" data-variant="soft">
+        Run /status
+      </button>
+      <button onclick="runDiagnostics()" data-variant="soft">
+        Run Diagnostics
+      </button>
+    </div>
+
+    <div class="commandRow">
+      <input id="commandInputEl" placeholder="/sync status" />
+      <button onclick="runCustomCommand()">Run Command</button>
+    </div>
+
+    <div class="macroGrid">
+      <button onclick="runMacro('warmup_safe')">Warmup Safe</button>
+      <button onclick="runMacro('warmup_balanced')" data-variant="soft">
+        Warmup Balanced
+      </button>
+      <button onclick="runMacro('ops_healthcheck')" data-variant="soft">
+        Ops Healthcheck
+      </button>
+      <button onclick="runMacro('combat_bootcamp')" data-variant="soft">
+        Combat Bootcamp
+      </button>
+      <button onclick="runMacro('quest_bootstrap')" data-variant="soft">
+        Quest Bootstrap
+      </button>
+      <button onclick="runMacro('sync_perf_tune')" data-variant="soft">
+        Sync Perf Tune
+      </button>
+      <button onclick="runMacro('full_stack_demo')" data-variant="warn">
+        Full Stack Demo
+      </button>
+    </div>
+
+    <div class="smallTitle">Snapshot</div>
+    <pre id="snapshotEl">Waiting for V2 plugin snapshot...</pre>
+  </section>
+
+  <section class="panel storyDeck">
+    <h2>World Setup</h2>
+    <textarea id="worldSeedEl" class="seedBox">
+[root.defaultWorldSeed]</textarea
+    >
+
+    <h2>Story Log</h2>
+    <textarea
+      id="storyLogEl"
+      class="storyBox"
+      placeholder="Session history appears here..."
+    ></textarea>
+
+    <div class="turnRow">
+      <input
+        id="actionInputEl"
+        placeholder="What does the player do next?"
+        onkeydown="
+          if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            generateTurn();
+          }
+        "
+      />
+      <button id="generateBtn" onclick="generateTurn()">Generate Turn</button>
+      <button id="stopBtn" data-variant="danger" onclick="stopGeneration()">
+        Stop
+      </button>
+    </div>
+
+    <div class="historyRow">
+      <button onclick="undoLastTurn()" data-variant="soft">Undo Last</button>
+      <button onclick="clearSession()" data-variant="soft">
+        Clear Session
+      </button>
+      <span id="statusEl" class="statusText">Ready.</span>
+      <span class="fullscreenBtn"
+        >[fullscreenButton("Open Fullscreen", "Exit Fullscreen")]</span
+      >
+    </div>
+
+    <div class="smallTitle">Incoming Output Preview</div>
+    <pre id="previewEl"></pre>
+  </section>
+</main>
+
+<script id="gmInstructionText" type="text/plain">
+  [root.frameworkInstruction]
+</script>
+
+<script>
+  let activeGeneration = null;
+  let macroBusy = false;
+  let storyBeforeTurn = "";
+  let lastMacroName = "none";
+  let bridgeBootstrapTried = false;
+
+  const STORAGE_WORLD = "bfrpg_v2_example_world";
+  const STORAGE_LOG = "bfrpg_v2_example_log";
+
+  const FALLBACK_MACROS = {
+    warmup_safe: [
+      "/profile safe",
+      "/feature list",
+      "/settings",
+      "/status",
+      "/save",
+    ],
+    warmup_balanced: [
+      "/profile balanced",
+      "/feature list",
+      "/settings",
+      "/status",
+      "/save",
+    ],
+    ops_healthcheck: [
+      "/perf status",
+      "/sync status",
+      "/settings",
+      "/feature list",
+      "/status",
+    ],
+    combat_bootcamp: [
+      "/combat start Training Dummy",
+      "/skill strike",
+      "/skill guard",
+      "/skill fireball",
+      "/combat status",
+    ],
+    quest_bootstrap: [
+      "/quest new starter",
+      "/quest next",
+      "/quest list",
+      "/status",
+    ],
+    sync_perf_tune: [
+      "/perf on",
+      "/sync on",
+      "/sync room default",
+      "/sync now",
+      "/perf sample",
+      "/perf status",
+      "/sync status",
+    ],
+    full_stack_demo: [
+      "/mode neon",
+      "/quest new forest_hunt",
+      "/combat start Rogue Drone",
+      "/skill heavy",
+      "/inv add crystal_shard",
+      "/craft list",
+      "/party invite Scout",
+      "/status",
+    ],
+  };
+
+  function setStatus(text, tone) {
+    statusEl.textContent = text;
+    statusEl.dataset.tone = tone || "normal";
+  }
+
+  function getApi() {
+    if (window.__bfp_v2 && typeof window.__bfp_v2.run === "function") {
+      return window.__bfp_v2;
+    }
+    if (window.__bfp && typeof window.__bfp.run === "function") {
+      return window.__bfp;
+    }
+    return null;
+  }
+
+  function ensureOcRuntimeCarrier() {
+    if (!window.oc || typeof window.oc !== "object") window.oc = {};
+    if (!window.oc.thread || typeof window.oc.thread !== "object") {
+      window.oc.thread = {};
+    }
+    if (!Array.isArray(window.oc.thread.messages)) {
+      window.oc.thread.messages = [];
+    }
+    if (
+      !window.oc.thread.customData ||
+      typeof window.oc.thread.customData !== "object"
+    ) {
+      window.oc.thread.customData = {};
+    }
+    return window.oc.thread;
+  }
+
+  function ensureBridgeReady(force) {
+    const api = getApi();
+    if (!api) return false;
+
+    if (typeof window.__bf_cmd === "function" && !force) {
+      return true;
+    }
+
+    if (!bridgeBootstrapTried || force) {
+      ensureOcRuntimeCarrier();
+      try {
+        if (typeof api.install === "function") {
+          api.install({ autoMount: true, openOnLoad: false });
+        }
+      } catch (err) {
+        console.warn("Bridge bootstrap failed:", err);
+      }
+      bridgeBootstrapTried = true;
+    }
+
+    return typeof window.__bf_cmd === "function";
+  }
+
+  function compactSnapshot(snapshot) {
+    if (!snapshot || typeof snapshot !== "object") return null;
+
+    const plugin = snapshot.plugin || {};
+    const bridge = snapshot.bridge || {};
+    const framework = snapshot.framework || {};
+
+    return {
+      plugin: {
+        id: plugin.id,
+        mounted: plugin.mounted,
+        open: plugin.open,
+        activeTab: plugin.activeTab,
+        bridgeSource: plugin.bridgeSource,
+      },
+      bridge: {
+        hasCommandBridge: !!bridge.hasCommandBridge,
+        hasOpenAdmin: !!bridge.hasOpenAdmin,
+        hasTogglePerf: !!bridge.hasTogglePerf,
+        hasToggleSync: !!bridge.hasToggleSync,
+        hasSyncNow: !!bridge.hasSyncNow,
+        isLocalBridge: !!bridge.isLocalBridge,
+      },
+      framework: {
+        mode: framework.mode,
+        turn: framework.turn,
+        activePlayerName: framework.activePlayerName,
+        activePlayerHp: framework.activePlayerHp,
+        activePlayerEnergy: framework.activePlayerEnergy,
+        activeQuestName: framework.activeQuestName,
+        activeQuestStep: framework.activeQuestStep,
+        combatEnemy: framework.combatEnemy,
+        combatEnemyHp: framework.combatEnemyHp,
+        templatesCount: framework.templatesCount,
+        questCount: framework.questCount,
+        perfEnabled: framework.perf ? !!framework.perf.enabled : false,
+        syncEnabled: framework.sync ? !!framework.sync.enabled : false,
+        syncRoom: framework.sync ? framework.sync.roomId : null,
+      },
+      lastMacro: lastMacroName,
+    };
+  }
+
+  function getSnapshot() {
+    const api = getApi();
+    if (!api || typeof api.snapshot !== "function") return null;
+    try {
+      return compactSnapshot(api.snapshot());
+    } catch (err) {
+      console.warn(err);
+      return null;
+    }
+  }
+
+  function updateBridgeBadge() {
+    const api = getApi();
+    if (api && typeof window.__bf_cmd !== "function") {
+      ensureBridgeReady(false);
+    }
+
+    const hasBridge = typeof window.__bf_cmd === "function";
+    const localBridge = !!(
+      window.__bf_cmd && window.__bf_cmd.__bfpLocalBridgeV2
+    );
+
+    if (api && hasBridge && !localBridge) {
+      bridgeBadge.className = "badge ready";
+      bridgeBadge.textContent = "Plugin status: ready (framework bridge)";
+    } else if (api && hasBridge && localBridge) {
+      bridgeBadge.className = "badge partial";
+      bridgeBadge.textContent = "Plugin status: ready (local V2 bridge)";
+    } else if (api) {
+      bridgeBadge.className = "badge partial";
+      bridgeBadge.textContent =
+        "Plugin status: loaded, bridge pending (runtime bootstrap)";
+    } else {
+      bridgeBadge.className = "badge error";
+      bridgeBadge.textContent = "Plugin status: V2 API unavailable";
+    }
+  }
+
+  function refreshSnapshot() {
+    ensureBridgeReady(false);
+    updateBridgeBadge();
+    const snap = getSnapshot();
+    snapshotEl.textContent = snap
+      ? JSON.stringify(snap, null, 2)
+      : "V2 snapshot unavailable yet. Keep this generator open while plugin loads.";
+  }
+
+  function getMacroCommands(name) {
+    const key = String(name || "").trim();
+    if (!key) return null;
+
+    const api = getApi();
+    const macroFromPlugin =
+      api &&
+      api.constants &&
+      api.constants.macros &&
+      api.constants.macros[key] &&
+      Array.isArray(api.constants.macros[key].commands)
+        ? api.constants.macros[key].commands
+        : null;
+
+    if (macroFromPlugin && macroFromPlugin.length) {
+      return macroFromPlugin;
+    }
+
+    return FALLBACK_MACROS[key] || null;
+  }
+
+  async function runMacro(name) {
+    if (macroBusy) return;
+
+    ensureBridgeReady(true);
+
+    const api = getApi();
+    if (!api || typeof api.runBatch !== "function") {
+      setStatus("V2 plugin API is not available.", "warn");
+      refreshSnapshot();
+      return;
+    }
+
+    const commands = getMacroCommands(name);
+    if (!commands || !commands.length) {
+      setStatus("Unknown macro: " + name, "warn");
+      return;
+    }
+
+    macroBusy = true;
+    lastMacroName = name;
+    setStatus("Running macro: " + name + "...", "normal");
+
+    try {
+      await api.runBatch(commands, 220);
+      setStatus("Macro completed: " + name, "ok");
+    } catch (err) {
+      setStatus(
+        "Macro failed: " + (err && err.message ? err.message : err),
+        "warn",
+      );
+    } finally {
+      macroBusy = false;
+      refreshSnapshot();
+    }
+  }
+
+  function runFrameworkCommand(command) {
+    const cmd = String(command || "").trim();
+    if (!cmd) return false;
+
+    ensureBridgeReady(true);
+
+    const api = getApi();
+    if (!api || typeof api.run !== "function") {
+      setStatus("V2 plugin API is not available.", "warn");
+      refreshSnapshot();
+      return false;
+    }
+
+    const ok = api.run(cmd);
+    setStatus(ok ? "Sent " + cmd : "Failed to send " + cmd, ok ? "ok" : "warn");
+    refreshSnapshot();
+    return ok;
+  }
+
+  function runCustomCommand() {
+    runFrameworkCommand(commandInputEl.value);
+    commandInputEl.focus();
+    commandInputEl.select();
+  }
+
+  function runDiagnostics() {
+    const api = getApi();
+    if (!api || typeof api.diagnose !== "function") {
+      setStatus("Diagnostics unavailable in current API state.", "warn");
+      return;
+    }
+    try {
+      const result = api.diagnose();
+      snapshotEl.textContent = JSON.stringify(result, null, 2);
+      setStatus("Diagnostics complete.", "ok");
+    } catch (err) {
+      setStatus("Diagnostics failed.", "warn");
+    }
+  }
+
+  function openControlCenter() {
+    const api = getApi();
+    if (api && typeof api.open === "function") {
+      api.open();
+      setStatus("Opened V2 control center.", "ok");
+      return;
+    }
+    setStatus("V2 control center API unavailable.", "warn");
+  }
+
+  function buildPrompt(actionText) {
+    const instruction = gmInstructionText.textContent.trim();
+    const worldSeed = worldSeedEl.value.trim() || "(No world setup provided.)";
+    const history = storyLogEl.value.trim() || "(No story log yet.)";
+    const snapshot = getSnapshot();
+
+    return [
+      instruction,
+      "",
+      "WORLD SETUP:",
+      worldSeed,
+      "",
+      "LAST MACRO:",
+      lastMacroName,
+      "",
+      "FRAMEWORK SNAPSHOT JSON:",
+      snapshot ? JSON.stringify(snapshot, null, 2) : "unavailable",
+      "",
+      "STORY LOG:",
+      history,
+      "",
+      "PLAYER NEXT ACTION:",
+      actionText || "Continue naturally based on current momentum.",
+    ].join("\n");
+  }
+
+  function persistState() {
+    localStorage.setItem(STORAGE_WORLD, worldSeedEl.value);
+    localStorage.setItem(STORAGE_LOG, storyLogEl.value);
+  }
+
+  function restoreState() {
+    const world = localStorage.getItem(STORAGE_WORLD);
+    const log = localStorage.getItem(STORAGE_LOG);
+    if (world !== null) worldSeedEl.value = world;
+    if (log !== null) storyLogEl.value = log;
+  }
+
+  async function generateTurn() {
+    if (activeGeneration) return;
+
+    const actionText = actionInputEl.value.trim();
+    storyBeforeTurn = storyLogEl.value;
+
+    const actionLine = "> " + (actionText || "Continue.");
+    storyLogEl.value = [storyLogEl.value.trim(), actionLine]
+      .filter(Boolean)
+      .join("\n\n");
+
+    previewEl.textContent = "";
+    persistState();
+
+    generateBtn.disabled = true;
+    stopBtn.disabled = false;
+    setStatus("Generating turn...", "normal");
+
+    activeGeneration = ai({
+      instruction: buildPrompt(actionText),
+      stopSequences: ["\n> "],
+      onChunk: (data) => {
+        previewEl.textContent += data.textChunk;
+      },
+    });
+
+    const result = await activeGeneration.onFinishPromise;
+
+    if (!activeGeneration) {
+      return;
+    }
+
+    activeGeneration = null;
+    generateBtn.disabled = false;
+    stopBtn.disabled = true;
+
+    if (result.stopReason === "error") {
+      setStatus("Generation failed. Try again.", "warn");
+      return;
+    }
+
+    const generatedText = previewEl.textContent.trim();
+    if (generatedText) {
+      storyLogEl.value = [storyLogEl.value.trim(), generatedText]
+        .filter(Boolean)
+        .join("\n\n");
+    }
+
+    previewEl.textContent = "";
+    actionInputEl.value = "";
+    actionInputEl.focus();
+
+    runFrameworkCommand("/status");
+    persistState();
+    setStatus("Turn generated.", "ok");
+  }
+
+  function stopGeneration() {
+    if (!activeGeneration) return;
+    activeGeneration.stop();
+    activeGeneration = null;
+    generateBtn.disabled = false;
+    stopBtn.disabled = true;
+    setStatus("Generation stopped.", "warn");
+  }
+
+  function undoLastTurn() {
+    if (!storyBeforeTurn && storyBeforeTurn !== "") return;
+    storyLogEl.value = storyBeforeTurn;
+    previewEl.textContent = "";
+    persistState();
+    setStatus("Reverted the last turn.", "ok");
+  }
+
+  function clearSession() {
+    if (!confirm("Clear world setup and story log for this generator?")) return;
+    worldSeedEl.value = "";
+    storyLogEl.value = "";
+    previewEl.textContent = "";
+    actionInputEl.value = "";
+    storyBeforeTurn = "";
+    persistState();
+    setStatus("Session cleared.", "ok");
+  }
+
+  worldSeedEl.addEventListener("input", persistState);
+  storyLogEl.addEventListener("input", persistState);
+
+  restoreState();
+  ensureBridgeReady(false);
+  stopBtn.disabled = true;
+  refreshSnapshot();
+  setInterval(refreshSnapshot, 1400);
+</script>
+
+<style>
+  :root {
+    --bg: #eef2dd;
+    --ink: #14202b;
+    --card: rgba(255, 255, 255, 0.88);
+    --line: rgba(20, 32, 43, 0.2);
+    --accent: #9a3412;
+    --accent2: #0f766e;
+    --deep: #1e3a8a;
+    --warn: #9a3412;
+    --ok: #166534;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    color: var(--ink);
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    background:
+      radial-gradient(
+        circle at 8% 0%,
+        rgba(154, 52, 18, 0.12),
+        transparent 36%
+      ),
+      radial-gradient(
+        circle at 92% 100%,
+        rgba(15, 118, 110, 0.14),
+        transparent 40%
+      ),
+      var(--bg);
+  }
+
+  h1,
+  h2 {
+    margin: 0;
+    font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .hero {
+    max-width: 1160px;
+    margin: 0 auto 14px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(244, 251, 248, 0.88)
+    );
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.1);
+  }
+
+  .hero p {
+    margin: 6px 0 0;
+    opacity: 0.84;
+  }
+
+  .layout {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(290px, 0.9fr) minmax(360px, 1.1fr);
+    gap: 14px;
+  }
+
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px;
+    background: var(--card);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+    display: grid;
+    gap: 10px;
+  }
+
+  .badge {
+    width: max-content;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+    border: 1px solid transparent;
+  }
+
+  .badge.ready {
+    color: #f0fdf4;
+    background: #166534;
+  }
+
+  .badge.partial {
+    color: #172554;
+    background: #dbeafe;
+  }
+
+  .badge.error {
+    color: #fff7ed;
+    background: #9a3412;
+  }
+
+  .badge.unknown {
+    color: #111827;
+    background: #e5e7eb;
+  }
+
+  .row,
+  .turnRow,
+  .historyRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .commandRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .macroGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  input,
+  textarea,
+  button,
+  pre {
+    font: inherit;
+  }
+
+  input,
+  textarea,
+  pre {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #111827;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 8px 10px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .seedBox {
+    min-height: 120px;
+  }
+
+  .storyBox {
+    min-height: 300px;
+  }
+
+  pre {
+    margin: 0;
+    min-height: 120px;
+    max-height: 260px;
+    overflow: auto;
+    padding: 8px;
+    white-space: pre-wrap;
+    font-size: 12px;
+    font-family: Consolas, "Courier New", monospace;
+    background: #0f172a;
+    color: #e2e8f0;
+    border-color: #1e293b;
+  }
+
+  .smallTitle {
+    font-size: 12px;
+    font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 10px;
+    background: var(--deep);
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+    font-size: 13px;
+  }
+
+  button[data-variant="soft"] {
+    background: #334155;
+  }
+
+  button[data-variant="warn"] {
+    background: var(--accent);
+  }
+
+  button[data-variant="danger"] {
+    background: #b91c1c;
+  }
+
+  .statusText {
+    font-size: 13px;
+    opacity: 0.86;
+  }
+
+  .statusText[data-tone="ok"] {
+    color: var(--ok);
+    opacity: 1;
+  }
+
+  .statusText[data-tone="warn"] {
+    color: var(--warn);
+    opacity: 1;
+  }
+
+  .fullscreenBtn {
+    margin-left: auto;
+  }
+
+  @media (max-width: 980px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+
+    .macroGrid {
+      grid-template-columns: 1fr;
+    }
+
+    .storyBox {
+      min-height: 230px;
+    }
+  }
+</style>

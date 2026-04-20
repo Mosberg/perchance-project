@@ -1,0 +1,160 @@
+<div class="top-banner full-bleed">
+  <img
+    src="https://user.uploads.dev/file/76039fc138209faaa9ea0bc0f49c21d8.jpg"
+    alt="Banner"
+    class="top-banner-img"
+    loading="eager"
+    decoding="async"
+    fetchpriority="high"
+  />
+</div>
+
+<div
+  style="color: #aaa; text-align: right; font-size: 0.65rem; margin-top: 4px"
+>
+  ⭐️ {import:live-activity-plugin} Online • Views: [generatorStats("views")] •
+  Updated: [generatorStats("lastEditTime")]
+</div>
+
+<!-- framework -->
+[generateInterfaceHTML(settings)]
+
+<!-- favicon -->
+[favicon("https://user.uploads.dev/file/995a6cd931d0fbd04e516f45d1aeefdd.png")]
+
+<div class="footer-section">
+  <div class="feedback-title">Feedback / Feature Requests</div>
+  <div class="gray-text">If you have any ideas for improvements</div>
+  <div class="gray-text">or bug fixes, please comment here.</div>
+
+  <div class="gray-text">🚧</div>
+</div>
+
+<div>
+  <!-- Comments -->
+  <button id="toggleCommentsBtn">Show 💬 Comments</button>
+
+  <div id="commentsContainer" style="display: none">
+    [commentsPlugin(feedbackOptions)]
+  </div>
+
+  <!-- Gallery -->
+  <button id="toggleGalleryBtn">Public 🖼️ Gallery</button>
+
+  <div id="galleryContainer" style="display: none; background: transparent">
+    [publicGallery(galleryOptions)]
+  </div>
+
+  <script>
+    // Gallery
+    const galleryBtn = document.getElementById("toggleGalleryBtn");
+    const gallery = document.getElementById("galleryContainer");
+
+    galleryBtn.addEventListener("click", () => {
+      if (gallery.style.display === "none") {
+        gallery.style.display = "block";
+        galleryBtn.textContent = "Hide ✖ Gallery";
+      } else {
+        gallery.style.display = "none";
+        galleryBtn.textContent = "Public 🖼️ Gallery";
+      }
+    });
+
+    // Comments
+    const commentsBtn = document.getElementById("toggleCommentsBtn");
+    const comments = document.getElementById("commentsContainer");
+
+    commentsBtn.addEventListener("click", () => {
+      if (comments.style.display === "none") {
+        comments.style.display = "block";
+        commentsBtn.textContent = "Hide ✖ Comments";
+      } else {
+        comments.style.display = "none";
+        commentsBtn.textContent = "Show 💬 Comments";
+      }
+    });
+  </script>
+</div>
+
+<div>ㅤ</div>
+<div>ㅤ</div>
+<div>ㅤ</div>
+<style>
+  /* RESET */
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* TOP BANNER */
+  .top-banner {
+    overflow: hidden;
+    line-height: 0;
+    margin: 0 0 10px 0;
+  }
+
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+
+  .top-banner-img {
+    display: block;
+    width: 100%;
+    height: clamp(100px, 15vw, 220px);
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .support-button {
+    position: fixed;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    z-index: 100;
+    background: #fa5c23;
+    color: #fff;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  .footer-container {
+    margin-top: 50px;
+    padding-bottom: 40px;
+    text-align: center;
+    font-family: sans-serif;
+  }
+
+  .footer-title {
+    color: #ffffff;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-section {
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  .gray-text {
+    color: #888888;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .feature-list {
+    margin-top: 10px;
+  }
+
+  .feature-list div {
+    margin: 2px 0;
+  }
+
+  .feedback-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+</style>

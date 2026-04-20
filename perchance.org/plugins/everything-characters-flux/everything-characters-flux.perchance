@@ -1,0 +1,859 @@
+// https://perchance.org/ai-art-generator-advanced
+// This page was made exclusively to be used in the Ai Art Generator Advanced
+// Anyone can use it, but please give credits to 'https://perchance.org/ai-art-generator-advanced' in your perchance code panel.
+
+AdvRS = {import:adv-random-styles}
+betterSEQUENCE = {import:better-sequencer}
+
+
+XES
+  Female ♀️
+    gender = female
+    subject = she
+    object = her
+    possessive = her
+    possessivePronoun = hers
+  Male ♂️
+    gender = male
+    subject = he
+    object = him
+    possessive = his
+    possessivePronoun = his
+  Woman ♀️
+    gender = woman
+    subject = she
+    object = her
+    possessive = her
+    possessivePronoun = hers
+  Man ♂️
+    gender = man
+    subject = he
+    object = him
+    possessive = his
+    possessivePronoun = his
+  Girl ♀️
+    gender = girl
+    subject = she
+    object = her
+    possessive = her
+    possessivePronoun = hers
+  Boy ♂️
+    gender = boy
+    subject = he
+    object = him
+    possessive = his
+    possessivePronoun = his
+
+// ❇️ Body related
+BodyShape
+  Triangle shape
+    has narrow waist, wide and large hips
+  Inverted triangle (low accuracy)
+    has an athletic figure with ample broader shoulders and narrow hips, the shoulders are significantly wider than the narrow hips
+  Toned female
+    has a toned body with defined muscles, muscular
+  Hourglass
+    has an hourglass figure with narrow waist and large hips //has an hourglass figure with very narrow waist, and very large hips
+  Hourglass II
+    has an exaggerated hourglass body with very narrow waist, and very large hips, thick thighs
+  Voluptuous
+    has an accentuated voluptuous body, a very thick body with full bust, large rounded hips, and thick thighs
+  Fat
+    is very fat, plump and chubby
+  Fat (modest/inaccurate)
+    is very fat, plump and chubby, but with a modest tummy
+  Petite
+    is petite, with a slender body and narrow waist //with a tiny waist and slender body
+  Skinny
+    has a skinny body, lean frame
+  LoIi (anime only)
+    is cute, tiniest girl, with a little body that is significantly small, with an ultra short size, suitable for small and tiny anime characters
+Chest
+  Gigantic breasts
+  Massive tits
+  Large breasts
+    very large, big breasts
+  Medium breasts
+  Small breasts
+  Flat chest
+    tiny flat chest
+HipsAndThighs
+  Large Hips and Thick Thighs
+    has very large hips, and large, thick thighs
+  Large Hips and Slender Thighs
+    has large hips, slender thighs //has very large hips, slender flat thighs
+  Narrow Hips and Thick Thighs
+    has very narrow hips, and large, thick thighs
+  Narrow Hips and Slender Thighs
+    has very narrow hips, slender flat thighs
+
+// ❇️ Hair related
+HairLenght
+  Bald
+  Very Short Hair (inaccurate)
+    very short [HAIRCOLOR]hair
+  Short Hair
+    short [HAIRCOLOR]hair
+  Short Hair with Long Locks
+    short [HAIRCOLOR]hair with long locks
+  Medium Hair
+    medium [HAIRCOLOR]hair
+  Long Hair
+    long [HAIRCOLOR]hair
+  Very Long Hair
+    extremely long [HAIRCOLOR]hair, with a significantly long length
+  //Super Long Hair
+    //extremely long [HAIRCOLOR]hair, with a significantly long length that extends to below the knees
+  Big hair (voluminous)
+    voluminous big [HAIRCOLOR]hair
+  Short Big Hair
+    a short, voluminous big [HAIRCOLOR]hair
+  Medium Big Hair
+    a medium voluminous big [HAIRCOLOR]hair
+  Long Big Hair
+    a long, voluminous big [HAIRCOLOR]hair
+  //Absurdly long hair and big hair
+HairType
+  Curly
+    curly hair
+  Drill
+    drill hair
+  Twin Drills
+    twin drills hair
+  Messy
+    messy hair
+  Very Messy
+    very messy hair
+  Pointy Hair (very inaccurate)
+    pointy hair
+  Ringlets (inaccurate)
+    ringlets
+  Spiked hair
+  Straight hair
+  Wavy
+    wavy hair
+HairStyle
+  Bob cut (short)
+    bob cut
+  Pixie cut (short)
+    pixie cut
+  Undercut (short)
+    undercut
+  Two side up
+    two side up
+  Ponytail
+  Pigtails
+  Twintails (same as pigtails)
+    twintails
+  Low twintails
+    low twintails
+  Short twintails
+    short twintails
+  Braids
+    braided hair
+  Braid ponytail
+    braid ponytail
+  Twin braids
+    twin braids
+  Low twin braids
+    low twin braids
+  Cornrows
+    cornrows
+  Dreads
+    dreads
+  Dreadlocks
+    dreadlocks
+  Braided bun
+  Single hair bun (inaccurate)
+    single hair bun
+  Double buns
+    {double buns^1.5|double hair bun}
+  Side up bun
+  Hime cut
+    hime cut //, which consists of straight hair and blunt bangs
+  //Quiff
+    //quiff hairstyle
+  Topknot
+    topknot
+  Afro
+    afro
+  Huge afro (hair)
+    huge afro hairstyle
+  Bantu knots
+  //Crested hair
+    //crested hair
+MaleHairStyle
+  Pompadour
+    pompadour
+  Mohawk
+    mohawk
+  Bowl cut (short, male)
+    bowlcut
+  Buzz cut (short, male)
+    buzz cut
+  Crew cut (male)
+    crew cut
+  Flattop (male)
+    flattop
+  Chonmage (male samurai)
+    chonmage
+HairBangs
+  Arched bangs
+    arched bangs
+  Asymmetrical bangs
+    asymmetrical bangs
+  Blunt bangs
+    blunt bangs
+  Crossed bangs
+    crossed bangs
+  Parted bangs
+    parted bangs
+  Parted Bangs + Forehead
+    parted bangs with a noticeable forehead
+  Swept bangs
+    swept bangs
+  Choppy bangs
+    choppy bangs
+  Fanged bangs
+    fanged bangs
+  Forehead
+    noticeable forehead
+  Widow's peak
+    V-shaped dip in the hairline
+HairStyleII
+  Ahoge
+  Hair intakes
+    hair intakes
+  Multi-tied
+    multi-tied hair
+  Hair pulled back
+  Hair slicked back
+  //Lone nape hair
+  //Tri drills // don't work, inconsistent
+  //Hair flaps // don't work
+Sidelocks
+  Drill sidelocks
+    drill sidelocks
+  Long sidelocks
+  Short sidelocks
+HairOverEyes
+  Hair between eyes
+    hair between eyes
+  Hair over eyes
+    hair over eyes, long bangs
+  Hair over eyes II (buggy/low quality)
+    significantly long bangs, hair that fall over the eyes and cover them completely
+  Hair over one eye (long bangs)
+    hair over one eye, long bangs
+
+// ❇️ Colors
+naturalSkinColors
+  Fair Skin
+    fair skin
+  Ivory Skin
+    ivory skin
+  Bronze Skin
+    bronze skin
+  Golden Skin
+    golden skin
+  Chocolate Skin
+    chocolate skin
+  Black Skin
+    very dark black skin
+  Red Skin
+    warm red skin
+  Tan Lines
+    tanned skin with tan lines
+unnaturalSkinColors
+  Blue Skin
+    unnatural blue skin
+  Green Skin
+    unnatural green skin
+  Grey Skin
+    unnatural grey skin
+  Pink Skin
+    unnatural pink skin
+  Purple Skin
+    unnatural purple skin
+  Yellow Skin
+    unnatural yellow skin
+
+EyeColors
+  //🎲 Common colors 🔻
+    //[AdvRS('EyesColors', banEyesColors = ['🎲 Common colors 🔻'], EyesColors), EyesColorsRandomItem]
+
+  ⚫ Black
+    black
+  ⚙️ Grey
+    grey
+  ⚪ White
+    white
+  🟡 Yellow
+    yellow
+  🟠 Orange
+    orange
+  🟤 Brown
+    brown
+  🔴 Red
+    red
+  💓 Pink
+    pink
+  🟣 Purple
+    purple
+  🔵 Blue
+    blue
+  🟢 Green
+    green
+  🔰 Heterochromia
+    heterochromia
+  ◩ Gradient
+    two-tone gradient
+  🌈 Multicolored
+    multicolored rainbow
+  🔵 Aquamarine
+    aquamarine
+  🟤 Hazel
+    hazel
+HairColors
+  //🎲 Common Colors (19)🔻
+    //[AdvRS('HairColors', banHairColors = ['🎲 Common Colors (19)🔻'], HairColors), HairColorsRandomItem]
+  Auburn
+  Brunette
+  Blonde
+  Bronde
+  Strawberry Blonde
+  Ginger
+  ⚫ Black
+    black
+  ⚙️ Grey
+    grey
+  ⚪ White
+    white
+  🟡 Yellow
+    yellow
+  🟠 Orange
+    orange
+  🟤 Brown
+    brown
+  🔴 Red
+    red
+  💓 Pink
+    pink
+  🟣 Purple
+    purple
+  🔵 Blue
+    blue
+  🟢 Green
+    green
+  ◩ Gradient
+    two-tone gradient
+  🌈 Multicolor
+    multicolored hair dyed with a mixture of three or more different colors
+
+// ❇️ Emotions
+Emo
+  🎲 Random
+    [AdvRS('Emotions', banEmotions = ['🎲 Random'], Emo), EmotionsRandomItem]
+
+  Afraid
+    is afraid, eyes wide, pupils small, shoulders raised, arms close to the body
+
+  Amused
+    is amused, soft smile, eyes slightly squinted, relaxed posture
+
+  Angry
+    is angry, brows pulled down, teeth clenched, tense jaw, sharp glare
+
+  Anxious
+    is anxious, fidgeting hands, worried eyes, tense shoulders
+
+  Ashamed
+    is ashamed, head lowered, eyes looking down, cheeks slightly red
+
+  Bad
+    looks bad, tired eyes, weak posture, dull expression
+
+  Bashful
+    is bashful, shy smile, blushing cheeks, eyes looking away
+
+  Bored
+    is bored, half-closed eyes, blank stare, slouched posture
+
+  Cold
+    is cold, arms crossed tightly, shoulders hunched, visible shiver
+
+  Confident
+    is confident, upright posture, steady gaze, slight smile
+
+  Confused
+    is confused, tilted head, furrowed brows, unsure expression
+
+  Crazy
+    is laughing wildly, wide eyes, messy grin, erratic posture
+
+  Curious
+    is curious, head tilted forward, focused eyes
+
+  Depressed
+    is depressed, dull eyes, slumped posture, empty expression
+
+  Determined
+    is determined, narrowed eyes, firm mouth, strong stance
+
+  Disgusted
+    is disgusted, wrinkled nose, lips pulled back, eyebrows raised
+
+  Ecstatic
+    is ecstatic, mouth stretches wide, eyebrows are raised high, both arms extend upward
+
+  Embarrassed
+    is embarrassed, deep blush, nervous smile, eyes averted
+
+  Emotionless
+    is emotionless, lacking emotions, blank eyes, unresponsive, no expression
+
+  Enraged
+    is enraged, glowing eyes, clenched fists, veins visible, aggressive posture
+
+  Envious
+    is envious, sideways glare, tight lips, tense expression
+
+  Excited
+    is excited, bright eyes, wide smile, energetic posture
+
+  Flirtatious
+    is flirtatious, playful smile, half-lidded eyes, teasing pose
+
+  Frightened
+    is frightened, trembling body, wide eyes, mouth slightly open
+
+  Frustrated
+    is frustrated, teeth clenched, tense brows, hands gripping tightly
+
+  Giggling
+    is giggling and covering the mouth to hide it, half-closed eyes, blushed cheeks
+
+  Guilty
+    is guilty, nervous eyes, tense mouth, avoiding eye contact
+
+  Happy
+    is happy, warm smile, relaxed eyes, open posture
+
+  Hopeful
+    is hopeful, gentle smile, bright eyes, relaxed shoulders
+
+  Hot
+    is hot, flushed face, sweat on skin, fanning the body
+
+  Hungry
+    is hungry, focused eyes, licking lips, hand on stomach
+
+  Hurt
+    looks hurt, pained eyes, tense face, defensive posture
+
+  Indifferent
+    looks indifferent, blank face, relaxed posture, unfocused gaze
+
+  Interested
+    is interested, focused eyes, slight forward lean, attentive expression
+
+  Jealous
+    is jealous, sharp glare, tight jaw, clenched hands
+
+  Joyful
+    is joyful, wide smile, sparkling eyes, open arms
+
+  Lonely
+    looks lonely, distant eyes, closed posture, quiet expression
+
+  Loving
+    is loving, soft smile, warm eyes, gentle posture
+
+  Miserable
+    looks miserable, downcast eyes, tense face, slumped body
+
+  Nervous
+    is nervous, biting lip, shaky hands, uneasy gaze
+
+  Optimistic
+    is optimistic, relaxed smile, bright eyes, confident posture
+
+  Pained
+    is in pain, eyes squeezed shut, tense face, strained posture
+
+  Proud
+    is proud, lifted chin, confident smile, strong stance
+
+  Puzzled
+    looks puzzled, raised brow, tilted head, unsure eyes
+
+  Regretful
+    looks regretful, sad eyes, tight lips, lowered head
+
+  Relieved
+    is relieved, soft smile, relaxed shoulders, calm expression
+
+  Sad
+    is sad, watery eyes, downturned mouth, slouched posture
+
+  Scared
+    is scared, wide eyes, tense body, frozen stance
+
+  Shocked
+    is shocked, mouth open, wide eyes, stiff posture
+
+  Shy
+    is shy, small smile, blushing cheeks, avoiding eye contact
+
+  Sick
+    looks sick, pale skin, tired eyes, weak posture
+
+  Skeptical
+    raises one eyebrow slightly higher than the other, the brow furrows as the lips press into a thin line, head tilts slightly to the side expressing skepticism
+
+  Sleepy
+    is sleepy, drooping eyes, yawning mouth, relaxed posture
+
+  Smug
+    is smug, crooked smile, half-closed eyes, confident pose
+
+  Sorry
+    looks sorry, apologetic eyes, slight bow, tense smile
+
+  Stoic
+    is stoic, brows neutral, firm jawline, steady gaze, shoulders back, composed and rigid posture, controlled expression
+
+  Stubborn
+    is stubborn, crossed arms, tight lips, defiant stare
+
+  Stupid
+    looks confused and silly, blank eyes, awkward smile
+
+  Surprised
+    is surprised, raised brows, wide eyes, open mouth
+
+  Suspicious
+    is suspicious, narrowed eyes, slight frown, cautious posture
+
+  Thirsty
+    is thirsty, dry lips, tired eyes, reaching forward
+
+  Thoughtful
+    is thoughtful, hand on chin, focused eyes, calm posture
+
+  Tired
+    is tired, heavy eyelids, slouched body, dull gaze
+
+  Withdrawn
+    is withdrawn, closed posture, distant eyes, quiet expression
+
+  Worried
+    is worried, furrowed brows, tense mouth, uneasy eyes
+
+  Yandere
+    is grinning, teeth shown, her head is tilted, hands on her cheeks, slight widened eyes, glowing eyes, possessive expression, in heat with red cheeks and steam around the body
+
+EmoSimple
+  Afraid
+  Amused
+  Angry
+  Anxious
+  Ashamed
+  Bad
+  Bashful
+  Bored
+  Cold
+  Confident
+  Confused
+  Crazy
+  Curious
+  Depressed
+  Determined
+  Disgusted
+  Ecstatic
+    is ecstatic, mouth stretches wide, eyebrows are raised high, both arms extend upward
+  Embarrassed
+  Enraged
+  Envious
+  Excited
+  Flirtatious
+  Frightened
+  Frustrated
+  Giggling
+    is giggling and covering the mouth to hide it, half-closed eyes, blushed cheeks
+  Guilty
+  Happy
+  Hopeful
+  Hot
+  Hungry
+  Hurt
+  Indifferent
+  Interested
+  Jealous
+  Joyful
+  Lonely
+  Loving
+  Miserable
+  Nervous
+  Optimistic
+  Pained
+  Proud
+  Puzzled
+  Regretful
+  Relieved
+  Sad
+  Scared
+  Shocked
+  Shy
+  Sick
+  Skeptical
+    raises one eyebrow slightly higher than the other, the brow furrows as the lips press into a thin line, head tilts slightly to the side expressing skepticism
+  Sleepy
+  Smug
+  Sorry
+  Stubborn
+  Stupid
+  Surprised
+  Suspicious
+  Thirsty
+  Thoughtful
+  Tired
+  Withdrawn
+  Worried
+
+  Yandere
+    is grinning, teeth shown, her head is tilted, hands on her cheeks, slight widened eyes, glowing eyes, possessive expression, in heat with red cheeks and steam around the body
+
+Action
+  Bending
+    bending slightly
+  Jumping
+    jumping
+  Kneeling
+    on their knees
+  //Kneeling on one knee
+  Leaning Forward
+    leaning forward
+  Leaning Back
+    leaning back
+  Lying
+    lying
+  Reclining
+    reclining
+  Running
+    running
+  Sitting
+    sitting
+  Standing
+    standing
+  Standing with crossed arms
+    standing, with crossed arms
+  Standing with arms up
+    standing, with arms up
+  Standing with arms behind
+    standing, with arms behind
+  Walking
+    walking
+  Wariza
+    performing wariza
+
+Angle
+  From Above
+  From Behind
+    's back, viewed from behind
+  From Below
+  From Side
+    from the side
+  Front View
+    from the front
+  Straight-on
+  Full Body (inaccurate)
+    full body, from head to toe
+    //entire body, from head to toe
+    //full body, an image focused on a character's full body; the character's entire body is visible and takes up most of the frame, including the character's feet
+  Upside Down
+  Multiple Views
+    from multiple views, from different viewpoints or angles
+  Multiple Variations
+    in multiple variations like a reference sheets with the same pose
+
+  //Portrait
+    //in a portrait shot
+  //Profile
+    //in profile
+Gaze
+  //Looking Up
+  //Looking Down
+  //Looking to the Side
+  //Looking at the Viewer
+  //Looking Back
+
+  Eye Contact
+    making eye contact
+  Looking Afar
+  Looking Around
+  Looking At Another
+  //Looking At Breasts
+  //Looking At Crotch
+  Looking At Hand
+  Looking At Hands
+  Looking At Mirror
+  //Looking At Penis
+  Looking At Phone
+  //Looking At Pussy
+  Looking At Self
+  Looking At Viewer
+  Looking Back
+  Looking Down
+  Looking Outside
+  Looking Over Eyewear
+  Looking Through Own Legs
+  Looking To The Side
+  Looking Up
+
+FacingTeste
+  Looking above
+  Looking to the sky
+  Facing up
+
+  Facing down
+    head is facing downwards, eyes are looking down
+  Looking down
+    head is turned downwards, eyes are looking down
+
+
+  Looking ahead
+  Looking straight ahead
+  Facing forward
+  Side glance
+    glancing sideways at the viewer
+  Looking to the side
+  Looking directly to the sides
+  Looking back
+  Looking away
+  Facing away
+
+
+///// OLD /////
+///////////////
+///////////////
+
+BodySize
+  Tall
+  Small
+
+ChestOld
+  Medium //Gigantic exaggerated
+    medium breasts //exaggerated gigantic milkers
+  Gigantic breasts
+  Giant breasts
+  Massive tits
+  Oversized breasts
+  Huge breasts
+  Ultra large breasts
+  Large breasts
+    very large, big breasts
+  Modest chest
+  Small breasts
+  Flat chest
+    tiny flat chest
+
+Hips
+  Very large hips
+  Very narrow hips
+  //Wide hips
+  //Hip dips
+
+Thighs //obs: tall legs triggers full body sometimes
+  Thick thighs
+    large, thick thighs
+  Slender thighs
+    slender flat thighs
+  //Slender legs 2
+    //legs that are very slender, flat and tall
+
+
+// ❇️ Compatibility (For generators using old versions of this list)
+EyesColors = [EyeColors]
+BodyTypes = [BodyShape]
+BodyFeatures = [HipsAndThighs]
+
+// ❇️ Char
+F = [(input.description ? "" : "female, ")]
+Characters
+  Normal
+    Young girl ♀️
+      a cute girl, a very young female, her fresh appearance radiates youth
+    Mature woman ♀️
+      a graceful and attractive woman, with a subtle mysterious charm, radiates quiet strength and seductive elegance
+    Young boy ♂️
+      a very young boy //[LoadNegatives(this.negative)]
+      //negative = androgynous, (girl, woman, female:0.9)
+    Mature Man ♂️
+      a mature man //[LoadNegatives(this.negative)]
+      //negative = androgynous, (girl, woman, female:0.9)
+
+  Fantasy
+    Angel
+      an angel, white wings{, soft halo|}
+    Cat girl
+      a cat girl, with cat ears //[LoadNegatives(this.negative)]
+      negative = tail cutout, detached tail
+    Dark angel
+      a dark angel, with black wings{, black blackhalo|} //[LoadNegatives(this.negative)]
+      negative = white wings, white halo, yellow halo, golden halo
+    Demon girl
+      a demon girl, with demon horns, pointy ears{{ and fangs, with the eyes glowing|, a colored skin, colored sclera, claws, hooves}|, demon wings and long tails^1.2}
+    Dryad
+      a dryad, also known as nymph
+    Dwarf
+      [F]small dwarf, with short stature
+    Dwarf (bulky)
+      a bulky [F]small dwarf, short stature
+    Elf
+      an elf, youthful, pointy ears
+    Elf (dark skin)
+      a elf with dark skin, youthful, pointy ears //[LoadNegatives(this.negative)]
+      negative = animal ears, kemonomimi
+    Fairy
+      fairy, with fairy wings
+    Fairy/Pixie (small)
+      a very small fairy with wings, also known as pixie
+    Fox girl
+      fox girl, with fox ears that have an animal ear fluff //[LoadNegatives(this.negative)]
+      negative = tail cutout, detached tail
+    Gnome
+      [F]a small gnome, short stature //[LoadNegatives(this.negative)]
+    Goblin (undef. color skin)
+      [F]colored skin,{ fangs out,^0.2|} pointy nose, pointy ears, goblin, short stature //[LoadNegatives(this.negative)]
+      //negative = monochrome, animal ears, multiple ears, ugly face, holding a creature, Shrek
+    Slime Girl
+      a slime girl, with transparent body, and a shiny colored skin //[LoadNegatives(this.negative)]
+      //negative = creatures
+    Succubus
+      a succubus, with a womb tatoo, pointy ears, low bat wings, her eyes glowing
+
+CharacterTwo
+  Female ♀️
+    a beautiful female
+  Male ♂️
+    a cool-looking male
+
+
+// ❇️ Functions
+defineInputColor() =>
+  if (!window.initializeCharacterColor) {
+    if (!window.input) {window.input = {}};
+    if (!window.input.characterHairColor) {window.input.characterHairColor = ""};
+   // if (!window.input.characterEyeColor) {window.input.characterEyeColor = ""};
+    window.initializeCharacterColor = "colors defined";
+  }
+  return "";
+
+HAIRCOLOR = [defineInputColor()][`${input.characterHairColor} `] //[input.characterHairColor !== "" ? `${input.characterHairColor} ` : ""]
+//EYESCOLOR = [defineInputColor()] //[input.characterEyeColor ? `${input.characterEyeColor} ` : ""]
+
+/////////////////////////////////////////////////////////// OLD SD thing below
+// ⇲ Negatives ||  //[LoadNegatives(this.negative)]
+CharacterNegatives = [""]
+////// END ///////

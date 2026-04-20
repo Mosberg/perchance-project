@@ -1,0 +1,108 @@
+<style>
+  body {
+    background: linear-gradient(
+      20deg,
+      #000,
+      #ed0c13,
+      #ed0c93,
+      #cb0ced,
+      #aa0ced,
+      #710ced,
+      #482078,
+      #000
+    );
+    color: cyan;
+  }
+  #mainCtn {
+    max-width: 500px;
+    font-size: 18x;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+</style>
+
+<div style="display: flex; gap: 10px; justify-content: center">
+  <div id="mainCtn" style="">
+    <p>This create the UI wallpaper for user interaction.</p>
+    <p>copy it to the perchance panel (the left code panel):</p>
+    <p>DBG = \{import:dynamic-background-blackyt\}</p>
+    <p>Then copy it to the html panel (the right code panel)</p>
+    <p>
+      div id="bGround" \[DBG.BGCustom(defaultImageList, defaultImageList,
+      image1List)\] div
+    </p>
+    <p>
+      And copy it too in the html panel. You can wrap it around some hidden div
+      and manipulate it to shown only when some button is clicked or something
+      like that.
+    </p>
+    <p>\[DBG.MainRender\]</p>
+
+    <p>
+      Create any list or variable in the perchance panel, put the image links in
+      there, and replace the name 'defaultImageList' by your list in the two
+      arguments in the function BGCustom() above.
+    </p>
+    <p>
+      Do the same for the image1List but with a different list and images IF you
+      want different backgrounds.
+    </p>
+    <p>
+      if not, then the default images from this... anh... plugin?, will be used.
+    </p>
+    <p>example: well ill do it later</p>
+  </div>
+
+  <div style="">
+    <div
+      style="
+        background-color: var(--blackwhite-rgba-08, rgba(0, 0, 0, 0.5));
+        color: var(--whiteblack, #fff);
+        display: flex;
+        max-height: 100vh;
+        overflow-y: auto;
+        border-radius: 5px;
+        margin: 5px 0;
+      "
+    >
+      [newImgChangeRender()]
+    </div>
+  </div>
+</div>
+
+<div id="bGround">[DBG.BGCustom()]</div>
+
+<br />
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    changeIconMenuStatus("s", "s", "shown");
+  });
+</script>
+
+<style>
+  .darklight-el {
+    background: var(--blackwhite-rgba-05, rgba(0, 0, 0, 0.5));
+    color: var(--whiteblack, #fff);
+    border-radius: 5px;
+  }
+  .default-border {
+    border-top: 1px solid #0cccf7;
+    border-right: 1px solid #fa4dc3;
+    border-bottom: 1px solid #7933f2;
+    border-left: 1px solid #3350f2;
+  }
+</style>
+
+<!-- TRASH:
+  ImgChangeRender = [`<div id="menuBG" class="menu-bg" style="background-color:rgba(255,255,255,0.8);color:#000;position:relative;border-radius:10px;text-align:left;padding:5px 10px;">Enter a valid image url<br><input type="url" id="urlBGMenu" placeholder="img url" onchange="DBG.ImageBG(this.value)"><br><span style="margin: 5px 5px; display: inline-block;">or</span><br><input type="file" id="imageInput" accept="image/*" onchange="DBG.uploadImage(event)"><br><br><button onclick="DBG.clearImage()">🗑️ Clear</button>&nbsp;⋮⋮⋮&nbsp;<button id="dbgHeart" onclick="DBG.ImageRandomBG('BG1')">💗</button>&nbsp;<button id="dbgDroplet" onclick="DBG.ImageRandomBG('BG2')">💦</button>&nbsp;<button id="dbgRing" onclick="DBG.ImageRandomBG('BG0')" hidden>💍</button>`]
+HtmlSizeRender = [`<select id="sizeSelect" class="bg-menu-select" onchange="DBG.sizeHandler(this.value)"><option value=''>select</option><option value='cover'>Fill screen</option><option value='contain'>Fit screen</option><option value='auto'>Original</option><option value="customSize">Custom</option></select><br><input id="bgCustomSize" style="margin-top:2px; margin-bottom:15px; width: 270px; max-width: 65vw;" placeholder="values in px, rem or % (e.g. 800px)" hidden><button id="btnCustomSize" onclick="DBG.sizeHandler(bgCustomSize.value, 'input')" hidden>Apply</button>`]
+HtmlPositionRender = [`<select class="bg-menu-select" onchange="DBG.PositionHandler(this.value)"><option value=''>select</option><option value='center center'>Center</option><option value='center top'>Center Top</option><option value='center bottom'>Center Bottom</option><option value='left center'>Left Center</option><option value='left top'>Left Top</option><option value='left bottom'>Left Bottom</option><option value='right center'>Right Center</option><option value='right top'>Right Top</option><option value='right bottom'>Right Bottom</option><option value="customPosition">Custom</option></select><br><input id="bgCustomPosition" style="margin-top:2px; margin-bottom:15px; width: 270px; max-width: 65vw;" placeholder="values in px, rem or %" hidden><button id="btnCustomPosition" onclick="DBG.PositionHandler(bgCustomPosition.value, 'input')" hidden>Apply</button>`]
+HtmlRepeatRender = [`<select class="bg-menu-select" onchange="DBG.RepeatHandler(this.value)"><option value=''>select</option><option value='no-repeat'>No repeat</option><option value='repeat'>Repeat</option></select>`]
+HtmlOpacityRender = [`<div><label for="opacitySlider">Opacity:</label>&nbsp;<span id="opacityValue">1</span><br><input style="max-width:480px;" type="range" id="opacitySlider" min="0" max="1" step="0.01" value="1" oninput="DBG.updateOpacity(this.value)"></div>`]
+HtmlBlurRender = [`<div><label for="blurSlider">Blur:</label>&nbsp;<span id="blurValue">10</span><br><input style="max-width:480px;" type="range" id="blurSlider" min="0" max="10" step="0.1" value="0" oninput="DBG.updateBlur(this.value)"></div>`]
+oldMainRender = [ImgChangeRender + `<br><hr>Size:&nbsp;` + HtmlSizeRender + `<br>Position:&nbsp;` + HtmlPositionRender + `<br>Repeat:&nbsp;` + HtmlRepeatRender + `<br><br>` + HtmlOpacityRender + `` + HtmlBlurRender]
+
+-->

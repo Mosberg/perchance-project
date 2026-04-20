@@ -1,0 +1,1499 @@
+<style>
+    :root {
+        --primary-darkest: #1a1a1a;
+        --primary-dark: #2d2d2d;
+        --primary-between: #363636;
+        --primary-light: hsl(0, 0%, 29%);
+        --secondary: #4ecdc4;
+        --red: #ff6b6b;
+        --text: #ddd;
+        --text-dark: #aaa;
+    }
+
+    div {
+        color: var(--text);
+    }
+
+    .pannel {
+        background: var(--primary-between);
+        padding: 6px;
+        border-radius: 6px;
+        margin: 0px;
+        color: var(--text);
+        text-align: center;
+        border: none;
+    }
+
+    .contrlBtn {
+        background: var(--primary-light);
+        border: none;
+        border-radius: 6px;
+        font-size: 20px;
+    }
+
+    .simpleFlex {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 1500px) {
+        #gameGrid {
+            grid-template: repeat(21, 20px) / repeat(37, 20px) !important;
+        }
+    }
+
+    @media (max-width: 700px) {
+        #rootGrid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+            height: auto !important;
+            grid-row: 1 !important;
+        }
+
+        #sidePanel {
+            border-right: none !important;
+            border-bottom: 1px solid #444;
+            grid-row: 2 !important;
+        }
+
+        #gameGrid {
+            grid-template: repeat(21, 10px) / repeat(37, 10px) !important;
+        }
+    }
+</style>
+
+<div id="rootGrid"
+    style="display: grid; grid-template-columns: 380px 1fr; gap: 20px; font-family: Segoe UI, sans-serif; height: 100%; background: var(--primary-darkest)">
+    <!-- Side Panel -->
+    <div id="sidePanel"
+        style="background: var(--primary-dark); padding: 20px; padding-top: 5px; border-right: 3px solid var(--primary-light); height: 100vh; overflow: auto">
+        AI roguelike (work in progress)
+        <div id="statsCtn" class="pannel">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center">
+                <div>
+                    <div style="font-size: 24px; color: var(--red)" id="hpEl">20</div>
+                    <div style="font-size: 12px; color: var(--text-dark)">HP</div>
+                </div>
+                <div>
+                    <div style="font-size: 24px; color: var(--secondary)" id="dmgEl">1</div>
+                    <div style="font-size: 12px; color: var(--text-dark)">DMG</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Movement Controls -->
+        <div style="display: grid; grid-template-columns: repeat(4, 40px); gap: 5px; margin: 10px auto; width: 50%">
+            <button onclick="inspectBtn()" class="contrlBtn"
+                style="color: var(--primary-dark); background: var(--secondary)">🔎&#xFE0E;</button>
+            <button onclick="movePlayerTo(0, -1)" class="contrlBtn">↑</button>
+            <!--button onclick="" class="contrlBtn" style="color: var(--primary-dark); background: var(--secondary)">✋&#xFE0E;</button-->
+            <br>
+            <button onclick="setPanelHidden(gameMap, !gameMap.hidden)" class="contrlBtn"
+                style="color: var(--primary-dark); background: var(--secondary)">🌍&#xFE0E;</button>
+            <button onclick="movePlayerTo(-1, 0)" class="contrlBtn">←</button>
+            <button onclick="movePlayerTo(0, 1)" class="contrlBtn">↓</button>
+            <button onclick="movePlayerTo(1, 0)" class="contrlBtn">→</button>
+            <button onclick="doTurn()" class="contrlBtn"
+                style="color: var(--primary-dark); background: var(--secondary)">🕗&#xFE0E;</button>
+        </div>
+
+        <div style="display: grid; gap: 10px">
+
+            <!-- Player and Theme Input -->
+            <div style="display: grid; gap: 10px">
+                <div id="playerCharDiv" class="simpleFlex">
+                    <label style="color: var(--text-dark)">Describe player:</label>
+                    <input id="playerInput" type="text" placeholder="player" value="human man" class="pannel"
+                        style="text-align: left; border: 1px solid var(--primary-light); flex: 1" />
+                </div>
+                <div id="themeContainer" class="simpleFlex">
+                    <label style="color: var(--text-dark)">Theme:</label>
+                    <input id="themeInput" type="text" placeholder="theme" value="medieval fantasy" class="pannel"
+                        style="text-align: left; border: 1px solid var(--primary-light); flex: 1" />
+                </div>
+                <div id="instructionsContainer" class="simpleFlex">
+                    <label style="color: var(--text-dark)">Extra instructions:</label>
+                    <input id="gameInstructionsInput" type="text" placeholder="extra instructions" class="pannel"
+                        style="text-align: left; border: 1px solid var(--primary-light); flex: 1" />
+                </div>
+            </div>
+
+            <!-- Start Game Button -->
+            <button id="startButton" onclick="startGame();" class="pannel"
+                style="background: var(--secondary); color: var(--primary-darkest); font-weight: bold">Start
+                Game</button>
+            <!-- Message and Area Description -->
+            <div id="msgEl" class="pannel" style="overflow-wrap: break-word;overflow-y: auto; height: 125px" hidden>
+            </div>
+            <h3 style="color: var(--text-dark); margin: 0px; padding: 0px" hidden id="areaHeading">Current Area</h3>
+            <div id="areaDescEl" class="pannel"
+                style="overflow-wrap: break-word;margin-top: 0px; height: 150px; overflow-y: auto" hidden></div>
+
+            <!-- window select -->
+            <div style="display: flex; gap: 5px; justify-content: space-between">
+                <button onclick="selectOnePannel([options, info, comments, devTools], 0);" class="pannel"
+                    style="background: var(--primary-light); flex: 1">Options</button>
+                <button onclick="selectOnePannel([options, info, comments, devTools], 1);" class="pannel"
+                    style="background: var(--primary-light); flex: 1">Info</button>
+                <button onclick="selectOnePannel([options, info, comments, devTools], 2);" class="pannel"
+                    style="background: var(--primary-light); flex: 1">Comments</button>
+                <button onclick="selectOnePannel([options, info, comments, devTools], 3);" class="pannel"
+                    style="background: var(--primary-light);" id="devTools_button" hidden>dev tools</button>
+            </div>
+
+            <!-- Dev tools Section -->
+            <div id="devTools" class="pannel" style="display: grid; gap: 4px" hidden>
+                <div class="pannel" style="border: 1px solid var(--primary-light);display: grid; gap: 4px">
+                    <label style="color: var(--text-dark);">generate area</label>
+                    <div class="simpleFlex">
+                        <label style="color: var(--text-dark);">area type</label>
+                        <input id="area_gen_type" type="number" placeholder="0-5" value="0" class="pannel"
+                            style="text-align: left; border: 1px solid var(--primary-light);flex:1;" />
+                    </div>
+                    <div class="simpleFlex">
+                        <label style="color: var(--text-dark);">instructions</label>
+                        <input id="area_gen_instructions" type="text" placeholder="a play ground" class="pannel"
+                            style="text-align: left; border: 1px solid var(--primary-light); flex:1;" />
+                    </div>
+                    <button
+                        onclick="setPanelHidden(msgEl, false);generateArea(areaTypes[area_gen_type.value], area_gen_instructions.value);"
+                        class="pannel" style="background: var(--primary-light);">generate area</button>
+                </div>
+                <div class="pannel" style="border: 1px solid var(--primary-light);display: grid; gap: 4px">
+                    <label style="color: var(--text-dark);">modify selected entity</label>
+                    <input id="modify_input" type="text" placeholder="modify prompt" value="give armour" class="pannel"
+                        style="text-align: left; border: 1px solid var(--primary-light);" />
+                    <button onclick="selectedEntity ? AIModifyEntity(selectedEntity, modify_input.value) : sendEventMessage(`no entity selected`);" class="pannel"
+                        style="background: var(--primary-light);">Modify</button>
+                </div>
+                <div class="pannel" style="border: 1px solid var(--primary-light);display: grid; gap: 4px">
+                    <label style="color: var(--text-dark);">spawn entity from json</label>
+                    <textarea id="entity_gen_json" rows="10" cols="60" class="pannel"
+                        style="max-width: 100%;text-align: left; border: 1px solid var(--primary-light);">
+\{
+"name":"name",
+"description":"description.",
+"symbol":"O",
+"color":"#00cc00",
+"size":4,
+"damage":1,
+"hp":8,
+"relation":2
+\}
+            </textarea>
+                    <button onclick="spawnEntity(getEntityFromJSON(entity_gen_json.value), player.x, player.y-1);"
+                        class="pannel" style="background: var(--primary-light);">spawn entity</button>
+                </div>
+                <div class="simpleFlex">
+                    <label style="color: var(--text-dark)">debugging:</label>
+                    <button onclick="debug = !debug; this.innerHTML = debug;" class="pannel"
+                        style="background: var(--primary-light);">false</button>
+                </div>
+            </div>
+
+            <!-- Options Section -->
+            <div id="options" class="pannel" style="display: grid; gap: 4px" hidden>
+                <div class="simpleFlex">
+                    <label style="color: var(--text-dark)">Use AI:</label>
+                    <button onclick="useAI = !useAI; this.innerHTML = useAI;" class="pannel"
+                        style="background: var(--primary-light);">true</button> (false removes any cohesion)
+                </div>
+                <div class="simpleFlex">
+                    <label style="color: var(--text-dark);">Generate new areas:</label>
+                    <button onclick="generateNewAreas = !generateNewAreas; this.innerHTML = generateNewAreas;"
+                        class="pannel" style="background: var(--primary-light);">true</button>
+                </div>
+
+                <div class="simpleFlex">
+                    <label style="color: var(--text-dark);">Walls block vision:</label>
+                    <button onclick="wallsBlockVision = !wallsBlockVision; this.innerHTML = wallsBlockVision;" class="pannel"
+                        style="background: var(--primary-light);">false</button>
+                </div>
+
+                <div class="simpleFlex">
+                    <label style="color: var(--text-dark);">Simulation distance:</label>
+                    <input id="simDist" type="number" value="200" class="pannel" style="border: 1px solid var(--primary-light);"/>
+                </div>
+
+                <button onclick="setPanelHidden(devTools_button, !devTools_button.hidden);" class="pannel"
+                    style="background: var(--primary-light);">enable dev tools</button>
+
+              [fullscreenButton("enter fullscreen", "exit fullscreen", "background:var(--primary-light); color:var(--text); border:none;border-radius: 6px;padding: 6px;")]
+            </div>
+
+            <!-- Comments Section -->
+            <div id="comments" hidden>[commentsPlugin(commentOptions)]</div>
+
+            <!-- Info Section -->
+            <div id="info" class="pannel" hidden>
+                <h3 style="margin-top:0px;">Info</h3>
+                <p><strong>Keybinds:</strong></p>
+                <ul>
+                    <li><strong>Arrow Keys/WASD:</strong> move</li>
+                    <li><strong>Q:</strong> Inspect</li>
+                    <!--li><strong>E:</strong> Grab</li-->
+                    <li><strong>R:</strong> Show map</li>
+                    <li><strong>F:</strong> Next Turn</li>
+                </ul>
+                <p><strong>Instructions:</strong></p>
+                <ul>
+                    <li>To attack an entity, move into it.</li>
+                    <li>Inspecting an entity lets you interact with them using ai.</li>
+                    <li>You can click on the grid to move towards cursor</li>
+                    <li>You can use Arrow Keys/WASD to "click" on the entity standing on that side of you</li>
+                    <li>convince a creature to come with you and they will follow (or aleast should, this feature is still WIP)</li>
+                </ul>
+
+                <button onclick="setPanelHidden(updateNotes, !updateNotes.hidden);" class="pannel"
+                    style="background: var(--primary-light); flex: 1">Update notes</button>
+                <div id="updateNotes" class="pannel" hidden>
+                    <p><strong>Update 2</strong></p>
+                    <ul>
+                        <li>added relations, allowing things like teammates and friendly npcs</li>
+                        <li>added entity size, currently only visual</li>
+                        <li>combined inspect and interact windows</li>
+                        <li>improved world generation</li>
+                        <li>improved UI</li>
+                        <li>improved alot of other stuff</li>
+                        <li>added alot of ground work for future updates</li>
+                        <li>added dev tools</li>
+                        <li>improved entity ai, allowing thing like entities having other targets then the player</li>
+                        <li>added ai commands, allowing the ai to modify certain values like relations when you are talking to an entity</li>
+                        <li>+other things</li>
+                    </ul>
+                    <p><strong>Update 1</strong></p>
+                    <ul>
+                        <li>improved UI</li>
+                        <li>added interacting with entities using ai</li>
+                        <li>etc</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Game Area -->
+    <div>
+        <div id="gameGrid" class="pannel"
+            style="container-type: inline-size; display: grid; margin: 10px auto; background: var(--primary-dark); width: fit-content; grid-template: repeat(21, 30px) / repeat(37, 30px)">
+        </div>
+    </div>
+
+    <div id="gameMap" class="pannel"
+        style="container-type: inline-size; display: grid; grid-template: repeat(21, 10px) / repeat(21, 10px); position: fixed; top: 15px; right: 15px; justify-content: center; z-index: 100; background: #2d2d2d"
+        hidden></div>
+
+    <!-- Player Inventory -->
+    <!--div class="pannel" style="width:200; position: fixed; top: 20px; right: 20px;z-index:100;">
+    <h3 style="color: var(--text); margin: 0px; padding: 0px;">Player Inventory</h3>
+    <ul id="inventoryListEl" class="pannel" style="list-style: none; padding: 0"></ul>
+    </div-->
+
+    <!-- Inspect Panel -->
+    <div id="inspectPanel" class="pannel"
+        style="background: var(--primary-darkest); position: fixed; bottom: 0px; right: 20px; width: 350px; height: fit-content; max-height: 100%; overflow: auto; z-index: 100"
+        hidden>
+        <div style="display: flex; align-items: center">
+            <h3 id="inspectHeader" style="margin: 0; font-size: 18px; width: 100%">Entity Inspection</h3>
+            <button onclick="setPanelHidden(inspectPanel, true); drawTiles()" class="pannel"
+                style="background: var(--red); margin-left: auto">Close</button>
+        </div>
+
+        <div id="entityImage" style="width: 100%; height: fit-content; overflow: hidden; margin: 10px auto"></div>
+        <div id="entityDescription" style="font-size: 14px; margin-top: 10px"></div>
+        <div id="entityStats" style="font-size: 14px; margin-top: 10px"></div>
+
+        <button id="chatButton"
+            onclick="if(hasLineOfSight(player.x, player.y, selectedEntity.x, selectedEntity.y)) setChatHidden(!chatPanel.hidden); else sendEventMessage(`Can't interact with entity without line of sight`);"
+            class="pannel">Interact</button>
+        <div id="chatPanel" hidden>
+            <div id="chatContent" style="overflow-wrap: break-word; overflow-y: auto; height: 500px"></div>
+            <input id="chatInput" placeholder="Type your action..." class="pannel"
+                style="margin-bottom: 10px; margin-top: 15px; width: calc(100% - 45px); text-align: left"
+                onkeydown="if(event.key === 'Enter') sendChat(player, selectedEntity, chatInput.value.trim(), true);" />
+            <button onclick="sendChat(player, selectedEntity, chatInput.value.trim(), true);" class="pannel"
+                style="width: 40px; background: var(--secondary); color: var(--primary-dark)">▶</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var debug = false;
+    //var generateAtStart = 19;
+    var generateNewAreas = true;
+    var useAI = true;
+    var wallsBlockVision = false;
+
+    function gameTheme(){return themeInput.value;}
+
+    var tiles = [];
+    var baseRoomWidth = 9;
+    var baseRoomHeight = 9;
+    var playerBase = { symbol: "@", name: "player", description: "the player", color: "#ffffff", size: 3, extra: { hp: 100, damage: 2, inventory: [] } };
+    var player;
+    var turnCount = 0;
+    var generatedRooms = new Map();
+    var floorTile = " "; // must be a space, if its nothing then we cant detect the differnece between a generated tile and an ungenerate done
+    var generatedAreas = [];
+    var entities = new Map();
+    var entityList = new Set();
+    var styleString = gameGrid.style.gridTemplate;
+    var viewHeight = styleString.substring(styleString.indexOf(`(`) + 1, styleString.indexOf(`,`)).trim();
+    var viewWidth = styleString.substring(styleString.lastIndexOf(`(`) + 1, styleString.lastIndexOf(`,`)).trim();
+    var UIcells = new Set();
+    var mapViewSize = 21;
+    var isInspecting = false;
+    var AIisGenerating = false;
+    var selectedEntity;
+    var sizeRefrence = { 1: "the size of a mouse", 2: "the size of a dog", 3: "the size of an average human", 4: "the size of a large human", 5: "the size of a cow" };
+    var relationRefrence = ["is enemy of", "dislikes", "has no oppinion on", "likes", "is friend of"];
+    var discoveredEntities = new Map();
+    var gameStarted = false;
+
+    var areaTypes = [
+        {
+            name: "forest",
+            wallChance: 0,
+            doorChance: 0,
+            numberOfWalls: 10
+        },
+        {
+            name: "city",
+            wallChance: 0.76,
+            doorChance: 0.45,
+            numberOfWalls: 0
+        },
+        {
+            name: "dungeon",
+            wallChance: 0.94,
+            doorChance: 0.56,
+            numberOfWalls: 5
+        },
+        {
+            name: "biome",
+            wallChance: 0,
+            doorChance: 0,
+            numberOfWalls: 4
+        },
+        {
+            name: "cave system",
+            wallChance: 0.56,
+            doorChance: 0.10,
+            numberOfWalls: 18
+        },
+        {
+            name: "ruins",
+            wallChance: 0.32,
+            doorChance: 0.12,
+            numberOfWalls: 1
+        }]
+
+    function clamp(numb, min, max) { return Math.min(Math.max(numb, min), max); }
+
+    function chattingWith(entity) { return selectedEntity == entity && !inspectPanel.hidden && !chatPanel.hidden; }
+
+    function getRelation(entity, other) { return entity?.extra?.relations?.has(other?.ID) ? entity.extra.relations.get(other.ID) : 2; }
+
+    function getRelationsChart(name, min, max) {
+        let r = "";
+        for (let i = min; i <= max; i++) {
+            if (i != min) r += ", ";
+            r += `${i} = ${relationRefrence[i]} ${name}`;
+        }
+        return r;
+    }
+
+    function getRoom(x, y) { let rp = roomPos(x, y); return generatedRooms.get(getPosKey(rp.x, rp.y)); }
+
+    function getEntityStats(entity) {
+        let string = "";
+        string += entity.extra.hp != undefined ? `HP: ${entity.extra.hp}\n` : "";
+        string += entity.extra.damage != undefined ? `Damage: ${entity.extra.damage}\n` : "";
+        string += entity.extra.relations != undefined ? `relation: ${relationRefrence[getRelation(entity, player)]} you\n` : "";
+        string += `size: ${entity.size}\n`;
+        return string;
+    }
+
+    function generateUUID() { // Public Domain/MIT
+        var d = new Date().getTime();//Timestamp
+        var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now() * 1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16;//random number between 0 and 16
+            if (d > 0) {//Use timestamp until depleted
+                r = (d + r) % 16 | 0;
+                d = Math.floor(d / 16);
+            } else {//Use microseconds since page-load if supported
+                r = (d2 + r) % 16 | 0;
+                d2 = Math.floor(d2 / 16);
+            }
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    }
+
+    function roomPos(x, y) { return vec(Math.floor(x / (baseRoomWidth - 1)), Math.floor(y / (baseRoomHeight - 1))); }
+
+    function vec(x, y) { return { x: x, y: y }; }
+
+    function randomBetween(min, max) { return Math.round(Math.random() * (max - min)) + min; }
+
+    function getPosKey(x, y, layer = 1) { return `${x},${y},${layer}`; }
+
+    function getEntityAt(x, y) {
+        if (entities.has(getPosKey(x, y, 1)))
+            return entities.get(getPosKey(x, y, 1));
+        else if (entities.has(getPosKey(x, y, 0)))
+            return entities.get(getPosKey(x, y, 0));
+        return undefined;
+    }
+    // Check line of sight between two points
+    function hasLineOfSight(x1, y1, x2, y2) {
+        let dx = Math.abs(x2 - x1);
+        let dy = Math.abs(y2 - y1);
+        let sx = x1 < x2 ? 1 : -1;
+        let sy = y1 < y2 ? 1 : -1;
+        let err = dx - dy;
+        while (x1 != x2 || y1 != y2) {
+            if (tiles[y1]?.[x1] && tiles[y1][x1] !== floorTile) return false; // block if it's a wall
+            let e2 = err * 2;
+            if (e2 > -dy) {
+                err -= dy;
+                x1 += sx;
+            }
+            if (e2 < dx) {
+                err += dx;
+                y1 += sy;
+            }
+        }
+        return true;
+    }
+
+    async function generateArea(areaType, extraInstructions = "")
+    {
+        let generated = await AIgenerateAreaFields(areaType.name, extraInstructions);
+        let description = `${generated.name}:" ${generated.description}`;
+        let wallSymbol = generated.wallSymbol;
+        let wallColor = generated.wallColor;
+
+        let enemies = [];
+        let items = [];
+
+        let numbCreatures = 3;
+        let numbItems = 0;
+
+        if (numbCreatures != 0) sendEventMessage(`⏳ Generating ${numbCreatures} creatures...`);
+        for (let i = 0; i < numbCreatures; i++) {
+            AIgenerateCreatureType(description, enemies);
+        }
+
+        if (numbItems != 0) sendEventMessage(`⏳ Generating ${numbItems} items...`);
+        for (let i = 0; i < numbItems; i++) {
+            AIgenerateItem(description, items);
+        }
+
+        while (items.length < numbItems || enemies.length < numbCreatures) {
+            await new Promise((resolve) => setTimeout(resolve, 10));
+        }
+        sendEventMessage("⏳ done generating");
+
+        wallSymbol = `<font color="${wallColor}">${wallSymbol}</font>`;
+
+        let sizeMulti = (baseRoomWidth * baseRoomHeight) / 100;
+
+        let wallChance = areaType.wallChance || 0;
+        let doorChance = areaType.doorChance || 0;
+        let numberOfWalls = Math.round(areaType.numberOfWalls * sizeMulti);
+
+        if (debug) description += `<br>area type: ${areaType.name}<br>wall chance: ${wallChance}<br>door chance: ${doorChance}<br>wall symbol: ${wallSymbol}<br>number of walls: ${areaType.numberOfWalls} / ${numberOfWalls}`;
+
+        let totalRooms = 1;
+
+        let area = { wallSymbol, enemies, items, description, wallChance, doorChance, numberOfWalls, totalRooms };
+
+        generatedAreas.push(area);
+
+        return area;
+    }
+
+    function getAdjacentAreas(roomX, roomY) {
+        let adjacent = [];
+        let key1 = getPosKey(roomX - 1, roomY);
+        let key2 = getPosKey(roomX + 1, roomY);
+        let key3 = getPosKey(roomX, roomY - 1);
+        let key4 = getPosKey(roomX, roomY + 1);
+
+        let unique = false;
+
+        if (generatedRooms.has(key1) && (!unique || !adjacent.includes(generatedRooms.get(key1).area))) adjacent.push(generatedRooms.get(key1).area);
+        if (generatedRooms.has(key2) && (!unique || !adjacent.includes(generatedRooms.get(key2).area))) adjacent.push(generatedRooms.get(key2).area);
+        if (generatedRooms.has(key3) && (!unique || !adjacent.includes(generatedRooms.get(key3).area))) adjacent.push(generatedRooms.get(key3).area);
+        if (generatedRooms.has(key4) && (!unique || !adjacent.includes(generatedRooms.get(key4).area))) adjacent.push(generatedRooms.get(key4).area);
+        return adjacent;
+    }
+
+    function weightedRand(spec) {
+        let table = [];
+        for (let i of spec) {
+            for (let j = 0; j < 25 - Math.min(24, i.totalRooms/4); j++) {
+                table.push(i);
+            }
+        }
+        return table[Math.floor(Math.random() * table.length)];
+    }
+
+    async function getAreaType(roomX, roomY) {
+        if (generatedRooms.has(getPosKey(roomX, roomY))) return generatedRooms.get(getPosKey(roomX, roomY)).area;
+
+        let chance = Math.random();
+
+        let adjacent = getAdjacentAreas(roomX, roomY);
+
+        if (chance <= 0.88 && adjacent.length > 0) {
+            return weightedRand(adjacent);
+        }
+
+        if (chance <= 0.99 || !generateNewAreas) {
+            //let existingAreas = Array.from(generatedAreas.values());
+            if (generatedAreas.length > 0) return weightedRand(generatedAreas);
+        }
+
+        return await generateArea(areaTypes[Math.floor(Math.random() * areaTypes.length)]); // Await call to generate new area
+    }
+
+    async function generateRoom(roomX, roomY, area)
+    {
+        let roomKey = getPosKey(roomX, roomY);
+        if (generatedRooms.has(roomKey)) return;
+
+        if (!area) area = await getAreaType(roomX, roomY);
+        area.totalRooms += 1;
+        let wallSymbol = area.wallSymbol;
+
+        let leftChance = Math.random();
+        let topChance = Math.random();
+        let bottomChance = Math.random();
+        let rightChance = Math.random();
+
+        for (let y = 0; y < baseRoomHeight; y++) {
+            for (let x = 0; x < baseRoomWidth; x++) {
+                let absX = x + roomX * (baseRoomWidth - 1);
+                let absY = y + roomY * (baseRoomHeight - 1);
+
+                let isEdge = x == 0 || y == 0 || x == baseRoomWidth - 1 || y == baseRoomHeight - 1;
+                let isDoorLocation = x == Math.floor(baseRoomWidth / 2) || y == Math.floor(baseRoomHeight / 2);
+
+                let chance = 1;
+                chance = isEdge && y == 0 ? topChance : chance;
+                chance = isEdge && x == 0 ? leftChance : chance;
+                chance = isEdge && y == baseRoomHeight - 1 ? bottomChance : chance;
+                chance = isEdge && x == baseRoomHeight - 1 ? rightChance : chance;
+
+                if (!tiles[absY] || !tiles[absY][absX] || ((x == 0 || x == baseRoomWidth) && (y == 0 || y == baseRoomWidth))) {
+                    if (!tiles[absY]) tiles[absY] = [];
+
+                    if (chance < area.wallChance) tiles[absY][absX] = isEdge ? wallSymbol : floorTile;
+
+                    if (chance < area.doorChance) tiles[absY][absX] = isEdge && !isDoorLocation ? wallSymbol : floorTile;
+
+                    if (chance >= area.doorChance && chance >= area.wallChance) tiles[absY][absX] = floorTile;
+                }
+            }
+        }
+
+        let roomStartX = roomX * (baseRoomWidth - 1);
+        let roomStartY = roomY * (baseRoomHeight - 1);
+        for (let i = 0; i < area.numberOfWalls; i++) {
+            let x = roomStartX + Math.floor(Math.random() * (baseRoomWidth - 2)) + 1;
+            let y = roomStartY + Math.floor(Math.random() * (baseRoomHeight - 2)) + 1;
+
+            let localX = x - roomStartX;
+            let localY = y - roomStartY;
+            let isDoorArea = localX == Math.floor(baseRoomWidth / 2) || localY == Math.floor(baseRoomHeight / 2);
+
+            if ((x != player.x || y != player.y) && !isDoorArea) {
+                tiles[y][x] = wallSymbol;
+            }
+        }
+
+        let entitiesInRoom = new Set();
+
+        let sizeMulti = (baseRoomWidth * baseRoomHeight) / 100;
+        let enemyCount = randomBetween(0, Math.round(1.4 * sizeMulti));
+        for (let i = 0; i < enemyCount; i++) {
+            let x, y;
+            do {
+                x = roomStartX + Math.floor(Math.random() * (baseRoomWidth - 2)) + 1;
+                y = roomStartY + Math.floor(Math.random() * (baseRoomHeight - 2)) + 1;
+            } while (tiles[y][x] != floorTile || entities.has(getPosKey(x, y)));
+
+            entitiesInRoom.add(spawnEntity(area.enemies[Math.floor(Math.random() * area.enemies.length)], x, y));
+        }
+
+        let itemCount = randomBetween(0, area.items.length);
+        for (let i = 0; i < itemCount; i++) {
+
+            let item = area.items.pop();
+            let x, y;
+            do {
+                x = roomStartX + Math.floor(Math.random() * (baseRoomWidth - 2)) + 1;
+                y = roomStartY + Math.floor(Math.random() * (baseRoomHeight - 2)) + 1;
+            } while (tiles[y][x] != floorTile || entities.has(getPosKey(x, y)));
+
+            entitiesInRoom.add(spawnEntity(item, x, y));
+        }
+
+        generatedRooms.set(roomKey, { area: area, entities: entitiesInRoom, x: roomX, y: roomY });
+    }
+
+    function updateAreaDescription()
+    {
+        let room = roomPos(player.x, player.y);
+        let area = generatedRooms.get(getPosKey(room.x, room.y)).area;
+        if (area) {
+            areaDescEl.innerHTML = area.description;
+        }
+    }
+
+    async function generateBlockOfRooms(centerX, centerY, size)
+    {
+        let startX = centerX - Math.floor(size / 2);
+        let startY = centerY - Math.floor(size / 2);
+
+        let center = Math.floor(size / 2);
+        for (let ring = 0; ring <= center; ring++) {
+            let areas = [];
+            for (let y = 0; y < size; y++) {
+                for (let x = 0; x < size; x++) {
+                    if (Math.abs(x - center) + Math.abs(y - center) === ring) {
+                        let a = await getAreaType(startX + x, startY + y);
+                        if (a) areas.push({ x: startX + x, y: startY + y, type: a });
+                    }
+                }
+            }
+            for (let area of areas) {
+                generateRoom(area.x, area.y, area.type);
+            }
+        }
+    }
+
+    function getBlockOfRooms(centerX, centerY, size) {
+        let startX = centerX - Math.floor(size / 2);
+        let startY = centerY - Math.floor(size / 2);
+
+        let table = [];
+
+        for (let y = 0; y < size; y++) {
+            for (let x = 0; x < size; x++) {
+                let room = generatedRooms.get(getPosKey(startX + x, startY + y));
+                if (room) table.push(room);
+            }
+        }
+
+        return table;
+    }
+
+    async function startGame()
+    {
+        msgEl.hidden = false;
+        areaDescEl.hidden = false;
+        areaHeading.hidden = false;
+        msgEl.innerHTML = "⏳ starting game";
+
+        for (let y = 0; y < viewHeight; y++) {
+            for (let x = 0; x < viewWidth; x++) {
+                let cell = document.createElement("button");
+                gameGrid.appendChild(cell);
+                cell.style.cssText = `position: relative;width:100%;height:100%;padding:0;margin:0;background:#1a1a1a;border:none;font-size:2.2cqw;text-align: center;vertical-align: middle; zIndex: ${y};line-height: 100%;`;
+                cell.setAttribute("onclick", `tileClick(${x}, ${y});`);
+                cell.innerHTML = "";
+
+                UIcells.add(cell);
+            }
+        }
+
+        player.description = playerInput.value;
+
+        options.appendChild(themeContainer);
+        options.appendChild(instructionsContainer);
+
+        startButton.hidden = true;
+        playerCharDiv.hidden = true;
+
+        await generateBlockOfRooms(0, 0, generateAtStart);
+        gameStarted = true;
+        doTurn();
+        updateGameMap(vec(0, 0));
+    }
+
+    async function tileClick(x, y)
+    {
+        let screenMiddleY = player.y - Math.floor(viewHeight / 2);
+        let screenMiddleX = player.x - Math.floor(viewWidth / 2);
+
+        playerInteractAt(x + screenMiddleX, y + screenMiddleY);
+    }
+
+    function playerInteractAt(x, y)
+    {
+        if (isInspecting) {
+            inspectEntity(entities?.get(getPosKey(x, y)));
+            return;
+        }
+
+        let dir = direction(player.x, player.y, x, y);
+        movePlayer(dir.x, dir.y);
+    }
+
+    async function inspectEntity(entity)
+    {
+        isInspecting = false;
+
+        if (!entity) {
+            sendEventMessage("cant inspect this");
+            return;
+        }
+
+        let lineOfSight = hasLineOfSight(player.x, player.y, entity.x, entity.y);
+
+        if (!discoveredEntities.has(entity.ID) && !lineOfSight) {
+            sendEventMessage("Can't inspect unknown entity without line of sight");
+            return;
+        }
+
+        if (!discoveredEntities.has(entity.ID)) discoveredEntities.set(entity.ID, entity);
+
+
+        let sameAsBefore = entity.description == entityDescription.innerText;
+
+        if (inspectPanel.hidden || entity != selectedEntity) {
+            if (inspectPanel.hidden) sendEventMessage(`inspecting ${entity.name}`);
+            inspectPanel.hidden = false;
+            selectedEntity = entity;
+            setChatHidden(true);
+            drawTiles();
+        }
+
+        if (!sameAsBefore) {
+            let dead = entity.extra.hp != undefined ? entity.extra.hp == 0 : false;
+            entityImage.innerHTML = AIgenerateImage(`${dead ? "((corpse, killed, dead, mangled, lying dead on the ground, bloody)) " : ""}A depiction of ${entity.name}: ${entity.description}`);
+            chatButton.hidden = !entity.interactable;
+        }
+
+        inspectHeader.innerText = entity.name;
+        entityDescription.innerText = entity.description;
+        entityStats.innerText = getEntityStats(entity);
+
+        if (!lineOfSight) setChatHidden(true);
+    }
+
+    function setChatHidden(set)
+    {
+        setPanelHidden(chatPanel, set);
+        setPanelHidden(entityDescription, !set);
+        setPanelHidden(entityStats, !set);
+
+        entityImage.style.width = set ? "100%" : "50%";
+        entityImage.style.height = set ? "fit-content" : "120px";
+
+        chatContent.innerHTML = selectedEntity?.chatLog || ``;
+        chatContent.scrollTop = 999999999;
+    }
+
+    function sendEventMessage(msg) {
+        msgEl.innerHTML += `<br>${msg}`;
+        msgEl.scrollTop = 999999999;
+    }
+
+    function drawTiles()
+    {
+        let visibleStartY = player.y - Math.floor(viewHeight / 2);
+        let visibleStartX = player.x - Math.floor(viewWidth / 2);
+
+        let x = 0;
+        let y = 0;
+
+        for (let cell of UIcells) {
+            let tilesX = x + visibleStartX;
+            let tilesY = y + visibleStartY;
+
+            cell.title = "";
+            cell.style.fontSize = "2.2cqw";
+            cell.style.zIndex = y;
+            cell.style.outlineStyle = "none";
+
+            let symbol = " ";
+
+            if (wallsBlockVision) {
+                symbol = `<div style="background-color:rgba(0, 0, 0, 0.2);"><div style="opacity: 0.8">` + tiles[tilesY]?.[tilesX] + "</div><br>&ensp;</div>";
+                if (!tiles[tilesY]?.[tilesX]) symbol = `<div style="background-color:rgba(0, 0, 0, 0.2);">&ensp;<br>&ensp;</div>`;
+            }
+
+            if (!wallsBlockVision || hasLineOfSight(player.x, player.y, tilesX, tilesY)) {
+                symbol = tiles[tilesY]?.[tilesX] || "";
+
+                let entity = getEntityAt(tilesX, tilesY);
+                if (entity) {
+                    if (entity.size == 5) {
+                        cell.style.zIndex = y + 1;
+                        symbol = `<div style="vertical-align: middle;transform: translateY(-35%) translateX(-19%);position: absolute;text-align: center; color:${entity.color}; font-size:4.4cqw; top: 0;">${entity.symbol}</div>`;
+                    } else symbol = `<div style="text-align: center;color:${entity.color}; font-size:${entity.size / 1.75}cqw;">${entity.symbol}</div>`;
+                    cell.title = `${entity.name} ${entity.symbol}\n${entity.description}\n${getEntityStats(entity)}`;
+
+                    if (entity == selectedEntity && !inspectPanel.hidden) {
+                        cell.style.outlineStyle = "dotted";
+                        cell.style.outlineColor = "var(--secondary)";
+                        cell.style.outlineOffset = "-3px";
+                        cell.style.outlineWidth = "3px";
+                    }
+                }
+            }
+
+            cell.innerHTML = symbol;
+
+            x += 1;
+            if (x >= viewWidth) {
+                x = 0;
+                y += 1;
+            }
+        }
+        hpEl.textContent = player.extra.hp;
+        dmgEl.textContent = player.extra.damage;
+    }
+
+    function spawnEntity(base, x, y) {
+        let entity = structuredClone(base);
+
+        entity.x = x;
+        entity.y = y;
+        entities.set(getPosKey(x, y), entity);
+        entityList.add(entity);
+        return entity;
+    }
+
+    function deleteEntity(entity) {
+        entities.delete(getPosKey(entity.x, entity.y));
+        entityList.delete(entity);
+    }
+
+    function setEntityLayer(entity, layer) {
+        entities.delete(getPosKey(entity.x, entity.y));
+        entities.set(getPosKey(entity.x, entity.y, layer), entity);
+    }
+
+    function inspectBtn() {
+        isInspecting = !isInspecting;
+        if (isInspecting) sendEventMessage("Click on an entity to inspect.");
+        else sendEventMessage("Inspecting cancelled.");
+    }
+
+    async function interruptChat(entity)
+    {
+        let lastSymbol = entity.pendingChat.ls;
+        entity.pendingChat.stop();
+        if (lastSymbol == `"`) entity.chatLog += `- ${lastSymbol}`;
+        else entity.chatLog += lastSymbol;
+
+        entity.chatLog += `<br>`;
+    }
+
+    async function sendChat(sender, entity, text, respond)
+    {
+        if (text === "" || entity === player) return;
+
+        let chatPanelOpen = chattingWith(entity);
+
+        if (entity?.pendingChat) await interruptChat(entity);
+
+        let chatLog = entity.chatLog || "";
+
+        chatLog += `<br><strong>${sender.name || sender}:</strong> ${text}<br>`;
+
+        if (!respond) {
+            entity.chatLog = chatLog;
+            if (chatPanelOpen) {
+                chatContent.innerHTML = chatLog;
+                chatContent.scrollTop = 999999999;
+            }
+        }
+        else {
+
+            let rel = getRelation(entity, sender);
+
+            let room = roomPos(sender.x, sender.y);
+            let currentArea = generatedRooms.get(getPosKey(room.x, room.y)).area;
+
+            let hasMind = entity.extra?.hasMind || false;
+
+            let instruction = `this is an interaction taking place place in ${currentArea.description} --- ${sender.name} is ${sender.description} --- ${entity.name} is ${entity.description}
+            ${hasMind ? `${entity.name} ${relationRefrence[rel]} ${sender.name}.` : ""} --- Your task is to write interactions between ${sender.name} and ${entity.name}.
+            you should append any of these commands to messages when its appropriate:
+            {set_1_apperance=modify_prompt} - modifies the apperance of ${sender.name}, modify_prompt being a text prompt of what changes to make like this: "make them/their (change)".
+            {set_2_apperance=modify_prompt} - same but with ${entity.name}".
+            ${hasMind ?
+            `{setRelation=relation_ID} - changes what ${entity.name} thinks of ${sender.name}, relation_ID being a number from 0 to ${relationRefrence.length - 1} meaning: ${getRelationsChart(sender.name, 0, relationRefrence.length - 1)}.
+            {setFollow=do_follow} - makes ${entity.name} follow ${sender.name}, do_follow being true or false.` :""
+            }
+            You should make the interactions, authentic, descriptive, natural, engaging, and creative. Use *asterisks* for actions and "quotes" for speech. seperate messages with <br>.`;
+
+            if (debug) sendEventMessage(instruction);
+
+            if (chatPanelOpen) chatContent.innerHTML += `<br><strong>${sender.name}:</strong> ${text}<br>`;
+
+            let settings = {
+                instruction: instruction,
+                startWith: chatLog + `<br><strong>${entity.name}:</strong>`,
+                stopSequences: [`<br>`],
+                endButtons: "none",
+                onChunk: function (data) {
+                    chatLog = data.fullTextSoFar;
+                    if (chatPanelOpen) {
+                        chatContent.innerHTML = chatLog;
+                        chatContent.scrollTop = 999999999;
+                    }
+
+                    if (!data.isFromStartWith) {
+                        if (data.textChunk.includes(`*`)) entity.pendingChat.ls = entity.pendingChat.ls == `*` ? "" : `*`;
+                        if (data.textChunk.includes(`"`)) entity.pendingChat.ls = entity.pendingChat.ls == `"` ? "" : `"`;
+                    }
+                },
+                onFinish: function (data) {
+                    let index = data.generatedText.indexOf("{setRelation=");
+                    if (index != -1) {
+                        let value = data.generatedText.at(index + 13);
+                        setRelation(entity, sender, parseInt(value));
+                    }
+
+                    index = data.generatedText.indexOf("{set_1_apperance=");
+                    if (index != -1) {
+                        let value = data.generatedText.substring(index + 17,  data.generatedText.indexOf("}", index + 1));
+                        AIModifyEntity(sender, value);
+                    }
+
+                    index = data.generatedText.indexOf("{set_2_apperance=");
+                    if (index != -1) {
+                        let value = data.generatedText.substring(index + 17, data.generatedText.indexOf("}", index + 1));
+                        AIModifyEntity(entity, value);
+                    }
+
+                    index = data.generatedText.indexOf("{setFollow=");
+                    if (index != -1) {
+                        let value = data.generatedText.substring(index + 11, data.generatedText.indexOf("}", index + 1));
+                        if(value.includes("true")) entity.extra.following = sender;
+                        else entity.extra.following = undefined;
+                    }
+
+                    entity.chatLog = chatLog;
+                    entity.pendingChat = undefined;
+                },
+            };
+            entity.pendingChat = generateText(settings);
+            entity.pendingChat.ls = "";
+
+
+            if (chatPanelOpen) {
+                chatContent.innerHTML += entity.pendingChat.loadingIndicatorHtml;
+                chatContent.scrollTop = 999999999;
+                chatInput.value = "";
+            }
+        }
+    }
+
+    function setRelation(entity, other, rel)
+    {
+        let relation = clamp(rel, 0, relationRefrence.length - 1);
+        let currentRelation = entity.extra?.relations?.get(other.ID);
+        if (currentRelation == undefined || currentRelation == relation) return;
+        entity.extra.relations.set(other.ID, relation);
+        if(debug || other == player) sendEventMessage(`${entity.name} ${relationRefrence[relation]} ${other.name} now.`);
+        sendChat("Game", entity, `${entity.name} ${relationRefrence[relation]} ${other.name} now.`, false);
+        if (entity == selectedEntity && !inspectPanel.hidden) inspectEntity(entity);
+    }
+
+    function pickUpItem(entity, item) {
+        if (!entity.extra?.inventory) return;
+        entity.extra.inventory.push(item);
+        if (entity == player) updateInventoryUI();
+        if(debug)sendEventMessage(`${item.name} was added to ${entity.name}'s inventory.`);
+        deleteEntity(item);
+    }
+
+    function updateInventoryUI() {
+        const inventoryList = inventoryListEl;
+        inventoryList.innerHTML = "";
+        player.extra.inventory.forEach((item) => {
+            let listItem = document.createElement("li");
+            listItem.style.cssText = "padding:2px; margin:2px; border:1px solid #444; border-radius:5px; color:" + item.color;
+            listItem.textContent = item.name;
+            inventoryList.appendChild(listItem);
+        });
+    }
+
+    function selectOnePannel(pannels, id)
+    {
+        for (let i = 0; i < pannels.length; i++)
+        {
+            if (i == id) setPanelHidden(pannels[i], !pannels[i].hidden);
+            else setPanelHidden(pannels[i], true);
+        }
+    }
+
+    function setPanelHidden(panel, hidden) { panel.hidden = hidden; }
+
+    function moveEntity(entity, dir) {
+        let newX = entity.x + dir.x;
+        let newY = entity.y + dir.y;
+
+        if (tiles[newY]?.[newX] == floorTile && !entities.has(getPosKey(newX, newY))) {
+
+            let newRoom = roomPos(newX, newY);
+            let oldRoom = roomPos(entity.x, entity.y);
+            if (newRoom != oldRoom) {
+                generatedRooms.get(getPosKey(oldRoom.x, oldRoom.y))?.entities.delete(entity);
+                generatedRooms.get(getPosKey(newRoom.x, newRoom.y))?.entities.add(entity);
+            }
+
+            entities.delete(getPosKey(entity.x, entity.y));
+            entity.x = newX;
+            entity.y = newY;
+            entities.set(getPosKey(newX, newY), entity);
+
+
+            return true;
+        }
+        return false;
+    }
+
+    function updateEntity(entity)
+    {
+        if (entity.extra.hp != undefined && entity.extra.hp === 0) return;
+        if (distance(entity.x, entity.y, player.x, player.y) > simDist.value) return;
+
+        let following = entity.extra?.following;
+
+        if (entity.extra?.move) {
+
+            let target = entity.extra?.target;
+
+            let roomP = roomPos(entity.x, entity.y);
+
+            let block = getBlockOfRooms(roomP.x, roomP.y, 3);
+            for (let room of block)
+            {
+                for (let e of room.entities)
+                {
+                    if (e && e != entity && hasLineOfSight(entity.x, entity.y, e.x, e.y))
+                    {
+                        let relation = getRelation(entity, e);
+                        let dist = distance(entity.x, entity.y, e.x, e.y);
+
+                        if (e == following) {
+                            if(dist > 5 || !target || distance(entity.x, entity.y, target.x, target.y) > dist) target = e;
+                            if(dist > 5) break;
+                        }
+                        else if ((!target || (distance(entity.x, entity.y, target.x, target.y) > dist)) && relation <= 1) {
+                            target = e;
+                        }
+
+                    }
+                }
+            }
+
+            let targetRelation = getRelation(entity, target);
+
+            let dir = { x: 0, y: 0 };
+            if (target && hasLineOfSight(entity.x, entity.y, target.x, target.y) && (target.extra?.hp > 0)) {
+                dir = direction(entity.x, entity.y, target.x, target.y);
+                entity.extra.lastSeenTarget = { x: target.x, y: target.y };
+            } else if (entity.extra?.lastSeenTarget) {
+                dir = direction(entity.x, entity.y, entity.extra.lastSeenTarget.x, entity.extra.lastSeenTarget.y);
+                if (entity.x === entity.extra.lastSeenTarget.x && entity.y === entity.extra.lastSeenTarget.y) entity.extra.lastSeenTarget = undefined;
+                if (tiles[entity.y + dir.y]?.[entity.x + dir.x] != floorTile) entity.extra.lastSeenTarget = undefined;
+            } else {
+                target = undefined;
+                dir.x = Math.round(Math.random() * 2) - 1;
+                dir.y = Math.round(Math.random() * 2) - 1;
+            }
+
+            if (!moveEntity(entity, vec(dir.x, dir.y))) {
+                let key = getPosKey(entity.x + dir.x, entity.y + dir.y);
+                if (entities.has(key)) {
+                    let other = entities.get(key);
+                    let relation = getRelation(entity, other);
+
+                    let accident = Math.random() < 0.4;
+
+                    if (other != following && (relation <= 1 || (accident && relation <= 2))) attackAt(entity, entity.x + dir.x, entity.y + dir.y, entity?.extra?.damage);
+                }
+            }
+        }
+    }
+
+    function distance(fromX, fromY, toX, toY)
+    {
+        let diffX = toX - fromX;
+        let diffY = toY - fromY;
+        return Math.sqrt(diffX * diffX + diffY * diffY);
+    }
+
+    function direction(fromX, fromY, toX, toY)
+    {
+        let x = Math.sign(toX - fromX);
+        let y = Math.sign(toY - fromY);
+        return { x, y };
+    }
+
+    async function doTurn()
+    {
+        var start = Date.now();
+        turnCount += 1;
+
+        let length = msgEl.innerHTML.length;
+        if (length > 5000) msgEl.innerHTML = msgEl.innerHTML.substring(length - 5000, length);
+
+        length = msgEl.innerHTML.length;
+
+        for (let entity of entityList) {
+            if (!entity.update) continue;
+            updateEntity(entity);
+        }
+        updateAreaDescription();
+        drawTiles();
+
+        if (selectedEntity && !inspectPanel.hidden) {
+            inspectEntity(selectedEntity);
+        }
+
+        if (length == msgEl.innerHTML.length) sendEventMessage("turn " + turnCount);
+
+        if (debug) sendEventMessage(`turn time = ${Date.now() - start}ms`)
+    }
+
+    function damageEntity(entity, damage)
+    {
+        entity.extra.hp = Math.max(0, entity.extra.hp - damage);
+        if (entity.extra.hp <= 0) {
+            entity.symbol = "±";
+            entity.description = `a dead ${entity.name}\n${entity.description}`;
+            entity.name = `dead ${entity.name}`
+            setEntityLayer(entity, 0);
+        }
+    }
+
+    function attackAt(attacker, x, y, damage)
+    {
+        if (AIisGenerating || damage == undefined || damage <= 0 || !entities.has(getPosKey(x, y)) || (x == attacker.x && y == attacker.y)) return false;
+        let entity = entities.get(getPosKey(x, y));
+        if (!entity?.extra?.hp || entity.extra.hp <= 0) return false;
+
+        let entityName = entity.name; //so that it doesnt say "(attacker) attacked dead (entity)" when its killed
+
+        damageEntity(entity, damage);
+        sendEventMessage(`${attacker.name} attacked ${entityName} for ${damage} damage`);
+        sendChat("Game", entity, `${attacker.name} attacked ${entityName} for ${damage} damage`, false);
+
+
+        setRelation(entity, attacker, (getRelation(entity, attacker) - 1));
+
+        if (entity.extra?.hp <= 0) {
+            sendEventMessage(`${attacker.name} killed ${entityName}`);
+            sendChat("Game", entity, `${attacker.name} killed ${entityName}`, false);
+        }
+        return true;
+    }
+
+    function movePlayerTo(dirX, dirY) {
+        if (dirX || dirY) {
+            playerInteractAt(player.x + dirX, player.y + dirY);
+        }
+    }
+
+    async function movePlayer(dx, dy) {
+        if (!player || AIisGenerating || player.extra.hp == 0) return;
+
+        let newX = player.x + dx;
+        let newY = player.y + dy;
+
+        let room = roomPos(newX, newY);
+
+        if (room != roomPos(player.x, player.y)) {
+            await generateBlockOfRooms(room.x, room.y, 5);
+            updateGameMap(room);
+        }
+
+        if (!moveEntity(player, vec(dx, dy))) {
+            attackAt(player, newX, newY, player.extra.damage);
+        }
+
+        doTurn();
+    }
+
+    function updateGameMap(currentRoom) {
+        gameMap.innerHTML = "";
+
+        let startX = currentRoom.x - Math.floor(mapViewSize / 2);
+        let startY = currentRoom.y - Math.floor(mapViewSize / 2);
+
+        for (let y = 0; y < mapViewSize; y++) {
+            for (let x = 0; x < mapViewSize; x++) {
+                let mapRoomX = startX + x;
+                let mapRoomY = startY + y;
+                let roomKey = getPosKey(mapRoomX, mapRoomY);
+                let roomSymbol = "";
+
+                if (generatedRooms.has(roomKey)) {
+                    if (mapRoomX === currentRoom.x && mapRoomY === currentRoom.y) {
+                        roomSymbol = player.symbol;
+                    } else {
+                        roomSymbol = generatedRooms.get(roomKey).area?.wallSymbol || "";
+                    }
+                }
+                let mapCell = document.createElement("div");
+                mapCell.style.cssText = "width:10px;height:10px;background:#1a1a1a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;";
+                mapCell.innerHTML = roomSymbol;
+                gameMap.appendChild(mapCell);
+            }
+        }
+    }
+
+    document.onkeydown = async (e) => {
+        if (event.target.tagName == "TEXTAREA" || event.target.tagName == "INPUT" || !gameStarted) return;
+        let dx = 0;
+        let dy = 0;
+        if (e.key == "ArrowLeft" || e.key == "a") dx = -1;
+        if (e.key == "ArrowRight" || e.key == "d") dx = 1;
+        if (e.key == "ArrowUp" || e.key == "w") dy = -1;
+        if (e.key == "ArrowDown" || e.key == "s") dy = 1;
+
+        if (e.key == "q") inspectBtn();
+        if (e.key == "f") doTurn();
+        if (e.key == "r") setPanelHidden(gameMap, !gameMap.hidden);
+
+        if (e.key == "Escape") {
+            setPanelHidden(inspectPanel, true);
+            drawTiles();
+        }
+
+        movePlayerTo(dx, dy);
+    };
+
+    function createEntityBase(vars) {
+        vars.symbol = vars.symbol || "?";
+        vars.x = vars.x || 0;
+        vars.y = vars.y || 0;
+        vars.name = vars.name || "no name";
+        vars.description = vars.description || "no description";
+        vars.update = vars.update || false;
+        vars.interactable = vars.interactable || true;
+        vars.color = vars.color || "#ff00ff";
+        vars.size = vars.size || 4;
+        vars.ID = generateUUID();
+        vars.extra = vars.extra || {};
+        return vars;
+    }
+
+    async function AIModifyEntity(entity, prompt) {
+        let instruction = `${entity.description}, that is the description of an entity, return it modified according to this prompt: ${prompt}. change as little as possible, make sure most of the original description remains the same, only change what is absolutely necessary. only give the new description, dont explain anyhting, keep it under 4 sentences and end it with "#"`;
+
+        AIisGenerating = true;
+        let result = await generateText({ instruction: instruction, stopSequences: [`#`] });
+        AIisGenerating = false;
+
+        //if (debug) sendEventMessage(result);
+        entity.description = result;
+        if (entity == selectedEntity && !inspectPanel.hidden) inspectEntity(entity);
+    }
+
+    let generationsGoingOn = 0;
+
+    async function AIgenerateJSON(addedInfo, prompt, fields) {
+        let instruction = `${addedInfo} Generate a JSON object for a ${gameTheme()} ${prompt} with the following fields:`;
+
+        generationsGoingOn += 1;
+
+        for (let field of fields) {
+            instruction += ` - ${field[0]}: ${field[1]}.`;
+        }
+        instruction += `Make it formatted with proper JSON syntax. Make it creative and intresting but also traditional when it fits. Make it fit as a part of a game. also follow these instructions: ${gameInstructionsInput.value}`;
+
+        AIisGenerating = true;
+        let result = await generateText({ instruction: instruction, startWith: `{"${fields[0][0]}":"`, stopSequences: [`}`] });
+
+
+        generationsGoingOn -= 1;
+
+        if(generationsGoingOn == 0) AIisGenerating = false;
+
+        if (debug) sendEventMessage(result);
+        return result;
+    }
+
+
+
+    async function AIgenerateCreatureType(area, list) {
+
+        if (!useAI) {
+            let relationMap = new Map();
+            relationMap.set(player.ID, randomBetween(0, 3));
+            let name = randomMonster.evaluateItem;
+            list.push(
+                createEntityBase({
+                    symbol: randomChar.evaluateItem,
+                    name: name,
+                    description: "a " + name,
+                    update: true,
+                    color: randomcolorhex.evaluateItem,
+                    size: randomBetween(2, 5).evaluateItem,
+                    extra: {
+                        hp: randomBetween(2, 7).evaluateItem,
+                        damage: randomBetween(1, 2).evaluateItem,
+                        move: true,
+                        relations: relationMap,
+                    },
+                }),
+            );
+            return;
+        }
+
+        let result = await AIgenerateJSON(`${area}.`, "creature/enemy/monster/character that would be found in the given area", [
+            ["description", "a 1-3 sentence long description of it, clearly describe its body, biology, appearance, how big it is and its colour so that one gets a clear picture in their mind of what it looks like, also delve into what it is and how it behaves. don't include its name"],
+            ["symbol", "one single symbol thats the appearance of it. use any kind of character or emoji, just make sure it fits the appearance as close as possible"],
+            ["color", "a hex color code thats the color of it"],
+            ["name", "the name of it, it should be a believable"],
+            ["size", `a number from 1-5 determining its size, 1 = ${sizeRefrence[1]}, 2 = ${sizeRefrence[2]}, 3 = ${sizeRefrence[3]}, 4 = ${sizeRefrence[4]}, 5 = ${sizeRefrence[5]}`],
+            ["relation", `a number from 0-3 determining its relation to the player, ${getRelationsChart("player", 0, 3)}`],
+            ["damage", "a number from 0-2"],
+            ["hp", "a number from 1-11"],
+        ]);
+
+        sendEventMessage("⏳ creature generated.");
+
+
+        //result.symbol = `${result.symbol}`.trim().codePointAt(0); //incase the ai wont listen
+
+        let parsed = getEntityFromJSON(result);
+
+        if(parsed)list.push(parsed);
+    }
+
+
+    function tryParseJSONObject(jsonString) {
+        try {
+            var o = JSON.parse(jsonString);
+
+            // Handle non-exception-throwing cases:
+            // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+            // but... JSON.parse(null) returns null, and typeof null === "object",
+            // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+            if (o && typeof o === "object") {
+                return o;
+            }
+        }
+        catch (e) { }
+
+        return false;
+    };
+
+    function getEntityFromJSON(from) {
+        let json = tryParseJSONObject(from);
+
+        if(!json)
+        {
+            sendEventMessage("false json");
+            return false;
+        }
+
+        let relationMap = new Map();
+        relationMap.set(player.ID, json.relation);
+
+        return createEntityBase({
+            symbol: String.fromCodePoint(`${json.symbol}`.codePointAt(0)) + "&#xFE0E;",
+            name: json.name,
+            description: json.description,
+            update: true,
+            color: json.color,
+            size: json.size,
+            extra: {
+                hp: json.hp,
+                damage: json.damage,
+                move: true,
+                relations: relationMap,
+                hasMind: true,
+            },
+        });
+    }
+
+    async function AIgenerateItem(area, list) {
+        if (!useAI) {
+            list.push(
+                createEntityBase({
+                    symbol: randomChar.evaluateItem,
+                    name: randomMonster.evaluateItem,
+                    description: "item",
+                    size: 1,
+                    color: randomcolorhex.evaluateItem,
+                }),
+            );
+            return;
+        }
+
+        if (debug) sendEventMessage("⏳ Generating item...");
+        let result = await AIgenerateJSON(`${area}.`, "unique item that can be found in the given area", [
+            ["description", "a short description of the item."],
+            ["name", "the name of the item."],
+            ["symbol", "a single monospace unicode symbol that will be the appearance of the item ingame"],
+            ["color", "a hex color code thats the color of the item ingame"],
+            ["size", `a number from 1-5 determining how big the item is, 1 = ${sizeRefrence[1]}, 2 = ${sizeRefrence[2]}, 3 = ${sizeRefrence[3]}, 4 = ${sizeRefrence[4]}, 5 = ${sizeRefrence[5]}`],
+        ]);
+
+        let json = JSON.parse(result);
+
+        list.push(
+            createEntityBase({
+                symbol: json.symbol + "&#xFE0E;",
+                name: json.name,
+                description: json.description,
+                interactable: true,
+                size: json.size,
+                color: json.color,
+            }),
+        );
+    }
+
+    async function AIgenerateAreaFields(areaType, customInstructions = "") {
+        sendEventMessage("⏳ Generating area...");
+
+        if (!useAI)
+            return {
+                wallSymbol: randomChar.evaluateItem,
+                name: "area",
+                description: randomBiome.evaluateItem,
+                wallColor: randomcolorhex.evaluateItem,
+            };
+
+        let symbolType = areaType == "forest" ? "trees" : (areaType == "biome" ? "plants" : "walls");
+
+        let result = await AIgenerateJSON(customInstructions, `${areaType}`, [
+            ["description", `a 2-4 sentence long description of the ${areaType}, literally and clearly describe its environment, nature (if has it nature), architecture (if it has architecture), and colours so that the player get a clear picture in their mind of what the ${areaType} looks like. also delve a bit into its history (if it has a history) and lore. don't include its name in the description`],
+            ["name", `the name of the ${areaType}, it should be believable`],
+            ["symbol", `one single symbol thats the appearance of the ${symbolType} found in the ${areaType}. use any kind of character or emoji, just make sure it fits the appearance as close as possible`],
+            ["color", `a hex color code thats the color of the ${symbolType}`],
+        ]);
+
+        //if(debug) sendEventMessage(`sooo: ${symbolType}`);
+
+        let json = JSON.parse(result);
+        return {
+            wallSymbol: String.fromCodePoint(`${json.symbol}`.codePointAt(0)) + "&#xFE0E;",
+            name: json.name,
+            description: json.description,
+            wallColor: json.color,
+        };
+    }
+
+    function AIgenerateImage(prompt) {
+        return generateImage({ prompt: `(flat colors, digital ${gameTheme()} illustration), ${prompt}`, resolution: "512x768", style: "width:100%;", seed: 5215, negativePrompt: "bad anatomy, bad proportions, bad perspective, distorted, blurry, mistake" });
+    }
+
+    player = spawnEntity(createEntityBase(playerBase), 2, 2);
+</script>

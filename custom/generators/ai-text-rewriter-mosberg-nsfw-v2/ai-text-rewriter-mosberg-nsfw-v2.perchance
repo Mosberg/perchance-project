@@ -1,0 +1,460 @@
+generateHTML = {import:ai-text-rewriter-framework-v2}
+promptDefaultModes = {import:ai-text-rewriter-prompt-default}
+promptCharacterModes = {import:ai-text-rewriter-prompt-character}
+ai = {import:ai-text-plugin}
+comments = {import:comments-plugin}
+
+settings
+  pageTitle = AI Text Rewriter Mosberg NSFW v2
+  subtitleHtml = Advanced rewrite studio with mode pack filtering, favorites/recent tracking, profiles, history, batch processing, and output tooling.
+  metaDescription = Rewrite text with advanced AI controls, mode packs, profiles, and batch workflows.
+  metaKeywords = AI, text rewriter, Moss NSFW, rewrite, batch, profiles, modes
+  metaAuthor = Mosberg
+  favicon = https://user.uploads.dev/file/8c7563d0ece7c9ed36c8a83f8361a7a7.webp
+  helperLinkHtml = Also check out <a href="https://perchance.org/ai-text-rewriter-moss" target="_blank">AI Text Rewriter Moss</a> and <a href="https://perchance.org/ai-text-plugin" target="_blank">ai-text-plugin</a>.
+  modeOptionsHtml = [generateModesHtml()]
+  instruction() =>
+    return buildInstructionForText(inputTextEl.value)
+  startWith() =>
+    let mode = getModeByName(currentMode)
+    if(isPerchancePromptPackFormat()) return ""
+    if(responseEl.value.trim() !== "") return responseEl.value
+    return mode.startWith || ""
+  hideStartWith = [isPerchancePromptPackFormat() ? false : (responseEl.value.trim() === "" && getModeByName(currentMode).hideStartWith === true ? true : false)]
+  outputTo = [responseEl]
+  onChunk() =>
+    if(responseEl.scrollTop + responseEl.offsetHeight > responseEl.scrollHeight - 80) {
+      responseEl.scrollTop = responseEl.scrollHeight
+    }
+  onStart() =>
+    // lifecycle is managed primarily in generate()/generateBatchRewrite()
+    return null
+  onFinish() =>
+    return null
+  render = [getModeByName(currentMode).render || null]
+
+getPromptPacks() =>
+  return [
+    {key:"default", label:"Default", data:promptDefaultModes},
+    {key:"character", label:"Character", data:promptCharacterModes}
+  ]
+
+getAllModeEntries() =>
+  let entries = []
+  for(let pack of getPromptPacks()) {
+    if(!pack || !pack.data || !pack.data.selectAll) continue
+    for(let mode of pack.data.selectAll) {
+      if(mode && mode.label !== undefined && mode.instruction !== undefined) {
+        entries.push({
+          name: mode.getName,
+          label: String(mode.label),
+          packKey: pack.key,
+          packLabel: pack.label,
+          mode: mode
+        })
+      }
+    }
+  }
+  return entries
+
+getModeByName(modeName) =>
+  let found = getAllModeEntries().find(e => e.name === modeName)
+  if(found) return found.mode
+  let first = getAllModeEntries()[0]
+  return first ? first.mode : promptDefaultModes.custom
+
+getModeEntryByName(modeName) =>
+  return getAllModeEntries().find(e => e.name === modeName) || getAllModeEntries()[0]
+
+currentMode = [localStorage.currentMode || (getAllModeEntries()[0] ? getAllModeEntries()[0].name : "custom")]
+
+generateModesHtml() =>
+  let rows = getAllModeEntries()
+  if(rows.length === 0) {
+    return `<option selected value="__no_modes__">No modes loaded</option>`
+  }
+  return rows.map(e => {
+    return `<option ${localStorage.currentMode === e.name ? "selected" : ""} value="${e.name}">${e.packLabel} | ${e.label}</option>`
+  }).join("")
+
+generateModesDataJs() =>
+  return "[" + getAllModeEntries().map(e => {
+    return "{" +
+      "name:" + JSON.stringify(e.name) + "," +
+      "label:" + JSON.stringify(e.label) + "," +
+      "packKey:" + JSON.stringify(e.packKey) + "," +
+      "packLabel:" + JSON.stringify(e.packLabel) +
+    "}"
+  }).join(",") + "]"
+
+uiValue(id, fallback) =>
+  if(window[id] && window[id].value !== undefined) return window[id].value
+  return fallback
+
+uiChecked(id, fallback) =>
+  if(window[id] && window[id].checked !== undefined) return !!window[id].checked
+  return !!fallback
+
+isPerchancePromptPackWithHeaderCommentsFormat() =>
+  return uiValue("outputFormatEl", "plain") === "perchance-prompt-pack-numbered"
+
+isPerchancePromptPackFormat() =>
+  let outputFormat = uiValue("outputFormatEl", "plain")
+  return outputFormat === "perchance-prompt-pack" || outputFormat === "perchance-prompt-pack-numbered"
+
+getOutputFormatDirectives(outputFormat) =>
+  if(outputFormat === "plain") return []
+  if(outputFormat === "paragraphs") return ["Output format preference: paragraphs."]
+  if(outputFormat === "bullets") return ["Output format preference: bulleted list."]
+  if(outputFormat === "numbered") return ["Output format preference: numbered list."]
+  if(outputFormat === "perchance-prompt-pack") {
+    return [
+      "Output format preference: Perchance prompt mode entries.",
+      "Return only raw Perchance entries (no markdown fences, no extra commentary)."
+    ]
+  }
+  if(outputFormat === "perchance-prompt-pack-numbered") {
+    return [
+      "Output format preference: Perchance prompt mode entries with an $output header and numbered comment markers.",
+      "Use one top-level $output line and number section comments as slash-slash #1, slash-slash #2, slash-slash #3, etc.",
+      "Return only raw Perchance entries (no markdown fences, no extra commentary)."
+    ]
+  }
+  return ["Output format preference: " + outputFormat + "."]
+
+buildDynamicDirectives() =>
+  let directives = []
+  let tone = uiValue("toneStrengthEl", "normal")
+  let lengthControl = uiValue("lengthControlEl", "same")
+  let outputFormat = uiValue("outputFormatEl", "plain")
+  let preserveBreaks = uiChecked("preserveLineBreaksEl", true)
+
+  if(tone !== "normal") directives.push("Tone intensity: " + tone + ".")
+  if(lengthControl !== "same") directives.push("Length preference: " + lengthControl + ".")
+  for(let formatDirective of getOutputFormatDirectives(outputFormat)) {
+    directives.push(formatDirective)
+  }
+  directives.push("Preserve line breaks: " + (preserveBreaks ? "yes" : "no") + ".")
+
+  return directives
+
+buildPerchancePromptPackInstruction(sourceText) =>
+  let modeEntry = getModeEntryByName(currentMode)
+  let selectedModeName = modeEntry ? modeEntry.name : "customMode"
+  let selectedModeLabel = modeEntry ? modeEntry.label : "Custom Mode"
+  let withHeaderComments = isPerchancePromptPackWithHeaderCommentsFormat()
+  let tone = uiValue("toneStrengthEl", "normal")
+  let lengthControl = uiValue("lengthControlEl", "same")
+  let prepend = (uiValue("prependInstructionEl", "") || "").trim()
+  let append = (uiValue("appendInstructionEl", "") || "").trim()
+
+  let parts = []
+  if(prepend) parts.push(prepend)
+
+  parts.push("Generate Perchance prompt mode entries for an AI text rewriter prompt pack.")
+  parts.push("Return only raw Perchance blocks. Do not use markdown code fences. Do not add explanations.")
+  parts.push("If the source contains multiple ideas/chunks, return multiple mode blocks. Otherwise return one mode block.")
+  if(withHeaderComments) {
+    parts.push("Use this exact output structure:")
+    parts.push("$output")
+    parts.push("/" + "/ #1")
+    parts.push("  modeKeyHere")
+    parts.push("    label = Mode Label Here")
+    parts.push("    instruction")
+    parts.push("      Rewrite the input text so it follows this mode.")
+    parts.push("      {|}")
+    parts.push("      INPUT TEXT:")
+    parts.push("      <<<userInputText>>>")
+    parts.push("      {|}")
+    parts.push("      ---")
+    parts.push("      Respond with a rewritten version that preserves meaning while applying this mode.")
+    parts.push("      $output = [this.joinItems(\"\\n\")]")
+    parts.push("    startWith = OUTPUT TEXT:\\n")
+    parts.push("    hideStartWith = true")
+    parts.push("")
+    parts.push("/" + "/ #2")
+    parts.push("  anotherModeKeyHere")
+    parts.push("    label = Another Mode Label")
+    parts.push("    instruction")
+    parts.push("      ...")
+    parts.push("      $output = [this.joinItems(\"\\n\")]")
+    parts.push("    startWith = OUTPUT TEXT:\\n")
+    parts.push("    hideStartWith = true")
+    parts.push("Use one $output header line at the top only.")
+    parts.push("When returning multiple blocks, number comments sequentially as slash-slash #1, slash-slash #2, slash-slash #3, ...")
+  } else {
+    parts.push("Use this exact structure for every mode block:")
+    parts.push("  modeKeyHere")
+    parts.push("    label = Mode Label Here")
+    parts.push("    instruction")
+    parts.push("      Rewrite the input text so it follows this mode.")
+    parts.push("      {|}")
+    parts.push("      INPUT TEXT:")
+    parts.push("      <<<userInputText>>>")
+    parts.push("      {|}")
+    parts.push("      ---")
+    parts.push("      Respond with a rewritten version that preserves meaning while applying this mode.")
+    parts.push("      $output = [this.joinItems(\"\\n\")]")
+    parts.push("    startWith = OUTPUT TEXT:\\n")
+    parts.push("    hideStartWith = true")
+  }
+  parts.push("Indentation is required: 2 spaces for mode key, 4 spaces for properties, 6 spaces for instruction body.")
+  parts.push("Mode key rules: lowerCamelCase, ASCII letters/digits only, no spaces, no punctuation.")
+  parts.push("Selected mode context:")
+  parts.push("- mode key: " + selectedModeName)
+  parts.push("- mode label: " + selectedModeLabel)
+  if(tone !== "normal") parts.push("- tone intensity for wording inside instruction text: " + tone)
+  if(lengthControl !== "same") parts.push("- length preference for instruction text: " + lengthControl)
+  parts.push("SOURCE IDEAS/TEXT:")
+  parts.push(sourceText)
+  parts.push("Output only the Perchance mode block(s).")
+
+  if(append) parts.push(append)
+
+  return parts.join("\n")
+
+buildInstructionForText(sourceText) =>
+  if(isPerchancePromptPackFormat()) {
+    return buildPerchancePromptPackInstruction(sourceText)
+  }
+
+  let mode = getModeByName(currentMode)
+  let base = mode.instruction.toString().replace(/<<<userInputText>>>/g, sourceText)
+  let prepend = (uiValue("prependInstructionEl", "") || "").trim()
+  let append = (uiValue("appendInstructionEl", "") || "").trim()
+  let directives = buildDynamicDirectives()
+
+  let parts = []
+  if(prepend) parts.push(prepend)
+  parts.push(base)
+
+  if(directives.length > 0) {
+    parts.push("Additional rewrite settings:")
+    for(let d of directives) {
+      parts.push("- " + d)
+    }
+  }
+
+  if(append) parts.push(append)
+
+  return parts.join("\n")
+
+stripMarkdownCodeFences(text) =>
+  let lines = String(text || "").replace(/\r\n/g, "\n").split("\n")
+  lines = lines.filter(line => !/^\s*```/.test(line))
+  return lines.join("\n")
+
+stripPromptPackOutputHeader(text) =>
+  let lines = String(text || "").replace(/\r\n/g, "\n").split("\n")
+  let outLines = []
+  let removedHeader = false
+  for(let line of lines) {
+    if(!removedHeader && /^\s*\$output\s*$/.test(line)) {
+      removedHeader = true
+      continue
+    }
+    outLines.push(line)
+  }
+  return outLines.join("\n").trim()
+
+mergeNumberedPromptPackChunks(chunks) =>
+  let mergedBody = chunks
+    .map(chunk => stripPromptPackOutputHeader(chunk))
+    .filter(chunk => chunk.length > 0)
+    .join("\n\n")
+
+  if(!mergedBody) return ""
+
+  let counter = 1
+  let lines = mergedBody.split("\n")
+  for(let i = 0; i < lines.length; i++) {
+    if(/^\s*\/\/\s*#\s*\d+\s*$/.test(lines[i])) {
+      lines[i] = "/" + "/ #" + counter
+      counter += 1
+    }
+  }
+
+  return "$output\n" + lines.join("\n").trim()
+
+applyPostProcess(text) =>
+  let out = String(text || "")
+  let promptPackFormat = isPerchancePromptPackFormat()
+
+  if(promptPackFormat) {
+    out = stripMarkdownCodeFences(out)
+  }
+
+  if(uiChecked("trimOutputEl", true)) {
+    out = out.trim()
+  }
+  if(!promptPackFormat && uiChecked("collapseSpacesEl", false)) {
+    out = out.replace(/[ \t]{2,}/g, " ")
+  }
+  if(!promptPackFormat && !uiChecked("preserveLineBreaksEl", true)) {
+    out = out.replace(/\n{3,}/g, "\n\n")
+  }
+  return out
+
+activePendingObj = null
+batchStopRequested = false
+
+setStopHandlers(pendingObj) =>
+  function stopRunner() {
+    batchStopRequested = true
+    if(pendingObj && pendingObj.stop) pendingObj.stop()
+  }
+  if(window.stopBtn) stopBtn.onclick = stopRunner
+  if(window.bottomStopBtn) bottomStopBtn.onclick = stopRunner
+
+clearStopUi() =>
+  if(window.stopBtn) stopBtn.style.display = "none"
+  if(window.bottomStopBtn) bottomStopBtn.style.display = "none"
+
+async runAi(runtimeSettings) =>
+  let pendingObj = ai(runtimeSettings)
+  activePendingObj = pendingObj
+  setStopHandlers(pendingObj)
+  if(window.stopBtn) stopBtn.style.display = ""
+  if(window.bottomStopBtn) bottomStopBtn.style.display = ""
+  try {
+    let data = await pendingObj.onFinishPromise
+    return data
+  } finally {
+    activePendingObj = null
+    clearStopUi()
+  }
+
+resolveRuntimeStartWith(mode, existingOutputText) =>
+  if(isPerchancePromptPackFormat()) return ""
+  if(String(existingOutputText || "").trim() !== "") return existingOutputText
+  return mode.startWith || ""
+
+resolveRuntimeHideStartWith(mode, existingOutputText) =>
+  if(isPerchancePromptPackFormat()) return false
+  if(String(existingOutputText || "").trim() !== "") return false
+  return mode.hideStartWith === true
+
+async generate() =>
+  if(typeof window.__v2_beforeGenerate === "function") {
+    window.__v2_beforeGenerate({batch:false})
+  }
+
+  window.responseContentBeforeLastGenerate = responseEl.value
+  let mode = getModeByName(currentMode)
+
+  let runtimeSettings = {
+    instruction: buildInstructionForText(inputTextEl.value),
+    startWith: resolveRuntimeStartWith(mode, responseEl.value),
+    hideStartWith: resolveRuntimeHideStartWith(mode, responseEl.value),
+    outputTo: responseEl,
+    onChunk: settings.onChunk,
+    render: mode.render || null
+  }
+
+  let data = await runAi(runtimeSettings)
+  responseEl.value = applyPostProcess(responseEl.value)
+  localStorage.response = responseEl.value
+
+  if(typeof window.__v2_afterGenerate === "function") {
+    window.__v2_afterGenerate({batch:false})
+  }
+
+  return data
+
+splitBatchChunks() =>
+  let text = inputTextEl.value || ""
+  let delimiter = uiValue("batchDelimiterEl", "newline")
+  let chunks = []
+
+  if(delimiter === "newline") {
+    chunks = text.split(/\r?\n/)
+  } else if(delimiter === "double-newline") {
+    chunks = text.split(/\r?\n\s*\r?\n/)
+  } else if(delimiter === "divider") {
+    chunks = text.split(/\r?\n\s*---+\s*\r?\n/)
+  } else if(delimiter === "custom") {
+    let customDelim = uiValue("batchCustomDelimiterEl", "")
+    if(customDelim) {
+      chunks = text.split(customDelim)
+    } else {
+      chunks = [text]
+    }
+  } else {
+    chunks = [text]
+  }
+
+  if(uiChecked("batchSkipBlankEl", true)) {
+    chunks = chunks.map(c => c.trim()).filter(c => c.length > 0)
+  }
+
+  return chunks
+
+async rewriteSingleChunk(textChunk) =>
+  let mode = getModeByName(currentMode)
+  let tempOutput = document.createElement("textarea")
+
+  let runtimeSettings = {
+    instruction: buildInstructionForText(textChunk),
+    startWith: resolveRuntimeStartWith(mode, ""),
+    hideStartWith: resolveRuntimeHideStartWith(mode, ""),
+    outputTo: tempOutput,
+    render: mode.render || null
+  }
+
+  await runAi(runtimeSettings)
+  return applyPostProcess(tempOutput.value)
+
+async generateBatchRewrite() =>
+  let chunks = splitBatchChunks()
+  if(chunks.length === 0) {
+    if(typeof window.__v2_setStatus === "function") {
+      window.__v2_setStatus("Nothing to process. Add input text first.")
+    }
+    return
+  }
+
+  batchStopRequested = false
+  if(typeof window.__v2_beforeGenerate === "function") {
+    window.__v2_beforeGenerate({batch:true, total:chunks.length})
+  }
+
+  let includeHeader = uiChecked("batchIncludeHeaderEl", false) && !isPerchancePromptPackFormat()
+  let numberedPromptPackFormat = isPerchancePromptPackWithHeaderCommentsFormat()
+  let results = []
+
+  for(let i = 0; i < chunks.length; i++) {
+    if(batchStopRequested) break
+    if(typeof window.__v2_updateBatchProgress === "function") {
+      window.__v2_updateBatchProgress(i + 1, chunks.length)
+    }
+
+    let chunk = chunks[i]
+    let rewritten = await rewriteSingleChunk(chunk)
+    if(includeHeader) {
+      results.push("### Chunk " + (i + 1) + "\nINPUT:\n" + chunk + "\n\nOUTPUT:\n" + rewritten)
+    } else {
+      results.push(rewritten)
+    }
+  }
+
+  if(numberedPromptPackFormat) {
+    responseEl.value = mergeNumberedPromptPackChunks(results)
+  } else {
+    responseEl.value = results.join("\n\n")
+  }
+  localStorage.response = responseEl.value
+
+  if(typeof window.__v2_afterGenerate === "function") {
+    window.__v2_afterGenerate({
+      batch:true,
+      requested:chunks.length,
+      completed:results.length,
+      stopped:batchStopRequested
+    })
+  }
+
+  return results
+
+$meta
+  title = AI Text Rewriter Mosberg NSFW v2 (free, no sign-up, advanced controls)
+  description = Advanced AI text rewriter with mode-pack filtering, favorites, recent modes, profiles, snapshot history, batch rewriting, and output tools. Free, no sign-up, and fully customizable prompt flows for many rewriting styles.

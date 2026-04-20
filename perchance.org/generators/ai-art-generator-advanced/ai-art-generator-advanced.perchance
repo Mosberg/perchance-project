@@ -1,0 +1,3239 @@
+// 🤬😡
+// If you get stuck here,
+// to exit this edit mode look for
+// "full screen" on the right ↦ ↦
+// ⚠️ ⚠️ ↦ ↦
+
+// If you fork anything from here, please give credits.
+// Original: https://perchance.org/ai-art-generator-advanced
+// ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭
+// Made by BlackYT ✭ ✭
+// ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭
+
+// ⛔ COPY PROTECTION. THIS GENERATOR IS IN DEVELOPMENT!
+// In a few days Ill finish the work here and remove the protection bs.
+
+// 🔧 Changelog
+  // omg...
+
+// * engrish is not my first language
+// Lot of things changed, some things lacking.
+
+// ⋆ ⋆ ⋆ IMPORTS 🚚 ⋆ ⋆ ⋆
+$preprocess = {import:kuronyx-magic}
+dyn = {import:dynamic-import-plugin}
+qolf = {import:qol-functions-blackyt} // 👄🍆
+DBG = {import:dynamic-background-blackyt} // 👄🍆
+date = {import:date-plugin}
+generateHTML = {import:vanitas-vanitatum}
+icon = {import:icon-plugin-v7-byt}
+gns = {import:generator-stats-plugin}
+AdvBox = {import:tools-functions-byt} // 👄🍆
+TPROCESS = {import:t2i-f-process-blackyt} // 👄🍆
+sSD = {import:smartseed} // 👄🍆
+copyTxt = {import:copy-text-plugin}
+Prison = {import:aaga-fbdn}
+kuronyx = {import:kuronyx} // 👄🍆
+aagaStyles = {import:aaga-styles-general} // ← Exclusive from AAGA (Ai Art Generator Advanced: https://perchance.org/ai-art-generator-advanced). // 👄🍆
+aagaAnime = {import:aaga-styles-anime} // ← Exclusive from AAGA (https://perchance.org/ai-art-generator-advanced). // 👄🍆
+aagaRealistic = {import:aaga-styles-realistic} // ← Exclusive from AAGA (https://perchance.org/ai-art-generator-advanced). // 👄🍆
+perStyles = {import:perstyles-general} // ← styles edited from: t2i-styles, Vionet20, text2image-generator.
+perAnime = {import:perstyles-anime} // ← styles edited from: t2i-styles, Vionet20, text2image-generator.
+perRealistic = {import:perstyles-realistic} // ← styles edited from: t2i-styles, Vionet20, text2image-generator.
+// From:
+// 🔹 Original Vionet20 Styles: https://perchance.org/vionet20-t2i-styles-importable-v2
+// 🔹 Original Text-2-Image Generator: https://perchance.org/text2image-generator
+// 🔹 t2i-styles: https://perchance.org/t2i-styles
+TgW = AAGA:-100 //[aagaStyles.TgWV] // tagWeights = [TgW]
+
+Scene = {import:t2i-scenery} // 👄🍆
+aagaCHAR = {import:everything-characters-flux} // ← AAGA exclusive, made by BlackYT based on research from Danbooru. // 👄🍆
+aagaAW = {import:anime-waifu} // ← AAGA exclusive, made by BlackYT 👄🍆
+Colors = {import:corlist} // ← AAGA exclusive, made by BlackYT, colors for anime.
+Fashion = {import:female-outfit-list-flux} // ← AAGA exclusive, made by BlackYT, AI reserach, Danbooru copypast and research, actual testing. // 👄🍆
+
+advRng = {import:item-randomizer-byt} // 👄🍆
+betterSEQUENCE = {import:better-sequencer} // 👄🍆
+textTools = {import:text-tools-blackyt} // 👄🍆
+newImg = {import:image-regeneration-byt} // 👄🍆
+imgMeta = {import:image-metadata-byt} // 👄🍆
+
+userStylesList = [createPerchanceTree(localStorage.getItem("myStyles") || "-") || createPerchanceTree("-")]
+userCharacterList = [createPerchanceTree(localStorage.getItem("myCharacters") || "-") || createPerchanceTree("-")]
+userOutfitList = [createPerchanceTree(localStorage.getItem("myOutfits") || "-") || createPerchanceTree("-")]
+userBgList = [createPerchanceTree(localStorage.getItem("myBg") || "-") || createPerchanceTree("-")]
+
+LastVersion = 4.0.1
+
+$meta
+  title = AI Art Generator Advanced (Perchance) //AI Image Generator, AI Anime, Anime Waifu generator, Anime Ai Art, Create cute waifus or breathtaking landscapes with no cost, no registration, fast and free! High quality AI Image, customizable character, AI chat, create character backgrounds, dialogs and chat with them! Totally Free, Fast. Perchance advanced ai art generator, the one truly advanced!
+  description = Random options, anime characters, auto gen, custom styles and characters, clothes, and others advanced options. //Someone just copied my description .-.: Generate anime images with random options, 150 styles, outfits, scenery, anime characters, advanced tools, simple, customizable, advanced.
+  image = https://user.uploads.dev/file/eb44622446707d13c9daa1ed5487dee2.webp
+  tags = ai art, t2i, anime, waifu, advRng, random options, art styles, gallery, customizable, character creation
+  //header
+    //mode = minimal
+
+settings
+  pageTitle = <span style="display:none"><a class="linkC" href="ai-art-generator-advanced">AI Art Generator Advanced</a></span>
+  introMessage = <br><div class="bgText" style="margin: 1px 1px;">Select an option (Art, Anime or Photo), then click ✨<b>generate</b>. Click the "[icon("fa-solid fa-question")]" above for brief information about the options.</div>
+  underImagesMessage = <button id="generateBtnTwo" class="ghost" style="font-size:1.5rem; margin:25px 0;" onclick="document.getElementById('generateButtonEl').click(); qolf.setDisableDelay('#generateBtnTwo', 3000); qolf.scrollToPage(generateButtonEl, 200)">&nbsp;generate ✨</button><br><div id="underImgCtn"></div>
+  numImages = [Number(input.numImages)]
+  socialFeatures = disabled
+
+  imageButtons
+    personality = true
+    privateSave = true
+
+  imageOptions
+    //style = border-top:1px solid #0cccf7; border-right:1px solid #fa4dc3; border-bottom:1px solid #7933f2; border-left:1px solid #3350f2; border-radius:5px;
+    saveTitle = [input.titleImage.slice(0, 150) || (basicMode === "active" || fullPrompt === "active" ? " " : "") || TPROCESS.TitleSeparatorFunction((window.S1TITLE || window.S2TITLE || window.S3TITLE || S4TITLE || artStyleTitle), (RSLMIX1 || String(input.artStyle4.getName)), (RSLMIX2 || String(input.artStyle5.getName)), (RSLMIX3 || String(input.artStyle6.getName))) || " "]
+    saveDescription = [date().format("MMM Do, YYYY")] • [input.subtitleImage.slice(0, 150) || (fullPrompt === "active" ? " " : "") || getRawDescription() || ""]
+
+    // ▼ ▼ ▼
+    prompt = [sSD.smartSeedArray(skipNumber)][fullPrompt === "active" ? input.fullPrompt : promptSwift()][BACKUP("restore")]
+    BASICprompt = [""][ToReset][mainStylesHandler()][TPROCESS.commaFunctionPlus(filter1, String(D0), String(D1), String(D2))]
+    FULLprompt = [""][ToReset][TPROCESS.newLineBreakFunctionPlus(autoCorrect, whitespace, filter1, qBooster, String(D0), mainStylesHandler(), String(input.userArtStyleMix), String(input.artStyle4.prompt), String(input.artStyle5.prompt), String(input.artStyle6.prompt), TPROCESS.commaFunctionPlus(filter1, bgScene('start'), character()), bgScene('end'), String(D2))]
+
+    // ▼ ▼ ▼ NEGATIVE PROMPT DISABLED!!!
+    negativePrompt = [""] //[fullPrompt === "active" ? input.fullNegativePrompt : negativeSwift()][NBACKUP("restore")]
+    FULLnegative = [""][TPROCESS.commaFunctionPlus(filter1, mainStylesNegativeHandler())]
+    BASICnegative = [ToReset][TPROCESS.commaFunctionPlus(filter1, String(NGOnly))]
+
+    // ▼ ▼ ▼
+    resolution = [input.shape]
+    seed = [""][sSD.inputSmartSeedV2(input.seed, randomSeed) || "-1"]
+    guidanceScale = [input.gScale === "0" ? window.styleCFG : input.gScale]
+    width = 1000
+    hideGalleryButtons = [cnPst()]
+    onFinish(data)=>
+      if (!data?.iframe?.isConnected) return; localStorage.sfc_tEnable_cm_gl_pg++
+      const iframe = data.iframe;
+      let iframeCtn = iframe.closest('.t2i-image-ctn');
+      let buttonSpace = iframeCtn.querySelector('.t2i-under-each-image-ctn div');
+      buttonSpace.style.pointerEvents = "auto";
+      buttonSpace.style.opacity = "1";
+      imgMeta.downloadImgBtn(data, buttonSpace);
+      const iI = () => newImg.imageInfo(data); // Prevents missclicks
+      newImg.ghostFrames(data, iI);
+      const seedInput = document.querySelector('[data-name=seed]');
+      newImg.easyCopySeed(data, buttonSpace, seedInput);
+      newImg.regenerateNewImg(data, buttonSpace);
+      newImg.imgi(data, buttonSpace);
+      let privateBtn = iframeCtn.querySelector('.private-save-button'); // Let the button activated
+      privateBtn.classList.add('private-save-button-plus');
+      privateBtn.classList.remove('active-btn-main');
+      const click = privateBtn.onclick;
+      privateBtn.onclick = function (e) {
+        if (click) click.call(this, e);
+        privateBtn.classList.add('active-btn-main');   //
+      }
+      const dwldBtn = iframeCtn.querySelector(".t2i-downloadBtn");
+      autoSaving(iframeCtn, privateBtn, dwldBtn);
+      window.removeBackground = "active";
+      newImg.removeBtn(data, buttonSpace); // remove background
+
+      if (localStorage.getItem('cfgInfo')) {
+        const cfgInfo = document.createElement("button");
+        const text = localStorage.getItem('cfgInfo') || "CFG: ";
+        cfgInfo.textContent = `${text}${String(data.inputs.guidanceScale)}`;
+        buttonSpace.appendChild(cfgInfo);
+      }
+
+
+  userInputs
+
+    // #️⃣ html
+    startAllInputs
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(0)]
+
+    // #️⃣ html / Buttons: 📚⭕📖
+    startUserPromptArea
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(1)]
+
+    // #️⃣ html / Notepad Numeric Buttons
+    Notepad1
+      type = HTMLelement
+      html = [notepadHtmlRender(1)]
+
+    scratchpad
+      label = [icon("fa-solid fa-book", "color:#00ffff")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note1SavedName', 'Notepad 1', this)"</button>[userGiveName('note1SavedName', 'Notepad 1')] <button onclick="downloadNotepad(input.scratchpad, userGiveName('note1SavedName', 'Notepad 1'))">⇩</button> //<button style="margin:1px 10px; font-weight:600;" onclick="setNotepad('character', input.scratchpad); alert('You need to refresh the page now and everytime you change something in this notepad.')">Use in "My Characters"</button>
+      type = paragraph
+      remember = true
+      parseVariables = true
+      width = min(750px, 100%)
+      height = 40vh
+      takesUpFullRow = true
+      excludeFromShareLink = true
+      examples
+        [t2i.defaultText.scratchpadPlaceholder]
+
+    // #️⃣ html
+    Notepad2
+      type = HTMLelement
+      html = [notepadHtmlRender(2)]
+
+    scratchpad2
+      label = [icon("fa-solid fa-book", "color:#fa4dc3")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note2SavedName', 'Notepad 2', this)"</button>[userGiveName('note2SavedName', 'Notepad 2')] <button onclick="downloadNotepad(input.scratchpad2, userGiveName('note2SavedName', 'Notepad 2'))">⇩</button>
+      type = paragraph
+      remember = true
+      parseVariables = true
+      width = min(750px,100%)
+      height = 40vh
+      takesUpFullRow = yes
+      excludeFromShareLink = true
+      examples
+        [t2i.defaultText.scratchpadPlaceholder]
+
+    Notepad3
+      type = HTMLelement
+      html = [notepadHtmlRender(3)]
+
+    scratchpad3
+      label = [icon("fa-solid fa-book", "color:#7933f2")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note3SavedName', 'Notepad 3', this)"</button>[userGiveName('note3SavedName', 'Notepad 3')] <button onclick="downloadNotepad(input.scratchpad3, userGiveName('note3SavedName', 'Notepad 3'))">⇩</button>
+      type = paragraph
+      remember = [SharedLinkVerif]
+      parseVariables = true
+      width = min(750px,100%)
+      height = 40vh
+      takesUpFullRow = yes
+      excludeFromShareLink = true
+      examples
+        [t2i.defaultText.scratchpadPlaceholder]
+
+    Notepad4
+      type = HTMLelement
+      html = [notepadHtmlRender(4)]
+
+    scratchpad4
+      label = [icon("fa-solid fa-book", "color:#3350f2")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note4SavedName', 'Notepad 4', this)"</button>[userGiveName('note4SavedName', 'Notepad 4')] <button onclick="downloadNotepad(input.scratchpad4, userGiveName('note4SavedName', 'Notepad 4'))">⇩</button>
+      type = paragraph
+      remember = [SharedLinkVerif]
+      parseVariables = true
+      width = min(750px,100%)
+      height = 40vh
+      takesUpFullRow = yes
+      excludeFromShareLink = true
+      examples
+        [t2i.defaultText.scratchpadPlaceholder]
+
+    Notepad5
+      type = HTMLelement
+      html = [notepadHtmlRender(5)]
+
+    scratchpadex
+      label = [icon("fa-solid fa-book", "color:#fc0303")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note5SavedName', 'Notepad 5', this)"</button>[userGiveName('note5SavedName', 'Notepad 5')] <button onclick="downloadNotepad(input.scratchpadex, userGiveName('note5SavedName', 'Notepad 5'))">⇩</button>
+      type = paragraph
+      remember = true
+      parseVariables = true
+      width = min(750px, 100%)
+      height = 40vh
+      takesUpFullRow = true
+      excludeFromShareLink = false
+      examples
+        Notes here will can be shared
+
+    Notepad6
+      type = HTMLelement
+      html = [notepadHtmlRender(6)]
+
+    scratchpadex2
+      label = [icon("fa-solid fa-book", "color:#16b841")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note6SavedName', 'Notepad 6', this)"</button>[userGiveName('note6SavedName', 'Notepad 6')] <button onclick="downloadNotepad(input.scratchpadex2, userGiveName('note6SavedName', 'Notepad 6'))">⇩</button>
+      type = paragraph
+      remember = true
+      parseVariables = true
+      width = min(750px, 100%)
+      height = 40vh
+      takesUpFullRow = true
+      excludeFromShareLink = false
+      examples
+        Notes here will can be shared
+
+    NotepadStyles
+      type = HTMLelement
+      html = [notepadHtmlRender(7)]
+
+    scratchpadStyles
+      label = [icon("fa-solid fa-book", "color:#d9bd23")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note7SavedName', 'Styles', this)"</button>[userGiveName('note7SavedName', 'Styles')] <button onclick="downloadNotepad(input.scratchpadStyles, userGiveName('note7SavedName', 'with Styles'))">⇩</button>
+      type = paragraph
+      remember = true
+      parseVariables = true
+      width = min(750px, 100%)
+      height = 40vh
+      takesUpFullRow = true
+      excludeFromShareLink = true
+      examples
+        Use this notebook to store your styles.
+
+    NotepadCharacters
+      type = HTMLelement
+      html = [notepadHtmlRender(8)]
+
+    scratchpadCharacters
+      label = [icon("fa-solid fa-book", "color:#00ffa2")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note8SavedName', 'Characters', this)"</button>[userGiveName('note8SavedName', 'Characters')] <button onclick="downloadNotepad(input.scratchpadCharacters, userGiveName('note8SavedName', 'with Characters'))">⇩</button>
+      type = paragraph
+      remember = true
+      parseVariables = true
+      width = min(750px, 100%)
+      height = 40vh
+      takesUpFullRow = true
+      excludeFromShareLink = true
+      examples
+        Use this notebook to store your characters.
+
+    NotepadOutfit
+      type = HTMLelement
+      html = [notepadHtmlRender(9)]
+
+    scratchpadOutfit
+      label = [icon("fa-solid fa-book", "color:#ffa200")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note9SavedName', 'Outfits', this)"</button>[userGiveName('note9SavedName', 'Outfits')] <button onclick="downloadNotepad(input.scratchpadOutfit, userGiveName('note9SavedName', 'with Outfits'))">⇩</button>
+      type = paragraph
+      remember = true
+      parseVariables = true
+      width = min(750px, 100%)
+      height = 40vh
+      takesUpFullRow = true
+      excludeFromShareLink = true
+      examples
+        Use this notebook to store clothes descriptions.
+
+    NotepadBackground
+      type = HTMLelement
+      html = [notepadHtmlRender(10)]
+
+    scratchpadBackground
+      label = [icon("fa-solid fa-book", "color:#0091ff")] <button style="margin: 1px 10px; font-weight:600;" onclick="userGiveName('note10SavedName', 'Background', this)"</button>[userGiveName('note10SavedName', 'Background')] <button onclick="downloadNotepad(input.scratchpadBackground, userGiveName('note10SavedName', 'with Backgrounds'))">⇩</button>
+      type = paragraph
+      remember = true
+      parseVariables = true
+      width = min(750px, 100%)
+      height = 40vh
+      takesUpFullRow = true
+      excludeFromShareLink = true
+      examples
+        Use this notebook to store background and others settings.
+
+    NoteCtn5
+      type = HTMLelement
+      html = [notepadHtmlRender(11)]
+
+    // #️⃣ html
+    startFullPromptInput
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(2)]
+
+    fullPrompt
+      label = <span style="font-weight:600; margin: 0 5px;">📖 Full Prompt</span> <button id="liveInputBtn" class="deactivated-btn label-btn" style="height:1.4rem; width:150px; margin-left:10px; margin-right:5px; white-space:nowrap; overflow:hidden;" onclick="editablePromptBtn()">Live Input Deactivated</button> <button class="label-btn" style="width:30px; height:1.4rem; margin-left:5px;" onclick="copyText(promptInputEl.value); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon('fa-solid fa-copy')]</button>
+      //tip = You can edit the prompt. While this window is active, the generations will only use the prompt from here. It do not works well with Tools, and the Repeat function have no effect here. If you use square brackets, the description will dissapear until you close them.\n\nThe content here will be lost when closing this window, it do NOT remember your data.
+      type = paragraph
+      width = min(750px, 100%)
+      height = min(250px)
+      takesUpFullRow = true
+      foldToggleState = shown
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = true
+      examples
+        Questions? Check the &lsqb;Info ?&rsqb; button about:\nTop buttons > 📖 Full Prompt
+
+    // #️⃣ html
+    startNegativeFullPromptInput
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(3)]
+
+    //fullNegativePrompt
+      //label = <span style="font-weight:600; margin: 0 5px;">📕 Full Negative</span> <button class="label-btn" style="width:30px; height:1.4rem; margin-left:5px;" onclick="copyText(negativePromptInputEl.value); qolf.fastEffect(this, 500, 'rainbow-effect')">[icon('fa-solid fa-copy')]</button>
+      //tip = You can edit the negatives. While this window is active, the generations will only use the negative prompt from here. It do not works well with Tools, and the Repeat function have no effect here.\n\nThe content here will be lost when this window is closed, it do NOT remember your data.
+      //type = paragraph
+      //width = min(750px, 100%)
+      //height = min(150px)
+      //takesUpFullRow = true
+      //foldToggleState = shown
+      //remember = [SharedLinkVerif]
+      //excludeFromShareLink = true
+
+    // #️⃣ html / also close fullPromptCtn
+    endFullPromptInputs
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(4)]
+
+    // #️⃣ html
+    startMainDescriptionInput
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(5)]
+
+    description
+      label = <span style="font-weight:600; margin: 0 5px;">📒 Main Prompt</span> <button class="label-btn" style="width:30px; height:1.4rem; margin:0 5px;" onclick="copyText(descriptionEl.value); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon('fa-solid fa-copy')]</button><button class="label-btn" style="width:30px; height:1.4rem; margin:0 5px;" onclick="document.querySelector('button.ai-suggest-btn').click()">🧠</button>
+      tip = [t2i.defaultText.promptTip].\n\nNotice: If you forget to close brackets, the site will display an error message.
+      type = paragraph
+      remember = [SharedLinkVerif]
+      width = min(750px, 100%)
+      height = min(150px)
+      takesUpFullRow = true
+      foldToggleState = shown
+      useVariables = true
+      modifiers = [input.artStyleOne?.modifiers || input.artStyleTwo?.modifiers || input.artStyleThree?.modifiers || null]
+      modifierUpdates = event:description.input, event:artStyleOne.change, event:artStyleTwo.change, event:artStyleThree.change
+      enterKeyTriggersGeneration = true
+      examples = [randomDescription]
+      random = [randomDescription]
+
+    // #️⃣ html
+    endMainDescriptionInput
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(6)]
+
+    // #️⃣ html // Start Description - Description 0
+    startDescriptionZeroInput
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(7)]
+
+    descriptionZero
+      label = 📗 First Prompt <button class="label-btn" style="width:30px; height:1.4rem; margin:0 5px;" onclick="copyText(description0El.value); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon('fa-solid fa-copy')]</button>
+      type = paragraph
+      remember = [SharedLinkVerif]
+      width = min(750px, 100%)
+      height = min(150px)
+      takesUpFullRow = true
+      foldToggleState = hidden
+      useVariables = true
+
+    // #️⃣ html
+    endDescriptionZeroInput
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(8)]
+
+    // #️⃣ html / endPromptCtn
+    startDescription2Input
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(9)]
+
+    description2
+      label = 📘 Last Prompt <button class="label-btn" style="width:30px; height:1.4rem; margin:0 5px;" onclick="copyText(description2El.value); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon('fa-solid fa-copy')]</button>
+      type = paragraph
+      width = min(750px, 100%)
+      height = min(150px)
+      takesUpFullRow = true
+      useVariables = true
+      foldToggleState = hidden
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      examples
+        Click the ⓘ above for details
+
+    // #️⃣ html // close #promptDescriptionCtn
+    endDescription2Input
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(10)]
+
+    // #️⃣ html // #negativeCtn
+    startNegativeInput
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(11)]
+
+    //negative
+      //label = <span style="font-weight:600; margin: 0 5px;">📕 Negative</span> <button style="width:30px; height:1.4rem; margin:0 5px;" onclick="copyText(negativeEl.value); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon('fa-solid fa-copy')]</button>
+      //tip = [t2i.defaultText.negativePromptTip]
+      //type = paragraph
+      //width = min(750px, 100%)
+      //height = min(175px)
+      //takesUpFullRow = true
+      //useVariables = true
+      //foldToggleState = hidden
+      //remember = [SharedLinkVerif]
+      //examples
+        //Things you 𝗱𝗼𝗻'𝘁 want in the image. For example: ugly, bad eyes, pink hair
+        //The Art Style already have some negatives, so don't worry about it if you don't know how AI works.
+      //modifiers = [null]
+      //modifierUpdates = event:negative.input, event:ModifiersList.change
+
+    // #️⃣ html / end #negativeCtn and #userPromptArea
+    endNegativeInput //
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(12)]
+
+    // #️⃣❇️ html - Icons Menu
+    IconMenu
+      type = HTMLelement
+      html = [mainButtons()]
+
+    // #️⃣❇️ html - Tools functions (shuffle words, replace tag...)
+    startTools
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(13)]
+
+    // !! Modifiers and Repeat removed !!
+
+    // #️⃣❇️ html - Tools buttons. Keep the <hr class="menu-bar"> here.
+    tagsCtn
+      type = HTMLelement
+      html = <hr class="menu-bar">[tagsBtnHtmlRender(0)]
+
+    infoFunctions
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(1)]
+
+    ShuffleWordsBtn
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(2)]
+
+    ShuffleNegBtn
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(3)]
+
+    replaceTagPrompt
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(4)]
+
+    addTagPrompt
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(5)]
+
+    removeTagPrompt
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(6)]
+
+    walkingTagPrompt
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(7)]
+
+    fixedSeedShortcut
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(8)]
+
+    // #️⃣ html // close the functionCtn. Keep the <hr class="menu-bar"> here.
+    btnClose
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(9)]<hr class="menu-bar">
+
+    // #️⃣ html - Info display (tags, number of images)
+    tagsInfo
+      type = HTMLelement
+      html = [tagsBtnHtmlRender(10)]
+
+    // #️⃣ html
+    startTextArea
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(14)]
+
+    FilterText
+      type = paragraph
+      //tip =
+      label = 🔖 Tags are separated by: <span style="font-weight:600"><button style="max-width:100px; overflow:hidden; margin-left:5px; border: 1px solid #7933f2" onclick="changeTagSeparator(this); qolf.fastEffect(this, 500, 'rainbow-effect')">Comma (, )</button></span> <button class="label-btn" style="margin:0 5px;" onclick="copyText(input.FilterText); qolf.fastEffect(this, 300, 'rainbow-effect')">[icon('fa-solid fa-copy')]</button>
+      remember = [SharedLinkVerif]
+      width = min(750px, 100%)
+      height = min(150px)
+      takesUpFullRow = true
+      //foldToggleState = shown
+      excludeFromShareLink = false
+      examples
+        ⓘ Click the button above to change how the tags are separated.\n\nⓘ Place #tag# in the description, and here place the tags you want. The word #tag# in the description will be replaced by the words/tags that are here.
+
+    // #️⃣❇️ HTML
+
+
+    // #️⃣ hr
+    FunctionCtnEND
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(15)]
+
+    // #️⃣ div / hr
+    StylesCtn1
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(16)]
+
+    artStyleOne // 💮
+      label = <span class="opt-inputs-label">💮 Anime / Toon</span>
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          prompt = [input.description]
+          negative = [input.negative]
+        // Custom user styles  ////////////////
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData4)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData5)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData6)]
+        //////////////////////////////////////
+        🎲 Random Style (All) (70)
+          prompt = [advRng("AnimeStyle", AnimeStyleBanlist = RandomStylesFilterList, aagaAnime, perAnime)][window.S1TITLE = randomAnimeStyle, randomAnimeStyle.prompt]
+          negative = [randomAnimeStyle ? randomAnimeStyle.negative : ""]
+
+        🎲🎐 AI.Art.G.Adv Style (22)🔻
+          prompt = [advRng("AnimeStyle", AnimeStyleBanlist = RandomStylesFilterList, aagaAnime)][window.S1TITLE = randomAnimeStyle, randomAnimeStyle.prompt]
+          negative = [randomAnimeStyle ? randomAnimeStyle.negative : ""]
+
+        meta:import
+          from = [aagaAnime]
+          tagWeights = [TgW]
+        meta:import
+          from = [perAnime]
+
+        // optional SD Styles (not recommended, they are bad and depreciated versions)
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData20)]
+
+    // #️⃣ div / hr
+    StylesCtn2
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(17)]
+
+    artStyleTwo // 📸
+      label = <span class="opt-inputs-label">📸 Photo / Real</span>
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          prompt = [input.description]
+          negative = [input.negative]
+        // Custom user styles  ////////////////
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData7)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData8)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData9)]
+        //////////////////////////////////////
+        🎲 Random Style (23)
+          prompt = [advRng("RealisticStyle", RealisticStyleBanlist = RandomStylesFilterList, aagaRealistic, perRealistic)][window.S2TITLE = randomRealisticStyle, randomRealisticStyle.prompt]
+          negative = [randomRealisticStyle ? randomRealisticStyle.negative : ""]
+        🎲🎐 AI.Art.G.Adv Style (5)🔻
+          prompt = [advRng("RealisticStyle", RealisticStyleBanlist = RandomStylesFilterList, aagaRealistic)][window.S2TITLE = randomRealisticStyle, randomRealisticStyle.prompt]
+          negative = [randomRealisticStyle ? randomRealisticStyle.negative : ""]
+
+        meta:import
+          from = [aagaRealistic]
+        meta:import
+          from = [perRealistic]
+
+        // optional SD Styles (not recommended, they are bad and depreciated versions)
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData21)]
+
+    // #️⃣ Others art styles
+    StylesCtn3
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(18)]
+
+    artStyleThree // 🎨
+      label = <span class="opt-inputs-label">🎨 Art Styles</span>
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          prompt = [input.description]
+          negative = [input.negative]
+        // Custom user styles  ////////////////
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData1)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData2)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData3)]
+
+        //////////////////////////////////////
+        🎲 Random Style (All) (69)
+          prompt = [advRng("ArtStyle", ArtStyleBanlist = RandomStylesFilterList, aagaStyles, perStyles)][window.S3TITLE = randomArtStyle, randomArtStyle.prompt]
+          negative = [randomArtStyle ? randomArtStyle.negative : ""]
+
+        🎲🎐 AI.Art.G.Adv Style (17)🔻
+          prompt = [advRng("ArtStyle", ArtStyleBanlist = RandomStylesFilterList, aagaStyles)][window.S3TITLE = randomArtStyle, randomArtStyle.prompt]
+          negative = [randomArtStyle ? randomArtStyle.negative : ""]
+
+        meta:import
+          from = [aagaStyles]
+          tagWeights = [TgW]
+        meta:import
+          from = [perStyles]
+        // optional SD Styles (not recommended, they are bad and depreciated versions)
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData19)]
+
+    // #️⃣ Custom Style
+    StylesCustomCtn
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(191)]
+
+    userCustomStyle
+      label = ⚗️ Custom Styles
+      tip = Check the (? info) button for more details. To set your styles here, use the notepad in (Notes).\n\nIs not possible to use negatives.
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = true
+      options
+        -
+          [""]
+
+        🎲 Random
+          [advRng("CustomStyle", CustomStyleBanlist = ['$moduleSpace'], userStylesList), S4TITLE = getNameRandomCustomStyle, randomCustomStyle]
+        meta:import
+          from = [userStylesList]
+
+
+
+    // #️⃣ Mix Styles
+    StyleMixCtn
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(19)]
+
+    artStyle4 // MIX
+      label = <span class="opt-inputs-label">[icon("fa-solid fa-layer-group", "color:#686968")]『Mix 1』</span>
+      type = select
+      tip = All the Mix styles are the same. Use it to combine with Art Style, Anime/Toon or Photo/Real, or other Mixes.\n\nIt uses the same styles from the 3 main categories but edited to not use the Main Description and Negatives (they don't put things before your description or negative).
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          prompt = [""]
+          negative = [""]
+        // Custom user styles  ////////////////
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData10)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData11)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData12)]
+        //////////////////////////////////////
+        🎲 Random Style (151)
+          prompt = [advRng("MIXStyle", MIXStyleBanlist = RandomStylesFilterList, dyn('aaga-styles-anime-mix'), dyn('aaga-styles-general-mix'), dyn('aaga-styles-realistic-mix'), dyn('perstyles-anime-mix'), dyn('perstyles-general-mix'), dyn('perstyles-realistic-mix'))][RSLMIX1 = randomMIXStyle, randomMIXStyle.prompt]
+          negative = [""]
+        meta:import
+          from = [dyn('aaga-styles-anime-mix')]
+          tagWeights = [TgW]
+        meta:import
+          from = [dyn('aaga-styles-general-mix')]
+          tagWeights = [TgW]
+        meta:import
+          from = [dyn('aaga-styles-realistic-mix')]
+        meta:import
+          from = [dyn('perstyles-anime-mix')]
+        meta:import
+          from = [dyn('perstyles-general-mix')]
+        meta:import
+          from = [dyn('perstyles-realistic-mix')]
+
+    artStyle5 // MIX
+      label = <span class="opt-inputs-label">[icon("fa-solid fa-layer-group", "color:#686968")]『Mix 2』</span>
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          prompt = [""]
+          negative = [""]
+        // Custom user styles  ////////////////
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData13)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData14)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData15)]
+        //////////////////////////////////////
+        🎲 Random Style (151)
+          prompt = [advRng("MIX2Style", MIXStyleBanlist = RandomStylesFilterList, dyn('aaga-styles-anime-mix'), dyn('aaga-styles-general-mix'), dyn('aaga-styles-realistic-mix'), dyn('perstyles-anime-mix'), dyn('perstyles-general-mix'), dyn('perstyles-realistic-mix'))][RSLMIX2 = randomMIX2Style, randomMIX2Style.prompt]
+          negative = [""]
+        meta:import
+          from = [dyn('aaga-styles-anime-mix')]
+          tagWeights = [TgW]
+        meta:import
+          from = [dyn('aaga-styles-general-mix')]
+          tagWeights = [TgW]
+        meta:import
+          from = [dyn('aaga-styles-realistic-mix')]
+        meta:import
+          from = [dyn('perstyles-anime-mix')]
+        meta:import
+          from = [dyn('perstyles-general-mix')]
+        meta:import
+          from = [dyn('perstyles-realistic-mix')]
+
+    artStyle6 // MIX
+      label = <span class="opt-inputs-label">[icon("fa-solid fa-layer-group", "color:#686968")]『Mix 3』</span>
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          prompt = [""]
+          negative = [""]
+        // Custom user styles  ////////////////
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData16)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData17)]
+        meta:import
+          from = [dyn(AdvBox.CLDATA.CUData18)]
+        //////////////////////////////////////
+        🎲 Random Style (151)
+          prompt = [advRng("MIX3Style", MIXStyleBanlist = RandomStylesFilterList, dyn('aaga-styles-anime-mix'), dyn('aaga-styles-general-mix'), dyn('aaga-styles-realistic-mix'), dyn('perstyles-anime-mix'), dyn('perstyles-general-mix'), dyn('perstyles-realistic-mix'))][RSLMIX3 = randomMIX3Style, randomMIX3Style.prompt]
+          negative = [""]
+        meta:import
+          from = [dyn('aaga-styles-realistic-mix')]
+          tagWeights = [TgW]
+        meta:import
+          from = [dyn('aaga-styles-general-mix')]
+          tagWeights = [TgW]
+        meta:import
+          from = [dyn('aaga-styles-anime-mix')]
+          tagWeights = [TgW]
+
+        meta:import
+          from = [dyn('perstyles-realistic-mix')]
+        meta:import
+          from = [dyn('perstyles-general-mix')]
+        meta:import
+          from = [dyn('perstyles-anime-mix')]
+
+    userArtStyleMix // MIX
+      label = Custom MIX
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🎲 Random
+          [advRng("CustomMix", CustomMixBanlist = ['$moduleSpace'], userStylesList), randomCustomMix]
+        meta:import
+          from = [userStylesList]
+
+    // #️⃣ div / hr
+    SceneryCtn1
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(20)][mainOptionsHtmlRender(21)]
+    // ▫ ▫ ▫
+
+    userBackground
+      label = Custom BG
+      tip = Check the (? info) button for more details. To set your background or others settings here, use the notepad in (Notes).
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random
+          [advRng("CustomBg", CustomBgBanlist = ['$moduleSpace'], userBgList), randomCustomBg]
+        meta:import
+          from = [userBgList]
+
+    SceneryCtnO
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(22)]
+
+    bgAngle
+      label = Angle
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random
+          [advRng("Angle", AngleBanlist = [], Scene.sceneAngles), randomAngle]
+        meta:import
+          from = [Scene.sceneAngles]
+
+    bgScheme
+      label = Color Scheme
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random All (22)
+          [advRng("ColorScheme", ColorSchemeBanlist = [], Scene.colorScheme, Scene.colorSchemePlus), randomColorScheme]
+        🎲 Color Scheme (10)
+          [advRng("Scheme", ColorSchemeBanlist = [], Scene.colorScheme), randomScheme]
+        meta:import
+          from = [Scene.colorScheme]
+        🎲 Color Scheme Plus (Stronger) (12)
+          [advRng("SchemePlus", ColorSchemeBanlist = [], Scene.colorSchemePlus), randomSchemePlus]
+        meta:import
+          from = [Scene.colorSchemePlus]
+
+    // #️⃣ div / hr
+    SceneryCtn2
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(23)]
+
+    bgExterior
+      label = {🌄|🏜️|🌋} Exterior BG // 🌇
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🎲 All Random
+          [advRng("Outdoors", OutdoorsBanlist = ["🎲 Urban (21)🔻"], Scene.NewScenes, Scene.Urban, Scene.Waterscape, Scene.Forest, Scene.Ruins), randomOutdoors]
+        meta:import
+          from = [Scene.NewScenes]
+        meta:import
+          from = [Scene.Urban]
+
+
+        ▶️ Waterscape all
+          [betterSEQUENCE("", "advWSSequence", Scene.Waterscape)]
+        meta:import
+          from = [Scene.Waterscape]
+
+        ▶️🌲 🅵🅾🆁🅴🆂🆃🆂 (32)🌳
+          [betterSEQUENCE("", "advForestSequence", Scene.Forest)]
+        meta:import
+          from = [Scene.Forest]
+
+        ▶️ Ruins/Ancient (7)
+          [betterSEQUENCE("", "advRuinsSequence", Scene.Ruins)]
+
+        meta:import
+          from = [Scene.Ruins]
+
+    bgInterior
+      label = {🏠|🏫|🏛️} Interior BG
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🎲 All Random
+          [advRng("Indoors", IndoorsBanlist = [], Scene.Interior, Scene.Indoors, Scene.InteriorDungeon, Scene.Walls), randomIndoors]
+
+        meta:import
+          from = [Scene.Interior]
+
+        🔻 Indoors based on architecture styles 🔻
+          [advRng("IndoorsArchitecture", IndoorsBanlist = [], Scene.Indoors), randomIndoorsArchitecture]
+        ▶️ All Indoors in Sequence (25)
+          [betterSEQUENCE("", "advIndoors", Scene.Indoors)]
+        meta:import
+          from = [Scene.Indoors]
+        meta:import
+          from = [Scene.InteriorDungeon]
+        meta:import
+          from = [Scene.Walls]
+
+    bgTime
+      label = ⏰ Time
+      type = select
+      //tip = You can raise the weight of the Time description by selecting "⏰ level" at the side. You can swap between 🌧️ and ⏰ by clicking on those icons.
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🎲 Random Time (13)
+          [advRng("Time", TimeBanlist = [], Scene.Time, Scene.SpecialTime), randomTime]
+        meta:import
+          from = [Scene.Time]
+        meta:import
+          from = [Scene.SpecialTime]
+
+    bgWeather
+      label = 🌧️ Weather
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random Season🔻(15)
+          [advRng("Season", SeasonBanlist = [], Scene.Season), randomSeason]
+        meta:import
+          from = [Scene.Season]
+        🎲 Random Rain🔻(8)
+          [advRng("Rain", RainBanlist = [], Scene.Rains), randomRain]
+        meta:import
+          from = [Scene.Rains]
+
+
+
+    // #️⃣ div / hr
+    bgCtnEnd
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(24)]
+
+    characterButtons
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(25)]
+
+    animeCharacter // ♥️ Waifu
+      label = {🧍🏿‍♀️|🧍🏼‍♀️|🧍} <span style="height:1.4rem;">Character</span><button id="charOutfitStatusBtn" class="switch-buttons fp-event[qolf.LoadButtonStatus('characterOutfit', ' active-btn-main', ' active-btn-main')]" onclick="qolf.ActiveButton('characterOutfit', 'active', 'inactive', this, 'active-btn-main'); qolf.iconDisplayActiveEl(this, 'characterOutfit', 'active', 'Outfit ON', 'Outfit OFF')" style="height:1.4rem; margin-left:5px;">Outfit ON</button>
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🔻💖 Anime Waifus 💖🔻
+          prompt = [advRng('AnimeGirl', AnimeGirlBanList = ["『A』↓ ❤️️ ❤️️ ❤️️","『B』↓ ❤️️ ❤️️ ❤️️","『C』↓ ❤️️ ❤️️ ❤️️","『D』↓ ❤️️ ❤️️ ❤️️","『E』↓ ❤️️ ❤️️ ❤️️","『F』↓ ❤️️ ❤️️ ❤️️","『G』↓ ❤️️ ❤️️ ❤️️","『H』↓ ❤️️ ❤️️ ❤️️","『I』↓ ❤️️ ❤️️ ❤️️","『J』↓ ❤️️ ❤️️ ❤️️","『K』↓ ❤️️ ❤️️ ❤️️","『L』↓ ❤️️ ❤️️ ❤️️","『M』↓ ❤️️ ❤️️ ❤️️","『N』↓ ❤️️ ❤️️ ❤️️","『O』↓ ❤️️ ❤️️ ❤️️","『P』↓ ❤️️ ❤️️ ❤️️","『Q』↓ ❤️️ ❤️️ ❤️️","『R』↓ ❤️️ ❤️️ ❤️️","『S』↓ ❤️️ ❤️️ ❤️️","『T』↓ ❤️️ ❤️️ ❤️️","『U』↓ ❤️️ ❤️️ ❤️️","『V』↓ ❤️️ ❤️️ ❤️️","『W』↓ ❤️️ ❤️️ ❤️️","『X』↓ ❤️️ ❤️️ ❤️️","『Y』↓ ❤️️ ❤️️ ❤️️","『Z』↓ ❤️️ ❤️️ ❤️️"], aagaAW), randomAnimeGirl.prompt]
+          negative = [randomAnimeGirl.negative || ""]
+
+        🎲 Random Waifu (~111)
+          prompt = [advRng('AnimeGirl', AnimeGirlBanList = ["『A』↓ ❤️️ ❤️️ ❤️️","『B』↓ ❤️️ ❤️️ ❤️️","『C』↓ ❤️️ ❤️️ ❤️️","『D』↓ ❤️️ ❤️️ ❤️️","『E』↓ ❤️️ ❤️️ ❤️️","『F』↓ ❤️️ ❤️️ ❤️️","『G』↓ ❤️️ ❤️️ ❤️️","『H』↓ ❤️️ ❤️️ ❤️️","『I』↓ ❤️️ ❤️️ ❤️️","『J』↓ ❤️️ ❤️️ ❤️️","『K』↓ ❤️️ ❤️️ ❤️️","『L』↓ ❤️️ ❤️️ ❤️️","『M』↓ ❤️️ ❤️️ ❤️️","『N』↓ ❤️️ ❤️️ ❤️️","『O』↓ ❤️️ ❤️️ ❤️️","『P』↓ ❤️️ ❤️️ ❤️️","『Q』↓ ❤️️ ❤️️ ❤️️","『R』↓ ❤️️ ❤️️ ❤️️","『S』↓ ❤️️ ❤️️ ❤️️","『T』↓ ❤️️ ❤️️ ❤️️","『U』↓ ❤️️ ❤️️ ❤️️","『V』↓ ❤️️ ❤️️ ❤️️","『W』↓ ❤️️ ❤️️ ❤️️","『X』↓ ❤️️ ❤️️ ❤️️","『Y』↓ ❤️️ ❤️️ ❤️️","『Z』↓ ❤️️ ❤️️ ❤️️"], aagaAW), randomAnimeGirl.prompt]
+          negative = [randomAnimeGirl.negative || ""]
+
+        meta:import
+          from = [aagaAW]
+
+        meta:import
+          from = [aagaCHAR.Characters.Fantasy]
+        meta:import
+          from = [aagaCHAR.Characters.Normal]
+
+    userCharacter
+      label = <span style="height:1.4rem;">My Characters</span>
+      tip = Check the (? info) button for more details. To set your characters here, use the notepad in (Notes).
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+        🎲 Random (all)
+          [(advRng('MyCharacters', MyCharactersBanList = ['$moduleSpace'], ABI = userCharacterList), randomMyCharacters)] // or .selectAll.join("*").split("*")
+        meta:import
+          from = [userCharacterList]
+
+    // #️⃣ div / hr
+    characterBodyCtn
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(26)]
+
+    characterXES
+      label = Gender
+      tip = 'Girl' option is banned by perchance in the gallery, as well the others options that have 'small' or 'short'
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        meta:import
+          from = [aagaCHAR.XES]
+
+    characterBody
+      label = 🚺Body
+      type = select
+      tip = Some body types are automatically CENSORED by the platform (Perchance.org), anything "young," "petite," or "cute" may be automatically deleted from the PUBLIC gallery. It's recommended to save these photos to your PRIVATE gallery, or better yet, to your device.
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+        🎲 Random (13)
+          [advRng("Body", BodyBanlist = ["LoIi (anime only)", "Fat"], aagaCHAR.BodyShape, aagaCHAR.HipsAndThighs), randomBody]
+
+        meta:import
+          from = [aagaCHAR.BodyShape]
+        meta:import
+          from = [aagaCHAR.HipsAndThighs]
+        Sequence
+          [betterSEQUENCE("*", "advBody", [aagaCHAR.BodyShape.selectAll.join("*"), aagaCHAR.HipsAndThighs.selectAll.join("*")].join("*"))]
+
+    characterChest
+      label = Chest
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random (6)
+          [advRng("Chest", ChestBanlist = [], aagaCHAR.Chest), randomChest]
+
+        meta:import
+          from = [aagaCHAR.Chest]
+        Sequence
+          [betterSEQUENCE("*", "advChest", aagaCHAR.Chest)]
+
+
+    CharacterCtn3
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(27)]
+
+    characterSkinColor
+      label = 🌈 Skin C.
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random (14)
+          [advRng("SkinColor", SkinColorBanlist = [], aagaCHAR.naturalSkinColors, aagaCHAR.unnaturalSkinColors), randomSkinColor]
+        meta:import
+          from = [aagaCHAR.naturalSkinColors]
+        meta:import
+          from = [aagaCHAR.unnaturalSkinColors]
+
+    characterEyeColor
+      label = 🌈Eye C.
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🎲 All Colors Random (~102)🎲
+          [advRng('EyeColor', EyeColorBanList = [], aagaCHAR.EyeColors, Colors.UncommonColors), randomEyeColor]
+
+        🎲 Common colors (14)🔻
+          [advRng('CommonEyeColor', EyeColorBanList = [], aagaCHAR.EyeColors), randomCommonEyeColor]
+        meta:import
+          from = [aagaCHAR.EyesColors]
+
+        🎲 Uncommon Colors (~88)🔻
+          [advRng('UncommonEyeColor', EyeColorBanList = [], Colors.UncommonColors), randomUncommonEyeColor]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    characterHairColor
+      label = 🌈Hair C.
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🎲 All Colors Random (~107)🎲
+          [advRng('HairColor', HairColorBanList = [], aagaCHAR.HairColors, Colors.UncommonColors), randomHairColor]
+
+        🎲 Common Colors (19)🔻
+          [advRng('CommonHairColor', HairColorBanList = [], aagaCHAR.HairColors), randomCommonHairColor]
+        meta:import
+          from = [aagaCHAR.HairColors]
+
+        🎲 Uncommon Colors (~88)🔻
+          [advRng('UncommonHairColor', HairColorBanList = [], Colors.UncommonColors), randomUncommonHairColor]
+        meta:import
+          from = [Colors.UncommonColors]
+
+
+    // #️⃣ html
+    characterHairCtn
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(28)]
+
+    characterHairL
+      label = Hair Lenght
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [input.characterHairColor.getName !== "-" ? input.characterHairColor + " hair" : ""]
+
+        🎲 Random (without bald 😔)
+          [advRng('HairLenght', HairLenghtBanList = ['Bald'], aagaCHAR.HairLenght), randomHairLenght]
+
+        meta:import
+          from = [aagaCHAR.HairLenght]
+
+    characterHairT
+      label = Hair Type
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🎲 Random (9)
+          [advRng('HairType', HairTypeBanList = ['Pointy Hair (very inaccurate)'], aagaCHAR.HairType), randomHairType]
+
+        meta:import
+          from = [aagaCHAR.HairType]
+
+    characterHairS
+      label = Hair Style
+      type = select
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      options
+        -
+          [""]
+
+        🎲 Random Hair Style/Cut (25)
+          [advRng('HairStyle', HairStyleBanList = ['Huge afro (hair)'], aagaCHAR.HairStyle), randomHairStyle]
+
+        meta:import
+          from = [aagaCHAR.HairStyle]
+
+        🎲 Random Male Style/Cut (7)
+          [advRng('MaleHairStyle', MaleHairStyleBanList = [], aagaCHAR.MaleHairStyle), randomMaleHairStyle]
+        meta:import
+          from = [aagaCHAR.MaleHairStyle]
+
+    characterHairB
+      label = Bangs
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random Bangs (11)
+          [advRng('HairBangs', HairBangsBanList = [], aagaCHAR.HairBangs), randomHairBangs]
+        meta:import
+          from = [aagaCHAR.HairBangs]
+
+        🎲 Sidelocks
+          [advRng('Sidelocks', SidelocksBanList = [], aagaCHAR.Sidelocks), randomSidelocks]
+        meta:import
+          from = [aagaCHAR.Sidelocks]
+
+        🎲 Hair Over/Between Eyes
+          [advRng('HairOverEyes', HairOverEyesBanList = [], aagaCHAR.HairOverEyes), randomHairOverEyes]
+        meta:import
+          from = [aagaCHAR.HairOverEyes]
+
+    characterHairMisc
+      label = Misc
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+
+        🎲 All non-repetitive options (random)
+          [advRng('HairMisc', HairMiscBanList = [], aagaCHAR.HairStyleII, aagaCHAR.Sidelocks, aagaCHAR.HairOverEyes), randomHairMisc]
+        🎲 Others
+          [advRng('HairStyleII', HairStyleIIBanList = [], aagaCHAR.HairStyleII), randomHairStyleII]
+        meta:import
+          from = [aagaCHAR.HairStyleII]
+        🎲 Sidelocks
+          [advRng('Sidelocks', SidelocksBanList = [], aagaCHAR.Sidelocks), randomSidelocks]
+        meta:import
+          from = [aagaCHAR.Sidelocks]
+        🎲 Hair Over/Between Eyes
+          [advRng('HairOverEyes', HairOverEyesBanList = [], aagaCHAR.HairOverEyes), randomHairOverEyes]
+        meta:import
+          from = [aagaCHAR.HairOverEyes]
+        meta:import
+          from = [aagaCHAR.HairType]
+        meta:import
+          from = [aagaCHAR.HairStyle]
+
+    CharacterActionsHtml
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(29)]
+
+    characterAngle
+      label = Angle
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random
+          [advRng("CharacterAngle", CharacterAngleBanlist = [], aagaCHAR.Angle), randomCharacterAngle]
+        meta:import
+          from = [aagaCHAR.Angle]
+
+    characterGaze
+      label = Gaze
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random
+          [advRng("CharacterGaze", CharacterGazeBanlist = [], aagaCHAR.Gaze), randomCharacterGaze]
+        meta:import
+          from = [aagaCHAR.Gaze]
+        Sequence
+          [betterSEQUENCE("*", "advCharacterLook", aagaCHAR.Facing)]
+
+    characterEmo
+      label = 😘 Emo
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        meta:import
+          from = [aagaCHAR.Emo]
+
+    characterAction
+      label = Action
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random (15)
+          [advRng('Action', ActionBanList = [], aagaCHAR.Action), randomAction]
+        meta:import
+          from = [aagaCHAR.Action]
+
+    // #️⃣ div / hr
+    FashionCtnBar
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(30)]
+
+
+    outfitFabric
+      label = Fabric
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        meta:import
+          from = [Fashion.Fabric]
+
+    outfitSet
+      label = Outfit Set
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+
+        meta:import
+          from = [Fashion.OnePieceGarments]
+
+        meta:import
+          from = [Fashion.Bikinis]
+        meta:import
+          from = [Fashion.Uniforms]
+        meta:import
+          from = [Fashion.AnimalCos]
+        ▶️ Armor 🔻
+          [betterSEQUENCE("*", "advArmor", Fashion.Armor)]
+        meta:import
+          from = [Fashion.Armor]
+
+    outfitColor
+      label = Outfit 🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('OutfitColor', OutfitColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomOutfitColor]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    outfitCtnBar
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(31)]
+
+    userOutfitSet
+      label = My Set
+      tip = Check the (? info) button for more details. To set your clothes here, use the notepad in (Notes).
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random (all)
+          [(advRng('MyClothes', myClothesBanList = ['$moduleSpace'], userOutfitList), randomMyClothes)]
+        meta:import
+          from = [userOutfitList]
+
+    outfitCosplay
+      label = Anime Cosplay
+      type = select
+      //tip = Not really accurate
+      remember = [SharedLinkVerif]
+      options
+        -
+          outfit = [""]
+        🎲 Random
+          outfit = [advRng('Cosplay', CosplayBanList = ["『A』↓ ❤️️ ❤️️ ❤️️","『B』↓ ❤️️ ❤️️ ❤️️","『C』↓ ❤️️ ❤️️ ❤️️","『D』↓ ❤️️ ❤️️ ❤️️","『E』↓ ❤️️ ❤️️ ❤️️","『F』↓ ❤️️ ❤️️ ❤️️","『G』↓ ❤️️ ❤️️ ❤️️","『H』↓ ❤️️ ❤️️ ❤️️","『I』↓ ❤️️ ❤️️ ❤️️","『J』↓ ❤️️ ❤️️ ❤️️","『K』↓ ❤️️ ❤️️ ❤️️","『L』↓ ❤️️ ❤️️ ❤️️","『M』↓ ❤️️ ❤️️ ❤️️","『N』↓ ❤️️ ❤️️ ❤️️","『O』↓ ❤️️ ❤️️ ❤️️","『P』↓ ❤️️ ❤️️ ❤️️","『Q』↓ ❤️️ ❤️️ ❤️️","『R』↓ ❤️️ ❤️️ ❤️️","『S』↓ ❤️️ ❤️️ ❤️️","『T』↓ ❤️️ ❤️️ ❤️️","『U』↓ ❤️️ ❤️️ ❤️️","『V』↓ ❤️️ ❤️️ ❤️️","『W』↓ ❤️️ ❤️️ ❤️️","『X』↓ ❤️️ ❤️️ ❤️️","『Y』↓ ❤️️ ❤️️ ❤️️","『Z』↓ ❤️️ ❤️️ ❤️️"], aagaAW), randomCosplay.outfit]
+        meta:import
+          from = [aagaAW]
+
+
+    // #️⃣ div / hr
+    FashionCtnOnes
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(32)]
+
+    outfitOutwear
+      label = Outwear
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+
+        🎲 All (Random)
+          [advRng("Outwear", OutwearBanList = ['🎲🥼 🅾🆄🆃🅴🆁🆆🅴🅰🆁 🔻'], Fashion.Outerwear), randomOutwear]
+        meta:import
+          from = [Fashion.Outerwear]
+
+    outfitColor01
+      label = 🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('OutwearColor', OutwearColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomOutwearColor]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    outfitTorso
+      label = Torso
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+
+        🎲 All (Random) without Bra options
+          [advRng("UpperClothes", UpperClothesBanList = ['🎲👕 🆄🅿🅿🅴🆁 🅿🅸🅴🅲🅴🆂 🔻', '🎲🥻 🅳🆁🅴🆂🆂 🔻', '🎲🥼 🅾🆄🆃🅴🆁🆆🅴🅰🆁 🔻', '🎲🐰 🅱🅾🅳🆈🆂🆄🅸🆃 🔻', '🎲 🅲🅾🆁🆂🅴🆃🆂 🔻', '🎲💋 🅻🅸🅽🅶🅴🆁🅸🅴 🔻'], Fashion.UpperGarments, Fashion.Dresses, Fashion.Suits, Fashion.Corsets, Fashion.Lingerie, Fashion.TraditionalAttireTop), randomUpperClothes]
+        🎲 All (Random)
+          [advRng("UpperClothes", UpperClothesBanList = ['🎲👕 🆄🅿🅿🅴🆁 🅿🅸🅴🅲🅴🆂 🔻', '🎲🥻 🅳🆁🅴🆂🆂 🔻', '🎲🥼 🅾🆄🆃🅴🆁🆆🅴🅰🆁 🔻', '🎲🐰 🅱🅾🅳🆈🆂🆄🅸🆃 🔻', '🎲 🅲🅾🆁🆂🅴🆃🆂 🔻', '🎲 🍒 🅱🆁🅰 🔻', '🎲💋 🅻🅸🅽🅶🅴🆁🅸🅴 🔻'], Fashion.UpperGarments, Fashion.Dresses, Fashion.Suits, Fashion.Corsets, Fashion.Bras, Fashion.Lingerie, Fashion.TraditionalAttireTop), randomUpperClothes]
+        All (Sequence)
+          [createList("TorsoClothesListAdv", Fashion.UpperGarments, Fashion.Dresses, Fashion.Suits, Fashion.Corsets, Fashion.Bras, Fashion.Lingerie, Fashion.TraditionalAttireTop)][betterSEQUENCE("*", "TorsoClothesListSeq", itemTorsoClothesListAdv)]
+        meta:import
+          from = [Fashion.UpperGarments]
+        meta:import
+          from = [Fashion.Dresses]
+        meta:import
+          from = [Fashion.Suits]
+        meta:import
+          from = [Fashion.Corsets]
+        meta:import
+          from = [Fashion.Bras]
+        meta:import
+          from = [Fashion.Lingerie]
+        meta:import
+          from = [Fashion.TraditionalAttireTop]
+
+    outfitSleeves
+      label = Sleeves
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""][input.outfitTorso]
+        🎲 Random (All) (8)
+          [""][advRng('Sleeves', SleevesBanList = [], Fashion.SleeveList), randomSleeves]
+        Sequence (All ) (8)
+          [""][betterSEQUENCE("|", "Sleeves", Fashion.SleeveList)]
+        meta:import
+          from = [Fashion.SleeveList]
+
+    outfitColor02
+      label = 🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('UpperClothesColor', UpperClothesColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomUpperClothesColor]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    hrWaist
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(33)]
+
+    outfitWaist
+      label = Waist
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+
+        🎲 All (Random) without panties options
+          [advRng("BottomClothes", BottomClothesBanList = ['🎲👗 🆂🅺🅸🆁🆃🆂 🔻', '🎲🩳 🆂🅷🅾🆁🆃🆂 🔻', '🎲👖 🅿🅰🅽🆃🆂 🔻'], Fashion.Skirts, Fashion.Shorts, Fashion.Pants, Fashion.TraditionalAttireBottom), randomBottomClothes]
+        🎲 All (Random)
+          [advRng("BottomClothes", BottomClothesBanList = ['🎲👗 🆂🅺🅸🆁🆃🆂 🔻', '🎲🩳 🆂🅷🅾🆁🆃🆂 🔻', '🎲👖 🅿🅰🅽🆃🆂 🔻', '🎲🩲 🅿🅰🅽🆃🅸🅴🆂 🔻', '🎲 Panties with Patterns 🔻'], Fashion.Skirts, Fashion.Shorts, Fashion.Pants, Fashion.TraditionalAttireBottom, Fashion.Panties, Fashion.PantiesAnime), randomBottomClothes]
+        meta:import
+          from = [Fashion.Skirts]
+        meta:import
+          from = [Fashion.Shorts]
+        meta:import
+          from = [Fashion.Pants]
+        meta:import
+          from = [Fashion.TraditionalAttireBottom]
+        meta:import
+          from = [Fashion.Panties]
+        meta:import
+          from = [Fashion.PantiesAnime]
+
+    outfitColor03
+      label = 🌈 //🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('BottomClothesColor', BottomClothesColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomBottomClothesColor]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    hrLegs
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(34)]
+
+    outfitLegs
+      label = Legs
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 All (Random)
+          [advRng("Legs", LegsBanList = ['🎲 Stockings 🔻', '🎲🧦 Socks 🔻'], Fashion.Stockings, Fashion.Socks, Fashion.LegAccessories), randomLegs]
+        meta:import
+          from = [Fashion.Stockings]
+        meta:import
+          from = [Fashion.Socks]
+        meta:import
+          from = [Fashion.LegAccessories]
+
+
+    outfitColor04
+      label = 🌈 //🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('LegsColor', LegsColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomLegsColor]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    hrFoot
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(35)]
+
+    outfitFoot
+      label = Foot
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        meta:import
+          from = [Fashion.Footwear]
+
+    outfitColor05
+      label = 🌈 //🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('FootColor', FootColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomFootColor]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    hrHead
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(36)]
+
+    outfitHead
+      label = Head
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 All (Random)
+          [advRng("Head", HeadBanList = ['🎲👒 🅷🅰🆃 🔻', '🎲🎀 🅷🅰🅸🆁 🅰🅲🅲.🔻', '🎲 Head 🔻'], Fashion.Hats, Fashion.HairAccessories, Fashion.HeadAccessories), randomHead]
+        meta:import
+          from = [Fashion.Hats]
+        meta:import
+          from = [Fashion.HairAccessories]
+        meta:import
+          from = [Fashion.HeadAccessories]
+
+    outfitColor07
+      label = 🌈 //🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('HeadColor', HeadColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomHeadColor]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    hrHands
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(37)]
+
+    outfitHands
+      label = Hands
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        meta:import
+          from = [Fashion.Gloves]
+
+    outfitColor06
+      label = 🌈 //🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('HandColor', HandColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomHandColor]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    hrAcces
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(38)]
+
+    outfitAccA
+      label = Acc
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        meta:import
+          from = [Fashion.NeckAccessories]
+        meta:import
+          from = [Fashion.AllAccessories]
+        meta:import
+          from = [Fashion.HeadJewelry]
+        meta:import
+          from = [Fashion.TorsoAccessories]
+        meta:import
+          from = [Fashion.ArmAccessories]
+        meta:import
+          from = [Fashion.HandAccessories]
+        meta:import
+          from = [Fashion.WaistAccessories]
+        meta:import
+          from = [Fashion.FootAccessories]
+
+    outfitColor08
+      label = 🌈 //🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('Acc1Color', Acc1ColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomAcc1Color]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    outfitAccB
+      label = Acc
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        meta:import
+          from = [Fashion.AllAccessories]
+        meta:import
+          from = [Fashion.HeadJewelry]
+        meta:import
+          from = [Fashion.TorsoAccessories]
+        meta:import
+          from = [Fashion.ArmAccessories]
+        meta:import
+          from = [Fashion.HandAccessories]
+        meta:import
+          from = [Fashion.WaistAccessories]
+        meta:import
+          from = [Fashion.FootAccessories]
+        meta:import
+          from = [Fashion.NeckAccessories]
+
+    outfitColor09
+      label = 🌈 //🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('Acc2Color', Acc2ColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomAcc2Color]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    outfitAccC
+      label = Acc
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        meta:import
+          from = [Fashion.AllAccessories]
+        meta:import
+          from = [Fashion.HeadJewelry]
+        meta:import
+          from = [Fashion.TorsoAccessories]
+        meta:import
+          from = [Fashion.ArmAccessories]
+        meta:import
+          from = [Fashion.HandAccessories]
+        meta:import
+          from = [Fashion.WaistAccessories]
+        meta:import
+          from = [Fashion.FootAccessories]
+        meta:import
+          from = [Fashion.NeckAccessories]
+
+    outfitColor10
+      label = 🌈 //🌈
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        🎲 Random colors (all)
+          [advRng('Acc3Color', Acc3ColorBanList = [], Colors.CommonColors, Colors.UncommonColors), randomAcc3Color]
+        meta:import
+          from = [Colors.CommonColors]
+        meta:import
+          from = [Colors.UncommonColors]
+
+    // #️⃣ hr
+    StylesCtnEND
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(39)]
+
+    // #️⃣ div / hr
+    seedCtn
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(40)]
+
+    seed
+      label = [icon("fa-solid fa-plant-wilt", "color:#0bb063")]&nbsp;<button id="randomSeedBtn" style="margin-bottom:1px; font-weight:600; height:1.4rem;" onclick="sSD.SmartSeedButton(this, 'active-btn-main', 'skipSeedBtn'); qolf.LightButton('seedLockTool', 'active-btn-main')">Smart Seed</button>&nbsp;<button id="skipSeedBtn" style="width:60px; height:1.4rem; margin-left:5px;" onclick="sSD.skipSeedNumber(this, 'active-btn-main', 'skipSeedBtn')" disabled>🌱 1</button>&nbsp;&nbsp;&nbsp;<button id="wipeSeedBtn" style="height:1.4rem;" onclick="qolf.toggleClear('wipeSeedBtn', 'seed', '🗑️', '🗑️')">🗑️</button>
+      tip = Leave blank for random images.\nA seed controls how the image is generated. If you reuse the same seed with the same prompt, you’ll get the same (or very similar) image again.\n\n🍃 Smartseed: automatically generate a random number each time the generate button is clicked.\n\n🌱 Seeds per image:\nThis option controls how many times the same seed is reused. The generator creates as many seeds as needed based on the selected value and the total number of images.\nExample:\nSelecting (🌱2) and generating 6 images creates 3 different seeds, with each seed applied to 2 images.\nSelecting (🌱2) and generating 8 images creates 4 different seeds, with each seed applied to 2 images.
+      type = paragraph
+      //foldToggleState = shown
+      width = min(375px, 100%)
+      takesUpFullRow = true
+      remember = [SharedLinkVerif]
+      excludeFromShareLink = false
+      examples
+        Leave it blank to random seed/images
+
+    // #️⃣ div / hr
+    IconsEndCtn
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(41)]
+
+    // #️⃣ div / hr
+    extraThingsCtn
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(42)]
+
+    autoGenButton
+      type = HTMLelement
+      html = [autoGenBtnRender('startBtn')]
+
+    imgMetaReaderBtn
+      type = HTMLelement
+      html = <button class="nice-border microchip-btn" style="max-height:2.9rem; max-width:100px; margin:3px 2px; padding: 5px;" onclick="qolf.changeDisplayStatus('imgReaderWrapper', '', 'none')" title="Questions? Check the &lsqb;Info ?&rsqb; button about it.">🎑 Adv Img M Reader</button>
+
+    sharedLinkConverter
+      type = HTMLelement
+      html = <button class="microchip-btn" style="max-height:2.9rem; max-width:100px; margin:3px 2px; padding: 5px;" onclick="qolf.changeDisplayStatus('convertOldSharedLinkCtn', 'flex', 'none')">Old shared links</button>
+
+    scriptBtn
+      type = HTMLelement
+      html = <button style="max-height:2.9rem; max-width:100px; margin:3px 2px; padding: 5px;" onclick="qolf.changeDisplayStatus('hackCtn', 'flex', 'none')">Scripts</button>
+
+    // #️⃣ div / hr
+    imageSettingsCtn
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(43)]
+
+    gScale
+      label = [icon("fa-solid fa-scale-unbalanced-flip")]&nbsp;CFG //Guidance Scale
+      type = select
+      tip = ➡️ The default is 7. ⬅️\n\nThe Guidance Scale, also known as the Classifier-Free Guidance (CFG) scale, CONTROLS HOW CLOSELY THE AI ADHERES TO THE PROVIDED TEXT PROMPT during the image generation process. IN OTHER WORDS, IT DETERMINES THE EXTENT TO WHICH THE GENERATED IMAGE REFLECTS THE INPUT TEXT.\nA HIGHER VALUE of the Guidance Scale MEANS THAT THE AI WILL FOLLOW THE TEXT PROMPT MORE STRICTLY.\nThis can be useful when you want the generated art to closely match a specific description. However, a higher Guidance Scale also restricts the AI’s creative freedom, which might result in less diverse and potentially lower-quality images.\nOn the other hand, A LOWER VALUE of the Guidance Scale GIVES THE AI MORE FREEDOM TO INTERPRET THE TEXT PROMPT CREATIVELY. This can lead to more diverse and unexpected results, which might be desirable in certain contexts.\n\nPerchance uses the FLUX model. In this model the best CFG values are between 6 and 10.
+      remember = [SharedLinkVerif]
+      options
+        Default = 0
+        Custom (in sequence)
+          [TPROCESS.customCFG()]
+        4~7 📈
+          [betterSEQUENCE(",", "seqCFG", "4, 5, 6, 7")]
+        7~10 📈
+          [betterSEQUENCE(",", "seqCFG", "7, 8, 9, 10")]
+        10~13 📈
+          [betterSEQUENCE(",", "seqCFG", "10, 11, 12, 13")]
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+        11
+        12
+        13
+        14
+        15
+        16
+        17
+        18
+        19
+        20
+        21
+        22
+        23
+        24
+        25
+        26
+        27
+        28
+        29
+        30
+
+    shape //
+      label = [icon("fa-solid fa-object-group", "color:#f5cc45")]&nbsp;Shape
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        Portrait (512x768)
+          512x768
+        Square (768x768)
+          768x768
+        Landscape (768x512)
+          768x512
+        Small square (512x512)
+          512x512
+        Sequence (portrait > square > landscape) //🎲 All Random
+          [betterSEQUENCE(",", "sHaPe", "512x768, 768x768, 768x512")]
+          //768x768
+          //512x768
+          //768x512
+        Sequence (portrait > landscape) //🎲 Portrait/Landscape Random
+          [betterSEQUENCE(",", "sHaPe", "512x768, 768x512")]
+          //512x768
+          //768x512
+
+    numImages
+      label = [icon("fa-solid fa-hand")]&nbsp;Qty.
+      type = select
+      remember = [SharedLinkVerif]
+      options
+        1 = 1
+        2 = 2
+        3 = 3
+        4 = 4
+        5 = 5
+        6 = 6
+        7 = 7
+        8 = 8
+        9 = 9
+        10 = 10
+        11 = 11
+        12 = 12
+        13 = 13
+        14 = 14
+        15 = 15
+        16 = 16
+        17 = 17
+        18 = 18
+        19 = 19
+        20 = 20
+        21 = 21
+        22 = 22
+        23 = 23
+        24 = 24
+        25 = 25
+        26 = 26
+        27 = 27
+        28 = 28
+        29 = 29
+        30 = 30
+        31 = 31
+        32 = 32
+        33 = 33
+        34 = 34
+        35 = 35
+        36 = 36
+        37 = 37
+        38 = 38
+        39 = 39
+        40 = 40
+        45 = 45
+        50 = 50
+        55 = 55
+        60 = 60
+        65 = 65
+        70 = 70
+        75 = 75
+        80 = 80
+        85 = 85
+        90 = 90
+        95 = 95
+        100 = 100
+
+    Display // 🔎 Display
+      type = HTMLelement
+      html = <button style="max-height:3.25rem; max-width:100px; margin: 3px 2px; padding: 5px;" onclick="createInputSlider('displayInputCtn')"><span style="font-size:small">🔎 Display</span></button>
+
+    qBooster
+      label = Aesthetic <button class="fp-event[qolf.LoadButtonStatus('advAESTHETIC', ' active-btn-main', '')]" onclick="qolf.ActiveButton('advAESTHETIC', 'active', 'inactive', this, 'active-btn-main')" style="margin: 0 5px">+</button>
+      type = select
+      tip = ⚠️ This does NOT work with real photos.\nIt only works with semi-realistic, anime, cartoon, or illustrated styles — anything that does not look like a real photo or real life.\n\n⚠️ Value 11 may cause the AI to not correctly follow your prompt.
+      remember = [SharedLinkVerif]
+      options
+        -
+          [""]
+        11 (Best Quality)
+          11
+        ✅ 10 (Very Good Quality)
+          10
+        9 (Good Quality)
+          9
+        8
+          8
+        7
+        6 (Average)
+        5
+        4
+        3 (Bad Quality)
+        2
+        1
+        0 (Very Bad)
+          0
+        Sequence (11 to 0)
+          [betterSEQUENCE("*", "advQBooster", "11 * 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1 * 0")]
+
+
+    // #️⃣🔴 html end
+    ENDCtn
+      type = HTMLelement
+      html = <hr class="menu-bar"><div id="displayInputCtn"></div>[mainOptionsHtmlRender(44)]
+
+    // #️⃣ html
+    startTitleInput
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(45)]
+
+    titleImage
+      label = [icon("fa-solid fa-pen-to-square")] Title &nbsp;&nbsp;&nbsp;<button id="titleSaveBtn" class="[localStorage.titleSaved === 'true' ? ' active-btn-main' : '']" style="font-weight:600;" onclick="localStorage.titleSaved === 'true' ? localStorage.titleSaved = '' : localStorage.titleSaved = 'true'; qolf.LightButton(this, 'active-btn-main')">Remember</button>&nbsp;
+      tip = The name is saved in the generated images AFTER you press the GENERATE button. The name will be the same for all images generated in the same batch. This will only be shown in the gallery images and has no influence on the prompts.
+      type = text
+      //foldToggleState = shown
+      remember = [localStorage.titleSaved || false]
+      excludeFromShareLink = true
+      examples
+        Type a name for your image here.
+        Name is saved AFTER you generate.
+
+    subtitleImage
+      label = [icon("fa-solid fa-pen-to-square", "color:#939F9F")] Subtitle &nbsp;&nbsp;&nbsp;<button id="subtitleBtn" class="[localStorage.subTitleSaved === 'true' ? ' active-btn-main' : '']" style="font-weight:600;" onclick="localStorage.subTitleSaved === 'true' ? localStorage.subTitleSaved = '' : localStorage.subTitleSaved = 'true'; qolf.LightButton(this, 'active-btn-main')">Remember</button>&nbsp;
+      tip = This will be shown below the title.
+      type = text
+      //foldToggleState = shown
+      remember = [localStorage.subTitleSaved || false]
+      excludeFromShareLink = true
+      examples
+        Type just a few words or leave blank.
+
+    // #️⃣ html
+    endTitle
+      type = HTMLelement
+      html = [mainOptionsHtmlRender(46)]</div>
+
+    hackingAreaCtn
+      type = HTMLelement
+      html = <div id="hackCtn" style="display:none;">
+
+    userHack
+      label = <button onclick="qolf.changeDisplayStatus('hackCtn', 'flex', 'none')" style="margin-right: 10px; border:1px dashed blue;">Close ❌</button> <button onclick="qolf.fastEffect(this, 500, 'rainbow-effect'); hacking" style="margin:0 10px; border:1px solid red;">Hack 🔑</button>
+      type = paragraph
+      width = min(500px, 90vw)
+      height = 40vh
+      takesUpFullRow = true
+      remember = true
+      tip = If you know javascript or perchance syntax, you can use this area to run some code and add or change something that you don't like
+
+    hackingAreaCtnEnd
+      type = HTMLelement
+      html = </div>
+
+  defaultCommentOptions // for comments plugin: https://perchance.org/comments-plugin
+    width = 100%
+    height = 450
+    inputAreaStyle = height: 75px;
+    adminPasswordHash = 054b476773a7c7d7dcada97a9e49b13d0904bebae28630ca818e98c23f8eca29
+    adminFlair = 🗑️🔸
+    commentPlaceholderText = Type a friendly comment...
+    customEmojis = {import:huge-emoji-list}
+    submitButtonText = submit comment
+    bannedUsers = [Prison.UFilter]
+    bannedWords = [Prison.WFilter]
+    slashCommands
+      img
+        output = [this.input.replace(/^/, "https://perchance.org/share-img-link#")]
+      image
+        output = [this.input.replace(/^/, "https://perchance.org/share-img-link#")]
+
+
+  commentChannels
+    allowCustomChannels = false
+    general1
+      label = General
+      commentPlaceholderText = [emojiCommands]\n[slashCommands]\n
+      allowBots = false
+      messageFeedStyle = background-image:url([localStorage.chat1Wallpaper || ""]); background-size:cover;
+    chat1
+      label = AI chat
+    hellp1
+      label = Help
+      allowBots = false
+      commentPlaceholderText = Questions? Advices?\n[slashCommands]
+    prompts
+      label = Prompts
+      allowBots = false
+      commentPlaceholderText = To share prompts.\n[slashCommands]\n
+      submitButtonText = share prompt
+    //ngtvs1
+      //label = Negatives
+      //allowBots = false
+      //commentPlaceholderText = Share some useful negatives.
+    galr1
+      label = Gallery Names
+      allowBots = false
+      commentPlaceholderText = ⭐ You can use https://perchance.org/prompt-hunter to share your galleries. Fill in the 2nd field with the name of your gallery, click "Share link 🔗" and copy-paste the link here.
+    //update-temp1
+      //label = Report/Request //Dark Place
+      //allowBots = false
+      //commentPlaceholderText = ☕️ Feedback, report bugs or make requests here. Or any other thing you want to talk with me.\n[slashCommands]\n
+    sinfullroom
+      label = Sinful Room
+      allowBots = false
+      commentPlaceholderText = Possibly 18+💗 chat with ŋ▲ugh⊤y conversations.\n[emojiCommands]\n[slashCommands]\n
+      messageFeedStyle = background-image:url([localStorage.chat2Wallpaper || ""]); background-size:cover;
+      //inputAreaStyle = background:red;
+    //artst1
+      //label = Useful Links
+      //commentPlaceholderText = Share links from your prompts or other AI-related stuff. Malwares, ADs or Scams = BAN.
+   // general
+      //label = True General
+    //chat2
+      //label = Room 2
+
+  galleryOptions
+    gallery = true
+    sort = trending
+    hideIfScoreIsBelow = [Prison.hscr]
+    adaptiveHeight = true
+    style = background-color: var(--blackwhite-rgba-02);
+    contentFilter = pg13
+    bannedUsers = [Prison.EmptyFilterB]
+    //bannedPromptPhrases = [Prison.EmptyFilterA]
+    customButton2
+      emoji = 🔍
+      onClick(data) =>
+        newImg.regenerateFromGallery(data)
+
+  showFeedback = false //
+
+slashCommands = ["Slash commands: \n/img www.image-link-here (to send clickable image link)\n"]
+emojiCommands = ["Emoji ➔ :emojiname:"]
+randomDescription = Type your description here.\n\n# Usefull commands:\n &lsqb;RANDOM("item 1, item 2, item 3")&rsqb; - Picks a random item each pic\n &lsqb;SEQUENCE("item 1, item2, item3")&rsqb; - picks an item in order\n &lsqb;COLOR()&rsqb; - picks a random color from a list with 70+\n &lsqb;COLOR("BASIC")&rsqb; - picks a basic color (~11)\n &lsqb;NATIONALITY()&rsqb;
+
+hacking = [input.userHack]
+GeneratorURL = [window.location.href]
+//SharedLinkVerif returns TRUE or FALSE to 'remember' item in the options, so the settings are not saved if the generator url is a shared link
+SharedLinkVerif = [GeneratorURL.includes("data=uup") && GeneratorURL.includes(".gz") ? false : true]
+copyText(text) => // Small fix for syntax problems
+  const newText = JSON.stringify(text);
+  copyTxt(newText.replace("[", "\\[").replace("]", "\\]"));
+
+// ⋆ ⋆ ⋆ Convert long names ⌚ ⋆ ⋆ ⋆
+SPC = [settings.promptConfig]
+SUI = [settings.userInputs]
+SIO = [settings.imageOptions]
+
+D0 = [""][PProcess(input.descriptionZero, D0REPTGKey, D0ADDTGKey, D0RMVTGKey, WALKey0)]
+D1 = [""][PProcess(input.description, RNGKey, REPTGKey, ADDTGKey, RMVTGKey, WALKey)]
+D2 = [""][PProcess(input.description2, D2REPTGKey, D2ADDTGKey, D2RMVTGKey, WALKey2)]
+//NGOnly = [""][NProcess(input.negative, NRNGKey, NREPTGKey, NADDTGKey, NRMVTGKey, NWALKey)]
+qBooster = [input.qBooster.getName === "-" ? "" : `${aestheticTAG}${input.qBooster} `]
+cleanP = ["active"]
+filter1 = ["", "-"]
+
+RandomStylesFilterList = [["AI Art Gen. Advanced Styles 🔻", "🔻*️⃣ T2I Styles🔻", "🔻*️⃣ text2image-gen Styles🔻", "🔻*️⃣ Vionet20 Styles🔻", "🔻❇️ T2I Styles🔻", "🔻❇️ text2image-gen Styles🔻", "🔻❇️ Vionet20 Styles🔻", "🔻✴️ T2I Styles🔻", "🔻✴️ text2image-gen Styles🔻", "🔻✴️ Vionet20 Styles🔻", "🎲*️⃣ T2I Styles (30)🔻", "🎲*️⃣ text2image-gen Styles (5)🔻", "🎲*️⃣ Vionet20 Styles (13)🔻", "🎲❇️ T2I Styles (37)🔻", "🎲❇️ Vionet20 Styles (11)🔻", "🎲❇️ text2image-gen Styles (4)🔻", "🎲✴️ T2I Styles (11)🔻", "🎲✴️ Vionet20 Styles (3)🔻", "🎲✴️ text2image-gen Styles (3)🔻"]]
+
+
+//REPEAT = [input.Repeat.prompt]
+// ⋆ ⋆ ⋆ Other variables ⋆ ⋆ ⋆
+ToReset = [window.S1TITLE = "", window.S2TITLE = "", window.S3TITLE = "", S4TITLE = "", RSLMIX1 = "", RSLMIX2 = "", RSLMIX3 = "", window.artStyleTitle = ""; aagaCHAR.CharacterNegatives = "", Colors.ColorNegatives = "", Fashion.ClothesNegatives = ""]
+ // This is already created at the window.onload but just in case...
+getRawDescription() =>
+  const descriptionValue = descriptionEl.value.replace(/[\[\]]/g, '');
+  return descriptionValue.slice(0, 50) + "..."; // 45 the 'max' in mobile view
+
+mainStyleChange(style) =>
+  if (!window.activeMainStyle) {
+    window.activeMainStyle = localStorage.getItem("activeMainStyleSave") || "anime";
+  }
+  window.activeMainStyle = style;
+  localStorage.setItem("activeMainStyleSave", style);
+
+mainStylesHandler() =>
+  if (!window.styleCFG) window.styleCFG = "0";
+  if (window.basicMode === "active") {
+    return "";
+  }
+  if (input.artStyleOne.getName === "-" && input.artStyleTwo.getName === "-" && input.artStyleThree.getName === "-" && input.userCustomStyle.getName === "-") {
+    return String(D1);
+  }
+  const style = window.activeMainStyle;
+  if (style === "anime") {
+    window.styleCFG = input.artStyleOne.CFG || "0";
+    window.artStyleTitle = input.artStyleOne.getName;
+    return String(input.artStyleOne.prompt);
+  }
+  if (style === "realistic") {
+    window.styleCFG = input.artStyleTwo.CFG || "0";
+    window.artStyleTitle = input.artStyleTwo.getName;
+    return String(input.artStyleTwo.prompt);
+  }
+  if (style === "other") {
+    window.styleCFG = input.artStyleThree.CFG || "0";
+    window.artStyleTitle = input.artStyleThree.getName;
+    return String(input.artStyleThree.prompt);
+  }
+  if (style === "custom") {
+    window.styleCFG = "0";
+    window.artStyleTitle = input.userCustomStyle.getName;
+    let description = input.description ? `${whitespace}${input.description}` : "";
+    let style = String(input.userCustomStyle.prompt || input.userCustomStyle)
+    if (style) { return style + description; }
+    else { return description.replace(whitespace, "")}
+  }
+  else { return ""; }
+mainStylesNegativeHandler() =>
+  if (window.basicMode === "active") {
+    return "";
+  }
+  if (input.artStyleOne.getName === "-" && input.artStyleTwo.getName === "-" && input.artStyleThree.getName === "-" && input.userCustomStyle.getName === "-") {
+    return String(NGOnly);
+  }
+  const style = window.activeMainStyle;
+  if (style === "anime") {
+    return String(input.artStyleOne.negative);
+  }
+  if (style === "realistic") {
+    return String(input.artStyleTwo.negative);
+  }
+  if (style === "other") {
+    return String(input.artStyleThree.negative);
+  }
+  if (style === "custom") {
+    return input.negative || "" //String(input.userCustomStyle.negative);
+  }
+  else { return ""; }
+/////////////////////////////
+BACKUP(type, NewInput)=>
+  // Copy created to evaluate the data from variables and functions that are not global, otherwise imported pages like in 'input.artStyleOne.prompt' will throws an error.
+  // Necessary because this function exists only to "inject" changes into the description in input.description used by styles. Therefore, if there are no styles using it, nothing happens. 28/12/25 NEW: The way the generator works now, returning one style at time even if there are others options selected in the others styles, the condition below is almost useless.
+  if (basicMode === "active" || input.artStyleOne.getName === "-" && input.artStyleTwo.getName === "-" && input.artStyleThree.getName === "-" && input.userCustomStyle.getName === "-") {
+    return "";
+  }
+
+  if (type === "create") {
+    input.description = String(NewInput);
+    return "";
+  }
+
+  if (type === "restore") {
+    input.description = settings.userInputs.description.value;
+    return "";
+
+  } else {
+    return "";
+  }
+
+NBACKUP(type, NewInput)=>
+  if (input.artStyleOne.getName === "-" && input.artStyleTwo.getName === "-" && input.artStyleThree.getName === "-" && input.userCustomStyle.getName === "-") {
+    return "";
+  }
+  if (type === "create") {
+    input.negative = String(NewInput);
+    return "";
+  }
+  if (type === "restore") {
+    input.negative = settings.userInputs.negative.value;
+    return "";
+  }
+  else {
+    return "";
+  }
+
+promptSwift()=>
+  let promptResult;
+  if (fullPromptLiveInput === "active") { // Prevents errors when typing "["
+    BACKUP("create", D1).replace("[", "\[").replace("]", "\]");
+  } else {
+    BACKUP("create", D1);
+  }
+
+  // ⇲ Even with styles and other select options enabled, only the M.Description, Description 2 and Negative will be used (work with Tools).
+  if (basicMode === "active") {
+    promptResult = SIO.BASICprompt;
+  }
+  else {
+    promptResult = (SIO.FULLprompt);
+  }
+  return promptResult;
+
+negativeSwift()=>
+  let promptResult;
+  NBACKUP("create", NGOnly);
+
+  if (basicMode === "active") {
+    promptResult = SIO.BASICnegative;
+  }
+  else if (cleanPrompt.status === "active") {
+    promptResult = SIO.BASICnegative;
+  }
+  else {
+    promptResult = SIO.FULLnegative;
+  }
+  return promptResult;
+
+// ❇️ Character, Outfit and Background Process //
+character() =>
+  let QUALY = "a beautiful character with balanced proportions and well-made; ";
+  if (window.characterQualityPrompt === "inactive") { QUALY = "" }
+
+  // ♦️ Characters template ♦️♦️
+  const animeCharacter = input.animeCharacter.prompt || input.animeCharacter;
+  const userCharacter = String(input.userCharacter);
+  let Characters = [String(animeCharacter), userCharacter].filter(Boolean);
+  let charactersResult;
+  if (Characters.length > 1) { // If the user is selecting both options
+    charactersResult = `two characters, the first is ${Characters[0]}.\n\nThe other character is ${Characters[1]}`;
+  } else if (Characters.length) { charactersResult = Characters; }
+
+  // Segs
+  let XES = input.characterXES.getName !== "-" ? input.characterXES : {gender:"character", subject:"the character", possessive:"the"};
+  const Camera = String(input.characterAngle);
+
+  // ♦️ Appearance ♦️♦️
+  const bodyType = String(input.characterBody);
+  const chest = String(input.characterChest);
+  const skinColor = String(input.characterSkinColor);
+  let eyeColor = String(input.characterEyeColor);
+  if (eyeColor) eyeColor = `${eyeColor} eyes`;
+  const HairColor_Lenght = String(input.characterHairL); // Color assigned in the list.
+  const hairType = String(input.characterHairT);
+  const hairStyle = String(input.characterHairS);
+  const bangs = String(input.characterHairB);
+  const hairExtraFeatures = String(input.characterHairMisc);
+
+  const appearance = [chest, skinColor, eyeColor, HairColor_Lenght, hairType, hairStyle, bangs, hairExtraFeatures].filter(Boolean);
+
+  let Character_Camera = `the ${XES.gender}`; // Change the description with the angle and others characteristics inputs.
+  if (Camera && appearance.length) {
+    Character_Camera = `the image shows the ${XES.gender} ${Camera}, ${XES.subject}`;
+  } else if (Camera) { Character_Camera = `the image shows the ${XES.gender} ${Camera}` };
+
+  let appearanceResult;  // Shit to decide where to put 'has'
+  if (bodyType && !bodyType.startsWith("has") && appearance.length) { // The character is slender, has red eyes...
+    appearanceResult = `${Character_Camera} ${bodyType}, has ${appearance.join(", ")}`;
+  } else if (bodyType && appearance.length) { // The character has a muscular body, red eyes...
+    appearanceResult = `${Character_Camera} ${bodyType}, ${appearance.join(", ")}`;
+  } else if (bodyType && !appearance.length) { // The character has small body
+    appearanceResult = `${Character_Camera} ${bodyType}`;
+  } else if (appearance.length) { // The character has red eyes...
+    appearanceResult = `${Character_Camera} has ${appearance.join(", ")}`;
+  } else if (Camera) { appearanceResult = `${Character_Camera}` }
+
+  // 🚧 🚧 🚧
+  if (appearanceResult) {
+    appearanceResult = appearanceResult.toLowerCase() // Many fixes below
+      .replace("heterochromia eyes", "eyes with heterochromia")
+      .replace(/(has bald|bald)/i, "is bald")
+      .replace(/(redhead hair)/i, "is bald")
+      .replace(/(colors hair)/i, "colors")
+      .replace(/(hair hair)/i, "hair")
+      //.replace(/\s+/g, " ");
+  }
+
+
+  // ♦️ Emotions and actions ♦️♦️
+  const Character_Appearance = (appearanceResult && appearance.length < 5) ? `${XES.subject} ` : `the ${XES.gender} `;
+  const expression = String(input.characterEmo);
+  const gaze = input.characterGaze.getName !== "-" ? "is " + String(input.characterGaze) : "";
+  const action = input.characterAction.getName !== "-" ? "is " + String(input.characterAction) : "";
+  const exp_act_array = [expression, gaze, action].filter(Boolean);
+  let expressions_actions;
+  if (exp_act_array.length) {
+    expressions_actions = [ // 🚧 🚧 🚧 shit seems unnecessary now if I just put 'is'........ whatever
+      exp_act_array[0] ? `${Character_Appearance} ${exp_act_array[0]}` : "",
+      exp_act_array[1] ? `${XES.subject} ${exp_act_array[1]}` : "",
+      exp_act_array[2] ? `while ${exp_act_array[2]}` : ""
+    ].filter(Boolean).join(", ").toLowerCase().replace(", while", " while");
+  }
+
+  // ♦️ Outfit ♦️♦️
+  const Character_Clothed = (appearanceResult || appearanceResult || expressions_actions) ? `${XES.subject} is wearing` : `the ${XES.gender} is wearing`; // In case only clothes options are being used.
+
+  const clothes = [String(input.outfitSet), String(input.userOutfitSet), String(input.outfitCosplay.outfit), String(input.outfitOutwear), String(input.outfitSleeves), String(input.outfitWaist), String(input.outfitLegs), String(input.outfitFoot), String(input.outfitHands), String(input.outfitHead), String(input.outfitAccA), String(input.outfitAccB), String(input.outfitAccC), String(input.outfitColor), String(input.outfitFabric)];
+
+  let [OutfitSet, UserOutfitSet, OutfitCosplay, outwear, torso, waist, legs, foot, hands, head, acc1, acc2, acc3, Color, Fabric] = clothes;
+  outwear ? outwear = [String(input.outfitColor01), outwear].join(" ") : "";
+  torso ? torso = torso : ""; //[String(input.outfitColor02), torso].join(" ") : ""; Assigned in the list
+  waist ? waist = [String(input.outfitColor03), waist].join(" ") : "";
+  legs? legs = [String(input.outfitColor04), legs].join(" ") : "";
+  foot ? foot = [String(input.outfitColor05), `${foot} on the feet`].join(" ") : "";
+  hands ? hands = [String(input.outfitColor06), hands].join(" ") : "";
+  head ? head = [String(input.outfitColor07), head].join(" ") : "";
+  acc1 ? acc1 = [String(input.outfitColor08), acc1].join(" ") : "";
+  acc2 ? acc2 = [String(input.outfitColor09), acc2].join(" ") : "";
+  acc3 ? acc3 = [String(input.outfitColor10), acc3].join(" ") : "";
+  Color ? Color = "main color is " + Color : "";
+  Fabric ? Fabric = "is " + Fabric : "";
+
+
+  const basicLook = [OutfitSet, UserOutfitSet, OutfitCosplay, outwear, torso, waist, legs, foot, hands, head, acc1, acc2, acc3].filter(Boolean);
+  const isWearingTemplateSet = (OutfitSet || UserOutfitSet || OutfitCosplay) ? "complemented with" : "paired with";
+  let Complete_Outfit;
+  if (basicLook.length) {
+    Complete_Outfit = [
+      `is wearing ${basicLook[0]}`,
+      basicLook[1] ? `${isWearingTemplateSet} ${basicLook[1]}` : "", // 'Paired' is need (at least in early august version of perchance flux) to keep the two clothes 'together', otherwise, sometimes, the ai do not pay attention to the other. This also helps to create 'mix' of clothes like... long dress and skirt, making a unique dress mixed with the skirt characteristics.
+      basicLook[2] ? `and ${basicLook[2]}` : "", // The flux version at the time I made it really works well with 'and, with', before that it was not really needed, and im no sure how it will be in the future.
+      basicLook[3] ? `${basicLook[3]}` : "",
+      basicLook[4] ? `${basicLook[4]}` : "",
+      basicLook[5] ? `${basicLook[5]}` : "",
+      basicLook[6] ? `and ${basicLook[6]}` : "",
+      basicLook[7] ? `also ${basicLook[7]}` : "",
+      basicLook[8] ? `${basicLook[8]}` : "",
+      basicLook[9] ? `${basicLook[9]}` : "",
+      basicLook[10] ? `${basicLook[10]}` : "",
+      basicLook[11] ? `${basicLook[11]}` : "",
+      basicLook[12] ? `completing the look with ${basicLook[12]}` : ""
+    ].filter(Boolean).join(", ");
+  };
+
+  // Color and Fabric
+  const colorFabricParts = [Color, Fabric].filter(Boolean);
+  const Color_Fabric = [
+    colorFabricParts[0] ? `${XES.possessive} outfit ${colorFabricParts[0]}` : "",
+    colorFabricParts[1] ? `${colorFabricParts[1]}` : ""
+  ].filter(Boolean).join(", ");
+
+  // 🚧 🚧 🚧
+  let finishedLook = [Complete_Outfit, Color_Fabric].filter(Boolean).join(", ").toLowerCase()
+    .replace(/paired with no panties/i, 'and no panties')
+    .replace(/; ([A-Z])/, (_, letter) => "; " + letter.toLowerCase()) // AI is crazy with unnecessary regex...
+    .replace(/\b([avo])-/gi, (_, letter) => letter.toUpperCase() + "-"); // Fix a-line -> A-line, v-shape -> V-shape, etc.
+
+  let result = [charactersResult, appearanceResult, expressions_actions, finishedLook].filter(Boolean).join("; ");
+  if (result) {
+    return QUALY + result;
+  } else { return "" }
+
+backgroundHandler(scheme, time, weather) =>
+  const userBG = String(input.userBackground);
+  let bgEx = String(input.bgExterior);
+  let bgIn = String(input.bgInterior);
+
+  //let backgrounds = [userBG, bgEx, bgIn].filter(Boolean).join(".\n");
+  //if (backgrounds.length <= 0) { // shit 'hack' to remove ghost data
+   // backgrounds = "";
+  //}
+
+  // If the user select the two backgrounds options, it changes in a way to describe the two as outside and inside view
+  if (bgEx && bgIn) {
+    bgIn = `Inside: ${bgIn.replace("background", "interior background").toLowerCase()}.`;
+    bgEx = `The outside view: ${bgEx.replace("background", "exterior background").toLowerCase()}`;
+  }
+  const backgrounds = [userBG, bgIn, bgEx].filter(Boolean).join(".\n");
+
+  const lastScene = [backgrounds, time, weather, scheme].filter(Boolean);
+  return lastScene.join("; ")
+
+bgScene(position) =>
+  if (position === "start") {
+    return String(input.bgAngle).toLowerCase();
+  } else {
+    return backgroundHandler(String(input.bgScheme), String(input.bgTime), String(input.bgWeather))
+  }
+
+// ❇️ User Options
+// Assign the variables here using lists from LocalStorage
+parseUserDefinitions(text)=>
+  return text
+    .split("\n")
+    .map(l => l.trim())
+    .filter(l => /^[A-Z0-9_]+\s*=\s*\S/.test(l))
+    .map(l => {
+      const [name, ...rest] = l.split("=");
+      return {
+        name: name.trim(),
+        value: rest.join("=").trim()
+      };
+    });
+buildPerchanceList(entries) =>
+  let out = "";
+  for (const { name, value } of entries) {
+    out += `${name.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}\n`;
+    out += `\t${value}\n`;
+  }
+  return out;
+createListFromTextarea(listName, textarea) => // use String(textarea)
+  const entries = parseUserDefinitions(textarea);
+  if (!entries.length) return null;
+  const perchanceText = buildPerchanceList(entries);
+
+  // The select will use the saved string because the function can not run in time to get the scratchpad items to create the list and be used in the select (maybe there is a way but i dont know how)
+  localStorage.setItem(listName, perchanceText);
+  // Create real Perchance tree
+  //console.log("User Character list created!: " + perchanceText) //createPerchanceTree(String(perchanceText));
+
+setNotepad() => // load at start
+  // Set timeout here because there is some delay in the t2i-framework-plugin to get the scratchpad variables. Using the textarea.value would be more faster here tho, i think
+  setTimeout(() => {
+    createListFromTextarea('myStyles', input.scratchpadStyles);
+    createListFromTextarea('myCharacters', input.scratchpadCharacters);
+    createListFromTextarea('myOutfits', input.scratchpadOutfit);
+    createListFromTextarea('myBg', input.scratchpadBackground);
+    //console.log("Custom list created");
+  }, 1500); //
+
+aestheticTAG = [window.advAESTHETIC === "active" ? "aesthetic " : ""]
+fullPrompt = ["inactive"]
+//🔻To clear only one time the fullPrompt when changing menus, otherwise the editablePrompt() will run everytime.
+checkEditablePrompt() =>
+  if (promptInputCtn.style.display === "none") {
+    fullPrompt = "inactive";
+  } else if (promptInputCtn.style.display === "contents") {
+    fullPrompt = "active"
+  }
+  //if (fullPrompt === "") return;
+  //fullPrompt = "";
+  //editablePrompt();
+
+//🔻Get data from all inputs to display in Full Prompt
+editablePrompt() =>
+  //if (fullPrompt === "active") return
+  const selectedInputs = document.querySelectorAll("#allSelectOptions .input-inner");
+  const buttons = document.querySelectorAll(".fp-event");
+  // 🚩 Creating and removing seems unnecessary :thinking: I need to think about it later.
+  if (fullPromptLiveInput === "active") {
+    fullPrompt = "active"; // to use in settings.title
+    BACKUP("create", D1); // Copy created to evaluate the data from variables and functions that are not global, otherwise imported pages like in 'input.artStyleOne.prompt' will throws an error.
+    window.promptInputEl.value = promptSwift();
+    input.fullPrompt = window.promptInputEl.value;
+    window.descriptionEl.addEventListener('input', window.updateFinalPrompt);
+    window.description0El.addEventListener('input', window.updateFinalPrompt);
+    window.description2El.addEventListener('input', window.updateFinalPrompt);
+
+    //NBACKUP("create", NGOnly);
+    //window.negativePromptInputEl.value = negativeSwift();
+    //input.fullNegativePrompt = window.negativePromptInputEl.value;
+    //window.negativeEl.addEventListener('input', window.updateFinalPrompt);
+
+    selectedInputs.forEach(input => {
+      input.addEventListener('change', window.updateFinalPrompt);
+    });
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', window.updateFinalPrompt);
+    });
+  }
+
+  else if (fullPromptLiveInput === "inactive") {
+    //fullPrompt = "inactive";
+    window.descriptionEl.removeEventListener('input', window.updateFinalPrompt);
+    window.description0El.removeEventListener('input', window.updateFinalPrompt);
+    window.description2El.removeEventListener('input', window.updateFinalPrompt);
+    //window.negativeEl.removeEventListener('input', window.updateFinalPrompt);
+    selectedInputs.forEach(input => {
+      input.removeEventListener('change', window.updateFinalPrompt);
+    });
+    buttons.forEach(btn => {
+      btn.removeEventListener('click', window.updateFinalPrompt);
+    });
+    //window.promptInputEl.value = "";
+    //input.fullPrompt = "";
+    //window.negativePromptInputEl.value =
+    //input.fullNegativePrompt = "";
+  }
+
+editablePromptBtn() =>
+  const btn = document.getElementById("liveInputBtn");
+  if (!window.fullPromptLiveInput) window.fullPromptLiveInput = "inactive";
+  fullPromptLiveInput = fullPromptLiveInput === "active" ? "inactive" : "active";
+
+  if (fullPromptLiveInput === "active") {
+    btn.classList.add("active-btn-main");
+    btn.textContent = "Live Input Active!";
+    // Save the input before activation (Actually is better to not do it, because the purpose of Full Prompt is to edit the generator options, so activating Live Input to get the prompt, and deactivating it to edit (while being free to change to description and changing the options) is intended).
+    //localStorage.setItem("FullPromptLastInput", input.fullPrompt);
+    //localStorage.setItem("FullNegativePromptLastInput", input.fullNegativePrompt);
+    editablePrompt();
+  } else if (fullPromptLiveInput === "inactive") {
+    btn.classList.remove("active-btn-main");
+    btn.textContent = "Live Input Deactivated";
+    editablePrompt();
+    // Restore the input (nope)
+    //window.promptInputEl.value = localStorage.getItem("FullPromptLastInput") || "";
+    //window.promptInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+    //window.negativePromptInputEl.value = localStorage.getItem("FullNegativePromptLastInput") || "";
+    //window.negativePromptInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+// ❇️ Tags Tools //
+tagSeparatorChange() =>
+  (!window.tagSeparator) ? window.tagSeparator = "," : "";
+  const separator = [",", "\n", "/"];
+  const currentSeparator = separator.indexOf(window.tagSeparator);
+  return window.tagSeparator = separator[(currentSeparator + 1) % separator.length];
+changeTagSeparator(btnID) =>
+  const text = tagSeparatorChange();
+  btnID.textContent = `tag separator: ${text}`;
+  if (text === "\n") { btnID.textContent = "New line" };
+  if (text === ",") { btnID.textContent = "Comma (, )" };
+  if (text === "/") { btnID.textContent = "Slash (/)" };
+  const ftCtn = document.getElementById('toolsTextareaCtn');
+  const ctnTxtArea = ftCtn.querySelector('TEXTAREA');
+  ctnTxtArea.value += '';
+  ctnTxtArea.focus();
+  ctnTxtArea.blur();
+  ctnTxtArea.dispatchEvent(new Event('input', { bubbles: true }));
+logShuffleTags()=> // function needed only to read the permutations.
+  if (RNGKey.status === "active" && NRNGKey.status === "active") {
+    return "The Shuffle #Words# and Shuffle #negative# are both active. Please activate only one to see the log."
+  }
+  if (RNGKey.status === "active") {
+    AdvBox.maybeSimpleRandomizer(input.description);
+  } else if (NRNGKey.status === "active") {
+    AdvBox.maybeSimpleRandomizer(input.negative);
+  } else {
+    return "something is wrong, reload the page."
+  }
+
+  numberTags = totalPermutations;
+
+  AdvBox.maybeSimpleRandomizer("ZcCcS-45rEsEt"); // Random and uncommon string to reset the function maybeSimpleRandomizer since it uses global var and the value is saved, the function auto-resets when the input changes. Otherwise, this 'read' will use (spend) one permutation every call.
+  return numberTags;
+numberTags = "?"
+readImageNumber()=>
+  let numberImages = document.querySelector('[data-name="numImages"]');
+  let setNumberImages;
+  let extraPic = 0; // Add or Remove Tag because they display the first generation without adding or removing anything.
+  if (ADDTGKey.status === "active" || RMVTGKey.status === "active" || WALKey.status === "active") {extraPic = 1};
+
+  let effectiveTags = numberTags + extraPic;
+
+  if (effectiveTags === 0 || effectiveTags === "?") {
+    setNumberImages = 1;
+  } else if (effectiveTags <= 40) {
+    setNumberImages = effectiveTags;
+  } else if (effectiveTags <= 100) {
+    setNumberImages = Math.ceil(effectiveTags / 5) * 5;
+  } else if (effectiveTags < 200 && (RNGKey.status === "active" || NRNGKey.status === "active")) {
+    setNumberImages = Math.ceil(effectiveTags / 2);
+  } else {
+    setNumberImages = 100;
+  }
+  return setNumberImages;
+setImageNumber(value)=>
+  const ni = numberTags; // Im not sure if i need to change the value of numberTags back to normal, so note to remember.
+  if (!value === false) {
+    numberTags = Number(value.trim().match(/\d+/)?.[0]); // ?.[0] -> to avoid errors.
+  }
+  let numberImages = document.querySelector('[data-name="numImages"]');
+  if (numberTags === 0 || numberTags === "?") {
+    numberImages.selectedIndex = 0;
+  }
+  if (numberTags > 0 && numberTags <= 40) {
+    numberImages.selectedIndex = numberTags - 1;
+  } else if (numberTags <= 100 && numberTags > 40) {
+    numberImages.selectedIndex = Math.floor((numberTags - 40) / 5) + 39;
+  } else if (numberTags > 100) {
+    numberImages.selectedIndex = 51;
+  }
+  numberImages.dispatchEvent(new Event("change"));
+logWalkTags()=>
+  (!window.tagSeparator) ? window.tagSeparator = "," : "";
+  let TempList = "";
+
+  const allInputs = { description: input.description, description2: input.description2, negative: input.negative };
+  const foundIn = Object.entries(allInputs)
+    .filter(([key, value]) => /#tag#/i.test(value))
+    .map(([key]) => key);
+
+  if (foundIn.length >= 2) {
+    numberTags = 0;
+    return `<span style="color:red; background:black; border-radius:5px; padding:2px;">#tag#</span> found in: <span style="color:red; background:black; border-radius:5px; padding:2px;">${foundIn.join(', ')}</span>. Please use #tag# in only one input to see the log.`;
+  }
+
+  if (/#tag#/i.test(input.description)) {
+    TempList = (input.description).replace(/#tag#/gi, "").split(window.tagSeparator).map(word => word.trim()).filter(word => word !== "");
+  }
+  if (/#tag#/i.test(input.description2)) {
+    TempList = (input.description2).replace(/#tag#/gi, "").split(window.tagSeparator).map(word => word.trim()).filter(word => word !== "");
+  }
+  if (/#tag#/i.test(input.negative)) {
+    TempList = (input.negative).replace(/#tag#/gi, "").split(window.tagSeparator).map(word => word.trim()).filter(word => word !== "");
+  }
+  if (TempList !== "") {
+    numberTags = TempList.length;
+    return numberTags;
+  } else {
+    numberTags = 0;
+  }
+logAddRemoveTags()=>
+  (!window.tagSeparator) ? window.tagSeparator = "," : "";
+  let TempList = (input.FilterText).split(window.tagSeparator).map(word => word.trim()).filter(word => word !== "");
+  numberTags = TempList.length;
+  return numberTags;
+// 🔻 This need to be in the right panel [startToolsEventListen()] to start the events listeners.
+startToolsEventListen()=>
+  const filterTextEl = document.querySelector('[data-name="FilterText"]');
+  const logBtn = document.getElementById('logTagBtn');
+  const setBtn = document.getElementById('setLogTagBtn');
+  const recommendBtn = document.getElementById('logRecommendsBtn');
+
+  descriptionEl.addEventListener('input', () => {
+    if (RNGKey.status === "active") {
+      recommendBtn.hidden = true;
+      logBtn.textContent = `Possible Variations: ${logShuffleTags()}`;
+      setBtn.textContent = `Set number of images to ${readImageNumber()}`;
+    };
+
+    if (WALKey.status === "active") {
+      logBtn.innerHTML = `Tags: ${logWalkTags()}`;
+      recommendBtn.hidden = false;
+      setBtn.textContent = `Set number of images to ${RE = readImageNumber()}`;
+      recommendBtn.textContent = `Variations: ${RE}`;
+    }
+  });
+
+  description2El.addEventListener('input', () => {
+    if (WALKey2.status === "active") {
+      logBtn.innerHTML = `Tags: ${logWalkTags()}`;
+      recommendBtn.hidden = false;
+      setBtn.textContent = `Set number of images to ${RE = readImageNumber()}`;
+      recommendBtn.textContent = `Variations: ${RE}`;
+    }
+  });
+
+  //negativeEl.addEventListener('input', () => {
+    //if (NRNGKey.status === "active") {
+      //recommendBtn.hidden = true;
+      //logBtn.textContent = `Possible Variations: ${logShuffleTags()}`;
+      //setBtn.textContent = `Set number of images to ${readImageNumber()}`;
+    //};
+
+    //if (NWALKey.status === "active") {
+      //logBtn.innerHTML = `Tags: ${logWalkTags()}`;
+      //recommendBtn.hidden = false;
+      //setBtn.textContent = `Set number of images to ${RE = readImageNumber()}`;
+      //recommendBtn.textContent = `Variations: ${RE}`;
+    //}
+  //});
+
+  filterTextEl.addEventListener('input', () => {
+    if (REPTGKey.status === "active" || ADDTGKey.status === "active" || RMVTGKey.status === "active") {
+      logBtn.textContent = `Tags: ${logAddRemoveTags()}`;
+      recommendBtn.hidden = false;
+      //(REPTGKey.status === "inactive" || RNGKey.status === "active" || NRNGKey.status === "active") ? recommendBtn.hidden = false : recommendBtn.hidden = true;
+      setBtn.textContent = `Set number of images to ${RE = readImageNumber()}`;
+      recommendBtn.textContent = `Variations: ${RE}`;
+    }
+  });
+  console.log("startToolsEventListen set");
+  return "";
+tagsBtnTriggerEvent() =>
+  // This function is to trigger the Event Listeners from the functions in Tools when activating them, for example, to display the info about number of tags.
+  const filterTextEl = document.querySelector('[data-name="FilterText"]');
+  descriptionEl.dispatchEvent(new Event('input', { bubbles: true }));
+  description2El.dispatchEvent(new Event('input', { bubbles: true }));
+  //negativeEl.dispatchEvent(new Event('input', { bubbles: true }));
+  filterTextEl.dispatchEvent(new Event('input', { bubbles: true }));
+switchKey(btn, ...keys) =>
+  // Activate/Deactivate the functions in tools
+
+  const BtnID = document.getElementById(btn);
+
+  keys.forEach(keyName => {
+    window[keyName].status =
+      window[keyName].status === "active" ? "inactive" : "active";
+  });
+
+  const anyActive = keys.some(keyName => window[keyName]?.status === "active");
+  if (anyActive) {
+    BtnID.classList.add("active-btn-main");
+  }
+  else {
+    BtnID.classList.remove("active-btn-main");
+  }
+toolsObjectSwitch(...keyNames) =>
+  // This function is to disable all objects from tools
+  let objectsArray = ['RNGKey', 'NRNGKey', 'REPTGKey', 'D0REPTGKey', 'D2REPTGKey', 'NREPTGKey', 'ADDTGKey', 'D0ADDTGKey', 'D2ADDTGKey', 'NADDTGKey', 'RMVTGKey', 'D0RMVTGKey', 'D2RMVTGKey', 'NRMVTGKey', 'WALKey', 'WALKey0', 'WALKey2', 'NWALKey'];
+  const activeObjects = new Set(keyNames);
+  for (const name of objectsArray) {
+    if (!activeObjects.has(name)) {
+      window[name].status = "inactive";
+      //console.log(`${name}: ${window[name].status}`);
+    }
+  }
+toolsObjButtonSwitch(btn, ...keynames) =>
+  // This one just to deactive the buttons from the functions on tools
+  let buttonsArray = ['randomBtn', 'randomNegBtn', 'ReplaceTagPID', 'AddTagPID', 'RemoveTagPID', 'WalkingTagPID'];
+
+  for (let btnID of buttonsArray) {
+    const btnEl = document.getElementById(btnID);
+    // if the btn name exists in the array above, it activate it (with switchKey()), and deactivate the others buttons names/ID from the array.
+    if (btnID === btn) {
+      switchKey(btn, ...keynames);
+    } else {
+      btnEl.classList.remove("active-btn-main");
+    }
+  }
+
+// PProcess and NProcess to evaluate the #tags# in descriptions and negative.
+PProcess(userPrompt, ...keys)=>
+  // Not the best function; there are better ways to do it, but I didn't know how when I did it...
+  // The (keys.input) is needed otherwise the end and start description will be caught in the first condition.
+  if (userPrompt.length === 0) return "";
+  let NewUserPrompt;
+
+  // SHUFFLE Condition
+  if (keys.some(key => key.type === "RNG" && key.status === "active")) {
+    return AdvBox.maybeSimpleRandomizer(NewUserPrompt || userPrompt);
+  }
+
+  // REPLACE Conditions
+  if (keys.some(key => key.type === "REPLACETAG" && key.input === "mainDescription" && key.status === "active")) { // Main Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.ReplaceTag('DynamicTags', input.FilterText, input.numImages));
+  }
+  if (keys.some(key => key.type === "REPLACETAG" && key.input === "startDescription" && key.status === "active")) { // Start Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.ReplaceTag('Dynamic0Tags', input.FilterText, input.numImages));
+  }
+  if (keys.some(key => key.type === "REPLACETAG" && key.input === "endDescription" && key.status === "active")) { // End Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.ReplaceTag('Dynamic2Tags', input.FilterText, input.numImages));
+  }
+
+  // ADD Conditions
+  if (keys.some(key => key.type === "ADDTAG" && key.input === "mainDescription" && key.status === "active")) { // Main Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.AddTag('DynamicTags', input.FilterText, input.numImages));
+  }
+  if (keys.some(key => key.type === "ADDTAG" && key.input === "startDescription" && key.status === "active")) { // Start Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.AddTag('Dynamic0Tags', input.FilterText, input.numImages));
+  }
+  if (keys.some(key => key.type === "ADDTAG" && key.input === "endDescription" && key.status === "active")) { // End Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.AddTag('Dynamic2Tags', input.FilterText, input.numImages));
+  }
+
+  // REMOVE Conditions
+  if (keys.some(key => key.type === "RMVTAG" && key.input === "mainDescription" && key.status === "active")) { // Main Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.RmvTag('DynamicTags', input.FilterText, input.numImages));
+  }
+  if (keys.some(key => key.type === "RMVTAG" && key.input === "startDescription" && key.status === "active")) { // Start Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.RmvTag('Dynamic0Tags', input.FilterText, input.numImages));
+  }
+  if (keys.some(key => key.type === "RMVTAG" && key.input === "endDescription" && key.status === "active")) { // End Description
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.RmvTag('Dynamic2Tags', input.FilterText, input.numImages));
+  }
+
+  // WALK Conditions
+  if (keys.some(key => key.type === "WALKER" && key.input === "mainDescription" && key.status === "active")) { // Main Description
+    NewUserPrompt = AdvBox.TheWalkingTag(input.FilterText, userPrompt, 'MainD', input.numImages);
+  }
+  if (keys.some(key => key.type === "WALKER" && key.input === "startDescription" && key.status === "active")) { // Start Description
+    NewUserPrompt = AdvBox.TheWalkingTag(input.FilterText, userPrompt, 'Desc0', input.numImages);
+  }
+  if (keys.some(key => key.type === "WALKER" && key.input === "endDescription" && key.status === "active")) { // End Description
+    NewUserPrompt = AdvBox.TheWalkingTag(input.FilterText, userPrompt, 'Desc2', input.numImages);
+  }
+
+  // Result
+  return (typeof NewUserPrompt === "undefined" || NewUserPrompt === "") ? userPrompt : NewUserPrompt;
+NProcess(userPrompt, ...keys)=>
+  if (userPrompt.length === 0) return "";
+  let NewUserPrompt;
+
+  // REPLACE Conditions
+  if (keys.some(key => key.type === "REPLACETAG" && key.status === "active")) {
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.ReplaceTag('DynamicNTags', input.FilterText, input.numImages));
+  }
+
+  // ADD Conditions
+  if (keys.some(key => key.type === "ADDTAG" && key.status === "active")) {
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.AddTag('DynamicNTags', input.FilterText, input.numImages));
+  }
+
+  // REMOVE Conditions
+  if (keys.some(key => key.type === "RMVTAG" && key.status === "active")) {
+    NewUserPrompt = userPrompt.replace(/(#tag#|#add.?Tag#)/gi, AdvBox.RmvTag('DynamicNTags', input.FilterText, input.numImages));
+  }
+  // WALK Conditions
+  if (keys.some(key => key.type === "WALKER" && key.status === "active")) {
+    NewUserPrompt = AdvBox.TheWalkingTag(input.FilterText, userPrompt, 'NEG', input.numImages);
+  }
+
+  // SHUFFLE Condition
+  if (keys.some(key => key.type === "RNG" && key.status === "active")) {
+  return AdvBox.maybeSimpleRandomizer(NewUserPrompt || userPrompt);
+  }
+
+  return (typeof NewUserPrompt === "undefined" || NewUserPrompt === "") ? userPrompt : NewUserPrompt;
+/////////////////////////////////
+
+// ❇️ Auto Gen //
+sleep(ms) =>
+  return new Promise(resolve => setTimeout(resolve, ms));
+async autoGenerate() =>
+  console.log(`Auto Generate Started: ${qolf.dateNow()}`);
+  const startTime = performance.now();
+  const autoBtn = document.getElementById('autoGenBtn');
+  let numberCounter = 0;
+
+  while (window.autoGenerateStatus !== "stop") {
+    // Wait until your counter reaches the limit
+    if (window.imageCounter >= input.numImages) {
+      numberCounter = numberCounter + window.imageCounter;
+      window.imageCounter = 0;
+      await sleep(1000); // small delay
+      document.getElementById('generateButtonEl').click();
+      const genBtn2 = document.getElementById("generateBtnTwo").parentElement;
+      genBtn2.style.order = "9"; // Change the order so the button stays after the others dynamic elements.
+      genBtn2.hidden = true;
+    }
+    // Prevent CPU 100% usage, allow other functions to run
+    await sleep(3000);
+  }
+
+  const endTime = performance.now();
+  const totalTime = qolf.peformanceReaderNow( endTime - startTime);
+
+  numberCounter = numberCounter + window.imageCounter;
+  alert(`Images generated: ${numberCounter}.\nAuto Generation was running for ${totalTime}.`)
+  console.log(`Auto Generate Ended: ${qolf.dateNow()}`);
+  window.imageCounter = 0;
+autoSaving(el, btn1, btn2) =>
+  if (window.autoGenerateStatus === "stop") return;
+  if (window.autoGenerateGallerySave === "active") btn1.click();
+  if (window.autoGenerateDownload === "active") btn2.click();
+  window.imageCounter ++;
+  el.querySelector("iframe").style.border = "3px solid #5af542";
+  setTimeout(() => {
+    el.style.order = 5;
+  }, 1000);
+
+// ❇️  //
+saveUserPrompt() =>
+  const uPrompt = {
+    prompt: window.promptInputEl.value,
+    negativePrompt: "" //window.negativePromptInputEl.value
+    //start: window.description0El.value,
+    //main: window.descriptionEl.value,
+    //end: window.description2El.value,
+    //negative: window.negativeEl.value
+  };
+  if (!uPrompt.prompt && !uPrompt.negativePrompt) {alert("There is no data to be saved."); return}
+  let slot = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const savedSlot = localStorage.key(i);
+    if (savedSlot.startsWith("savedUserPrompt")) {
+      slot++;
+    }
+  }
+  localStorage.setItem(`savedUserPrompt${slot}`, JSON.stringify(uPrompt));
+  alert(`📖 Prompt saved in the slot ${slot}!`);
+  //console.log(`User prompt saved in the slot ${slot} 📖`);
+loadUserPrompt() =>
+  const storage = {};
+
+  // Collect only keys that start with "savedUserPrompt"
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith("savedUserPrompt")) {
+      storage[key] = JSON.parse(localStorage.getItem(key));
+    }
+  }
+
+  // Sort keys by the number at the end
+  const sortedKeys = Object.keys(storage).sort((a, b) => {
+    const numA = parseInt(a.replace("savedUserPrompt", ""), 10);
+    const numB = parseInt(b.replace("savedUserPrompt", ""), 10);
+    return numA - numB;
+  });
+  //console.log("Loaded:", storage, sortedKeys);
+  return { storage, sortedKeys };
+selectSlot() =>
+  // I need to clear the error in the console when there is no saved prompt.
+  const { storage, sortedKeys } = loadUserPrompt();
+  const select = document.getElementById("selectSavedPrompt");
+  select.innerHTML = ""; // clear
+
+  sortedKeys.forEach(key => {
+    const opt = document.createElement("option");
+    const slotNumber = key.replace("savedUserPrompt", "");
+    let data = storage[key];
+    const preview = (
+    //  storage[key]?.start ||
+      storage[key]?.prompt ||
+    //  storage[key]?.n ||
+      storage[key]?.negativePrompt ||
+      ""
+    );
+    let shortText = preview.slice(0, 64) + (preview.length > 64 ? "..." : "");
+
+    opt.value = JSON.stringify(data);
+    opt.textContent = `${slotNumber} - ${shortText}`; // the saved prompt
+    opt.dataset.key = key;
+    select.appendChild(opt);
+  });
+  window.savePromptSelectCreated = "Select created";
+loadUserSavedPrompt(mode) =>
+  const select = document.getElementById('selectSavedPrompt');
+  const dataSelect = JSON.parse(select.value);
+  if (mode === "preview") {
+    const negative = dataSelect.negative ? "\n(negativePrompt:::" + dataSelect.negative + ")" : "";
+    const textarea = document.getElementById('previewSavedPrompt');
+    //if (!dataSelect.prompt) alert('nothing')
+    textarea.value = dataSelect.prompt + `${negative}`;
+
+  } else {
+
+    window.promptInputEl.value = dataSelect.prompt;
+    //window.negativePromptInputEl.value = dataSelect.negativePrompt;
+
+    window.promptInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+    //window.negativePromptInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  //window.descriptionEl.value = dataSelect.main;
+  //window.description0El.value = dataSelect.start;
+  //window.description2El.value = dataSelect.end;
+  //window.negativeEl.value = dataSelect.negative;
+
+  //window.descriptionEl.dispatchEvent(new Event('input', { bubbles: true }));
+  //window.description0El.dispatchEvent(new Event('input', { bubbles: true }));
+  //window.description2El.dispatchEvent(new Event('input', { bubbles: true }));
+  //window.negativeEl.dispatchEvent(new Event('input', { bubbles: true }));
+deleteuserSavedPrompt() =>
+  const select = document.getElementById("selectSavedPrompt");
+  const selectedOption = select.options[select.selectedIndex];
+  if (!selectedOption) {
+    alert("No saved slot selected.");
+    return;
+  }
+
+  const key = selectedOption.dataset.key;
+  const keyName = key.replace("savedUserPrompt", "")
+
+
+  if (!confirm(`Delete prompt saved in slot ${keyName}?`)) return;
+
+  console.log("The item was removed:\n" + JSON.stringify(localStorage.getItem(`savedUserPrompt${keyName}`)));
+
+  localStorage.removeItem(key);
+
+  console.log("Status: " + localStorage.getItem(`savedUserPrompt${keyName}`))
+
+
+  reindexSavedPrompts();
+  selectSlot(); // refresh
+  document.getElementById("previewSavedPrompt").value = "";
+  document.getElementById("selectSavedPrompt").dispatchEvent(new Event('change', { bubbles: true }));
+reindexSavedPrompts() =>
+  const keys = [];
+
+  // collect all keys in correct numeric order
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith("savedUserPrompt")) {
+      keys.push(key);
+    }
+  }
+
+  // sort them by numeric part
+  keys.sort((a, b) => {
+    return parseInt(a.replace("savedUserPrompt", "")) - parseInt(b.replace("savedUserPrompt", ""));
+  });
+
+  // rebuild them with new numbering
+  keys.forEach((oldKey, index) => {
+    const newKey = `savedUserPrompt${index}`;
+
+    // get value from old key
+    const value = localStorage.getItem(oldKey);
+
+    // remove old and insert new
+    localStorage.removeItem(oldKey);
+    localStorage.setItem(newKey, value);
+  });
+
+// Shortcuts ?
+COSPLAY = [String(input.outfitCosplay).toLowerCase()]
+FABRIC = [String(input.outfitFabric).toLowerCase()]
+TORSO = [String(input.outfitSleeves).toLowerCase()]
+GLOVES = [String(input.outfitHands).toLowerCase()]
+WAIST = [String(input.outfitWaist).toLowerCase()]
+LEGS = [String(input.outfitLegs).toLowerCase()]
+FOOT = [String(input.outfitFoot).toLowerCase()]
+ACC1 = [String(input.outfitAccA).toLowerCase()]
+ACC2 = [String(input.outfitAccB).toLowerCase()]
+ACC3 = [String(input.outfitAccC).toLowerCase()]
+COLOR(list) =>
+  if (list && (list.toLowerCase() === "basic" || list.toLowerCase() === "common")) {
+    advRng("Cor", CorBanList = [], Colors.CommonColors);
+  } else {
+    advRng("Cor", CorBanList = [], Colors.CommonColors, Colors.UncommonColors);
+  }
+  const selectedColor = randomCor;
+  return String(selectedColor).toLowerCase();
+NATIONALITY() =>
+  let randomItem = dyn('nationality-list');
+  return String(randomItem).toLowerCase()
+
+getRandomItem(listName, key) => // Get random item from a list, dynamically
+  if (!key) key = "";
+  const listname = `${listName}${key}`
+  if (!window[listname + "List"] && key) { // If the item has a sub item, like Item.subitem
+    window[listname + "MainList"] = dyn(listName);
+    window[listname + "List"] = window[listname + "MainList"][key];
+  } else if (!window[listname + "List"]) { // Normal list
+    window[listname + "List"] = dyn(listName);
+  }
+  const banList = ["$moduleSpace"]; // I still don't understand why some lists have it now...
+  advRng(listname, banList, window[listname + "List"]);
+  return window["random" + listname]
+
+RANDOM(...tagsToRandomize) =>
+  const userTagList = tagsToRandomize.map(String).join(",").split(/\s*,\s*/);
+  advRng('UserRandomList1', userRandomBanList1 = [], userTagList);
+  return randomUserRandomList1;
+RANDOM2(...tagsToRandomize2)=> // Use in the input (descriptions or negatives).
+  tagsToRandomize2 = tagsToRandomize2.map(String).join(",").split(/\s*,\s*/);
+  if (typeof userTagList2 === "undefined") {
+    userTagList2 = [...tagsToRandomize2];
+  }
+  if (String(userTagList2) !== String(tagsToRandomize2)) {
+    userTagList2 = [...tagsToRandomize2];
+    userRandomArray2 = [];
+  }
+  if (typeof userRandomArray2 === "undefined") {
+    userRandomArray2 = []
+  }
+  if (userRandomArray2.length >= userTagList2.length) {
+    userRandomArray2 = [];
+  }
+  userRandomTag2 = userTagList2.selectOne;
+  if (userRandomArray2.includes(userRandomTag2)) {
+    RANDOM2(...tagsToRandomize2);
+  } else {
+    userRandomArray2.push(userRandomTag2);
+  }
+  return userRandomTag2;
+SEQUENCE(...tagsToSelect)=> // Use in the input (descriptions or negatives).
+  tagsToSelect = tagsToSelect.map(String).join(",").split(/\s*,\s*/);
+  if (typeof userSelectTagList === "undefined") {
+    userSelectTagList = [...tagsToSelect];
+  }
+  if (String(userSelectTagList) !== String(tagsToSelect)) {
+    userSelectTagList = [...tagsToSelect];
+    userSelectionArray = [];
+  }
+  if (typeof userSelectionArray === "undefined") {
+    userSelectionArray = []
+  }
+  if (userSelectionArray.length >= userSelectTagList.length) {
+    userSelectionArray = [];
+  }
+
+  userSelectionTag = userSelectTagList[userSelectionArray.length];
+
+  userSelectionArray.push(userSelectionTag);
+
+  return userSelectionTag;
+SEQUENCE2(...tagsToSelect2)=> // duplicate.
+  tagsToSelect2 = tagsToSelect2.map(String).join(",").split(/\s*,\s*/);
+  if (typeof userSelectTagList2 === "undefined") {
+    userSelectTagList2 = [...tagsToSelect2];
+  }
+  if (String(userSelectTagList2) !== String(tagsToSelect2)) {
+    userSelectTagList2 = [...tagsToSelect2];
+    userSelectionArray2 = [];
+  }
+  if (typeof userSelectionArray2 === "undefined") {
+    userSelectionArray2 = []
+  }
+  if (userSelectionArray2.length >= userSelectTagList2.length) {
+    userSelectionArray2 = [];
+  }
+
+  userSelectionTag2 = userSelectTagList2[userSelectionArray2.length];
+
+  userSelectionArray2.push(userSelectionTag2);
+
+  return userSelectionTag2;
+// Wallpaper
+wall1
+wall2 = [DBG.adjustWallpaper('https://user.uploads.dev/file/bc252f575ad508a1758ffc50943470be.webp', 'https://user.uploads.dev/file/eb44622446707d13c9daa1ed5487dee2.webp')]
+wall3 = [DBG.adjustWallpaper('https://user.uploads.dev/file/9469897b613f3d01f2f0620a0bbe1de8.webp', 'https://user.uploads.dev/file/3d88be4df7dd9381a90b36e6f8651f23.webp')]
+
+  //
+// ❇️ Boot //
+//🔻All global variables here. This function need to be called in the right panel [createGlobalVar()] AFTER the [generateHTML(settings)]. If occurs errors, put the [generateHTML(settings)] inside a <div>.
+createGlobalVar()=>
+  window.promptInputCtn = document.getElementById('fullPromptCtn');
+  window.promptInputEl = document.querySelector('[data-name="fullPrompt"]');
+  //window.negativePromptInputEl = document.querySelector('[data-name="fullNegativePrompt"]');
+  window.descriptionEl = document.querySelector('[data-name="description"]');
+  window.description0El = document.querySelector('[data-name="descriptionZero"]');
+  window.description2El = document.querySelector('[data-name="description2"]');
+  //window.negativeEl = document.querySelector('[data-name="negative"]');
+
+  window.updateFinalPrompt = () => { // Global to work with eventListener that is created and removed several times.
+    BACKUP("create", D1); //
+    window.promptInputEl.value = promptSwift();
+    //NBACKUP("create", NGOnly);
+    //window.negativePromptInputEl.value = negativeSwift();
+    //window.promptInputEl.focus({ preventScroll: true });
+    window.promptInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+    //window.negativePromptInputEl.focus({ preventScroll: true });
+    //window.negativePromptInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
+  window.autoCorrect = "inactive";
+  window.forceRealistic = "inactive";
+  window.fullPromptLiveInput = "inactive";
+  window.whiteSpace = ".\n\n";
+
+  // Styles Options
+  window.activeMainStyle = localStorage.getItem("activeMainStyleSave") || "anime";
+  window.basicMode = localStorage.getItem("ActiveButtonStatusbasicMode") || "inactive";
+  window.characterQualityPrompt = "active"
+
+  // 🔽 Shuffle Words
+  window.RNGKey = {type: "RNG", status: "inactive"};
+  window.NRNGKey = {type: "RNG", status: "inactive"};
+
+  // 🔽 Replace Tag
+  window.REPTGKey = {type: "REPLACETAG", status: "inactive", input: "mainDescription"};
+  window.D0REPTGKey = {type: "REPLACETAG", status: "inactive", input: "startDescription"};
+  window.D2REPTGKey = {type: "REPLACETAG", status: "inactive", input: "endDescription"};
+  window.NREPTGKey = {type: "REPLACETAG", status: "inactive"};
+
+  // 🔽 Add Tag
+  window.ADDTGKey = {type: "ADDTAG", status: "inactive", input: "mainDescription"};
+  window.D0ADDTGKey = {type: "ADDTAG", status: "inactive", input: "startDescription"};
+  window.D2ADDTGKey = {type: "ADDTAG", status: "inactive", input: "endDescription"};
+  window.NADDTGKey = {type: "ADDTAG", status: "inactive"};
+
+  // 🔽 Remove Tag
+  window.RMVTGKey = {type: "RMVTAG", status: "inactive", input: "mainDescription"};
+  window.D0RMVTGKey = {type: "RMVTAG", status: "inactive", input: "startdDescription"};
+  window.D2RMVTGKey = {type: "RMVTAG", status: "inactive", input: "endDescription"};
+  window.NRMVTGKey = {type: "RMVTAG", status: "inactive"};
+
+  // 🔽 Walking Tag
+  window.WALKey = {type: "WALKER", status: "inactive", input: "mainDescription"};
+  window.WALKey0 = {type: "WALKER", status: "inactive", input: "startDescription"};
+  window.WALKey2 = {type: "WALKER", status: "inactive", input: "endDescription"};
+  window.NWALKey = {type: "WALKER", status: "inactive"};
+
+  //
+
+  cleanPrompt = {status: "inactive"};
+  disableReplicateSeed = {status: "inactive"};
+  enableCopySeed = {status: "active"}; // set to inactive later
+
+  window.autoGenerateGallerySave = "inactive";
+  window.autoGenerateDownload = "inactive"
+  window.autoGenerateStatus = "stop";
+  window.imageCounter = 0;
+  //
+  window.advAESTHETIC = localStorage.getItem('ActiveButtonStatusadvAESTHETIC') || "inactive";
+  // Character options
+  window.characterOutfit = localStorage.getItem("ActiveButtonStatuscharacterOutfit") || "active";
+  if (window.characterOutfit === "inactive") charOutfitStatusBtn.textContent = "Outfit OFF";
+  window.styleCFG = "0";
+  window.copySeedToBox = "inactive";
+  window.removeBackground = "active";
+
+  window.getRandomItem = (listName, key) => getRandomItem(listName, key);
+
+  return "";
+runAtStart() =>
+  t2iButtonsInsideBox();
+  //checkEditablePrompt();
+  TPROCESS.customCFGTrigger('gScale');
+
+  //detectAdBlock();
+  window.privateGalleryCtn = document.getElementById("privateGalleryCtn97364827");
+  window.PrivateGalleryBtn = privateGalleryCtn.querySelector("button");
+  PrivateGalleryBtn.textContent = "📁";
+  PrivateGalleryBtn.id = "privateGalleryBtn";
+  const CommentPopBtn = document.getElementById("commentPopBtn");
+  const GalleryPopBtn = document.getElementById("galleryPopBtn");
+  privateGalleryCtn.prepend(GalleryPopBtn);
+  privateGalleryCtn.prepend(CommentPopBtn);
+  document.getElementById("feedbackBtn893745ykfuhd").parentElement.style.zIndex = "0";
+  document.getElementById("darkModeBtn_875979f948").parentElement.style.zIndex = "1";
+  setNotepad();
+  imgMeta.readerHtmlRender('#imgReader');
+  return "";
+
+
+
+// Notes:
+  // 'modifiers' and 'modifierUpdates' report this error when there is a number (e.g. input.artStyle1?.modifiers):
+    // "TypeError: Cannot read properties of undefined (reading 'tagName')"
+      // An error has occurred somewhere in your code (in lists or HTML): A unhandled promise rejection occurred: Cannot set properties of undefined (setting '_element') // TypeError: Cannot set properties of undefined (setting '_element') at eval (eval at PERCH.createPerchanceTree (https://08187031975c31b7b8fb3151915b81c3.perchance.org/backup-ai-art-generator-advanced?__initWithDataFromParentWindow=1:599:36), :1305:24) at NodeList.forEach () at eval (eval at PERCH.createPerchanceTree (https://08187031975c31b7b8fb3151915b81c3.perchance.org/backup-ai-art-generator-advanced?__initWithDataFromParentWindow=1:599:36), :1303:69)
+
+  // Maximum characters the AI can process: 4k
+  // Maximum characters the SERVER can receive: 19.999. 20k or more it process NOTHING.
+
+junk() =>
+  /* Everything a junk
+
+
+  */

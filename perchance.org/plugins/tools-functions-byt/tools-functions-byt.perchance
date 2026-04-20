@@ -1,0 +1,241 @@
+factorial(n)=>
+  return n <= 1 ? 1 : n * factorial(n - 1);
+
+// ⬇️ Randomize tags
+maybeSimpleRandomizer(words) =>
+
+  if (typeof words === "undefined" || words === "") {
+    console.log("There is no data in Shuffle Tags -maybeSimpleRandomizer-");
+    window.totalPermutations = 1;
+    return "";
+  }
+
+  if (typeof lastWords === "undefined" || lastWords !== words) {
+    allSequences = new Set(); // Use it to debug: [Array.from(allSequences).join("\n")]
+    lastWords = words;
+  }
+
+  let wordsArray = words.match(/#([^#]*)#|[^,]+/g);
+
+  // Separate fixed words and shuffle the others
+  let fixedWords = wordsArray.map((part, idx) => part.includes("#") ? { idx, part: part.trim() } : null).filter(Boolean);
+
+  let shuffleCandidates = wordsArray.filter(part => !part.includes("#")).map(part => part.trim()); // 🆕 New Name
+
+  // 🆕⬇️ NEW
+
+  window.totalPermutations = factorial(shuffleCandidates.length);
+
+  if (allSequences.size >= window.totalPermutations) {
+    allSequences = new Set(); // resets when all combinations are used \o/
+  }
+
+  let shuffledArray, sequenceKey;
+
+  do {
+    shuffledArray = [...shuffleCandidates];
+  // Old:
+    // Shuffle remaining words
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+
+    // Place fixed words in their original positions
+    fixedWords.forEach(({ idx, part }) => shuffledArray.splice(idx, 0, part));
+  // 🆕⬇️ NEW
+    sequenceKey = shuffledArray.join("|");
+
+  } while (allSequences.has(sequenceKey));
+  allSequences.add(sequenceKey);
+  // Join and return
+  //let sopaOfWords = shuffledArray.join(", ").replace(/#/g, "");
+  return shuffledArray.join(", ").replace(/#/g, ""); //sopaOfWords;
+
+// ⬇️ Replace Tag
+ReplaceTag(varName, TagListData, imgNumber)=>
+  // To not confuse myself: the varName is a simple name to make each variable unique and flexible when using with others inputs at the same time, BUT, the Counter (varNameCounter) needs to be reseted. I use an advent listener to reset when the generate button is clicked in the t2i-framework based generators.
+  // CTRL C+V from the AddTag(), so the varName should be different... if both functions are used at the same time. If not, whatever.
+
+  (!window.tagSeparator) ? window.tagSeparator = "," : "";
+  if (typeof window[varName + "TagList"] === "undefined" || window[varName + "CopiedTagList"] !== TagListData) {
+    window[varName + "CopiedTagList"] = TagListData;
+    window[varName + "TagList"] = String(TagListData).split(window.tagSeparator).map(word => word.trim());
+  }
+
+  if (typeof window[varName + "Counter"] === "undefined" || window[varName + "Counter"] >= window[varName + "TagList"].length || window[varName + "Counter"] === "reseted") {
+    window[varName + "Counter"] = 0;
+  }
+
+  const result =  window[varName + "TagList"][window[varName + "Counter"]++];
+
+  if (!window[varName + "BigCounter"]) window[varName + "BigCounter"] = 0;
+  window[varName + "BigCounter"]++;
+  if (window[varName + "BigCounter"] >= Number(imgNumber)) {
+    window[varName + "BigCounter"] = 0;
+    window[varName + "Counter"] = "reseted";
+  }
+
+  return result;
+
+
+// ⬇️ Add Tag
+AddTag(varName, TagListData, imgNumber)=>
+  (!window.tagSeparator) ? window.tagSeparator = "," : ""; // Default separator
+  if (typeof window[varName + "TagList"] === "undefined" || window[varName + "CopiedTagList"] !== TagListData) {
+    // First time creating the list of tags, and creating a copy, in case there is changes in the content it will update.
+    window[varName + "CopiedTagList"] = TagListData; // Raw is better .-.
+    window[varName + "TagList"] = String(TagListData).split(window.tagSeparator).map(word => word.trim());
+  }
+
+  if (typeof window[varName + "Array"] === "undefined") {
+    window[varName + "Array"] = [];
+  }
+
+  const maxLength = Number(imgNumber) - 1;
+
+  if (typeof window[varName + "Counter"] === "undefined" || window[varName + "Counter"] >= maxLength) {
+    window[varName + "Counter"] = "reseted";
+    window[varName + "Array"] = [];
+  }
+
+  if (window[varName + "Counter"] === "reseted") { // To let the first run returns the raw nothing.
+    window[varName + "Counter"] = 0;
+    return ""
+  }
+
+  window[varName + "Array"].push(window[varName + "TagList"][window[varName + "Counter"]++]); // Add the current word to window[varName + "Array"]
+
+  if (window[varName + "Counter"] >= maxLength) { window[varName + "Counter"] = undefined; } // Small "fix", resets here in case the imgNumber changes but the list remains the same.
+  //if (window[varName + "Array"].length >= window[varName + "TagList"].length) {}
+  return window[varName + "Array"].join(', ');
+
+  //console.log("TagList: " + window[varName + "TagList"]);
+  //console.log("Counter: " + window[varName + "Counter"])
+  //console.log("maxLenght: " + Number(imgNumber));
+  //console.log("varNameArray: " + window[varName + "Array"]);
+
+
+// ⬇️ Remove Tag
+RmvTag(varName, TagListData, imgNumber)=>
+  // | The function is not AddTag() in reverse, it removes the first item from the array (a, b, c, d) -> (b, c, d). The AddTag() viewed from the end to the beginning "removes" from the last spot: (a, b, c, d) -> (a, b, c).
+  // CTRL C+V from the AddTag(), so the varName should be different... if both functions are used at the same time. If not, whatever.
+  (!window.tagSeparator) ? window.tagSeparator = "," : ""; // Default separator
+  if (typeof window[varName + "TagList"] === "undefined" || window[varName + "CopiedTagList"] !== TagListData) {
+    // First time creating the list of tags, and creating a copy, in case there is changes in the content it will update.
+    window[varName + "CopiedTagList"] = TagListData; // Raw is better .-.
+    window[varName + "TagList"] = String(TagListData).split(window.tagSeparator).map(word => word.trim());
+  }
+
+  if (typeof window[varName + "Array"] === "undefined") {
+    window[varName + "Array"] = [...window[varName + "TagList"]];
+  }
+
+  const maxLength = Number(imgNumber) - 1;
+
+  if (typeof window[varName + "Counter"] === "undefined" || window[varName + "Counter"] >= maxLength) {
+    window[varName + "Counter"] = "reseted";
+    window[varName + "Array"] = [...window[varName + "TagList"]];
+  }
+
+  if (window[varName + "Counter"] === "reseted") { // To let the first run returns the raw nothing.
+    window[varName + "Counter"] = 0;
+    return window[varName + "Array"] = [...window[varName + "TagList"]];
+  }
+
+  window[varName + "RemovedItem"] = window[varName + "Array"].shift(); // Remove the item from array.
+
+  if (window[varName + "Counter"] >= maxLength) { window[varName + "Counter"] = undefined; } // Small "fix", resets here in case the imgNumber changes but the list remains the same.
+  //if (window[varName + "Array"].length >= window[varName + "TagList"].length) {}
+  return window[varName + "Array"].join(', ');
+
+// ⬇️ Walking Tag
+TheWalkingTag(input, userPrompt, varName, imgNumber)=>
+  (!window.tagSeparator) ? window.tagSeparator = "," : "";
+  if (!userPrompt.includes('#tag#')) {
+    return "";
+  }
+  // input = the input.filter where are the tags.
+  if (typeof window[varName] === "undefined") {
+    window[varName + "Counter"] = 0;
+    window[varName] = userPrompt.split(window.tagSeparator).map(word => word.trim());
+    window[varName + 'backup'] = userPrompt;
+  }
+  if (typeof window[varName + 'backup'] !== "undefined" && window[varName + 'backup'] !== userPrompt) {
+    window[varName] = userPrompt.split(window.tagSeparator).map(word => word.trim());
+    window[varName + 'backup'] = userPrompt;
+  }
+
+  const markedTag = `#${input}#`;
+  window[varName + 'HighwayArray'] =  window[varName].filter(word => word !== `#${input}#` && !new RegExp(`^#tag#$`, 'i').test(word)); //word !== `#tag#`);
+  window[varName + 'HighwayArray'].splice(window[varName + "Counter"], 0, markedTag);
+  window[varName + "Counter"] = (window[varName + "Counter"] + 1) % window[varName + 'HighwayArray'].length;
+  const NewArray = window[varName + 'HighwayArray'].map(word => word.replace(/(#tag#|#)/gi, ""));
+
+    //////////
+  if (!window[varName + "BigCounter"]) window[varName + "BigCounter"] = 0;
+  window[varName + "BigCounter"]++;
+  //////////
+
+  //////////
+  if (window[varName + "BigCounter"] >= Number(imgNumber)) {
+    window[varName + "BigCounter"] = 0;
+    window[varName + "Counter"] = 0;
+  }
+  //////////
+
+  return NewArray.join(', ');
+
+// ⬇️ BETA Test- User custom styles that appears on drop menu
+CLDATA // CustomListsDATA.CustomUserData${i}
+  CUData1 = [localStorage.getItem("CUData1") || "nonelist"]
+  CUData2 = [localStorage.getItem("CUData2") || "nonelist"]
+  CUData3 = [localStorage.getItem("CUData3") || "nonelist"]
+  CUData4 = [localStorage.getItem("CUData4") || "nonelist"]
+  CUData5 = [localStorage.getItem("CUData5") || "nonelist"]
+  CUData6 = [localStorage.getItem("CUData6") || "nonelist"]
+  CUData7 = [localStorage.getItem("CUData7") || "nonelist"]
+  CUData8 = [localStorage.getItem("CUData8") || "nonelist"]
+  CUData9 = [localStorage.getItem("CUData9") || "nonelist"]
+  CUData10 = [localStorage.getItem("CUData10") || "nonelist"]
+  CUData11 = [localStorage.getItem("CUData11") || "nonelist"]
+  CUData12 = [localStorage.getItem("CUData12") || "nonelist"]
+  CUData13 = [localStorage.getItem("CUData13") || "nonelist"]
+  CUData14 = [localStorage.getItem("CUData14") || "nonelist"]
+  CUData15 = [localStorage.getItem("CUData15") || "nonelist"]
+  CUData16 = [localStorage.getItem("CUData16") || "nonelist"]
+  CUData17 = [localStorage.getItem("CUData17") || "nonelist"]
+  CUData18 = [localStorage.getItem("CUData18") || "nonelist"]
+  // Special for SD styles
+  CUData19 = [localStorage.getItem("CUData19") || "nonelist"]
+  CUData20 = [localStorage.getItem("CUData20") || "nonelist"]
+  CUData21 = [localStorage.getItem("CUData21") || "nonelist"]
+
+// user custom styles
+getCustomStylesValue()=>
+  for (let i = 1; i <= 21; i++) {
+  const inputValue = document.getElementById(`CustomUserStyle${i}`).value;
+  CLDATA[`CUData${i}`] = UrlToNameConverter(inputValue);
+  // Repetitive logic explained 🔻
+  // CLDATA.CUData1 = document.getElementById("CustomUserStyle1").value;
+  // CLDATA.CUData1 = UrlToNameConverter(CLDATA.CUData1);
+  localStorage.setItem(`CUData${i}`, CLDATA[`CUData${i}`]);
+  localStorage.setItem(`inputCustomUserStyle${i}`, inputValue);
+  }
+loadInputCustomStyles()=>
+  for (let i = 1; i <= 21; i++) {
+    const input = document.getElementById(`CustomUserStyle${i}`);
+    if (input) {
+      input.value = localStorage.getItem(`inputCustomUserStyle${i}`) || "";
+    }
+  }
+UrlToNameConverter(url)=>
+  url = url.replace(/\/$/, "");
+  const match = url.match(/\/([^\/#?]+)(?:[#?].*)?$/);
+  return match ? match[1] : url || "nonelist";
+
+RemoveCustomStyles()=>
+  for (let i = 1; i <= 21; i++) {
+  localStorage.removeItem(`CUData${i}`);
+  localStorage.removeItem(`inputCustomUserStyle${i}`);
+  }

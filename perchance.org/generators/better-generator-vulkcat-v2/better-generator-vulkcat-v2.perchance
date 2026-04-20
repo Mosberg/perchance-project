@@ -1,0 +1,156 @@
+
+// Framework
+generateInterfaceHTML = {import:t2i-framework-plugin-vulkcat-v3}
+// Public
+commentsPlugin = {import:comments-plugin}
+publicGallery = {import:public-gallery-framework-vulkcat}
+galleryOptions
+  gallery = true
+  hideIfScoreIsBelow = -3
+// Utils
+favicon = {import:favicon-plugin}
+generatorStats = {import:generator-stats-plugin-v2}
+feedbackOptions
+  width = 50%
+  height = 340
+  forceColorScheme = dark
+  hideComments = false
+  deleteButtonIcon = ❌
+  submitButtonText = Send Feedback
+  adminFlair = ⚡ Dev
+  adminPasswordHash = 62e7f37a9d939d25090dcbcd58c074ada078744c42afd4addbe8b8198de637f2
+  bannedUsers = [bannedUsersList]
+
+bannedUsersList
+  a8c8379c7f706a80b1b8
+
+$meta
+  title = Better AI Image Generator
+  description = 🔥 T2i v3 IS HERE — BREAKING LIMITS 🔥 by Vulkcat ⚡ 🚫 No login, no filters, no rules — now with video generation 🎬, the fastest, most powerful and addictive AI anime generator you’ll find, built for furry, anime and custom styles 🐾 with unlimited generations ♾️ no waiting and no restrictions, create anything you imagine without paying or signing up 💥, text-to-anime art in seconds with a fully optimized T2i engine 🧠, the most complete and insane generator right now — try it before it gets taken down 🚨
+
+settings
+  pageTitle = ⚡ Better AI Image Generator 😸
+  numImages = [input.numImages]
+
+  imageButtons
+    privateSave = true
+
+  imageOptions
+    saveTitle = ([input.artStyle.getName]) [input.description]
+    prompt = [input.artStyle.prompt]
+    negativePrompt = [input.artStyle.negative]
+    resolution = [input.shape]
+
+  videoPanel
+    width = 940px
+    height = 96vh
+
+
+  userInputs
+    scratchpad
+      label = 🗒️ Scratchpad
+      type = paragraph
+      remember = true
+      parseVariables = true
+      height = 40vh
+      row = assist
+      rowWidth = 33.333
+      foldToggleState = hidden
+
+    askAi
+      label = 🧠 Ask AI
+      type = paragraph
+      remember = true
+      height = 5rem
+      row = assist
+      rowWidth = 33.333
+      foldToggleState = hidden
+
+    translator
+      label = 🌐 Translate
+      type = paragraph
+      remember = true
+      height = 5rem
+      row = assist
+      rowWidth = 33.333
+      foldToggleState = hidden
+
+    description
+      label = 📝 Prompt
+      type = paragraph
+      remember = true
+      height = 11.3rem
+      row = prompt
+      rowWidth = 100
+      useVariables = true
+      modifiers = [input.artStyle?.modifiers || null]
+      modifierUpdates = event:description.input, event:artStyle.change
+      examples
+        Fragment prompts by categories for better generations
+
+    negative
+      label = 🚫 Negative Prompt
+      type = text
+      remember = true
+      row = secondary
+      rowWidth = 50
+      useVariables = true
+
+    seed
+      label = 🌱 Seed
+      type = text
+      row = secondary
+      rowWidth = 50
+      examples
+        -1
+      remember = true
+
+    artStyle
+      label = 🎨 Style
+      type = select
+      remember = true
+      row = controls
+      rowWidth = 25
+      options
+        meta:import:vulkcat-styles
+          from = {import:vulkcat-styles}
+
+    shape
+      label = 🖼️ Shape
+      type = select
+      remember = true
+      row = controls
+      rowWidth = 25
+      options
+        Portrait
+          512x768
+        Square
+          768x768
+        Landscape
+          768x512
+        Random
+          768x768
+          512x768
+          768x512
+
+    numImages
+      label = 🔢 Batch
+      type = number-stepper
+      min = 1
+      max = 32
+      step = 1
+      value = 6
+      remember = true
+      row = controls
+      rowWidth = 25
+
+    guidanceScale
+      label = ✒️ Guidance
+      type = number-stepper
+      min = 1
+      max = 30
+      step = 1
+      value = 13
+      remember = true
+      row = controls
+      rowWidth = 25

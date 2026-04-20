@@ -1,0 +1,104 @@
+<style>
+  :root {
+    --blackwhite: #000;
+    --blackwhite-rgba-08: rgba(0, 0, 0, 0.8);
+    --blackwhite-rgba-05: rgba(0, 0, 0, 0.5);
+    --blackwhite-rgba-02: rgba(0, 0, 0, 0.2);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    max-height: 100vh;
+    background: linear-gradient(
+      120deg,
+      #000,
+      #ed0c13,
+      #ed0c93,
+      #cb0ced,
+      #aa0ced,
+      #710ced,
+      #482078,
+      #000
+    );
+    color: #fff;
+  }
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  textarea {
+    position: relative;
+    width: 500px;
+    height: 200px;
+    max-width: 95vw;
+    color: #fff !important;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+  }
+
+  input {
+    color: #000 !important;
+  }
+
+  button {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  #mainCtn {
+    position: absolute;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    top: 3.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .flexCtn {
+    display: flex;
+    gap: 5px;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 0;
+    padding: 5px;
+  }
+
+  .default-border {
+    border-top: 1px solid #0cccf7;
+    border-right: 1px solid #fa4dc3;
+    border-bottom: 1px solid #7933f2;
+    border-left: 1px solid #3350f2;
+  }
+  .box-08 {
+    border-radius: 5px;
+    background: var(--blackwhite-rgba-08, rgba(0, 0, 0, 0.8));
+    color: var(--whiteblack, #fff);
+  }
+</style>
+
+<h1>Text Tools</h1>
+<div id="HTMLframework"></div>
+<div id="mainCtn"></div>
+
+<script>
+  window.inputElForTextTools = "#userText";
+
+  let placeholder = `White\nBlack\nGrey\n\n\\{Beautiful_rainy_sky|Creepy_silent_night\\}\n\n"EVERYBODY knows That You Are InSaNe"`;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    textToolsHtmlRender("#mainCtn");
+    createTextArea("#mainCtn");
+  });
+  //document.addEventListener('DOMContentLoaded', createTextArea('#mainCtn'));
+</script>
+
+<script></script>

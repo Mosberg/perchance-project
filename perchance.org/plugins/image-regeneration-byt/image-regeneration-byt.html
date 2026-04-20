@@ -1,0 +1,499 @@
+[bg()] [createImgWrapper()]
+
+<button
+  style="
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    width: 80px;
+    height: 80px;
+    font-size: 3rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  "
+  onclick="
+    createImgObjectData();
+    createImgWrapper();
+  "
+>
+  🐾
+</button>
+
+<div style="border-radius: 5px; position: fixed; bottom: 1.5rem; left: 0.5rem">
+  <div id="privateGalleryCtn97364827">
+    <button
+      style="
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px inset #0cccf7;
+        border-radius: 5px;
+      "
+      onclick="createMediaGallery().show()"
+    >
+      📁
+    </button>
+  </div>
+</div>
+
+<script>
+  window.sITS = "active";
+  window.removeBackground = "active";
+  window.regenerateArtStyles = "active";
+  function rng() {
+    const number = Math.floor(Math.random() * 10);
+    return number;
+  }
+  function rngSeed() {
+    const digits = rng();
+    const numberArray = [];
+    for (let n = 0; n < digits + 1; n++) {
+      numberArray.push(rng());
+    }
+    let stringNumber = String(numberArray.join(""));
+    if (stringNumber.startsWith("0"))
+      stringNumber = stringNumber.replace("0", "9");
+    return stringNumber;
+  }
+  function rngColor() {
+    const number = rng();
+    let specialColors = [
+      "grey",
+      "pink",
+      "aquamarine",
+      "silver",
+      "golden",
+      "rainbow",
+      "dark blue",
+      "dark green",
+      "magenta",
+      "lilac",
+    ];
+    let Colors = {
+      0: "red",
+      1: "orange",
+      2: "yellow",
+      3: "blue",
+      4: "green",
+      5: "purple",
+      6: "black",
+      7: "white",
+      8: "brown",
+      9: specialColors[rng()],
+    };
+    return Colors[number];
+  }
+  function createImgObjectData() {
+    const objectData = {
+      prompt: `Aesthetic 10, anime in Saint Seiya aesthetic, Saint Seya art style, retro cel-shaded animation, high-contrast, vibrant colors, character with sharp facial features, reflective chrome armor; hand-painted backgrounds; composition with a subtle metallic luster, gently glowing cosmic aura with stardust and nebulae; full body view of a cute and beautiful girl, she has an athletic figure, narrow waist, wide and large hips, has ${rngColor()} eyes, ${rngColor()} hair, wearing ${rngColor()} armor`,
+      negativePrompt: "",
+      guidanceScale: "7",
+      seed: rngSeed(),
+      resolution: "512x768",
+      width: "800",
+      saveTitle: "Knight",
+    };
+    imgObj = {};
+    Object.assign(imgObj, objectData);
+  }
+  imgObj = {
+    prompt: `Aesthetic 10, anime in Saint Seiya aesthetic, Saint Seya art style, retro cel-shaded animation, high-contrast, vibrant colors, character with sharp facial features, reflective chrome armor; hand-painted backgrounds; composition with a subtle metallic luster, gently glowing cosmic aura with stardust and nebulae; full body view of a cute and beautiful girl that has ${rngColor()} eyes, ${rngColor()} hair, wearing a ${rngColor()} armor`,
+    negativePrompt: "",
+    guidanceScale: "7",
+    seed: rngSeed(),
+    resolution: "512x768",
+    width: "800",
+    saveTitle: "Knight",
+  };
+
+  function bg() {
+    if (window.matchMedia("(orientation: portrait)").matches) {
+      return `
+
+        <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background:#000; z-index:999999999">
+          <img style="max-width: 100%; max-height: 100%; object-fit: contain;" src="https://user.uploads.dev/file/bc252f575ad508a1758ffc50943470be.webp">
+          <h3 style="background:#000000bf; color:#bd376a; border-radius:5px; position:fixed; bottom:0.2rem; left:50%; transform:translate(-50%, 0%); z-index:100;"><a href="https://perchance.org/ai-art-generator-advanced" style="color: inherit;">https://perchance.org/ai-art-generator-advanced</a></h3>
+        </div>
+        `;
+    } else {
+      return `
+        <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background:#000; z-index:999999999">
+          <img style="max-width: 100%; max-height: 100%; object-fit: contain;" src="https://user.uploads.dev/file/eb44622446707d13c9daa1ed5487dee2.webp">
+          <h3 style="background:#000000bf; color:#bd376a; border-radius:5px; position:fixed; bottom:0.2rem; left:50%; transform:translate(-50%, 0%); z-index:100;"><a href="https://perchance.org/ai-art-generator-advanced" style="color: inherit;">https://perchance.org/ai-art-generator-advanced</a></h3>
+        </div>
+        `;
+    }
+  }
+
+  artStylesObj = {
+    "-": "",
+    "Anime Style":
+      "Aesthetic 10, anime style, masterpiece, best quality, newest, very aesthetic. Anime render with perfect edge definition, smooth shading transitions, high-spec stylized rendering and high contrast with beautiful details, digitally enhanced, UHD",
+
+    "Professional Photo":
+      "Is a real, professional photography, editorial photography, with cinematic lighting, colored, high resolution, crisp details. The image is real, beautiful, stylish, appealing, modern and polished, 8K, DSLR photo",
+
+    "Pixel art":
+      "Best pixel art, neo-geo graphical style, retro nostalgic masterpiece, 128px, 16-bit pixel art of , 2D pixel art style, adventure game pixel art, inspired by the art style of hyper light drifter, masterful dithering, superb composition, beautiful palette, exquisite pixel detail",
+
+    "Digitally Oiled":
+      "Highly detailed digital painting, smooth oily skin, fresh wet-gloss texture, moist shine, realistic gloss, subtle lighting, high quality, ultra detailed, high resolution, digitally enhanced",
+
+    "𝕍𝔸ℙ𝕆ℝ𝕎𝔸𝕍𝔼":
+      "Vaporwave aesthetic style, synthwave style, retrofuture style, glitchart, saturated glow, neon-lit",
+  };
+</script>
+
+<!-- #-----------------# -->
+<style>
+  .no-select {
+    -webkit-user-select: none; /* Chrome, Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* old Edge */
+    user-select: none;
+  }
+
+  iframe.text-to-image-plugin-image-iframe {
+    max-width: 100%;
+  }
+
+  @keyframes rainbow-flicker {
+    0% {
+      background-color: red;
+    }
+    14% {
+      background-color: orange;
+    }
+    28% {
+      background-color: yellow;
+    }
+    42% {
+      background-color: green;
+    }
+    57% {
+      background-color: blue;
+    }
+    71% {
+      background-color: indigo;
+    }
+    85% {
+      background-color: violet;
+    }
+    100% {
+      background-color: red;
+    }
+  }
+  .rainbow-effect {
+    animation: rainbow-flicker 0.5s linear infinite;
+  }
+
+  @keyframes flickerCyan {
+    0% {
+      border-color: #fa4dc3;
+    }
+    5% {
+      border-color: #00ffff;
+    }
+    10% {
+      border-color: #fa4dc3;
+    }
+    15% {
+      border-color: #00ffff;
+    }
+    20% {
+      border-color: #fa4dc3;
+    }
+    25% {
+      border-color: #00ffff;
+    }
+    30% {
+      border-color: #fa4dc3;
+    }
+    35% {
+      border-color: #00ffff;
+    }
+    40% {
+      border-color: #fa4dc3;
+    }
+    45% {
+      border-color: #00ffff;
+    }
+    50% {
+      border-color: #fa4dc3;
+    }
+    55% {
+      border-color: #00ffff;
+    }
+    60% {
+      border-color: #fa4dc3;
+    }
+    65% {
+      border-color: #00ffff;
+    }
+    70% {
+      border-color: #fa4dc3;
+    }
+    75% {
+      border-color: #00ffff;
+    }
+    80% {
+      border-color: #fa4dc3;
+    }
+    85% {
+      border-color: #00ffff;
+    }
+    90% {
+      border-color: #fa4dc3;
+    }
+    95% {
+      border-color: #00ffff;
+    }
+    100% {
+      border-color: #fa4dc3;
+    }
+  }
+  .cyan-flicker {
+    animation: flickerCyan 1s;
+  }
+
+  .active-btn-main {
+    color: #00ffff !important;
+    font-weight: 600;
+    border: 1px solid #00ffff !important;
+    text-shadow:
+      1px -1px 0px #000,
+      2px 2px 0px #00ffff40,
+      -2px -2px 3px #00ffff40,
+      0 0 1px #00ffff80,
+      0 0 3px #00ffff80,
+      0 0 6px #00ffff80,
+      0 0 8px #00ffff80,
+      0 0 10px #00ffff80,
+      0 0 12px #00ffff80,
+      0 0 10px #00ffff80,
+      0 0 15px #00ffff80 !important;
+  }
+
+  /* .main-seed-wrapper {
+    position: relative;
+    padding: 10px;
+  }
+  .main-seed-wrapper label  {
+    margin: 5px 0px;
+  }
+  .main-seed-wrapper input  {
+    border-radius: 5px;
+
+  }
+  .main-seed-wrapper textarea  {
+    border-radius: 5px;
+    margin: 5px 0px;
+    padding:5px;
+  }
+  .button-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+  }
+  .edit {
+    display: flex;
+    flex-direction: column;
+  } */
+</style>
+
+<script>
+  /* GARBAGE
+
+
+imageInfo(data) =>
+  const url = data.dataUrl;
+  let title = data.inputs.saveTitle;
+  let prompt = data.inputs.prompt;
+  let negative = data.inputs.negativePrompt;
+  let cfg = data.inputs.guidanceScale;
+  let seed = data.inputs.seed;
+
+  if (title === " ") title = "Info";
+  const imgCtn = document.createElement('div');
+  imgCtn.style = "background:var(--blackwhite-rgba-08, rgba(0,0,0,0.8)); z-index:9999; position:fixed; inset:0; display:flex; align-items:center; justify-content:center;";
+  imgCtn.onclick = () => {
+    imgCtn.remove();
+  }
+
+  const img = new Image();
+  img.src = url;
+  img.style = "border-radius:5px; max-width:100vw; max-height:100vh;";
+  img.onclick = () => {
+    imgCtn.remove();
+  }
+
+  const info = document.createElement("div");
+  info.style = "color: var(--whiteblack, rgb(0,0,0)); position: absolute; bottom:3rem; background:var(--blackwhite-rgba-05, rgba(255,255,255,0.5)); border-radius:5px; width:600px; max-width:90vw; margin:0 auto; display:none"
+  info.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:15px; padding:5px;">
+      <div>
+        <span>Prompt</span>
+        <button class="re-info-copy-prompt" style="var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border:1px solid var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border-radius:5px; padding:0 5px; margin:5px;">❐ Copy</button>
+        <textarea style="width:100%; height:150px; max-height:40vh; background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8)); margin: 2px 0;">${prompt}</textarea>
+      </div>
+
+      <div>
+        <span>Negative</span>
+        <button class="re-info-copy-negative" style="var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border:1px solid var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border-radius:5px; padding:0 5px; margin:0 5px">❐ Copy</button>
+        <textarea style="width:100%; height:150px; max-height:40vh; background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8)); margin: 2px 0;">${negative}</textarea>
+      </div>
+
+      <div style="display:flex; gap:8px; justify-content:center; align-items:center">
+        <label>
+          CFG: <input value="${cfg}" style="width:50px; background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8));">
+        </label>
+        <label>
+        Seed: <input value="${seed}" style="width:175px; background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8));">
+        </label>
+        <button class="re-info-copy-seed" style="var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border:1px solid var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border-radius:5px; padding:0 5px;">❐</button>
+      </div>
+    </div>
+  `;
+  info.onclick = (e) => {
+  // stop clicks inside info from closing the overlay
+    e.stopPropagation();
+
+    if (e.target.classList.contains("re-info-copy-prompt")) {
+      copyText(prompt);
+      qolf.fastEffect(e.target, 300, 'cyan-flicker');
+    }
+    if (e.target.classList.contains("re-info-copy-negative")) {
+      copyText(negative);
+      qolf.fastEffect(e.target, 300, 'cyan-flicker');
+    }
+    if (e.target.classList.contains("re-info-copy-seed")) {
+      copyText(seed);
+      qolf.fastEffect(e.target, 300, 'cyan-flicker');
+    }
+  };
+
+  const buttonGrid = document.createElement('div');
+  buttonGrid.style = "border-radius:5px; height:32px; position:absolute; bottom:0.6rem; right:0.5rem; display:flex; gap:8px; max-width:100vw;";
+
+  const titleCtn = document.createElement('div');
+  titleCtn.classList = "no-select";
+  titleCtn.style = "background:var(--blackwhite-rgba-05, rgba(0,0,0,0.2)); border-radius:5px; color:var(--whiteblack, #fff); text-align:center; font-size:1.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-left:5px; padding:1px 5px; z-index:9; cursor:pointer;";
+  titleCtn.innerHTML = `ⓘ ${title}`
+  titleCtn.onclick = function(e) {
+    info.style.display = info.style.display === 'none' ? "" : 'none';
+    e.stopPropagation();
+  }
+  const rotateButtonL = document.createElement('button');
+  rotateButtonL.style = "background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; width:30px; height:30px; font-size:1.4rem; padding:0;";
+  rotateButtonL.textContent = "⍈"
+  rotateButtonL.onclick = (e) => {
+    if (img.style.transform) {
+      img.style.transform = "";
+      img.style.maxWidth = "100vw";
+      img.style.maxHeight = "100vh";
+    } else {
+      img.style.maxWidth = "100vh";
+      img.style.maxHeight = "100vw";
+      img.style.transform = "rotate(90deg)";
+    }
+    e.stopPropagation();
+  }
+
+  const rotateButtonR = document.createElement('button');
+  rotateButtonR.style = "background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; width:30px; height:30px; font-size:1.4rem; padding:0;";
+  rotateButtonR.textContent = "⍇"
+  rotateButtonR.onclick = (e) => {
+    if (img.style.transform) {
+      img.style.transform = "";
+      img.style.maxWidth = "100vw";
+      img.style.maxHeight = "100vh";
+    } else {
+      img.style.maxWidth = "100vh";
+      img.style.maxHeight = "100vw";
+      img.style.transform = "rotate(-90deg)";
+    }
+    e.stopPropagation();
+  }
+
+  const downloadBtn = document.createElement("button");
+  downloadBtn.style = "background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; width:30px; height:30px; font-size:1.2rem; padding:0";
+  downloadBtn.textContent = "⬇️";
+  downloadBtn.onclick = (e) => {
+    imgMeta.downloadImage(data);
+    e.stopPropagation(); }
+
+  const button = document.createElement('button');
+  //button.className = 'nice-border';
+  button.style = "background:var(--blackwhite-rgba-02, rgba(0,0,0,0.2)); color:var(--whiteblack, #fff); border-radius:5px; width:30px; height:30px; font-size:1rem; padding:0;";
+  button.textContent = '╳';
+  button.onclick = () => {
+    imgCtn.remove();
+  }
+
+  document.body.appendChild(imgCtn);
+  imgCtn.appendChild(img);
+  imgCtn.appendChild(buttonGrid);
+  buttonGrid.appendChild(titleCtn);
+  buttonGrid.appendChild(rotateButtonR);
+  buttonGrid.appendChild(rotateButtonL);
+  buttonGrid.appendChild(downloadBtn);
+  buttonGrid.appendChild(button);
+  imgCtn.appendChild(info);
+
+
+createImageGalleryMenuOptions(data) =>
+  const generatorName = window.generatorName || "";
+  const mainDiv = document.createElement("div");
+  mainDiv.style = "border-radius:5px; position:fixed; width:300px; padding:20px; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--blackwhite, #000); display:flex; flex-direction:column; gap:5px; z-index:9";
+
+  // ew
+  function handleOutsideClick(e) {
+    if (!mainDiv.contains(e.target)) { cleanup(); }
+  }
+  function cleanup() {
+    document.removeEventListener("mousedown", handleOutsideClick);
+    mainDiv.remove();
+  }
+
+  // btns
+  const regenBtn = document.createElement("button");
+  regenBtn.textContent = "♻️ Regenerate"
+  regenBtn.onclick = () => { createImgWrapper(data); cleanup(); }
+
+  const zoomBtn = document.createElement("button");
+  zoomBtn.textContent = "🔎 Info/FullScreen";
+  zoomBtn.onclick = () => {
+    data.inputs.saveTitle = `🖼️ From Gallery ${generatorName}`;
+    imageInfo(data);
+    cleanup();
+  }
+  const removeBgBtn = document.createElement("button");
+  removeBgBtn.textContent = "🧱 Remove background";
+  removeBgBtn.onclick = () => { removeBG(data, removeBgBtn); cleanup(); }
+
+  const downloadBtn = document.createElement("button");
+  downloadBtn.textContent = "⬇️ Special download";
+  downloadBtn.onclick = () => {
+    const previousTitle = data.inputs.saveTitle; // ??
+    data.inputs.saveTitle = `🖼️ From Gallery ${generatorName}`;
+    imgMeta.downloadImage(data);
+    data.inputs.saveTitle = previousTitle; // Is it really necessary? Oo well safeguard for future
+  }
+  // OFF
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "❌ Close";
+  closeBtn.onclick = cleanup;
+
+  const btnArray = [regenBtn, zoomBtn, removeBgBtn, downloadBtn, closeBtn];
+  btnArray.forEach(btn => mainDiv.appendChild(btn));
+
+  document.body.append(mainDiv);
+  document.addEventListener("mousedown", handleOutsideClick);
+
+
+
+
+
+
+
+*/
+</script>

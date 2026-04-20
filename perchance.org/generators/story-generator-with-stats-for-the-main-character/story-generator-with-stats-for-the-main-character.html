@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text:wght@400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+      transition: background 0.5s ease;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="100" fill="rgba(255,255,255,0.02)">⚔️</text></svg>') center/cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Dark mode styles with realistic galaxy theme */
+    body.dark-mode {
+      background: #000;
+    }
+
+    body.dark-mode::before {
+      background:
+        /* Deep space background */
+        radial-gradient(ellipse at 20% 80%, rgba(120, 119, 198, 0.3), transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(255, 119, 198, 0.3), transparent 50%),
+        radial-gradient(ellipse at 40% 40%, rgba(255, 219, 98, 0.2), transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(120, 219, 255, 0.2), transparent 50%),
+
+        /* Nebula clouds */
+        radial-gradient(circle at 15% 15%, rgba(120, 119, 198, 0.4) 0%, transparent 30%),
+        radial-gradient(circle at 85% 85%, rgba(255, 119, 198, 0.4) 0%, transparent 30%),
+        radial-gradient(circle at 50% 50%, rgba(255, 219, 98, 0.3) 0%, transparent 40%),
+        radial-gradient(circle at 30% 70%, rgba(120, 219, 255, 0.3) 0%, transparent 35%),
+
+        /* Galaxy spiral arms */
+        radial-gradient(ellipse at 25% 25%, rgba(138, 43, 226, 0.2) 0%, transparent 40%),
+        radial-gradient(ellipse at 75% 75%, rgba(75, 0, 130, 0.2) 0%, transparent 40%),
+        radial-gradient(ellipse at 60% 30%, rgba(255, 20, 147, 0.15) 0%, transparent 35%),
+        radial-gradient(ellipse at 30% 60%, rgba(0, 191, 255, 0.15) 0%, transparent 35%),
+
+        /* Star clusters - dense areas */
+        radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.8) 0%, transparent 2%),
+        radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.6) 0%, transparent 2%),
+        radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.7) 0%, transparent 2%),
+        radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.8) 0%, transparent 2%),
+        radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.6) 0%, transparent 2%),
+        radial-gradient(circle at 95% 80%, rgba(255, 255, 255, 0.7) 0%, transparent 2%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, transparent 3%),
+        radial-gradient(circle at 45% 55%, rgba(255, 255, 255, 0.7) 0%, transparent 2%),
+        radial-gradient(circle at 55% 45%, rgba(255, 255, 255, 0.6) 0%, transparent 2%),
+
+        /* Medium stars */
+        radial-gradient(circle at 25% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 1%),
+        radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.5) 0%, transparent 1%),
+        radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.5) 0%, transparent 1%),
+        radial-gradient(circle at 70% 75%, rgba(255, 255, 255, 0.5) 0%, transparent 1%),
+        radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 1%),
+        radial-gradient(circle at 60% 80%, rgba(255, 255, 255, 0.4) 0%, transparent 1%),
+        radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.4) 0%, transparent 1%),
+        radial-gradient(circle at 20% 60%, rgba(255, 255, 255, 0.4) 0%, transparent 1%),
+
+        /* Small stars scattered */
+        radial-gradient(circle at 5% 5%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 15% 8%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 25% 12%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 35% 7%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 45% 15%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 55% 9%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 65% 13%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 75% 6%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 85% 11%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 95% 8%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 8% 25%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 12% 35%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 18% 45%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 22% 55%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 28% 65%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 32% 75%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 38% 85%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 42% 95%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 52% 25%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 58% 35%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 62% 45%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 68% 55%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 72% 65%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 78% 75%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 82% 85%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 88% 95%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 92% 25%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 98% 35%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 3% 45%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 7% 55%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+        radial-gradient(circle at 13% 65%, rgba(255, 255, 255, 0.3) 0%, transparent 0.5%),
+
+        /* Colored stars */
+        radial-gradient(circle at 17% 33%, rgba(255, 100, 100, 0.6) 0%, transparent 1.5%),
+        radial-gradient(circle at 83% 67%, rgba(100, 100, 255, 0.6) 0%, transparent 1.5%),
+        radial-gradient(circle at 33% 17%, rgba(100, 255, 100, 0.6) 0%, transparent 1.5%),
+        radial-gradient(circle at 67% 83%, rgba(255, 255, 100, 0.6) 0%, transparent 1.5%),
+        radial-gradient(circle at 41% 59%, rgba(255, 150, 255, 0.5) 0%, transparent 1%),
+        radial-gradient(circle at 59% 41%, rgba(150, 255, 255, 0.5) 0%, transparent 1%),
+
+        /* Background stars */
+        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 60% 70%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 10% 80%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 30% 20%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.7), transparent),
+
+        /* Very distant tiny stars */
+        radial-gradient(0.5px 0.5px at 25% 25%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(0.5px 0.5px at 75% 75%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(0.5px 0.5px at 35% 65%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(0.5px 0.5px at 65% 35%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(0.5px 0.5px at 15% 85%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(0.5px 0.5px at 85% 15%, rgba(255,255,255,0.5), transparent),
+
+        /* Galaxy core glow */
+        radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 200, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(200, 200, 255, 0.03) 0%, transparent 30%);
+
+      background-size: 200% 200%, 200% 200%, 150% 150%, 150% 150%, 100% 100%, 100% 100%, 120% 120%, 120% 120%,
+                      100% 100%, 80% 80%, 80% 80%, 90% 90%, 90% 90%, 70% 70%, 70% 70%,
+                      200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%;
+      background-position: 0% 0%, 100% 100%, 50% 50%, 30% 70%, 70% 30%, 20% 80%, 80% 20%, 40% 60%, 60% 40%,
+                           0% 0%, 50% 50%, 100% 100%, 25% 25%, 75% 75%, 10% 90%, 90% 10%, 35% 65%, 65% 35%, 15% 85%, 85% 15%, 45% 55%, 55% 45%, 5% 95%, 95% 5%, 30% 70%, 70% 30%, 20% 80%, 80% 20%, 40% 60%, 60% 40%, 10% 90%, 90% 10%, 25% 75%, 75% 25%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%;
+      animation: galaxyRotate 200s linear infinite, twinkle 3s ease-in-out infinite alternate;
+    }
+
+    body.dark-mode::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes galaxyRotate {
+      from { background-position: 0% 0%, 100% 100%, 50% 50%, 30% 70%, 70% 30%, 20% 80%, 80% 20%, 40% 60%, 60% 40%, 0% 0%, 50% 50%, 100% 100%, 25% 25%, 75% 75%, 10% 90%, 90% 10%, 35% 65%, 65% 35%, 15% 85%, 85% 15%, 45% 55%, 55% 45%, 5% 95%, 95% 5%, 30% 70%, 70% 30%, 20% 80%, 80% 20%, 40% 60%, 60% 40%, 10% 90%, 90% 10%, 25% 75%, 75% 25%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%; }
+      to { background-position: -200% -200%, -100% -100%, -50% -50%, -130% -170%, -170% -130%, -120% -180%, -180% -120%, -140% -160%, -160% -140%, -200% -200%, -150% -150%, -100% -100%, -125% -125%, -75% -75%, -110% -190%, -190% -110%, -135% -165%, -165% -135%, -115% -185%, -185% -115%, -145% -155%, -155% -145%, -105% -195%, -195% -105%, -130% -170%, -170% -130%, -120% -180%, -180% -120%, -140% -160%, -160% -140%, -110% -190%, -190% -110%, -125% -175%, -175% -125%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%, -150% -150%; }
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { opacity: 0.8; }
+    }
+
+    body.dark-mode h1 {
+      color: #ffd700;
+      text-shadow: 0 0 20px rgba(255,215,0,0.5), 0 0 40px rgba(255,215,0,0.3), 0 0 60px rgba(255,215,0,0.2);
+    }
+
+    body.dark-mode p {
+      color: rgba(255,255,255,0.95);
+    }
+
+    body.dark-mode .section-card {
+      background: rgba(20,20,40,0.95);
+      border: 1px solid rgba(100,100,200,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(100,100,200,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    body.dark-mode .section-card:hover {
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(100,100,200,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    body.dark-mode h3 {
+      color: #a0c4ff;
+      border-bottom-color: #ffd700;
+      text-shadow: 0 0 10px rgba(160,196,255,0.3);
+    }
+
+    body.dark-mode h4 {
+      color: #a0c4ff;
+      text-shadow: 0 0 5px rgba(160,196,255,0.3);
+    }
+
+    body.dark-mode label {
+      color: rgba(255,255,255,0.9);
+    }
+
+    body.dark-mode input,
+    body.dark-mode select,
+    body.dark-mode textarea {
+      background: rgba(30,30,50,0.9);
+      border-color: rgba(100,100,200,0.5);
+      color: rgba(255,255,255,0.95);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    body.dark-mode input:focus,
+    body.dark-mode select:focus,
+    body.dark-mode textarea:focus {
+      border-color: #a0c4ff;
+      box-shadow: 0 0 0 3px rgba(160,196,255,0.2), inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    body.dark-mode .story-textarea {
+      background: rgba(20,20,40,0.98);
+      border-color: rgba(100,100,200,0.5);
+      color: rgba(255,255,255,0.95);
+    }
+
+    body.dark-mode .story-textarea:focus {
+      border-color: #a0c4ff;
+      box-shadow: 0 0 0 3px rgba(160,196,255,0.2), inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    body.dark-mode .bar-container {
+      background-color: rgba(30,30,50,0.8);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    body.dark-mode .checkbox-container {
+      background: rgba(30,30,50,0.8);
+      border-color: rgba(100,100,200,0.5);
+    }
+
+    body.dark-mode .checkbox-container span {
+      color: rgba(255,255,255,0.95);
+    }
+
+    body.dark-mode .title-item {
+      background: rgba(40,40,60,0.5);
+      border-color: rgba(100,100,200,0.5);
+    }
+
+    body.dark-mode .title-item:hover {
+      background: rgba(60,60,80,0.6);
+      border-color: rgba(100,100,200,0.7);
+    }
+
+    body.dark-mode .form-popup {
+      background: rgba(20,20,40,0.95);
+      border-color: rgba(100,100,200,0.5);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    body.dark-mode .portrait-container {
+      background: rgba(20,20,40,0.8);
+      border-color: rgba(255,215,0,0.5);
+    }
+
+    body.dark-mode .notes-text {
+      color: rgba(255,255,255,0.85);
+      background: rgba(20,20,40,0.8);
+    }
+
+    body.dark-mode .theme-toggle-header {
+      background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    body.dark-mode .theme-toggle-header:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      color: #ffd700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.3);
+      margin-bottom: 10px;
+      font-size: 3em;
+      text-align: center;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.3); }
+      to { text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.5); }
+    }
+
+    p {
+      color: rgba(255,255,255,0.9);
+      text-align: center;
+      margin: 10px auto;
+    }
+
+    .main-container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      width: 95%;
+      max-width: 1200px;
+      margin: 0 auto;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .section-card {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.2);
+    }
+
+    h3 {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      color: #2a5298;
+      margin: 0 0 15px 0;
+      font-size: 1.5em;
+      border-bottom: 2px solid #ffd700;
+      padding-bottom: 8px;
+    }
+
+    h4 {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      color: #2a5298;
+      margin: 20px 0 10px 0;
+      font-size: 1.2em;
+    }
+
+    label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      color: #333;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+      font-family: 'Poppins', sans-serif;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #2a5298;
+      box-shadow: 0 0 0 3px rgba(42,82,152,0.1);
+    }
+
+    button {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102,126,234,0.6);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .random-btn {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      box-shadow: 0 4px 15px rgba(240,147,251,0.4);
+    }
+
+    .random-btn:hover {
+      box-shadow: 0 6px 20px rgba(240,147,251,0.6);
+    }
+
+    .generate-btn {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      box-shadow: 0 4px 15px rgba(79,172,254,0.4);
+    }
+
+    .generate-btn:hover {
+      box-shadow: 0 6px 20px rgba(79,172,254,0.6);
+    }
+
+    .danger-btn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+      box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+    }
+
+    .danger-btn:hover {
+      box-shadow: 0 6px 20px rgba(255,107,107,0.6);
+    }
+
+    .stat-input {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .bar-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      margin-top: 5px;
+      height: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease, background-color 0.5s ease;
+      background: linear-gradient(90deg, var(--bar-color) 0%, var(--bar-color-light) 100%);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.3);
+    }
+
+    .health-bar {
+      --bar-color: #4CAF50;
+      --bar-color-light: #8BC34A;
+    }
+
+    .mana-bar {
+      --bar-color: #2196F3;
+      --bar-color-light: #03A9F4;
+    }
+
+    .xp-bar {
+      --bar-color: #FF9800;
+      --bar-color-light: #FFC107;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .story-textarea {
+      font-family: 'Crimson Text', serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 400px;
+      background: rgba(255,255,255,0.98);
+      border: 2px solid #e0e0e0;
+    }
+
+    .story-textarea:focus {
+      border-color: #2a5298;
+      box-shadow: 0 0 0 3px rgba(42,82,152,0.1);
+    }
+
+    .portrait-container {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      border: 2px solid rgba(255,215,0,0.3);
+    }
+
+    .portrait-img {
+      max-width: 300px;
+      border-radius: 15px;
+      border: 3px solid #ffd700;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .checkbox-container span {
+      color: rgba(255,255,255,0.9);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .title-item {
+      background: rgba(42,82,152,0.1);
+      border: 1px solid rgba(42,82,152,0.3);
+      transition: all 0.3s ease;
+    }
+
+    .title-item:hover {
+      background: rgba(42,82,152,0.2);
+      border-color: rgba(42,82,152,0.5);
+    }
+
+    .title-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .form-popup {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .notes-text {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      max-width: 600px;
+      margin: 10px auto;
+      text-align: center;
+      background: rgba(0,0,0,0.2);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .notes-text a {
+      color: #ffd700;
+      text-decoration: underline;
+    }
+
+    .dark-mode-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 10;
+      background: rgba(0,0,0,0.5);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: white;
+      font-size: 20px;
+      padding: 10px;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dark-mode-btn:hover {
+      background: rgba(0,0,0,0.7);
+      transform: scale(1.1);
+    }
+
+    .theme-toggle-header {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-size: 16px;
+      padding: 12px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+    }
+
+    .theme-toggle-header:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102,126,234,0.6);
+    }
+
+    .feedback-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+    }
+
+    .feedback-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102,126,234,0.6);
+    }
+
+    .update-log-btn {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      box-shadow: 0 4px 15px rgba(240,147,251,0.4);
+      margin: 10px 0;
+    }
+
+    .update-log-btn:hover {
+      box-shadow: 0 6px 20px rgba(240,147,251,0.6);
+    }
+
+    .update-log-container {
+      width: 100%;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 15px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      margin-top: 10px;
+      font-family: 'Crimson Text', serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .update-log-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .update-log-container::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+    }
+
+    .update-log-container::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 4px;
+    }
+
+    .update-log-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.5);
+    }
+  </style>
+</head>
+<body>
+  <!-- Theme Toggle Button in Header -->
+  <button class="theme-toggle-header" onclick="window.toggleManualDarkMode();">
+    <span id="themeToggleText">🌙 Dark Theme</span>
+  </button>
+
+  <h1>AI Story RPG Game!</h1>
+  <p style="font-size:85%; opacity:0.8;">Create your character and embark on an interactive story adventure.</p>
+
+  <div class="main-container">
+    <!-- Update Log Section -->
+    <div style="text-align: center; margin-bottom: 20px;">
+      <button id="updateLogBtn" onclick="toggleUpdateLog()" class="update-log-btn">📝 Update Log</button>
+    </div>
+
+    <div id="updateLogContainer" class="section-card" style="display: none;">
+      <h3>Update Log</h3>
+      <div id="updateLogContent" class="update-log-container">
+        <!-- Update log content will be populated here -->
+        <p>Update log entries will appear here...</p>
+      </div>
+    </div>
+
+    <!-- Character Creation Section -->
+    <div id="characterCreationCtn" class="section-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="margin:0;">Character Creation</h3>
+        <button onclick="generateRandomCharacter()" class="random-btn" style="padding:8px 16px;">🎲 Random Character</button>
+      </div>
+
+      <!-- Main Character Info -->
+      <div style="display:flex; flex-wrap:wrap; gap:15px; margin-bottom:15px;">
+        <div style="flex:1; min-width:250px;">
+          <label for="characterNameEl">Character Name:</label>
+          <input id="characterNameEl" oninput="localStorage.characterName=this.value" placeholder="Enter your character's name" style="width:100%; margin-top:5px;">
+        </div>
+        <div style="flex:1; min-width:250px;">
+          <label for="characterRaceEl">Race:</label>
+          <select id="characterRaceEl" oninput="localStorage.characterRace=this.value" style="width:100%; margin-top:5px;">
+            <option value="human">Human</option>
+            <option value="elf">Elf</option>
+            <option value="dwarf">Dwarf</option>
+            <option value="orc">Orc</option>
+            <option value="halfling">Halfling</option>
+            <option value="dragonborn">Dragonborn</option>
+            <option value="tiefling">Tiefling</option>
+            <option value="custom">Custom</option>
+          </select>
+          <input id="customRaceEl" oninput="localStorage.customRace=this.value" placeholder="Enter custom race" style="width:100%; margin-top:5px; display:none;">
+          <textarea id="customRaceDescEl" oninput="localStorage.customRaceDesc=this.value" placeholder="Describe this custom race" style="width:100%; margin-top:5px; min-height:60px; display:none;"></textarea>
+          <div id="customRaceDescBtnCtn" style="text-align:center; margin-top:5px; display:none;">
+            <button id="stopCustomRaceBtn" onclick="window.currentStreamObj.stop()" style="display:none; margin-right:5px;">🛑 stop</button>
+            <button onclick="generateCustomRaceDesc()" class="generate-btn">Generate Race Description</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character Class -->
+      <div style="display:flex; gap:15px; margin-bottom:15px;">
+        <div style="flex:1; min-width:250px;">
+          <label for="characterClassEl">Class:</label>
+          <select id="characterClassEl" oninput="localStorage.characterClass=this.value" style="width:100%; margin-top:5px;">
+            <option value="warrior">Warrior</option>
+            <option value="mage">Mage</option>
+            <option value="rogue">Rogue</option>
+            <option value="cleric">Cleric</option>
+            <option value="ranger">Ranger</option>
+            <option value="bard">Bard</option>
+            <option value="custom">Custom</option>
+          </select>
+          <input id="customClassEl" oninput="localStorage.customClass=this.value" placeholder="Enter custom class" style="width:100%; margin-top:5px; display:none;">
+          <textarea id="customClassDescEl" oninput="localStorage.customClassDesc=this.value" placeholder="Describe this custom class" style="width:100%; margin-top:5px; min-height:60px; display:none;"></textarea>
+        </div>
+        <div style="flex:1; min-width:250px;">
+          <label for="characterLevelEl">Level:</label>
+          <input type="number" id="characterLevelEl" min="1" max="20" value="1" oninput="localStorage.characterLevel=this.value" style="width:100%; margin-top:5px;">
+        </div>
+      </div>
+
+      <!-- Character Description -->
+      <div style="margin-top:20px;">
+        <h4 style="margin-top:0;">Character Description</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:15px;">
+          <div style="flex:1; min-width:250px;">
+            <label for="appearanceEl">Physical Appearance:</label>
+            <textarea id="appearanceEl" oninput="localStorage.appearance=this.value" placeholder="Describe your character's appearance" style="width:100%; margin-top:5px; min-height:100px;"></textarea>
+            <div style="text-align:center; margin-top:8px;">
+              <button id="stopAppearanceBtn" onclick="window.currentStreamObj.stop()" style="display:none; margin-right:5px;" class="danger-btn">🛑 stop</button>
+              <button onclick="generateAppearance()" class="generate-btn">Generate Appearance</button>
+            </div>
+          </div>
+          <div style="flex:1; min-width:250px;">
+            <label for="backgroundEl">Background/History:</label>
+            <textarea id="backgroundEl" oninput="localStorage.background=this.value" placeholder="Describe your character's background" style="width:100%; margin-top:5px; min-height:100px;"></textarea>
+            <div style="text-align:center; margin-top:8px;">
+              <button id="stopBackgroundBtn" onclick="window.currentStreamObj.stop()" style="display:none; margin-right:5px;" class="danger-btn">🛑 stop</button>
+              <button onclick="generateBackground()" class="generate-btn">Generate Background</button>
+            </div>
+          </div>
+          <div style="flex:1; min-width:250px;">
+            <label for="personalityEl">Personality:</label>
+            <textarea id="personalityEl" oninput="localStorage.personality=this.value" placeholder="Describe your character's personality" style="width:100%; margin-top:5px; min-height:100px;"></textarea>
+            <div style="text-align:center; margin-top:8px;">
+              <button id="stopPersonalityBtn" onclick="window.currentStreamObj.stop()" style="display:none; margin-right:5px;" class="danger-btn">🛑 stop</button>
+              <button onclick="generatePersonality()" class="generate-btn">Generate Personality</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Description Fields Section -->
+        <div id="customDescriptionsCtn" style="margin-top:20px;">
+          <h4 style="margin-top:0;">Custom Description Fields</h4>
+          <div id="customDescriptionsListEl"></div>
+          <div style="display:flex; gap:10px; margin-top:10px;">
+            <input id="customDescNameEl" placeholder="Description Field Name" style="flex:2;">
+            <button onclick="addCustomDescription()" style="flex:1;">Add Field</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Information Section -->
+      <div style="margin-top:20px;">
+        <h4 style="margin-top:0;">Additional Information</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:15px;">
+          <!-- Health Bar -->
+          <div style="flex:1; min-width:250px;">
+            <label>Health:</label>
+            <div style="display:flex; gap:5px; margin-top:5px;">
+              <input type="number" id="currentHealthEl" min="0" value="100" class="stat-input" style="width:50%;" oninput="updateHealthBar(); localStorage.currentHealth=this.value;">
+              <span style="align-self:center;">/</span>
+              <input type="number" id="maxHealthEl" min="1" value="100" class="stat-input" style="width:50%;" oninput="updateHealthBar(); localStorage.maxHealth=this.value;">
+            </div>
+            <div class="bar-container">
+              <div id="healthBarEl" class="bar-fill health-bar" style="width:100%;"></div>
+            </div>
+          </div>
+
+          <!-- Mana/Energy Bar -->
+          <div style="flex:1; min-width:250px;">
+            <label>Mana:</label>
+            <div style="display:flex; gap:5px; margin-top:5px;">
+              <input type="number" id="currentManaEl" min="0" value="50" class="stat-input" style="width:50%;" oninput="updateManaBar(); localStorage.currentMana=this.value;">
+              <span style="align-self:center;">/</span>
+              <input type="number" id="maxManaEl" min="1" value="50" class="stat-input" style="width:50%;" oninput="updateManaBar(); localStorage.maxMana=this.value;">
+            </div>
+            <div class="bar-container">
+              <div id="manaBarEl" class="bar-fill mana-bar" style="width:100%;"></div>
+            </div>
+          </div>
+
+          <!-- Experience Bar -->
+          <div style="flex:1; min-width:250px;">
+            <label>Experience:</label>
+            <div style="display:flex; gap:5px; margin-top:5px;">
+              <input type="number" id="currentXpEl" min="0" value="0" class="stat-input" style="width:50%;" oninput="updateXpBar(); localStorage.currentXp=this.value;">
+              <span style="align-self:center;">/</span>
+              <input type="number" id="nextLevelXpEl" min="1" value="100" class="stat-input" style="width:50%;" oninput="updateXpBar(); localStorage.nextLevelXp=this.value;">
+            </div>
+            <div class="bar-container">
+              <div id="xpBarEl" class="bar-fill xp-bar" style="width:0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:15px; margin-top:15px;">
+          <!-- Skills -->
+          <div style="flex:1; min-width:250px;">
+            <label for="skillsEl">Skills:</label>
+            <textarea id="skillsEl" oninput="localStorage.skills=this.value" placeholder="List your character's skills" style="width:100%; margin-top:5px; min-height:100px;"></textarea>
+            <div style="text-align:center; margin-top:8px;">
+              <button id="stopSkillsBtn" onclick="window.currentStreamObj.stop()" style="display:none; margin-right:5px;" class="danger-btn">🛑 stop</button>
+              <button onclick="showSkillGenerationForm()" class="generate-btn">Generate Skills</button>
+              <!-- Skills Generation Form -->
+              <div id="skillGenerationCtn" class="form-popup" style="display:none;">
+                <div style="font-weight:bold; margin-bottom:10px;">Generate New Skill</div>
+                <input id="skillNameEl" placeholder="Skill Name" style="width:100%; margin-bottom:8px;">
+                <textarea id="skillDescEl" placeholder="Short Description (optional)" style="width:100%; min-height:60px; margin-bottom:8px;"></textarea>
+                <div style="text-align:right;">
+                  <button onclick="hideSkillGenerationForm()" style="margin-right:8px;">Cancel</button>
+                  <button onclick="generateSingleSkill()" class="generate-btn">Generate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inventory -->
+          <div style="flex:1; min-width:250px;">
+            <label for="inventoryEl">Inventory:</label>
+            <textarea id="inventoryEl" oninput="localStorage.inventory=this.value" placeholder="List your character's items" style="width:100%; margin-top:5px; min-height:100px;"></textarea>
+            <div style="text-align:center; margin-top:8px;">
+              <button onclick="generateStarterInventory()" class="generate-btn">Generate Starter Gear</button>
+            </div>
+          </div>
+
+          <!-- Titles -->
+          <div style="flex:1; min-width:250px;">
+            <label>Titles:</label>
+            <input type="hidden" id="titlesEl"> <!-- Hidden field for compatibility -->
+            <div id="titlesListEl" style="margin-top:5px;"></div> <!-- Expandable titles list -->
+            <div style="display:flex; gap:10px; margin-top:10px;">
+              <input id="newTitleEl" placeholder="Enter a new title" style="flex:2;">
+              <button onclick="addTitle()" style="flex:1;">Add Title</button>
+            </div>
+            <div style="text-align:center; margin-top:8px;">
+              <button id="stopTitlesBtn" onclick="window.currentStreamObj.stop()" style="display:none; margin-right:5px;" class="danger-btn">🛑 stop</button>
+              <button onclick="showTitleGenerationForm()" class="generate-btn">Generate Titles</button>
+              <!-- Titles Generation Form -->
+              <div id="titleGenerationCtn" class="form-popup" style="display:none;">
+                <div style="font-weight:bold; margin-bottom:10px;">Generate New Title</div>
+                <input id="titleNameEl" placeholder="Title Name" style="width:100%; margin-bottom:8px;">
+                <textarea id="titleDescEl" placeholder="Short Description (optional)" style="width:100%; min-height:60px; margin-bottom:8px;"></textarea>
+                <div style="text-align:right;">
+                  <button onclick="hideTitleGenerationForm()" style="margin-right:8px;">Cancel</button>
+                  <button onclick="generateSingleTitle()" class="generate-btn">Generate</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character Stats -->
+      <div style="margin-top:20px;">
+        <h4 style="margin-top:0;">Character Stats</h4>
+        <div id="statsContainerEl" style="display:flex; flex-wrap:wrap; gap:15px;">
+          <!-- Default Stats -->
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="strengthEl">Strength:</label>
+            <input type="number" id="strengthEl" min="1" max="20" value="10" class="stat-input" oninput="localStorage.strengthStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="dexterityEl">Dexterity:</label>
+            <input type="number" id="dexterityEl" min="1" max="20" value="10" class="stat-input" oninput="localStorage.dexterityStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="constitutionEl">Constitution:</label>
+            <input type="number" id="constitutionEl" min="1" max="20" value="10" class="stat-input" oninput="localStorage.constitutionStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="intelligenceEl">Intelligence:</label>
+            <input type="number" id="intelligenceEl" min="1" max="20" value="10" class="stat-input" oninput="localStorage.intelligenceStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="wisdomEl">Wisdom:</label>
+            <input type="number" id="wisdomEl" min="1" max="20" value="10" class="stat-input" oninput="localStorage.wisdomStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="charismaEl">Charisma:</label>
+            <input type="number" id="charismaEl" min="1" max="20" value="10" class="stat-input" oninput="localStorage.charismaStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <!-- Combat Stats -->
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="critchanceEl">Crit Chance (%):</label>
+            <input type="number" id="critchanceEl" min="0" max="100" value="5" class="stat-input" oninput="localStorage.critchanceStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="evadeEl">Evade (%):</label>
+            <input type="number" id="evadeEl" min="0" max="100" value="10" class="stat-input" oninput="localStorage.evadeStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="armorEl">Armor:</label>
+            <input type="number" id="armorEl" min="0" value="0" class="stat-input" oninput="localStorage.armorStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+          <div class="stat-item" style="flex:1; min-width:170px;">
+            <label for="speedEl">Speed:</label>
+            <input type="number" id="speedEl" min="1" value="30" class="stat-input" oninput="localStorage.speedStat=this.value" style="width:100%; margin-top:5px;">
+          </div>
+        </div>
+
+        <!-- Custom Stats Section -->
+        <div id="customStatsCtn" style="margin-top:20px;">
+          <h4 style="margin-top:0;">Custom Stats</h4>
+          <div id="customStatsListEl"></div>
+          <div style="display:flex; gap:10px; margin-top:10px;">
+            <input id="customStatNameEl" placeholder="Stat Name" style="flex:2;">
+            <input type="number" id="customStatValueEl" placeholder="Value" min="1" max="20" value="10" style="flex:1;">
+            <button onclick="addCustomStat()" style="flex:1;">Add Stat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story Generator Section -->
+    <div class="section-card">
+      <h3 style="margin-top:0;">Story & World</h3>
+
+      <!-- World Setting -->
+      <div style="margin-bottom:15px;">
+        <label for="worldSettingEl">World Setting:</label>
+        <select id="worldSettingEl" oninput="localStorage.worldSetting=this.value; updateWorldPrompt()" style="width:100%; margin-top:5px;">
+          <option value="medieval-fantasy">Medieval Fantasy</option>
+          <option value="high-fantasy">High Fantasy</option>
+          <option value="dark-fantasy">Dark Fantasy</option>
+          <option value="steampunk">Steampunk</option>
+          <option value="post-apocalyptic">Post-Apocalyptic</option>
+          <option value="sci-fi">Science Fiction</option>
+          <option value="custom">Custom Setting</option>
+        </select>
+        <textarea id="customWorldEl" oninput="localStorage.customWorld=this.value" placeholder="Describe your custom world setting" style="width:100%; margin-top:5px; min-height:60px; display:none;"></textarea>
+      </div>
+
+      <!-- Current Scene -->
+      <div style="margin-bottom:15px;">
+        <label for="currentSceneEl">Current Scene/Location:</label>
+        <input id="currentSceneEl" oninput="localStorage.currentScene=this.value" placeholder="e.g., A dark forest, A bustling city tavern" style="width:100%; margin-top:5px;">
+        <div style="text-align:center; margin-top:8px;">
+          <button onclick="generateScene()" class="generate-btn">Generate Random Scene</button>
+        </div>
+      </div>
+
+      <!-- Story Overview -->
+      <div style="margin-bottom:15px;">
+        <label for="storyOverviewEl">Story Overview/Quest:</label>
+        <textarea id="storyOverviewEl" oninput="localStorage.storyOverview=this.value" placeholder="Write an overview of the story or current quest here" style="width:100%; margin-top:5px; min-height:100px;"></textarea>
+        <div style="text-align:center; margin-top:8px;">
+          <button onclick="generateQuest()" class="generate-btn">Generate Quest</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Story Display -->
+    <textarea id="storySoFarEl" oninput="localStorage.storySoFar=this.value" placeholder="The story will appear here. You can edit it as needed." class="story-textarea" style="display:block; width:100%; margin-bottom:10px;"></textarea>
+    <input id="whatHappensNextEl" oninput="localStorage.whatHappensNext=this.value" placeholder="What should happen next? (optional)" style="display:block; width:100%; margin-bottom:15px; padding:12px; border-radius:8px; border:2px solid #e0e0e0;">
+
+    <div style="margin-bottom:15px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+      <button id="generateBtn" onclick="continueStory()" class="generate-btn" style="padding:12px 24px; font-size:16px;">▶️ Generate Story</button>
+      <button id="regenBtn" onclick="storySoFarEl.value=storySoFarEl.value.trim().split('\n\n').slice(0, -1).join('\n\n'); localStorage.storySoFar=storySoFarEl.value; continueStory();" style="padding:12px 24px;">🔁 Regen Last</button>
+      <button onclick="storySoFarEl.value=storySoFarEl.value.trim().split('\n\n').slice(0, -1).join('\n\n'); localStorage.storySoFar=storySoFarEl.value;" class="danger-btn" style="padding:12px 24px;">🗑️ Delete Last</button>
+      <button id="updateStatsBtn" onclick="updateStatsFromStory()" style="padding:12px 24px;">📊 Update Stats</button>
+      <button onclick="generateCharacterPortrait()" style="padding:12px 24px;">🎨 Portrait</button>
+    </div>
+    <button id="stopBtn" onclick="window.currentStreamObj.stop()" style="display:none; margin-right:5px;" class="danger-btn">🛑 Stop Generation</button>
+    <div class="checkbox-container">
+      <input id="oneParagraphAtATimeCheckbox" type="checkbox" checked style="cursor:pointer;" oninput="localStorage.oneParagraphAtATime = this.checked ? '1' : '';">
+      <span style="margin-left:8px; cursor:pointer; user-select:none;" onclick="oneParagraphAtATimeCheckbox.click();">One paragraph at a time</span>
+    </div>
+
+    <!-- Character Portrait Display -->
+    <div id="portraitCtn" class="portrait-container" style="margin-top:20px; display:none;">
+      <h4 style="color:#ffd700; margin-bottom:15px;">Character Portrait</h4>
+      <img id="portraitImg" class="portrait-img" style="max-width:300px;">
+    </div>
+  </div>
+
+  <div class="notes-text">
+    This page uses your browser's 'localStorage' to <b>remember your story even after you refresh the page</b>. To remove the data, just manually select the text in the text boxes and delete it.
+  </div>
+  <div class="notes-text">
+    This is an example generator that demonstrates how to use the <a href="https://perchance.org/ai-text-plugin" target="_blank">AI Text Plugin</a>.
+  </div>
+  <p style="color:rgba(255,255,255,0.8); margin:20px;">Have questions about this generator, or the <a href="/ai-text-plugin" target="_blank" style="color:#ffd700;">AI Text Plugin</a>? Ask them below:</p>
+  <p style="text-align:center;"><button onclick="if(commentsEl.style.display == 'none') { commentsEl.style.display=''; this.textContent='hide comments'; } else { commentsEl.style.display='none'; this.textContent='show comments'; }" style="background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.3);">Show Comments</button></p>
+  <p id="commentsEl" style="display:none; background:rgba(255,255,255,0.1); padding:20px; border-radius:10px;">[comments(commentsOptions)]</p>
+  <br>
+
+  <!-- DARK MODE STUFF -->
+  <div class="dark-mode-btn" onclick="window.toggleManualDarkMode();">🌃</div>
+  <script>
+    function toggleManualDarkMode() {
+      let newColorScheme = (getCurrentColorScheme() === "dark" ? "light" : "dark");
+      localStorage.forcedColorScheme = newColorScheme;
+      setColorScheme(newColorScheme);
+      // if chosen mode matches current OS default, we remove manual "forced" mode:
+      let systemColorScheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+      if(systemColorScheme === newColorScheme) {
+        localStorage.removeItem("forcedColorScheme");
+      }
+    }
+    function getCurrentColorScheme() {
+      if(localStorage.forcedColorScheme !== undefined) {
+        return localStorage.forcedColorScheme;
+      } else {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+      }
+    }
+    function setColorScheme(scheme) {
+      if(scheme !== "dark" && scheme !== "light") throw new Error("scheme should be 'light' or 'dark'");
+      document.querySelector(".dark-mode-btn").textContent = (scheme === "dark" ? "🌄" : "🌃");
+
+      // Update header button text and icon
+      let headerBtn = document.querySelector(".theme-toggle-header");
+      let headerText = document.getElementById("themeToggleText");
+
+      if(scheme === "dark") {
+        headerText.textContent = "☀️ Light Theme";
+        document.body.style.colorScheme = "dark";
+        document.body.classList.add("dark-mode");
+      } else {
+        headerText.textContent = "🌙 Dark Theme";
+        document.body.style.colorScheme = "light";
+        document.body.classList.remove("dark-mode");
+      }
+    }
+    // during page load, set the chosen mode based on localStorage value if it exists:
+    if(localStorage.forcedColorScheme !== undefined) {
+      setColorScheme(localStorage.forcedColorScheme);
+    } else {
+      // user has not manually overwritten, so we use OS default:
+      let systemIsInDarkMode = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      setColorScheme(systemIsInDarkMode ? "dark" : "light");
+    }
+  </script>
+
+  <!-- FEEDBACK STUFF -->
+  <div style="position:fixed; bottom:20px; right:20px; text-align:right; z-index:100;">
+    <div id="feedbackCommentsCtn"></div>
+    <button id="feedbackBtn893745ykfuhd" class="feedback-btn" onclick="if(feedbackCommentsCtn.innerHTML.length === 0) { feedbackCommentsCtn.innerHTML=generateFeedbackCommentsHtml(); this.innerHTML='✖ close'; } else {  feedbackCommentsCtn.innerHTML='';  this.innerHTML='🗨️ feedback'; }">🗨️ Feedback</button>
+  </div>
+  <script>
+    function generateFeedbackCommentsHtml() {
+      let options = {channel:"feedback", hideComments:true, height:120, commentPlaceholderText: "Share some feedback. Do not share personal info, data is public.", submitButtonText: "submit feedback"};
+      if(localStorage.forcedColorScheme) options.forceColorScheme = localStorage.forcedColorScheme;
+      return comments(options);
+    }
+  </script>
+
+  <script>
+    // Update Log functionality
+    function toggleUpdateLog() {
+      const container = document.getElementById("updateLogContainer");
+      if (container.style.display === "none") {
+        container.style.display = "block";
+        loadUpdateLog(); // Load update log content when shown
+      } else {
+        container.style.display = "none";
+      }
+    }
+
+    function loadUpdateLog() {
+      // Check if we have update log content in localStorage
+      if (localStorage.updateLog) {
+        updateLogContent.innerHTML = localStorage.updateLog;
+      } else {
+        // Default update log content if none exists
+        updateLogContent.innerHTML = `
+          <h4>v1.0.0 - Official Release</h4>
+          <p>- Added create a random character creation system</p>
+          <p>- Implemented the exp bar and levelsystem</p>
+          <p>- Created character stats and progression system</p>
+          <p>- Added theme toggle functionality</p>
+          <p>- Updated the background</p>
+          <br>
+          <p><em>Add your own updates below!</em></p>
+        `;
+      }
+    }
+
+    // Save update log when content changes
+    updateLogContent.addEventListener('input', function() {
+      localStorage.updateLog = this.innerHTML;
+    });
+
+    // NOTE: You could simply use `perchance.org/remember-plugin` like `[remember(root, "@inputs")]` rather than this big mess.
+
+    // Notice that we have oninput="localStorage.blah=this.value" on the above input boxes, and in `onFinish` in the Perchance code.
+    // That saves their value to localStorage whenever they are changed.
+    // So during the initial page load, we load those values from localStorage if they exist:
+    if(localStorage.storyOverview) storyOverviewEl.value = localStorage.storyOverview;
+    if(localStorage.storySoFar) storySoFarEl.value = localStorage.storySoFar;
+    if(localStorage.whatHappensNext) whatHappensNextEl.value = localStorage.whatHappensNext;
+    if(localStorage.oneParagraphAtATime) oneParagraphAtATimeCheckbox.checked = localStorage.oneParagraphAtATime;
+
+    // Load character data from localStorage
+    if(localStorage.characterName) characterNameEl.value = localStorage.characterName;
+    if(localStorage.characterRace) {
+      characterRaceEl.value = localStorage.characterRace;
+      if(characterRaceEl.value === "custom") {
+        customRaceEl.style.display = "block";
+        customRaceDescEl.style.display = "block";
+        customRaceDescBtnCtn.style.display = "block";
+        if(localStorage.customRace) customRaceEl.value = localStorage.customRace;
+        if(localStorage.customRaceDesc) customRaceDescEl.value = localStorage.customRaceDesc;
+      }
+    }
+
+    // Load class data
+    if(localStorage.characterClass) {
+      characterClassEl.value = localStorage.characterClass;
+      if(characterClassEl.value === "custom") {
+        customClassEl.style.display = "block";
+        customClassDescEl.style.display = "block";
+        if(localStorage.customClass) customClassEl.value = localStorage.customClass;
+        if(localStorage.customClassDesc) customClassDescEl.value = localStorage.customClassDesc;
+      }
+    }
+
+    // Load character description from localStorage
+    if(localStorage.appearance) appearanceEl.value = localStorage.appearance;
+    if(localStorage.background) backgroundEl.value = localStorage.background;
+    if(localStorage.personality) personalityEl.value = localStorage.personality;
+
+    // Load additional information from localStorage
+    if(localStorage.currentHealth) currentHealthEl.value = localStorage.currentHealth;
+    if(localStorage.maxHealth) maxHealthEl.value = localStorage.maxHealth;
+    if(localStorage.currentMana) currentManaEl.value = localStorage.currentMana;
+    if(localStorage.maxMana) maxManaEl.value = localStorage.maxMana;
+    if(localStorage.currentXp) currentXpEl.value = localStorage.currentXp;
+    if(localStorage.nextLevelXp) nextLevelXpEl.value = localStorage.nextLevelXp;
+    if(localStorage.skills) skillsEl.value = localStorage.skills;
+    if(localStorage.inventory) inventoryEl.value = localStorage.inventory;
+
+    // Initialize bars
+    updateHealthBar();
+    updateManaBar();
+    updateXpBar();
+
+    // Load character stats from localStorage
+    if(localStorage.strengthStat) strengthEl.value = localStorage.strengthStat;
+    if(localStorage.dexterityStat) dexterityEl.value = localStorage.dexterityStat;
+    if(localStorage.constitutionStat) constitutionEl.value = localStorage.constitutionStat;
+    if(localStorage.intelligenceStat) intelligenceEl.value = localStorage.intelligenceStat;
+    if(localStorage.wisdomStat) wisdomEl.value = localStorage.wisdomStat;
+    if(localStorage.charismaStat) charismaEl.value = localStorage.charismaStat;
+    if(localStorage.critchanceStat) critchanceEl.value = localStorage.critchanceStat;
+    if(localStorage.evadeStat) evadeEl.value = localStorage.evadeStat;
+    if(localStorage.armorStat) armorEl.value = localStorage.armorStat;
+    if(localStorage.speedStat) speedEl.value = localStorage.speedStat;
+
+    // Load world setting
+    if(localStorage.worldSetting) {
+      worldSettingEl.value = localStorage.worldSetting;
+      if(worldSettingEl.value === "custom") {
+        customWorldEl.style.display = "block";
+        if(localStorage.customWorld) customWorldEl.value = localStorage.customWorld;
+      }
+    }
+
+    // Load custom stats from localStorage
+    if(localStorage.customStats) {
+      let customStats = JSON.parse(localStorage.customStats);
+      customStats.forEach(stat => {
+        addCustomStatToUI(stat.name, stat.value);
+      });
+    }
+
+    // Load custom descriptions from localStorage
+    if(localStorage.customDescriptions) {
+      let customDescriptions = JSON.parse(localStorage.customDescriptions);
+      customDescriptions.forEach(desc => {
+        addCustomDescriptionToUI(desc.name, desc.content);
+      });
+    }
+
+    // Load titles data
+    let titlesData = [];
+    if(localStorage.titlesData) {
+      titlesData = JSON.parse(localStorage.titlesData);
+    } else if(localStorage.titles) {
+      // Migrate old data
+      let oldTitles = localStorage.titles.split(',').map(t => t.trim()).filter(t => t);
+      titlesData = oldTitles.map(title => ({ title, description: '' }));
+      localStorage.titlesData = JSON.stringify(titlesData);
+    }
+    titlesEl.value = titlesData.map(t => t.title).join(', ');
+    renderTitlesList();
+
+    // Show/hide custom race input based on selection
+    characterRaceEl.addEventListener("change", function() {
+      if(this.value === "custom") {
+        customRaceEl.style.display = "block";
+        customRaceDescEl.style.display = "block";
+        customRaceDescBtnCtn.style.display = "block";
+      } else {
+        customRaceEl.style.display = "none";
+        customRaceDescEl.style.display = "none";
+        customRaceDescBtnCtn.style.display = "none";
+      }
+    });
+
+    // Show/hide custom class input based on selection
+    characterClassEl.addEventListener("change", function() {
+      if(this.value === "custom") {
+        customClassEl.style.display = "block";
+        customClassDescEl.style.display = "block";
+      } else {
+        customClassEl.style.display = "none";
+        customClassDescEl.style.display = "none";
+      }
+    });
+
+    // Show/hide custom world input based on selection
+    worldSettingEl.addEventListener("change", function() {
+      if(this.value === "custom") {
+        customWorldEl.style.display = "block";
+      } else {
+        customWorldEl.style.display = "none";
+      }
+      updateWorldPrompt();
+    });
+
+    // Update health bar function
+    function updateHealthBar() {
+      const current = parseInt(currentHealthEl.value) || 0;
+      const max = parseInt(maxHealthEl.value) || 1;
+      const percentage = Math.min(100, Math.max(0, (current / max) * 100));
+      healthBarEl.style.width = percentage + "%";
+
+      // Change color based on health percentage
+      if(percentage > 60) {
+        healthBarEl.style.setProperty('--bar-color', '#4CAF50');
+        healthBarEl.style.setProperty('--bar-color-light', '#8BC34A');
+      } else if(percentage > 30) {
+        healthBarEl.style.setProperty('--bar-color', '#FFC107');
+        healthBarEl.style.setProperty('--bar-color-light', '#FFD54F');
+      } else {
+        healthBarEl.style.setProperty('--bar-color', '#F44336');
+        healthBarEl.style.setProperty('--bar-color-light', '#EF5350');
+      }
+    }
+
+    // Update mana bar function
+    function updateManaBar() {
+      const current = parseInt(currentManaEl.value) || 0;
+      const max = parseInt(maxManaEl.value) || 1;
+      const percentage = Math.min(100, Math.max(0, (current / max) * 100));
+      manaBarEl.style.width = percentage + "%";
+
+      // Change color based on mana percentage
+      if(percentage > 60) {
+        manaBarEl.style.setProperty('--bar-color', '#2196F3');
+        manaBarEl.style.setProperty('--bar-color-light', '#42A5F5');
+      } else if(percentage > 30) {
+        manaBarEl.style.setProperty('--bar-color', '#03A9F4');
+        manaBarEl.style.setProperty('--bar-color-light', '#29B6F6');
+      } else {
+        manaBarEl.style.setProperty('--bar-color', '#81D4FA');
+        manaBarEl.style.setProperty('--bar-color-light', '#B3E5FC');
+      }
+    }
+
+    // Update XP bar function with level-up logic
+    function updateXpBar() {
+      let current = parseInt(currentXpEl.value) || 0;
+      let nextLevel = parseInt(nextLevelXpEl.value) || 1;
+      let level = parseInt(characterLevelEl.value) || 1;
+
+      // Check if we've leveled up
+      if (current >= nextLevel) {
+        // Calculate overflow XP
+        const overflowXp = current - nextLevel;
+
+        // Level up
+        level++;
+        characterLevelEl.value = level;
+        localStorage.characterLevel = level;
+
+        // Increase next level XP requirement by 1.1
+        nextLevel = Math.round(nextLevel * 1.1);
+        nextLevelXpEl.value = nextLevel;
+        localStorage.nextLevelXp = nextLevel;
+
+        // Set current XP to overflow (or 0 if no overflow)
+        current = overflowXp;
+        currentXpEl.value = current;
+        localStorage.currentXp = current;
+
+        // Flash the XP bar to indicate level up
+        xpBarEl.style.animation = 'none';
+        setTimeout(() => {
+          xpBarEl.style.animation = 'glow 0.5s ease-in-out 2';
+        }, 10);
+      }
+
+      const percentage = Math.min(100, Math.max(0, (current / nextLevel) * 100));
+      xpBarEl.style.width = percentage + "%";
+    }
+
+    // Update world prompt based on setting
+    function updateWorldPrompt() {
+      // This function can be used to adjust story prompts based on world setting
+      // Implementation depends on specific needs
+    }
+
+    // Generate random character function
+    function generateRandomCharacter() {
+      const names = ["Aldric", "Bronwyn", "Caelan", "Darian", "Elara", "Finn", "Gareth", "Hazel", "Iris", "Jasper", "Kael", "Luna", "Merrick", "Nadia", "Orin", "Piper", "Quinn", "Rowan", "Sloane", "Theron"];
+      const races = ["human", "elf", "dwarf", "orc", "halfling", "dragonborn", "tiefling"];
+      const classes = ["warrior", "mage", "rogue", "cleric", "ranger", "bard"];
+
+      // Random name
+      characterNameEl.value = names[Math.floor(Math.random() * names.length)] + " " + names[Math.floor(Math.random() * names.length)].substring(0, 1) + ".";
+      localStorage.characterName = characterNameEl.value;
+
+      // Random race
+      const randomRace = races[Math.floor(Math.random() * races.length)];
+      characterRaceEl.value = randomRace;
+      localStorage.characterRace = randomRace;
+      characterRaceEl.dispatchEvent(new Event("change"));
+
+      // Random class
+      const randomClass = classes[Math.floor(Math.random() * classes.length)];
+      characterClassEl.value = randomClass;
+      localStorage.characterClass = randomClass;
+      characterClassEl.dispatchEvent(new Event("change"));
+
+      // Generate random stats
+      strengthEl.value = Math.floor(Math.random() * 10) + 8;
+      dexterityEl.value = Math.floor(Math.random() * 10) + 8;
+      constitutionEl.value = Math.floor(Math.random() * 10) + 8;
+      intelligenceEl.value = Math.floor(Math.random() * 10) + 8;
+      wisdomEl.value = Math.floor(Math.random() * 10) + 8;
+      charismaEl.value = Math.floor(Math.random() * 10) + 8;
+
+      // Save stats
+      localStorage.strengthStat = strengthEl.value;
+      localStorage.dexterityStat = dexterityEl.value;
+      localStorage.constitutionStat = constitutionEl.value;
+      localStorage.intelligenceStat = intelligenceEl.value;
+      localStorage.wisdomStat = wisdomEl.value;
+      localStorage.charismaStat = charismaEl.value;
+
+      // Generate appearance
+      generateAppearance();
+
+      // Generate background
+      setTimeout(() => generateBackground(), 1000);
+
+      // Generate personality
+      setTimeout(() => generatePersonality(), 2000);
+    }
+
+    // Generate starter inventory
+    function generateStarterInventory() {
+      const classGear = {
+        warrior: "longsword, shield, chainmail armor, healing potion x2",
+        mage: "staff, spellbook, robe, mana potion x2, magic wand",
+        rogue: "daggers x2, leather armor, lockpicks, smoke bomb x3",
+        cleric: "mace, holy symbol, scale mail, healing potion x3",
+        ranger: "bow, arrows x20, leather armor, tracking kit",
+        bard: "lute, dagger, leather armor, performance props"
+      };
+
+      const selectedClass = characterClassEl.value;
+      const gear = classGear[selectedClass] || "simple weapon, basic armor, healing potion";
+
+      inventoryEl.value = gear + ", backpack, waterskin, rations x3, torch x2, 50 gold coins";
+      localStorage.inventory = inventoryEl.value;
+    }
+
+    // Generate scene
+    function generateScene() {
+      const scenes = [
+        "A misty forest at dawn",
+        "A bustling tavern filled with adventurers",
+        "An ancient ruined temple",
+        "A dark cave entrance",
+        "A merchant's busy marketplace",
+        "A quiet village square",
+        "A stormy coastline",
+        "A frozen mountain pass",
+        "A magical library",
+        "A dangerous monster's lair",
+        "A peaceful meadow",
+        "A haunted castle corridor",
+        "A dwarven forge",
+        "An elven grove",
+        "A pirate ship's deck"
+      ];
+
+      currentSceneEl.value = scenes[Math.floor(Math.random() * scenes.length)];
+      localStorage.currentScene = currentSceneEl.value;
+    }
+
+    // Generate quest
+    function generateQuest() {
+      const btn = event.target;
+      btn.disabled = true;
+      btn.textContent = "⏳ Generating...";
+
+      generateText({
+        instruction: `Generate an engaging quest hook for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "the hero"} in a ${worldSettingEl.value === "custom" ? customWorldEl.value || "fantasy" : worldSettingEl.value.replace("-", " ")} setting. The quest should be suitable for a level ${characterLevelEl.value || 1} character and provide clear objectives.`,
+        onFinish: (response) => {
+          storyOverviewEl.value = response;
+          localStorage.storyOverview = response;
+          btn.disabled = false;
+          btn.textContent = "Generate Quest";
+        }
+      });
+    }
+
+    // Generate character portrait
+    async function generateCharacterPortrait() {
+      portraitCtn.style.display = "block";
+      portraitImg.src = "https://placehold.co/300x400?text=Generating...";
+
+      const race = characterRaceEl.value === "custom" ? customRaceEl.value || "human" : characterRaceEl.value;
+      const classType = characterClassEl.value === "custom" ? "adventurer" : characterClassEl.value;
+
+      const prompt = `Fantasy portrait of a ${race} ${classType} named ${characterNameEl.value || "hero"}, detailed character art, RPG style, digital painting, high quality`;
+
+      try {
+        const dataUrl = await generateImage(prompt, {resolution: "512x768"});
+        portraitImg.src = dataUrl;
+      } catch (error) {
+        portraitImg.src = "https://placehold.co/300x400?text=Error";
+        console.error("Failed to generate portrait:", error);
+      }
+    }
+
+    // Custom stats functionality
+    function addCustomStat() {
+      const statName = customStatNameEl.value.trim();
+      const statValue = customStatValueEl.value;
+
+      if(statName) {
+        addCustomStatToUI(statName, statValue);
+        saveCustomStats();
+
+        // Clear inputs
+        customStatNameEl.value = "";
+        customStatValueEl.value = "10";
+      }
+    }
+
+    function addCustomStatToUI(name, value) {
+      const statDiv = document.createElement("div");
+      statDiv.className = "custom-stat";
+      statDiv.style.display = "flex";
+      statDiv.style.alignItems = "center";
+      statDiv.style.marginBottom = "8px";
+
+      statDiv.innerHTML = `
+        <span style="flex:2;">${name}:</span>
+        <input type="number" class="custom-stat-value" value="${value}" min="1" max="20" style="flex:1; margin-right:10px;" oninput="saveCustomStats()">
+        <button onclick="removeCustomStat(this)" style="flex:0.5;" class="danger-btn">✕</button>
+      `;
+
+      customStatsListEl.appendChild(statDiv);
+    }
+
+    function removeCustomStat(button) {
+      button.parentElement.remove();
+      saveCustomStats();
+    }
+
+    function saveCustomStats() {
+      const statElements = document.querySelectorAll(".custom-stat");
+      const stats = [];
+
+      statElements.forEach(el => {
+        const name = el.querySelector("span").textContent.replace(":", "");
+        const value = el.querySelector(".custom-stat-value").value;
+        stats.push({ name, value });
+      });
+
+      localStorage.customStats = JSON.stringify(stats);
+    }
+
+    // Custom description fields functionality
+    function addCustomDescription() {
+      const descName = customDescNameEl.value.trim();
+
+      if(descName) {
+        addCustomDescriptionToUI(descName, "");
+        saveCustomDescriptions();
+
+        // Clear input
+        customDescNameEl.value = "";
+      }
+    }
+
+    function addCustomDescriptionToUI(name, content) {
+      const descDiv = document.createElement("div");
+      descDiv.className = "custom-description";
+      descDiv.style.marginBottom = "15px";
+
+      descDiv.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+          <label>${name}:</label>
+          <button onclick="removeCustomDescription(this)" style="font-size:12px; padding:2px 5px;" class="danger-btn">Remove</button>
+        </div>
+        <textarea class="custom-desc-content" oninput="saveCustomDescriptions()" placeholder="Enter description here" style="width:100%; min-height:60px;">${content}</textarea>
+        <div style="text-align:center; margin-top:5px;">
+          <button class="stop-btn" onclick="window.currentStreamObj.stop()" style="display:none; margin-right:5px;" class="danger-btn">🛑 stop</button>
+          <button onclick="generateCustomDescription(this, '${name}')" class="generate-btn">Generate ${name}</button>
+        </div>
+      `;
+
+      customDescriptionsListEl.appendChild(descDiv);
+    }
+
+    function removeCustomDescription(button) {
+      const parentDiv = button.closest('.custom-description');
+      parentDiv.remove();
+      saveCustomDescriptions();
+    }
+
+    function saveCustomDescriptions() {
+      const descElements = document.querySelectorAll(".custom-description");
+      const descriptions = [];
+
+      descElements.forEach(el => {
+        const name = el.querySelector("label").textContent.replace(":", "");
+        const content = el.querySelector(".custom-desc-content").value;
+        descriptions.push({ name, content });
+      });
+
+      localStorage.customDescriptions = JSON.stringify(descriptions);
+    }
+
+    // Titles functionality
+    function renderTitlesList() {
+      titlesListEl.innerHTML = '';
+      titlesData.forEach((item, index) => {
+        let titleDiv = document.createElement('div');
+        titleDiv.className = 'title-item';
+        titleDiv.style.marginBottom = '5px';
+        titleDiv.style.borderRadius = '3px';
+
+        // Escape the title for use in strings
+        let escapedTitle = item.title.replace(/'/g, "\\'");
+
+        titleDiv.innerHTML = `
+          <div style="padding:8px; cursor:pointer; background-color:#f0f0f0; display:flex; justify-content:space-between; border-radius:3px 3px 0 0;" class="title-header" onclick="toggleTitleDescription(this)">
+            <span>${item.title}</span>
+            <span>
+              <button onclick="removeTitle('${escapedTitle}')" class="danger-btn" style="padding:2px 8px; margin-right:8px;">✕</button>
+              <span class="expand-icon">▶</span>
+            </span>
+          </div>
+          <div style="padding:8px; display:none; background-color:#fafafa; border-radius:0 0 3px 3px;">
+            <textarea onchange="updateTitleDescription('${escapedTitle}', this.value)" style="width:100%; min-height:60px;" placeholder="Enter description for this title">${item.description}</textarea>
+          </div>
+        `;
+
+        titlesListEl.appendChild(titleDiv);
+      });
+    }
+
+    function toggleTitleDescription(headerEl) {
+      let contentDiv = headerEl.nextElementSibling;
+      let expandIcon = headerEl.querySelector('.expand-icon');
+      if (contentDiv.style.display === "none") {
+        contentDiv.style.display = "block";
+        expandIcon.textContent = "▼";
+      } else {
+        contentDiv.style.display = "none";
+        expandIcon.textContent = "▶";
+      }
+    }
+
+    function removeTitle(title) {
+      titlesData = titlesData.filter(t => t.title !== title);
+      titlesEl.value = titlesData.map(t => t.title).join(', ');
+      localStorage.titlesData = JSON.stringify(titlesData);
+      renderTitlesList();
+    }
+
+    function addTitle() {
+      let newTitle = newTitleEl.value.trim();
+      if(!newTitle) return;
+      if(titlesData.some(t => t.title === newTitle)) {
+        alert("This title already exists.");
+        return;
+      }
+      titlesData.push({ title: newTitle, description: '' });
+      titlesEl.value = titlesData.map(t => t.title).join(', ');
+      localStorage.titlesData = JSON.stringify(titlesData);
+      newTitleEl.value = '';
+      renderTitlesList();
+    }
+
+    function updateTitleDescription(title, description) {
+      let item = titlesData.find(t => t.title === title);
+      if(item) {
+        item.description = description;
+        localStorage.titlesData = JSON.stringify(titlesData);
+      }
+    }
+
+    // Generate content functions
+    function generateAppearance() {
+      const btn = event.target;
+      btn.disabled = true;
+
+      // Show stop button
+      const stopBtn = document.getElementById("stopAppearanceBtn");
+      stopBtn.style.display = "inline-block";
+
+      window.currentStreamObj = generateText({
+        instruction: `Generate a detailed physical appearance description for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "this character"}. Include details about their build, facial features, hair, skin, clothing style, and any distinguishing marks or characteristics.`,
+        onFinish: (response) => {
+          appearanceEl.value = response;
+          localStorage.appearance = response;
+          btn.disabled = false;
+
+          // Hide stop button
+          stopBtn.style.display = "none";
+        }
+      });
+    }
+
+    function generateBackground() {
+      const btn = event.target;
+      btn.disabled = true;
+
+      // Show stop button
+      const stopBtn = document.getElementById("stopBackgroundBtn");
+      stopBtn.style.display = "inline-block";
+
+      window.currentStreamObj = generateText({
+        instruction: `Generate a detailed background/history for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "this character"} at level ${characterLevelEl.value || 1}. Include their place of origin, family, education, significant life events, and how they came to be where they are now.`,
+        onFinish: (response) => {
+          backgroundEl.value = response;
+          localStorage.background = response;
+          btn.disabled = false;
+
+          // Hide stop button
+          stopBtn.style.display = "none";
+        }
+      });
+    }
+
+    function generatePersonality() {
+      const btn = event.target;
+      btn.disabled = true;
+
+      // Show stop button
+      const stopBtn = document.getElementById("stopPersonalityBtn");
+      stopBtn.style.display = "inline-block";
+
+      window.currentStreamObj = generateText({
+        instruction: `Generate a detailed personality description for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "this character"}. Include their temperament, values, likes/dislikes, habits, fears, aspirations, and how they typically interact with others.`,
+        onFinish: (response) => {
+          personalityEl.value = response;
+          localStorage.personality = response;
+          btn.disabled = false;
+
+          // Hide stop button
+          stopBtn.style.display = "none";
+        }
+      });
+    }
+
+    function generateCustomRaceDesc() {
+      const btn = event.target;
+      btn.disabled = true;
+
+      // Show stop button
+      const stopBtn = document.getElementById("stopCustomRaceBtn");
+      stopBtn.style.display = "inline-block";
+
+      window.currentStreamObj = generateText({
+        instruction: `Generate a detailed description for a custom fantasy race called "${customRaceEl.value}". Include information about their physical characteristics, society, culture, abilities or traits, history, and their relationship with other races.`,
+        onFinish: (response) => {
+          customRaceDescEl.value = response;
+          localStorage.customRaceDesc = response;
+          btn.disabled = false;
+
+          // Hide stop button
+          stopBtn.style.display = "none";
+        }
+      });
+    }
+
+    function generateCustomDescription(button, name) {
+      button.disabled = true;
+
+      // Get the stop button that's a sibling of this button
+      const stopBtn = button.parentElement.querySelector(".stop-btn");
+      stopBtn.style.display = "inline-block";
+
+      // Get the textarea associated with this button
+      const descTextarea = button.parentElement.previousElementSibling;
+
+      window.currentStreamObj = generateText({
+        instruction: `Generate content for a character description field called "${name}" for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "this character"}. Create appropriate and detailed content that would fit this custom field.`,
+        onFinish: (response) => {
+          descTextarea.value = response;
+          saveCustomDescriptions(); // Save to localStorage
+          button.disabled = false;
+
+          // Hide stop button
+          stopBtn.style.display = "none";
+        }
+      });
+    }
+
+    // Skills generation form functions
+    function showSkillGenerationForm() {
+      document.getElementById("skillGenerationCtn").style.display = "block";
+      skillNameEl.value = "";
+      skillDescEl.value = "";
+    }
+
+    function hideSkillGenerationForm() {
+      document.getElementById("skillGenerationCtn").style.display = "none";
+    }
+
+    function generateSingleSkill() {
+      const skillName = skillNameEl.value.trim();
+      const skillDesc = skillDescEl.value.trim();
+
+      if(!skillName) {
+        alert("Please enter a skill name");
+        return;
+      }
+
+      const btn = event.target;
+      btn.disabled = true;
+
+      // Show stop button
+      const stopBtn = document.getElementById("stopSkillsBtn");
+      stopBtn.style.display = "inline-block";
+
+      // Use structured instruction similar to title generation
+      const instruction = skillDesc
+        ? `Generate a description for the skill "${skillName}" for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "this character"}.
+  Use the following context: ${skillDesc}.
+  Format the output strictly in this template:
+
+  [${skillName}]
+  [One short sentence describing what the skill is or its basic effect.]
+  [One short sentence describing a limitation or drawback of the skill.]
+  [One short sentence describing a scaling or conditional benefit.]
+  [One short sentence describing a flavorful or fun side effect or how it's used in a unique way.]
+
+  Keep each line under 20 words. Do not add extra lines of text.`
+    : `Generate a description for the skill "${skillName}" for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "this character"}.
+  Format the output strictly in this template:
+
+  [${skillName}]
+  [One short sentence describing what the skill is or its basic effect.]
+  [One short sentence describing a limitation or drawback of the skill.]
+  [One short sentence describing a scaling or conditional benefit.]
+  [One short sentence describing a flavorful or fun side effect or how it's used in a unique way.]
+
+  Keep each line under 20 words. Do not add extra lines of text.`;
+
+      window.currentStreamObj = generateText({
+        instruction,
+        onFinish: (response) => {
+          // Add to skills textarea with structured formatting
+          const currentSkills = skillsEl.value.trim();
+          skillsEl.value = currentSkills
+            ? `${currentSkills}\n\n${response}`
+            : response;
+
+          localStorage.skills = skillsEl.value;
+          hideSkillGenerationForm();
+          btn.disabled = false;
+
+          // Hide stop button
+          stopBtn.style.display = "none";
+        }
+      });
+    }
+
+    // Titles generation form functions
+    function showTitleGenerationForm() {
+      document.getElementById("titleGenerationCtn").style.display = "block";
+      titleNameEl.value = "";
+      titleDescEl.value = "";
+    }
+
+    function hideTitleGenerationForm() {
+      document.getElementById("titleGenerationCtn").style.display = "none";
+    }
+
+    function generateSingleTitle() {
+      const titleName = titleNameEl.value.trim();
+      const titleDesc = titleDescEl.value.trim();
+
+      if(!titleName) {
+        alert("Please enter a title name");
+        return;
+      }
+
+      const btn = event.target;
+      btn.disabled = true;
+
+      // Show stop button
+      const stopBtn = document.getElementById("stopTitlesBtn");
+      stopBtn.style.display = "inline-block";
+
+      const instruction = titleDesc
+        ? `Generate a short description for the title "${titleName}" for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "this character"}.
+  Use the following context: ${titleDesc}.
+  Format the output strictly in this template:
+
+  [${titleName}]
+  [One short sentence describing the main ability or effect.]
+  [One short sentence describing a personality trait or drawback.]
+  [One short sentence describing a scaling or conditional benefit.]
+  [One short sentence describing a flavorful or fun side effect.]
+
+  Keep each line under 20 words. Do not add extra lines or text.`
+    : `Generate a short description for the title "${titleName}" for a ${characterRaceEl.value} ${characterClassEl.value} named ${characterNameEl.value || "this character"}.
+  Format the output strictly in this template:
+
+  [${titleName}]
+  [One short sentence describing the main ability or effect.]
+  [One short sentence describing a personality trait or drawback.]
+  [One short sentence describing a scaling or conditional benefit.]
+  [One short sentence describing a flavorful or fun side effect.]
+
+  Keep each line under 20 words. Do not add extra lines of text.`;
+      window.currentStreamObj = generateText({
+        instruction,
+        onFinish: (response) => {
+          // Add to titles data
+          if(!titlesData.some(t => t.title === titleName)) {
+            titlesData.push({ title: titleName, description: response });
+            titlesEl.value = titlesData.map(t => t.title).join(', ');
+            localStorage.titlesData = JSON.stringify(titlesData);
+            renderTitlesList();
+          }
+
+          hideTitleGenerationForm();
+          btn.disabled = false;
+
+          // Hide stop button
+          stopBtn.style.display = "none";
+        }
+      });
+    }
+
+    // Function to update stats based on story content
+    function updateStatsFromStory() {
+      // Get the story text
+      let storyText = storySoFarEl.value;
+
+      if (!storyText.trim()) {
+        alert("Please generate some story content first before updating stats.");
+        return;
+      }
+
+      // Show loading state
+      let updateBtn = document.getElementById("updateStatsBtn");
+      let originalBtnText = updateBtn.textContent;
+      updateBtn.disabled = true;
+      updateBtn.textContent = "⏳ Analyzing...";
+
+      // Use the AI to analyze the story and suggest stat updates
+      generateText({
+        instruction: `
+          Analyze the following story and determine if any character stats, health, mana, or experience should be changed based on events in the story.
+
+          Current stats and resources:
+          - Strength: ${strengthEl.value}
+          - Dexterity: ${dexterityEl.value}
+          - Constitution: ${constitutionEl.value}
+          - Intelligence: ${intelligenceEl.value}
+          - Wisdom: ${wisdomEl.value}
+          - Charisma: ${charismaEl.value}
+          - Crit Chance: ${critchanceEl.value}%
+          - Evade: ${evadeEl.value}%
+          - Armor: ${armorEl.value}
+          - Speed: ${speedEl.value}
+          - Current Health: ${currentHealthEl.value}/${maxHealthEl.value}
+          - Current Mana: ${currentManaEl.value}/${maxManaEl.value}
+          - Current XP: ${currentXpEl.value}/${nextLevelXpEl.value}
+
+          Story:
+          ${storyText}
+
+          Provide ONLY a JSON object with the new values for stats that should be changed based on story events. Format should be like:
+          {"strength": 12, "dexterity": 10, "constitution": 11, "intelligence": 14, "wisdom": 12, "charisma": 10, "critchance": 7, "evade": 15, "armor": 5, "speed": 35, "currentHealth": 80, "maxHealth": 100, "currentMana": 30, "maxMana": 50, "currentXp": 150, "nextLevelXp": 200}
+
+          Only include fields that should change. If nothing should change, return an empty object {}. Consider combat, injuries, leveling up, learning, and other story events.
+        `,
+        onFinish: (response) => {
+          try {
+            // Try to parse the response as JSON
+            let statsChanges = JSON.parse(response.replace(/```json|```/g, '').trim());
+
+            // Update stats if there are changes
+            if (Object.keys(statsChanges).length > 0) {
+              // Update main stats
+              if (statsChanges.strength !== undefined) {
+                strengthEl.value = statsChanges.strength;
+                localStorage.strengthStat = statsChanges.strength;
+              }
+              if (statsChanges.dexterity !== undefined) {
+                dexterityEl.value = statsChanges.dexterity;
+                localStorage.dexterityStat = statsChanges.dexterity;
+              }
+              if (statsChanges.constitution !== undefined) {
+                constitutionEl.value = statsChanges.constitution;
+                localStorage.constitutionStat = statsChanges.constitution;
+              }
+              if (statsChanges.intelligence !== undefined) {
+                intelligenceEl.value = statsChanges.intelligence;
+                localStorage.intelligenceStat = statsChanges.intelligence;
+              }
+              if (statsChanges.wisdom !== undefined) {
+                wisdomEl.value = statsChanges.wisdom;
+                localStorage.wisdomStat = statsChanges.wisdom;
+              }
+              if (statsChanges.charisma !== undefined) {
+                charismaEl.value = statsChanges.charisma;
+                localStorage.charismaStat = statsChanges.charisma;
+              }
+
+              // Update combat stats
+              if (statsChanges.critchance !== undefined) {
+                critchanceEl.value = statsChanges.critchance;
+                localStorage.critchanceStat = statsChanges.critchance;
+              }
+              if (statsChanges.evade !== undefined) {
+                evadeEl.value = statsChanges.evade;
+                localStorage.evadeStat = statsChanges.evade;
+              }
+              if (statsChanges.armor !== undefined) {
+                armorEl.value = statsChanges.armor;
+                localStorage.armorStat = statsChanges.armor;
+              }
+              if (statsChanges.speed !== undefined) {
+                speedEl.value = statsChanges.speed;
+                localStorage.speedStat = statsChanges.speed;
+              }
+
+              // Update health
+              if (statsChanges.currentHealth !== undefined) {
+                currentHealthEl.value = statsChanges.currentHealth;
+                localStorage.currentHealth = statsChanges.currentHealth;
+              }
+              if (statsChanges.maxHealth !== undefined) {
+                maxHealthEl.value = statsChanges.maxHealth;
+                localStorage.maxHealth = statsChanges.maxHealth;
+              }
+
+              // Update mana
+              if (statsChanges.currentMana !== undefined) {
+                currentManaEl.value = statsChanges.currentMana;
+                localStorage.currentMana = statsChanges.currentMana;
+              }
+              if (statsChanges.maxMana !== undefined) {
+                maxManaEl.value = statsChanges.maxMana;
+                localStorage.maxMana = statsChanges.maxMana;
+              }
+
+              // Update XP
+              if (statsChanges.currentXp !== undefined) {
+                currentXpEl.value = statsChanges.currentXp;
+                localStorage.currentXp = statsChanges.currentXp;
+              }
+              if (statsChanges.nextLevelXp !== undefined) {
+                nextLevelXpEl.value = statsChanges.nextLevelXp;
+                localStorage.nextLevelXp = statsChanges.nextLevelXp;
+              }
+
+              // Handle custom stats too
+              const customStatElements = document.querySelectorAll(".custom-stat");
+              customStatElements.forEach(el => {
+                const name = el.querySelector("span").textContent.replace(":", "").toLowerCase();
+                if (statsChanges[name] !== undefined) {
+                  el.querySelector(".custom-stat-value").value = statsChanges[name];
+                  saveCustomStats(); // Save custom stats to localStorage
+                }
+              });
+
+              // Update bars to reflect any changes
+              updateHealthBar();
+              updateManaBar();
+              updateXpBar();
+
+              alert("Stats, health, mana, and XP updated based on story events!");
+            } else {
+              alert("No stat changes were detected in the story.");
+            }
+          } catch (error) {
+            console.error("Error parsing AI response:", error);
+            alert("Unable to update stats. Try again later.");
+          }
+
+          // Reset button
+          updateBtn.disabled = false;
+          updateBtn.textContent = originalBtnText;
+        }
+      });
+    }
+
+    // Modified function to include character info
+    function continueStory() {
+      generateBtn.disabled = true;
+      regenBtn.disabled = true;
+
+      // Show the appropriate stop button based on which button was clicked
+      if (event.target.id === "generateBtn") {
+        stopBtn.style.display = "inline-block";
+      } else {
+        stopBtn.style.display = "inline-block";
+      }
+
+      let oneParagraphAtATime = oneParagraphAtATimeCheckbox.checked;
+
+      // Build character information
+      let characterInfo = {
+        name: characterNameEl.value || "Unnamed Hero",
+        race: characterRaceEl.value === "custom" ? customRaceEl.value : characterRaceEl.value,
+        raceDescription: characterRaceEl.value === "custom" ? customRaceDescEl.value : "",
+        class: characterClassEl.value === "custom" ? customClassEl.value : characterClassEl.value,
+        classDescription: characterClassEl.value === "custom" ? customClassDescEl.value : "",
+        level: characterLevelEl.value || 1,
+        appearance: appearanceEl.value,
+        background: backgroundEl.value,
+        personality: personalityEl.value,
+        health: {
+          current: currentHealthEl.value,
+          max: maxHealthEl.value
+        },
+        mana: {
+          current: currentManaEl.value,
+          max: maxManaEl.value
+        },
+        experience: {
+          current: currentXpEl.value,
+          nextLevel: nextLevelXpEl.value
+        },
+        skills: skillsEl.value,
+        inventory: inventoryEl.value,
+        titles: titlesData.map(t => t.title).join(', '), // Use the hidden field value
+        titlesWithDescriptions: titlesData, // Pass full titles data to story
+        stats: {
+          strength: strengthEl.value,
+          dexterity: dexterityEl.value,
+          constitution: constitutionEl.value,
+          intelligence: intelligenceEl.value,
+          wisdom: wisdomEl.value,
+          charisma: charismaEl.value,
+          critchance: critchanceEl.value,
+          evade: evadeEl.value,
+          armor: armorEl.value,
+          speed: speedEl.value
+        },
+        customDescriptions: {}
+      };
+
+      // Add custom stats
+      const customStatElements = document.querySelectorAll(".custom-stat");
+      customStatElements.forEach(el => {
+        const name = el.querySelector("span").textContent.replace(":", "");
+        const value = el.querySelector(".custom-stat-value").value;
+        characterInfo.stats[name.toLowerCase()] = value;
+      });
+
+      // Add custom descriptions
+      const customDescElements = document.querySelectorAll(".custom-description");
+      customDescElements.forEach(el => {
+        const name = el.querySelector("label").textContent.replace(":", "");
+        const content = el.querySelector(".custom-desc-content").value;
+        characterInfo.customDescriptions[name] = content;
+      });
+
+      // Build world information
+      let worldInfo = {
+        setting: worldSettingEl.value,
+        customWorld: customWorldEl.value,
+        currentScene: currentSceneEl.value
+      };
+
+      let characterInfoStr = `
+# Character Information
+Name: ${characterInfo.name}
+Race: ${characterInfo.race}
+Class: ${characterInfo.class} (Level ${characterInfo.level})
+${characterInfo.raceDescription ? `Race Description: ${characterInfo.raceDescription}` : ""}
+${characterInfo.classDescription ? `Class Description: ${characterInfo.classDescription}` : ""}
+${characterInfo.appearance ? `Appearance: ${characterInfo.appearance}` : ""}
+${characterInfo.background ? `Background: ${characterInfo.background}` : ""}
+${characterInfo.personality ? `Personality: ${characterInfo.personality}` : ""}
+${characterInfo.skills ? `Skills: ${characterInfo.skills}` : ""}
+${characterInfo.inventory ? `Inventory: ${characterInfo.inventory}` : ""}
+${characterInfo.titles ? `Titles: ${characterInfo.titles}` : ""}
+${characterInfo.titlesWithDescriptions.length > 0 ?
+  `Title Descriptions:
+${characterInfo.titlesWithDescriptions.map(t => `- ${t.title}: ${t.description || 'No description'}`).join("\n")}` : ""}
+Health: ${characterInfo.health.current}/${characterInfo.health.max}
+Mana: ${characterInfo.mana.current}/${characterInfo.mana.max}
+Experience: ${characterInfo.experience.current}/${characterInfo.experience.nextLevel}
+
+Stats:
+${Object.entries(characterInfo.stats).map(([stat, value]) => `- ${stat.charAt(0).toUpperCase() + stat.slice(1)}: ${value}${['critchance', 'evade'].includes(stat) ? '%' : ''}`).join("\n")}
+
+${Object.keys(characterInfo.customDescriptions).length > 0 ?
+  `Additional Descriptions:\n${Object.entries(characterInfo.customDescriptions)
+    .map(([name, content]) => `- ${name}: ${content}`)
+    .join("\n")}` : ""}
+`;
+
+      let worldInfoStr = `
+# World Information
+Setting: ${worldInfo.setting === "custom" ? worldInfo.customWorld || "Custom Setting" : worldInfo.setting.replace("-", " ")}
+${worldInfo.currentScene ? `Current Location: ${worldInfo.currentScene}` : ""}
+`;
+
+      let instruction = `
+You are narrating an interactive RPG story in a ${worldInfo.setting === "custom" ? worldInfo.customWorld || "fantasy" : worldInfo.setting.replace("-", " ")} setting.
+
+${storyOverviewEl.value ? "# Story Overview/Quest\n" + storyOverviewEl.value + "\n\n" : ""}
+${worldInfoStr}
+${characterInfoStr}
+# Story So Far
+${storySoFarEl.value}
+
+${whatHappensNextEl.value ? "# What happens next\n" + whatHappensNextEl.value : ""}
+
+${oneParagraphAtATime ? "Please write the next paragraph of the story." : "Please continue the story for a few paragraphs."}
+
+Guidelines:
+- Include the character's stats, skills, class abilities, and inventory in meaningful ways in the story
+- Make choices and consequences reflect the character's abilities, class features, and current health/mana status
+- When combat occurs, consider character's crit chance, evade, armor, and speed for realistic outcomes
+- Track resource usage (mana, health, items) based on actions taken
+- Include environmental interactions based on the current scene/setting
+- Consider character's level when determining challenges and rewards
+- Show character growth through experience gains and skill development
+- Make the story engaging with descriptive narration and meaningful choices
+- If the character is injured, heal or rest mechanics should be reflected
+- Magic usage should consume mana appropriately
+- Inventory items should be usable when relevant to the situation
+`.trim();
+
+      let whatHappensNext = whatHappensNextEl.value;
+      window.currentStreamObj = generateText({
+        instruction,
+        onChunk: (data) => {
+          storySoFarEl.value += data.textChunk;
+          storySoFarEl.scrollTop = 999999999;
+        },
+        onFinish: () => {
+          localStorage.storySoFar = storySoFarEl.value;
+          if(whatHappensNext) {
+            localStorage.whatHappensNext = whatHappensNextEl.value = "";
+          }
+          generateBtn.disabled = false;
+          regenBtn.disabled = false;
+
+          // Hide stop button
+          stopBtn.style.display = "none";
+
+          // Update bars after story generation
+          updateHealthBar();
+          updateManaBar();
+          updateXpBar();
+        }
+      });
+    }
+
+    storySoFarEl.scrollTop = 999999999; // scroll to the bottom of the chat logs
+  </script>
+</body>
+</html>

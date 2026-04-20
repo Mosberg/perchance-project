@@ -1,0 +1,2282 @@
+<style>
+  :root {
+    --bg-color: #121212;
+    --text-color: #f0f0f0;
+    --primary-color: #7e57c2;
+    --secondary-color: #5e35b1;
+    --accent-color: #ff4081;
+    --card-color: #1e1e1e;
+    --button-color: #7e57c2;
+    --button-hover-color: #5e35b1;
+    --input-bg-color: #2d2d2d;
+    --input-text-color: #ffffff;
+    --health-bar-bg: #424242;
+    --health-bar-fill: #4caf50;
+    --enemy-health-bar-fill: #f44336;
+  }
+
+  .light-theme {
+    --bg-color: #f5f5f5;
+    --text-color: #212121;
+    --primary-color: #7e57c2;
+    --secondary-color: #5e35b1;
+    --accent-color: #ff4081;
+    --card-color: #ffffff;
+    --button-color: #7e57c2;
+    --button-hover-color: #5e35b1;
+    --input-bg-color: #e0e0e0;
+    --input-text-color: #000000;
+    --health-bar-bg: #e0e0e0;
+    --health-bar-fill: #4caf50;
+    --enemy-health-bar-fill: #f44336;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: left;
+    line-height: 1.6;
+  }
+
+  #gameContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+  }
+
+  .game-screen {
+    background-color: var(--card-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+  }
+
+  button {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5px;
+  }
+
+  button:hover {
+    background-color: var(--button-hover-color);
+  }
+
+  button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+  }
+
+  input, textarea, select {
+    background-color: var(--input-bg-color);
+    color: var(--input-text-color);
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--card-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Game map styling */
+  #mapContainerEl {
+    width: 800px;
+    height: 500px;
+    background-color: #2a2a2a;
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto;
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+  }
+
+  .player-character {
+    width: 32px;
+    height: 32px;
+    background-color: var(--primary-color);
+    position: absolute;
+    transition: transform 0.2s;
+    z-index: 10;
+    border-radius: 4px;
+  }
+
+  .location-marker {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: absolute;
+    cursor: pointer;
+    z-index: 5;
+    border: 2px solid white;
+  }
+
+  .village-marker { background-color: #4caf50; }
+  .dungeon-marker { background-color: #f44336; }
+  .forest-marker { background-color: #8bc34a; }
+  .volcano-marker { background-color: #ff9800; }
+
+  .map-legend {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+    justify-content: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid white;
+  }
+
+  .village-dot { background-color: #4caf50; }
+  .dungeon-dot { background-color: #f44336; }
+  .forest-dot { background-color: #8bc34a; }
+  .volcano-dot { background-color: #ff9800; }
+
+  /* Character creation styling */
+  .character-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .character-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  #characterImageContainer {
+    width: 200px;
+    height: 200px;
+    background-color: var(--input-bg-color);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  #characterImageEl {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+  /* Location screen styling */
+  #locationImageContainer {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    background-color: var(--input-bg-color);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto 20px;
+  }
+
+  #locationImageEl {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #locationDescriptionEl {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 8px;
+  }
+
+  /* Interaction screen styling */
+  #interactionScreenEl {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 20px;
+    height: 600px;
+  }
+
+  #npcImageContainer {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    width: 100%;
+    height: 200px;
+    background-color: var(--input-bg-color);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  #npcImageEl {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #npcInfo {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+  }
+
+  #interactionHistoryEl {
+    grid-row: 1 / 3;
+    grid-column: 2 / 3;
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: var(--input-bg-color);
+    border-radius: 8px;
+  }
+
+  #interactionControls {
+    grid-row: 3 / 4;
+    grid-column: 1 / 3;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .character-message, .npc-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .character-message {
+    background-color: var(--primary-color);
+    margin-left: 20px;
+  }
+
+  .npc-message {
+    background-color: var(--secondary-color);
+    margin-right: 20px;
+  }
+
+  /* Combat screen styling */
+  .combat-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .character-combat, .enemy-combat {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .health-bar {
+    width: 100%;
+    height: 20px;
+    background-color: var(--health-bar-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+
+  .health-fill {
+    height: 100%;
+    background-color: var(--health-bar-fill);
+    transition: width 0.3s;
+  }
+
+  .enemy-health-fill {
+    background-color: var(--enemy-health-bar-fill);
+  }
+
+  #combatLogEl {
+    height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: var(--input-bg-color);
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  #combatControlsEl {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  /* Loading screen styling */
+  #loadingScreenEl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--primary-color);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  #loadingInfoEl {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0,0,0,0.7);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    max-width: 300px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* HUD styling */
+  .hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .character-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #hudCharacterImageEl {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* Responsive styling */
+  @media (max-width: 900px) {
+    .character-form {
+      grid-template-columns: 1fr;
+    }
+
+    #mapContainerEl {
+      width: 100%;
+      height: 400px;
+    }
+
+    #interactionScreenEl {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto 1fr auto;
+    }
+
+    #npcImageContainer {
+      grid-row: 1;
+      grid-column: 1;
+    }
+
+    #npcInfo {
+      grid-row: 2;
+      grid-column: 1;
+    }
+
+    #interactionHistoryEl {
+      grid-row: 3;
+      grid-column: 1;
+    }
+
+    #interactionControls {
+      grid-row: 4;
+      grid-column: 1;
+      flex-direction: column;
+    }
+
+    .combat-area {
+      flex-direction: column;
+    }
+
+    .character-combat, .enemy-combat {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+</style>
+
+<div id="themeSelectionScreenEl" class="game-screen">
+  <h1>Advanced Adventure RPG</h1>
+  <h2>Select Your Theme</h2>
+  <select id="themeSelectEl">
+    <option value="">-- Choose a Theme --</option>
+    <option value="fantasy">Fantasy</option>
+    <option value="scifi">Sci-Fi</option>
+    <option value="steampunk">Steampunk</option>
+    <option value="anime">Anime</option>
+    <option value="lewd">Lewd</option>
+  </select>
+  <div>
+    <button id="themeConfirmBtn">Confirm Theme</button>
+  </div>
+</div>
+
+<div id="storyFocusScreenEl" class="game-screen" hidden>
+  <h1>Adventure Story Focus</h1>
+  <h2>Define Your Story</h2>
+  <p>What would you like your adventure to focus on?</p>
+  <textarea id="storyFocusInputEl" placeholder="Examples: 'A quest for revenge against an ancient evil', 'Exploring uncharted territories', 'Finding legendary artifacts'..."></textarea>
+  <div>
+    <button id="focusConfirmBtn">Confirm Story Focus</button>
+  </div>
+</div>
+
+<div id="characterCreationScreenEl" class="game-screen" hidden>
+  <h1>Character Creation</h1>
+  <div class="character-form">
+    <div>
+      <label for="characterNameInput">Name:</label>
+      <input id="characterNameInputEl" type="text" placeholder="Enter character name">
+
+      <label for="characterDescriptionInput">Physical Description:</label>
+      <textarea id="characterDescriptionInputEl" placeholder="Describe your character's appearance"></textarea>
+    </div>
+    <div>
+      <label for="characterLikesInput">Likes/Interests:</label>
+      <textarea id="characterLikesInputEl" placeholder="What does your character enjoy?"></textarea>
+
+      <label for="characterTraitsInput">Personality Traits:</label>
+      <textarea id="characterTraitsInputEl" placeholder="Describe your character's personality"></textarea>
+    </div>
+  </div>
+
+  <div class="character-preview">
+    <div id="characterImageContainer">
+      <div id="characterImagePlaceholderEl">Character Image Will Appear Here</div>
+      <img id="characterImageEl" hidden>
+    </div>
+    <button id="generateCharacterImageBtn">Generate Character Image</button>
+  </div>
+
+  <div style="text-align: center;">
+    <button id="characterConfirmBtn">Start Adventure</button>
+  </div>
+</div>
+
+<div id="mapScreenEl" class="game-screen" hidden>
+  <div class="hud">
+    <div class="character-info">
+      <img id="hudCharacterImageEl">
+      <div>
+        <div id="hudCharacterNameEl"></div>
+        <div id="hudCharacterLevelEl"></div>
+      </div>
+    </div>
+    <div>
+      <div id="hudHealthEl"></div>
+    </div>
+  </div>
+
+  <div id="mapContainerEl">
+    </div>
+
+  <div class="map-legend">
+    <div class="legend-item"><span class="dot village-dot"></span> Villages</div>
+    <div class="legend-item"><span class="dot dungeon-dot"></span> Dungeons</div>
+    <div class="legend-item"><span class="dot forest-dot"></span> Forests</div>
+    <div class="legend-item"><span class="dot volcano-dot"></span> Volcano (Final Boss)</div>
+  </div>
+
+  <div style="text-align: center; margin-top: 10px;">
+    <div>Move with W, A, S, D keys</div>
+    <button id="enterLocationBtn" hidden>Enter Location</button>
+  </div>
+</div>
+
+<div id="locationScreenEl" class="game-screen" hidden>
+  <div id="locationImageContainer">
+    <img id="locationImageEl">
+  </div>
+  <div id="locationDescriptionEl"></div>
+  <div id="locationControlsEl" style="text-align: center;">
+    </div>
+  <div style="text-align: center; margin-top: 20px;">
+    <button id="returnToMapBtn">Return to Map</button>
+  </div>
+</div>
+
+<div id="interactionScreenEl" class="game-screen" hidden>
+  <div id="npcImageContainer">
+    <img id="npcImageEl">
+  </div>
+  <div id="npcInfo">
+    <h3 id="npcNameEl"></h3>
+    <div id="npcDescriptionEl"></div>
+  </div>
+  <div id="interactionHistoryEl"></div>
+  <div id="interactionControls">
+    <textarea id="playerResponseInputEl" placeholder="Type your response..."></textarea>
+    <div>
+      <button id="sendResponseBtn">Send</button>
+      <button id="startCombatBtn" hidden>Start Combat</button>
+      <button id="endInteractionBtn">End Interaction</button>
+    </div>
+  </div>
+</div>
+
+<div id="combatScreenEl" class="game-screen" hidden>
+  <div class="combat-area">
+    <div class="character-combat">
+      <img id="playerCombatImageEl" style="width:150px; height:150px; object-fit:cover; border-radius:8px;">
+      <div id="playerCombatNameEl" style="font-weight:bold;"></div>
+      <div class="health-bar">
+        <div id="playerHealthFillEl" class="health-fill"></div>
+      </div>
+      <div id="playerCombatHealthEl"></div>
+    </div>
+
+    <div style="font-size:24px; font-weight:bold;">VS</div>
+
+    <div class="enemy-combat">
+      <img id="enemyCombatImageEl" style="width:150px; height:150px; object-fit:cover; border-radius:8px;">
+      <div id="enemyCombatNameEl" style="font-weight:bold;"></div>
+      <div class="health-bar">
+        <div id="enemyHealthFillEl" class="health-fill enemy-health-fill"></div>
+      </div>
+      <div id="enemyCombatHealthEl"></div>
+    </div>
+  </div>
+
+  <div id="combatLogEl"></div>
+
+  <div id="combatControlsEl">
+    </div>
+</div>
+
+<div id="gameOverScreenEl" class="game-screen" hidden>
+  <h1 id="gameOverTitleEl">Game Over</h1>
+  <p id="gameOverMessageEl"></p>
+  <div style="text-align:center; margin-top:20px;">
+    <button id="restartGameBtn">Start New Game</button>
+  </div>
+</div>
+
+<div id="loadingScreenEl" hidden>
+  <div class="loading-spinner"></div>
+  <div id="loadingMessageEl">Loading...</div>
+  <div id="loadingInfoEl"></div>
+</div>
+
+<button id="themeToggleBtn" class="theme-toggle">
+  <span>🌓</span>
+</button>
+
+<script>
+  // Game state management
+  const gameState = {
+    theme: null,
+    focus: null,
+    character: {
+      name: '',
+      description: '',
+      likes: '',
+      traits: '',
+      image: '',
+      level: 1,
+      exp: 0,
+      health: 100,
+      maxHealth: 100,
+      abilities: []
+    },
+    currentScreen: 'themeSelection',
+    currentLocation: null,
+    playerPosition: { x: 0, y: 0 },
+    map: {
+      width: 800,
+      height: 500,
+      locations: []
+    },
+    locations: {},
+    npcs: {},
+    enemies: {},
+    currentInteraction: null,
+    currentCombat: null,
+    isDarkTheme: true,
+    dungeonEncounterCount: 0
+  };
+
+  // DOM Element References
+  const screens = {
+    themeSelection: themeSelectionScreenEl,
+    storyFocus: storyFocusScreenEl,
+    characterCreation: characterCreationScreenEl,
+    map: mapScreenEl,
+    location: locationScreenEl,
+    interaction: interactionScreenEl,
+    combat: combatScreenEl,
+    gameOver: gameOverScreenEl,
+    loading: loadingScreenEl
+  };
+
+  // Theme Toggle
+  document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+
+  function toggleTheme() {
+    gameState.isDarkTheme = !gameState.isDarkTheme;
+    if (gameState.isDarkTheme) {
+      document.body.classList.remove('light-theme');
+    } else {
+      document.body.classList.add('light-theme');
+    }
+  }
+
+  // Initialize game
+  function initGame() {
+    // Set initial theme
+    if (gameState.isDarkTheme) {
+      document.body.classList.remove('light-theme');
+    } else {
+      document.body.classList.add('light-theme');
+    }
+
+    // Theme selection
+    document.getElementById('themeConfirmBtn').addEventListener('click', confirmTheme);
+
+    // Story focus
+    document.getElementById('focusConfirmBtn').addEventListener('click', confirmStoryFocus);
+
+    // Character creation
+    document.getElementById('generateCharacterImageBtn').addEventListener('click', generateCharacterImage);
+    document.getElementById('characterConfirmBtn').addEventListener('click', confirmCharacter);
+
+    // Map screen
+    document.getElementById('enterLocationBtn').addEventListener('click', enterCurrentLocation);
+
+    // Location screen
+    document.getElementById('returnToMapBtn').addEventListener('click', returnToMap);
+
+    // Interaction screen
+    document.getElementById('sendResponseBtn').addEventListener('click', sendPlayerResponse);
+    document.getElementById('startCombatBtn').addEventListener('click', startCombatFromInteraction);
+    document.getElementById('endInteractionBtn').addEventListener('click', endInteraction);
+
+    // Game over screen
+    document.getElementById('restartGameBtn').addEventListener('click', restartGame);
+
+    // Start with theme selection
+    showScreen('themeSelection');
+  }
+
+  // Show a specific screen
+  function showScreen(screenId) {
+    // Hide all screens
+    for (const key in screens) {
+      if (screens[key]) {
+        screens[key].hidden = true;
+      }
+    }
+
+    // Show the requested screen
+    if (screens[screenId]) {
+      screens[screenId].hidden = false;
+      gameState.currentScreen = screenId;
+    }
+  }
+
+  // Show loading screen with message
+  function showLoading(message = 'Loading...', info = '') {
+    loadingMessageEl.textContent = message;
+    loadingInfoEl.textContent = info;
+    showScreen('loading');
+  }
+
+  // Hide loading screen
+  function hideLoading() {
+    screens.loading.hidden = true;
+    showScreen(gameState.currentScreen);
+  }
+
+  // Theme Selection
+  function confirmTheme() {
+    const themeSelect = themeSelectEl;
+    const selectedTheme = themeSelect.value;
+
+    if (!selectedTheme) {
+      alert('Please select a theme');
+      return;
+    }
+
+    gameState.theme = selectedTheme;
+    showScreen('storyFocus');
+  }
+
+  // Story Focus
+  function confirmStoryFocus() {
+    const focusInput = storyFocusInputEl;
+    const storyFocus = focusInput.value.trim();
+
+    if (!storyFocus) {
+      alert('Please enter a story focus');
+      return;
+    }
+
+    gameState.focus = storyFocus;
+    showScreen('characterCreation');
+  }
+
+  // Character Creation
+  async function generateCharacterImage() {
+    const description = characterDescriptionInputEl.value.trim();
+
+    if (!description) {
+      alert('Please enter a character description first');
+      return;
+    }
+
+    showLoading('Generating character image...', 'Creating visual representation based on your description');
+
+    try {
+      const imagePrompt = `${gameState.theme} style character: ${description}`;
+      const characterImage = await generateImage(imagePrompt);
+
+      document.getElementById('characterImageEl').src = characterImage;
+      document.getElementById('characterImageEl').hidden = false;
+      characterImagePlaceholderEl.hidden = true;
+
+      gameState.character.image = characterImage;
+
+      showScreen('characterCreation');
+    } catch (error) {
+      console.error('Error generating character image:', error);
+      alert('Failed to generate character image. Please try again.');
+      showScreen('characterCreation');
+    }
+  }
+
+  function confirmCharacter() {
+    const name = characterNameInputEl.value.trim();
+    const description = characterDescriptionInputEl.value.trim();
+    const likes = characterLikesInputEl.value.trim();
+    const traits = characterTraitsInputEl.value.trim();
+
+    if (!name || !description) {
+      alert('Please enter at least a name and description');
+      return;
+    }
+
+    if (!gameState.character.image) {
+      alert('Please generate a character image');
+      return;
+    }
+
+    gameState.character.name = name;
+    gameState.character.description = description;
+    gameState.character.likes = likes;
+    gameState.character.traits = traits;
+
+    // Generate abilities based on theme and traits
+    generateCharacterAbilities();
+  }
+
+  async function generateCharacterAbilities() {
+    showLoading('Generating character abilities...', 'Creating unique abilities based on your character traits');
+
+    try {
+      const abilitiesPrompt = `Generate 4 abilities for a ${gameState.theme} character with these traits: ${gameState.character.traits}. Each ability should have a name, description, and damage value between 10-30. Format as JSON array.`;
+
+      const abilitiesText = await generateText(abilitiesPrompt);
+      let abilities;
+
+      try {
+        abilities = JSON.parse(abilitiesText);
+      } catch (e) {
+        // If JSON parsing fails, create default abilities
+        abilities = [
+          { name: "Basic Attack", description: "A simple attack", damage: 10 },
+          { name: "Special Move", description: "A more powerful attack", damage: 20 },
+          { name: "Ultimate", description: "Your strongest attack", damage: 30 },
+          { name: "Defensive Move", description: "Reduces incoming damage", damage: 5 }
+        ];
+      }
+
+      gameState.character.abilities = abilities;
+
+      // Initialize the game world
+      initializeGameWorld();
+    } catch (error) {
+      console.error('Error generating abilities:', error);
+      // Fallback abilities
+      gameState.character.abilities = [
+        { name: "Basic Attack", description: "A simple attack", damage: 10 },
+        { name: "Special Move", description: "A more powerful attack", damage: 20 },
+        { name: "Ultimate", description: "Your strongest attack", damage: 30 },
+        { name: "Defensive Move", description: "Reduces incoming damage", damage: 5 }
+      ];
+
+      // Initialize the game world
+      initializeGameWorld();
+    }
+  }
+
+  // Game World Initialization
+  async function initializeGameWorld() {
+    showLoading('Generating game world...', 'Creating the world map and locations based on your theme and story focus');
+
+    try {
+      // Generate world locations
+      await generateWorldMap();
+
+      // Update HUD with character info
+      hudCharacterImageEl.src = gameState.character.image;
+      hudCharacterNameEl.textContent = gameState.character.name;
+      hudCharacterLevelEl.textContent = `Level ${gameState.character.level}`;
+      hudHealthEl.textContent = `HP: ${gameState.character.health}/${gameState.character.maxHealth}`;
+
+      // Initialize player position
+      gameState.playerPosition = {
+        x: Math.floor(gameState.map.width / 2),
+        y: Math.floor(gameState.map.height / 2)
+      };
+
+      // Render the map
+      renderMap();
+
+      // Show the map screen
+      showScreen('map');
+
+      // Set up keyboard controls
+      setupKeyboardControls();
+    } catch (error) {
+      console.error('Error initializing game world:', error);
+      alert('Failed to initialize game world. Please refresh and try again.');
+    }
+  }
+
+  async function generateWorldMap() {
+    try {
+      const mapPrompt = `Generate a world map for a ${gameState.theme} world with a focus on ${gameState.focus}. Include 3 villages, 2 dungeons, 3 forests, and 1 volcano (final boss location). For each location, provide a name and x,y coordinates (x between 50-750, y between 50-450). Format as JSON.`;
+
+      const mapDataText = await generateText(mapPrompt);
+      let mapData;
+
+      try {
+        mapData = JSON.parse(mapDataText);
+      } catch (e) {
+        // Fallback if JSON parsing fails
+        mapData = {
+          locations: [
+            { name: "Starting Village", type: "village", x: 400, y: 250 },
+            { name: "Forest of Whispers", type: "forest", x: 200, y: 150 },
+            { name: "Dark Dungeon", type: "dungeon", x: 600, y: 200 },
+            { name: "Merchant Village", type: "village", x: 300, y: 350 },
+            { name: "Ancient Forest", type: "forest", x: 500, y: 100 },
+            { name: "Deep Dungeon", type: "dungeon", x: 150, y: 300 },
+            { name: "Hidden Village", type: "village", x: 650, y: 400 },
+            { name: "Enchanted Forest", type: "forest", x: 350, y: 150 },
+            { name: "Doom Volcano", type: "volcano", x: 400, y: 400 }
+          ]
+        };
+      }
+
+      gameState.map.locations = mapData.locations || [];
+
+      // Initialize location data
+      gameState.map.locations.forEach(location => {
+        gameState.locations[location.name] = {
+          visited: false,
+          description: '',
+          image: '',
+          npcs: {},
+          enemies: {}
+        };
+      });
+
+    } catch (error) {
+      console.error('Error generating world map:', error);
+      // Create fallback map
+      gameState.map.locations = [
+        { name: "Starting Village", type: "village", x: 400, y: 250 },
+        { name: "Forest of Whispers", type: "forest", x: 200, y: 150 },
+        { name: "Dark Dungeon", type: "dungeon", x: 600, y: 200 },
+        { name: "Merchant Village", type: "village", x: 300, y: 350 },
+        { name: "Ancient Forest", type: "forest", x: 500, y: 100 },
+        { name: "Deep Dungeon", type: "dungeon", x: 150, y: 300 },
+        { name: "Hidden Village", type: "village", x: 650, y: 400 },
+        { name: "Enchanted Forest", type: "forest", x: 350, y: 150 },
+        { name: "Doom Volcano", type: "volcano", x: 400, y: 400 }
+      ];
+
+      // Initialize location data
+      gameState.map.locations.forEach(location => {
+        gameState.locations[location.name] = {
+          visited: false,
+          description: '',
+          image: '',
+          npcs: {},
+          enemies: {}
+        };
+      });
+    }
+  }
+
+  // Map Rendering
+  function renderMap() {
+    const mapContainer = mapContainerEl;
+    mapContainer.innerHTML = '';
+    mapContainer.style.width = `${gameState.map.width}px`;
+    mapContainer.style.height = `${gameState.map.height}px`;
+
+    // Create player character
+    const playerChar = document.createElement('div');
+    playerChar.className = 'player-character';
+    playerChar.style.left = `${gameState.playerPosition.x}px`;
+    playerChar.style.top = `${gameState.playerPosition.y}px`;
+    playerChar.style.backgroundImage = `url(${gameState.character.image})`;
+    playerChar.style.backgroundSize = 'cover';
+    mapContainer.appendChild(playerChar);
+
+    // Create location markers
+    gameState.map.locations.forEach(location => {
+      const marker = document.createElement('div');
+      marker.className = `location-marker ${location.type}-marker`;
+      marker.style.left = `${location.x}px`;
+      marker.style.top = `${location.y}px`;
+      marker.title = location.name;
+
+      // Add click event
+      marker.addEventListener('click', () => selectLocation(location));
+
+      mapContainer.appendChild(marker);
+    });
+
+    // Check for nearby locations after rendering
+    checkNearbyLocations();
+  }
+
+  // Keyboard Controls
+  function setupKeyboardControls() {
+    document.addEventListener('keydown', (e) => {
+      if (gameState.currentScreen !== 'map') return;
+
+      const step = 10;
+      let moved = false;
+
+      switch (e.key.toLowerCase()) {
+        case 'w':
+          if (gameState.playerPosition.y > 0) {
+            gameState.playerPosition.y -= step;
+            moved = true;
+          }
+          break;
+        case 'a':
+          if (gameState.playerPosition.x > 0) {
+            gameState.playerPosition.x -= step;
+            moved = true;
+          }
+          break;
+        case 's':
+          if (gameState.playerPosition.y < gameState.map.height - 32) {
+            gameState.playerPosition.y += step;
+            moved = true;
+          }
+          break;
+        case 'd':
+          if (gameState.playerPosition.x < gameState.map.width - 32) {
+            gameState.playerPosition.x += step;
+            moved = true;
+          }
+          break;
+      }
+
+      if (moved) {
+        // Update player position on the map
+        const playerChar = document.querySelector('.player-character');
+        if (playerChar) {
+          playerChar.style.left = `${gameState.playerPosition.x}px`;
+          playerChar.style.top = `${gameState.playerPosition.y}px`;
+
+          // Check for nearby locations
+          checkNearbyLocations();
+        }
+      }
+    });
+  }
+
+  // Check if player is near a location
+  function checkNearbyLocations() {
+    const playerX = gameState.playerPosition.x + 16; // Center of player
+    const playerY = gameState.playerPosition.y + 16; // Center of player
+    const enterLocationBtn = document.getElementById('enterLocationBtn');
+
+    // Find the closest location
+    let closestLocation = null;
+    let closestDistance = 50; // Threshold distance
+
+    gameState.map.locations.forEach(location => {
+      const distance = Math.sqrt(
+        Math.pow(playerX - location.x, 2) +
+        Math.pow(playerY - location.y, 2)
+      );
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestLocation = location;
+      }
+    });
+
+    if (closestLocation && enterLocationBtn) {
+      enterLocationBtn.hidden = false;
+      enterLocationBtn.textContent = `Enter ${closestLocation.name}`;
+      gameState.currentLocation = closestLocation;
+    } else if (enterLocationBtn) {
+      enterLocationBtn.hidden = true;
+      gameState.currentLocation = null;
+    }
+  }
+
+  // Select a location by clicking on it
+  function selectLocation(location) {
+    gameState.currentLocation = location;
+    const enterLocationBtn = document.getElementById('enterLocationBtn');
+
+    if (enterLocationBtn) {
+      enterLocationBtn.hidden = false;
+      enterLocationBtn.textContent = `Enter ${location.name}`;
+    }
+
+    // Move player towards the location
+    gameState.playerPosition.x = location.x - 16; // Center player on location
+    gameState.playerPosition.y = location.y - 16;
+
+    const playerChar = document.querySelector('.player-character');
+    if (playerChar) {
+      playerChar.style.left = `${gameState.playerPosition.x}px`;
+      playerChar.style.top = `${gameState.playerPosition.y}px`;
+    }
+  }
+
+  // Enter current location
+  async function enterCurrentLocation() {
+    if (!gameState.currentLocation) return;
+
+    const location = gameState.currentLocation;
+    const locationData = gameState.locations[location.name];
+
+    showLoading(`Entering ${location.name}...`, `Preparing location details`);
+
+    // If location hasn't been visited yet, generate details
+    if (!locationData.visited) {
+      await generateLocationDetails(location);
+      locationData.visited = true;
+    }
+
+    // Display location details
+    document.getElementById('locationImageEl').src = locationData.image;
+    locationDescriptionEl.textContent = locationData.description;
+
+    // Create location-specific controls
+    const locationControls = locationControlsEl;
+    locationControls.innerHTML = '';
+
+    switch (location.type) {
+      case 'village':
+        const talkBtn = document.createElement('button');
+        talkBtn.textContent = 'Talk with Nearby Villager';
+        talkBtn.addEventListener('click', () => talkWithNewVillager(location));
+        locationControls.appendChild(talkBtn);
+
+        const createBtn = document.createElement('button');
+        createBtn.textContent = 'Create a Villager';
+        createBtn.addEventListener('click', () => showCreateVillagerModal(location));
+        locationControls.appendChild(createBtn);
+
+        // Only show revisit button if there are saved NPCs
+        if (Object.keys(locationData.npcs).length > 0) {
+          const revisitBtn = document.createElement('button');
+          revisitBtn.textContent = 'Revisit Villager';
+          revisitBtn.addEventListener('click', () => showRevisitOptions(location));
+          locationControls.appendChild(revisitBtn);
+        }
+        break;
+
+      case 'dungeon':
+        const exploreBtn = document.createElement('button');
+        exploreBtn.textContent = 'Explore Dungeon';
+        exploreBtn.addEventListener('click', () => exploreDungeon(location));
+        locationControls.appendChild(exploreBtn);
+        break;
+
+      case 'forest':
+        const exploreForestBtn = document.createElement('button');
+        exploreForestBtn.textContent = 'Explore Forest';
+        exploreForestBtn.addEventListener('click', () => exploreForest(location));
+        locationControls.appendChild(exploreForestBtn);
+        break;
+
+      case 'volcano':
+        const challengeBossBtn = document.createElement('button');
+        challengeBossBtn.textContent = 'Challenge Final Boss';
+        challengeBossBtn.addEventListener('click', () => challengeFinalBoss(location));
+        locationControls.appendChild(challengeBossBtn);
+        break;
+    }
+
+    showScreen('location');
+  }
+
+  // Generate location details
+  async function generateLocationDetails(location) {
+    const locationData = gameState.locations[location.name];
+
+    try {
+      // Generate location description
+      const descPrompt = `Provide a brief, concise description (2-3 sentences) of ${location.name}, a ${location.type} in a ${gameState.theme} world focused on ${gameState.focus}.`;
+      locationData.description = await generateText(descPrompt);
+
+      // Generate location image
+      const imagePrompt = `${gameState.theme} style image of ${location.name}, a ${location.type} location`;
+      locationData.image = await generateImage(imagePrompt);
+
+      // For dungeons, generate default enemies
+      if (location.type === 'dungeon') {
+        await generateDefaultEnemies(location);
+      }
+
+    } catch (error) {
+      console.error('Error generating location details:', error);
+      // Fallback
+      locationData.description = `A mysterious ${location.type} known as ${location.name}.`;
+      // Use placeholder image if needed
+    }
+  }
+
+  // Return to map from location
+  function returnToMap() {
+    showScreen('map');
+  }
+
+  // Village Interactions
+  async function talkWithNewVillager(location) {
+    showLoading('Generating villager...', 'Creating a new NPC character for you to interact with');
+
+    try {
+      // Generate NPC profile
+      const npcPrompt = `Generate a brief, simple character profile for an NPC villager in ${location.name}, a ${location.type} in a ${gameState.theme} world focused on ${gameState.focus}. Include name, appearance, personality, and role in the village. Keep it concise. Format as JSON.`;
+
+      const npcDataText = await generateText(npcPrompt);
+      let npcData;
+
+      try {
+        npcData = JSON.parse(npcDataText);
+      } catch (e) {
+        // Fallback if JSON parsing fails
+        npcData = {
+          name: `Villager of ${location.name}`,
+          appearance: "A typical villager with simple clothes.",
+          personality: "Friendly but cautious.",
+          role: "Resident of the village."
+        };
+      }
+
+      // Generate NPC image
+      const imagePrompt = `${gameState.theme} style portrait of ${npcData.name}, ${npcData.appearance}`;
+      npcData.image = await generateImage(imagePrompt);
+
+      // Add initial state
+      npcData.memory = {
+        location: location.name,
+        position: "standing near the center of the village",
+        pose: "casual",
+        mood: "neutral",
+        lastInteraction: Date.now()
+      };
+
+      // Save NPC to location data
+      const locationData = gameState.locations[location.name];
+      locationData.npcs[npcData.name] = npcData;
+
+      // Start interaction with NPC
+      startNPCInteraction(npcData, location);
+
+    } catch (error) {
+      console.error('Error generating villager:', error);
+      alert('Failed to generate villager. Please try again.');
+      showScreen('location');
+    }
+  }
+
+  function showRevisitOptions(location) {
+    const locationData = gameState.locations[location.name];
+    const npcs = locationData.npcs;
+
+    if (Object.keys(npcs).length === 0) {
+      alert('No villagers to revisit.');
+      return;
+    }
+
+    // Create a modal for NPC selection
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; z-index:1000;';
+
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = 'background:var(--card-color); padding:20px; border-radius:8px; max-width:80%; max-height:80%; overflow-y:auto;';
+
+    const heading = document.createElement('h2');
+    heading.textContent = 'Select a Villager to Revisit';
+    modalContent.appendChild(heading);
+
+    // List all NPCs
+    for (const npcName in npcs) {
+      const npc = npcs[npcName];
+
+      const npcItem = document.createElement('div');
+      npcItem.style.cssText = 'display:flex; align-items:center; margin:10px 0; padding:10px; border-radius:4px; background:var(--input-bg-color); cursor:pointer;';
+
+      const npcImage = document.createElement('img');
+      npcImage.src = npc.image;
+      npcImage.style.cssText = 'width:50px; height:50px; border-radius:50%; margin-right:10px;';
+
+      const npcInfo = document.createElement('div');
+      npcInfo.innerHTML = `<strong>${npc.name}</strong><br>${npc.role || ''}`;
+
+      npcItem.appendChild(npcImage);
+      npcItem.appendChild(npcInfo);
+
+      npcItem.addEventListener('click', () => {
+        document.body.removeChild(modal);
+        startNPCInteraction(npc, location);
+      });
+
+      modalContent.appendChild(npcItem);
+    }
+
+    const closeBtn = document.createElement('button');
+    closeBtn.textContent = 'Cancel';
+    closeBtn.addEventListener('click', () => {
+      document.body.removeChild(modal);
+    });
+    modalContent.appendChild(closeBtn);
+
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+  }
+
+  function showCreateVillagerModal(location) {
+      // Create a modal for custom NPC creation
+      const modal = document.createElement('div');
+      modal.id = 'createVillagerModal'; // Add an ID for easy removal
+      modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; justify-content:center; align-items:center; z-index:1000;';
+
+      const modalContent = document.createElement('div');
+      modalContent.style.cssText = 'background:var(--card-color); padding:20px; border-radius:8px; max-width:500px; width:90%; display:flex; flex-direction:column; gap:10px;';
+
+      modalContent.innerHTML = `
+          <h2>Create a Custom Villager</h2>
+          <p>Describe the villager you want to meet. The AI will fill in the rest and generate an image.</p>
+          <label for="customNpcName">Name:</label>
+          <input id="customNpcName" type="text" placeholder="Optional, can be AI-generated">
+          <label for="customNpcAppearance">Appearance:</label>
+          <textarea id="customNpcAppearance" placeholder="Required. e.g., 'An old man with a long white beard and kind eyes'"></textarea>
+          <label for="customNpcPersonality">Personality:</label>
+          <textarea id="customNpcPersonality" placeholder="Optional. e.g., 'Grumpy but secretly helpful'"></textarea>
+          <label for="customNpcRole">Role in Village:</label>
+          <input id="customNpcRole" type="text" placeholder="Optional. e.g., 'Blacksmith', 'Retired adventurer'">
+      `;
+
+      const buttonContainer = document.createElement('div');
+      buttonContainer.style.textAlign = 'right';
+
+      const generateBtn = document.createElement('button');
+      generateBtn.textContent = 'Generate Villager';
+      generateBtn.addEventListener('click', () => generateCustomVillager(location));
+
+      const closeBtn = document.createElement('button');
+      closeBtn.textContent = 'Cancel';
+      closeBtn.style.backgroundColor = '#6c757d'; // A different color for cancel
+      closeBtn.addEventListener('click', () => {
+        document.body.removeChild(modal);
+      });
+
+      buttonContainer.appendChild(closeBtn);
+      buttonContainer.appendChild(generateBtn);
+      modalContent.appendChild(buttonContainer);
+
+      modal.appendChild(modalContent);
+      document.body.appendChild(modal);
+  }
+
+  async function generateCustomVillager(location) {
+      const name = document.getElementById('customNpcName').value.trim();
+      const appearance = document.getElementById('customNpcAppearance').value.trim();
+      const personality = document.getElementById('customNpcPersonality').value.trim();
+      const role = document.getElementById('customNpcRole').value.trim();
+
+      if (!appearance) {
+          alert('Please provide an appearance description for the villager.');
+          return;
+      }
+
+      // Close the modal first
+      const modal = document.getElementById('createVillagerModal');
+      if (modal) {
+          document.body.removeChild(modal);
+      }
+
+      showLoading('Generating your custom villager...', 'Bringing your creation to life');
+
+      try {
+          const npcDetails = {
+              name: name,
+              appearance: appearance,
+              personality: personality,
+              role: role
+          };
+
+          const npcPrompt = `Generate a complete character profile for an NPC villager in ${location.name}, a ${location.type} in a ${gameState.theme} world.
+          Use the following user-provided details as a base:
+          - Name: "${npcDetails.name}" (If blank, create a suitable name)
+          - Appearance: "${npcDetails.appearance}"
+          - Personality: "${npcDetails.personality}" (If blank, create a suitable personality)
+          - Role: "${npcDetails.role}" (If blank, create a suitable role)
+          Flesh out the details and ensure they are consistent. Format the final profile as a single, clean JSON object with keys: "name", "appearance", "personality", "role".`;
+
+          const npcDataText = await generateText(npcPrompt);
+          let npcData;
+
+          try {
+              npcData = JSON.parse(npcDataText);
+          } catch (e) {
+              console.error("Failed to parse AI response for custom villager, using fallback.", e);
+              // Fallback if JSON parsing fails
+              npcData = {
+                  name: name || `Villager of ${location.name}`,
+                  appearance: appearance,
+                  personality: personality || "A mysterious individual.",
+                  role: role || "Resident of the village."
+              };
+          }
+
+          // Generate NPC image based on the final appearance description
+          const imagePrompt = `${gameState.theme} style portrait of ${npcData.name}, ${npcData.appearance}`;
+          npcData.image = await generateImage(imagePrompt);
+
+          // Add initial state memory
+          npcData.memory = {
+              location: location.name,
+              position: "in the village, as described",
+              pose: "neutral",
+              mood: "neutral",
+              lastInteraction: Date.now()
+          };
+
+          // Save NPC to location data
+          const locationData = gameState.locations[location.name];
+          locationData.npcs[npcData.name] = npcData;
+
+          // Start interaction with the newly created NPC
+          startNPCInteraction(npcData, location);
+
+      } catch (error) {
+          console.error('Error generating custom villager:', error);
+          alert('Failed to generate the villager. Please try again.');
+          showScreen('location'); // Go back to the location screen on failure
+      }
+  }
+
+  // Dungeon Exploration
+  async function generateDefaultEnemies(location) {
+    const locationData = gameState.locations[location.name];
+
+    try {
+      const enemiesPrompt = `Generate 3 common enemy types for ${location.name}, a dungeon in a ${gameState.theme} world focused on ${gameState.focus}. Each should have a name, description, health (50-80), and 2 attacks with damage values (5-20). Format as JSON array.`;
+
+      const enemiesDataText = await generateText(enemiesPrompt);
+      let enemiesData;
+
+      try {
+        enemiesData = JSON.parse(enemiesDataText);
+      } catch (e) {
+        // Fallback
+        enemiesData = [
+          {
+            name: "Dungeon Minion",
+            description: "A weak but numerous creature that inhabits the dungeon.",
+            health: 50,
+            attacks: [
+              { name: "Scratch", damage: 5 },
+              { name: "Bite", damage: 10 }
+            ]
+          },
+          {
+            name: "Stone Guardian",
+            description: "A magical construct that protects the dungeon.",
+            health: 70,
+            attacks: [
+              { name: "Slam", damage: 10 },
+              { name: "Rock Throw", damage: 15 }
+            ]
+          },
+          {
+            name: "Shadow Lurker",
+            description: "A stealthy creature that attacks from the darkness.",
+            health: 60,
+            attacks: [
+              { name: "Surprise Attack", damage: 15 },
+              { name: "Shadow Bolt", damage: 12 }
+            ]
+          }
+        ];
+      }
+
+      // Save default enemies
+      locationData.defaultEnemies = enemiesData;
+
+    } catch (error) {
+      console.error('Error generating default enemies:', error);
+      // Fallback
+      locationData.defaultEnemies = [
+        {
+          name: "Dungeon Minion",
+          description: "A weak but numerous creature that inhabits the dungeon.",
+          health: 50,
+          attacks: [
+            { name: "Scratch", damage: 5 },
+            { name: "Bite", damage: 10 }
+          ]
+        },
+        {
+          name: "Stone Guardian",
+          description: "A magical construct that protects the dungeon.",
+          health: 70,
+          attacks: [
+            { name: "Slam", damage: 10 },
+            { name: "Rock Throw", damage: 15 }
+          ]
+        },
+        {
+          name: "Shadow Lurker",
+          description: "A stealthy creature that attacks from the darkness.",
+          health: 60,
+          attacks: [
+            { name: "Surprise Attack", damage: 15 },
+            { name: "Shadow Bolt", damage: 12 }
+          ]
+        }
+      ];
+    }
+  }
+
+  async function exploreDungeon(location) {
+    showLoading('Exploring dungeon...', 'Preparing encounter');
+
+    // Reset encounter count if this is a new dungeon exploration
+    if (gameState.currentLocation.name !== location.name) {
+      gameState.dungeonEncounterCount = 0;
+    }
+
+    // Check if we've reached the encounter limit
+    if (gameState.dungeonEncounterCount >= 5) {
+      alert('You have fully explored this dungeon and exit back to the world map.');
+      gameState.dungeonEncounterCount = 0;
+      showScreen('map');
+      return;
+    }
+
+    const locationData = gameState.locations[location.name];
+
+    // 70% chance of basic enemy, 30% chance of named enemy
+    const isNamedEnemy = Math.random() < 0.3;
+
+    try {
+      if (isNamedEnemy) {
+        // Generate named enemy
+        const enemyPrompt = `Generate a unique named enemy for ${location.name}, a dungeon in a ${gameState.theme} world focused on ${gameState.focus}. Include name, description, appearance, personality, health (80-120), and 3 attacks with damage values (10-25). Format as JSON.`;
+
+        const enemyDataText = await generateText(enemyPrompt);
+        let enemyData;
+
+        try {
+          enemyData = JSON.parse(enemyDataText);
+        } catch (e) {
+          // Fallback
+          enemyData = {
+            name: `${location.name} Guardian`,
+            description: "A powerful guardian of the dungeon's secrets.",
+            appearance: "Imposing and fearsome with glowing eyes.",
+            personality: "Determined and loyal to its duty.",
+            health: 100,
+            attacks: [
+              { name: "Mighty Blow", damage: 15 },
+              { name: "Terrifying Roar", damage: 12 },
+              { name: "Ground Slam", damage: 20 }
+            ]
+          };
+        }
+
+        // Generate enemy image
+        const imagePrompt = `${gameState.theme} style image of ${enemyData.name}, ${enemyData.appearance}`;
+        enemyData.image = await generateImage(imagePrompt);
+
+        // Save enemy
+        locationData.enemies[enemyData.name] = enemyData;
+
+        // Start interaction with named enemy
+        startEnemyInteraction(enemyData, location);
+
+      } else {
+        // Use random default enemy
+        const defaultEnemies = locationData.defaultEnemies || [];
+        if (defaultEnemies.length === 0) {
+          await generateDefaultEnemies(location);
+        }
+
+        const randomEnemy = {...locationData.defaultEnemies[Math.floor(Math.random() * locationData.defaultEnemies.length)]};
+
+        // Generate enemy image
+        const imagePrompt = `${gameState.theme} style image of ${randomEnemy.name}, ${randomEnemy.description}`;
+        randomEnemy.image = await generateImage(imagePrompt);
+
+        // Start combat directly
+        startCombat(randomEnemy);
+      }
+
+      // Increment encounter count
+      gameState.dungeonEncounterCount++;
+
+    } catch (error) {
+      console.error('Error exploring dungeon:', error);
+      alert('Error during dungeon exploration. Please try again.');
+      showScreen('location');
+    }
+  }
+
+  // Forest Exploration
+  async function exploreForest(location) {
+    showLoading('Exploring forest...', 'Discovering what awaits in the wilderness');
+
+    const locationData = gameState.locations[location.name];
+
+    // Random encounter type: 1=friendly NPC, 2=enemy interaction, 3=direct combat
+    const encounterType = Math.floor(Math.random() * 3) + 1;
+
+    try {
+      switch (encounterType) {
+        case 1: // Friendly NPC
+          const npcPrompt = `Generate a profile for a non-enemy character found in ${location.name}, a forest in a ${gameState.theme} world focused on ${gameState.focus}. Include name, appearance, personality, and why they're in the forest. Keep it concise. Format as JSON.`;
+
+          const npcDataText = await generateText(npcPrompt);
+          let npcData;
+
+          try {
+            npcData = JSON.parse(npcDataText);
+          } catch (e) {
+            // Fallback
+            npcData = {
+              name: "Forest Wanderer",
+              appearance: "Dressed in green and brown clothing, blending with the forest.",
+              personality: "Calm and knowledgeable about the forest.",
+              reason: "Gathering herbs and studying the wildlife."
+            };
+          }
+
+          // Generate NPC image
+          const npcImagePrompt = `${gameState.theme} style portrait of ${npcData.name}, ${npcData.appearance}`;
+          npcData.image = await generateImage(npcImagePrompt);
+
+          // Add memory
+          npcData.memory = {
+            location: location.name,
+            position: "standing among the trees",
+            pose: "relaxed",
+            mood: "curious",
+            lastInteraction: Date.now()
+          };
+
+          // Save NPC
+          locationData.npcs[npcData.name] = npcData;
+
+          // Start interaction
+          startNPCInteraction(npcData, location);
+          break;
+
+        case 2: // Enemy interaction
+          const enemyPrompt = `Generate a profile for an enemy character found in ${location.name}, a forest in a ${gameState.theme} world focused on ${gameState.focus}. Include name, appearance, personality, why they're hostile, health (70-100), and 3 attacks with damage values (10-20). Format as JSON.`;
+
+          const enemyDataText = await generateText(enemyPrompt);
+          let enemyData;
+
+          try {
+            enemyData = JSON.parse(enemyDataText);
+          } catch (e) {
+            // Fallback
+            enemyData = {
+              name: "Forest Predator",
+              appearance: "Sharp claws and fangs with a hungry look in its eyes.",
+              personality: "Territorial and aggressive.",
+              reason: "Defending its hunting grounds.",
+              health: 80,
+              attacks: [
+                { name: "Slash", damage: 12 },
+                { name: "Pounce", damage: 15 },
+                { name: "Howl", damage: 10 }
+              ]
+            };
+          }
+
+          // Generate enemy image
+          const enemyImagePrompt = `${gameState.theme} style image of ${enemyData.name}, ${enemyData.appearance}`;
+          enemyData.image = await generateImage(enemyImagePrompt);
+
+          // Save enemy
+          locationData.enemies[enemyData.name] = enemyData;
+
+          // Start interaction with combat option
+          startEnemyInteraction(enemyData, location, true);
+          break;
+
+        case 3: // Direct combat
+          const combatEnemyPrompt = `Generate a simple enemy encountered in ${location.name}, a forest in a ${gameState.theme} world focused on ${gameState.focus}. Include name, description, health (60-90), and 2 attacks with damage values (8-18). Format as JSON.`;
+
+          const combatEnemyText = await generateText(combatEnemyPrompt);
+          let combatEnemy;
+
+          try {
+            combatEnemy = JSON.parse(combatEnemyText);
+          } catch (e) {
+            // Fallback
+            combatEnemy = {
+              name: "Wild Beast",
+              description: "A dangerous creature that roams the forest.",
+              health: 70,
+              attacks: [
+                { name: "Bite", damage: 10 },
+                { name: "Charge", damage: 15 }
+              ]
+            };
+          }
+
+          // Generate enemy image
+          const combatImagePrompt = `${gameState.theme} style image of ${combatEnemy.name}, ${combatEnemy.description}`;
+          combatEnemy.image = await generateImage(combatImagePrompt);
+
+          // Start combat directly
+          startCombat(combatEnemy);
+          break;
+      }
+    } catch (error) {
+      console.error('Error exploring forest:', error);
+      alert('Error during forest exploration. Please try again.');
+      showScreen('location');
+    }
+  }
+
+  // Final Boss
+  async function challengeFinalBoss(location) {
+    showLoading('Preparing for final battle...', 'The ultimate challenge awaits');
+
+    const locationData = gameState.locations[location.name];
+
+    try {
+      // Check if final boss already exists
+      if (!locationData.finalBoss) {
+        // Generate final boss
+        const bossPrompt = `Generate a final boss for ${location.name}, a volcano in a ${gameState.theme} world focused on ${gameState.focus}. Make it powerful and intimidating. Include name, description, appearance, backstory, health (200-300), and 4 powerful attacks with damage values (20-40). Format as JSON.`;
+
+        const bossDataText = await generateText(bossPrompt);
+        let bossData;
+
+        try {
+          bossData = JSON.parse(bossDataText);
+        } catch (e) {
+          // Fallback
+          bossData = {
+            name: "Volcano Lord",
+            description: "The mighty ruler of the volcano and all its fire.",
+            appearance: "A massive being of molten rock and flame.",
+            backstory: "An ancient spirit that has existed since the mountain first formed.",
+            health: 250,
+            attacks: [
+              { name: "Lava Burst", damage: 25 },
+              { name: "Earthquake", damage: 30 },
+              { name: "Firestorm", damage: 35 },
+              { name: "Volcanic Eruption", damage: 40 }
+            ]
+          };
+        }
+
+        // Generate boss image
+        const bossImagePrompt = `Epic ${gameState.theme} style image of ${bossData.name}, ${bossData.appearance}, final boss, intimidating`;
+        bossData.image = await generateImage(bossImagePrompt);
+
+        // Save boss
+        locationData.finalBoss = bossData;
+      }
+
+      // Start interaction with the final boss
+      startEnemyInteraction(locationData.finalBoss, location, true);
+
+    } catch (error) {
+      console.error('Error generating final boss:', error);
+      alert('Error preparing final boss battle. Please try again.');
+      showScreen('location');
+    }
+  }
+
+  // NPC Interaction
+  function startNPCInteraction(npc, location) {
+    // Set up interaction screen
+    document.getElementById('npcImageEl').src = npc.image;
+    npcNameEl.textContent = npc.name;
+    npcDescriptionEl.textContent = npc.appearance || npc.description;
+
+    // Clear interaction history
+    interactionHistoryEl.innerHTML = '';
+
+    // Hide combat button, show end interaction button
+    document.getElementById('startCombatBtn').hidden = true;
+    document.getElementById('endInteractionBtn').hidden = false;
+
+    // Set current interaction
+    gameState.currentInteraction = {
+      type: 'npc',
+      character: npc,
+      location: location,
+      history: []
+    };
+
+    // Generate initial greeting
+    generateNPCResponse(`You approach ${npc.name} in ${location.name}.`);
+
+    showScreen('interaction');
+  }
+
+  function startEnemyInteraction(enemy, location, showCombatButton = false) {
+    // Set up interaction screen
+    document.getElementById('npcImageEl').src = enemy.image;
+    npcNameEl.textContent = enemy.name;
+    npcDescriptionEl.textContent = enemy.appearance || enemy.description;
+
+    // Clear interaction history
+    interactionHistoryEl.innerHTML = '';
+
+    // Show/hide combat button
+    document.getElementById('startCombatBtn').hidden = !showCombatButton;
+    document.getElementById('endInteractionBtn').hidden = false;
+
+    // Set current interaction
+    gameState.currentInteraction = {
+      type: 'enemy',
+      character: enemy,
+      location: location,
+      history: []
+    };
+
+    // Generate initial encounter
+    generateNPCResponse(`You encounter ${enemy.name} in ${location.name}.`);
+
+    showScreen('interaction');
+  }
+
+  async function generateNPCResponse(context) {
+    const interaction = gameState.currentInteraction;
+    const character = interaction.character;
+    const interactionHistory = interactionHistoryEl;
+
+    // Add context message if provided
+    if (context) {
+      const contextElement = document.createElement('div');
+      contextElement.className = 'context-message';
+      contextElement.textContent = context;
+      contextElement.style.cssText = 'font-style:italic; margin:10px 0; color:#aaa; text-align:center;';
+      interactionHistory.appendChild(contextElement);
+
+      // Add to history
+      interaction.history.push({
+        type: 'context',
+        text: context
+      });
+    }
+
+    // Prepare the prompt based on previous conversation
+    let conversationPrompt = `You are ${character.name} in a ${gameState.theme} world. `;
+
+    if (character.personality) {
+      conversationPrompt += `Your personality: ${character.personality}. `;
+    }
+
+    if (character.role) {
+      conversationPrompt += `Your role: ${character.role}. `;
+    }
+
+    if (character.reason) {
+      conversationPrompt += `You are here because: ${character.reason}. `;
+    }
+
+    conversationPrompt += `You are interacting with ${gameState.character.name}, a ${gameState.character.description}. `;
+    conversationPrompt += `The conversation is taking place in ${interaction.location.name}. `;
+
+    if (interaction.history.length > 0) {
+      conversationPrompt += `\n\nConversation history:\n`;
+
+      interaction.history.forEach(entry => {
+        if (entry.type === 'player') {
+          conversationPrompt += `${gameState.character.name}: ${entry.text}\n`;
+        } else if (entry.type === 'npc') {
+          conversationPrompt += `${character.name}: ${entry.text}\n`;
+        } else if (entry.type === 'context') {
+          conversationPrompt += `(${entry.text})\n`;
+        }
+      });
+    }
+
+    conversationPrompt += `\nRespond as ${character.name} in a way that fits your personality and the ${gameState.theme} theme. Keep your response to 1-3 sentences.`;
+
+    showLoading('Character is responding...', 'Generating response based on conversation context');
+
+    try {
+      const response = await generateText(conversationPrompt);
+
+      // Create response element
+      const responseElement = document.createElement('div');
+      responseElement.className = 'npc-message';
+      responseElement.textContent = response;
+      interactionHistory.appendChild(responseElement);
+
+      // Add to history
+      interaction.history.push({
+        type: 'npc',
+        text: response
+      });
+
+      // Scroll to bottom
+      interactionHistory.scrollTop = interactionHistory.scrollHeight;
+
+      // Update memory for NPCs
+      if (interaction.type === 'npc') {
+        character.memory.lastInteraction = Date.now();
+      }
+
+      showScreen('interaction');
+
+    } catch (error) {
+      console.error('Error generating NPC response:', error);
+
+      // Fallback response
+      const fallbackResponse = "...";
+
+      const responseElement = document.createElement('div');
+      responseElement.className = 'npc-message';
+      responseElement.textContent = fallbackResponse;
+      interactionHistory.appendChild(responseElement);
+
+      interaction.history.push({
+        type: 'npc',
+        text: fallbackResponse
+      });
+
+      showScreen('interaction');
+    }
+  }
+
+  function sendPlayerResponse() {
+    const responseInput = playerResponseInputEl;
+    const response = responseInput.value.trim();
+
+    if (!response) return;
+
+    const interaction = gameState.currentInteraction;
+    const interactionHistory = interactionHistoryEl;
+
+    // Create player message element
+    const messageElement = document.createElement('div');
+    messageElement.className = 'character-message';
+    messageElement.textContent = response;
+    interactionHistory.appendChild(messageElement);
+
+    // Add to history
+    interaction.history.push({
+      type: 'player',
+      text: response
+    });
+
+    // Clear input
+    responseInput.value = '';
+
+    // Scroll to bottom
+    interactionHistory.scrollTop = interactionHistory.scrollHeight;
+
+    // Generate NPC response
+    generateNPCResponse();
+  }
+
+  function startCombatFromInteraction() {
+    const enemy = gameState.currentInteraction.character;
+    startCombat(enemy);
+  }
+
+  function endInteraction() {
+    // Update character memory if it's an NPC
+    if (gameState.currentInteraction.type === 'npc') {
+      const npc = gameState.currentInteraction.character;
+      const location = gameState.currentInteraction.location;
+
+      // Update memory
+      npc.memory.lastInteraction = Date.now();
+
+      // Save NPC state to location data
+      gameState.locations[location.name].npcs[npc.name] = npc;
+    }
+
+    // Clear current interaction
+    gameState.currentInteraction = null;
+
+    // Return to location screen
+    showScreen('location');
+  }
+
+  // Combat System
+  function startCombat(enemy) {
+    // Set up combat screen
+    playerCombatImageEl.src = gameState.character.image;
+    playerCombatNameEl.textContent = gameState.character.name;
+    playerCombatHealthEl.textContent = `HP: ${gameState.character.health}/${gameState.character.maxHealth}`;
+
+    // Set player health bar
+    const playerHealthFill = playerHealthFillEl;
+    const playerHealthPercent = (gameState.character.health / gameState.character.maxHealth) * 100;
+    playerHealthFill.style.width = `${playerHealthPercent}%`;
+
+    enemyCombatImageEl.src = enemy.image;
+    enemyCombatNameEl.textContent = enemy.name;
+    enemyCombatHealthEl.textContent = `HP: ${enemy.health}/${enemy.health}`;
+
+    // Set enemy health bar
+    const enemyHealthFill = enemyHealthFillEl;
+    enemyHealthFill.style.width = '100%';
+
+    // Clear combat log
+    combatLogEl.innerHTML = '';
+
+    // Create ability buttons
+    const combatControls = combatControlsEl;
+    combatControls.innerHTML = '';
+
+    gameState.character.abilities.forEach(ability => {
+      const abilityBtn = document.createElement('button');
+      abilityBtn.textContent = ability.name;
+      abilityBtn.title = `${ability.description} (Damage: ${ability.damage})`;
+      abilityBtn.addEventListener('click', () => useAbility(ability));
+      combatControls.appendChild(abilityBtn);
+    });
+
+    // Set current combat
+    gameState.currentCombat = {
+      enemy: {...enemy}, // Clone to avoid modifying original
+      turn: 'player'
+    };
+
+    // Add initial combat message
+    addCombatMessage(`Combat begins between ${gameState.character.name} and ${enemy.name}!`);
+
+    showScreen('combat');
+  }
+
+  function useAbility(ability) {
+    if (!gameState.currentCombat || gameState.currentCombat.turn !== 'player') return;
+
+    const enemy = gameState.currentCombat.enemy;
+
+    // Calculate damage
+    const damage = ability.damage;
+    enemy.health -= damage;
+    if (enemy.health < 0) enemy.health = 0;
+
+    // Update enemy health display
+    enemyCombatHealthEl.textContent = `HP: ${enemy.health}/${enemy.health + damage}`;
+
+    // Update enemy health bar
+    const enemyHealthFill = enemyHealthFillEl;
+    const enemyHealthPercent = (enemy.health / (enemy.health + damage)) * 100;
+    enemyHealthFill.style.width = `${enemyHealthPercent}%`;
+
+    // Add combat message
+    addCombatMessage(`${gameState.character.name} uses ${ability.name} for ${damage} damage!`);
+
+    // Check if enemy defeated
+    if (enemy.health <= 0) {
+      endCombat(true);
+      return;
+    }
+
+    // Enemy turn
+    gameState.currentCombat.turn = 'enemy';
+
+    // Disable ability buttons during enemy turn
+    const abilityButtons = document.querySelectorAll('#combatControls button');
+    abilityButtons.forEach(btn => btn.disabled = true);
+
+    // Enemy attack after a short delay
+    setTimeout(enemyAttack, 1000);
+  }
+
+  function enemyAttack() {
+    if (!gameState.currentCombat) return;
+
+    const enemy = gameState.currentCombat.enemy;
+
+    // Select random enemy attack
+    const attack = enemy.attacks[Math.floor(Math.random() * enemy.attacks.length)];
+
+    // Calculate damage
+    const damage = attack.damage;
+    gameState.character.health -= damage;
+    if (gameState.character.health < 0) gameState.character.health = 0;
+
+    // Update player health display
+    playerCombatHealthEl.textContent = `HP: ${gameState.character.health}/${gameState.character.maxHealth}`;
+
+    // Update player health bar
+    const playerHealthFill = playerHealthFillEl;
+    const playerHealthPercent = (gameState.character.health / gameState.character.maxHealth) * 100;
+    playerHealthFill.style.width = `${playerHealthPercent}%`;
+
+    // Add combat message
+    addCombatMessage(`${enemy.name} uses ${attack.name} for ${damage} damage!`);
+
+    // Check if player defeated
+    if (gameState.character.health <= 0) {
+      endCombat(false);
+      return;
+    }
+
+    // Player turn
+    gameState.currentCombat.turn = 'player';
+
+    // Re-enable ability buttons
+    const abilityButtons = document.querySelectorAll('#combatControls button');
+    abilityButtons.forEach(btn => btn.disabled = false);
+  }
+
+  function addCombatMessage(message) {
+    const combatLog = combatLogEl;
+    const messageElement = document.createElement('div');
+    messageElement.textContent = message;
+    combatLog.appendChild(messageElement);
+
+    // Scroll to bottom
+    combatLog.scrollTop = combatLog.scrollHeight;
+  }
+
+  async function endCombat(playerWon) {
+    const enemy = gameState.currentCombat.enemy;
+
+    if (playerWon) {
+      // Add victory message
+      addCombatMessage(`You defeated ${enemy.name}!`);
+
+      // Award XP
+      const xpGained = enemy.health > 100 ? 50 : 20;
+      gameState.character.exp += xpGained;
+      addCombatMessage(`You gained ${xpGained} XP!`);
+
+      // Check for level up
+      const levelUpThreshold = gameState.character.level * 100;
+      if (gameState.character.exp >= levelUpThreshold) {
+        gameState.character.level++;
+        gameState.character.maxHealth += 20;
+        gameState.character.health = gameState.character.maxHealth;
+
+        addCombatMessage(`Level Up! You are now level ${gameState.character.level}!`);
+        addCombatMessage(`Max health increased to ${gameState.character.maxHealth}!`);
+
+        // Update HUD
+        hudCharacterLevelEl.textContent = `Level ${gameState.character.level}`;
+      }
+
+      // Update HUD health
+      hudHealthEl.textContent = `HP: ${gameState.character.health}/${gameState.character.maxHealth}`;
+
+      // Check if it was the final boss
+      if (gameState.currentLocation.type === 'volcano' && enemy.name === gameState.locations[gameState.currentLocation.name].finalBoss.name) {
+        // Victory screen
+        setTimeout(() => {
+          gameOverTitleEl.textContent = 'Victory!';
+          gameOverMessageEl.textContent = `Congratulations! You've defeated the final boss and completed your ${gameState.theme} adventure!`;
+          showScreen('gameOver');
+        }, 3000);
+        return;
+      }
+
+      // Special handling for lewd theme
+      if (gameState.theme === 'lewd') {
+        // Start special interaction after combat
+        setTimeout(() => {
+          startPostCombatInteraction(enemy);
+        }, 2000);
+        return;
+      }
+
+      // Return to location after a brief delay
+      setTimeout(() => {
+        showScreen('location');
+      }, 2000);
+
+    } else {
+      // Add defeat message
+      addCombatMessage(`You were defeated by ${enemy.name}!`);
+
+      // Special handling for lewd theme
+      if (gameState.theme === 'lewd') {
+        // Start special interaction after combat
+        setTimeout(() => {
+          startPostCombatInteraction(enemy, false);
+        }, 2000);
+        return;
+      }
+
+      // Game over
+      setTimeout(() => {
+        gameOverTitleEl.textContent = 'Game Over';
+        gameOverMessageEl.textContent = `You were defeated by ${enemy.name}.`;
+        showScreen('gameOver');
+      }, 2000);
+    }
+
+    // Clear current combat
+    gameState.currentCombat = null;
+  }
+
+  async function startPostCombatInteraction(enemy, playerWon = true) {
+    // Set up interaction screen
+    document.getElementById('npcImageEl').src = enemy.image;
+    npcNameEl.textContent = enemy.name;
+    npcDescriptionEl.textContent = enemy.appearance || enemy.description;
+
+    // Clear interaction history
+    interactionHistoryEl.innerHTML = '';
+
+    // Hide combat button, show end interaction button
+    document.getElementById('startCombatBtn').hidden = true;
+    document.getElementById('endInteractionBtn').hidden = false;
+
+    // Set current interaction
+    gameState.currentInteraction = {
+      type: 'postcombat',
+      character: enemy,
+      location: gameState.currentLocation,
+      history: [],
+      playerWon: playerWon
+    };
+
+    // Generate initial context
+    let context;
+    if (playerWon) {
+      context = `You have defeated ${enemy.name} in combat. They are at your mercy.`;
+    } else {
+      context = `You have been defeated by ${enemy.name} in combat. You are at their mercy.`;
+    }
+
+    generateNPCResponse(context);
+
+    showScreen('interaction');
+  }
+
+  // Game Over / Restart
+  function restartGame() {
+    // Reset game state
+    gameState.theme = null;
+    gameState.focus = null;
+    gameState.character = {
+      name: '',
+      description: '',
+      likes: '',
+      traits: '',
+      image: '',
+      level: 1,
+      exp: 0,
+      health: 100,
+      maxHealth: 100,
+      abilities: []
+    };
+    gameState.currentScreen = 'themeSelection';
+    gameState.currentLocation = null;
+    gameState.map = {
+      width: 800,
+      height: 500,
+      locations: []
+    };
+    gameState.locations = {};
+    gameState.npcs = {};
+    gameState.enemies = {};
+    gameState.currentInteraction = null;
+    gameState.currentCombat = null;
+    gameState.dungeonEncounterCount = 0;
+
+    // Clear input fields
+    themeSelectEl.value = '';
+    storyFocusInputEl.value = '';
+    characterNameInputEl.value = '';
+    characterDescriptionInputEl.value = '';
+    characterLikesInputEl.value = '';
+    characterTraitsInputEl.value = '';
+
+    // Reset character image
+    document.getElementById('characterImageEl').hidden = true;
+    characterImagePlaceholderEl.hidden = false;
+
+    // Show theme selection screen
+    showScreen('themeSelection');
+  }
+
+  // Initialize the game
+  initGame();
+</script>

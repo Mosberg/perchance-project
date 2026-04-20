@@ -1,0 +1,28 @@
+ai = {import:ai-text-plugin}
+rpgControl = {import:ai-bot-framework-plugin-rpg-edition}
+fullscreenButton = {import:fullscreen-button-plugin}
+
+$meta
+  title = AI Bot Framework RPG Edition Generator
+  description = RPG scene generator wired to the AI Bot Framework RPG Edition plugin and framework command bridge.
+
+pageTitle = AI Bot Framework RPG Edition
+pageSubtitle = Narrative generator with built-in framework controls and bridge health checks.
+
+defaultWorldSeed
+  Setting: Stormglass Expanse, a shattered frontier of floating ruins and trade-cities.
+  Player role: A field tactician with unstable relic-tech, a small crew, and too many debts.
+  Current objective: Recover the Archive Key before rival guilds lock down the zone.
+  Tone: Grounded high-stakes adventure with tactical consequences.
+  $output = [this.joinItems("\n").trim()]
+
+frameworkInstruction
+  You are a high-agency RPG Game Master running an ongoing session.
+  Use the world setup, story log, and framework snapshot as your authoritative context.
+  Respect continuity, inventory logic, injuries, active quests, and tactical constraints.
+  If framework snapshot data conflicts with narration, the snapshot wins.
+  Keep pacing tight and interactive.
+  Write 1 to 3 short paragraphs.
+  Never pick player actions for the player.
+  End with a clear situation where the player can choose the next move.
+  $output = [this.joinItems("\n").trim()]

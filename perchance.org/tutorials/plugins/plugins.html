@@ -1,0 +1,160 @@
+<h1>Perchance Plugins <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiPgogICAgPHBhdGggZD0iTSAxMS41IDAgQyAxMC4xMTkgMCA5IDEuMTE5IDkgMi41IEwgOSA0IEwgMyA0IEwgMyAxMCBMIDQuMzU3NDIxOSAxMCBDIDUuNjY1NDIxOSAxMCA2Ljg1NTMyODEgMTAuOTQxMTg4IDYuOTg2MzI4MSAxMi4yNDIxODggQyA3LjEzNjMyODEgMTMuNzM5MTg3IDUuOTY2IDE1IDQuNSAxNSBMIDMgMTUgTCAzIDIxIEwgOSAyMSBMIDkgMTkuNjQyNTc4IEMgOSAxOC4zMzQ1NzggOS45NDExODc1IDE3LjE0NDY3MiAxMS4yNDIxODggMTcuMDEzNjcyIEMgMTIuNzM5MTg3IDE2Ljg2MzY3MiAxNCAxOC4wMzQgMTQgMTkuNSBMIDE0IDIxIEwgMjAgMjEgTCAyMCAxNSBMIDIxLjUgMTUgQyAyMi44ODEgMTUgMjQgMTMuODgxIDI0IDEyLjUgQyAyNCAxMS4xMTkgMjIuODgxIDEwIDIxLjUgMTAgTCAyMCAxMCBMIDIwIDQgTCAxNCA0IEwgMTQgMi41IEMgMTQgMS4xMTkgMTIuODgxIDAgMTEuNSAwIHoiLz4KPC9zdmc+Cg=="/></h1>
+<main>
+	<p>As you know, you can import other generators into your project using <code>\{import:generator-name\}</code>. This is good. it means we can create small, reusable, sharable "modules" so that we don't have to keep re-inventing the wheel.</p>
+	<p>As it turns out, though, we can use <code>import</code> for some other cool stuff. For example, if someone writes a handy HTML snippet, they might make a "plugin" which allows you to import that snippet into your HTML panel. Here's a growing list of handy plugins:</p>
+	<ul style="text-align:left;">
+    <li><a href="/text-to-image-plugin">text-to-image<span style="opacity:0.35">-plugin</span></a>: generate an image from a text description using AI</li>
+    <li><a href="/ai-text-plugin">ai-text<span style="opacity:0.35">-plugin</span></a>: generate text (stories, poems, etc) based on an instruction</li>
+    <li><a href="/comments-plugin">comments<span style="opacity:0.35">-plugin</span></a>: allows you to embed a little comments/feedback section in your generator</li>
+    <li><a href="/docs-plugin">docs<span style="opacity:0.35">-plugin</span></a>: easily create multi-page docs using markdown</li>
+    <li><a href="/create-instance-plugin">create-instance<span style="opacity:0.35">-plugin</span></a>: allows you to define "blueprints" of things, and then create random instances of them</li>
+		<li><a href="/create-instances-plugin">create-instances<span style="opacity:0.35">-plugin</span></a>: create a <i>list</i> of random instances based on a given blueprint</li>
+    <li><a href="/image-layer-combiner-plugin">image-layer-combiner<span style="opacity:0.35">-plugin</span></a>: randomly combine/overlay sets of images (like picrew/pokefusion)</li>
+		<li><a href="/pattern-maker-plugin">pattern-maker<span style="opacity:0.35">-plugin</span></a>: random procedurally-generated images that look like your input image</li>
+		<li><a href="/tap-plugin">tap<span style="opacity:0.35">-plugin</span></a>: randomize specific outputs by tapping/clicking them</li>
+		<li><a href="/favicon-plugin">favicon<span style="opacity:0.35">-plugin</span></a>: allows you to change the browser tab icon for your generator</li>
+		<li><a href="/layout-maker-plugin">layout-maker<span style="opacity:0.35">-plugin</span></a>: allows you to create your own visual layouts for your generators without knowing how to code</li>
+		<li><a href="/select-range-plugin">select-range<span style="opacity:0.35">-plugin</span></a>: allows you select a certain range of items from an existing list</li>
+		<li><a href="/dice-plugin">dice<span style="opacity:0.35">-plugin</span></a>: do dice rolls with notation like "2d8" (roll two 8-sided dice)</li>
+		<li><a href="/wheel-plugin">wheel<span style="opacity:0.35">-plugin</span></a>: make a "spinning wheel" to make your generator more exciting</li>
+		<li><a href="/upload-plugin">upload<span style="opacity:0.35">-plugin</span></a>: programmatically upload files to perchance's file storage server</li>
+    <li><a href="/secret-plugin">secret<span style="opacity:0.35">-plugin</span></a>: allows you to encrypt and decrypt data, with a (useful) twist</li>
+    <li><a href="/kv-plugin">kv<span style="opacity:0.35">-plugin</span></a>: allows you to store data in a way that will remain accessible after page reload/close</li>
+		<li><a href="/random-integer-plugin">random-integer<span style="opacity:0.35">-plugin</span></a>: generate a random integer (whole number) between two other integers</li>
+		<li><a href="/random-decimal-plugin">random-decimal<span style="opacity:0.35">-plugin</span></a>: generate a random decimal between two other (dynamically generated) numbers</li>
+		<li><a href="/seeder-plugin">seeder<span style="opacity:0.35">-plugin</span></a>: allows you to use copy-and-pastable random "seeds". same seed = same output</li>
+		<li><a href="/url-params-plugin">url-params<span style="opacity:0.35">-plugin</span></a>: detect and use URL parameters in your code - i.e. customize output based on the URL</li>
+		<li><a href="/remember-plugin">remember<span style="opacity:0.35">-plugin</span></a>: allows you to save variables so they're not lost when the page is reloaded</li>
+		<li><a href="/tooltip-plugin">tooltip<span style="opacity:0.35">-plugin</span></a>: generate nice little tooltips/popups when you hover over some text</li>
+		<li><a href="/generator-stats-plugin">generator-stats<span style="opacity:0.35">-plugin</span></a>: allows you to add a page view counter and get other stats about your generator</li>
+		<li><a href="/tldraw-plugin">tldraw<span style="opacity:0.35">-plugin</span></a>: collaborative canvas to draw with your friends</li>
+		<li><a href="/rpg-icon-plugin">rpg-icon<span style="opacity:0.35">-plugin</span></a>: gives you access to a set of ~500 RPG-themed icons</li>
+		<li><a href="/font-plugin">font<span style="opacity:0.35">-plugin</span></a>: easily change fonts (typeface, size, color, etc.) using Google Fonts (use <a href="https://perchance.org/custom-font-importer" target="_blank">this</a> for custom fonts)</li>
+		<li><a href="/google-sheets-plugin">google-sheets<span style="opacity:0.35">-plugin</span></a>: import lists from Google Sheets</li>
+		<li><a href="/sum-odds-plugin">sum-odds<span style="opacity:0.35">-plugin</span></a>: sum up all the odds of a particular list (useful for merging lists and preserving odds)</li>
+		<li><a href="/background-image-plugin">background-image<span style="opacity:0.35">-plugin</span></a>: allows you to easily set a background image for your generator</li>
+		<li><a href="/background-audio-plugin">background-audio<span style="opacity:0.35">-plugin</span></a>: play background audio when people visit your generator</li>
+		<li><a href="/press-enter-plugin">press-enter<span style="opacity:0.35">-plugin</span></a>: trigger randomization with the enter/return key</li>
+		<li><a href="/tap-anywhere-plugin">tap-anywhere<span style="opacity:0.35">-plugin</span></a>: trigger randomization with a tap/click anywhere on the page</li>
+		<li><a href="/select-until-plugin">select-until<span style="opacity:0.35">-plugin</span></a>: keep trying to selectOne from a list until the resulting item meets your requirements</li>
+		<li><a href="/select-leaf-plugin">select-leaf<span style="opacity:0.35">-plugin</span></a>: select a "leaf" node from your hierarchy (see <a href="https://www.reddit.com/r/perchance/comments/6cu8v2/issues_with_selectone/dhz4vwk/">discussion</a>)</li>
+		<li><a href="/select-leaves-plugin">select-leaves<span style="opacity:0.35">-plugin</span></a>: the <code>selectMany</code> version of <code>selectLeaf</code></li>
+		<li><a href="/select-all-leaves-plugin">select-all-leaves<span style="opacity:0.35">-plugin</span></a>: the <code>selectAll</code> version of <code>selectLeaf</code></li>
+		<li><a href="/random-select-plugin">random-select<span style="opacity:0.35">-plugin</span></a>: randomly chooses between the inputs that you pass it, with specifiable odds</li>
+		<li><a href="/consumable-leaf-list-plugin">consumable-leaf-list<span style="opacity:0.35">-plugin</span></a>: create a <code>consumableList</code> of the leaf items in your hierarchy</li>
+		<li><a href="/typewriter-plugin">typewriter<span style="opacity:0.35">-plugin</span></a>: type out your text character-by-character (experimental)</li>
+		<li><a href="/make-table-plugin">make-table<span style="opacity:0.35">-plugin</span></a>: a plugin to help you create HTML tables easily</li>
+		<li><a href="/lockable-list-plugin">lockable-list<span style="opacity:0.35">-plugin</span></a>: add "lock" buttons so you can keep certain list selections and randomize the rest</li>
+		<li><a href="/locker-plugin">locker<span style="opacity:0.35">-plugin</span></a>: a more powerful version of lockable-list (but slightly more complicated)</li>
+		<li><a href="/fixed-until-reload-plugin">fixed-until-reload<span style="opacity:0.35">-plugin</span></a>: make it so certain values only randomize again when the page is reloaded</li>
+		<li><a href="/number-set-plugin">number-set<span style="opacity:0.35">-plugin</span></a>: generate a set of numbers which add up to some other number</li>
+		<li><a href="/numerals-to-words-plugin">numerals-to-words<span style="opacity:0.35">-plugin</span></a>: convert numerals like "453" to "four hundred and fifty three"</li>
+		<li><a href="/numerals-to-ordinal-words-plugin">numerals-to-ordinal-words<span style="opacity:0.35">-plugin</span></a>: convert numerals like "453" to "four hundred and fifty <u>third</u>"</li>
+		<li><a href="/numerals-to-ordinals-plugin">numerals-to-ordinals<span style="opacity:0.35">-plugin</span></a>: convert numerals like "453" to "453<u>rd</u>"</li>
+		<li><a href="/roman-numerals-plugin">roman-numerals<span style="opacity:0.35">-plugin</span></a>: convert a number into roman numerals form</li>
+		<li><a href="/text-to-speech-plugin">text-to-speech<span style="opacity:0.35">-plugin</span></a>: get the browser to speak out your generated text</li>
+		<li><a href="/join-lists-plugin">join-lists<span style="opacity:0.35">-plugin</span></a>: join two or more lists or items into a single list</li>
+		<li><a href="/exclude-items-plugin">exclude-items<span style="opacity:0.35">-plugin</span></a>: exclude certain items from a list during random selection</li>
+		<li><a href="/filter-list-plugin">filter-list<span style="opacity:0.35">-plugin</span></a>: a somewhat advanced plugin for dynamically filtering lists</li>
+		<li><a href="/markov-chain-plugin">markov-chain<span style="opacity:0.35">-plugin</span></a>: generate random text based on a large input corpus</li>
+		<li><a href="/roll-table-plugin">roll-table<span style="opacity:0.35">-plugin</span></a>: use dice ranges for the items in your list instead of normal perchance odds notation</li>
+		<li><a href="/goto-plugin">goto<span style="opacity:0.35">-plugin</span></a>: easily make simple text adventures with perchance</li>
+		<li><a href="/nested-plugin">nested<span style="opacity:0.35">-plugin</span></a>: build hierarchical random "worlds" with perchance</li>
+		<li><a href="/navbar-plugin">navbar<span style="opacity:0.35">-plugin</span></a>: easily add a nav-bar to your generators, so people can see all your stuff</li>
+		<li><a href="/markdown-plugin">markdown<span style="opacity:0.35">-plugin</span></a>: an easier alternative to html (it converts text to html, like <a href="https://dillinger.io/">this site</a>)</li>
+		<li><a href="/literal-plugin">literal<span style="opacity:0.35">-plugin</span></a>: automatically put backslashes in front of curly/square brackets in some text</li>
+		<li><a href="/super-fetch-plugin">super-fetch<span style="opacity:0.35">-plugin</span></a>: download any webpage/content/data and use it in your gen (bypasses 'CORs' issues)</li>
+		<li><a href="/consumable-list-loop-plugin">consumable-list-loop<span style="opacity:0.35">-plugin</span></a>: sometimes you want a consumable list that never runs out (i.e. resets when its empty)</li>
+		<li><a href="/download-button-plugin">download-button<span style="opacity:0.35">-plugin</span></a>: make it easy for others to download your generator so they can use it offline</li>
+		<li><a href="/dynamic-import-plugin">dynamic-import<span style="opacity:0.35">-plugin</span></a>: import hundreds of generators without increasing page load time</li>
+		<li><a href="/print-button-plugin">print-button<span style="opacity:0.35">-plugin</span></a>: make it easy for others to print the stuff that they've generated using your generator</li>
+    <li><a href="/copy-text-plugin">copy-text<span style="opacity:0.35">-plugin</span></a>: easily allow people to copy generated output text to their clipboard</li>
+		<li><a href="/fullscreen-button-plugin">fullscreen-button<span style="opacity:0.35">-plugin</span></a>: add a button that, when clicked, makes your generator's page fill the screen completely</li>
+		<li><a href="/tabs-plugin">tabs<span style="opacity:0.35">-plugin</span></a>: allows you to create little tabbed viewer things</li>
+		<li><a href="/conjugate-plugin">conjugate<span style="opacity:0.35">-plugin</span></a>: allows you to generate verb conjugations beyond the simple ones like past/present/future</li>
+		<li><a href="/title-case-plugin">title-case<span style="opacity:0.35">-plugin</span></a>: a "smarter" title case than the default one</li>
+		<li><a href="/random-image-plugin">random-image<span style="opacity:0.35">-plugin</span></a>: allows you generate a random image based on a topic/keyword you provide</li>
+		<li><a href="/image-plugin">image<span style="opacity:0.35">-plugin</span></a>: an easy way to add images to your generator</li>
+		<li><a href="/pride-plugin">pride<span style="opacity:0.35">-plugin</span></a>: displays a little a rainbow flag on your generator if it's June (pride month!)</li>
+		<li><a href="/tornado-plugin">tornado<span style="opacity:0.35">-plugin</span></a>: very useful if you need your page elements to rotate randomly</li>
+    <li><a href="/flat-avatar-plugin">flat-avatar<span style="opacity:0.35">-plugin</span></a>: generate an avatar with random clothes, expression, hair, etc.</li>
+		<li><a href="/a-an-plugin">a-an<span style="opacity:0.35">-plugin</span></a>: a replacement for \{a\} that works better with plugins which dynamically update specific parts of the page (like <a href="/tap-plugin" target="_blank">tap-plugin</a>)</li>
+		<li><a href="/be-plugin">be<span style="opacity:0.35">-plugin</span></a>: automatically replaces itself with is/are based on the context (i.e. the pronoun that comes before it)</li>
+		<li><a href="/plural-plugin">plural<span style="opacity:0.35">-plugin</span></a>: a pluralForm replacement that allows you to specify custom plurals</li>
+		<li><a href="/date-plugin">date<span style="opacity:0.35">-plugin</span></a>: manipulate dates, and output them in specific formats</li>
+		<li><a href="/bug-report-plugin">bug-report<span style="opacity:0.35">-plugin</span></a>: uses the <a href="/secret-plugin" target="_blank">secret-plugin</a> to encrypt browser debug data to help with bug reports</li>
+	</ul>
+
+  <br><br>
+
+  <h3>Community Plugins</h3>
+  <p><b>Important</b>: The plugins listed below were made by community members and are "unofficial" in that sense. If you use community plugins, then I recommend that you fork/remix the plugin (i.e. save your own private copy and import that instead), since the owner of the plugin may change their plugin at any time, or even delete their Perchance account, and that'd cause your own generator to break. The official plugins (listed above) will never be deleted or make changes that cause generators that have imported them to break, so they're safe to use without remix/forking.</p>
+  <ul>
+    <li><a href="https://perchance.fandom.com/wiki/Plugins#Not_on_official_Plugin_page_(missing_plugins)" target="_blank">Fandom Community List</a></li>
+    <li><a href="https://perchance.org/vionet20-gens" target="_blank">VioneT20 plugins</a></li>
+    <li><a href="https://perchance.org/power-generator-manager" target="_blank">BluePower/Polygonal plugins</a></li>
+    <li><a href="https://perchance.org/raggedflights-generators" target="_blank">Raggedflight's plugins</a></li>
+    <li><a href="https://perchance.org/plugins-page" target="_blank">Indigo's plugins</a></li>
+    <li><a href="https://perchance.org/eathams-pluginhub" target="_blank">Eathams's plugins</a></li>
+    <li><a href="https://perchance.org/dicemonger-generators" target="_blank">Dicemonger's plugins</a></li>
+  </ul>
+
+  <br>
+
+	<p>Need a plugin? Ask on the <a href="https://lemmy.world/c/perchance">forum</a>! :) You might also like to check out the <a href="/templates">templates</a> page and the <a href="/preprocessors">preprocessors</a> page.</p>
+</main>
+<p style="text-align:center; font-size:200%; opacity:0.2; margin-top:0.5em;"><span>⚄&#xFE0E;</span></p>
+<br/>
+
+<style>
+  ul li {
+		margin-top:0.5em;
+	}
+	main {
+		max-width:900px;
+		margin:0 auto;
+		background: #fff;
+		background: light-dark(#fff, #101010);
+		padding:1em;
+		border-radius:3px;
+		box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3;
+		box-shadow: 0 0.5px 0 0 light-dark(#fff, #060606) inset, 0 1px 2px 0 light-dark(#B3B3B3, #2c2c2c);
+	}
+	p { text-align:left; line-height: 1.4em; }
+  main p:first-child {
+    margin-top:0;
+  }
+	body {
+		background-color:#f6f6f6;
+		background-color: light-dark(#f6f6f6, #000);
+    color: black;
+    color: light-dark(black, #d6d6d6);
+	}
+	pre {
+		text-align:left;
+		background: #333;
+    background: light-dark(#333, #212121);
+    color: #e2e2e2;
+    padding: 1em;
+    border-radius: 2px;
+		tab-size: 2;
+		-moz-tab-size: 2;
+		-o-tab-size: 2;
+		-webkit-tab-size: 2;
+	}
+	code {
+		background: #eff0f1;
+    background:  light-dark(#eff0f1, #272727);
+    padding: 1px 5px;
+		white-space: nowrap;
+	}
+	h2 {
+		margin-top: 1.5em;
+	}
+	@media screen and (max-width: 600px) {
+		#header {
+			font-size:1.6rem !important;
+		}
+	}
+  html { color-scheme: dark light }
+</style>

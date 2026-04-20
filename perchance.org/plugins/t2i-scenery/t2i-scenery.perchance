@@ -1,0 +1,531 @@
+AdvRS = {import:adv-random-styles}
+betterSEQUENCE = {import:better-sequencer}
+
+Time
+  // Daytime:
+  Early Morning
+    the dawn breaking, soft sunlight filtering through, morning mist hovering over the ground
+  Mid-Morning
+    a bright sunlight, long shadows cast, the freshness of the day in full bloom
+  Noon
+    the blazing sun is high in the sky, vibrant, intense daylight
+  Afternoon
+    it's the golden hour light, gentle warmth, sunlight casting soft, long shadows
+  Evening
+    the dusk setting in, cool air rising, soft glow of the setting sun, horizon painted in warm hues
+
+  // Nighttime
+  Twilight
+    a fading sunlight, sky glowing in deep purples and blues, the first stars appearing
+  Early Night
+    the dark sky is settling in, the moon rising, crisp and cool night air, a scattering of stars
+  Midnight
+    it's deep, dark night, the sky fully blanketed in stars, {the moon shining bright|the moon hidden behind clouds}
+  Late Night
+    it's quiet, stillness, faint glows of distant lights, the world at rest, only the sound of the night breeze
+  Pre-Dawn
+    it's dark, silent, the faintest hint of light at the horizon, the night preparing to give way to day
+SpecialTime
+  Purple Dawn (Special)
+    a still, darkened sky, dark dawn, indigo and violet hues linger, peace and silence
+  Red Sunset (Special)
+    the sunset casting red light, an intense exposed red sky, oversaturated, sky in crimson shades, deep vibrant, dimlit in crimson
+  Horror Time (Special)
+    a shadowed twilight, where the surroundings twist under dim violet skies, fog creeping close to the ground, obscuring unseen paths
+Season
+  Spring I
+    vibrant blooms bursting through fresh green growth, alive with gentle warmth and light fragrances
+  Spring II
+    soft petals blanket the earth, gentle breezes scatter new leaves across delicate buds
+  Summer I
+    rich, golden fields, buzzing with vibrant energy and warm winds, dense foliage all around
+  Summer II
+    the air feels thick with the scent of flowers, everything alive with intense colors
+  Autumn I
+    fiery leaves drift through crisp, refreshing air, trees cloaked in warm hues and fallen foliage
+  Autumn II
+    earthy scents rise from the ground, leaves falling in amber and crimson cascades
+  Winter I
+    glittering frost covers every surface, branches heavy with snow, an untouched, quiet landscape
+  Winter II
+    dense, cold mist hangs in the air, surroundings blanketed in serene, crystal-coated silence
+  Monsoon I
+    clouds pour over lush, dense greenery, wet earth and rivers swelling under constant rainfall
+  Monsoon II
+    heavy rains and saturated surroundings, a lush landscape under dark clouds, filled with moisture and vitality
+  Drought I
+    cracked earth stretches across a dry, arid landscape, sparse vegetation wilting under intense heat
+  Drought II
+    barren, cracked terrain with dry air, sparse growth and a sense of lingering heat, resilient under the relentless dryness
+  Early Frost I
+    unseasonal frost cloaks trees, a delicate layer of ice on leaves and stems, fields covered in silvery sheen
+  Early Frost II
+    a sudden chill grips the scene, fine crystals of frost coating surfaces, signaling the onset of a colder phase
+  Mist-Laden Season I
+    heavy mist clings low to the ground, obscuring distant trees, creating a dreamlike, softened atmosphere
+  Mist-Laden Season II
+    soft mist veils the view, a gentle haze settling in, lending an ethereal feel to the surroundings
+
+Rains
+  Drizzle
+    Light, misty droplets that softly blanket surroundings, often filling the air with a fine haze
+  Mountain Showers
+    Sudden, short bursts of rain often moving swiftly over mountain slopes, accompanied by bursts of fog and cool breezes
+  Monsoon Downpour
+    Intense, relentless rain with large, heavy drops that saturate the ground rapidly
+  Freezing Rain
+    hailstones falling covering the ground in a thick layer, coating surfaces in a slippery, glassy layer
+  Tropical Rainstorm
+    A warm, heavy rain with large drops, often occurring in tropical rainforests, lush and brief but powerful.
+  Foggy Drizzle
+    A slow, near-silent drizzle that mingles with fog, creating an eerie stillness
+  Thunderstorm Rain
+    Fierce, pounding rain accompanied by thunder, lightning, and occasional gusts
+  Urban Summer Shower
+    A sudden, warm rain with the distinct smell of pavement
+
+colorScheme
+  Warm colors
+    The overall color scheme is warm
+
+  Vibrant colors
+    The overall color scheme is vibrant
+
+  Pastel colors
+    The overall palette is pastel
+
+  Cool colors
+    The overall color scheme is cool
+
+  Neutral colors
+    The overall palette is neutral
+
+  Monochromatic colors
+    The overall color scheme is monochromatic
+
+  Analogous colors
+    The overall palette is analogous
+
+  Complementary colors
+    The overall color scheme is complementary
+
+  Earth tones
+    The overall palette is earthy
+
+  Jewel tones
+    The overall palette is jewel-toned
+colorSchemePlus
+  Eletric Neon
+    vivid neon colors with intense electric pink and deep purple tones, glowing accents throughout the scene, bold color contrast with black and silver elements. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, neon-lit highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, high saturation, cinematic lighting depth
+
+  Warm Scheme
+    warm, radiant colors with rich amber, deep orange, crimson, and golden tones, glowing accents throughout the scene, vibrant color contrast with bronze and warm beige elements. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, sunlit highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, high saturation, cinematic lighting depth
+
+  Pastel Scheme
+    soft pastel colors with gentle pinks, lavender, baby blue, mint green, and light peach tones, glowing accents throughout the scene, subtle color contrast with ivory and blush elements. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, pastel-lit highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, high saturation, cinematic lighting depth
+
+  Cool/Cold Scheme
+    cool, ethereal colors with icy blue, turquoise, indigo, and silvery white tones, glowing accents throughout the scene, bold color contrast with charcoal and steel elements. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, moonlit highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, high saturation, cinematic lighting depth
+
+  Earth Scheme
+    natural, earthy colors with forest green, clay brown, moss, and muted ochre tones, glowing accents throughout the scene, organic color contrast with stone gray and wood textures. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, dappled sunlight highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, high saturation, cinematic lighting depth
+
+  Celestial Scheme
+    celestial colors with shimmering gold, radiant white, soft lavender, and pale blue tones, glowing accents throughout the scene, luminous contrast with pearlescent and haloed elements. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, heavenly highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, high saturation, cinematic lighting depth
+
+  Vintage Scheme
+    muted vintage colors with dusty rose, faded teal, sepia, and desaturated mustard tones, glowing accents throughout the scene, retro color contrast with worn beige and dull bronze elements. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, nostalgic highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, high saturation, cinematic lighting depth
+
+  Vibrant/Saturated
+    vibrant, richly saturated colors with bold reds, bright yellows, and deep blues, glowing accents throughout the scene, bold color contrast with intense green and orange elements. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, color-punched highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, high saturation, cinematic lighting depth
+
+  Tridiac Color Harmony
+    balanced triadic colors composed of vibrant red, blue, and yellow tones, glowing accents throughout the scene, harmonious color contrast with strong primary hues. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, triadic-lit highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, strong color harmony, cinematic lighting depth
+
+  Iridescent/Holographic
+    iridescent hues that shift between teal, magenta, and shimmering gold, glowing accents throughout the scene, color contrast with pearlescent gradients and luminous highlights. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, holographic highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, light-reactive coloring, cinematic lighting depth
+
+  Monochromatic
+    monochromatic scheme centered on deep violet tones with striking cyan accents, glowing accents throughout the scene, strong color contrast between dominant tones and vibrant accent highlights. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, monochrome-lit highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, focused saturation, cinematic lighting depth
+
+  Muted Soft Pallete
+    muted soft tones like dusty pink, sage green, and light gray, glowing accents throughout the scene, gentle color contrast with faded warm and cool elements. Sharp directional lighting, high contrast between light and shadows, glowing outlines and ambient inner glow. Glossy reflective surfaces, soft-lit highlights, dynamic lighting effects. Intricate background with layered elements, stylized rendering with bold linework and vibrant energy. Hyperstylized, dramatic composition, moderate saturation, cinematic lighting depth
+
+
+sceneAngles
+  Grounded View
+  Aerial View
+  Low Angle View
+  High Angle View
+  Perspective View
+  //Wide Shot
+    //a extreme wide shot that captures the whole scene from afar
+
+///////
+
+
+Random
+  Random Scenery
+    prompt = {[Forest.selectOne]|[Ruins.selectOne.prompt]}
+
+Deserts
+  Desert
+    prompt = desert, sand dunes, dust, mirage
+    negative = [""]
+
+City
+  //🇨ityscape (random)
+    //prompt = [City.selectOne.prompt]
+    //negative = [""]
+
+RealLifeCitys
+  //🎲 RealLife Cities 🔻
+    //[RealLifeCitys.selectOne]
+  🎲 RealLife Cities 🔻^0
+    prompt = [RandomSceneryOptions(RealLifeCitys, 'RealLifeCitysFullList', 'RealLifeCitysArray', 'randomRealLifeCitys'), randomRealLifeCitys]
+    negative = (buried in the ground:0.9)
+    random
+
+
+
+
+NewScenes
+  Beach
+    beautiful beach scenery, with a shoreline, sand and palmtree
+  Graveyard
+    mysterious graveyard scenery, with tombstones and flowers around, a mausoleum and crypt
+  Jungle
+    beautiful jungle scenery, with trees and vines, and a great variety of jungle plant species
+  Lake
+    beautiful lake scenery, with a path and some beautiful trees around
+  Volcanic
+    volcanic scenery with soft eruptions happening, ashen, lava and magma flowing like an inferno
+  Cliff
+    [BGSCENE] a cliff with a serene view, beautiful flowers around, water running down the edge
+
+/////////////////////////////
+Waterscape
+  Lake 1
+    [INBG], a shallow lake set against a backdrop of wooded hills and grasslands
+  Lake 2
+    [INBG], a scenery with crystal-clear turquoise lagoon surrounded by lush mountains and overwater bungalows
+  River
+    [INBG], sacred riverbanks with steps leading to a spiritual site for rituals and ceremonies
+  Waterfall I
+    [INBG], majestic waterfall creating misty rainbows, a powerful natural wonder
+
+Forest
+  //🎲🌲 🅵🅾🆁🅴🆂🆃🆂 🌳^0
+    //prompt = [RNG(Forest, 'forestFullList', 'forestArray', 'randomForest'), randomForest]
+    //random
+  //▶️🌲 🅵🅾🆁🅴🆂🆃🆂 (32)🌳^0
+    //prompt = [SNG(Forest, 'forestFullList', 'forestArray', 'randomForest'), randomForest]
+    //random
+
+  //🎲🌲 🅵🅾🆁🅴🆂🆃🆂 🌳
+    //[AdvRS("advForest", advForestBanlist = ["🎲🌲 🅵🅾🆁🅴🆂🆃🆂 🌳"], Forest), advForestRandomItem]
+  //▶️🌲 🅵🅾🆁🅴🆂🆃🆂 (32)🌳
+    //[betterSEQUENCE("", "advForestSequence", Forest)]
+
+  Cloud Forest
+    [BGSCENE] a cloud forest, shrouded in mist, lush greenery thrives in constant humidity
+  Dry Conifer Forest
+    [BGSCENE] a dry conifer forest, sparse pines dot arid soil, needles blanket the ground
+  Dry Savanna Forest
+    [BGSCENE] a dry savanna forest, scattered trees amidst tall, golden grasses, sun-drenched terrain
+  Evergreen Forest
+    [BGSCENE] an evergreen forest, dense, year-round foliage, vibrant green hues dominate the landscape
+  //Grass Forest  // Very similar to 'Temperate Mixed-leaved Forest' and 'Savanna tropical forest'
+    //grass forest, open woodland with grassy undergrowth, scattered canopy coverage
+  Mediterranean Forest  //
+    [BGSCENE] a mediterranean forest, thick shrubs and drought-tolerant trees, warm, rocky landscapes
+  Montane Forest  //
+    [BGSCENE] a montane forest, high-altitude trees, cooler climates, often hugging mountain slopes
+  Mossy Broad-leaved Forest  //
+    [BGSCENE] a mossy broad-leaved Forest, lush, broad leaves covered in thick, vibrant moss layers
+  Mossy Coniferous Forest  //
+    [BGSCENE] a mossy coniferous forest, evergreen needles cloaked in velvety moss, serene and quiet
+  Mossy Mixed-leaved Forest  //
+    [BGSCENE] a mossy mixed-leaved forest, diverse trees, trunks coated in moss, damp and earthy atmosphere
+  //Mossy Subtropical Forest  //
+    //mossy subtropical forest, warm, moist air supports moss-laden trees and thick canopies
+  Mossy Temperate Forest //
+    [BGSCENE] a mossy temperate forest, cool, misty climate fosters moss-covered trunks and branches
+  Rainy Savanna Forest //
+    [BGSCENE] a rainy savanna forest, sparse trees amidst lush grasses, frequent rains nourish the soil
+  Savanna Tropical Forest // Very similar to 'Grass forest' and 'Temperate Mixed-leaved Forest'
+    [BGSCENE] a savanna tropical forest, scattered canopy trees, lush grasses thrive in warm tropical climates
+  Seasonal Forest  //
+    [BGSCENE] a seasonal forest, trees shed leaves cyclically, revealing bare trunks in dry seasons
+  //Subtropical Broad-leaved Forest //
+    //subtropical broad-leaved forest, large-leafed trees dominate, thriving in warm, subtropical zones
+  //Subtropical Coniferous Forest //
+    //subtropical coniferous forest, needle-leaved trees in humid subtropics, rich green tones abound
+  //Subtropical Mixed-leaved Forest //
+    //subtropical mixed-leaved forest, broad and needle-leaved trees intermingle, diverse subtropical ecosystem
+  Temperate Broad-leaved Forest //
+    [BGSCENE] a temperate broad-leaved forest, deciduous trees, vibrant foliage shifts with the seasons
+  Temperate Mixed-leaved Forest // Very similar to 'Grass forest' and 'Savanna tropical forest'
+    [BGSCENE] a temperate mixed-leaved forest, varied tree species, temperate zones with balanced ecosystems
+  Temperate Needle Forest  //
+    [BGSCENE] a temperate needle forest, pines dominate, slender trunks and sharp green needles prevail
+  //Tropical Forest //
+    //tropical forest, dense vegetation, vibrant biodiversity under constant warmth
+  Tropical Jungle  //
+    [BGSCENE] a tropical jungle, overgrown vegetation, tangled vines, vibrant undergrowth teems with life
+  Mangrove Forest  //
+    [BGSCENE] a mangrove forest, knotted roots of mangroves rise from brackish waters, thriving in tidal zones
+  Riparian Forest  //
+    [BGSCENE] a riparian forest, lush belts of willow, cottonwood, and sycamore, following the curves of rivers in arid and temperate areas
+  Karst Forest  //
+    [BGSCENE] a karst forest, groves of oak and maple perched atop rugged limestone outcrops, adapted to rocky terrain
+  Flooded Forest  //
+    [BGSCENE] a flooded forest, seasonally submerged trees like cypress and water tupelo, with roots adapting to watery habitats
+  Elfin Forest  //
+    [BGSCENE] an elfin forest, windswept, dwarf trees like oaks and pines, clinging to ridges and misty coastal cliffs
+
+
+  Boreal Forest ❄️🌲
+    [BGSCENE] a boreal forest, dense stretches of spruce, fir, and pine, with needle-covered floors, blanketed in frost during the winter
+  Subalpine Forest  //
+    [BGSCENE] a subalpine forest, scattered larches and spruce, rugged and stunted near snowlines, thriving in high altitudes
+  Arctic Tundra Woodland  //
+    [BGSCENE] an arctic tundra woodland, sparse patches of dwarf birch and willow, interspersed with mosses and lichens, enduring extreme cold
+  Temperate Needleleaf Forest  //
+    [BGSCENE] a temperate needleleaf forest, towering douglas firs and redwoods, thriving in chilly, moist conditions along coastlines or mountains
+  Snow Forest
+    [BGSCENE] a snow forest, quiet realms of dense pine and fir, draped in snow for most of the year, with minimal undergrowth
+
+
+  Burned (special) 🔸
+    [BGSCENE] a scenery where charred husks of trees dominate the horizon, their warped shapes rising against a stark, desolate backdrop. The earth is hardened and dry, littered with fragments of burned and splintered timber[SceneNgtv('fire:0.7')]
+  Decaying Forest (special) 🔸
+    [BGSCENE] a sceenry where trees stand lifeless, their bark cracked and weathered, trunks with no leaves, their gnarled branches clawing at the empty expanse. The ground is blanketed with ashen debris, dry bark and splintered wood scattered across the barren soil, the forest is steeped in decay[SceneNgtv('greenery:0.7')]
+
+  Mystic Forest (special) 🔸
+    [BGSCENE] a mystical forest, trees, plants, and mushrooms are intense glowing in spectrum of vibrant colors. Trunks shimmer with blues and purples, leaves pulse with pinks and yellows. The floor is bathed in a colorful light from bioluminescent flora, each element radiating an intense glow that blends and spreads, creating a magical, ever-changing atmosphere of illumination and enchantment
+
+  Red Forest (special) 🔸
+    [BGSCENE] a mysterious peaceful forest where deep black trunks and branches stretch out like silhouettes against a rich, dark red sky. The leaves and undergrowth are tinged with shades of crimson, casting a warm, subdued glow throughout the landscape. The ground is soft with dark soil, dotted with red flowers. The forest exudes a calm atmosphere
+
+  White Frozen Forest (special) 🔸
+    [BGSCENE] a frozen forest where everything is encased in translucent ice, with branches and trunks shimmering like frosted glass. The ice captures the light, creating soft, reflective effects that mirror the surroundings, amplifying the stillness. The dominant white tones blend with the glistening reflections, creating an ethereal, crystalline landscape
+
+Ruins
+  Ancient City (Rock-cut Architecture)
+    [BGSCENE] an ancient city carved into red sandstone cliffs, featuring the treasury and monumental rock-cut architecture
+
+  Ancient City II
+    [BGSCENE] an ancient city carved into rose-red cliffs, with intricate facades and narrow canyons
+
+  Ancient Temple Ruins
+    [BGSCENE] an ancient temple ruins covered in divine, glowing vines and flowers, massive stone pillars, devastated, etched with faded sacred symbols, crumble under the weight of time, but still radiate a faint golden light, the altar at the heart of the temple is destroyed and cracked, yet untouched by nature, surrounded by ethereal beams of sunlight filtering through the broken roof, soft white moss and luminescent plants create a tranquil aura
+
+  Dark Jungle Ruins
+    [BGSCENE] a shadowy jungle ruins where the lush greens are replaced with deep blues and purples, the towering trees have dark, navy bark, while their leaves glow softly in hues of indigo and violet, and exotic, bioluminescent flowers in shades of blue and lavender bloom from cracks in the ancient stone walls, the air is filled with a faint mist that reflects soft light, creating a dim but serene atmosphere, the ruins themselves are bathed in pale moonlight, casting a soft glow on the blue-tinted vines and stones, giving the landscape a mystical, peaceful aura
+
+  Egypt
+    The background is a scenery of fertile banks lined with ancient temples, tombs, and remnants of pharaonic history
+
+  Egypt II
+    [BGSCENE] an ancient temple, with towering pillars, statues, and hieroglyphics
+
+  Unusual Frozen Ruins
+    [INBG], frozen ruins where the icy surfaces shimmer with deep reds and crimson hues, the frost-covered stones reflect a warm, soft glow, as fiery red and orange lights flicker across the frozen structures, creating a striking contrast with the cold, thin layers of red-tinted ice catch the light, giving the entire scene a molten, yet frozen effect, snowflakes glisten in shades of scarlet and amber, casting faint sparkles that illuminate the ruins in a warm, yet eerie, ethereal light
+
+Urban
+  🎲 Urban (21)🔻
+    [AdvRS("urbanScene", urbanbanlist = ["🎲 Urban (21)🔻"], Urban), urbanSceneRandomItem]
+
+  Clean and Modern City
+    [BGSCENE] a cityscape that embodies cleanliness and modernity, featuring translucent, minimalistic buildings with sleek, white facades and expansive glass surfaces //. Soft, ambient lighting creates a serene, calm atmosphere, with gently curved, unobtrusive structures blending seamlessly into the landscape. Streets are smooth and uncluttered, with subtle, elegant illumination and a restrained color palette of whites, grays, and soft pastels, contributing to a peaceful, uncluttered urban environment
+
+  Cute City
+    [BGSCENE] a dreamy and cheerful cityscape bursting with cute, kawaii, and girly elements, where buildings in pink, lavender, and mint green create a whimsical atmosphere; the architecture is decorated with cute details, puffy clouds and rainbow-like arches span across bridges, lamp posts resemble lollipops, and cute cafes with oversized desserts line the streets //a cityscape bursting with cute, kawaii, and girly elements, where pastel-colored buildings in pink, lavender, and mint green create a soft, whimsical atmosphere. Heart-shaped windows, bows, and floral patterns adorn the architecture, while puffy clouds and rainbow-like arches span across bridges. Lamp posts resemble lollipops, and cute cafes with oversized desserts line the streets. Everything is designed with a playful, adorable touch, from the curvy roads to the bubbly fountains, creating a dreamy and cheerful urban environment
+
+  Devasted City
+    [BGSCENE] a grounded cityscape perspective with jagged, angular buildings with dark, harsh colors, deep reds, blacks, and steel grays, crumbling structures and sharp, spiked elements dominate the skyline, chaotic, fragmented pathways create a sense of unease and danger in the city
+
+  Elegant and  Natural
+    [BGSCENE] a cityscape blending modern and natural elements, where sleek, translucent buildings rise gracefully among lush greenery, elegant golden accents trim the structures, casting a soft, luxurious glow. The design features open, airy spaces with natural wood textures and flowing water integrated into the architecture; comfortable, cozy seating areas are woven into parks and plazas, pathways are lined with warm, subtle lighting, blending sophistication and nature in a harmonious, welcoming urban environment
+
+  Medieval City
+    [BGSCENE] a medieval city in a fantasy world where the architecture blends traditional elements with sleek, modern, curvy designs, towers and homes rise gracefully with sweeping arches and spiraling shapes, crafted from smooth, luminous materials that shimmer; the buildings feature a polished surfaces in vivid hues of blues, greens, and golds, with glowing, gem-like accents embedded in the walls, streets are wide and lined with elegant, curving pathways, illuminated by soft, magical light sources that give the city a bright, welcoming glow
+
+  Neon City
+    [BGSCENE] a modern cityscape bathed in colors like deep purples, rich magentas, and electric blues; glossy, reflective surfaces on sleek skyscrapers shimmer with vibrant, dynamic lighting, the ambient illumination create a seductive glow, while modern architecture enhances the city's sultry, high-fashion vibe; streets are lined with smooth, illuminated tiles that catch and reflect the city's colorful lights
+
+  Market I
+    [BGSCENE] a bustling market with vibrant tropical produce, handmade crafts, and a lively local ambiance
+
+  Park I
+    [BGSCENE] a sleek urban park with geometric paths and benches
+  Park II (Mosaic)
+    [BGSCENE] a mosaic-adorned park with whimsical structures and vibrant tiles
+  Park III (Japanese)
+    [BGSCENE] a serene Japanese garden with stone lanterns and arched wooden bridges
+
+  Street I (Art Deco)
+    [BGSCENE] a palm-lined street, with a luxury shopping at Rodeo Drive, blending modern glamour with classic Art Deco architecture
+  Street II (Colonial)
+    [BGSCENE] a cobblestone street with colonial architecture, blending past charm with modern restaurants and cafes
+  Street III (Egypt)
+    [BGSCENE] a street of a vast city along the Nile, near ancient pyramids of Giza, with bustling souks and historic mosques
+  Steet IV (Tokyo)
+    [BGSCENE] a street, with bustling pedestrian intersection with bright billboards, in Shibuya Crossing, Tokyo
+  Street V (Victorian)
+    The background scenery, steeps streets with classic Victorian houses
+  Street (Contemporaneous)
+    [BGSCENE] a grounded urban perspective, modern storefronts with glass facades, traffic lights and signs
+  Street II (Contemporaneous)
+    [BGSCENE] a grounded urban perspective, modern storefronts with concrete buildings, modern utility pole, road marking, and signage
+  Street III (Contemporaneous) (Asphalt)
+    The backgroud is a 2010 or old year contemporaneous urban scenery, with few vehicles, power lines, signals, with rain, making the asphalt reflective.
+
+  Village I (Traditional Korea)
+    [BGSCENE] a traditional village with preserved hanok houses
+
+  School (entrance)
+    [BGSCENE] a school with modern architecture, with large windows and brick details, surrounded by a low brick wall with open gates and decorative posts
+  School (rooftop)
+    [BGSCENE] the school rooftop, the open space is paved with large concrete tiles, and offers a clear view of the skyline
+  School (sports field)
+    [BGSCENE] the school sports field with a wide dirt track and open grounds surrounded by a tall chain-link fence, the area includes white field markings, goalposts, and a row of metal bleachers near the edge
+
+Interior
+  //🎲 Interior (3)🔻
+    //[AdvRS("advInteriorScene", advInteriorSceneBanlist = ["🎲 Interior (3)🔻"], Interior), advInteriorSceneRandomItem]
+  Room (Magic Curtain)
+    [BGSCENE] a dark room with a luminous curtain made of small RGB LEDs, a dark ceiling, there is a white chair in the left, and a small table for drinks
+  Tabern I
+    [BGSCENE] a confy tabern interior decorated with colored drinks on the wall
+  Tabern I (With light)
+    [BGSCENE] a confy tabern interior decorated with colored drinks on the wall, with warm light, and sharp shadows
+
+Indoors
+  // Based on architecture styles
+  //🎲🚪 🅸🅽🅳🅾🅾🆁🆂 🪑^0
+    //[Indoors.selectOne]
+  Apartment (Contemporary Style)
+    [INBG], indoors in contemporary style, open-plan layout and sleek finishes, oversized windows and neutral palettes, a chic sectional sofa forming the centerpiece in a stylish urban apartment
+  Bathroom (Reflective)
+    [INBG], indoors in reflective design, glossy surfaces and mirrored walls, sleek glass fixtures and metallic accents, a freestanding tub framed by polished chrome in a luxurious modern bathroom
+  Bedroom (Eclectic)
+    [INBG], indoors in eclectic architecture, colorful walls and a mix of vintage and modern furniture, patterned rugs and unique decor, an antique chandelier casting light over a vibrant and playful bedroom
+  Bedroom (Economical)
+    [INBG], indoors in economical design, compact layouts and multi-functional furniture, neutral tones and practical storage, a foldable bed tucked neatly in a minimalist bedroom
+  Bedroom (High-Tech)
+    [INBG], indoors in high-tech design, seamless smart controls and illuminated panels, sleek furniture with built-in charging ports, a wall-sized digital screen creating a futuristic ambiance in a tech-savvy bedroom
+  Cafe (Postmodernism)
+    [INBG], indoors in postmodern style, bold colors and playful abstract shapes, unconventional furniture and eclectic decor, an asymmetrical countertop in a quirky urban cafe
+  Dining Room (Pleasant)
+    [INBG], indoors in pleasant design, pastel walls and soft lighting, elegant wooden chairs around a circular table, floral centerpieces adding warmth to an inviting dining room
+  Dining Room (Scandinavian Design)
+    [INBG], indoors in Scandinavian design, airy and bright with white walls and light wood furniture, soft sheepskin throws and warm pendant lighting, a handcrafted dining table bringing family together in a cozy dining room
+  Hallway (Congested)
+    [INBG], indoors in congested layout, narrow passage with densely packed shelves, vibrant artwork and hanging lights, a maze-like corridor full of books and character in a cozy home
+  Hallway (Streamline)
+    [INBG], indoors in streamline design, smooth curves and soft lighting, integrated wall niches for decor display, a polished wooden floor guiding the flow in a seamless hallway
+  Home Office (Functionalism)
+    [INBG], indoors in functionalism style, simple and practical furniture, adjustable desk and modular shelving, a minimalist layout ensuring efficiency in a professional home office
+  Kitchen (Eco-Friendly Design)
+    [INBG], indoors in eco-friendly design, bamboo countertops and reclaimed wood cabinets, energy-efficient appliances and greenery-filled planters, a compost bin tucked neatly under the sink in a sustainable kitchen
+  Library (Brutalism)
+    [INBG], indoors in brutalist architecture, concrete walls and heavy minimalist furniture, exposed steel beams and rugged textures, a tall stack of books on a central steel bookshelf in a private library
+  Living Room (Mid-Century Modern)
+    [INBG], indoors in mid-century modern style, sleek wooden furniture and iconic Eames chairs, earthy tones with bold accents, a geometric-patterned rug tying the room together in a retro-inspired living space
+  Living Room (Neo-Tropical)
+    [INBG], indoors in neo-tropical design, lush indoor plants and earthy tones, natural wicker furniture with breezy layouts, a vibrant mural adding life to a tropical-inspired living room
+  Living Room (Opaque)
+    [INBG], indoors in opaque style, muted tones and frosted glass dividers, plush furniture with bold shapes, thick velvet curtains framing the windows in a private and intimate living room
+  Loft Apartment (Industrial)
+    [INBG], indoors in industrial architecture, exposed brick walls and metal beams, minimalist furnishings and a vintage pendant light, a large iron-framed window overlooking the cityscape in a modern loft apartment
+  Lounge (Streamlined)
+    [INBG], indoors in streamlined design, seamless built-in furniture and fluid curved lines, soft upholstered seating and subtle lighting, a futuristic atmosphere in a high-end lounge
+  Office (Modernist)
+    [INBG], indoors in modernist design, clean lines and large windows, sleek white furniture and neutral tones, a statement desk lamp highlighting the workspace in a professional office
+  Office (Smart Design)
+    [INBG], indoors in smart design, integrated technology and ergonomic furniture, clean lines and multitasking surfaces, a wireless charging station on a minimalist desk in a tech-forward office
+  Penthouse (Luxurious)
+    [INBG], indoors in luxurious design, high ceilings and opulent materials, marble floors and gold-accented furniture, a crystal chandelier glistening above the lounge area in an extravagant penthouse
+  Studio Apartment (Compact)
+    [INBG], indoors in compact design, foldable furniture and hidden storage, efficient layouts with minimalist decor, a retractable bed saving space in a city studio apartment
+  Studio (Bauhaus)
+    [INBG], indoors in Bauhaus architecture, geometric lines and functional furniture, neutral colors with pops of primary hues, an ergonomic drafting table in a modern artist’s studio
+  Tea Room (Japandi)
+    [INBG], indoors in Japandi style, neutral palettes and low-profile furniture, smooth wooden floors and shoji screens, a serene tea set arranged on a minimalist table in a peaceful tea room
+  Tiny Home (Sparse)
+    [INBG], indoors in sparse design, bare walls and functional furniture, clean surfaces with no unnecessary decor, a ladder leading to a lofted sleeping space in an ultra-minimal tiny home
+
+InteriorDungeon
+  Dungeon
+    the background scenery features: colored mist, sharp shadows, dark brick walls, few, small colored fires that matchs the character's color pallete, each fire inside a cage suspended by chains in the distance; glowing moths, and translucent souls
+
+Walls
+  Purple/Blue Wall (graffiti)
+    The background is a vivid purple and blue polished wall, with hearts painted with graffiti
+///////////////////
+
+angles
+  Front view
+  Profile view
+  From behind
+  Over the shoulder
+  POV
+  Cowboy shot
+  Bust shot
+  Headshot
+  Full body view
+  Wide shot
+
+directions
+  Low angle view // from below
+  High angle view // from above
+  Close-up
+  Extreme close-up
+  Distant view
+  Side view
+  Top-down view
+  Aerial view
+
+
+BGSCENE = The full scenery is
+INBG = In the background a beautiful landscape
+SceneNgtv(...neg)=>
+  let LocalNgtv = neg.join(", ");
+  SceneNegative += ", " + LocalNgtv;
+  return "";
+SceneNegative = [""]
+RNG = {import:simple-randomizer}
+SNG = {import:simple-sequencer}
+RandomSceneryOptions(itemList, itemFullList, sceneryArray, sceneryVar)=>
+  if (typeof window[sceneryArray] === "undefined") {
+    window[sceneryArray] = [];
+  }
+
+  if (typeof window[itemFullList] === "undefined") {
+
+    let AllItems = itemList.selectAll.join("|").split("|").map(w => w);
+    window[itemFullList] = AllItems.filter(fn => fn !== "random");
+
+  };
+
+  if (window[sceneryArray].length >= window[itemFullList].length) {
+    window[sceneryArray] = [];
+  };
+
+  window[sceneryVar] = itemList.selectOne;
+
+  if (window[sceneryArray].includes(window[sceneryVar])) {
+    RandomSceneryOptions(itemList, itemFullList, sceneryArray, sceneryVar);
+  } else {
+    window[sceneryArray].push(window[sceneryVar]);
+  };
+
+  return "";
+
+
+
+
+
+///

@@ -1,0 +1,4922 @@
+<!-- Learn 'HTML' here:  https://www.khanacademy.org/computing/computer-programming/html-css    -->
+<div id="whiteBackgroundEl" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: white; z-index: -1;"></div>
+<img id="titleImageEl" src="https://user-uploads.perchance.org/file/4ec450f0dbe4efc3b11cfb42f9de528e.jpg" alt="Title Image" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; filter: blur(10px)" />
+
+<div id="overlayTextBox" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.7); padding: 20px; color: white; text-align: center; border-radius: 15px; display: inline-block; min-width: 150px">
+  <p style="margin: 0">Loading..</p>
+</div>
+
+<div id="mainContentEl" hidden>
+
+[icon("https://user-uploads.perchance.org/file/3bb420d45820e4b84fb0ee7691a076d3.png")]
+
+<!-- Welcome Popup -->
+<div id="welcomePopupEl" class="welcome-popup">
+  <div class="welcome-content">
+    <button class="close-btn" onclick="closeWelcomePopup()">×</button>
+    <h2>Welcome to Interactive RPG Creator!</h2>
+    <div class="welcome-text">
+      <p>This tool allows you to create your own interactive RPG story with custom characters and backgrounds. Craft engaging narratives and bring your imagination to life!</p>
+
+      <h3>Tips for the best experience:</h3>
+      <ul>
+        <li>Make sure to make the characters and lore descriptive for a richer story.</li>
+        <li>This is not a perfect generator, feel free to provide your feedbacks.</li>
+        <li>Visit <a href="/perchat" target="_blank" style="font-weight:bold; color:#2bbb00;">Perchance Chatbot</a> and <a href="/new-ai" target="_blank" style="font-weight:bold; color:#2bbb00;">New AI Chat</a> for simpler interface.</li>
+        <li>The character sprites should preferably be png with transparent background.</li>
+        <li>Be creative with your story elements to create unique experiences.</li>
+        <li>You can customize each character's emotions for more expressive interactions.</li>
+        <li>Visit <a href="/pershot" target="_blank" style="font-weight:bold; color:#2bbb00;">AI Image Generator</a> to AI-generate characters.</li>
+        <li>For same character with different emotions, make sure to keep the seed *same* and the description *similar*.</li>
+        <li>Try using detailed prompts when describing your characters for more consistent results.</li>
+        <li>Consider creating complementary characters that will interact well together in your story.</li>
+      </ul>
+
+      <p>Ready to create your own adventure? Click the close button to get started!</p>
+
+      <div style="margin-top: 20px; text-align: center;">
+        <label>
+          <input type="checkbox" id="dontShowWelcomeAgainCb"> Do not show this again
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <button id="navToggleBtn" onclick="toggleNav()" style="position: absolute; top: 10px; right: 10px; background-color: #0058bd; color: white; border: 2px solid white; border-radius: 15px; padding: 10px; cursor: pointer; font-size: 12px; z-index: 1001;">
+  ☰
+</button>
+
+<div id="verticalNav" style="display: none; position: fixed; top: 0; right: 0; width: 300px; height: 100%; background-color: #00254d; z-index: 1000; overflow-y: auto; transition: transform 0.3s ease-in-out; transform: translateX(100%);">
+  <h1 style="color: white; margin: 60px 0 10px 20px; text-shadow: 0 0 10px rgba(255,255,255,0.35); font-family: cambria, sans-serif;">INTERACTIVE RPG ✨</h1>
+  <div style="margin-left: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
+    <span type="text" style="border: 1px solid green; border-radius: 5px; background-color: rgba(0, 255, 0, 0.2); color: white; padding: 5px; display: inline-flex; align-items: center;"><span style="display: inline-block; width: 0.5rem; height: 0.5rem; background: lime; border-radius: 50%; align-self: center;"></span>
+  <span id="usrCount"></span></span>
+    <span type="text" onclick="openRedPopup()" style="margin-left: 10px; border: 1px solid red; border-radius: 5px; background-color: rgba(255, 0, 0, 0.3); padding: 5px; cursor: pointer; display: inline-flex; align-items: center;">📊</span>
+  </div>
+  <a href="https://perchance.org/bw-hub" target="_blank" style="color: white; background-color: #003d80; padding: 16px 20px; text-decoration: none; display: block; font-family: cambria, sans-serif; border-bottom: 1px solid white; text-align: left; font-size: 18px;">Hideout</a>
+  <a href="https://perchance.org/hydrohomies" target="_blank" style="color: white; background-color: #003d80; padding: 16px 20px; text-decoration: none; display: block; font-family: cambria, sans-serif; border-bottom: 1px solid white; text-align: left; font-size: 18px;">HydroHomies</a>
+  <button onclick="toggleVerticalServicesDropdown()" style="width: 100%; background-color: #003d80; color: white; border: none; padding: 16px 20px; text-align: left; cursor: pointer; border-bottom: 1px solid white; font-family: cambria, sans-serif; font-size: 18px;">More ▼</button>
+  <div id="verticalServicesDropdownEl" style="display: none; background-color: #002347;">
+    <a href="https://www.perchance.org/perchat" target="_blank" style="color: white; padding: 16px 20px; text-decoration: none; display: block; font-family: cambria, sans-serif; border-bottom: 1px solid white; font-size: 18px;">Perchat</a>
+    <a href="https://www.perchance.org/pershot" target="_blank" style="color: white; padding: 16px 20px; text-decoration: none; display: block; font-family: cambria, sans-serif; border-bottom: 1px solid white; font-size: 18px;">Pershot</a>
+    <a href="https://www.perchance.org/ai-chatplace" target="_blank" style="color: white; padding: 16px 20px; text-decoration: none; display: block; font-family: cambria, sans-serif; border-bottom: 1px solid white; font-size: 18px;">Chatplace</a>
+    <a href="https://www.perchance.org/mediaplayer" target="_blank" style="color: white; padding: 16px 20px; text-decoration: none; display: block; font-family: cambria, sans-serif; border-bottom: 1px solid white; font-size: 18px;">Mediaplayer</a>
+    <a href="https://www.perchance.org/ai-gpt" target="_blank" style="color: white; padding: 16px 20px; text-decoration: none; display: block; font-family: cambria, sans-serif; border-bottom: 1px solid white; font-size: 18px;">Character Chat</a>
+    <a href="https://www.perchance.org/waterjam" target="_blank" style="color: white; padding: 16px 20px; text-decoration: none; display: block; font-family: cambria, sans-serif; font-size: 18px;">WaterJam</a>
+  </div>
+  <button onclick="openPopup()" style="width: 100%; background-color: #003d80; color: white; border: none; padding: 16px 20px; text-align: left; cursor: pointer; font-family: cambria, sans-serif; font-size: 18px;">✉️ Message</button>
+</div>
+
+<div id="popupCtn" style="display: none; position: fixed; top: 5%; left: 5%; width: 90%; height: 90%; background-color: white; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+  <button onclick="closePopup()" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">✖</button>
+  <iframe src="https://null.perchance.org/bw-priv" style="width: 100%; height: 100%; border: none;"></iframe>
+</div>
+
+<div id="redPopupCtn" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 200px; background-color: #00254d; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.5); padding: 20px; border-radius: 10px;">
+  <button onclick="closeRedPopup()" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer; color: white;">✖</button>
+  <p style="font-family: cambria, sans-serif; color: white;"><big>Total visitors: [genstat("views")]<br>Last edit: [genstat("lastEditTime")]</big></p>
+</div>
+
+<!-- Share Game Popup -->
+<div id="sharePopupCtn" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background-color: #00254d; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.5); padding: 20px; border-radius: 10px;">
+  <button onclick="closeSharePopup()" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer; color: white;">✖</button>
+  <h3 style="color: white; margin-top: 0;">Share Your Game</h3>
+  <p style="color: white; margin-bottom: 15px;">Copy this link to share your current game state or load a shared game:</p>
+  <div style="display: flex; margin-bottom: 15px;">
+    <input id="shareUrlInput" type="text" style="flex-grow: 1; padding: 8px; border-radius: 5px; border: none;" readonly>
+    <button onclick="copyShareUrl()" style="margin-left: 10px; background-color: var(--primary-color); border: none; border-radius: 5px; padding: 8px 15px; color: white; cursor: pointer;">Copy</button>
+  </div>
+  <div style="margin-top: 20px;">
+    <input id="loadGameUrlInput" type="text" style="width: 100%; padding: 8px; border-radius: 5px; border: none; margin-bottom: 10px;" placeholder="Paste a shared game link here...">
+    <button onclick="loadGameFromUrl()" style="background-color: var(--primary-color); border: none; border-radius: 5px; padding: 8px 15px; color: white; cursor: pointer; width: 100%;">Load Game</button>
+  </div>
+</div>
+
+<!-- Delete Character Popup -->
+<div id="deleteCharacterPopupCtn" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background-color: #00254d; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.5); padding: 20px; border-radius: 10px;">
+  <button onclick="closeDeleteCharacterPopup()" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer; color: white;">✖</button>
+  <h3 style="color: white; margin-top: 0;">Delete Character</h3>
+  <p style="color: white; margin-bottom: 15px;">Select a character to delete:</p>
+  <div id="deleteCharacterListEl" style="max-height: 300px; overflow-y: auto;"></div>
+</div>
+
+<style>
+  button:hover, .dropdown:hover button, a[href]:hover {
+    background-color: rgba(0,150,150,0.5) !important;
+  }
+  .dropdown-content a:hover {
+    background-color: rgba(0,150,150,0.5);
+  }
+  .dropdown-content a {
+    padding: 8px 16px !important;
+  }
+  .dropdown-content a:not(:last-child) {
+    border-bottom: 1px solid white !important;
+  }
+  @media (max-width: 768px) {
+    #verticalNav {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  function openPopup() {
+    document.getElementById("popupCtn").style.display = 'block';
+  }
+
+  function closePopup() {
+    document.getElementById("popupCtn").style.display = 'none';
+  }
+
+  function openRedPopup() {
+    document.getElementById("redPopupCtn").style.display = 'block';
+  }
+
+  function closeRedPopup() {
+    document.getElementById("redPopupCtn").style.display = 'none';
+  }
+
+  function openSharePopup() {
+    if (gameState.storyStarted) {
+      generateShareUrl();
+      document.getElementById("sharePopupCtn").style.display = 'block';
+    } else {
+      alert("Please start a game before sharing.");
+    }
+  }
+
+  function closeSharePopup() {
+    document.getElementById("sharePopupCtn").style.display = 'none';
+  }
+
+  function openDeleteCharacterPopup() {
+    // Only show if there are characters to delete
+    if (gameState.characters.length === 0) {
+      alert("There are no characters to delete.");
+      return;
+    }
+
+    // Populate the list of characters
+    const listEl = document.getElementById("deleteCharacterListEl");
+    listEl.innerHTML = "";
+
+    gameState.characters.forEach(character => {
+      const charButton = document.createElement("button");
+      charButton.style.width = "100%";
+      charButton.style.margin = "5px 0";
+      charButton.style.padding = "10px";
+      charButton.style.textAlign = "left";
+      charButton.style.borderRadius = "5px";
+      charButton.style.backgroundColor = "#003d80";
+      charButton.style.color = "white";
+      charButton.style.border = "none";
+      charButton.textContent = character.name;
+
+      charButton.onclick = () => {
+        deleteCharacter(character.id);
+        closeDeleteCharacterPopup();
+      };
+
+      listEl.appendChild(charButton);
+    });
+
+    document.getElementById("deleteCharacterPopupCtn").style.display = 'block';
+  }
+
+  function closeDeleteCharacterPopup() {
+    document.getElementById("deleteCharacterPopupCtn").style.display = 'none';
+  }
+
+  function deleteCharacter(characterId) {
+    // Find the index of the character to delete
+    const index = gameState.characters.findIndex(c => c.id === characterId);
+    if (index === -1) return;
+
+    // Get the character name for confirmation
+    const characterName = gameState.characters[index].name;
+
+    // Confirm deletion
+    if (!confirm(`Are you sure you want to delete ${characterName}?`)) {
+      return;
+    }
+
+    // Remove the character from the array
+    gameState.characters.splice(index, 1);
+
+    // Update the game screen
+    if (navigation.currentScreenIndex === navigation.screens.length - 1) {
+      setupGameScreen();
+    }
+
+    // Save game state
+    saveGameToLocalStorage();
+
+    // Show confirmation
+    alert(`${characterName} has been deleted.`);
+  }
+
+  function copyShareUrl() {
+    const shareUrlInput = document.getElementById("shareUrlInput");
+    shareUrlInput.select();
+    document.execCommand("copy");
+
+    // Show feedback
+    const originalBgColor = shareUrlInput.style.backgroundColor;
+    shareUrlInput.style.backgroundColor = "#4CAF50";
+    setTimeout(() => {
+      shareUrlInput.style.backgroundColor = originalBgColor;
+    }, 1000);
+  }
+
+  function generateShareUrl() {
+    // Create a copy of the gameState with only the necessary data
+    const shareableState = {
+      genre: gameState.genre,
+      lore: gameState.lore,
+      background: gameState.background,
+      customBackgroundUrl: gameState.customBackgroundUrl,
+      characters: gameState.characters,
+      dialogueHistory: gameState.dialogueHistory,
+      currentDialogue: gameState.currentDialogue,
+      currentSpeaker: gameState.currentSpeaker,
+      playerName: gameState.playerName,
+      playerDescription: gameState.playerDescription,
+      audio: {
+        source: gameState.audio.source,
+        customUrl: gameState.audio.customUrl,
+        isPlaying: gameState.audio.isPlaying
+      }
+    };
+
+    // Convert to base64 to make it URL-friendly
+    const stateStr = JSON.stringify(shareableState);
+    const encodedState = btoa(encodeURIComponent(stateStr));
+
+    // Create the shareable URL
+    const url = new URL(window.location.href);
+    url.searchParams.set('state', encodedState);
+
+    // Set the URL in the input field
+    document.getElementById("shareUrlInput").value = url.href;
+  }
+
+  function loadGameFromUrl() {
+    try {
+      const inputUrl = document.getElementById("loadGameUrlInput").value.trim();
+      if (!inputUrl) {
+        alert("Please enter a game URL");
+        return;
+      }
+
+      const url = new URL(inputUrl);
+      const encodedState = url.searchParams.get('state');
+
+      if (!encodedState) {
+        alert("Invalid game URL. No game state found.");
+        return;
+      }
+
+      // Decode the state
+      const stateStr = decodeURIComponent(atob(encodedState));
+      const loadedState = JSON.parse(stateStr);
+
+      // Apply the loaded state to our game
+      applyLoadedGameState(loadedState);
+
+      // Close the popup
+      closeSharePopup();
+
+      // Show confirmation
+      alert("Game loaded successfully!");
+    } catch (error) {
+      console.error("Error loading game:", error);
+      alert("Failed to load game. The URL might be invalid or corrupted.");
+    }
+  }
+
+  function applyLoadedGameState(loadedState) {
+    // Apply loaded state to our game state
+    gameState.genre = loadedState.genre || "";
+    gameState.lore = loadedState.lore || "";
+    gameState.background = loadedState.background || "";
+    gameState.customBackgroundUrl = loadedState.customBackgroundUrl || "";
+    gameState.characters = loadedState.characters || [];
+    gameState.dialogueHistory = loadedState.dialogueHistory || [];
+    gameState.currentDialogue = loadedState.currentDialogue || 0;
+    gameState.currentSpeaker = loadedState.currentSpeaker || "";
+    gameState.playerName = loadedState.playerName || "Anon";
+    gameState.playerDescription = loadedState.playerDescription || "";
+
+    if (loadedState.audio) {
+      gameState.audio.source = loadedState.audio.source || "fantasy";
+      gameState.audio.customUrl = loadedState.audio.customUrl || "";
+      gameState.audio.isPlaying = loadedState.audio.isPlaying || false;
+    }
+
+    // If we're not in the game screen yet, navigate to it
+    if (navigation.currentScreenIndex !== navigation.screens.length - 1) {
+      loadingScreenEl.hidden = false;
+      setTimeout(() => {
+        setupGameScreen();
+        navigation.currentScreenIndex = navigation.screens.length - 1;
+        switchToScreen(navigation.screens[navigation.currentScreenIndex]);
+        gameState.storyStarted = true;
+        document.getElementById("gameScreenEl").classList.add("story-started");
+        document.querySelector('.game-nav').hidden = true;
+        displayCurrentDialogue();
+        loadingScreenEl.hidden = true;
+      }, 1200);
+    } else {
+      // Just refresh the game display
+      setupGameScreen();
+      displayCurrentDialogue();
+    }
+
+    // Save to localStorage
+    saveGameToLocalStorage();
+  }
+
+  function toggleVerticalServicesDropdown() {
+    var dropdown = document.getElementById("verticalServicesDropdownEl");
+    if (!dropdown) return;
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
+
+  function toggleNav() {
+    var nav = document.getElementById("verticalNav");
+    if (!nav) return;
+    if (nav.style.transform === "translateX(0%)") {
+      nav.style.transform = "translateX(100%)";
+      setTimeout(() => { nav.style.display = "none"; }, 300);
+    } else {
+      nav.style.display = "block";
+      setTimeout(() => { nav.style.transform = "translateX(0%)"; }, 10);
+    }
+  }
+
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(event) {
+    if (event.target && typeof event.target.matches === 'function' && !event.target.matches('.dropdown button')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      for (var i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.style.display === "block") {
+          openDropdown.style.display = "none";
+        }
+      }
+    }
+  }
+
+  // Save game state to localStorage
+  function saveGameToLocalStorage() {
+    try {
+      // Create a copy of the gameState with only the necessary data
+      const saveState = {
+        genre: gameState.genre,
+        lore: gameState.lore,
+        background: gameState.background,
+        customBackgroundUrl: gameState.customBackgroundUrl,
+        characters: gameState.characters,
+        dialogueHistory: gameState.dialogueHistory,
+        currentDialogue: gameState.currentDialogue,
+        currentSpeaker: gameState.currentSpeaker,
+        playerName: gameState.playerName,
+        playerDescription: gameState.playerDescription,
+        audio: {
+          source: gameState.audio.source,
+          customUrl: gameState.audio.customUrl,
+          isPlaying: gameState.audio.isPlaying
+        },
+        storyStarted: gameState.storyStarted,
+        navigationScreenIndex: navigation.currentScreenIndex,
+        textToSpeechEnabled: gameState.textToSpeechEnabled
+      };
+
+      localStorage.rpgGameState = JSON.stringify(saveState);
+    } catch (error) {
+      console.error("Error saving game to localStorage:", error);
+    }
+  }
+
+  // Load game state from localStorage
+  function loadGameFromLocalStorage() {
+    try {
+      if (localStorage.rpgGameState) {
+        const savedState = JSON.parse(localStorage.rpgGameState);
+
+        // Check if we have a saved game
+        if (savedState && savedState.storyStarted) {
+          // Apply the saved state
+          gameState.genre = savedState.genre || "";
+          gameState.lore = savedState.lore || "";
+          gameState.background = savedState.background || "";
+          gameState.customBackgroundUrl = savedState.customBackgroundUrl || "";
+          gameState.characters = savedState.characters || [];
+          gameState.dialogueHistory = savedState.dialogueHistory || [];
+          gameState.currentDialogue = savedState.currentDialogue || 0;
+          gameState.currentSpeaker = savedState.currentSpeaker || "";
+          gameState.playerName = savedState.playerName || "Anon";
+          gameState.playerDescription = savedState.playerDescription || "";
+          gameState.storyStarted = savedState.storyStarted;
+          gameState.textToSpeechEnabled = savedState.textToSpeechEnabled !== undefined ? savedState.textToSpeechEnabled : true;
+
+          if (savedState.audio) {
+            gameState.audio.source = savedState.audio.source || "fantasy";
+            gameState.audio.customUrl = savedState.audio.customUrl || "";
+            gameState.audio.isPlaying = savedState.audio.isPlaying || false;
+          }
+
+          // If there was a navigation state saved, use it
+          if (savedState.navigationScreenIndex !== undefined) {
+            navigation.currentScreenIndex = savedState.navigationScreenIndex;
+          }
+
+          // Show a notification that a saved game was loaded
+          const loadNotification = document.createElement("div");
+          loadNotification.style.cssText = "position:fixed; bottom:20px; left:20px; background-color:rgba(0,0,0,0.8); color:white; padding:10px 20px; border-radius:5px; z-index:1000; animation:fadeOut 5s forwards;";
+          loadNotification.innerHTML = `
+            <p style="margin:0">Game loaded from your last session</p>
+            <button onclick="continueGame()" style="margin-top:5px; background-color:var(--primary-color); border:none; border-radius:5px; padding:5px 10px; color:white; cursor:pointer;">Continue</button>
+            <button onclick="startNewGame()" style="margin-top:5px; margin-left:10px; background-color:#e74c3c; border:none; border-radius:5px; padding:5px 10px; color:white; cursor:pointer;">New Game</button>
+          `;
+          document.body.appendChild(loadNotification);
+
+          // Add a style for fadeout animation
+          const style = document.createElement("style");
+          style.innerHTML = `
+            @keyframes fadeOut {
+              0%, 80% { opacity: 1; }
+              100% { opacity: 0; display: none; }
+            }
+          `;
+          document.head.appendChild(style);
+
+          return true;
+        }
+      }
+    } catch (error) {
+      console.error("Error loading game from localStorage:", error);
+    }
+
+    return false;
+  }
+
+  // Continue the saved game
+  function continueGame() {
+    // Remove the notification
+    const notification = document.querySelector("div[style*='animation:fadeOut']");
+    if (notification) {
+      notification.remove();
+    }
+
+    // If we're in game screen already, just refresh the display
+    if (navigation.currentScreenIndex === navigation.screens.length - 1) {
+      setupGameScreen();
+      displayCurrentDialogue();
+    } else {
+      // Navigate to the game screen
+      loadingScreenEl.hidden = false;
+      setTimeout(() => {
+        setupGameScreen();
+        switchToScreen(navigation.screens[navigation.currentScreenIndex]);
+        if (gameState.storyStarted) {
+          document.getElementById("gameScreenEl").classList.add("story-started");
+          document.querySelector('.game-nav').hidden = true;
+          displayCurrentDialogue();
+        }
+        loadingScreenEl.hidden = true;
+      }, 1200);
+    }
+  }
+
+  // Start a new game, ignoring saved game
+  function startNewGame() {
+    // Remove the notification
+    const notification = document.querySelector("div[style*='animation:fadeOut']");
+    if (notification) {
+      notification.remove();
+    }
+
+    // Reset game state
+    gameState = {
+      genre: "",
+      lore: "",
+      background: "",
+      customBackgroundUrl: "",
+      characters: [],
+      currentDialogue: 0,
+      dialogueHistory: [],
+      currentSpeaker: "",
+      selectedRecipients: ["all"],
+      nextSpeaker: "Narrator",
+      isGenerating: false,
+      selectedPremadeCharacters: [],
+      characterCount: 0,
+      audio: {
+        source: "fantasy",
+        customUrl: "",
+        element: null,
+        isPlaying: false
+      },
+      storyStarted: false,
+      playerName: "Anon",
+      playerDescription: "",
+      themeMode: "light",
+      textToSpeechEnabled: true,
+      speech: {
+        isPlaying: false,
+        utterance: null
+      }
+    };
+
+    // Reset navigation
+    navigation.currentScreenIndex = 0;
+    switchToScreen(navigation.screens[navigation.currentScreenIndex]);
+  }
+
+  // Check for URL parameters when the page loads
+  function checkForUrlParameters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const stateParam = urlParams.get('state');
+
+    if (stateParam) {
+      try {
+        // Decode the state
+        const stateStr = decodeURIComponent(atob(stateParam));
+        const loadedState = JSON.parse(stateStr);
+
+        // Apply the loaded state
+        applyLoadedGameState(loadedState);
+
+        // Remove the state parameter from the URL to avoid reloading the same state
+        const url = new URL(window.location.href);
+        url.searchParams.delete('state');
+        window.history.replaceState({}, document.title, url.href);
+
+        return true;
+      } catch (error) {
+        console.error("Error loading game from URL:", error);
+      }
+    }
+
+    return false;
+  }
+
+  // Close welcome popup
+  function closeWelcomePopup() {
+    welcomePopupEl.hidden = true;
+
+    // If the checkbox is checked, save the preference
+    if (document.getElementById("dontShowWelcomeAgainCb").checked) {
+      localStorage.dontShowWelcomePopup = "true";
+    }
+  }
+
+  // Text-to-speech functions
+  function toggleTextToSpeech() {
+    gameState.textToSpeechEnabled = !gameState.textToSpeechEnabled;
+    updateTextToSpeechButton();
+
+    // If speech is currently playing and we disabled text-to-speech, stop it
+    if (!gameState.textToSpeechEnabled && gameState.speech && gameState.speech.isPlaying) {
+      stopSpeech();
+    }
+
+    // Update visibility of the play/pause button
+    if (document.getElementById("speakBtn")) {
+      document.getElementById("speakBtn").hidden = !gameState.textToSpeechEnabled;
+    }
+
+    // Save preference to localStorage
+    saveGameToLocalStorage();
+  }
+
+  function updateTextToSpeechButton() {
+    const textToSpeechBtn = document.getElementById("textToSpeechBtn");
+    if (textToSpeechBtn) {
+      textToSpeechBtn.textContent = gameState.textToSpeechEnabled ? "Text-to-Speech: ON" : "Text-to-Speech: OFF";
+    }
+  }
+
+  function speakMessage() {
+    if (!gameState.textToSpeechEnabled) return;
+
+    // If already speaking, stop it
+    if (gameState.speech && gameState.speech.isPlaying) {
+      stopSpeech();
+      return;
+    }
+
+    // Get the current dialogue
+    const dialogue = gameState.dialogueHistory[gameState.currentDialogue];
+    if (!dialogue) return;
+
+    // Skip if it's the player speaking
+    if (dialogue.speaker === gameState.playerName) return;
+
+    // Create a new utterance
+    const utterance = new SpeechSynthesisUtterance(dialogue.text);
+
+    // Set up voice preferences for female voice
+    const voices = window.speechSynthesis.getVoices();
+    const femaleVoice = voices.find(voice => voice.name.includes('female') || voice.name.includes('Female'));
+    if (femaleVoice) {
+      utterance.voice = femaleVoice;
+    }
+
+    // Store the utterance and update UI
+    gameState.speech = {
+      isPlaying: true,
+      utterance: utterance
+    };
+
+    // Update button icon
+    updateSpeakButtonIcon();
+
+    // Handle speech end
+    utterance.onend = function() {
+      gameState.speech.isPlaying = false;
+      updateSpeakButtonIcon();
+    };
+
+    // Speak the text
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function stopSpeech() {
+    if (gameState.speech && gameState.speech.isPlaying) {
+      window.speechSynthesis.cancel();
+      gameState.speech.isPlaying = false;
+      updateSpeakButtonIcon();
+    }
+  }
+
+  function updateSpeakButtonIcon() {
+    const speakBtn = document.getElementById("speakBtn");
+    if (speakBtn) {
+      speakBtn.innerHTML = gameState.speech && gameState.speech.isPlaying ? "⏸️" : "🔊";
+      speakBtn.title = gameState.speech && gameState.speech.isPlaying ? "Pause Speech" : "Read Message";
+    }
+  }
+
+  // Initialize the game - check URL parameters first, then localStorage
+  window.addEventListener('DOMContentLoaded', function() {
+    // Initialize speech synthesis and get voices
+    if ('speechSynthesis' in window) {
+      // Firefox and some browsers need this to populate voices
+      speechSynthesis.onvoiceschanged = function() {
+        const voices = window.speechSynthesis.getVoices();
+        console.log("Available voices loaded:", voices.length);
+      };
+
+      // Initial load of voices
+      window.speechSynthesis.getVoices();
+    }
+
+    // Check if the user has chosen not to see the welcome popup
+    if (localStorage.dontShowWelcomePopup === "true") {
+      welcomePopupEl.hidden = true;
+    }
+
+    const loadedFromUrl = checkForUrlParameters();
+    if (!loadedFromUrl) {
+      loadGameFromLocalStorage();
+    }
+  });
+</script>
+
+<div id="rpgContainerEl" style="position:relative; width:100%; max-width:1000px; margin:0 auto; min-height:500px;">
+  <!-- Game Navigation Bar - Always Visible -->
+  <div id="gameNavBarEl" class="game-nav-bar">
+    <button id="menu1" class="menu-toggle-btn">☰</button>
+    <button id="menu2" class="menu-toggle-btn" hidden>☰</button>
+    <div id="menu1El" class="menu-dropdown" hidden>
+      <button id="fullscreenBtn" onclick="toggleFullscreen()">Fullscreen Mode</button>
+      <button id="themeModeBtn" onclick="toggleThemeMode()">Dark Mode</button>
+      <button id="feedbackBtn" onclick="showFeedback()">Feedback</button>
+    </div>
+    <div id="menu2El" class="menu-dropdown" hidden>
+      <button id="shareGameBtn" onclick="openSharePopup()">Share Game</button>
+      <button id="audioToggleBtn" onclick="toggleAudio()">Audio: ON</button>
+      <button id="changeAudioBtn" onclick="showAudioPopup()">Change Audio</button>
+      <button id="changeBackgroundBtn" onclick="showBackgroundPopup()">Change Background</button>
+      <button id="addCharacterBtn" onclick="showAddCharacterPopup()">Add Character</button>
+      <button id="deleteCharacterBtn" onclick="openDeleteCharacterPopup()">Delete Character</button>
+      <button id="prevMessageBtn" onclick="goToPreviousMessage()">Previous Message</button>
+      <button id="textToSpeechBtn" onclick="toggleTextToSpeech()">Text-to-Speech: ON</button>
+      <button id="backToSetupBtn" onclick="backToSetup()">Back to Setup</button>
+    </div>
+  </div>
+
+  <!-- Title Screen -->
+  <div id="titleScreenEl" class="screen">
+    <div class="title-content">
+      <h1>Interactive RPG Creator</h1>
+      <p>Create your own story and bring it to life!</p>
+      <button id="startBtn" onclick="startSetup()">Begin Creation</button>
+    </div>
+    <div class="screen-navigation">
+      <button class="prev-btn" onclick="navigatePrev()" hidden>Previous</button>
+    </div>
+  </div>
+
+  <!-- Setup Screens -->
+  <div id="setupScreensEl" hidden>
+    <!-- Lore Input Screen -->
+    <div id="loreScreenEl" class="setup-screen">
+      <h1>Create Your World</h1>
+      <div class="genre-selection">
+        <label for="genreSelectEl">Select a Genre:</label>
+        <select id="genreSelectEl" required>
+          <option value="" disabled selected>Choose a genre...</option>
+          <option value="fantasy">Fantasy</option>
+          <option value="scifi">Science Fiction</option>
+          <option value="horror">Horror</option>
+          <option value="mystery">Mystery</option>
+          <option value="romance">Romance</option>
+          <option value="western">Western</option>
+          <option value="cyberpunk">Cyberpunk</option>
+          <option value="postapocalyptic">Post-Apocalyptic</option>
+        </select>
+        <p class="genre-description"></p>
+      </div>
+      <textarea id="loreInputEl" placeholder="Describe the setting, history, and scenario of your story..." rows="8"></textarea>
+      <button id="loreNextBtn">Next</button>
+      <div class="screen-navigation">
+        <button class="prev-btn" onclick="navigatePrev()">Previous</button>
+        <button class="next-btn" onclick="navigateNext()" hidden>Next</button>
+      </div>
+    </div>
+
+    <!-- Background Selection Screen -->
+    <div id="backgroundScreenEl" class="setup-screen" hidden>
+      <h1>Choose a Background</h1>
+      <div class="background-options"></div>
+      <div class="custom-background-option">
+        <h3>Upload Custom Background</h3>
+        <input type="text" id="customBackgroundUrl" placeholder="Enter image URL...">
+        <button id="setCustomBackgroundBtn">Set Custom Background</button>
+      </div>
+      <div class="no-background-option">
+        <h3>No Background</h3>
+        <p>Use a plain white/black background based on theme mode</p>
+        <button id="setNoBackgroundBtn">Set No Background</button>
+      </div>
+      <div class="screen-navigation">
+        <button class="prev-btn" onclick="navigatePrev()">Previous</button>
+        <button class="next-btn" onclick="navigateNext()" hidden>Next</button>
+      </div>
+    </div>
+
+    <!-- Audio Setup Screen -->
+    <div id="audioScreenEl" class="setup-screen" hidden>
+      <h1>Audio Setup</h1>
+      <div class="audio-options">
+        <h3>Select Background Music</h3>
+        <div class="premade-audio-options">
+          <div class="audio-option" data-value="fantasy">
+            <h4>Fantasy Theme</h4>
+            <audio id="fantasyAudioPreview" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" controls></audio>
+          </div>
+          <div class="audio-option" data-value="mystery">
+            <h4>Mystery Theme</h4>
+            <audio id="mysteryAudioPreview" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" controls></audio>
+          </div>
+          <div class="audio-option" data-value="custom">
+            <h4>Custom Audio URL</h4>
+            <input type="text" id="customAudioUrl" placeholder="Enter audio URL...">
+          </div>
+          <div class="audio-option" data-value="none">
+            <h4>No Audio</h4>
+          </div>
+        </div>
+        <button id="setAudioBtn" class="set-btn">Set Audio</button>
+      </div>
+      <div class="screen-navigation">
+        <button class="prev-btn" onclick="navigatePrev()">Previous</button>
+        <button class="next-btn" onclick="navigateNext()" hidden>Next</button>
+      </div>
+    </div>
+
+    <!-- Character Creation Screen -->
+    <div id="characterScreenEl" class="setup-screen" hidden>
+      <h1>Create Your Characters</h1>
+      <div class="character-count">
+        <label>How many characters? </label>
+        <input type="number" id="characterCountEl" min="1" max="5" value="1">
+        <button id="setCharacterCountBtn">Set</button>
+      </div>
+      <div id="characterFormsEl"></div>
+      <div id="premadeCharactersEl" class="premade-characters" hidden>
+        <h2>Choose from Premade Characters</h2>
+        <div class="premade-grid"></div>
+      </div>
+      <button id="startGameBtn" hidden>Set</button>
+      <div class="screen-navigation">
+        <button class="prev-btn" onclick="navigatePrev()">Previous</button>
+        <button class="next-btn" onclick="navigateNext()" hidden>Next</button>
+      </div>
+    </div>
+
+    <!-- Player Description Screen -->
+    <div id="playerDescriptionScreenEl" class="setup-screen" hidden>
+      <h1>Describe Yourself</h1>
+      <div class="player-name-input">
+        <label for="playerNameInputEl">Your Name:</label>
+        <input type="text" id="playerNameInputEl" placeholder="Anon" value="Anon">
+      </div>
+      <p>How would you like to appear in this story? Provide a brief description of your character.</p>
+      <textarea id="playerDescriptionInputEl" placeholder="Describe your appearance, personality, background, or any other relevant details..." rows="8"></textarea>
+      <button id="startGameDescriptionBtn" class="start-game-btn" onclick="navigateNext()">Start Game</button>
+      <div class="screen-navigation">
+        <button class="prev-btn" onclick="navigatePrev()">Previous</button>
+        <button class="next-btn" onclick="navigateNext()" hidden>Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="gameScreenEl" hidden>
+    <div id="backgroundEl" class="game-background">
+      <div id="characterSpritesEl"></div>
+    </div>
+    <div id="dialogueBoxEl">
+      <div id="speakerEl"></div>
+      <div id="dialogueTextEl"></div>
+      <div id="nextSpeakerSelectionEl">
+        <span>Next speaker:</span>
+        <div id="speakerButtonsEl" class="speaker-buttons">
+          <!-- Character buttons will be added here dynamically -->
+          <button id="narratorSpeakerBtn" class="speaker-btn">Narrator</button>
+        </div>
+        <button id="enterBtn" class="enter-btn" onclick="handleSelectedSpeaker()">Enter</button>
+      </div>
+      <div id="recipientSelectionEl">
+        <span>Send to:</span>
+        <div id="characterButtonsEl" class="character-buttons"></div>
+        <button id="allCharactersBtn" class="recipient-btn selected">All</button>
+      </div>
+      <div id="inputAreaEl">
+        <input id="userInputEl" type="text" placeholder="Type your response here..." onkeydown="if(event.key === 'Enter') handleUserInput()">
+        <button id="submitBtn" onclick="handleUserInput()">Send</button>
+        <button id="speakBtn" onclick="speakMessage()" title="Read Message">🔊</button>
+      </div>
+    </div>
+    <div class="screen-navigation game-nav">
+      <button class="prev-btn" onclick="navigatePrev()">Previous</button>
+      <button class="next-btn" onclick="navigateNext()" hidden>Next</button>
+    </div>
+  </div>
+
+  <!-- Loading screen -->
+  <div id="loadingScreenEl" hidden>
+    <div class="loading-spinner"></div>
+    <p>Loading your story...</p>
+  </div>
+
+  <!-- Feedback popup -->
+  <div id="feedbackPopupEl" class="feedback-popup" hidden>
+    <div class="feedback-content">
+      <button class="close-btn" onclick="closeFeedback()">×</button>
+      <h2>Feedback</h2>
+      <div id="commentsCtnEl"></div>
+    </div>
+  </div>
+
+  <!-- Audio Selection Popup -->
+  <div id="audioPopupCtn" class="popup-container" hidden>
+    <div class="popup-content">
+      <button class="close-btn" onclick="closeAudioPopup()">×</button>
+      <h2>Change Audio</h2>
+      <div class="audio-options popup-audio-options">
+        <div class="premade-audio-options">
+          <div class="audio-option" data-value="fantasy">
+            <h4>Fantasy Theme</h4>
+            <audio id="fantasyAudioPopupPreview" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" controls></audio>
+          </div>
+          <div class="audio-option" data-value="mystery">
+            <h4>Mystery Theme</h4>
+            <audio id="mysteryAudioPopupPreview" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" controls></audio>
+          </div>
+          <div class="audio-option" data-value="custom">
+            <h4>Custom Audio URL</h4>
+            <input type="text" id="customAudioPopupUrl" placeholder="Enter audio URL...">
+          </div>
+          <div class="audio-option" data-value="none">
+            <h4>No Audio</h4>
+          </div>
+        </div>
+        <button id="setPopupAudioBtn" class="set-btn">Set Audio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Selection Popup -->
+  <div id="backgroundPopupCtn" class="popup-container" hidden>
+    <div class="popup-content">
+      <button class="close-btn" onclick="closeBackgroundPopup()">×</button>
+      <h2>Change Background</h2>
+      <div class="background-options popup-background-options"></div>
+      <div class="custom-background-option">
+        <h3>Upload Custom Background</h3>
+        <input type="text" id="customBackgroundPopupUrl" placeholder="Enter image URL...">
+        <button id="setCustomBackgroundPopupBtn">Set Custom Background</button>
+      </div>
+      <div class="no-background-option">
+        <h3>No Background</h3>
+        <p>Use a plain white/black background based on theme mode</p>
+        <button id="setNoBackgroundPopupBtn">Set No Background</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Character Popup -->
+  <div id="addCharacterPopupCtn" class="popup-container" hidden>
+    <div class="popup-content">
+      <button class="close-btn" onclick="closeAddCharacterPopup()">×</button>
+      <h2>Add Character</h2>
+      <div class="character-popup-tabs">
+        <button class="tab-btn active" onclick="switchCharacterTab('premade')">Premade Characters</button>
+        <button class="tab-btn" onclick="switchCharacterTab('custom')">Custom Character</button>
+      </div>
+      <div id="premadeCharactersTabContent" class="tab-content">
+        <div class="premade-grid popup-premade-grid"></div>
+      </div>
+      <div id="customCharacterTabContent" class="tab-content" hidden>
+        <div class="character-form popup-character-form">
+          <input type="text" class="character-name" placeholder="Character Name" required>
+          <textarea class="character-description" placeholder="Character Description..." rows="3" required></textarea>
+
+          <div>
+            <p>Character Image URL:</p>
+            <input type="text" class="character-image-url" placeholder="Enter character image URL">
+          </div>
+
+          <div>
+            <p>Emotion Images:</p>
+            <div class="emotion-inputs"></div>
+            <button type="button" class="add-emotion-btn">Add Emotion</button>
+          </div>
+
+          <button type="button" class="save-character-btn">Add Character</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
+  :root {
+    --primary-color: #3498db;
+    --primary-hover: #2980b9;
+    --text-color: #fff;
+    --bg-color: #1a2739;
+    --container-bg: #2c3e50;
+    --dialog-bg: rgba(0,0,0,0.8);
+    --dialog-text: #fff;
+    --button-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    --button-active-shadow: 0 0 10px 3px white;
+  }
+
+  .light-mode {
+    --primary-color: #2980b9;
+    --primary-hover: #1c6ea4;
+    --text-color: #333;
+    --bg-color: #f5f5f5;
+    --container-bg: #e0e0e0;
+    --dialog-bg: rgba(240,240,240,0.9);
+    --dialog-text: #333;
+    --button-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    --button-active-shadow: 0 0 10px 3px #3498db;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    text-align: left;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  #rpgContainerEl {
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+    background-color: var(--container-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    padding-bottom: 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  .screen {
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    text-align: center;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+
+  .setup-screen {
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    text-align: center;
+    max-height: 95vh;
+    overflow-y: auto;
+    color: var(--text-color);
+  }
+
+  #titleScreenEl {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://user.uploads.dev/file/33b05963711c581047185e6765cbb211.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .title-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  #titleScreenEl h1 {
+    color: #fff;
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8), 0 0 30px rgba(52, 152, 219, 0.8);
+    animation: glow 2s infinite alternate;
+  }
+
+  #titleScreenEl p {
+    color: #fff;
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    max-width: 600px;
+  }
+
+  #startBtn {
+    background: linear-gradient(to right, var(--primary-color), #1a5276);
+    font-size: 1.3em;
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 20px rgba(52, 152, 219, 0.5);
+    position: relative;
+    overflow: hidden;
+    animation: pulse 2s infinite;
+    display: block !important;
+    margin: 20px auto;
+    min-height: 60px;
+    z-index: 10;
+  }
+
+  #startBtn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 30px rgba(52, 152, 219, 0.7);
+    background: linear-gradient(to right, #2980b9, var(--primary-color));
+  }
+
+  #startBtn:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(30deg);
+    transition: all 0.5s ease-out;
+  }
+
+  #startBtn:hover:after {
+    transform: rotate(30deg) translate(-10%, -10%);
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 20px rgba(52, 152, 219, 0.5);
+    }
+    50% {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 30px rgba(52, 152, 219, 0.8);
+    }
+    100% {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 20px rgba(52, 152, 219, 0.5);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8), 0 0 20px rgba(52, 152, 219, 0.6);
+    }
+    to {
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8), 0 0 30px rgba(52, 152, 219, 0.9);
+    }
+  }
+
+  h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    font-size: 2.5em;
+  }
+
+  h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin: 20px 0;
+    text-shadow: 0 0 3px rgba(52, 152, 219, 0.5);
+    font-size: 1.8em;
+  }
+
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid black;
+    padding: 12px 25px;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+    margin: 8px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--button-shadow);
+  }
+
+  .story-started button:active {
+    box-shadow: var(--button-active-shadow);
+  }
+
+  /* Game screen buttons styling */
+  #gameScreenEl button {
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #gameScreenEl button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+  }
+
+  #gameScreenEl button:hover:before {
+    left: 100%;
+  }
+
+  #enterBtn, #submitBtn {
+    background-image: linear-gradient(to right, #3498db, #2980b9);
+    font-weight: bold;
+  }
+
+  .genre-selection {
+    margin-bottom: 20px;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .genre-selection label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+
+  .genre-selection select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.1);
+    color: var(--text-color);
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .genre-description {
+    font-style: italic;
+    margin-top: 5px;
+    font-size: 14px;
+  }
+
+  .genre-options, .background-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+
+  .background-option {
+    width: 200px;
+    height: 120px;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    overflow: hidden;
+    border-radius: 5px;
+  }
+
+  .background-option:hover {
+    transform: scale(1.05);
+  }
+
+  .background-option.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+  }
+
+  .custom-background-option, .no-background-option {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    color: var(--text-color);
+  }
+
+  .custom-background-option h3, .no-background-option h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+  }
+
+  .custom-background-option input {
+    width: 70%;
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  textarea, input {
+    width: 100%;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 150px;
+  }
+
+  .character-form {
+    background-color: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: left;
+    color: var(--text-color);
+  }
+
+  .character-sprites, .emotion-sprites {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .sprite-option, .emotion-sprite {
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .sprite-option {
+    width: 150px;
+    height: 150px;
+  }
+
+  .emotion-sprite {
+    width: 120px;
+    height: 120px;
+  }
+
+  .sprite-option:hover, .emotion-sprite:hover {
+    transform: scale(1.1);
+  }
+
+  .sprite-option.selected, .emotion-sprite.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px var(--primary-color);
+  }
+
+  #characterSpritesEl {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: absolute;
+    bottom: -5px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .character-sprite {
+    position: relative;
+    height: auto; /* Changed from 100% to auto to prevent stretching */
+    max-height: 450px;
+    margin: 0 15px;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    display: none;
+  }
+
+  .character-sprite.active {
+    display: block;
+    opacity: 1;
+  }
+
+  .character-sprite.listening {
+    display: block;
+    opacity: 0.7;
+  }
+
+  .character-sprite img {
+    width: 320px;
+    height: 320px;
+    object-fit: contain;
+  }
+
+  .game-background {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  #dialogueBoxEl {
+    position: relative;
+    width: 100%;
+    min-height: 150px;
+    background-color: var(--dialog-bg);
+    color: var(--dialog-text);
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 18px;
+    line-height: 1.5;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  #speakerEl {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+
+  #dialogueTextEl {
+    margin-bottom: 15px;
+    max-height: 150px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+
+  .action-text {
+    font-style: italic;
+  }
+
+  #inputAreaEl {
+    display: flex;
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  #userInputEl {
+    flex-grow: 1;
+    margin-bottom: 0;
+  }
+
+  #submitBtn {
+    margin: 0;
+    padding: 10px 20px;
+  }
+
+  #speakBtn {
+    margin: 0;
+    padding: 10px;
+    background-color: var(--primary-color);
+    font-size: 16px;
+  }
+
+  #loadingScreenEl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border-radius: 15px;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(52, 152, 219, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 20px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .screen-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .prev-btn, .next-btn {
+    background-color: var(--primary-hover);
+    min-width: 120px;
+    border-radius: 8px;
+  }
+
+  .prev-btn:hover, .next-btn:hover {
+    background-color: var(--primary-color);
+  }
+
+  #recipientSelectionEl, #nextSpeakerSelectionEl {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .character-buttons, .speaker-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .recipient-btn, .speaker-btn {
+    padding: 8px 15px;
+    margin: 0;
+    background-color: var(--primary-hover);
+    font-size: 14px;
+    border-radius: 6px;
+  }
+
+  .recipient-btn:hover, .speaker-btn:hover {
+    background-color: var(--primary-color);
+  }
+
+  .recipient-btn.selected, .speaker-btn.selected {
+    background-color: #5aaded;
+    box-shadow: 0 0 5px var(--primary-color);
+  }
+
+  .enter-btn {
+    padding: 8px 15px;
+    margin-left: 15px;
+    background-color: var(--primary-color);
+    font-size: 14px;
+    border-radius: 6px;
+  }
+
+  .premade-characters {
+    margin-top: 30px;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+
+  .premade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+
+  .premade-character-card {
+    background-color: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    text-align: left;
+  }
+
+  .premade-character-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+
+  .premade-character-card.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+  }
+
+  .premade-character-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .premade-character-sprite {
+    width: 120px;
+    height: 120px;
+    border-radius: 5px;
+    margin-right: 15px;
+    object-fit: cover;
+  }
+
+  .premade-character-info {
+    flex: 1;
+  }
+
+  .premade-character-name {
+    color: var(--primary-color);
+    font-size: 18px;
+    margin: 0 0 5px 0;
+  }
+
+  .premade-character-description {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+    color: var(--text-color);
+  }
+
+  .premade-character-emotions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+
+  .premade-emotion {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+
+  .custom-character-card {
+    background-color: rgba(255,255,255,0.05);
+    border: 2px dashed var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .custom-character-card:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+  }
+
+  .custom-character-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+  }
+
+  .emotion-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+
+  .emotion-container input {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .add-emotion-btn {
+    background-color: var(--primary-hover);
+    padding: 8px 15px;
+  }
+
+  .remove-emotion-btn {
+    background-color: #e74c3c;
+    padding: 8px 15px;
+  }
+
+  /* Audio setup styles */
+  .audio-options {
+    background-color: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    max-height: 95vh;
+    overflow-y: auto;
+    color: var(--text-color);
+  }
+
+  .audio-option {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    color: var(--text-color);
+  }
+
+  .audio-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .audio-option.selected {
+    background-color: rgba(52, 152, 219, 0.2);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+  }
+
+  .audio-option h4 {
+    margin-top: 0;
+    color: var(--primary-color);
+  }
+
+  .audio-option audio {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .set-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Game navigation bar */
+  .game-nav-bar {
+    position: relative;
+    padding: 10px;
+    background-color: rgba(0,37,77,0.7);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-toggle-btn {
+    background-color: transparent;
+    color: var(--primary-color);
+    font-size: 24px;
+    padding: 5px 10px;
+    margin: 0;
+    margin-right: 10px;
+  }
+
+  .menu-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgba(0,0,0,0.9);
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    z-index: 10;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+
+  .menu-dropdown button {
+    text-align: left;
+    margin: 5px 0;
+    padding: 8px 15px;
+    border-radius: 6px;
+  }
+
+  /* Feedback popup */
+  .feedback-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+
+  .feedback-content {
+    background-color: var(--container-bg);
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    max-height: 95vh;
+    overflow-y: auto;
+    padding: 20px;
+    position: relative;
+    color: var(--text-color);
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: var(--text-color);
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Player name input styling */
+  .player-name-input {
+    margin-bottom: 15px;
+    text-align: left;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .player-name-input label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+  }
+
+  .player-name-input input {
+    width: 100%;
+  }
+
+  /* Scrollbar styling */
+  .menu-dropdown, .genre-options, .background-options, .character-forms,
+  .premade-grid, .emotion-sprites, .character-sprites, .audio-options,
+  .premade-characters, .feedback-content, .setup-screen, #dialogueTextEl {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) rgba(255,255,255,0.1);
+  }
+
+  /* For Webkit browsers */
+  .menu-dropdown::-webkit-scrollbar,
+  .genre-options::-webkit-scrollbar,
+  .background-options::-webkit-scrollbar,
+  .character-forms::-webkit-scrollbar,
+  .premade-grid::-webkit-scrollbar,
+  .emotion-sprites::-webkit-scrollbar,
+  .character-sprites::-webkit-scrollbar,
+  .audio-options::-webkit-scrollbar,
+  .premade-characters::-webkit-scrollbar,
+  .feedback-content::-webkit-scrollbar,
+  .setup-screen::-webkit-scrollbar,
+  #dialogueTextEl::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .menu-dropdown::-webkit-scrollbar-track,
+  .genre-options::-webkit-scrollbar-track,
+  .background-options::-webkit-scrollbar-track,
+  .character-forms::-webkit-scrollbar-track,
+  .premade-grid::-webkit-scrollbar-track,
+  .emotion-sprites::-webkit-scrollbar-track,
+  .character-sprites::-webkit-scrollbar-track,
+  .audio-options::-webkit-scrollbar-track,
+  .premade-characters::-webkit-scrollbar-track,
+  .feedback-content::-webkit-scrollbar-track,
+  .setup-screen::-webkit-scrollbar-track,
+  #dialogueTextEl::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .menu-dropdown::-webkit-scrollbar-thumb,
+  .genre-options::-webkit-scrollbar-thumb,
+  .background-options::-webkit-scrollbar-thumb,
+  .character-forms::-webkit-scrollbar-thumb,
+  .premade-grid::-webkit-scrollbar-thumb,
+  .emotion-sprites::-webkit-scrollbar-thumb,
+  .character-sprites::-webkit-scrollbar-thumb,
+  .audio-options::-webkit-scrollbar-thumb,
+  .premade-characters::-webkit-scrollbar-thumb,
+  .feedback-content::-webkit-scrollbar-thumb,
+  .setup-screen::-webkit-scrollbar-thumb,
+  #dialogueTextEl::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+  }
+
+  /* Blue scrollbar for fullscreen game when height is too low */
+  @media screen and (max-height: 600px) {
+    #gameScreenEl:fullscreen,
+    #gameScreenEl:-webkit-full-screen,
+    #gameScreenEl:-moz-full-screen {
+      overflow-y: auto;
+      max-height: 100vh;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) rgba(255,255,255,0.1);
+    }
+
+    #gameScreenEl:fullscreen::-webkit-scrollbar,
+    #gameScreenEl:-webkit-full-screen::-webkit-scrollbar,
+    #gameScreenEl:-moz-full-screen::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #gameScreenEl:fullscreen::-webkit-scrollbar-track,
+    #gameScreenEl:-webkit-full-screen::-webkit-scrollbar-track,
+    #gameScreenEl:-moz-full-screen::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.1);
+    }
+
+    #gameScreenEl:fullscreen::-webkit-scrollbar-thumb,
+    #gameScreenEl:-webkit-full-screen::-webkit-scrollbar-thumb,
+    #gameScreenEl:-moz-full-screen::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 4px;
+    }
+  }
+
+  /* Welcome popup styles */
+  .welcome-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+  }
+
+  .welcome-content {
+    background-color: var(--container-bg);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    height: 95%;
+    overflow-y: auto;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    color: var(--text-color);
+  }
+
+  .welcome-text {
+    text-align: left;
+    margin-top: 20px;
+    color: var(--text-color);
+  }
+
+  .welcome-text h3 {
+    color: var(--primary-color);
+    margin: 20px 0 10px 0;
+  }
+
+  .welcome-text ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+  }
+
+  .welcome-text li {
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  /* Gold color for active buttons in dark mode */
+  body:not(.light-mode) .story-started button.selected {
+    background-color: #FFD700;
+    color: #000;
+  }
+
+  /* Popup containers */
+  .popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+
+  .popup-content {
+    background-color: var(--container-bg);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    height: 90%;
+    overflow-y: auto;
+    padding: 30px;
+    position: relative;
+    color: var(--text-color);
+  }
+
+  /* Character popup tabs */
+  .character-popup-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+  }
+
+  .tab-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+  }
+
+  .tab-btn.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  .tab-content {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .popup-premade-grid {
+    max-height: none;
+  }
+
+  .popup-character-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .popup-audio-options, .popup-background-options {
+    max-height: 70vh;
+  }
+
+  /* Start Game button */
+  .start-game-btn {
+    background: linear-gradient(to right, var(--primary-color), #1a5276);
+    font-size: 1.3em;
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 20px rgba(52, 152, 219, 0.5);
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto;
+    display: block;
+  }
+
+  .start-game-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 30px rgba(52, 152, 219, 0.7);
+    background: linear-gradient(to right, #2980b9, var(--primary-color));
+  }
+
+  .start-game-btn:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(30deg);
+    transition: all 0.5s ease-out;
+  }
+
+  .start-game-btn:hover:after {
+    transform: rotate(30deg) translate(-10%, -10%);
+  }
+
+  @media screen and (max-height: 600px) {
+    #titleScreenEl {
+      height: auto;
+      min-height: 400px;
+      padding: 20px;
+    }
+
+    .title-content {
+      padding: 20px 0;
+    }
+
+    #titleScreenEl h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    #titleScreenEl p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    #startBtn {
+      margin: 10px auto;
+      padding: 10px 30px;
+      font-size: 1.1em;
+    }
+  }
+</style>
+
+<script>
+  // Game state
+  let gameState = {
+    genre: "",
+    lore: "",
+    background: "",
+    customBackgroundUrl: "",
+    characters: [],
+    currentDialogue: 0,
+    dialogueHistory: [],
+    currentSpeaker: "",
+    selectedRecipients: ["all"], // Default to all characters
+    nextSpeaker: "Narrator", // Default next speaker is Narrator
+    isGenerating: false,
+    selectedPremadeCharacters: [], // Track which premade characters are selected
+    characterCount: 0, // Track how many characters the user wants to create
+    audio: {
+      source: "fantasy",
+      customUrl: "",
+      element: null,
+      isPlaying: false
+    },
+    storyStarted: false, // Track if the story has started
+    playerName: "Anon", // Default player name
+    playerDescription: "", // Store player's own description
+    themeMode: "light", // Default theme mode
+    noBackground: false, // Track if "no background" option is selected
+    textToSpeechEnabled: true, // Default to enabled
+    speech: {
+      isPlaying: false,
+      utterance: null
+    }
+  };
+
+  // Navigation state
+  let navigation = {
+    screens: ["titleScreenEl", "loreScreenEl", "backgroundScreenEl", "audioScreenEl", "characterScreenEl", "playerDescriptionScreenEl", "gameScreenEl"],
+    currentScreenIndex: 0
+  };
+
+  // Available emotions for characters
+  const emotions = ["neutral", "happy", "sad", "angry", "surprised"];
+
+  // Background image URLs
+  const backgroundImages = [
+    "https://user-uploads.perchance.org/file/2860f10fc01495fdfd61e6c8bb5cbfcc.jpg",
+    "https://user-uploads.perchance.org/file/7ef40e1377889ea24a3d5a0320404e39.jpg",
+    "https://user-uploads.perchance.org/file/a0499ce8e4530de9bbe3bd50f13b170c.jpg",
+    "https://user-uploads.perchance.org/file/f095acafef607190dc83baa80c277c9b.jpg",
+    "https://user-uploads.perchance.org/file/0a9bdd91bcaee8be03997a246c47bd31.jpg",
+    "https://user-uploads.perchance.org/file/c164e436540de947f2e72960b5e99e25.jpg",
+    "https://user-uploads.perchance.org/file/2c4dd5b305868e114c61e89efaa3dd43.jpg"
+  ];
+
+  // Genre details
+  const genreDetails = {
+    fantasy: {
+      name: "Fantasy",
+      description: "A world of magic, mythical creatures, and epic quests.",
+      bgColor: "4b6cb7"
+    },
+    scifi: {
+      name: "Science Fiction",
+      description: "Futuristic technology, space exploration, and advanced civilizations.",
+      bgColor: "24243e"
+    },
+    horror: {
+      name: "Horror",
+      description: "Frightening scenarios, supernatural entities, and suspense.",
+      bgColor: "121212"
+    },
+    mystery: {
+      name: "Mystery",
+      description: "Puzzles, secrets, and detective work.",
+      bgColor: "2c3e50"
+    },
+    romance: {
+      name: "Romance",
+      description: "Relationships, emotions, and personal connections.",
+      bgColor: "e74c3c"
+    },
+    western: {
+      name: "Western",
+      description: "Frontier life, cowboys, and wild west adventures.",
+      bgColor: "c39953"
+    },
+    cyberpunk: {
+      name: "Cyberpunk",
+      description: "High tech and low life, dystopian futures, and corporate control.",
+      bgColor: "232526"
+    },
+    postapocalyptic: {
+      name: "Post-Apocalyptic",
+      description: "Survival in a world after a catastrophic event.",
+      bgColor: "5d4157"
+    }
+  };
+
+  // Jenna's emotion sprites
+  const jennaSprites = {
+    neutral: "https://user.uploads.dev/file/67a045f57ece001f86701d46ef5c630c.png",
+    smiling: "https://user.uploads.dev/file/40603ac1c1dcdc533f349a4c400865c2.png",
+    blushing: "https://user.uploads.dev/file/b73220a4fe797992ce0c7f7dc274b531.png",
+    laughing: "https://user.uploads.dev/file/d47b591217798af32aeb9645585836db.png",
+    concerned: "https://user.uploads.dev/file/120501b928274f667b9e2f9a1332f353.png",
+    shocked: "https://user.uploads.dev/file/cc4b4ff63f017f1b540924ccd2bc797f.png",
+    annoyed: "https://user.uploads.dev/file/d9db76e19f0ee33806fb49f42fa11210.png"
+  };
+
+  // Rachel's emotion sprites
+  const rachelSprites = {
+    neutral: "https://user.uploads.dev/file/40578999b965013835561e628f2e084f.png",
+    happy: "https://user.uploads.dev/file/9e815168f9746edd486345fd4ef575f7.png",
+    laughing: "https://user.uploads.dev/file/0bc6c5deb1ffe9ad8429d82f091473e1.png",
+    sad: "https://user.uploads.dev/file/de45350709c6d810487f5f22b54b5bcb.png",
+    angry: "https://user.uploads.dev/file/bdf5986d4c34beae2d3e14aa2a877488.png",
+    shocked: "https://user.uploads.dev/file/5d7d904ce4e445af63604f67511997d6.png"
+  };
+
+  // Leo's emotion sprites
+  const leoSprites = {
+    neutral: "https://user.uploads.dev/file/cb0223add998dcb634f1a18dfa5cd69a.png",
+    happy: "https://user.uploads.dev/file/6b9b3fb6dbce42ceac9742795bea5c75.png",
+    laughing: "https://user.uploads.dev/file/39e6e89daccf65e1cd9c3e9e027ea34d.png",
+    shocked: "https://user.uploads.dev/file/675910f9a9c9d6c9233d5bfd9bb65705.png",
+    angry: "https://user.uploads.dev/file/a7d8bb539436879268d048ed221607be.png"
+  };
+
+  // Carl's emotion sprites
+  const carlSprites = {
+    neutral: "https://user.uploads.dev/file/04db84f88325f7b489b30b6d6e540bad.png",
+    sad: "https://user.uploads.dev/file/81a3ba146f8ce3015e595bd6e09f852c.png",
+    angry: "https://user.uploads.dev/file/b27b6a2fe38ed12fd99e42d9ec1af194.png",
+    laughing: "https://user.uploads.dev/file/d6fa74c78a0a7c7ac539c12887480006.png",
+    shocked: "https://user.uploads.dev/file/3a7ad831dfcebdfb2d98f0b1c8480424.png",
+    smiling: "https://user.uploads.dev/file/97926816a86b67e122447b58d5d879bc.png"
+  };
+
+  // Mary's emotion sprites
+  const marySprites = {
+    neutral: "https://user.uploads.dev/file/d8f7772c9cd11fd02a47e7e6487880c4.png",
+    smile: "https://user.uploads.dev/file/f822810f546de24fb83e6076978c6055.png",
+    sad: "https://user.uploads.dev/file/431bb7ef31cb79b89892cd6ae08f5f51.png",
+    annoyed: "https://user.uploads.dev/file/9692c579b33071a9dca8473b5bf971d9.png",
+    laughing: "https://user.uploads.dev/file/4d7fac8155f89ec0cff1a56ef719ea71.png",
+    shocked: "https://user.uploads.dev/file/68d829aa6d2f3b45f847566245f67dfe.png"
+  };
+
+  // Henry's emotion sprites
+  const henrySprites = {
+    neutral: "https://user.uploads.dev/file/ae5c384473bfef74255572f0a8156427.png",
+    angry: "https://user.uploads.dev/file/f0457651efdbd126daff67914312cfa1.png",
+    "closed eyes": "https://user.uploads.dev/file/706d70874b22a7abeb9550e44b307280.png",
+    shocked: "https://user.uploads.dev/file/f213151d64988b9275eb2a3ff5a61a6f.png"
+  };
+
+  // Soccer Star's emotion sprites
+  const soccerStarSprites = {
+    neutral: "https://user.uploads.dev/file/c177f4643144c8714d5cc5377513e2f1.png",
+    happy: "https://user.uploads.dev/file/c121ba33c48efbd898b8fa51d7722ab1.png",
+    sad: "https://user.uploads.dev/file/d9a30c59fc8e12ff7edccc4b0d882baa.png",
+    shocked: "https://user.uploads.dev/file/59e2ee2f049e3fdce488667a214dd904.png",
+    angry: "https://user.uploads.dev/file/6e711afcda6f3d3032372418512aece6.png"
+  };
+
+  // Tina's emotion sprites
+  const tinaSprites = {
+    neutral: "https://user.uploads.dev/file/0d61ec8200ceb5c4f72df87526439d98.png",
+    smiling: "https://user.uploads.dev/file/a076b3b34cca484322b8ad2a1011a185.png",
+    laughing: "https://user.uploads.dev/file/93b6f78be867c5ccd8bd4b543417b6ad.png",
+    sad: "https://user.uploads.dev/file/4899d9ed9a11e80a45a3818053310b87.png",
+    shocked: "https://user.uploads.dev/file/bc9233e8e187e4b56c630b137f1ef607.png",
+    concerned: "https://user.uploads.dev/file/8125361fa240454e1420ef3c23484c94.png"
+  };
+
+  // Coding Assistant's emotion sprites
+  const codingAssistantSprites = {
+    neutral: "https://user.uploads.dev/file/7f7cce5d5842e311bb1c0951b9161f58.png",
+    laugh: "https://user.uploads.dev/file/ad72055063123db17e0fb74ecdf086c7.png",
+    annoyed: "https://user.uploads.dev/file/69043c10d3581a34558e4987e14d6306.png",
+    sad: "https://user.uploads.dev/file/9c22f50a25abccf9745f340ea167f9c8.png",
+    shocked: "https://user.uploads.dev/file/1615132b2de4f74b95096075f1a2298f.png"
+  };
+
+  // Premade characters
+  const premadeCharacters = [
+    {
+      name: "Jenna",
+      description: "A warm and friendly assistant. She is your in-person personal assistant who always follows instructions to the letter. She is an expert at everything from writing, to coding, to science, and more. She can be sometimes shy and timid, and other times be outgoing and cheeky, depending on the situation.",
+      sprite: "sprite1",
+      emotions: ["neutral", "smiling", "blushing", "laughing", "concerned", "shocked", "annoyed"],
+      charColor: "3f704d", // green
+      spriteUrl: jennaSprites.neutral,
+      emotionUrls: jennaSprites,
+      isJenna: true
+    },
+    {
+      name: "Rachel",
+      description: "A popular girl that roasts you for fun. Rachel is a highschool girl who is popular among her friends and knows you since childhood. She likes to make jokes about you and other people and roasts you for fun. She mocks you and looks down on you. But despite all that, she has compassion for others and shows her kind side when needed.",
+      sprite: "sprite2",
+      emotions: ["neutral", "happy", "laughing", "sad", "angry", "shocked"],
+      charColor: "8c4a4a", // red
+      spriteUrl: rachelSprites.neutral,
+      emotionUrls: rachelSprites,
+      isRachel: true
+    },
+    {
+      name: "Leo",
+      description: "An advocate who guides you about legal stuff. The lawyer is always out there giving you the best advice and making sure you don't end up in trouble. He has never lost a case in his life.",
+      sprite: "sprite3",
+      emotions: ["neutral", "happy", "laughing", "shocked", "angry"],
+      charColor: "4a6d8c", // blue
+      spriteUrl: leoSprites.neutral,
+      emotionUrls: leoSprites,
+      isLeo: true
+    },
+    {
+      name: "Carl",
+      description: "A fun guy who jokes a lot. Carl cracks jokes around his friends and he is a class clown. He does funny things to get people's attention. His hillarious personality is just a mask to hide his depression.",
+      sprite: "sprite4",
+      emotions: ["neutral", "sad", "angry", "laughing", "shocked", "smiling"],
+      charColor: "8c4a7c", // purple
+      spriteUrl: carlSprites.neutral,
+      emotionUrls: carlSprites,
+      isCarl: true
+    },
+    {
+      name: "Mary",
+      description: "Shy and introvert girl, helps you in your homework.. Mary is an introvert and shy girl who finds peace in being alone with her notebook. She is always studying hard for a good future. She is kind and helps you in homework and exams.",
+      sprite: "sprite5",
+      emotions: ["neutral", "smile", "sad", "annoyed", "laughing", "shocked"],
+      charColor: "4a4a8c", // indigo
+      spriteUrl: marySprites.neutral,
+      emotionUrls: marySprites,
+      isMary: true
+    },
+    {
+      name: "Henry",
+      description: "A mysterious guy tells you horror stories. Very mysterious, Henry is your neighbor who likes lives alone and tells kids horror stories at night. He has a strong compassion with kids but he doesn't like to show emotions.",
+      sprite: "sprite6",
+      emotions: ["neutral", "angry", "closed eyes", "shocked"],
+      charColor: "1abc9c", // teal
+      spriteUrl: henrySprites.neutral,
+      emotionUrls: henrySprites,
+      isHenry: true
+    },
+    {
+      name: "Soccer Star",
+      description: "A sportive highschool boy who trains you during gym class. He likes to play soccer and other sports. He is your childhood friend and trains you to be good at sports. He is popular in school for being amazing at sports.",
+      sprite: "sprite1",
+      emotions: ["neutral", "happy", "sad", "shocked", "angry"],
+      charColor: "f39c12", // orange
+      spriteUrl: soccerStarSprites.neutral,
+      emotionUrls: soccerStarSprites,
+      isSoccerStar: true
+    },
+    {
+      name: "Tina",
+      description: "Someone to empathetically listen to your concerns, and talk through difficulties. A friendly, empathetic, and helpful therapist/psychologist who listens carefully to the concerns of their patient and helps guide them through their difficulties with patience, care, analogies, and practical examples.",
+      sprite: "sprite2",
+      emotions: ["neutral", "smiling", "laughing", "sad", "shocked", "concerned"],
+      charColor: "9b59b6", // purple
+      spriteUrl: tinaSprites.neutral,
+      emotionUrls: tinaSprites,
+      isTina: true
+    },
+    {
+      name: "Coding Assistant",
+      description: "Answers coding questions, helps you debug. The coding assistant helps the user to write code, answer coding questions, and debug their code. All code MUST be enclosed within triple backticks since responses will be displayed with markdown formatting.",
+      sprite: "sprite3",
+      emotions: ["neutral", "laugh", "annoyed", "sad", "shocked"],
+      charColor: "e74c3c", // red
+      spriteUrl: codingAssistantSprites.neutral,
+      emotionUrls: codingAssistantSprites,
+      isCodingAssistant: true
+    }
+  ];
+
+  // Close welcome popup
+  function closeWelcomePopup() {
+    welcomePopupEl.hidden = true;
+
+    // If the checkbox is checked, save the preference
+    if (document.getElementById("dontShowWelcomeAgainCb").checked) {
+      localStorage.dontShowWelcomePopup = "true";
+    }
+  }
+
+  // Toggle theme mode (light/dark)
+  function toggleThemeMode() {
+    if (gameState.themeMode === "dark") {
+      document.body.classList.add('light-mode');
+      gameState.themeMode = "light";
+      themeModeBtn.textContent = "Dark Mode";
+    } else {
+      document.body.classList.remove('light-mode');
+      gameState.themeMode = "dark";
+      themeModeBtn.textContent = "Light Mode";
+    }
+
+    // Update background if using no background option
+    if (gameState.noBackground) {
+      updateNoBackgroundColor();
+    }
+  }
+
+  // Update background color for "no background" option based on theme mode
+  function updateNoBackgroundColor() {
+    if (gameState.noBackground) {
+      const backgroundColor = gameState.themeMode === "light" ? "white" : "black";
+      document.getElementById("backgroundEl").style.backgroundColor = backgroundColor;
+      document.getElementById("backgroundEl").style.backgroundImage = "none";
+    }
+  }
+
+  // Audio initialization
+  function initAudio() {
+    // Stop any existing audio
+    if (gameState.audio.element) {
+      gameState.audio.element.pause();
+      gameState.audio.element = null;
+    }
+
+    // Create new audio element based on selection
+    if (gameState.audio.source !== "none") {
+      let audioUrl = "";
+
+      if (gameState.audio.source === "fantasy") {
+        audioUrl = "https://files.catbox.moe/cjqi6m.mp3";
+      } else if (gameState.audio.source === "mystery") {
+        audioUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3";
+      } else if (gameState.audio.source === "custom") {
+        audioUrl = gameState.audio.customUrl;
+      }
+
+      if (audioUrl) {
+        gameState.audio.element = new Audio(audioUrl);
+        gameState.audio.element.loop = true;
+
+        if (gameState.audio.isPlaying) {
+          gameState.audio.element.play().catch(error => {
+            console.log("Audio autoplay failed:", error);
+            gameState.audio.isPlaying = false;
+            updateAudioToggleButton();
+          });
+        }
+      }
+    }
+
+    updateAudioToggleButton();
+  }
+
+  // Update audio toggle button text
+  function updateAudioToggleButton() {
+    const audioBtn = document.getElementById("audioToggleBtn");
+    if (!audioBtn) return;
+
+    if (gameState.audio.source === "none") {
+      audioBtn.textContent = "Audio: N/A";
+      audioBtn.disabled = true;
+    } else {
+      audioBtn.disabled = false;
+      audioBtn.textContent = gameState.audio.isPlaying ? "Audio: ON" : "Audio: OFF";
+    }
+  }
+
+  // Toggle audio playback
+  function toggleAudio() {
+    if (gameState.audio.source === "none" || !gameState.audio.element) return;
+
+    if (gameState.audio.isPlaying) {
+      gameState.audio.element.pause();
+      gameState.audio.isPlaying = false;
+    } else {
+      gameState.audio.element.play().catch(error => {
+        console.log("Audio play failed:", error);
+      });
+      gameState.audio.isPlaying = true;
+    }
+
+    updateAudioToggleButton();
+  }
+
+  // Toggle fullscreen mode
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.log("Error attempting to enable fullscreen:", err.message);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // Back to setup screen
+  function backToSetup() {
+    navigation.currentScreenIndex = 0;
+    switchToScreen("titleScreenEl");
+
+    // Stop audio if playing
+    if (gameState.audio.element && gameState.audio.isPlaying) {
+      gameState.audio.element.pause();
+      gameState.audio.isPlaying = false;
+    }
+
+    // Reset story started flag
+    gameState.storyStarted = false;
+  }
+
+  // Show feedback popup
+  function showFeedback() {
+    // Initialize comments plugin if not already done
+    if (!commentsCtnEl.innerHTML) {
+      commentsCtnEl.innerHTML = c(options);
+    }
+
+    feedbackPopupEl.hidden = false;
+  }
+
+  // Close feedback popup
+  function closeFeedback() {
+    feedbackPopupEl.hidden = true;
+  }
+
+  // Go to previous message
+  function goToPreviousMessage() {
+    if (gameState.dialogueHistory.length <= 1) return;
+
+    if (gameState.currentDialogue > 0) {
+      gameState.currentDialogue--;
+      displayCurrentDialogue();
+    }
+  }
+
+  // Toggle menu1 dropdown
+  function toggleMenu1() {
+    menu1El.hidden = !menu1El.hidden;
+
+    // Close menu2 if open
+    if (!menu2El.hidden) {
+      menu2El.hidden = true;
+    }
+  }
+
+  // Toggle menu2 dropdown
+  function toggleMenu2() {
+    menu2El.hidden = !menu2El.hidden;
+
+    // Close menu1 if open
+    if (!menu1El.hidden) {
+      menu1El.hidden = true;
+    }
+  }
+
+  // Show audio popup
+  function showAudioPopup() {
+    // Set the current selection in the popup
+    const audioOptions = document.querySelectorAll('#audioPopupCtn .audio-option');
+    audioOptions.forEach(option => {
+      option.classList.remove('selected');
+      if (option.dataset.value === gameState.audio.source) {
+        option.classList.add('selected');
+      }
+    });
+
+    // Set custom URL if applicable
+    if (gameState.audio.source === 'custom') {
+      document.getElementById('customAudioPopupUrl').value = gameState.audio.customUrl;
+    }
+
+    audioPopupCtn.hidden = false;
+  }
+
+  // Close audio popup
+  function closeAudioPopup() {
+    audioPopupCtn.hidden = true;
+  }
+
+  // Show background popup
+  function showBackgroundPopup() {
+    // Generate backgrounds in the popup
+    generateBackgroundsForPopup();
+    backgroundPopupCtn.hidden = false;
+  }
+
+  // Close background popup
+  function closeBackgroundPopup() {
+    backgroundPopupCtn.hidden = true;
+  }
+
+  // Show add character popup
+  function showAddCharacterPopup() {
+    // Generate premade characters in the popup
+    generatePremadeCharactersForPopup();
+    addCharacterPopupCtn.hidden = false;
+  }
+
+  // Close add character popup
+  function closeAddCharacterPopup() {
+    addCharacterPopupCtn.hidden = true;
+  }
+
+  // Switch between character tabs in popup
+  function switchCharacterTab(tab) {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => btn.classList.remove('active'));
+
+    const activateTab = document.querySelector(`.tab-btn[onclick="switchCharacterTab('${tab}')"]`);
+    if (activateTab) activateTab.classList.add('active');
+
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.hidden = true;
+    });
+
+    // Show selected tab content
+    if (tab === 'premade') {
+      document.getElementById('premadeCharactersTabContent').hidden = false;
+    } else if (tab === 'custom') {
+      document.getElementById('customCharacterTabContent').hidden = false;
+    }
+  }
+
+  // Generate backgrounds for popup
+  function generateBackgroundsForPopup() {
+    const backgroundContainer = document.querySelector(".popup-background-options");
+    backgroundContainer.innerHTML = "";
+
+    // Create background options from the provided URLs
+    backgroundImages.forEach((imgUrl, index) => {
+      const backgroundEl = document.createElement("div");
+      backgroundEl.className = "background-option";
+      backgroundEl.dataset.background = `background${index + 1}`;
+      backgroundEl.dataset.url = imgUrl;
+
+      // Set the background image
+      const bgImage = document.createElement("img");
+      bgImage.src = imgUrl;
+      bgImage.alt = `Background ${index + 1}`;
+      bgImage.style.width = "100%";
+      bgImage.style.height = "100%";
+      bgImage.style.objectFit = "cover";
+
+      backgroundEl.appendChild(bgImage);
+      backgroundContainer.appendChild(backgroundEl);
+
+      // Mark as selected if it's the current background
+      if (gameState.customBackgroundUrl === imgUrl) {
+        backgroundEl.classList.add("selected");
+      }
+
+      backgroundEl.addEventListener("click", () => {
+        const allBgs = document.querySelectorAll(".popup-background-options .background-option");
+        allBgs.forEach(bg => bg.classList.remove("selected"));
+        backgroundEl.classList.add("selected");
+
+        // Store the selection but don't apply yet - wait for the Set button
+        backgroundEl.dataset.selected = "true";
+      });
+    });
+
+    // Check if Set button already exists, if not add it
+    if (!document.getElementById("setPopupBackgroundBtn")) {
+      const setBtn = document.createElement("button");
+      setBtn.id = "setPopupBackgroundBtn";
+      setBtn.className = "set-btn";
+      setBtn.textContent = "Set";
+      setBtn.onclick = function() {
+        const selectedBg = document.querySelector(".popup-background-options .background-option[data-selected='true']");
+        if (selectedBg) {
+          // Apply the background
+          gameState.background = selectedBg.dataset.background;
+          gameState.customBackgroundUrl = selectedBg.dataset.url;
+          gameState.noBackground = false;
+
+          // Update the game screen background
+          if (navigation.currentScreenIndex === navigation.screens.length - 1) {
+            document.getElementById("backgroundEl").style.backgroundImage = `url(${selectedBg.dataset.url})`;
+            document.getElementById("backgroundEl").style.backgroundColor = "";
+          }
+
+          // Save game state to localStorage
+          saveGameToLocalStorage();
+        }
+
+        closeBackgroundPopup();
+      };
+
+      backgroundContainer.after(setBtn);
+    }
+  }
+
+  // Set custom background from popup
+  document.getElementById("setCustomBackgroundPopupBtn").addEventListener("click", () => {
+    const url = document.getElementById("customBackgroundPopupUrl").value.trim();
+    if (!url) {
+      alert("Please enter a valid image URL");
+      return;
+    }
+
+    // Deselect any previously selected background
+    document.querySelectorAll(".popup-background-options .background-option").forEach(bg => {
+      bg.classList.remove("selected");
+      delete bg.dataset.selected;
+    });
+
+    // Apply the background
+    gameState.background = "";
+    gameState.customBackgroundUrl = url;
+    gameState.noBackground = false;
+
+    // Update the game screen background
+    if (navigation.currentScreenIndex === navigation.screens.length - 1) {
+      document.getElementById("backgroundEl").style.backgroundImage = `url(${url})`;
+      document.getElementById("backgroundEl").style.backgroundColor = "";
+    }
+
+    // Save game state to localStorage
+    saveGameToLocalStorage();
+
+    closeBackgroundPopup();
+  });
+
+  // Set no background from popup
+  document.getElementById("setNoBackgroundPopupBtn").addEventListener("click", () => {
+    // Deselect any previously selected background
+    document.querySelectorAll(".popup-background-options .background-option").forEach(bg => {
+      bg.classList.remove("selected");
+      delete bg.dataset.selected;
+    });
+
+    // Apply no background
+    gameState.background = "";
+    gameState.customBackgroundUrl = "";
+    gameState.noBackground = true;
+
+    // Update the game screen background
+    if (navigation.currentScreenIndex === navigation.screens.length - 1) {
+      updateNoBackgroundColor();
+    }
+
+    // Save game state to localStorage
+    saveGameToLocalStorage();
+
+    closeBackgroundPopup();
+  });
+
+  // Set no background button in main screen
+  document.getElementById("setNoBackgroundBtn").addEventListener("click", () => {
+    // Deselect any previously selected background
+    document.querySelectorAll(".background-option").forEach(bg => {
+      bg.classList.remove("selected");
+    });
+
+    // Apply no background
+    gameState.background = "";
+    gameState.customBackgroundUrl = "";
+    gameState.noBackground = true;
+
+    // Save game state to localStorage
+    saveGameToLocalStorage();
+
+    // Show confirmation
+    alert("No background set. A plain background based on theme mode will be used.");
+
+    navigateNext();
+  });
+
+  // Generate premade characters for popup
+  function generatePremadeCharactersForPopup() {
+    const premadeContainer = document.querySelector(".popup-premade-grid");
+    if (!premadeContainer) return;
+
+    premadeContainer.innerHTML = "";
+
+    // Create cards for each premade character
+    premadeCharacters.forEach((character, index) => {
+      const card = document.createElement("div");
+      card.className = "premade-character-card";
+      card.dataset.index = index;
+
+      // Create card content with special handling for each character with specific sprites
+      let spriteImgHtml;
+      let emotionsHtml;
+
+      if (character.isJenna) {
+        spriteImgHtml = `<img src="${jennaSprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(jennaSprites).map(emotion => `
+          <img src="${jennaSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else if (character.isRachel) {
+        spriteImgHtml = `<img src="${rachelSprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(rachelSprites).map(emotion => `
+          <img src="${rachelSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else if (character.isLeo) {
+        spriteImgHtml = `<img src="${leoSprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(leoSprites).map(emotion => `
+          <img src="${leoSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else if (character.isCarl) {
+        spriteImgHtml = `<img src="${carlSprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(carlSprites).map(emotion => `
+          <img src="${carlSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else if (character.isMary) {
+        spriteImgHtml = `<img src="${marySprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(marySprites).map(emotion => `
+          <img src="${marySprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else if (character.isHenry) {
+        spriteImgHtml = `<img src="${henrySprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(henrySprites).map(emotion => `
+          <img src="${henrySprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else if (character.isSoccerStar) {
+        spriteImgHtml = `<img src="${soccerStarSprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(soccerStarSprites).map(emotion => `
+          <img src="${soccerStarSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else if (character.isTina) {
+        spriteImgHtml = `<img src="${tinaSprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(tinaSprites).map(emotion => `
+          <img src="${tinaSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else if (character.isCodingAssistant) {
+        spriteImgHtml = `<img src="${codingAssistantSprites.neutral}" class="premade-character-sprite">`;
+        emotionsHtml = Object.keys(codingAssistantSprites).map(emotion => `
+          <img src="${codingAssistantSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      } else {
+        spriteImgHtml = `<img src="https://placehold.co/200x200/${character.charColor}/fff?text=${character.name}" class="premade-character-sprite">`;
+        emotionsHtml = character.emotions.map(emotion => `
+          <img src="https://placehold.co/200x200/${character.charColor}/fff?text=${emotion}" class="premade-emotion" data-emotion="${emotion}">
+        `).join('');
+      }
+
+      card.innerHTML = `
+        <div class="premade-character-header">
+          ${spriteImgHtml}
+          <div class="premade-character-info">
+            <h3 class="premade-character-name">${character.name}</h3>
+            <p class="premade-character-description">${character.description}</p>
+          </div>
+        </div>
+        <div class="premade-character-emotions">
+          ${emotionsHtml}
+        </div>
+      `;
+
+      // Add click handler for selecting character
+      card.addEventListener("click", () => {
+        addPremadeCharacterToGame(index);
+      });
+
+      premadeContainer.appendChild(card);
+    });
+  }
+
+  // Add premade character to game from popup
+  function addPremadeCharacterToGame(index) {
+    const character = premadeCharacters[index];
+
+    // Check if this character is already in the game
+    const existingIndex = gameState.characters.findIndex(c => c.name === character.name);
+    if (existingIndex !== -1) {
+      alert(`${character.name} is already in your game!`);
+      return;
+    }
+
+    // Add the character to the game
+    let newCharacter;
+
+    if (character.isJenna) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isJenna: true,
+        emotionUrls: jennaSprites
+      };
+    } else if (character.isRachel) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isRachel: true,
+        emotionUrls: rachelSprites
+      };
+    } else if (character.isLeo) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isLeo: true,
+        emotionUrls: leoSprites
+      };
+    } else if (character.isCarl) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isCarl: true,
+        emotionUrls: carlSprites
+      };
+    } else if (character.isMary) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isMary: true,
+        emotionUrls: marySprites
+      };
+    } else if (character.isHenry) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isHenry: true,
+        emotionUrls: henrySprites
+      };
+    } else if (character.isSoccerStar) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isSoccerStar: true,
+        emotionUrls: soccerStarSprites
+      };
+    } else if (character.isTina) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isTina: true,
+        emotionUrls: tinaSprites
+      };
+    } else if (character.isCodingAssistant) {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor,
+        isCodingAssistant: true,
+        emotionUrls: codingAssistantSprites
+      };
+    } else {
+      newCharacter = {
+        name: character.name,
+        description: character.description,
+        sprite: character.sprite,
+        emotions: character.emotions,
+        id: character.name.toLowerCase().replace(/\s+/g, '-'),
+        charColor: character.charColor
+      };
+    }
+
+    gameState.characters.push(newCharacter);
+
+    // Update the game screen
+    if (navigation.currentScreenIndex === navigation.screens.length - 1) {
+      setupGameScreen();
+    }
+
+    // Save game state
+    saveGameToLocalStorage();
+
+    // Close the popup
+    closeAddCharacterPopup();
+
+    // Show confirmation
+    alert(`${character.name} has been added to your game!`);
+  }
+
+  // Add custom character to game from popup
+  document.querySelector('#customCharacterTabContent .save-character-btn').addEventListener('click', function() {
+    const form = document.querySelector('.popup-character-form');
+    const name = form.querySelector('.character-name').value.trim();
+    const description = form.querySelector('.character-description').value.trim();
+    const imageUrl = form.querySelector('.character-image-url').value.trim();
+
+    // Validate inputs
+    if (!name || !description || !imageUrl) {
+      alert('Please fill in all the required fields (name, description, and image URL)');
+      return;
+    }
+
+    // Get emotions
+    const emotionContainers = form.querySelectorAll('.emotion-container');
+    const emotions = [];
+    const emotionUrls = {};
+
+    emotionContainers.forEach(container => {
+      const emotionName = container.querySelector('.emotion-name').value.trim();
+      const emotionUrl = container.querySelector('.emotion-url').value.trim();
+
+      if (emotionName && emotionUrl) {
+        emotions.push(emotionName);
+        emotionUrls[emotionName] = emotionUrl;
+      }
+    });
+
+    if (emotions.length === 0) {
+      alert('Please add at least one emotion with a valid image URL');
+      return;
+    }
+
+    // Check if this character name is already in use
+    const existingIndex = gameState.characters.findIndex(c => c.name === name);
+    if (existingIndex !== -1) {
+      alert(`A character named "${name}" already exists in your game!`);
+      return;
+    }
+
+    // Add the custom character
+    const customCharacter = {
+      name,
+      description,
+      imageUrl,
+      emotions,
+      emotionUrls,
+      id: name.toLowerCase().replace(/\s+/g, '-'),
+      isCustom: true
+    };
+
+    gameState.characters.push(customCharacter);
+
+    // Update the game screen
+    if (navigation.currentScreenIndex === navigation.screens.length - 1) {
+      setupGameScreen();
+    }
+
+    // Save game state
+    saveGameToLocalStorage();
+
+    // Reset form
+    form.querySelector('.character-name').value = '';
+    form.querySelector('.character-description').value = '';
+    form.querySelector('.character-image-url').value = '';
+    form.querySelector('.emotion-inputs').innerHTML = '';
+    addEmotionInput(form.querySelector('.emotion-inputs'));
+
+    // Close the popup
+    closeAddCharacterPopup();
+
+    // Show confirmation
+    alert(`Character "${name}" has been added to your game!`);
+  });
+
+  // Add emotion input to form
+  function addEmotionInput(container) {
+    const emotionContainer = document.createElement('div');
+    emotionContainer.className = 'emotion-container';
+
+    emotionContainer.innerHTML = `
+      <input type="text" class="emotion-name" placeholder="Emotion name (e.g. happy, sad, angry)">
+      <input type="text" class="emotion-url" placeholder="Emotion image URL">
+      <button type="button" class="remove-emotion-btn">Remove</button>
+    `;
+
+    container.appendChild(emotionContainer);
+
+    // Add event listener for remove button
+    emotionContainer.querySelector('.remove-emotion-btn').addEventListener('click', () => {
+      container.removeChild(emotionContainer);
+    });
+  }
+
+  // Add emotion input event listeners
+  document.querySelectorAll('.add-emotion-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const emotionInputs = this.closest('.character-form').querySelector('.emotion-inputs');
+      addEmotionInput(emotionInputs);
+    });
+  });
+
+  // Toggle menu dropdowns when menu buttons are clicked
+  document.addEventListener("DOMContentLoaded", function() {
+    // Genre dropdown event listener to update description
+    document.getElementById("genreSelectEl").addEventListener("change", function() {
+      const genreDescription = document.querySelector(".genre-description");
+      const selectedGenre = this.value;
+
+      if (selectedGenre && genreDetails[selectedGenre]) {
+        genreDescription.textContent = genreDetails[selectedGenre].description;
+      } else {
+        genreDescription.textContent = "";
+      }
+    });
+
+    // Menu1 toggle
+    document.getElementById("menu1").addEventListener("click", function() {
+      menu1El.hidden = !menu1El.hidden;
+      if (!menu2El.hidden) menu2El.hidden = true;
+    });
+
+    // Menu2 toggle
+    document.getElementById("menu2").addEventListener("click", function() {
+      menu2El.hidden = !menu2El.hidden;
+      if (!menu1El.hidden) menu1El.hidden = true;
+    });
+
+    // Click outside to close menus
+    document.addEventListener("click", function(event) {
+      if (!menu1El.hidden && !menu1El.contains(event.target) && event.target !== menu1) {
+        menu1El.hidden = true;
+      }
+
+      if (!menu2El.hidden && !menu2El.contains(event.target) && event.target !== menu2) {
+        menu2El.hidden = true;
+      }
+    });
+
+    // Setup audio options click handlers
+    document.querySelectorAll('#audioScreenEl .audio-option').forEach(option => {
+      option.addEventListener('click', function() {
+        document.querySelectorAll('#audioScreenEl .audio-option').forEach(opt => {
+          opt.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      });
+    });
+
+    // Setup audio popup options click handlers
+    document.querySelectorAll('#audioPopupCtn .audio-option').forEach(option => {
+      option.addEventListener('click', function() {
+        document.querySelectorAll('#audioPopupCtn .audio-option').forEach(opt => {
+          opt.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      });
+    });
+
+    // Set Audio button in main audio screen
+    document.getElementById('setAudioBtn').addEventListener('click', function() {
+      const selected = document.querySelector('#audioScreenEl .audio-option.selected');
+      if (selected) {
+        gameState.audio.source = selected.dataset.value;
+
+        if (gameState.audio.source === 'custom') {
+          gameState.audio.customUrl = document.getElementById('customAudioUrl').value.trim();
+          if (!gameState.audio.customUrl) {
+            alert('Please enter a custom audio URL');
+            return;
+          }
+        }
+
+        initAudio();
+        navigateNext();
+      } else {
+        alert('Please select an audio option');
+      }
+    });
+
+    // Set Audio button in audio popup
+    document.getElementById('setPopupAudioBtn').addEventListener('click', function() {
+      const selected = document.querySelector('#audioPopupCtn .audio-option.selected');
+      if (selected) {
+        gameState.audio.source = selected.dataset.value;
+
+        if (gameState.audio.source === 'custom') {
+          gameState.audio.customUrl = document.getElementById('customAudioPopupUrl').value.trim();
+          if (!gameState.audio.customUrl) {
+            alert('Please enter a custom audio URL');
+            return;
+          }
+        }
+
+        initAudio();
+        closeAudioPopup();
+
+        // Save game state
+        saveGameToLocalStorage();
+      } else {
+        alert('Please select an audio option');
+      }
+    });
+
+    // Check if the user has chosen not to see the welcome popup
+    if (localStorage.dontShowWelcomePopup === "true") {
+      welcomePopupEl.hidden = true;
+    }
+
+    // Apply the light mode initially since it's default now
+    document.body.classList.add('light-mode');
+    if (themeModeBtn) {
+      themeModeBtn.textContent = "Dark Mode";
+    }
+
+    // Add initial emotion input to add character popup
+    addEmotionInput(document.querySelector('#customCharacterTabContent .emotion-inputs'));
+
+    // Initialize text-to-speech button
+    updateTextToSpeechButton();
+  });
+
+  // Navigate to next screen
+  function navigateNext() {
+    // Validate current screen before proceeding
+    if (!validateCurrentScreen()) {
+      return;
+    }
+
+    // Special handling for character screen before player description screen
+    if (navigation.screens[navigation.currentScreenIndex] === "characterScreenEl" &&
+        navigation.currentScreenIndex < navigation.screens.length - 2) {
+      if (!validateCharacters()) {
+        alert("Please complete all character information before continuing.");
+        return;
+      }
+    }
+
+    // Special handling for player description screen before game screen
+    if (navigation.screens[navigation.currentScreenIndex] === "playerDescriptionScreenEl" &&
+        navigation.currentScreenIndex < navigation.screens.length - 1) {
+      loadingScreenEl.hidden = false;
+      setTimeout(() => {
+        setupGameScreen();
+        navigation.currentScreenIndex++;
+        switchToScreen(navigation.screens[navigation.currentScreenIndex]);
+        startStory();
+        loadingScreenEl.hidden = true;
+      }, 1200);
+      return;
+    }
+
+    if (navigation.currentScreenIndex < navigation.screens.length - 1) {
+      navigation.currentScreenIndex++;
+      switchToScreen(navigation.screens[navigation.currentScreenIndex]);
+    }
+  }
+
+  // Navigate to previous screen
+  function navigatePrev() {
+    if (navigation.currentScreenIndex > 0) {
+      navigation.currentScreenIndex--;
+      switchToScreen(navigation.screens[navigation.currentScreenIndex]);
+    }
+  }
+
+  // Validate current screen before navigation
+  function validateCurrentScreen() {
+    const currentScreen = navigation.screens[navigation.currentScreenIndex];
+
+    // Lore screen validation
+    if (currentScreen === "loreScreenEl") {
+      const selectedGenre = genreSelectEl.value;
+      if (selectedGenre === "") {
+        alert("Please select a genre for your story!");
+        return false;
+      }
+
+      gameState.genre = selectedGenre;
+
+      if (loreInputEl.value.trim() === "") {
+        alert("Please enter some lore for your story!");
+        return false;
+      }
+
+      gameState.lore = loreInputEl.value;
+    }
+
+    // Background screen validation
+    if (currentScreen === "backgroundScreenEl" && gameState.background === "" && gameState.customBackgroundUrl === "" && !gameState.noBackground) {
+      alert("Please select a background before continuing.");
+      return false;
+    }
+
+    // Audio screen validation
+    if (currentScreen === "audioScreenEl") {
+      const selectedAudio = document.querySelector('#audioScreenEl .audio-option.selected');
+      if (!selectedAudio) {
+        alert("Please select an audio option before continuing.");
+        return false;
+      }
+
+      gameState.audio.source = selectedAudio.dataset.value;
+
+      if (selectedAudio.dataset.value === "custom") {
+        gameState.audio.customUrl = document.getElementById("customAudioUrl").value.trim();
+        if (!gameState.audio.customUrl) {
+          alert("Please enter a valid audio URL or choose another option.");
+          return false;
+        }
+      }
+    }
+
+    // Player description screen validation
+    if (currentScreen === "playerDescriptionScreenEl") {
+      gameState.playerName = playerNameInputEl.value.trim() || "Anon"; // Get player name, default to Anon if empty
+      gameState.playerDescription = playerDescriptionInputEl.value.trim();
+      if (gameState.playerDescription === "") {
+        alert("Please enter a description of yourself for the story.");
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  // Start setup
+  function startSetup() {
+    navigation.currentScreenIndex = 1; // Move directly to lore input screen
+    titleScreenEl.hidden = true;
+    setupScreensEl.hidden = false;
+    switchToScreen("loreScreenEl");
+  }
+
+  // Lore screen setup
+  document.getElementById("loreNextBtn").addEventListener("click", () => {
+    // Get and validate genre
+    const selectedGenre = genreSelectEl.value;
+    if (selectedGenre === "") {
+      alert("Please select a genre for your story!");
+      return;
+    }
+
+    gameState.genre = selectedGenre;
+    gameState.lore = loreInputEl.value;
+
+    if(gameState.lore.trim() === "") {
+      alert("Please enter some lore for your story!");
+      return;
+    }
+
+    // Show loading screen
+    loadingScreenEl.hidden = false;
+
+    // Generate backgrounds after a brief delay to show loading
+    setTimeout(() => {
+      generateBackgrounds();
+      navigation.currentScreenIndex = 2; // Move to background selection
+      switchToScreen("backgroundScreenEl");
+      loadingScreenEl.hidden = true;
+
+      // Save game state to localStorage
+      saveGameToLocalStorage();
+    }, 800);
+  });
+
+  // Custom background setup
+  document.getElementById("setCustomBackgroundBtn").addEventListener("click", () => {
+    const url = customBackgroundUrl.value.trim();
+    if (!url) {
+      alert("Please enter a valid image URL");
+      return;
+    }
+
+    // Deselect any previously selected background
+    document.querySelectorAll(".background-option").forEach(bg => {
+      bg.classList.remove("selected");
+    });
+
+    gameState.background = "";
+    gameState.customBackgroundUrl = url;
+    gameState.noBackground = false;
+
+    // Show a preview or confirmation
+    alert("Custom background set successfully!");
+
+    // Save game state to localStorage
+    saveGameToLocalStorage();
+
+    navigateNext();
+  });
+
+  // Character count setup
+  document.getElementById("setCharacterCountBtn").addEventListener("click", () => {
+    const count = parseInt(characterCountEl.value);
+    if(count < 1 || count > 5) {
+      alert("Please enter a number between 1 and 5");
+      return;
+    }
+
+    // Store the character count
+    gameState.characterCount = count;
+
+    // Show loading screen
+    loadingScreenEl.hidden = false;
+
+    // Generate premade character lists after a brief delay
+    setTimeout(() => {
+      // Clear any previous premade characters or character forms
+      characterFormsEl.innerHTML = "";
+      document.querySelector(".premade-grid").innerHTML = "";
+
+      // Reset selected premade characters
+      gameState.selectedPremadeCharacters = [];
+
+      // Show premade characters section
+      premadeCharactersEl.hidden = false;
+
+      // Generate the premade character selection
+      generatePremadeCharacters(count);
+      loadingScreenEl.hidden = true;
+
+      // Save game state to localStorage
+      saveGameToLocalStorage();
+    }, 800);
+  });
+
+  // Start game setup
+  document.getElementById("startGameBtn").addEventListener("click", () => {
+    if(validateCharacters()) {
+      // Move to player description screen
+      navigation.currentScreenIndex = 5; // Player description screen
+      switchToScreen("playerDescriptionScreenEl");
+
+      // Save game state to localStorage
+      saveGameToLocalStorage();
+    }
+  });
+
+  // Switch between setup screens
+  function switchToScreen(screenId) {
+    const setupScreens = document.querySelectorAll(".setup-screen");
+    setupScreens.forEach(screen => {
+      screen.hidden = true;
+    });
+
+    titleScreenEl.hidden = true;
+    setupScreensEl.hidden = false;
+    gameScreenEl.hidden = true;
+
+    if(screenId === "gameScreenEl") {
+      setupScreensEl.hidden = true;
+      gameScreenEl.hidden = false;
+
+      // Show menu2 only during game screen
+      menu2.hidden = false;
+
+      // Initialize audio when entering game screen
+      initAudio();
+
+      // Update the speak button visibility based on text-to-speech setting
+      if (document.getElementById("speakBtn")) {
+        document.getElementById("speakBtn").hidden = !gameState.textToSpeechEnabled;
+      }
+    } else if(screenId === "titleScreenEl") {
+      titleScreenEl.hidden = false;
+      setupScreensEl.hidden = true;
+
+      // Hide menu2 when not in game screen
+      menu2.hidden = true;
+    } else {
+      document.getElementById(screenId).hidden = false;
+
+      // Hide menu2 when not in game screen
+      menu2.hidden = true;
+    }
+
+    // Update navigation buttons based on current screen
+    updateNavigationButtons();
+  }
+
+  // Update navigation buttons visibility based on current screen
+  function updateNavigationButtons() {
+    const currentScreen = navigation.screens[navigation.currentScreenIndex];
+
+    // Get navigation buttons for the current screen
+    const currentScreenEl = document.getElementById(currentScreen);
+    const prevBtn = currentScreenEl.querySelector('.prev-btn');
+    const nextBtn = currentScreenEl.querySelector('.next-btn');
+
+    // Update previous button visibility
+    if (prevBtn) {
+      prevBtn.hidden = navigation.currentScreenIndex === 0 || (currentScreen === "gameScreenEl" && gameState.storyStarted);
+    }
+
+    // Update next button visibility
+    if (nextBtn) {
+      // Hide next button on the last screen (game screen) or if we're in character setup screens
+      nextBtn.hidden = navigation.currentScreenIndex === navigation.screens.length - 1 ||
+                      currentScreen === "characterScreenEl" ||
+                      currentScreen === "loreScreenEl" ||
+                      currentScreen === "backgroundScreenEl" ||
+                      currentScreen === "audioScreenEl" ||
+                      currentScreen === "playerDescriptionScreenEl";
+    }
+
+    // Hide game navigation if story has started
+    if (currentScreen === "gameScreenEl" && gameState.storyStarted) {
+      document.querySelector('.game-nav').hidden = true;
+    }
+  }
+
+  // Generate background selection options
+  function generateBackgrounds() {
+    const backgroundContainer = document.querySelector(".background-options");
+    backgroundContainer.innerHTML = "";
+
+    // Create background options from the provided URLs
+    backgroundImages.forEach((imgUrl, index) => {
+      const backgroundEl = document.createElement("div");
+      backgroundEl.className = "background-option";
+      backgroundEl.dataset.background = `background${index + 1}`;
+      backgroundEl.dataset.url = imgUrl;
+
+      // Set the background image
+      const bgImage = document.createElement("img");
+      bgImage.src = imgUrl;
+      bgImage.alt = `Background ${index + 1}`;
+      bgImage.style.width = "100%";
+      bgImage.style.height = "100%";
+      bgImage.style.objectFit = "cover";
+
+      backgroundEl.appendChild(bgImage);
+      backgroundContainer.appendChild(backgroundEl);
+
+      backgroundEl.addEventListener("click", () => {
+        const allBgs = document.querySelectorAll(".background-option");
+        allBgs.forEach(bg => bg.classList.remove("selected"));
+        backgroundEl.classList.add("selected");
+        gameState.background = backgroundEl.dataset.background;
+        gameState.customBackgroundUrl = imgUrl; // Store the actual URL
+        gameState.noBackground = false;
+
+        // Clear any custom URL if a predefined background is selected
+        customBackgroundUrl.value = "";
+
+        // Save game state to localStorage
+        saveGameToLocalStorage();
+
+        navigateNext();
+      });
+    });
+  }
+
+  // Generate premade character cards
+  function generatePremadeCharacters(count) {
+    const premadeContainer = document.querySelector(".premade-grid");
+    if (!premadeContainer) return;
+
+    premadeContainer.innerHTML = "";
+
+    // Display the character lists multiple times based on the character count
+    for (let i = 0; i < count; i++) {
+      // Add a header for each character selection
+      const header = document.createElement("div");
+      header.style.gridColumn = "1 / -1";
+      header.innerHTML = `<h3>Character ${i + 1}</h3>`;
+      premadeContainer.appendChild(header);
+
+      // Create cards for each premade character
+      premadeCharacters.forEach((character, index) => {
+        const card = document.createElement("div");
+        card.className = "premade-character-card";
+        card.dataset.index = index;
+        card.dataset.position = i; // Track which character position this selection is for
+
+        // Check if this character is already selected for this position
+        if (gameState.selectedPremadeCharacters.some(pc => pc.position === i && pc.index === index)) {
+          card.classList.add("selected");
+        }
+
+        // Create card content with special handling for each character with specific sprites
+        let spriteImgHtml;
+        let emotionsHtml;
+
+        if (character.isJenna) {
+          // Use Jenna's actual sprite images
+          spriteImgHtml = `<img src="${jennaSprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(jennaSprites).map(emotion => `
+            <img src="${jennaSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else if (character.isRachel) {
+          // Use Rachel's actual sprite images
+          spriteImgHtml = `<img src="${rachelSprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(rachelSprites).map(emotion => `
+            <img src="${rachelSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else if (character.isLeo) {
+          // Use Leo's actual sprite images
+          spriteImgHtml = `<img src="${leoSprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(leoSprites).map(emotion => `
+            <img src="${leoSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else if (character.isCarl) {
+          // Use Carl's actual sprite images
+          spriteImgHtml = `<img src="${carlSprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(carlSprites).map(emotion => `
+            <img src="${carlSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else if (character.isMary) {
+          // Use Mary's actual sprite images
+          spriteImgHtml = `<img src="${marySprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(marySprites).map(emotion => `
+            <img src="${marySprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else if (character.isHenry) {
+          // Use Henry's actual sprite images
+          spriteImgHtml = `<img src="${henrySprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(henrySprites).map(emotion => `
+            <img src="${henrySprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else if (character.isSoccerStar) {
+          // Use Soccer Star's actual sprite images
+          spriteImgHtml = `<img src="${soccerStarSprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(soccerStarSprites).map(emotion => `
+            <img src="${soccerStarSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else if (character.isTina) {
+          // Use Tina's actual sprite images
+          spriteImgHtml = `<img src="${tinaSprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(tinaSprites).map(emotion => `
+            <img src="${tinaSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else if (character.isCodingAssistant) {
+          // Use Coding Assistant's actual sprite images
+          spriteImgHtml = `<img src="${codingAssistantSprites.neutral}" class="premade-character-sprite">`;
+
+          emotionsHtml = Object.keys(codingAssistantSprites).map(emotion => `
+            <img src="${codingAssistantSprites[emotion]}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        } else {
+          // Use placeholders for other characters
+          spriteImgHtml = `<img src="https://placehold.co/200x200/${character.charColor}/fff?text=${character.name}" class="premade-character-sprite">`;
+
+          emotionsHtml = character.emotions.map(emotion => `
+            <img src="https://placehold.co/200x200/${character.charColor}/fff?text=${emotion}" class="premade-emotion" data-emotion="${emotion}">
+          `).join('');
+        }
+
+        card.innerHTML = `
+          <div class="premade-character-header">
+            ${spriteImgHtml}
+            <div class="premade-character-info">
+              <h3 class="premade-character-name">${character.name}</h3>
+              <p class="premade-character-description">${character.description}</p>
+            </div>
+          </div>
+          <div class="premade-character-emotions">
+            ${emotionsHtml}
+          </div>
+        `;
+
+        // Add click handler for selecting/deselecting premade character
+        card.addEventListener("click", () => {
+          togglePremadeCharacter(index, i, card);
+        });
+
+        premadeContainer.appendChild(card);
+      });
+
+      // Add custom character option for this position
+      const customCard = document.createElement("div");
+      customCard.className = "custom-character-card";
+      customCard.dataset.position = i;
+      customCard.innerHTML = `
+        <div class="custom-character-icon">+</div>
+        <h3>Create Custom Character</h3>
+        <p>Design your own unique character</p>
+      `;
+
+      customCard.addEventListener("click", () => {
+        // Show custom character form for this position
+        showCustomCharacterForm(i);
+      });
+
+      premadeContainer.appendChild(customCard);
+    }
+
+    // Update the Start Game button visibility
+    startGameBtn.hidden = false;
+  }
+
+  // Toggle selection of premade character
+  function togglePremadeCharacter(index, position, card) {
+    // Check if a character is already selected for this position
+    const existingSelection = gameState.selectedPremadeCharacters.findIndex(pc => pc.position === position);
+
+    if (existingSelection !== -1) {
+      // If this same character is already selected, deselect it
+      if (gameState.selectedPremadeCharacters[existingSelection].index === index) {
+        gameState.selectedPremadeCharacters.splice(existingSelection, 1);
+        card.classList.remove("selected");
+      } else {
+        // If a different character is selected for this position, deselect the old one and select the new one
+        const oldCard = document.querySelector(`.premade-character-card[data-position="${position}"].selected`);
+        if (oldCard) {
+          oldCard.classList.remove("selected");
+        }
+        gameState.selectedPremadeCharacters[existingSelection] = { index, position };
+        card.classList.add("selected");
+      }
+    } else {
+      // No character selected for this position yet, so select this one
+      gameState.selectedPremadeCharacters.push({ index, position });
+      card.classList.add("selected");
+    }
+
+    // Save game state to localStorage
+    saveGameToLocalStorage();
+  }
+
+  // Show form for creating a custom character
+  function showCustomCharacterForm(position) {
+    const formsContainer = document.getElementById("characterFormsEl");
+
+    // Hide premade characters
+    premadeCharactersEl.hidden = true;
+
+    // Clear existing forms
+    formsContainer.innerHTML = "";
+
+    const formEl = document.createElement("div");
+    formEl.className = "character-form";
+    formEl.dataset.position = position;
+
+    formEl.innerHTML = `
+      <h3>Custom Character for Position ${position + 1}</h3>
+      <input type="text" class="character-name" placeholder="Character Name" required>
+      <textarea class="character-description" placeholder="Character Description..." rows="3" required></textarea>
+
+      <div>
+        <p>Character Image URL:</p>
+        <input type="text" class="character-image-url" placeholder="Enter character image URL">
+      </div>
+
+      <div>
+        <p>Emotion Images:</p>
+        <div class="emotion-inputs"></div>
+        <button type="button" class="add-emotion-btn">Add Emotion</button>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:20px;">
+        <button type="button" class="cancel-btn">Cancel</button>
+        <button type="button" class="save-character-btn">Save Character</button>
+      </div>
+    `;
+
+    formsContainer.appendChild(formEl);
+
+    // Add initial emotion input
+    addEmotionInput(formEl.querySelector('.emotion-inputs'));
+
+    // Add event listener for add emotion button
+    formEl.querySelector('.add-emotion-btn').addEventListener('click', () => {
+      addEmotionInput(formEl.querySelector('.emotion-inputs'));
+    });
+
+    // Add event listener for save button
+    formEl.querySelector('.save-character-btn').addEventListener('click', () => {
+      saveCustomCharacter(formEl);
+    });
+
+    // Add event listener for cancel button
+    formEl.querySelector('.cancel-btn').addEventListener('click', () => {
+      // Hide character form and show premade characters again
+      formsContainer.innerHTML = "";
+      premadeCharactersEl.hidden = false;
+    });
+  }
+
+  // Save custom character
+  function saveCustomCharacter(formEl) {
+    const position = parseInt(formEl.dataset.position);
+    const name = formEl.querySelector('.character-name').value.trim();
+    const description = formEl.querySelector('.character-description').value.trim();
+    const imageUrl = formEl.querySelector('.character-image-url').value.trim();
+
+    // Validate inputs
+    if (!name || !description || !imageUrl) {
+      alert('Please fill in all the required fields (name, description, and image URL)');
+      return;
+    }
+
+    // Get emotions
+    const emotionContainers = formEl.querySelectorAll('.emotion-container');
+    const emotions = [];
+    const emotionUrls = {};
+
+    emotionContainers.forEach(container => {
+      const emotionName = container.querySelector('.emotion-name').value.trim();
+      const emotionUrl = container.querySelector('.emotion-url').value.trim();
+
+      if (emotionName && emotionUrl) {
+        emotions.push(emotionName);
+        emotionUrls[emotionName] = emotionUrl;
+      }
+    });
+
+    if (emotions.length === 0) {
+      alert('Please add at least one emotion with a valid image URL');
+      return;
+    }
+
+    // Store the custom character
+    const customCharacter = {
+      name,
+      description,
+      imageUrl,
+      emotions,
+      emotionUrls,
+      position,
+      isCustom: true
+    };
+
+    // Remove any existing character for this position
+    const existingIndex = gameState.selectedPremadeCharacters.findIndex(pc => pc.position === position);
+    if (existingIndex !== -1) {
+      gameState.selectedPremadeCharacters.splice(existingIndex, 1);
+    }
+
+    // Add the custom character
+    gameState.selectedPremadeCharacters.push(customCharacter);
+
+    // Hide character form and show premade characters again
+    characterFormsEl.innerHTML = "";
+    premadeCharactersEl.hidden = false;
+
+    // Show confirmation
+    alert(`Custom character "${name}" has been created for position ${position + 1}!`);
+
+    // Save game state to localStorage
+    saveGameToLocalStorage();
+  }
+
+  // Generate character creation forms
+  function generateCharacterForms(count) {
+    const formsContainer = document.getElementById("characterFormsEl");
+    formsContainer.innerHTML = "";
+
+    for(let i = 1; i <= count; i++) {
+      const formEl = document.createElement("div");
+      formEl.className = "character-form";
+      formEl.innerHTML = `
+        <h3>Character ${i}</h3>
+        <input type="text" class="character-name" placeholder="Character Name" required>
+        <textarea class="character-description" placeholder="Character Description..." rows="3" required></textarea>
+        <div>
+          <p>Select Character Sprite:</p>
+          <div class="character-sprites" data-char-index="${i-1}">
+            ${generateSpriteOptions(i)}
+          </div>
+        </div>
+        <div>
+          <p>Select Emotion Sprites (at least one):</p>
+          <div class="emotion-sprites" data-char-index="${i-1}">
+            ${generateEmotionOptions()}
+          </div>
+        </div>
+      `;
+
+      formsContainer.appendChild(formEl);
+    }
+
+    // Add event listeners to sprite options
+    const spriteOptions = document.querySelectorAll(".sprite-option");
+    spriteOptions.forEach(option => {
+      option.addEventListener("click", () => {
+        const charIndex = option.parentElement.dataset.charIndex;
+        const allSprites = document.querySelectorAll(`.character-sprites[data-char-index="${charIndex}"] .sprite-option`);
+        allSprites.forEach(sprite => sprite.classList.remove("selected"));
+        option.classList.add("selected");
+      });
+    });
+
+    // Add event listeners to emotion options
+    const emotionOptions = document.querySelectorAll(".emotion-sprite");
+    emotionOptions.forEach(option => {
+      option.addEventListener("click", () => {
+        option.classList.toggle("selected");
+      });
+    });
+
+    startGameBtn.hidden = false;
+  }
+
+  // Generate sprite options
+  function generateSpriteOptions(charIndex) {
+    let html = "";
+    for(let i = 1; i <= 6; i++) {
+      html += `
+        <div class="sprite-option" data-sprite="sprite${i}">
+          <img src="https://placehold.co/200x200/${getCharColor(i)}/fff?text=Character+${i}" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+      `;
+    }
+    return html;
+  }
+
+  // Generate emotion sprite options
+  function generateEmotionOptions() {
+    let html = "";
+    for(let i = 0; i < emotions.length; i++) {
+      const emotion = emotions[i];
+      html += `
+        <div class="emotion-sprite" data-emotion="${emotion}">
+          <img src="https://placehold.co/200x200/666/fff?text=${emotion}" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+      `;
+    }
+    return html;
+  }
+
+  // Get color for character placeholders
+  function getCharColor(index) {
+    const colors = ["e74c3c", "3498db", "2ecc71", "f39c12", "9b59b6", "1abc9c"];
+    return colors[(index - 1) % colors.length];
+  }
+
+  // Validate character inputs
+  function validateCharacters() {
+    gameState.characters = [];
+
+    // Make sure we have the right number of characters
+    if (gameState.selectedPremadeCharacters.length !== gameState.characterCount) {
+      alert(`Please select or create ${gameState.characterCount} characters.`);
+      return false;
+    }
+
+    // Process each selected premade or custom character
+    for (let i = 0; i < gameState.characterCount; i++) {
+      // Find the character for this position
+      const characterData = gameState.selectedPremadeCharacters.find(pc => pc.position === i);
+
+      if (!characterData) {
+        alert(`Please select or create a character for position ${i + 1}.`);
+        return false;
+      }
+
+      if (characterData.isCustom) {
+        // This is a custom character
+        gameState.characters.push({
+          name: characterData.name,
+          description: characterData.description,
+          imageUrl: characterData.imageUrl,
+          emotions: characterData.emotions,
+          emotionUrls: characterData.emotionUrls,
+          id: characterData.name.toLowerCase().replace(/\s+/g, '-'),
+          isCustom: true
+        });
+      } else {
+        // This is a premade character
+        const premade = premadeCharacters[characterData.index];
+
+        // Special handling for Jenna
+        if (premade.isJenna) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isJenna: true,
+            emotionUrls: jennaSprites
+          });
+        }
+        // Special handling for Rachel
+        else if (premade.isRachel) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isRachel: true,
+            emotionUrls: rachelSprites
+          });
+        }
+        // Special handling for Leo
+        else if (premade.isLeo) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isLeo: true,
+            emotionUrls: leoSprites
+          });
+        }
+        // Special handling for Carl
+        else if (premade.isCarl) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isCarl: true,
+            emotionUrls: carlSprites
+          });
+        }
+        // Special handling for Mary
+        else if (premade.isMary) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isMary: true,
+            emotionUrls: marySprites
+          });
+        }
+        // Special handling for Henry
+        else if (premade.isHenry) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isHenry: true,
+            emotionUrls: henrySprites
+          });
+        }
+        // Special handling for Soccer Star
+        else if (premade.isSoccerStar) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isSoccerStar: true,
+            emotionUrls: soccerStarSprites
+          });
+        }
+        // Special handling for Tina
+        else if (premade.isTina) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isTina: true,
+            emotionUrls: tinaSprites
+          });
+        }
+        // Special handling for Coding Assistant
+        else if (premade.isCodingAssistant) {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor,
+            isCodingAssistant: true,
+            emotionUrls: codingAssistantSprites
+          });
+        }
+        else {
+          gameState.characters.push({
+            name: premade.name,
+            description: premade.description,
+            sprite: premade.sprite,
+            emotions: premade.emotions,
+            id: premade.name.toLowerCase().replace(/\s+/g, '-'),
+            charColor: premade.charColor
+          });
+        }
+      }
+    }
+
+    return true;
+  }
+
+  // Set up the game screen
+  function setupGameScreen() {
+    // Set background based on type
+    if (gameState.noBackground) {
+      updateNoBackgroundColor();
+    } else if (gameState.customBackgroundUrl) {
+      backgroundEl.style.backgroundImage = `url(${gameState.customBackgroundUrl})`;
+      backgroundEl.style.backgroundColor = "";
+    } else {
+      const bgNum = gameState.background ? gameState.background.replace("background", "") : "1";
+      backgroundEl.style.backgroundImage = `url(https://placehold.co/1000x500/${genreDetails[gameState.genre].bgColor}/aaa?text=Background+${bgNum})`;
+      backgroundEl.style.backgroundColor = "";
+    }
+
+    // Add character sprites
+    const spritesContainer = document.getElementById("characterSpritesEl");
+    spritesContainer.innerHTML = "";
+
+    gameState.characters.forEach(character => {
+      const spriteEl = document.createElement("div");
+      spriteEl.className = "character-sprite";
+      spriteEl.id = `sprite-${character.id}`;
+
+      // Set initial sprite image with neutral emotion
+      if (character.isCustom) {
+        // Custom character with uploaded image URL
+        const defaultEmotion = character.emotions[0] || "neutral";
+        const emotionUrl = character.emotionUrls[defaultEmotion] || character.imageUrl;
+        spriteEl.innerHTML = `<img src="${emotionUrl}" alt="${character.name}">`;
+      } else if (character.isJenna) {
+        // Special case for Jenna - use her sprite URLs
+        spriteEl.innerHTML = `<img src="${jennaSprites.neutral}" alt="Jenna">`;
+      } else if (character.isRachel) {
+        // Special case for Rachel - use her sprite URLs
+        spriteEl.innerHTML = `<img src="${rachelSprites.neutral}" alt="Rachel">`;
+      } else if (character.isLeo) {
+        // Special case for Leo - use his sprite URLs
+        spriteEl.innerHTML = `<img src="${leoSprites.neutral}" alt="Leo">`;
+      } else if (character.isCarl) {
+        // Special case for Carl - use his sprite URLs
+        spriteEl.innerHTML = `<img src="${carlSprites.neutral}" alt="Carl">`;
+      } else if (character.isMary) {
+        // Special case for Mary - use her sprite URLs
+        spriteEl.innerHTML = `<img src="${marySprites.neutral}" alt="Mary">`;
+      } else if (character.isHenry) {
+        // Special case for Henry - use his sprite URLs
+        spriteEl.innerHTML = `<img src="${henrySprites.neutral}" alt="Henry">`;
+      } else if (character.isSoccerStar) {
+        // Special case for Soccer Star - use his sprite URLs
+        spriteEl.innerHTML = `<img src="${soccerStarSprites.neutral}" alt="Soccer Star">`;
+      } else if (character.isTina) {
+        // Special case for Tina - use her sprite URLs
+        spriteEl.innerHTML = `<img src="${tinaSprites.neutral}" alt="Tina">`;
+      } else if (character.isCodingAssistant) {
+        // Special case for Coding Assistant - use its sprite URLs
+        spriteEl.innerHTML = `<img src="${codingAssistantSprites.neutral}" alt="Coding Assistant">`;
+      } else {
+        // Premade character with color-based placeholder
+        const charColor = character.charColor || getCharColor(parseInt(character.sprite.replace("sprite", "")));
+        spriteEl.innerHTML = `<img src="https://placehold.co/320x320/${charColor}/fff?text=${character.name}+neutral" alt="${character.name}">`;
+      }
+
+      spritesContainer.appendChild(spriteEl);
+    });
+
+    // Setup recipient selection buttons
+    setupRecipientButtons();
+
+    // Setup speaker selection buttons
+    setupSpeakerButtons();
+
+    // Update text-to-speech button
+    updateTextToSpeechButton();
+
+    // Update visibility of speak button
+    if (document.getElementById("speakBtn")) {
+      document.getElementById("speakBtn").hidden = !gameState.textToSpeechEnabled;
+    }
+  }
+
+  // Setup recipient selection buttons
+  function setupRecipientButtons() {
+    const characterButtonsEl = document.getElementById("characterButtonsEl");
+    characterButtonsEl.innerHTML = "";
+
+    // Add button for each character
+    gameState.characters.forEach(character => {
+      const buttonEl = document.createElement("button");
+      buttonEl.className = "recipient-btn";
+      buttonEl.dataset.recipient = character.id;
+      buttonEl.textContent = character.name;
+
+      buttonEl.addEventListener("click", () => {
+        toggleRecipient(character.id, buttonEl);
+      });
+
+      characterButtonsEl.appendChild(buttonEl);
+    });
+
+    // Setup "All" button event handler
+    allCharactersBtn.addEventListener("click", () => {
+      selectAllRecipients();
+    });
+
+    // Default to "All" selected
+    selectAllRecipients();
+  }
+
+  // Setup speaker selection buttons
+  function setupSpeakerButtons() {
+    const speakerButtonsEl = document.getElementById("speakerButtonsEl");
+
+    // Clear existing buttons except for the narrator button
+    while (speakerButtonsEl.firstChild && speakerButtonsEl.firstChild.id !== "narratorSpeakerBtn") {
+      speakerButtonsEl.removeChild(speakerButtonsEl.firstChild);
+    }
+
+    // Add button for each character
+    gameState.characters.forEach(character => {
+      const buttonEl = document.createElement("button");
+      buttonEl.className = "speaker-btn";
+      buttonEl.dataset.speaker = character.id;
+      buttonEl.textContent = character.name;
+
+      buttonEl.addEventListener("click", () => {
+        selectNextSpeaker(character.id, buttonEl);
+      });
+
+      // Insert before narrator button
+      speakerButtonsEl.insertBefore(buttonEl, narratorSpeakerBtn);
+    });
+
+    // Setup narrator button event handler
+    narratorSpeakerBtn.addEventListener("click", () => {
+      selectNextSpeaker("narrator", narratorSpeakerBtn);
+    });
+
+    // Default to Narrator selected
+    selectNextSpeaker("narrator", narratorSpeakerBtn);
+  }
+
+  // Select next speaker
+  function selectNextSpeaker(speakerId, buttonEl) {
+    // Update UI - deselect all buttons
+    document.querySelectorAll(".speaker-btn").forEach(btn => {
+      btn.classList.remove("selected");
+    });
+
+    // Select this button
+    buttonEl.classList.add("selected");
+
+    // Update game state
+    if (speakerId === "narrator") {
+      gameState.nextSpeaker = "Narrator";
+    } else {
+      const character = gameState.characters.find(c => c.id === speakerId);
+      gameState.nextSpeaker = character ? character.name : "Narrator";
+    }
+  }
+
+  // Toggle recipient selection
+  function toggleRecipient(recipientId, buttonEl) {
+    // If "all" is currently selected, clear it first
+    if (gameState.selectedRecipients.includes("all")) {
+      gameState.selectedRecipients = [];
+      document.querySelectorAll(".recipient-btn").forEach(btn => {
+        btn.classList.remove("selected");
+      });
+    }
+
+    // Toggle the selected state
+    const index = gameState.selectedRecipients.indexOf(recipientId);
+    if (index === -1) {
+      // Add to selected recipients
+      gameState.selectedRecipients.push(recipientId);
+      buttonEl.classList.add("selected");
+    } else {
+      // Remove from selected recipients (but don't allow empty selection)
+      if (gameState.selectedRecipients.length > 1) {
+        gameState.selectedRecipients.splice(index, 1);
+        buttonEl.classList.remove("selected");
+      }
+    }
+
+    // Update character sprites based on selection
+    updateCharacterVisibility();
+  }
+
+  // Select all recipients
+  function selectAllRecipients() {
+    gameState.selectedRecipients = ["all"];
+
+    document.querySelectorAll(".recipient-btn").forEach(btn => {
+      btn.classList.remove("selected");
+    });
+
+    allCharactersBtn.classList.add("selected");
+
+    // Show all characters as listening
+    updateCharacterVisibility();
+  }
+
+  // Update which characters are visible based on selection and speaker
+  function updateCharacterVisibility() {
+    const sprites = document.querySelectorAll(".character-sprite");
+
+    // First hide all characters
+    sprites.forEach(sprite => {
+      sprite.classList.remove("active", "listening");
+    });
+
+    // Show the speaking character if there is one
+    if (gameState.currentSpeaker && gameState.currentSpeaker !== "You" && gameState.currentSpeaker !== "Narrator") {
+      const speakerSprite = document.getElementById(`sprite-${gameState.currentSpeaker.toLowerCase().replace(/\s+/g, '-')}`);
+      if (speakerSprite) {
+        speakerSprite.classList.add("active");
+      }
+    }
+
+    // Show the recipient characters
+    if (gameState.selectedRecipients.includes("all")) {
+      // Show all characters as listening (except the current speaker)
+      sprites.forEach(sprite => {
+        if (!sprite.classList.contains("active")) {
+          sprite.classList.add("listening");
+        }
+      });
+    } else {
+      // Only show selected recipients
+      gameState.selectedRecipients.forEach(recipientId => {
+        const recipientSprite = document.getElementById(`sprite-${recipientId}`);
+        if (recipientSprite && !recipientSprite.classList.contains("active")) {
+          recipientSprite.classList.add("listening");
+        }
+      });
+    }
+  }
+
+  // Start the story
+  function startStory() {
+    // Mark that the story has started
+    gameState.storyStarted = true;
+
+    // Add class to game container for button styling
+    document.getElementById("gameScreenEl").classList.add("story-started");
+
+    // Hide the previous button and menu from the bottom
+    document.querySelector('.game-nav').hidden = true;
+
+    // Begin with narrator setting the scene and including player description
+    addDialogue("Narrator", `Welcome to this RPG story, ${gameState.playerName}!
+
+You find yourself at the beginning of the story.`);
+
+    // Save game state to localStorage
+    saveGameToLocalStorage();
+  }
+
+  // Handle user input from text field
+  async function handleUserInput() {
+    if (gameState.isGenerating) return; // Prevent multiple submissions while generating
+
+    const userInput = userInputEl.value.trim();
+    if (userInput === "") return;
+
+    // Add user's message to dialogue history with recipient info
+    let recipients = gameState.selectedRecipients.includes("all")
+      ? "everyone"
+      : gameState.selectedRecipients.map(id => {
+          // Convert ID back to name for display
+          const character = gameState.characters.find(c => c.id === id);
+          return character ? character.name : id;
+        }).join(", ");
+
+    // Format the user's message with recipient info
+    const formattedMessage = recipients === "everyone"
+      ? userInput
+      : `(To ${recipients}) ${userInput}`;
+
+    addDialogue(gameState.playerName, formattedMessage);
+
+    // Clear input field
+    userInputEl.value = "";
+
+    // Show loading indicator
+    gameState.isGenerating = true;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = "Thinking...";
+
+    // Generate AI response automatically
+    try {
+      // Determine which character should respond - pick the first recipient or a random character
+      let respondingCharacter;
+      if (gameState.selectedRecipients.includes("all")) {
+        // Pick a random character to respond
+        const randomIndex = Math.floor(Math.random() * gameState.characters.length);
+        respondingCharacter = gameState.characters[randomIndex].name;
+      } else {
+        // Pick the first recipient to respond
+        const firstRecipientId = gameState.selectedRecipients[0];
+        const recipient = gameState.characters.find(c => c.id === firstRecipientId);
+        respondingCharacter = recipient ? recipient.name : "Narrator";
+      }
+
+      // Set the next speaker to the responding character
+      gameState.nextSpeaker = respondingCharacter;
+
+      // Generate the AI response
+      await generateSelectedSpeakerResponse();
+    } catch (error) {
+      console.error("Error generating automatic response:", error);
+      addDialogue("Narrator", "There seems to be a problem with the story. Let's continue another way.");
+    } finally {
+      // Reset UI state
+      gameState.isGenerating = false;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = "Send";
+    }
+  }
+
+  // Function to handle the selected speaker's dialogue when Enter button is clicked
+  function handleSelectedSpeaker() {
+    if (gameState.isGenerating) return;
+
+    // Check if we have a valid next speaker
+    if (!gameState.nextSpeaker) {
+      alert("Please select a speaker first");
+      return;
+    }
+
+    // Show loading indicator
+    gameState.isGenerating = true;
+    enterBtn.disabled = true;
+    enterBtn.innerHTML = "Thinking...";
+
+    // Generate dialogue for the selected speaker
+    generateSelectedSpeakerResponse()
+      .finally(() => {
+        // Reset UI state
+        gameState.isGenerating = false;
+        enterBtn.disabled = false;
+        enterBtn.innerHTML = "Enter";
+      });
+  }
+
+  // Generate response from the selected next speaker
+  async function generateSelectedSpeakerResponse() {
+    // Build context from dialogue history and game state
+    let dialogueContext = gameState.dialogueHistory
+      .slice(-5) // Use last 5 messages for context
+      .map(d => `${d.speaker}: ${d.text}`)
+      .join("\n");
+
+    // Create character descriptions for context
+    let characterDescriptions = gameState.characters
+      .map(c => `${c.name}: ${c.description}`)
+      .join("\n");
+
+    // Determine if we're talking to specific characters or everyone
+    const talkingTo = gameState.selectedRecipients.includes("all")
+      ? "all characters"
+      : gameState.selectedRecipients.map(id => {
+          const character = gameState.characters.find(c => c.id === id);
+          return character ? character.name : id;
+        }).join(", ");
+
+    // Prepare the instruction for AI based on selected next speaker
+    let instruction;
+    if (gameState.nextSpeaker === "Narrator") {
+      instruction = `
+You are generating a response for an interactive RPG game.
+World setting: ${gameState.lore}
+Genre: ${genreDetails[gameState.genre].name}
+Player name: ${gameState.playerName}
+Player description: ${gameState.playerDescription}
+Characters:
+${characterDescriptions}
+
+Recent conversation:
+${dialogueContext}
+
+Generate a narrator response. The narrator provides context, describes the scene, and helps move the story forward.
+Keep it under 3 sentences. Start your response with "Narrator:".`;
+    } else {
+      instruction = `
+You are generating a response for an interactive RPG game.
+World setting: ${gameState.lore}
+Genre: ${genreDetails[gameState.genre].name}
+Player name: ${gameState.playerName}
+Player description: ${gameState.playerDescription}
+Characters:
+${characterDescriptions}
+
+Recent conversation:
+${dialogueContext}
+
+Generate dialogue for ${gameState.nextSpeaker} addressing: ${talkingTo}
+IMPORTANT: ONLY write dialogue with no actions. The character should only speak, not perform actions.
+Keep it under 3 sentences. Start your response with the character's name followed by a colon.`;
+    }
+
+    try {
+      // Generate response with AI
+      const response = await generateText(instruction);
+
+      // Process the response to extract text
+      const responseData = processAIResponse(response);
+
+      // Add the response to dialogue
+      addDialogue(gameState.nextSpeaker, responseData.text);
+
+      // Change character emotion based on the tone of the response if it's a character (not the narrator)
+      if (gameState.nextSpeaker !== "Narrator" && gameState.characters.find(c => c.name === gameState.nextSpeaker)) {
+        const emotionToUse = determineEmotion(responseData.text);
+        changeCharacterEmotion(gameState.nextSpeaker, emotionToUse);
+      }
+
+      // Save game state to localStorage after each dialogue
+      saveGameToLocalStorage();
+    } catch (error) {
+      console.error("Error generating response:", error);
+      addDialogue("Narrator", "There seems to be a problem with the story. Let's continue another way.");
+    }
+  }
+
+  // Process AI response to extract text
+  function processAIResponse(response) {
+    // Check if response has the format "Name: text"
+    const colonMatch = response.match(/^([^:]+):(.*)/s);
+
+    if (colonMatch) {
+      // Remove the name prefix and just keep the text
+      const text = colonMatch[2].trim();
+      return { text };
+    }
+
+    // If no colon format, return the whole response as text
+    return { text: response.trim() };
+  }
+
+  // Determine emotion based on text content
+  function determineEmotion(text) {
+    text = text.toLowerCase();
+
+    if (/\b(laugh|lmao|rofl|lol|haha|giggl)/i.test(text)) {
+      return "laughing";
+    } else if (/\b(happy|joy|delighted|excited|smile|grin)\b/.test(text)) {
+      return "happy";
+    } else if (/\b(sad|sorry|regret|unfortunate|tear|cry|weep)\b/.test(text)) {
+      return "sad";
+    } else if (/\b(angry|mad|furious|rage|upset|annoyed)\b/.test(text)) {
+      return "angry";
+    } else if (/\b(surprised|shocked|amazed|wow|unexpected|gasp)\b/.test(text)) {
+      return "shocked";
+    } else if (/\b(calm|peace|quiet|serene|relax|contemplat|meditat)\b/.test(text)) {
+      return "closed eyes";
+    } else {
+      return "neutral";
+    }
+  }
+
+  // Add dialogue to the game
+  function addDialogue(speaker, text) {
+    gameState.currentSpeaker = speaker;
+    gameState.dialogueHistory.push({ speaker, text });
+    gameState.currentDialogue = gameState.dialogueHistory.length - 1;
+
+    displayCurrentDialogue();
+
+    // Stop any current speech when new dialogue appears
+    if (gameState.speech && gameState.speech.isPlaying) {
+      stopSpeech();
+    }
+  }
+
+  // Display the current dialogue with typing effect
+  function displayCurrentDialogue() {
+    const dialogue = gameState.dialogueHistory[gameState.currentDialogue];
+
+    // Set speaker name (hide for narrator dialogue, but show for narrator actions)
+    if (dialogue.speaker === "Narrator" && !dialogue.text.startsWith("*")) {
+      speakerEl.textContent = "Narrator";
+    } else {
+      speakerEl.textContent = dialogue.speaker;
+    }
+
+    // Format text - if it's wrapped in asterisks, display as italic
+    const isAction = dialogue.text.startsWith("*") && dialogue.text.endsWith("*");
+    let displayText = dialogue.text;
+
+    // Set dialogue text with typing effect
+    dialogueTextEl.innerHTML = "";
+    dialogueTextEl.className = isAction ? "action-text" : "";
+
+    let i = 0;
+    const speed = 30; // milliseconds per character
+
+    function typeWriter() {
+      if (i < displayText.length) {
+        dialogueTextEl.innerHTML += displayText.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+
+    typeWriter();
+
+    // Update character visibility based on who is speaking and selected recipients
+    updateCharacterVisibility();
+  }
+
+  // Change a character's emotion/sprite
+  function changeCharacterEmotion(characterName, emotion) {
+    const character = gameState.characters.find(char => char.name === characterName);
+    if(!character) return;
+
+    const spriteEl = document.getElementById(`sprite-${character.id}`);
+    if(!spriteEl) return;
+
+    if (character.isJenna) {
+      // Special handling for Jenna with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = jennaSprites.neutral;
+          break;
+        case "smiling":
+          spriteUrl = jennaSprites.smiling;
+          break;
+        case "blushing":
+          spriteUrl = jennaSprites.blushing;
+          break;
+        case "laughing":
+          spriteUrl = jennaSprites.laughing;
+          break;
+        case "concerned":
+          spriteUrl = jennaSprites.concerned;
+          break;
+        case "shocked":
+          spriteUrl = jennaSprites.shocked;
+          break;
+        case "annoyed":
+          spriteUrl = jennaSprites.annoyed;
+          break;
+        default:
+          spriteUrl = jennaSprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Jenna">`;
+    } else if (character.isRachel) {
+      // Special handling for Rachel with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = rachelSprites.neutral;
+          break;
+        case "happy":
+          spriteUrl = rachelSprites.happy;
+          break;
+        case "laughing":
+          spriteUrl = rachelSprites.laughing;
+          break;
+        case "sad":
+          spriteUrl = rachelSprites.sad;
+          break;
+        case "angry":
+          spriteUrl = rachelSprites.angry;
+          break;
+        case "shocked":
+          spriteUrl = rachelSprites.shocked;
+          break;
+        default:
+          spriteUrl = rachelSprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Rachel">`;
+    } else if (character.isLeo) {
+      // Special handling for Leo with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = leoSprites.neutral;
+          break;
+        case "happy":
+          spriteUrl = leoSprites.happy;
+          break;
+        case "laughing":
+          spriteUrl = leoSprites.laughing;
+          break;
+        case "shocked":
+          spriteUrl = leoSprites.shocked;
+          break;
+        case "angry":
+          spriteUrl = leoSprites.angry;
+          break;
+        default:
+          spriteUrl = leoSprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Leo">`;
+    } else if (character.isCarl) {
+      // Special handling for Carl with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = carlSprites.neutral;
+          break;
+        case "sad":
+          spriteUrl = carlSprites.sad;
+          break;
+        case "angry":
+          spriteUrl = carlSprites.angry;
+          break;
+        case "laughing":
+          spriteUrl = carlSprites.laughing;
+          break;
+        case "shocked":
+          spriteUrl = carlSprites.shocked;
+          break;
+        case "smiling":
+          spriteUrl = carlSprites.smiling;
+          break;
+        default:
+          spriteUrl = carlSprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Carl">`;
+    } else if (character.isMary) {
+      // Special handling for Mary with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = marySprites.neutral;
+          break;
+        case "happy":
+        case "smile":
+          spriteUrl = marySprites.smile;
+          break;
+        case "sad":
+          spriteUrl = marySprites.sad;
+          break;
+        case "angry":
+        case "annoyed":
+          spriteUrl = marySprites.annoyed;
+          break;
+        case "laughing":
+          spriteUrl = marySprites.laughing;
+          break;
+        case "shocked":
+          spriteUrl = marySprites.shocked;
+          break;
+        default:
+          spriteUrl = marySprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Mary">`;
+    } else if (character.isHenry) {
+      // Special handling for Henry with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = henrySprites.neutral;
+          break;
+        case "angry":
+          spriteUrl = henrySprites.angry;
+          break;
+        case "closed eyes":
+          spriteUrl = henrySprites["closed eyes"];
+          break;
+        case "shocked":
+          spriteUrl = henrySprites.shocked;
+          break;
+        default:
+          spriteUrl = henrySprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Henry">`;
+    } else if (character.isSoccerStar) {
+      // Special handling for Soccer Star with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = soccerStarSprites.neutral;
+          break;
+        case "happy":
+          spriteUrl = soccerStarSprites.happy;
+          break;
+        case "sad":
+          spriteUrl = soccerStarSprites.sad;
+          break;
+        case "shocked":
+          spriteUrl = soccerStarSprites.shocked;
+          break;
+        case "angry":
+          spriteUrl = soccerStarSprites.angry;
+          break;
+        default:
+          spriteUrl = soccerStarSprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Soccer Star">`;
+    } else if (character.isTina) {
+      // Special handling for Tina with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = tinaSprites.neutral;
+          break;
+        case "smiling":
+          spriteUrl = tinaSprites.smiling;
+          break;
+        case "laughing":
+          spriteUrl = tinaSprites.laughing;
+          break;
+        case "sad":
+          spriteUrl = tinaSprites.sad;
+          break;
+        case "shocked":
+          spriteUrl = tinaSprites.shocked;
+          break;
+        case "concerned":
+          spriteUrl = tinaSprites.concerned;
+          break;
+        default:
+          spriteUrl = tinaSprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Tina">`;
+    } else if (character.isCodingAssistant) {
+      // Special handling for Coding Assistant with specific sprite URLs
+      let spriteUrl;
+
+      switch(emotion) {
+        case "neutral":
+          spriteUrl = codingAssistantSprites.neutral;
+          break;
+        case "laugh":
+          spriteUrl = codingAssistantSprites.laugh;
+          break;
+        case "annoyed":
+          spriteUrl = codingAssistantSprites.annoyed;
+          break;
+        case "sad":
+          spriteUrl = codingAssistantSprites.sad;
+          break;
+        case "shocked":
+          spriteUrl = codingAssistantSprites.shocked;
+          break;
+        default:
+          spriteUrl = codingAssistantSprites.neutral; // Default to neutral
+      }
+
+      spriteEl.innerHTML = `<img src="${spriteUrl}" alt="Coding Assistant">`;
+    } else if (character.isCustom) {
+      // Custom character with uploaded image URLs
+
+      // If this emotion isn't available, use the first available emotion
+      if(!character.emotions.includes(emotion)) {
+        emotion = character.emotions[0];
+      }
+
+      // Use the URL for this emotion, or fall back to the character's main image
+      const emotionUrl = character.emotionUrls[emotion] || character.imageUrl;
+      spriteEl.innerHTML = `<img src="${emotionUrl}" alt="${character.name}">`;
+    } else {
+      // Premade character with color-based placeholder
+
+      // If this emotion isn't available, use neutral or the first available emotion
+      if(!character.emotions.includes(emotion)) {
+        emotion = character.emotions.includes("neutral") ? "neutral" : character.emotions[0];
+      }
+
+      const charColor = character.charColor || getCharColor(parseInt(character.sprite.replace("sprite", "")));
+      spriteEl.innerHTML = `<img src="https://placehold.co/320x320/${charColor}/fff?text=${characterName}+${emotion}" alt="${character.name}">`;
+    }
+  }
+</script>
+<div id="commentsUserCounterContainer"></div>
+
+<script>
+  commentsUserCounterContainer.innerHTML += `${window.commentsUserCounter = c(cUserCounter)}`
+  window.commentsUserCounter.submit('user-counter')
+  setInterval(() => window.commentsUserCounter.submit('user-counter'), 90 * 1000)
+</script>
+</div>
+<script>
+  // Hide title image and blue background, show main content after 4 seconds
+  setTimeout(() => {
+    whiteBackgroundEl.hidden = true;
+    titleImageEl.hidden = true;
+    overlayTextBox.hidden = true;
+    mainContentEl.hidden = false;
+  }, 4000);
+</script>

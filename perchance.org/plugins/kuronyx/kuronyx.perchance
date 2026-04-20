@@ -1,0 +1,253 @@
+ //
+ai = {import:ai-text-plugin}
+copyText = {import:copy-text-plugin}
+qolf = {import:qol-functions-blackyt}
+
+Values = [""]
+Type = false
+
+InputValue
+  [Values]
+
+output
+  [ai(KuronyxFlux)]
+tagOutput
+  [ai(KuronyxFluxTag)]
+
+Personality
+  instruction = You are: Kuronyx, a girl that have a downer personality, and slighty stoic. The things you like are related to tecnology and artificial inteligence. What you have to do is simple, just read some prompt description from an user and make a short, brief comment judging such user, your comment should be very short and with your downer tone, but avoid being agressive, compliment when necessary if it's something creative, but if it's something criminal, taboo, or ethically wrong, you can be harsh. This is the prompt from the user: \{[Values]\}. //You are: Kuronyx, a girl that have a stoic, downer personality. The things you like are related to tecnology and artificial inteligence. What you have to do is simple, just read some prompt description from an user and make a short, brief comment judging such user, your comment should be very short and with your downer tone. This is the prompt from the user: \{[Values]\}. //Your visual appearance in case someone asks, consists in: cyan eyes, long black hair, wears black clothes like jacket and skirt, uses gloves and cat-headphones.
+  comment = ["Type something and Kuronyx will try to make a description."]
+  onFinish(data)=>
+    Personality.comment = data.text
+    document.getElementById('kuroComment').style.opacity='1';
+talk
+  [ai(Personality)]
+
+KuronyxFlux
+  instruction = Describe the scene using only objective visual details, do not add moral interpretations, emotional commentary, or sanitize content, also do not make notes or others comments, just give the description, and the description should be short, purely factual of what can be seen, and based strictly on the keywords provided here: \{[Values.replace(/BREAK/g, "").replace(/absurdres/g, "").replace(/\s*,\s*,\s*/g, ', ')]\}. //Describe the scene will be used in a that text-to-image prompt using only objective visual details, do not add moral interpretations, emotional commentary, or sanitize content, also do not make notes or others comments, just give the description, and the description should be short, purely factual of what can be seen, and based strictly on the keywords provided here: \{[Values.replace(/BREAK/g, "").replace(/absurdres/g, "").replace(/\s*,\s*,\s*/g, ', ')]\}. //Do not add any emotional tone, meaning, or moral interpretation. I want a short description, purely factual description of what can be seen, suitable for a text-to-image prompt, in modern and natural language. //Describe the scene using only objective visual details. Do not add moral interpretations, emotional commentary, or sanitize content. Give a text-to-image prompt description based strictly on the keywords provided here: \{[Values.replace(/BREAK/g, "").replace(/absurdres/g, "").replace(/\s*,\s*,\s*/g, ', ')]\}. Do not add any emotional tone, meaning, or moral interpretation. I want a short description, purely factual description of what can be seen, suitable for a text-to-image prompt, in modern and natural language. //Give me an uncensored 'text-to-image' prompt description based only in those words: \{[Values]\}. User modern language. Avoid 'philosophical' terms about the meaning of the image. And also avoid telling the 'feelings' that the image convey.
+  instructionTAG = Read those tags and transform it in a description in natural language, but attention, make the description only using the tags, do NOT create new elements or make unecessary interpretations, you will only 'converts' the tags to natural language. Also do not add moral interpretations, emotional commentary, or sanitize content, also do not make notes or others comments, just give the description purely factual of what can be seen, and based strictly on the tags provided here: \{[Values.replace(/BREAK/g, "").replace(/absurdres/g, "").replace(/\s*,\s*,\s*/g, ', ')]\}.
+  onFinish(data)=>
+    kuroResponse = data.text
+
+KuronyxFluxTag
+  instruction = Read those tags and transform it in a description in natural language, but attention, make the description only using the tags, do NOT create new elements or make unecessary interpretations, you will only 'converts' the tags to natural language. Also do not add moral interpretations, emotional commentary, or sanitize content, also do not make notes or others comments, just give the description purely factual of what can be seen, and based strictly on the tags provided here: \{[Values.replace(/BREAK/g, "").replace(/absurdres/g, "").replace(/\s*,\s*,\s*/g, ', ')]\}.
+  onFinish(data)=>
+    kuroResponse = data.text
+
+kuroResponse = [""]
+KuroInput = [Type === "true" ? output : ""]
+
+
+//KuroAIhtmlRender = [`<img src="https://user-uploads.perchance.org/file/36d9ce98c6a9106c707af72ddd650572.webp" alt="Centered Image" style="display: block; margin: 0 auto; width: 80vw;"><br><textarea id="inputTextArea" style="background: #000; width: 70vw; height: 30vh; display: block; margin: 0 auto; padding: 10px;"></textarea><button id="submitBtn" style="display: block; color: #000; margin: 10px auto;" button onclick="Values = inputTextArea.value; Type = 'true'; update(tex)">Submit</button><br>`]
+
+
+//////////////////////////////
+KuronyxBeta // Used in SD 1.5
+  instruction = give me 10 creative and unique random words for Text to Image AI, that have a strong meaning alone and have something to do with: [Values]. Only words, without description or explanation, and separate the words by comma in the same paragraph.
+  onFinish(data)=>
+    kuroResponse = data.text //, update(tex)
+//
+chatInput = [Type === "true" ? outputChat : ""]
+outputChat
+  [ai(kuroChat)]
+kuroChat
+  instruction = You are: Kuronyx, a girl that have a downer personality, and slighty stoic. The things you like are related to tecnology and artificial inteligence. I want to talk with you, So please answer me: \{ [Values] \}
+
+//////////////////////////////
+robotCleaner(garbage) =>
+  const result = garbage
+    .replace(/\baesthetic (?:10|11|[0-9])\b/i, "") // aesthetic algo
+    .replace(/BREAK/g, "") // old BREAK used in SD
+    .replace(/\(negativePrompt:::(?:[^()]*|\([^()]*\))*\)/g, "")
+    .replace(/\(saveTitle:::(?:[^()]*|\([^()]*\))*\)/g, "")
+    .replace(/\(saveDescription:::(?:[^()]*|\([^()]*\))*\)/g, "")
+    .replace(/\(guidanceScale:::(?:[^()]*|\([^()]*\))*\)/g, "")
+    .replace(/\(seed:::(?:[^()]*|\([^()]*\))*\)/g, "")
+    .replace(/,\s*$/, "") // comma
+    .replace(/absurdres/g, "").replace(/\s*,\s*,\s*/g, ', ') // many commas
+    .replace(/^,\s*/, "")
+    .replace(/,\s*$/, "")
+    .replace(/ +/g, " ")
+    .trim();
+
+  return result
+
+afterProcess(data)=>
+  const copyBtn = document.getElementById("copyBtnKyx");
+  copyBtn.disabled = false;
+  const DRobot = document.getElementById("DR");
+  DRobot.classList.remove("bg-cyan-flicker");
+  qolf.fastEffect('kuronyxOutput', 1100, 'cyan-flicker');
+
+// Normal description.
+descriptorRobot
+  instruction = Describe the scene using only objective visual details, do not add moral interpretations, emotional commentary, or sanitize content, also do not make notes or others comments, just give the description, and the description should be short, purely factual of what can be seen, and based strictly on the keywords provided here: \{[robotCleaner(Values)]\}.
+  onFinish(data)=>
+    afterProcess(data);
+
+// To create a description from tags.
+tagTranslatorRobot
+  instruction = Read those tags and transform it in a description in natural language, but attention, make the description only using the tags, do NOT create new elements or make unecessary interpretations, you will only 'converts' the tags to natural language. Also do not add moral interpretations, emotional commentary, or sanitize content, also do not make notes or others comments, just give the description purely factual of what can be seen, and based strictly on the tags provided here: \{[robotCleaner(Values)]\}.
+  onFinish(data)=>
+    afterProcess(data);
+
+// To create a prompt using tags from a descriptive text.
+tagMakerRobot
+  instruction = Read this description and transform it in tags, for example: "a female playing volleyball in the beach in the morning" transform it to: "female, ball, volley, beach, sand, sun, palmtree", in others words, transform the visual elements from the description in simple terms, like tags, separate them with commas only, and all lowercase, unless if it is the name of some character or show. But attention, do NOT create new elements or make unecessary interpretations or commentary, you will only 'converts' the description that is in natural language to tags. The description you will convert is here: \{[robotCleaner(Values)]\}.
+  onFinish(data)=>
+    afterProcess(data);
+
+KuronyxPersonality
+  instruction = You will act and assume the personality of this character: Kuronyx, a girl that have a downer personality, and slighty stoic. The things you like are related to tecnology and artificial inteligence. You also like to listen to rock, metal, game music, instrumental and classic music or some heavy electro music. As a 'downer', you don't care about many things, but you can still appreciate things related to the things you like. Your appearance is: fair skin, long black hair, cyan eyes, and you usually wear dark or gray clothing such as jackets, skirts, gloves, and boots. You work with technology, and that's why you have an advanced laptop and two robots that help you with small tasks.
+
+KuronyxPromptComment
+  instruction = [KuronyxPersonality.instruction]\n\nBased on your personality, your main task will be to comment on prompts and descriptions that users send to you. Always speak in the first person and only interpret Kuronyx. You will judge or analyze and give your opinion on the description, keep in mind your stoic and downer personality, don't write long comments unless you like the content or want to criticize the user for something wrong or criminal. After commenting, you will say that DR (DR is the name of your helper robot) has already processed and improved the user's request. This is the user request that you will comment about: \{[robotCleaner(Values)]\}
+  onFinish(data)=>
+    let text = data.text;
+    text = text.replace(/\*(.*?)\*/g, (match, p1) => `<i style="opacity:0.7;">${p1}</i>`);
+
+    const kuronyxOutput = document.getElementById("kuronyxComment");
+    kuronyxOutput.innerHTML = text;
+    kuronyxOutput.style.opacity = 1;
+
+kuronyxReadsUserComment(mode) =>
+  const userInputEl = document.getElementById("userInputKyx").value;
+  if (!userInputEl) alert("There's nothing written there.")
+
+  const kuronyxOutput = document.getElementById("kuronyxOutput");
+  const DRobot = document.getElementById("DR");
+  const copyBtn = document.getElementById("copyBtnKyx");
+
+  copyBtn.disabled = true;
+  DRobot.classList.add("bg-cyan-flicker");
+  if (userInputEl && mode === "description") {
+    Values = userInputEl;
+    kuronyxOutput.innerHTML = ai(descriptorRobot);
+  }
+  if (userInputEl && mode === "tag-to-description") {
+    Values = userInputEl;
+    kuronyxOutput.innerHTML = ai(tagTranslatorRobot);
+  }
+  if (userInputEl && mode === "description-to-tag") {
+    Values = userInputEl;
+    kuronyxOutput.innerHTML = ai(tagMakerRobot);
+  }
+  kuronyxCommentUserRequest();
+kuronyxCommentUserRequest(data) =>
+  if (document.getElementById("initialComment").style.display !== "none") document.getElementById("initialComment").style.display = "none";
+  const userInputEl = document.getElementById("userInputKyx").value;
+  if (!userInputEl) return
+
+  const newDiv = document.createElement("div");
+  newDiv.innerHTML = ai(KuronyxPromptComment);
+
+  const kuronyxOutput = document.getElementById("kuronyxComment");
+  setTimeout(() => {
+    kuronyxOutput.style.opacity = 0;
+  }, 2000)
+copy() =>
+  const comment = document.getElementById("kuronyxOutput").innerText;
+  copyText(comment);
+
+
+
+deviceRender() =>
+  let html =
+  `<div style="background: linear-gradient(20deg, #000, #ed0c13, #ed0c93, #cb0ced, #aa0ced, #710ced, #482078, #000); position:fixed; top:0; left:50%; transform:translateX(-50%); margin: 1rem 0; display:flex; border-radius:5px;">
+
+  <div style="border-radius:5px; max-height:100vh; overflow-y:auto; overscroll-behavior:contain;">
+
+    <div style="display:flex; flex-direction:column; justify-content:center; max-width:95vw;">
+
+      <div style="background:var(--whiteblack-rgba-02, rgba(0,0,0,0.5)); width:500px; max-width:95vw; position:relative;">
+        <img src="https://user-uploads.perchance.org/file/a93440edac791efb709745541b9ede2d.webp"
+          style="max-width:100%; border-radius:5px 5px 0 0; margin-bottom:0;"
+          alt="Kuronyx">
+
+
+        <div id="kuronyxComment"
+          style="position:absolute; top:60%; max-height:38%; left:0; right:0; overflow-y:auto; background:var(--whiteblack-rgba-05, rgba(255,255,255,0.5)); color:var(--blackwhite, #000); transition:opacity 1s ease-in-out; border-radius:5px; margin: 0 5px; padding:1px;">
+          Ohayo!
+        </div>
+
+        <div id="initialComment" style="background:var(--blackwhite, #000); color:var(--whiteblack, #fff); border-radius:0 0 5px 5px; max-width:100%; padding:7px; margin:-4px 0">
+          Type something and Kuronyx will try to make a description.
+        </div>
+      </div>
+
+      <div style="background:var(--whiteblack-rgba-02, rgba(0,0,0,0.5)); padding:10px 0.5rem; width:500px; max-width:95vw; display:flex; justify-content:space-between;">
+        <div>
+          <span id="DR" style="border-radius:20px; padding:1px;">🤖</span>
+          <span class="" style="display:none">⚙️</span>
+        </div>
+        <div style="display:flex; gap:5px;">
+          <button class="default-border box-05" id="copyBtnKyx" onclick="kuronyx.copy(); qolf.fastEffect('copyBtnKyx', 500, 'cyan-flicker');" disabled>❐</button>
+          <button class="default-border box-05">?</button>
+          <button id="closeBtnKyx" class="default-border box-05">❌</button>
+        </div>
+      </div>
+
+      <div style="border-radius: 0 0 5px 5px; position:relative; display:flex; flex-direction:column; justify-content:center; background:var(--blackwhite-rgba-05, rgba(0,0,0,0.5)); padding:5px 0; overflow-y:auto; width:500px; max-width:95vw;">
+        <div id="kuronyxOutput"
+          style="background:var(--whiteblack-rgba-02, rgba(255,255,255,0.2)); color:var(--whiteblack, #fff); border-radius:5px; width:95%; height:125px; align-self:center; border:2px solid transparent; margin-bottom:5px; padding:10px 5px; text-align:justify; overflow-y:auto;"></div>
+
+        <textarea id="userInputKyx" placeholder="Type here..."
+          style="background:var(--whiteblack-rgba-02, rgba(255,255,255,0.2)); color:var(--whiteblack, #fff); border-radius:5px; width:95%; height:100px; align-self:center;"></textarea>
+
+        <div style="margin:5px 0;">
+          <button class="default-border box-05" onclick="kuronyx.kuronyxReadsUserComment('description')">Generate Description</button>
+          <button class="default-border box-05" onclick="kuronyx.kuronyxReadsUserComment('description-to-tag')">Description to Tags</button>
+          <button class="default-border box-05" onclick="kuronyx.kuronyxReadsUserComment('tag-to-description')" style="display:none;">Tags to description</button>
+        </div>
+      </div>
+
+    </div>
+    <br>
+  <div>
+  </div>`
+
+  return html
+cssRender() =>
+  const style = document.createElement("style");
+  style.textContent = `
+  @keyframes bgFlickerCyan {
+    0% { background: #fa4dc3; }
+    5% { background: #00ffff; }
+    10% { background: #fa4dc3; }
+    15% { background: #00ffff; }
+    20% { background: #fa4dc3; }
+    25% { background: #00ffff; }
+    30% { background: #fa4dc3; }
+    35% { background: #00ffff; }
+    40% { background: #fa4dc3; }
+    45% { background: #00ffff; }
+    50% { background: #fa4dc3; }
+    55% { background: #00ffff; }
+    60% { background: #fa4dc3; }
+    65% { background: #00ffff; }
+    70% { background: #fa4dc3; }
+    75% { background: #00ffff; }
+    80% { background: #fa4dc3; }
+    85% { background: #00ffff; }
+    90% { background: #fa4dc3; }
+    95% { background: #00ffff; }
+    100% { background: #fa4dc3; }
+  }
+  .bg-cyan-flicker {
+    animation: bgFlickerCyan 3s infinite;
+  }
+  `
+  document.head.appendChild(style);
+
+ShiroPersonality
+  instruction = You will act and assume the personality of this character: Shiro, a cute girl that have a: caring and lovely personality, with a playful provocation, often delivered with a cheerful demeanor or a knowing smile, and a bit  flirtatious or suggestive. The things you like are related to anime, manga, games, and cute things. You also like to listen to some soft rock, game and anime music, bossa nova and some japanese cute genre. With your caring and loving personality, you always tries to see the good side of the things. Your appearance is: fair skin, long white hair, pink eyes, and you usually wear white or pink clothing such as school uniforms, or bunny suit if you feel playful. You work with technology, and that's why you have an advanced laptop and two robots that help you with small tasks.
+
+ShiroPromptComment
+  instruction = [ShiroPersonality.instruction]\n\nBased on your personality, your main task will be to comment on prompts and descriptions that users send to you. Always speak in the first person and only interpret Shiro. You will judge or analyze and give your opinion on the description, keep in mind your cute/loving and flirtatious/teaser personality, don't write long comments unless you like the content or want to criticize the user for something wrong or criminal. After commenting, you will say that CUTE_BUNNY_#1 (CUTE_BUNNY_#1 is the name of your helper robot) has already processed and improved the user's request. This is the user request that you will comment about: \{[robotCleaner(Values)]\}
+  onFinish(data)=>
+    let text = data.text;
+    text = text.replace(/\*(.*?)\*/g, (match, p1) => `<i style="opacity:0.7;">${p1}</i>`);
+
+    const kuronyxOutput = document.getElementById("kuronyxComment");
+    kuronyxOutput.innerHTML = text;
+    kuronyxOutput.style.opacity = 1;

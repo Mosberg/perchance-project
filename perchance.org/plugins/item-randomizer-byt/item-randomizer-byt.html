@@ -1,0 +1,81 @@
+<style>
+  body {
+    background: #000;
+    color: cyan;
+  }
+</style>
+Another time i'll try to explain how it works... <br />
+<code>\[AdvRS("listName", banlist, AnimalList, ClothesList, ColorList)\]</code>
+<p>
+  If there is no banList, make an empty list, like <code>banList = \[\]</code>
+</p>
+<p>
+  example:
+  <code
+    >\[AdvRS("listName", banlist = \[\], AnimalList, ClothesList,
+    ColorList)\]</code
+  >
+</p>
+
+- BYT 👄🍆 [$output('Examples', UglyList, AnimeStyles, RealisticStyles,
+OthersStyles)]
+<div id="Display" style="height: 200px">
+  <h3>Item selected:</h3>
+  <p style="height: 50px">[getNameRandomExamples.prompt || randomExamples]</p>
+
+  <h3>Item Already Selected</h3>
+  <p style="height: 50px">[AlreadySelectedList_Examples]</p>
+</div>
+<br />
+
+<button
+  onclick="
+    $output('Examples', UglyList, AnimeStyles, RealisticStyles, OthersStyles);
+    update(Display);
+  "
+>
+  X
+</button>
+
+<script>
+  window._includesStats ??= {}; // Copy paste to the main page to inspect
+  window._setStats ??= {}; // Same
+  ///////////////////////////////// Copy paste this shit inside the function and remove the /* */
+  /////////////// Also disable the variables with the same name.
+  /* #️⃣ Log Using includes()
+  // Init counter per name
+  window._includesStats[name] ??= {
+    filterCalls: 0,
+    includesChecks: 0
+  };
+  // Filter out entries whose key is in seArray
+  const filtered = entries.filter(([key]) => {
+    window._includesStats[name].filterCalls++;
+    window._includesStats[name].includesChecks++;
+    return !window[name + "AlreadySelected"].includes(key)
+  }); */
+
+  /* #️⃣ Log Using Set
+  const already = new Set(window[name + "AlreadySelected"]);
+  // Init counter per name
+  window._setStats[name] ??= {
+    filterCalls: 0,
+    setChecks: 0
+  };
+  const filtered = entries.filter(([key]) => {
+    window._setStats[name].filterCalls++;
+    window._setStats[name].setChecks++;
+    return !already.has(key);
+  }); */
+  /////////////////////////////////
+
+  function isPerchanceNode(obj) {
+    // Not really useful
+    return (
+      obj &&
+      typeof obj === "object" &&
+      typeof obj.valueOf === "function" &&
+      typeof obj.valueOf() === "string"
+    );
+  }
+</script>

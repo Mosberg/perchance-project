@@ -1,0 +1,43 @@
+//😡😡
+//
+IM = {import:text-to-image-plugin}
+
+DESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + ".\n\n" : "")]
+endDESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ".\n\n" + input.description : "")]
+
+DESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + ", " : "")]
+endDESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ", " + input.description : "")]
+NEGATIVES = [input.negative ? input.negative + ", " : ""]
+endNEGATIVE = [input.negative ? ". " + input.negative : ""]
+TgWV = [window.generatorName === "ai-art-generator-advanced" ? "-100" : "100"]
+
+// Styles ⤵️
+
+$meta
+  title = Realistic styles - Ai Art Generator Advanced
+
+$output // Realistic
+
+  🎐 Professional Photography 📸
+    prompt = is a real, professional photography, editorial photography, with cinematic lighting, colored, high resolution, crisp details. The image is real, beautiful, stylish, appealing, modern and polished, 8K, DSLR photo[endDESCRIPTION]
+    negative = cel-shading[endNEGATIVE]
+
+  🎐 Chiaroscuro Photorealistic
+    prompt = chiaroscuro lighting technique, colored, steady gaze, expressive, timeless, intimate, highly detailed, high contrast, sharp shadows, subtle photorealistic lighting, digitally enhanced[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Strange Photo
+    prompt = a strange photography with chiaroscuro lighting and vignette effect, colored, film scratches and dust. The image is real, beautiful but with an eerie feeling, sinister, unsettling[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Double Exposure Photo
+    prompt = a dreamy double exposure composition where the subject blends seamlessly with thematic scenery elements related to the scene. Ethereal textures, soft watercolor strokes, layered visual effects, glowing mist, and artistic overlays create a surreal fusion between character and environment. The image features artistic depth, atmospheric lighting, and emotional visual flow[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Noir Film 📽️
+    prompt = a cinematic noir film, 1940s style, noir, mysterious, monochrome, high contrast, dramatic shadows, remastered movie[endDESCRIPTION]
+    negative = [input.negative]
+
+promptData
+  prompt = [DESCRIPTION = ""][$output.selectOne.prompt]
+ // prompt = [F = document.getElementById("FirstSelectEl"), F.value]

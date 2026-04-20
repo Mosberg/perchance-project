@@ -1,0 +1,170 @@
+betterSEQUENCE = {import:better-sequencer}
+// This change the value of the variable 'skipNumber' that is used in the others functions.
+// In short, use it in a button, each click in the button will raise the skipNumber value by 1 until 10 when it resets.
+// It also add and remove a class to the button and can change the text/label to inform the currently value.
+skipSeedNumber(BtnID, className, labelID)=>
+  if (!window.skipNumber) {window.skipNumber = 1};
+  const Label = document.getElementById(labelID);
+  if (window.skipNumber == "1") {
+    BtnID.classList.add(className);
+  }
+  if (window.skipNumber >= "10") {
+    BtnID.classList.remove(className);
+    window.skipNumber = 0;
+  };
+
+  window.skipNumber = window.skipNumber + 1;
+  let stringNumber = String(window.skipNumber);
+  if (window.skipNumber == "1") {
+    stringNumber = "1"
+  }
+
+  Label.textContent = `🌱 ${stringNumber}`;
+  return ""
+
+
+// smarSeed needs to be called everytime at the start, for example: prompt = [smartSeed(skipNumber)][input.description][incput.artStyle]
+// skipNumber is used here, by default the value is 1 so it will always
+smartSeed(skip) =>
+  // Safe checks
+  if (!window.fixedSeed) { window.fixedSeed = "false" };
+  if (!window.randomSeed) { window.randomSeed = "-1"};
+  if (!window.seedCounter) { window.seedCounter = 0 };
+  if (!window.smartSeedCounter) { window.smartSeedCounter = 0 };
+  if (window.fixedSeed === "false") {return ""};
+  // // // // //
+
+  // This is the reset and where the new seed number is calculated.
+  if (window.seedCounter <= 0) {
+    // window.seedCounter now gains the same value as the number of images, with each execution the value decreases by 1, when it reaches 0 the new seed will be calculated.
+    window.seedCounter = input.numImages;
+    window.smartSeedCounter = 0; // Is more easier to reset this here.
+    const rng = Math.floor(Math.random() * 9999999999) + 1;
+    window.randomSeed = rng;
+    //console.log(`seedCounter is ${window.seedCounter}`);
+  }
+
+  // The 'skip' is the value that is defined by the user, so instead of using the same seed for all images, the seed will change based on this value, like an arithmetic progression.
+  if (skip != 1) {
+    // So the window.smartSeedCounter will gain +1 each run, until it reachs the same value as skip, then the new seed will be defined.
+    if (window.smartSeedCounter == skip) {
+      const skipRng = Math.floor(Math.random() * 9999999999) + 1;
+      window.randomSeed = skipRng;
+      window.smartSeedCounter = 0;
+    }
+
+    window.smartSeedCounter += 1;
+  }
+
+
+  window.seedCounter -= 1;
+  return ""; // Returns an empty string because it is used in the prompt.
+
+smartSeedArray(skip) =>
+  // Safe checks
+  if (!window.fixedSeed) { window.fixedSeed = "false" };
+  if (!window.randomSeed) { window.randomSeed = "-1"};
+  if (!window.seedCounter) { window.seedCounter = 0 };
+ // if (!window.smartSeedCounter) { window.smartSeedCounter = 0 };
+  if (window.fixedSeed === "false") {return ""};
+  if (!skip) {skip = 1};
+  // // // // //
+
+  // Array
+  if (window.seedCounter <= 0) {
+    window.randomSeed = [];
+    let nI = Math.ceil(input.numImages / skip); // So this will tell how many times the loop above will happens
+    if (skip === 1) {nI = 1}; // when skip seed is off.
+      for (let s = 1; s <= nI; s++) {
+        const rng = Math.floor(Math.random() * 9999999999) + 1;
+        for (let i = 0; i < skip; i++) { // This will push the same seed x times based on the 'skip'. So to get 1 seed each 2 images for example, it will push the same seed 2 times.
+          window.randomSeed.push(rng);
+        }
+      }
+    window.seedCounter = input.numImages;
+  }
+
+  window.seedCounter -= 1;
+  return ""; // Returns an empty string because it is used in the prompt.
+
+
+// This is just to inject the seed value in the <input> to type the seed.
+// The value/seed is calculated in the smartSeed(skip).
+// OUTDATED!!! (This do not happens with smartSeedArray) When on together with smartSeed, this will throws the value several times in a second (for example skipNumber = 2 and numImages = 20, 10x in one go), so this function needs some improvement.
+inputSmartSeed(item) =>
+  if (!window.fixedSeed) { window.fixedSeed = "false" };
+  if (window.fixedSeed === "true") {
+    let inputArea = document.querySelector('[data-name="seed"]');
+    inputArea.focus({ preventScroll: true }); // ✍️
+    inputArea.value = item;
+    inputArea.focus();
+    inputArea.blur();
+    inputArea.dispatchEvent(new Event('input', { bubbles: true }));
+    return item;
+  } else {
+    return "";
+  }
+
+inputSmartSeedV2(userSeed, systemSeed) =>
+  if (!window.fixedSeed) { window.fixedSeed = "false" };
+  let item;
+  if (userSeed === "specialSeed") return specialSeed();
+  if (window.fixedSeed === "true") {
+    item = String(systemSeed);
+    const rawNumbers = item.split(',').join('|').replace(/[^\d\-|^]/g, '') || "-1";
+    let inputArea = document.querySelector('[data-name="seed"]');
+    inputArea.focus({ preventScroll: true }); // ✍️
+    inputArea.value = [...new Set(rawNumbers.split("|"))].join(", ");
+    inputArea.focus();
+    inputArea.blur();
+    inputArea.dispatchEvent(new Event('input', { bubbles: true }));
+    return betterSEQUENCE("|", "advSmartSeed", rawNumbers);
+
+  } else if (String(userSeed).startsWith("/") || String(userSeed).startsWith("\\")) { // Put "/" or "\" at the start to skip values on the seed box, so the user don't need to delete it
+    item = String(userSeed).replace(/^[\/\\]\s*/, '');
+    const rawNumbers = item.split(',').join('|')
+      .replace(/[\/\\]\s*\d+/g, '') // remove / or \ followed by numbers
+      .replace(/[^\d\-|^]/g, '') // remove anything that’s not number, dash, or |
+      .replace(/\|{2,}/g, '|') // collapse multiple pipes
+      .replace(/^\|+|\|+$/g, '') // remove leading/trailing pipes
+      || "-1";
+    return betterSEQUENCE("|", "advSmartSeed", rawNumbers);
+
+  } else {
+    item = String(userSeed);
+    const rawNumbers = item.split(',').join('|').replace(/[^\d\-|^]/g, '') || "-1";
+    return betterSEQUENCE("|", "advSmartSeed", rawNumbers);
+  }
+
+SmartSeedButton(btnID, className, btnID2) =>
+  if (!window.fixedSeed) { window.fixedSeed = "false" };
+  window.fixedSeed = window.fixedSeed === "true" ? "false" : "true";
+  //const otherSeedBtn = document.getElementById('seedLockTool'); // When there are two buttons that changes the variable.
+  if (window.fixedSeed === "false") {
+    window.randomSeed = ""; // <<
+    btnID.classList.remove(className);
+    //otherSeedBtn.classList.remove("active-btn-main");
+    document.getElementById(btnID2).disabled = true;
+  } else {
+    btnID.classList.add(className);
+    //otherSeedBtn.classList.add("active-btn-main");
+    document.getElementById(btnID2).disabled = false;
+  }
+
+specialSeed() =>
+  // 0..1 skewed toward 1
+  const bias = Math.pow(Math.random(), 0.35);
+  // Map to 1..8
+  const randomDigitCount = Math.floor(bias * 8) + 1;
+
+  const min = Math.pow(10, randomDigitCount - 1);
+  const max = Math.pow(10, randomDigitCount) - 1;
+
+  const generatedNumber =  Math.floor(Math.random() * (max - min + 1)) + min;
+  return String(generatedNumber);
+
+
+
+// ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭
+//  BlackYT 👄🍆 ✭ ✭
+// ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭ ✭

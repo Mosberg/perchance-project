@@ -1,0 +1,69 @@
+c = {import:comments-plugin}
+generateText = {import:ai-text-plugin}
+upload = {import:upload-plugin} // for uploading data for share links
+fullscreenButton = {import:fullscreen-button-plugin}
+icon = {import:favicon-plugin}
+genstat = {import:generator-stats-plugin-2}
+navbar = {import:bw-navbar}
+
+$meta
+  title = INTERACTIVE RPG
+  description = Visual and interactive chat with various personalised AI characters.
+  image = https://user-uploads.perchance.org/file/3bb420d45820e4b84fb0ee7691a076d3.png
+  tags = perchance, bathwater, bw, hub, stag, dd, bath, chat, ai, water, hydrohomies, perchat, pershot, waterjam, water cult, emoji, emoji generator, chatplace, gif, gif generator, rpg
+  header
+    background = #000000
+
+cUserCounter
+  channel = [window.generatorPublicId]-user-counter
+  addToUserCounter(comment) =>
+    let comments = window.currentMessages
+    if (comments.length + 1 > 200) {
+      comments.shift()
+    }
+    comments.push(comment)
+    for (let c of comments) {
+      let userIds = [c.user.name, c.user.nickname, c.user.id]
+      let inGenerator = window.latestUsersInLast200.find(a => userIds.includes(a.id))
+      if (!inGenerator) {
+        window.latestUsersInLast200.push({
+          id: c.user.name || c.user.nickname || c.user.id,
+          time: c.time
+        })
+      }
+    }
+    window.currentMessages = comments
+  onLoad(comments) =>
+    window.latestUsersInLast200 = []
+    window.currentMessages = []
+    for(let c of comments) {
+      this.addToUserCounter(c);
+    }
+    window.latestUsersInLast200 = window.latestUsersInLast200.filter(a => a.time > Date.now() - 1000 * 60 * 3)
+    usrCount.innerHTML = window.latestUsersInLast200.length
+    commentsUserCounterContainer.style.display = 'none'
+  onComment(comment) =>
+    this.addToUserCounter(comment)
+    window.latestUsersInLast200 = window.latestUsersInLast200.filter(a => a.time > Date.now() - 1000 * 60 * 3)
+    usrCount.innerHTML = window.latestUsersInLast200.length
+
+options
+  channel = general
+  width = 100%
+  height = 400
+  forceColorScheme = [localStorage.forceColorScheme || null]
+  customEmojis = {import:huge-emoji-list}
+  adminFlair = 👑 OVERSEER 👑
+  adminPasswordHash = 499872b58d811fe3e77ec841e820eb2268a219c97198feae70057dc6568bddec
+  commentPlaceholderText = Enter Message
+  submitButtonText = Send
+  bannedUsers = [banlist]
+  loadFonts = system-ui
+  submitButtonStyle = font-family: system-ui, sans-serif; border: 0px solid; border-top: 1px solid rgba(0,0,0,0.25); border-right: 1px solid rgba(0,0,0,0.25); width: 100%;
+  messageBubbleStyle = font-family: system-ui, sans-serif; padding-right: 2.5em;
+  inputAreaStyle = font-family: system-ui, sans-serif; height: 50px; padding: 0.5em; padding-right: 2.5em; resize: vertical; min-height: 3lh; max-height: 7lh;
+  messageFeedStyle = background-size:cover;
+  fullscreenButtonStyle = border: 0px solid; border-top: 1px solid rgba(0,0,0,0.25);
+  settingsButtonStyle = border: 0px solid; border-top: 1px solid rgba(0,0,0,0.25); border-right: 1px solid rgba(0,0,0,0.25);
+
+banlist

@@ -1,0 +1,15 @@
+// https://perchance.org/useful-generators
+
+// Nothing to see here! :)
+// This is just an "informational" page (not
+// really a generator per se) that links to
+// a bunch of others that could be useful
+// when creating your own generators.
+
+// ideas:
+// - dbpedia http://dbpedia.org/snorql/?query=SELECT+%3Ftitle+%3Fwiki%0D%0AWHERE+%7B%0D%0A+++++%3Fgame+a+yago%3AWikicatGameBoyGames++.%0D%0A+++++%3Fgame+foaf%3Aname+%3Ftitle+.%0D%0A+++++%3Fgame+foaf%3AisPrimaryTopicOf+%3Fwiki%0D%0A%7D+ORDER+by+%3Ftitle
+//   method:
+//      1. go to url of individual item: http://dbpedia.org/page/Tokyo_Mew_Mew
+//      2. go to rdf:type section and copy a predicate
+//      3. go to the example sparql query above and switch out predicate for new one
+// - https://github.com/marak/Faker.js/

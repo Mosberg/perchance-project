@@ -1,0 +1,67 @@
+generateImage = {import:text-to-image-plugin}
+generateText = {import:ai-text-plugin}
+ai = {import:ai-text-plugin}
+comments = {import:comments-plugin}
+
+
+storyWritingPrompt
+  instruction
+    Please help write the [storySoFarEl.value.trim() ? "next" : "first"] part of an award-winning story. Don't wrap it up! Just write 4 more paragraphs.
+    [whatHappensNextEl.value.trim() ? "The second paragraph that you write MUST be based on this instruction/idea: "+whatHappensNextEl.value.trim() : ""]
+    # Overall, here's what the story is about:
+    [storyOverviewEl.value.trim() || "(Unsure, you decide.)"]
+    \n\n
+    # Here's what has happened so far:
+    [storySoFarEl.value.trim().split("\n\n").slice(0, -1).join("\n\n").trim() || "(Nothing yet.)"] // include all but the last paragraph, since we put the last paragraph in `startWith`
+    \n\n
+    Write the [storySoFarEl.value.trim() ? "next" : "first"] paragraph of this story based on the above instruction. You are to write four more paragraphs only. No more, no less.
+    NEVER try to "wrap up" the story.
+    \n
+    [whatHappensNextEl.value.trim() ? "The second paragraph that you write MUST be based on this instruction/idea: "+whatHappensNextEl.value.trim() : ""]
+    // leave the below line unedited (it joins the above lines into one block of text)
+    $output = [this.joinItems("\n")]
+
+  startWith = [getStartWithText()] // put last paragraph in `startWith`
+
+  stopSequences = [oneParagraphAtATimeCheckbox.checked ? ["\n\n"] : []]
+
+  onStart(data) => // runs when the 'regenerate' button is pressed
+    if(storySoFarEl.value !== "" && /[.?!"]$/.test(storySoFarEl.value.trim())) { // if the story textbox isn't empty and it ends with a fullstop, question mark, quote, etc.
+      storySoFarEl.value += "\n\n"; // then we add a couple of new lines to the end, ready for the next paragraph that's about to be generated
+    }
+    storySoFarEl.scrollTop = 99999999;
+    generateBtn.disabled = true;
+    generateBtn.textContent = "⌛ loading...";
+    stopBtn.style.display = "block";
+  onChunk(data) =>
+    if(data.isFromStartWith) {
+      // we don't put the startWith text into the textarea because it's already there
+    } else {
+      storySoFarEl.value += data.textChunk; // we're manually adding each chunk of generated text to the "storySoFarEl" text box, rather than using `outputTo`, since `outputTo` would clear all the existing text and only add the *response*, whereas we want to preserve all the existing text, and just add the response to the end.
+    }
+    if(storySoFarEl.scrollTop > (storySoFarEl.scrollHeight - storySoFarEl.offsetHeight)-30) { // <-- if the text box is already scrolled near the end of the text
+      storySoFarEl.scrollTop = 99999999; // scroll down to bottom of text box as story streams in
+    }
+  onFinish(data) =>
+    generateBtn.disabled = false;
+    generateBtn.textContent = "▶️ generate";
+    stopBtn.style.display = "none";
+    storySoFarEl.value = storySoFarEl.value.trim(); // remove newlines and spaces from the end of the story
+    localStorage.storySoFar = storySoFarEl.value;
+
+getStartWithText() =>
+  let text = storySoFarEl.value.trim().split("\n\n").slice(-1).join("\n\n").trim();
+  if(storySoFarEl.value !== "" && /[.?!"]$/.test(storySoFarEl.value.trim())) { // if the story textbox isn't empty and it ends with a fullstop, question mark, quote, etc.
+    return text+"\n\n"; // then we add a couple of new lines to the end, ready for the next paragraph that's about to be generated
+  } else {
+    return text;
+  }
+
+continueStory() =>
+  window.currentStreamObj = ai(storyWritingPrompt); // we put it into a 'global' variable so that we can use it in the 'onclick' of the stop button to stop the text generation
+
+commentsOptions
+  width = min(750px, 100%)
+  height = min(70vh, 600px)
+  bannedUsers
+    3985b688818bb08c93c5

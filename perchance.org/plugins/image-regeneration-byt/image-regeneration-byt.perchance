@@ -1,0 +1,1302 @@
+// Update 04/03/26
+  // Negatives disabled: e-negative display set to none; negative with Copy function is an empty string
+ia = {import:text-to-image-plugin}
+qolf = {import:qol-functions-blackyt}
+imgMeta = {import:image-metadata-byt}
+copyText = {import:copy-text-plugin}
+date = {import:date-plugin}
+dyn = {import:dynamic-import-plugin}
+//newImg = {import:image-regeneration-byt}
+//newImg.regenerateNewImg(data)
+
+// :: :: //
+copyData(descriptionInput, negativeInput, seed, cfgInput, title, subtitle) =>
+  let dataPrompt;
+  let prompt = descriptionInput.value || "";
+  let nP = ""; //negativeInput.value ? ` (negativePrompt:::${negativeInput.value})` : "";
+  let s = seed.value || "-1";
+  let gS = cfgInput.value || "7";
+  let t = title.value || "";
+  let st = subtitle.value || "";
+
+  dataPrompt = `${prompt}${nP} (guidanceScale:::${gS}) (seed:::${s})`;
+  if (window.copyrightTitle) dataPrompt = dataPrompt + ` (saveTitle:::${t}) (saveDescription:::${st})`
+  copyText(dataPrompt.replace(/[\[]/g, "\\[").replace(/[\]]/g, "\\]").replace("(saveTitle:::)", "(saveTitle::: )").replace("(saveDescription:::)", "(saveDescription::: )"));
+randomColor() =>
+  return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+getAspect(url) =>
+  return new Promise((resolve) => {
+    const img = new Image();
+
+    img.onload = () => {
+      const { width, height } = img;
+      if (width > height) resolve("768x512");
+      else if (height > width) resolve("512x768");
+      else resolve("768x768");
+    };
+
+    img.onerror = () => resolve("512x512");
+    img.src = url;
+  });
+
+// :: :: //
+
+cssRender() =>
+  const style = document.createElement("style");
+  style.textContent = `
+  #regenerateNewImages button {
+    border-radius: 5px;
+    background: var(--blackwhite-rgba-08, rgba(255,255,255, 0.8));
+    border-top: 1px solid #0cccf7;
+    border-right: 1px solid #fa4dc3;
+    border-bottom: 1px solid #7933f2;
+    border-left: 1px solid #3350f2;
+    padding: 1px;
+    color: var(--whiteblack, rgb(0,0,0));
+  }
+  .main-seed-wrapper {
+    position: relative;
+    margin-top: 5px;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  .main-seed-wrapper label  {
+    margin: 5px 5px;
+    color: var(--whiteblack, rgb(0,0,0));
+  }
+  .main-seed-wrapper input  {
+    background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8));
+    border-radius: 5px;
+    border-top: 1px solid #0cccf7;
+    border-right: 1px solid #fa4dc3;
+    border-bottom: 1px solid #7933f2;
+    border-left: 1px solid #3350f2;
+    color: var(--whiteblack, rgb(0,0,0));
+  }
+  .main-seed-wrapper textarea {
+    background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8));
+    border-radius: 5px;
+    margin: 5px 0px;
+    padding: 5px;
+    width: 750px;
+    max-width: 90vw;
+    height: 200px;
+    border-top: 1px solid #0cccf7;
+    border-right: 1px solid #fa4dc3;
+    border-bottom: 1px solid #7933f2;
+    border-left: 1px solid #3350f2;
+    color: var(--whiteblack, rgb(0,0,0));
+  }
+  .main-seed-wrapper select {
+    background: var(--blackwhite-rgba-08, rgba(255,255,255, 0.8));
+    color: var(--whiteblack, rgb(0,0,0));
+    border-radius: 5px;
+    border-top: 1px solid #0cccf7;
+    border-right: 1px solid #fa4dc3;
+    border-bottom: 1px solid #7933f2;
+    border-left: 1px solid #3350f2;
+  }
+  .new-img-button-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+  .new-img-button-grid.main-grid button {
+    flex: 1;
+  }
+  .edit-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .bottom-grid button {
+    padding: 0 5px !important;
+  }
+  .images-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  .iw-wrapper {
+    position: fixed;
+    bottom: 0;
+    top: 6.5rem;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .sliderCtn {
+    background: rgba(0,0,0,0.4);
+    position: fixed;
+    width: 30px;
+    height: 200px;
+    bottom: 40%;
+    right: 0.85rem;
+    padding: 5px 0;
+    justify-content:center;
+    border-radius: 5px;
+  }
+  .active-element-main {
+    box-shadow: 1px 1px 9px #800080, 1px 1px 9px #00ffff !important;
+    border-top: 1px solid #0cccf7 !important;
+    border-right: 1px solid #fa4dc3 !important;
+    border-bottom: 1px solid #ffe84f !important;
+    border-left: 1px solid #2c214a !important;
+    transform:scale(1.1);
+  }
+  .red-bg {
+    background: #ff0000 !important;
+  }
+
+  .checker-bg {
+    background-color: rgba(204, 204, 204, 0.2);
+    background-image:
+      linear-gradient(45deg, #eeeeee80 25%, transparent 25%),
+      linear-gradient(-45deg, #eeeeee80 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #eeeeee80 75%),
+      linear-gradient(-45deg, transparent 75%, #eeeeee80 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  }
+
+  .selected-image {
+    border: 5px dashed cyan !important;
+    border-radius: 5px;
+  }
+
+  .e-negative {
+  display: none;
+  }
+  .e-negative-copy {
+    display: none;
+  }
+    `;
+
+  document.head.appendChild(style);
+htmlRender() =>
+  // button onclick I need to use 'event.currentTarget' and the whole script inside onclick instead of a beautfiul and clean function because perchance throws error when using dynamic html with 'this'. =(
+  let html = `
+  <div style="background:rgba(204,204,204,0.7); position:sticky; top:3rem; border-radius:5px; width:100%; max-width:850px; margin:0 auto; z-index:2">
+    <div class="new-img-button-grid main-grid" style="justify-content:right;">
+      <button class="re-seed" title="Generate random seed for all images">🎲 Seed</button>
+      <button class="re-display" title="Zoom in/out image display">🔍</button>
+      <select class="re-select" title="Number of images"></select>
+      <button class="re-edit" title="Edit the image data (prompt, seed, cfg, etc.)">✎ Edit</button>
+      <button class="re-copy" title="Copy the whole image data">❐ Copy</button>
+      <button class="re-reload" title="Reload with the actual settings">⟲ Reload</button>
+      <button class="re-save" style="max-width:36px;" title="Save all finished images">💾</button>
+      <button class="re-close" style="background:#ff0000; text-shadow: 1px 1px 3px #000, -1px -1px 3px #000;" title="Close this tab">╳</button>
+    </div>
+
+    <div class="edit-wrapper" style="display:none; margin-top:5px; max-height:90vh;">
+      <div class="new-img-button-grid" style="justify-content:center;">
+        <label>
+          CFG: <input type="number" min=1 max=30 class="e-cfg" style="width:50px; background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8));" title="CFG or Guidance Slace">
+        </label>
+        <label>
+        <button class="e-seed-copy" style="background: var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border:1px solid var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border-radius:5px; padding:0 5px;" title="Click to copy the seed to clipboard">❐ Seed:</button> <input class="e-seed" style="width:125px; background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8));">
+        </label>
+      </div>
+
+      <div class="new-img-button-grid" style="justify-content:center; display:none">
+      <label>
+        Style: <select class="re-style"></select>
+      </label>
+      </div>
+
+      <div class="e-textarea" style="align-self:center; display:flex; justify-content:center; flex-direction:column; width:750px; max-width:90vw;">
+        <button class="e-prompt-copy" style="border:1px solid var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border-radius:5px; padding:0 5px; align-self:flex-end" title="Copy prompt to clipboard">❐</button>
+        <textarea class="e-description" style="background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8));" placeholder="Description"></textarea>
+
+        <button class="e-negative-copy" style="border:1px solid var(--blackwhite-rgba-02, rgba(255,255,255,0.2)); border-radius:5px; padding:0 5px; align-self:flex-end" title="Copy negative to clipboard">❐</button>
+        <textarea class="e-negative" style="background:var(--blackwhite-rgba-08, rgba(255,255,255,0.8));" placeholder="Negative"></textarea>
+
+        <input class="e-title" placeholder="Title / Style name">
+        <textarea class="e-subtitle" placeholder="Subtitle/Signature" style="height:50px;"></textarea>
+      </div>
+
+      <div class="new-img-button-grid bottom-grid" style="justify-content:center;">
+        <button class="e-generate" title="Generate with the actual settings">Generate</button>
+        <button class="e-reset" title="Reset image settings to default">Reset</button>
+        <button class="e-portrait" title="Portrait (512x768)">▯ 2:3</button>
+        <button class="e-landscape" title="Landscape (768x512)">▭ 3:2</button>
+        <button class="e-square" title="Square (768x768)">⧄ 1:1</button>
+        <button class="e-close" style="background:#ff0000; padding: 0 8px;" title="Close this edit window">╳</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="iw-wrapper">
+    <div class="images-wrapper"></div>
+  </div>
+
+  <div class="sliderCtn" style="display:none">
+    <input class="e-slider-display" type="range" min="150" max="800" value="300" step="10" style="writing-mode:vertical-lr;">
+  </div>
+
+  `
+
+  return html;
+// Mount the html and css / and object reference
+createImgWrapper(data) =>
+  let mainDiv = document.getElementById("regenerateNewImages");
+
+  if (!mainDiv) {
+
+    const mainWrapper = document.createElement("div");
+    mainWrapper.id = "regenerateNewImages";
+    mainWrapper.style = "background:var(--blackwhite-rgba-08, rgba(0,0,0,0.8)); position:fixed; inset:0; display:flex; flex-direction:column; padding:5px; z-index:2" //
+    document.body.appendChild(mainWrapper);
+
+    const imgTabWrapper = document.createElement("div");
+    imgTabWrapper.style = "z-index:9990; position:sticky; top:0.5rem; width:100%; max-width:850px; margin:0 auto; padding:1px; border-radius:5px; background:linear-gradient(45deg, rgba(51, 80, 242, 0.5), rgba(121, 51, 242, 0.5), rgba(250, 77, 195, 0.5), rgba(12, 204, 247, 0.5))";
+
+    const imgTab = document.createElement("div");
+    imgTab.classList = "new-img-button-grid tab-grid";
+    imgTab.style = "position:sticky; display:flex; gap:5px;";
+
+    const hideBtn = document.createElement("button");
+    const hideTabBtn = document.createElement("button");
+
+    hideBtn.id = "hideNewImageGenBtn";
+    hideBtn.textContent = "↗️Show";
+    hideBtn.title = "Restores the image regeneration window"
+    hideBtn.style = "position:fixed; display:none; bottom:4.5rem; left:0.5rem; border-radius:5px; width:34px; padding:5px; background:linear-gradient(45deg, #0cccf7bf, #fa4dc3bf, #7933f2bf, #3350f2bf); color:#fff; text-shadow:-1px 1px 1px #000, -2px 2px 3px #000; writing-mode:vertical-rl; text-orientation:upright; letter-spacing:-1px";
+    hideBtn.onclick = () => {
+      mainWrapper.style.display = mainWrapper.style.display === "none" ? "flex" : "none";
+      if (mainWrapper.style.display === "none") {
+        hideBtn.style.display = "";
+      } else {
+        hideBtn.style.display = "none";
+        qolf.fastEffect(hideTabBtn, 500, 'rainbow-effect');
+      }
+    }
+    //
+    hideTabBtn.textContent = "↙️Hide"
+    hideTabBtn.title = "Minimize this window";
+    hideTabBtn.style = "border-radius:5px; width:65px; padding:0; background:linear-gradient(45deg, #0cccf780, #fa4dc380, #7933f280, #3350f280); color:#fff; text-shadow:-1px 1px 1px #000, -2px 2px 3px #000; z-index:2";
+    hideTabBtn.onclick = () => {
+      mainWrapper.style.display = mainWrapper.style.display === "none" ? "flex" : "none";
+      if (mainWrapper.style.display === "none") {
+        hideBtn.style.display = "";
+        qolf.fastEffect(hideBtn, 500, 'rainbow-effect');
+      } else {
+        hideBtn.style.display = "none";
+      }
+    }
+
+    imgTab.appendChild(hideTabBtn);
+    imgTabWrapper.appendChild(imgTab);
+    mainWrapper.prepend(imgTabWrapper);
+    document.body.appendChild(hideBtn);
+    cssRender();
+
+    mainDiv = document.getElementById("regenerateNewImages");
+  }
+
+  if (!window.refObj) {
+    window.refObj = {
+      onFinish:
+      function onFinish(data) {
+        if (!data?.iframe?.isConnected) return; //console.log(data.inputs)
+        // Wrapper
+        let iframe = data.iframe;
+        const imageFrame = iframe.closest('.t2i-image-ctn');
+        const existingSpace = imageFrame.querySelector('.t2i-buttonSpace');
+        if (existingSpace) existingSpace.remove(); // Prevents duplicates
+        const buttonSpace = document.createElement('div');
+        buttonSpace.classList = "t2i-buttonSpace";
+        buttonSpace.style = "display:flex; flex-wrap:wrap; justify-content:center; gap:5px; margin-bottom:0.5rem;"
+        iframe.insertAdjacentElement('afterend', buttonSpace);
+
+        // Download btn (img with json data)
+        imgMeta.downloadImgBtn(data, buttonSpace);
+
+        // Private save btn
+        const privateSave = document.createElement('button');
+        privateSave.classList = "t2i-privateSaveBtn";
+        privateSave.textContent = "📁";
+        privateSave.title = "Save image to your private gallery";
+        privateSave.onclick = () => {
+          window.t2i_privateGallerySave(privateSave, privateSave.closest('.t2i-image-ctn'));
+          privateSave.classList.add('active-btn-main');
+        }
+        buttonSpace.appendChild(privateSave);
+
+        // Image zoom/info
+
+        imgi(data, buttonSpace, "selectImg")
+        // Disabled because I'm not using the iframe in the center of the image.
+        //const infoBtn = document.createElement('button');
+        //infoBtn.classList = "t2i-infoBtn";
+        //infoBtn.textContent = "🔎";
+        //infoBtn.title = "Zoom img / Display info";
+        //infoBtn.onclick = () => {
+          //imageInfo(data, imageFrame);
+        //}
+
+        // Prevents missclicks
+        //const iI = () => imageInfo(data); disabled
+        ghostFrames(data);
+
+        // Copy seed
+        easyCopySeed(data, buttonSpace);
+
+        // Shows regenerate btn if seed is -1, or prompt/negative are different .-.
+        // If the user edit WHILE the img is still loading, the conditions will be true.
+        const imgwrap = imageFrame.parentElement.parentElement.parentElement; // tatatataravô
+        const seed = imgwrap.querySelector('input.e-seed').value;
+        const prompt = imgwrap.querySelector('textarea.e-description').value;
+        const negative = imgwrap.querySelector('textarea.e-negative').value;
+        if (seed === "-1" || prompt !== data.inputs.prompt || negative !== data.inputs.negativePrompt) {
+          regenerateNewImg(data, buttonSpace);
+        }
+
+        // Appends
+        //buttonSpace.appendChild(infoBtn);
+        if (window.removeBackground && window.removeBackground === "active") {
+          removeBtn(data, buttonSpace); // remove background
+        }
+
+        // Order
+        let minOrder = 20;
+        for (const child of imageFrame.parentElement.children) {
+          if (child === imageFrame) continue;
+            const o = parseInt(getComputedStyle(child).order, 10) || 20;
+            if (o < minOrder) minOrder = o;
+          }
+        imageFrame.style.order = minOrder - 1;
+
+        // Visual effects xD
+        const borderColor1 = randomColor();
+        //const borderColor2 = randomColor();
+        iframe.style.border = "3px dashed #0cccf7";
+        iframe.classList.add('cyan-flicker');
+        setTimeout(() => {
+          iframe.classList.remove('cyan-flicker');
+          iframe.style.borderColor = borderColor1;
+          setTimeout(() => {
+            iframe.style.border = `none`;
+            iframe.style.boxShadow = `2px 1px ${borderColor1}, -2px -1px ${borderColor1}`;
+            //iframe.style.borderColor = "#0cccf7 #fa4dc3 #7933f2 #3350f2";
+          }, 2000);
+        }, 2000);
+      }
+    }
+  }
+
+  if (!window.t2i_privateGallerySave) {
+  window.createMediaGallery = dyn("mgp-adv")
+  console.log("Private gallery save created!")
+  function animateImageIntoTarget({imgEl, sourceEl, targetEl, durationMs, wiggle}={}) {
+    const srcRect = sourceEl.getBoundingClientRect()
+    let tgtRect = targetEl.getBoundingClientRect();
+    imgEl.style.cssText = `position:fixed;top:${srcRect.top}px;left:${srcRect.left}px;width:${srcRect.width}px;height:${srcRect.height}px;margin:0;pointer-events:none;z-index:9999;transition:top ${durationMs}ms cubic-bezier(.4,0,.2,1),left ${durationMs}ms cubic-bezier(.4,0,.2,1),width ${durationMs}ms cubic-bezier(.4,0,.2,1),height ${durationMs}ms cubic-bezier(.4,0,.2,1)`;
+    if (!imgEl.parentNode) document.body.appendChild(imgEl);
+    imgEl.getBoundingClientRect(); // force reflow
+    imgEl.style.top = tgtRect.top + tgtRect.height / 2 + 'px';
+    imgEl.style.left = tgtRect.left + tgtRect.width / 2 + 'px';
+    imgEl.style.width = imgEl.style.height = '0px';
+
+    imgEl.addEventListener('transitionend', () => {
+      imgEl.remove();
+      if (!wiggle) return;
+      const anim = 'wiggle' + Math.random().toString(36).slice(2);
+      const styleEl = Object.assign(document.createElement('style'), {
+        id: anim,
+        textContent: `@keyframes ${anim}{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-5deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(3deg)}}`
+      });
+      document.head.appendChild(styleEl);
+      targetEl.style.animation = `${anim} 400ms ease-in-out`;
+      targetEl.addEventListener('animationend', () => { targetEl.style.animation = ''; styleEl.remove(); }, { once: true });
+    }, { once: true });
+  }
+  window.t2i_privateGallerySave = async function(btn, imageCtn) {
+    window.t2i_privateGallery = createMediaGallery(); // Assign it here so it updates the active gallery every time, otherwise the active gallery is the one that was active when the page loads.
+    try {
+      if(!imageCtn.querySelector("iframe").textToImagePluginOutput) return alert("Please wait for the image to finish generating before using the 'private save' feature.");
+      btn.disabled = true;
+      let textToImagePluginOutput = imageCtn.querySelector("iframe").textToImagePluginOutput;
+      let { prompt, negativePrompt, seed, guidanceScale } = textToImagePluginOutput.inputs;
+      let imageBlob = await fetch(textToImagePluginOutput.dataUrl).then(r => r.blob());
+      await window.t2i_privateGallery.add(imageBlob, {info:{prompt, negativePrompt, seed, guidanceScale}});
+
+      privateGalleryCtn97364827.hidden = false;
+
+      // Animate the image into gallery button:
+      let imgEl = document.createElement("img");
+      imgEl.src = textToImagePluginOutput.dataUrl;
+      animateImageIntoTarget({imgEl, sourceEl:imageCtn.querySelector("iframe"), targetEl:privateGalleryCtn97364827.querySelector("button"), durationMs:700, wiggle:true});
+    } catch(e) {
+      console.error(e);
+    }
+    setTimeout(() => {
+      btn.disabled = false; // we re-enable since they can click the (within-iframe) 'regenerate' button on this image and submit another image
+    }, 1000);
+  };
+  }
+
+  const imageGrid = document.createElement("div");
+  imageGrid.classList = `main-seed-wrapper`;
+  imageGrid.innerHTML = htmlRender();
+  mainDiv.appendChild(imageGrid);
+
+  const tab = document.createElement("button");
+  tab.classList = `img-tab`;
+  imageGrid.appendChild(tab);
+
+  createImage(data, imageGrid)
+  return "";
+
+// Assign functions to buttons and process image data
+async createImage(data, ctn) => // whole shit async just to get resolution
+  const imageData = {}; // ❇️ The original prompt and configurations will stored here.
+  if (data) {Object.assign(imageData, data.inputs)}; // Stuffing.
+  if (!data) {Object.assign(imageData, imgObj)};
+  Object.assign(imageData, window.refObj)
+  if (!imageData.width) imageData.width = "800";
+  if (!window.sITS) window.sITS = "inactive"; // saveImgToServer
+  if (window.sITS === "active") {
+    imageData.hideGalleryButtons = true;
+  }
+  //console.log(imageData);
+  const newImageData = {}; // ❇️ When edited prompt and configs here.
+  Object.assign(newImageData, imageData); // Copy the original first so it can have the data that was not edited e.g. negative, cfg, resolution.
+
+  // ❇️ change the currentImgData when editing.
+  let currentImgData = (dataObj) => {
+    let img;
+    if (dataObj === "edit") {
+      img = ia(newImageData);
+    } else {
+      img = ia(imageData);
+    }
+    return img;
+  }
+
+  // Target the wrapper that contains all image elements and do some query to find the others using classes.
+  const parent = ctn.closest('.main-seed-wrapper'); // images-wrapper
+
+  // ❇️ Create the select options.
+  const select = parent.querySelector('select.re-select'); // How many images
+  for (let optionIndex = 0; optionIndex < 20; optionIndex++) {
+    const opt = document.createElement('option');
+    //opt.dataset.key = optionIndex + 1;
+    opt.value = optionIndex + 1;
+    opt.textContent = optionIndex + 1;
+    select.appendChild(opt);
+  }
+
+  // Set a default value, use the value saved by the last select.
+  select.selectedIndex = (Number(localStorage.getItem("regenImgNumber")) || 4 ) - 1;
+
+  //let seed = imageData.seed; // ❇️
+  if (!imageData.resolution || imageData.resolution === "" || imageData.resolution === "undefined") {
+  imageData.resolution = await getAspect(data.dataUrl); // Img links should be put in this object
+  }
+
+  let resolution = imageData.resolution;
+
+  // Others input fields
+  const descriptionInput = parent.querySelector('.e-description');
+  const negativeInput = parent.querySelector('.e-negative');
+  const seedInput = parent.querySelector('.e-seed');
+  const cfgInput = parent.querySelector('.e-cfg');
+  const title = parent.querySelector('.e-title');
+  const subTitle = parent.querySelector('.e-subtitle');
+
+  const assignInputs = () => { // ❇️ Get the input data.
+    descriptionInput.value = imageData.prompt || "";
+   // descriptionInput.value += ` (saveTitle:::${imageData.saveTitle || " "})`;
+   // descriptionInput.value += ` (saveDescription:::${imageData.saveDescription || " "})`;
+    negativeInput.value = imageData.negativePrompt || "";
+    seedInput.value = imageData.seed || "-1";
+    cfgInput.value = imageData.guidanceScale || "7";
+    title.value = imageData.saveTitle || "";
+    subTitle.value = imageData.saveDescription?.replace("\[", "【").replace("\]", "】") || "";
+  }
+
+  assignInputs(); // Fill the inputs.
+
+  const copyBtn = parent.querySelector('.re-copy');
+  copyBtn.onclick = () => {
+    copyData(descriptionInput, negativeInput, seedInput, cfgInput, title, subTitle);
+    qolf.fastEffect(copyBtn, 300, 'rainbow-effect');
+  }
+
+  // Copy buttons inside the edit area
+  const editArea = parent.querySelector('.e-textarea');
+  editArea.onclick = (e) => {
+    if (e.target.classList.contains("e-prompt-copy")) {
+      copyText(descriptionInput.value);
+      qolf.fastEffect(e.target, 300, 'cyan-flicker');
+    }
+    if (e.target.classList.contains("e-negative-copy")) {
+      copyText(negativeInput.value);
+      qolf.fastEffect(e.target, 300, 'cyan-flicker');
+    }
+  };
+
+  // 🔍 Declaring here first to set the initial width and make it generate with the value from the slide when it change. 🔍
+  const displaySlider = parent.querySelector('.e-slider-display');
+  displaySlider.value = localStorage.getItem("newImgSliderValue") || 100;
+
+  // ❇️ Generate the images
+  const imageDiv = ctn.querySelector('.images-wrapper');
+  const regenerate = (dataObj) => { // 🔃 create the function
+    const number = Number(select.value); // ❇️ How many images will be generated.
+    imageDiv.innerHTML = "";
+    for (let i = 0; i < number; i++) {
+      const imgFrame = document.createElement('div'); // This wrapper is important to target the iframe and insert new elements such as buttons.
+      imgFrame.style = "margin:0.25rem; margin-bottom:0.6rem;; position:relative;";
+      imgFrame.classList = "t2i-image-ctn new-variations";
+      imgFrame.innerHTML = currentImgData(dataObj);
+      imageDiv.appendChild(imgFrame);
+    }
+    imageDiv.querySelectorAll('.t2i-image-ctn').forEach(img => img.style.width = displaySlider.value + "px"); // Width
+    parent.querySelector(".iw-wrapper").scrollTo({top:0, behavior:'smooth'});
+  }
+
+  // ❇️ Now make the input change the right target.
+  displaySlider.oninput = () => {
+    imageDiv.querySelectorAll('.t2i-image-ctn').forEach(img => img.style.width = displaySlider.value + "px");
+    localStorage.setItem("newImgSliderValue", displaySlider.value);
+  }
+
+  // ❇️ Generate the edited prompt.
+  const newGeneration = () => {
+    Object.assign(newImageData, imageData); // Get the original data again,
+    Object.assign(newImageData, { // Then assign only the data again, the changes will be updated.
+      prompt: descriptionInput.value,
+      negativePrompt: negativeInput.value,
+      seed: seedInput.value,
+      guidanceScale: cfgInput.value,
+      resolution: resolution, // This needs to be assigned separated here because the buttons that change the resolution, so it keeps the changes without reseting or losing the original.
+      saveTitle: title.value,
+      saveDescription: subTitle.value
+    });
+    //currentImgData = ia(newImageData);
+  }
+
+  const seedBtn = parent.querySelector('.re-seed');
+  seedBtn.onclick = () => {
+    qolf.fastEffect(seedBtn, 300, 'rainbow-effect');
+    seedInput.value = "-1";
+    newGeneration();
+    regenerate("edit");
+  }
+
+  // ❇️ Recall
+  const reloadBtn = parent.querySelector('.re-reload'); // Reload button.
+  reloadBtn.onclick = () => {
+    qolf.fastEffect(reloadBtn, 300, 'rainbow-effect');
+    newGeneration();
+    regenerate("edit"); // ⟲ Reload
+  }
+
+  select.onchange = () => { // Draw attention to reload after changer the img number. Assign on change here now that reloadBtn exists.
+    qolf.fastEffect(reloadBtn, 800, 'rainbow-effect');
+    localStorage.setItem("regenImgNumber", select.value);
+  }
+
+  // ❇️ Generate button (Same thing as Reload)
+  const generateBtn = parent.querySelector('.e-generate');
+  generateBtn.onclick = () => {
+    qolf.fastEffect(generateBtn, 300, 'rainbow-effect');
+    newGeneration();
+    regenerate("edit");
+  }
+
+  // ❇️ Shape buttons
+  const portraitBtn = parent.querySelector('.e-portrait');
+  portraitBtn.onclick = () => {
+    qolf.fastEffect(portraitBtn, 300, 'rainbow-effect');
+    resolution = "512x768";
+    newGeneration();
+    regenerate("edit");
+  }
+  const landscapeBtn = parent.querySelector('.e-landscape');
+  landscapeBtn.onclick = () => {
+    qolf.fastEffect(landscapeBtn, 300, 'rainbow-effect');
+    resolution = "768x512";
+    newGeneration();
+    regenerate("edit");
+  }
+  const squareBtn = parent.querySelector('.e-square');
+  squareBtn.onclick = () => {
+    qolf.fastEffect(squareBtn, 300, 'rainbow-effect');
+    resolution = "768x768";
+    newGeneration();
+    regenerate("edit");
+  }
+
+  // Extra ❇️ Create the select options - styles.
+  const selectStyles = parent.querySelector('select.re-style');
+  // Needs to create this object somewhere with the styles: artStylesObj
+  if (window.regenerateArtStyles && window.regenerateArtStyles === "active") {
+    const selectStyles = parent.querySelector('select.re-style');
+    selectStyles.closest(".new-img-button-grid").style.display = "flex";
+    selectStyles.innerHTML = ""; //
+
+    for (const [key, value] of Object.entries(artStylesObj)) {
+      const option = document.createElement("option");
+      option.textContent = key;
+      option.value = value;
+      selectStyles.appendChild(option);
+    }
+    let lastStyle = "";
+    selectStyles.onchange = () => {
+      let text = descriptionInput.value;
+
+      // Remove previous style if it exists
+      if (lastStyle) {
+        // Remove "lastStyle, " only once, from the start
+        const escaped = lastStyle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        text = text.replace(new RegExp(`^${escaped},\\s*`), "");
+      }
+
+      // Add new style (if any)
+      if (selectStyles.value) {
+        text = `${selectStyles.value}, ${text}`;
+        lastStyle = selectStyles.value;
+      } else {
+        lastStyle = "";
+      }
+
+      descriptionInput.value = text;
+    }
+  }
+  if (!window.regenerateArtStyles) selectStyles.closest(".new-img-button-grid").style.display = "none";
+
+
+
+  // ❇️ Reset button
+  const resetBtn = parent.querySelector('.e-reset');
+  resetBtn.onclick = () => {
+    qolf.fastEffect(resetBtn, 300, 'rainbow-effect');
+    resolution = imageData.resolution;
+    assignInputs();
+    regenerate();
+  }
+
+  // 🔍 Display button
+  const displayCtn = parent.querySelector('.sliderCtn');
+  const displayBtn = parent.querySelector('.re-display');
+  let hideTimer = null // For auto hide.
+  displayBtn.onclick = () => {
+    qolf.fastEffect(displayBtn, 100, 'rainbow-effect');
+    const visible = displayCtn.style.display === 'flex';
+    displayCtn.style.display = visible ? 'none' : 'flex';
+    if (!visible) {
+      qolf.fastEffect(displayCtn, 500, 'rainbow-effect');
+      scheduleHide(); // ⏱️ start countdown
+    } else {
+      clearTimeout(hideTimer);
+    }
+  }
+  // Auto hide
+  ;
+  function scheduleHide() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      displayCtn.style.display = 'none';
+    }, 5000);
+  }
+  // Any interaction resets timer 🔍
+  displaySlider.addEventListener('input', scheduleHide);
+  displaySlider.addEventListener('pointerdown', scheduleHide);
+  displaySlider.addEventListener('pointermove', scheduleHide);
+
+  // 💾 Save and Download
+  const saveBtn = parent.querySelector('.re-save');
+  saveBtn.onclick = () => {
+    const saveConfirm = confirm("Download ALL images generated?");
+    if (!saveConfirm) return
+    imgMeta.clickAllDownloadButtons(parent);
+  }
+
+  // ❇️ Tabs
+  const tabBtn = parent.querySelector('.img-tab');
+  tabBtn.title = "Switch between tabs"
+  tabBtn.style = `background:${randomColor()}; color:#000; text-shadow:1px -1px 1px #fff, -1px 1px 3px #fff; font-weight:600; border-radius:5px; padding:5px 10px;`;
+  tabBtn.onclick = () => { // Alternate between tabs / wrappers
+    parent.parentElement.querySelectorAll('.main-seed-wrapper').forEach(wrapper => wrapper.style.display = "none");
+    parent.style.display = "";
+    parent.parentElement.querySelectorAll('.img-tab').forEach(tab => {
+    tab.textContent = "✧";
+    tab.classList.remove('active-element-main')
+  });
+    tabBtn.textContent = "✦";
+    tabBtn.classList.add('active-element-main');
+  }
+  // First run to hide the others and shows the current.
+  const tabGrid = parent.parentElement.querySelector('.tab-grid');
+  tabGrid.appendChild(tabBtn);
+  parent.parentElement.querySelectorAll('.main-seed-wrapper').forEach(wrapper => wrapper.style.display = "none");
+  parent.style.display = "";
+  parent.parentElement.style.display = "flex";
+  parent.parentElement.querySelectorAll('.img-tab').forEach(tab => {
+    tab.textContent = "✧";
+    tab.classList.remove('active-element-main')
+  });
+  tabBtn.textContent = "✦";
+  tabBtn.classList.add('active-element-main');
+  document.getElementById("hideNewImageGenBtn").style.display = "none";
+
+  // ❇️ Close
+  const closeBtn = parent.querySelector('.re-close'); // Needs optimization
+  closeBtn.onclick = () => {
+    let confirmation = confirm("Close this window?");
+    if (!confirmation) return
+    // Show the previous or next tab if there is any.
+    let nextTab = parent.previousElementSibling;
+
+    if (nextTab && nextTab.classList.contains("main-seed-wrapper")) {
+      // get the wrapper index and match it with the button tab index, and apply the changes;
+      const index = [...document.querySelectorAll(".main-seed-wrapper")].indexOf(nextTab);
+      const btn = document.querySelectorAll(".img-tab")[index];
+      btn.classList.add('active-element-main');
+      btn.textContent = "✦";
+      nextTab.style.display = "";
+
+    } else {
+      nextTab = parent.nextElementSibling;
+      if (nextTab && nextTab.classList.contains("main-seed-wrapper")) {
+        const index = [...document.querySelectorAll(".main-seed-wrapper")].indexOf(nextTab);
+        const btn = document.querySelectorAll(".img-tab")[index];
+        btn.classList.add('active-element-main');
+        btn.textContent = "✦";
+        nextTab.style.display = "";
+
+      }
+    }
+    // Remove
+    clearTimeout(hideTimer);
+    parent.remove();
+    tabBtn.remove();
+
+    if (document.querySelectorAll('.main-seed-wrapper').length <= 0) { // Close if there is no other wrapper.
+      document.getElementById("regenerateNewImages").remove();
+      document.getElementById("hideNewImageGenBtn").remove();
+    }
+  }
+
+  const editWrap = parent.querySelector('.edit-wrapper');
+  const editCopySeedBtn = editWrap.querySelector('.e-seed-copy'); // copy button inside edit area
+  editCopySeedBtn.onclick = (e) => { copyText(seedInput.value); qolf.fastEffect(e.target, 300, 'cyan-flicker');}
+
+  // ❇️ Edit button
+  const editBtn = parent.querySelector('.re-edit');
+  editBtn.onclick = () => {
+    editWrap.style.display = editWrap.style.display === "none" ? "flex" : "none";
+    if (editWrap.style.display === "flex") {
+      //qolf.fastEffect(editBtn, 300, 'rainbow-effect');
+      closeBtn.disabled = true; closeBtn.style.opacity = '0.2';
+      editBtn.textContent = "╳ Edit";
+      editBtn.classList.add('red-bg');
+      editBtn.classList.add('active-element-main');
+    } else {
+      closeBtn.disabled = false; closeBtn.style.opacity = '1';
+      editBtn.textContent = "✎ Edit";
+      editBtn.classList.remove('red-bg');
+      editBtn.classList.remove('active-element-main');
+    }
+  }
+  const closeEditBtn = parent.querySelector('.e-close');
+  closeEditBtn.onclick = () => {
+    editWrap.style.display = "none";
+    closeBtn.disabled = false;
+    closeBtn.style.opacity = '1';
+    editBtn.classList.remove('active-element-main');
+    editBtn.classList.remove('red-bg');
+    editBtn.textContent = "✎ Edit";
+  }
+
+  regenerate(); // Call first time. Call it here so it run the scrollToTop effect.
+// Initialize, goes in OnFinish
+regenerateNewImg(data, ctn)=>
+  const iframe = data.iframe;
+  const parent = iframe.closest('.t2i-image-ctn');
+  const existingBtn = parent.querySelector('.t2i-img-variationsBtn');
+  if (existingBtn) existingBtn.remove();
+
+  const newButton = document.createElement('button');
+  newButton.className = "t2i-img-variationsBtn";
+  newButton.textContent = "🔃" //"🔄";
+  newButton.title = "Open a pop-up to generate new images with the same seed and settings, or edit them";
+  newButton.onclick = () => {
+    createImgWrapper(data);
+  }
+  ctn.appendChild(newButton);
+
+// missclick protection
+ghostFrames(data, callback) =>
+  const iframe = data.iframe;
+  const parent = iframe.closest('.t2i-image-ctn');
+
+  const ghosts = parent.querySelectorAll('.t2i-ghost');
+  if (ghosts.length) ghosts.forEach(ghost => ghost.remove());
+
+  const ghostMiddleBtn = document.createElement('button');
+  ghostMiddleBtn.classList = "t2i-ghost";
+  ghostMiddleBtn.textContent = "☉";
+  ghostMiddleBtn.style = "background:#000000; position:absolute; top:2.5rem; left:2.5rem; bottom:5rem; right:2.5rem; opacity:0; z-index: -1";
+  //ghostMiddleBtn.onclick = () => callback();
+
+  //iframe.insertAdjacentElement('afterend', ghostMiddleBtn);
+
+  const ghostTopBtn = document.createElement('button');
+  ghostTopBtn.classList = "t2i-ghost";
+  ghostTopBtn.textContent = "☉";
+  ghostTopBtn.style = "background:#000000; position:absolute; z-index: 999999; right:0; top:0; opacity:0; padding:10px;";
+  ghostTopBtn.onclick = () => {
+    ghostTopBtn.remove();
+  }
+  iframe.insertAdjacentElement('afterend', ghostTopBtn);
+
+  const ghostBottomBtn = document.createElement('button');
+  ghostBottomBtn.classList = "t2i-ghost";
+  ghostBottomBtn.textContent = "☉";
+  ghostBottomBtn.style = "background:#000000; position:absolute; z-index: 999999; right:0; bottom:2.2rem; opacity:0; padding:10px;";
+  ghostBottomBtn.onclick = () => {
+    ghostBottomBtn.remove();
+  }
+  iframe.insertAdjacentElement('afterend', ghostBottomBtn);
+
+// Image zoom/info
+imgi(data, ctn, select) =>
+  const iframe = data.iframe;
+  const parent = iframe.closest('.t2i-image-ctn');
+  const existingBtn = parent.querySelector('.t2i-infoBtn');
+  if (existingBtn) existingBtn.remove();
+
+  const infoBtn = document.createElement('button');
+  infoBtn.classList = "t2i-infoBtn";
+  infoBtn.title = "Zoom img / Display info";
+  infoBtn.textContent = "🔎";
+  infoBtn.onclick = () => {
+    if (select && select === "selectImg") {
+      const allBtn = parent.parentElement.querySelectorAll("*");
+      allBtn.forEach(btn => btn.classList.remove("selected-image"));
+      data.iframe.classList.add("selected-image");
+    }
+    imageInfo(data, parent);
+  }
+  ctn.appendChild(infoBtn);
+imageInfo(data, element) =>
+  const url = data.dataUrl;
+  let title = data.inputs.saveTitle || "";
+  let prompt = data.inputs.prompt;
+  let negative = data.inputs.negativePrompt;
+  let cfg = data.inputs.guidanceScale;
+  let seed = data.inputs.seed;
+  if (title.trim() === "") title = "Info";
+  if (!element) element = "";
+  const buttonStyle = "border-radius:5px; min-width:32px; min-height:32px; font-size:1.2rem; padding:0; background:rgba(255,255,255,0.1); color:#fff; text-shadow:1px 1px 1px #000, 1px 1px 3px #000;";
+
+  // Elements
+  const imgCtn = document.createElement('div');
+  imgCtn.classList = "re-info-wrapper";
+  imgCtn.style = "background:var(--blackwhite-rgba-08, rgba(0,0,0,0.8)); z-index:2; position:fixed; inset:0; display:flex; align-items:center; justify-content:center;";
+  imgCtn.onclick = () => {
+    imgCtn.remove();
+  }
+
+  const img = new Image();
+  img.src = url;
+  img.style = "border-radius:5px; max-width:100vw; max-height:100vh;";
+  img.onclick = () => {
+    imgCtn.remove();
+  }
+
+  const bottomCtn = document.createElement('div');
+  bottomCtn.style = "border-radius:5px; height:35px; position:absolute; bottom:0.5rem; right:0.5rem; margin-left:0.1rem; display:flex; gap:8px; item-align:center; background:#00000000; backdrop-filter:blur(10px)";
+
+  const RetractableMenu = document.createElement('div');
+  RetractableMenu.style = "display:flex; gap:0px;";
+  const retractaBleBtn = document.createElement('button');
+  retractaBleBtn.textContent = "〈"
+  retractaBleBtn.title = "Show/hide menu"
+  retractaBleBtn.style = buttonStyle;
+  retractaBleBtn.onclick = (e) => {
+    const status = retractaBleBtn.nextElementSibling.style.display === 'none' ? 'flex' : 'none';
+    retractaBleBtn.nextElementSibling.style.display = status;
+    const textCnt = status === "none" ? "〈" : "〉";
+    retractaBleBtn.textContent = textCnt;
+    e.stopPropagation();
+  }
+  RetractableMenu.prepend(retractaBleBtn);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.style = buttonStyle;
+  closeBtn.title = "Close this window";
+  closeBtn.textContent = '╳';
+  closeBtn.onclick = () => {
+    imgCtn.remove();
+  }
+
+  const info = document.createElement("div");
+  info.style = "color:#000; position:absolute; bottom:4rem; background:#c2c2c2; border-radius:5px; width:600px; max-width:90vw; margin:0 auto; display:none; z-index:2";
+  const infoTextArea = "width:100%; height:150px; max-height:40vh; background:rgba(42, 43, 43, 0.5); backdrop-filter:blur(10px); color:#000; border-radius:5px;"
+  const infoButtons = "border-top:2px solid #0cccf7; border-right:2px solid #fa4dc3; border-bottom:2px solid #7933f2; border-left:2px solid #3350f2; border-radius:5px; background:rgba(0,0,0,0.25); backdrop-filter:blur(10px); padding:2px; color:#fff; text-shadow:1px 1px 1px #000;";
+  info.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:10px; padding:5px;">
+      <button style="border:1px; border-radius:5px; background:#ff0000; color:#000; margin-bottom:0;" onclick="this.parentElement.parentElement.style.display='none'">╳</button>
+      <div>
+        <button class="re-info-copy-prompt" style="${infoButtons}">Prompt ❐</button>
+        <textarea style="${infoTextArea}">${prompt}</textarea>
+      </div>
+
+      <div>
+        <button class="re-info-copy-negative" style="${infoButtons}">Negative ❐</button>
+        <textarea style="${infoTextArea}">${negative}</textarea>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:center; align-items:center">
+        <label>
+          CFG: <input value="${cfg}" style="width:50px; background:rgba(42, 43, 43, 0.5); border-radius:5px;" readonly>
+        </label>
+        <label>
+        Seed: <input value="${seed}" style="width:110px; background:rgba(42, 43, 43, 0.5); border-radius:5px;" readonly>
+        </label>
+        <button class="re-info-copy-seed" style="${infoButtons}">&nbsp;❐&nbsp;</button>
+      </div>
+    </div>`;
+  info.onclick = (e) => {
+    // stop clicks inside info from closing the overlay
+    e.stopPropagation();
+
+    if (e.target.classList.contains("re-info-copy-prompt")) {
+      copyText(prompt);
+      qolf.fastEffect(e.target, 300, 'cyan-flicker');
+    }
+    if (e.target.classList.contains("re-info-copy-negative")) {
+      copyText(negative);
+      qolf.fastEffect(e.target, 300, 'cyan-flicker');
+    }
+    if (e.target.classList.contains("re-info-copy-seed")) {
+      copyText(seed);
+      qolf.fastEffect(e.target, 300, 'cyan-flicker');
+    }
+  };
+
+  const titleCtn = document.createElement('div');
+  titleCtn.style = "border-radius:5px; font-size:1.2rem; margin:3px 5px; overflow:auto; line-height:1.5; cursor:pointer; color:#fff; text-shadow:1px 1px 1px #000, 1px 1px 3px #000; user-select:none;";
+  titleCtn.title = "Click to show info: prompt, negative, seed, guidance scale"
+  titleCtn.innerHTML = `ⓘ ${title}`
+  titleCtn.onclick = function(e) {
+    info.style.display = info.style.display === 'none' ? "block" : 'none';
+    e.stopPropagation();
+  }
+
+  const rotateButtonL = document.createElement('button');
+  rotateButtonL.style = buttonStyle;
+  rotateButtonL.title = "Turn 90 degrees to the left";
+  rotateButtonL.textContent = "⍈"
+  rotateButtonL.onclick = (e) => {
+    if (img.style.transform) {
+      img.style.transform = "";
+      img.style.maxWidth = "100vw";
+      img.style.maxHeight = "100vh";
+    } else {
+      img.style.maxWidth = "100vh";
+      img.style.maxHeight = "100vw";
+      img.style.transform = "rotate(90deg)";
+    }
+    e.stopPropagation();
+  }
+
+  const rotateButtonR = document.createElement('button');
+  rotateButtonR.style = buttonStyle;
+  rotateButtonR.title = "Turn 90 degrees to the right";
+  rotateButtonR.textContent = "⍇"
+  rotateButtonR.onclick = (e) => {
+    if (img.style.transform) {
+      img.style.transform = "";
+      img.style.maxWidth = "100vw";
+      img.style.maxHeight = "100vh";
+    } else {
+      img.style.maxWidth = "100vh";
+      img.style.maxHeight = "100vw";
+      img.style.transform = "rotate(-90deg)";
+    }
+    e.stopPropagation();
+  }
+
+  let anotherDownloadBtn;
+  if (element && element.querySelector) {
+    anotherDownloadBtn = element.querySelector(".t2i-downloadBtn");
+  };
+  const downloadBtn = document.createElement("button");
+  downloadBtn.style = buttonStyle;
+  downloadBtn.title = "Special Download: images downloaded via this button will include metadata (prompt, seed, etc.) that can be read in Adv. M. Image Reader";
+  downloadBtn.textContent = "⬇️";
+  downloadBtn.onclick = (e) => {
+    imgMeta.downloadImage(data);
+    downloadBtn.classList.add("active-btn-main");
+    if (anotherDownloadBtn) {
+      anotherDownloadBtn.classList.add("active-btn-main");
+    };
+    e.stopPropagation();
+  }
+  if (anotherDownloadBtn && anotherDownloadBtn.classList.contains("active-btn-main")) {
+    downloadBtn.classList.add("active-btn-main");
+  }
+
+  const buttonGrid = document.createElement('div');
+  buttonGrid.style = "display:none; gap:8px;";
+  buttonGrid.appendChild(titleCtn);
+  buttonGrid.appendChild(rotateButtonR);
+  buttonGrid.appendChild(rotateButtonL);
+  buttonGrid.appendChild(downloadBtn);
+
+  RetractableMenu.appendChild(buttonGrid);
+
+  bottomCtn.appendChild(RetractableMenu);
+  bottomCtn.appendChild(closeBtn);
+
+  imgCtn.appendChild(img);
+  imgCtn.appendChild(info);
+  imgCtn.appendChild(bottomCtn);
+
+  if (element && element === "show") {
+    createImageGalleryMenuOptions(data, buttonGrid);
+    //retractaBleBtn.click();
+  }
+  retractaBleBtn.click();
+
+
+
+  document.body.appendChild(imgCtn);
+
+
+// Seed
+easyCopySeed(data, ctn, inputEl) =>
+  const iframe = data.iframe;
+  const parent = iframe.closest('.t2i-image-ctn');
+  const existingBtn = parent.querySelector('.t2i-SeedBtn');
+  if (existingBtn) existingBtn.remove();
+
+  const seedBtn = document.createElement("button");
+  seedBtn.classList = "t2i-SeedBtn";
+  seedBtn.textContent = "🌱";
+  seedBtn.title = "Copy seed to clipboard";
+  seedBtn.onclick = () => {
+    copyDataSeed(data, seedBtn, inputEl)
+  }
+  ctn.appendChild(seedBtn);
+copyDataSeed(data, btn, inputEl) =>
+  if (!window.copySeedToBox) window.copySeedToBox = "inactive"; // safe guard
+  let seed = data.seed || data.inputs.seed || "";
+  // get the element outside this function, e.g. const A = document.querySelector('#el'); copyDataSeed(data, btn, A)
+  if (seed && inputEl && window.copySeedToBox === "active") {
+    copyText(seed);
+    inputEl.value !== "" ? inputEl.value += `, ${seed}` : inputEl.value = seed;
+    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+    qolf.fastEffect(btn, 300, "rainbow-effect");
+    return
+  }
+  if (seed) {
+    copyText(seed);
+    qolf.fastEffect(btn, 300, "rainbow-effect");
+  }
+
+// Download image
+dwld(data, url) =>
+  const title = data.inputs.saveTitle !== " " ? `${data.inputs.saveTitle}_` : "";
+  //const extension = ".jpeg";
+  const uniqueID = imgMeta.dateNow('full');
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `dataImage_${title}${uniqueID}_perchance`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+// Remove bg
+
+async removeBackground(imageUrl) => // can be data url or normal URL
+  if (!removeBackground.transformers) {
+    const transformers = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.3.3');
+    transformers.env.allowLocalModels = false;
+    transformers.env.backends.onnx.wasm.proxy = true;
+    removeBackground.transformers = transformers;
+  }
+
+  const { AutoModel, AutoProcessor, RawImage } = removeBackground.transformers;
+  if (!removeBackground.model || !removeBackground.processor) {
+    removeBackground.model = await AutoModel.from_pretrained('briaai/RMBG-1.4', {
+      config: { model_type: 'custom' },
+    });
+
+    removeBackground.processor = await AutoProcessor.from_pretrained('briaai/RMBG-1.4', {
+      config: {
+        do_normalize: true,
+        do_pad: false,
+        do_rescale: true,
+        do_resize: true,
+        image_mean: [0.5, 0.5, 0.5],
+        feature_extractor_type: "ImageFeatureExtractor",
+        image_std: [1, 1, 1],
+        resample: 2,
+        rescale_factor: 0.00392156862745098,
+        size: { width: 1024, height: 1024 },
+      }
+    });
+  }
+
+  const image = await RawImage.fromURL(imageUrl);
+  const { pixel_values } = await removeBackground.processor(image);
+  const { output } = await removeBackground.model({ input: pixel_values });
+  const mask = await RawImage.fromTensor(output[0].mul(255).to('uint8')).resize(image.width, image.height);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const ctx = canvas.getContext('2d');
+
+  // Draw original image output to canvas
+  ctx.drawImage(image.toCanvas(), 0, 0);
+
+  // Update alpha channel
+  const pixelData = ctx.getImageData(0, 0, image.width, image.height);
+  for (let i = 0; i < mask.data.length; ++i) {
+    pixelData.data[4 * i + 3] = mask.data[i];
+  }
+  ctx.putImageData(pixelData, 0, 0);
+
+  return canvas.toDataURL('image/png');
+async removeBG(data, btn) => // Create the img window and buttons
+  btn.textContent = "⌛";
+  data.inputs.removeBackground = true;
+  const img = new Image();
+  img.style = "border-radius:5px; max-width:100vw; max-height:100vh;"
+  img.classList = "checker-bg";
+  img.src = await removeBackground(data.dataUrl);
+
+  const buttonStyle = "background:var(--blackwhite-rgba-05, rgba(0,0,0,0.5)); color:var(--whiteblack, #fff); border-radius:5px; width:30px; height:30px; font-size:1rem; padding:0;";
+  const imgCtn = document.createElement('div');
+  imgCtn.style = "background:var(--blackwhite-rgba-08, rgba(0,0,0,0.8)); z-index:2; display:flex; position:fixed; inset:0; align-items:center; justify-content:center;";
+  imgCtn.onclick = () => { qolf.changeDisplayStatus(imgCtn, "flex", "none"); }
+  const btnGrid = document.createElement('div');
+  btnGrid.style="background:#00000000; border:none; height: 32px; position: absolute; bottom: 0.6rem; margin-right:auto; margin-left:auto; display:flex; gap:8px; max-width:100vw;";
+  const closeBtn = document.createElement('button');
+  closeBtn.style = buttonStyle;
+  closeBtn.textContent = '╳';
+  closeBtn.onclick = (e) => {
+    qolf.changeDisplayStatus(imgCtn, "flex", "none");
+    e.stopPropagation();
+  }
+  const downloadBtn = document.createElement('button');
+  downloadBtn.textContent = "⬇️";
+  downloadBtn.style = buttonStyle;
+  downloadBtn.onclick = (e) => {
+    dwld(data, img.src);
+    e.stopPropagation();
+  }
+
+  imgCtn.append(img);
+  btnGrid.append(downloadBtn);
+  btnGrid.append(closeBtn);
+  imgCtn.append(btnGrid);
+  document.body.appendChild(imgCtn);
+  btn.textContent = "🧱";
+  btn.classList.add("active-btn-main");
+  // Changes the btn onclick
+  btn.onclick = (e) => {
+    qolf.changeDisplayStatus(imgCtn, "flex", "none");
+    e.stopPropagation();
+  }
+  // Aditional trash cleanup, to remove img from the body when the original img is gone.
+  function cleanup() {
+    observer.disconnect();
+    imgCtn.remove();
+  }
+  const observer = new MutationObserver(() => {
+    if (!btn.isConnected) {
+      cleanup();
+    }
+  });
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+removeBtn(data, ctn) =>
+  const iframe = data.iframe;
+  const parent = iframe.closest('.t2i-image-ctn');
+  const existingBtn = parent.querySelector('.t2i-RemoveBtn');
+  if (existingBtn) existingBtn.remove();
+
+  const removeBtn = document.createElement("button");
+  removeBtn.classList = "t2i-RemoveBtn";
+  removeBtn.textContent = "🧱";
+  removeBtn.title = "Remove background from the image";
+  removeBtn.onclick = (e) => {
+    removeBG(data, removeBtn);
+    e.stopPropagation();
+  }
+  ctn.appendChild(removeBtn);
+
+// For gallery
+createImageGalleryMenuOptions(data, ctn) =>
+
+  const mainDiv = document.createElement("div");
+  mainDiv.style = "border-radius:5px; position:absolute; bottom:2.8rem; right:0.5rem; width:200px; display:flex; flex-direction:column; gap:5px;";
+  //mainDiv.classList = "re-info-wrapper";
+
+  // btns
+  const btnStyle = "border-radius:5px; font-size:1rem; padding:0; background:rgba(255,255,255,0.1); color:#fff; text-shadow:1px 1px 1px #000, 1px 1px 3px #000;"
+  const regenBtn = document.createElement("button");
+  regenBtn.textContent = "♻️ Regenerate";
+  regenBtn.title = "Open a pop-up to generate new images with the same seed and settings, or edit them";
+  regenBtn.style = btnStyle;
+  regenBtn.onclick = (e) => {
+    //const titleBackup = data.inputs.title;
+    data.inputs.saveTitle = String(data.inputs.saveTitle).replace("🖼️", "♻️ Regenerated");
+    createImgWrapper(data);
+    //data.inputs.saveTitle = titleBackup;
+
+  }
+
+  // Just a temporary add, i need to move it to another place in a distant future i guess.
+  if (!window.phExtractKey) {
+    window.phExtractKey = "inactive";
+  }
+  if (!window.phExtract && window.phExtractKey === "active") {
+    window.phExtract = dyn("kuronyx-extractprompt");
+  }
+  const extractPromptBtn = document.createElement("button");
+  extractPromptBtn.textContent = "🔬 Analyze";
+  extractPromptBtn.title = "Analyze and organize the prompt using AI";
+  extractPromptBtn.style = btnStyle;
+  extractPromptBtn.onclick = (e) => {
+    //extractPromptBtn.textContent = "⏳ Analyzing..."
+    phExtract(data.inputs.prompt, extractPromptBtn);
+    e.stopPropagation();
+  }
+
+  const removeBgBtn = document.createElement("button");
+  removeBgBtn.textContent = "🧱 Remove background";
+  removeBgBtn.title = "Remove image background";
+  removeBgBtn.style = btnStyle;
+  removeBgBtn.onclick = (e) => { removeBG(data, removeBgBtn); e.stopPropagation(); }
+
+  const btnArray = [regenBtn];
+  if (window.phExtractKey === "active") btnArray.push(extractPromptBtn);
+  btnArray.push(removeBgBtn);
+  btnArray.forEach(btn => mainDiv.appendChild(btn));
+
+  ctn.append(mainDiv);
+async regenerateFromGallery(data) =>
+  console.log(data.userId)
+  const imgUrl = await imgMeta.urlToDataURL(data.imageUrl);
+  const newData = {inputs:{width:"800"}};
+  const generatorName = window.nameGen || window.generatorName || "";
+  Object.assign(newData.inputs, { prompt: data.prompt, negativePrompt: data.negativePrompt, guidanceScale: data.guidanceScale, seed: data.seed, saveTitle: `🖼️ From Gallery ${generatorName}`, saveDescription: `${date().format("MMM Do, YYYY")} • ${data.prompt.slice(0, 100)}...` });
+  Object.assign(newData, {dataUrl: imgUrl});
+  //newImg.createImgWrapper(newData)
+  //createImageGalleryMenuOptions(newData);
+  imageInfo(newData, "show")

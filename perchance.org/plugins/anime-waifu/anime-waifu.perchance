@@ -1,0 +1,792 @@
+//
+// Made by BlackYT 👄🍆
+// The characters are not that good but its the best we can have in perchance for now.
+// This list is only for female characters.
+// This list was made to be used on the https://perchance.org/ai-art-generator-advanced
+// This list will be optimized when it reaches 100 characters, as well will be open to public to anyone who wants to help with? Not really sure.
+// well now is open after 1 year in the darkness
+// GALLERY MAY BE REMOVED IN FUTURE
+
+skin = {import:anime-waifu-outfits}
+// [window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+
+
+$output
+
+  『A』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Angel Beats) Yui
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Yui from Angel Beats, she has pink eyes, long pink hair, two side up, sidelocks, a single ahoge
+    outfit = [skin.F.AngelBeatsYuiSchoolUniform]
+    img = https://user.uploads.dev/file/f6ef1296460a2c4e4fa3a1a1b8e12ea8.webp
+
+  (Arknights) Angelina
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Angelina from Arknights, she has red eyes, long brown wavy hair styled in twintails with sidelocks, fox ears with ear fluff
+    outfit = [skin.F.ArknightsAngelina]
+    img = https://user.uploads.dev/file/1e56673faf0b8f407917aa410cd96b4b.webp
+
+  (Arknights) Dusk
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Dusk from Arknights, she has red eyes, long black hair covering one eye, horns, pointy ears, and a tail
+    outfit = [skin.F.ArknightsDusk]
+    img = https://user.uploads.dev/file/163b69b5331d9c29354eea072c4fef7c.webp
+
+  (Arknights) Kal'tsit
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Kal'tsit from Arknights, she has green eyes, short white hair, animal ears with ear fluff, oripathy lesions
+    outfit = [skin.F.ArknightsKaltsit]
+    img = https://user.uploads.dev/file/2bda0a3dc5f8f91821481a27a7a29bb2.webp
+
+  (Arknights) Mudrock
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Mudrock from Arknights, she has red eyes, long white hair, horns, pointy ears, medium breasts, and oripathy lesions
+    outfit = [skin.F.ArknightsMudrock]
+    img = https://user.uploads.dev/file/afc68700eb9f32549a3f73d0900aa808.webp
+
+  (Azur Lane) Atago
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Atago from Azur Lane, she has {dog|fox} ears, brown eyes, long black hair, swept bangs
+    outfit = [skin.F.AzurLaneAtagoBaseSkin]
+    img = https://user.uploads.dev/file/6745a56e48414bf06c6adf0e83345fa3.webp
+
+  (Azur Lane) Belfast
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Belfast from Azur Lane, she has blue eyes, white long hair, large breasts
+    outfit =  [skin.F.AzurLaneBelfastBaseSkin]
+    img = https://user.uploads.dev/file/17a95228041b2d773b291b99a00df24d.webp
+
+  (Azur Lane) Bremerton
+    prompt = Bremerton [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = from Azur Lane, she has pink eyes,  long pink hair, twintails, hair intakes, has a mole under the right eye, large breasts
+    outfit = black choker, dark blue jacket, over a crop top overhang, the crop top is grey and white; paired with black short shorts worn over pink bikini, white belt, black thighhighs, and big red aviator sunglasses
+    img = https://user.uploads.dev/file/13c6701331c87be991fc2436c303be30.webp
+
+  (Azur Lane) Bremerton (Tennis)
+    prompt = Bremerton (scorching-hot training) [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Azur Lane) Bremerton"].basePrompt]
+    outfit = tennis uniform: white crop top overhang, a two tone white tennis miniskirt, green sneakers, and a golden heart necklace
+    img = https://user.uploads.dev/file/caa549ee938cad74d983b66eaebeee48.webp
+
+  (Azur Lane) Illustrious
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Illustrious from Azur Lane, she has blue eyes, long hair, white hair, ahoge, large breasts
+    outfit = [skin.F.AzurLaneIllustriousBaseSkin]
+    img = https://user.uploads.dev/file/77c19fd49cedd67aa64519a20dfc07e0.webp
+
+  (Azur Lane) Illustrious Never-Ending Tea Party
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Azur Lane) Illustrious"].basePrompt]
+    outfit = [skin.F.AzurLaneIllustriousBlueDress]
+    img = https://user.uploads.dev/file/63ea68bb97254f0de2c29db09538d450.webp
+
+  (Azur Lane) Prinz Eugen
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Prinz Eugen from Azur Lane, she has orange eyes, long hair, white hair, streaked hair, two side up
+    outfit = [skin.F.AzurLanePrinzEugenBaseSkin]
+    img = https://user.uploads.dev/file/588d09f1798ff8d11c6e4f5e61557634.webp
+
+  (Azur Lane) Prinz Eugen Swinsuit
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Azur Lane) Prinz Eugen"].basePrompt]
+    outfit = [skin.F.AzurLanePrinzEugenSwinsuit]
+    img = https://user.uploads.dev/file/9c6e3fefdaa9334e0f471e748786563f.webp
+
+  『B』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Blue Archive) Arona
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Arona from Blue Archive, she has blue eyes, short hair, blue hair with pink undertones, white hair bow, blue halo
+    outfit = [skin.F.BlueArchiveArona]
+    img = https://user.uploads.dev/file/161fb9b6663c1fa4b959d1fcb2e513d4.webp
+
+  (Blue Archive) Asuna
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Asuna from Blue Archive, she has blue eyes, brown hair, long hair, blue halo, large breasts
+    outfit = [skin.F.BlueArchiveAsunaMaid]
+    img = https://user.uploads.dev/file/6c3a08a5bc9330905e70d922b3b8486a.webp
+
+  (Blue Archive) Asuna (Bunny)
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Blue Archive) Asuna"].basePrompt]
+    outfit = [skin.F.BlueArchiveAsunaBunny]
+    img = https://user.uploads.dev/file/21adc505024d5bd9458e2e7e3409ebe9.webp
+
+  (Blue Archive) Asuna (School Uniform)
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Blue Archive) Asuna"].basePrompt]
+    outfit = [skin.F.BlueArchiveAsunaSchoolUniform]
+    img = https://user.uploads.dev/file/1528becfb26bde472658aaeab266281b.webp
+
+  (Blue Archive) Hanako
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Hanako from Blue Archive, she has green eyes, very long pink hair, single braid on her right hair, ahoge, pink halo, curvy body with large breasts
+    outfit = [skin.F.BlueArchiveHanako]
+    img = https://user.uploads.dev/file/95405ad29050f95b80704037cecf08b9.webp
+
+  (Blue Archive) Hina
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Hina from Blue Archive, she has purple eyes, long hair, white hair, black and purple halo
+    outfit = [skin.F.BlueArchiveHina]
+    img = https://user.uploads.dev/file/7a315227d761658c5b30ba71da6987d0.webp
+
+  (Blue Archive) Izuna
+    prompt = Izuna from Blue Archive, [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = she has yellow eyes, brown hair, short hair, fox ears, fox tail, pink scarf, pink halo
+    outfit = [skin.F.BlueArchiveIzuna]
+    img = https://user.uploads.dev/file/e1ac7f88cf93c751d08f640e43eb1716.webp
+
+  (Blue Archive) Izuna (Swinsuit)
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Izuna swimsuit from Blue Archive, [$output["(Blue Archive) Izuna"].basePrompt]
+    outfit = [skin.F.BlueArchiveIzunaSwinsuit]
+    img = https://user.uploads.dev/file/7a3f0fb2ad0265de25471cf0718d0b8e.webp
+
+  (Blue Archive) Kazusa
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Kazusa from Blue Archive, she has pink eyes, short black hair, pink inner-hair, bob cut, pink halo, cat ears
+    outfit = black choker, black hooded jacket with long sleeves, green sailor collar, pink neckerchief, white pleated miniskirt, black pantyhose
+    img = https://user.uploads.dev/file/ef743f14374a8043332a64db6838c70b.webp
+
+  (Blue Archive) Kisaki
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Kisaki from Blue Archive, she has grey eyes,  long black hair, twintails, double bun, grey halo. She is wearing
+    outfit = sleveless short black china dress with a side slit, pelvic curtain and dragon print, black half gloves, and butterfly hair ornament
+    img = https://user.uploads.dev/file/a0416098329bfae496caf94b33a301ac.webp
+
+  (Blue Archive) Mari
+    prompt = Mari [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = from Blue Archive, she has blue eyes, long hair, orange hair, yellow halo
+    outfit = [skin.F.BlueArchiveMariNun]
+    img = https://user.uploads.dev/file/09a55553ec8f92d15a5e6bd7bdfb1ef7.webp
+
+  (Blue Archive) Mari (Track)
+    prompt = Mari (track) [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Blue Archive) Mari"].basePrompt]
+    outfit = [skin.F.BlueArchiveMariTrack]
+    img = https://user.uploads.dev/file/c4d929ba8eaae73de04607fe4e8a4e45.webp
+
+  (Blue Archive) Shiroko
+    prompt = Shiroko [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = from Blue Archive, she has blue eyes, mismatched pupils, medium hair, grey hair, wolf ears, blue halo
+    outfit = [skin.F.BlueArchiveShiroko]
+    img = https://user.uploads.dev/file/59e0316f14546f1a2dc027f84e15b5c1.webp
+
+  (Blue Archive) Yuuka
+    prompt = Yuuka [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = from Blue Archive, she has purple eyes, purple hair, long hair, two side up, black halo
+    outfit = [skin.F.BlueArchiveYuuka]
+    img = https://user.uploads.dev/file/5b3d7996e7ae8d50db35378fe8376be7.webp
+
+  (Blue Archive) Yuuka (Track)
+    prompt = Yuuka (track) [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [($output["(Blue Archive) Yuuka"].basePrompt).replace(/two side up/i, "half updo")]
+    outfit = [skin.F.BlueArchiveYuukaTrack]
+    img = https://user.uploads.dev/file/f1df0524a9acce0742d3f0749eefc896.webp
+
+  (Boochi the Rock!) Bocchi
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Bocchi from Bocchi the Rock!, she has blue eyes, long pink hair with a one side up, cube hair ornament, hair between eyes
+    outfit = [skin.F.BocchiTheRockBocchi]
+    img = https://user.uploads.dev/file/e24e426f48cedcf89f9c598ae7868ffe.webp
+
+  『C』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Chainsaw Man) Makima
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Makima fom Chainsaw Man, she has light red hair kept in a braided ponytail and ringed yellow eyes
+    outfit = a long-sleeved tucked in collared shirt with a necktie, black pants
+
+  (Chainsaw Man) Power
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Power from Chainsaw Man, she has yellow eyes, long blonde hair with hair between the eyes, red demon horns{|, sharp teeth^0.3}
+    outfit = a white collared shirt with a black necktie, an open blue jacket with red trim, black pants rolled up, and white shoes
+
+  (Chainsaw Man) Reze
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Reze from Chainsaw Man, she has green eyes, short purple hair styled in a single bun with hair between the eyes
+    outfit = a white sleeveless collared shirt with a neck ribbon, black shorts, black thighhighs, brown loafers, and a black choker
+
+  (Code Geass) C.C.
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = C.C from Code Geass, she has yellow eyes, long hair, green hair
+    outfit = [skin.F.CodeGeasCCWhiteSuit]
+    img = https://user.uploads.dev/file/0129789e29a43aa0b1c15b41da13023c.webp
+
+  (Code Geass) Kallen (Bunny)
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Kouzuki Kallen from Code Geass, she has blue eyes, short hair
+    outfit = [skin.F.CodeGeasKallenBunny]
+    img = https://user.uploads.dev/file/ad2fcd3349e47c868b46c3cb3fb36434.webp
+
+  (Code Geass) Nunnally vi Britannia
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Nunnally Vi Britannia from Code Geass, she has purple eyes, very long brown hair, wavy hair, hair intakes
+    outfit = [skin.F.CodeGeassNunnallySchoolUniform]
+    img = https://user.uploads.dev/file/ceb9af85ef1aa0aef83593bfec0341cd.webp
+
+  『D』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Danmachi) Hestia
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Hestia from Danmachi, she has blue eyes, black hair, long twintails, blunt bangs, sidelocks, large breasts
+    outfit = [skin.F.DanmachiHestia]
+    img = https://user.uploads.dev/file/e58bf52c7e0e91cdc7c8c5bcd615958a.webp
+
+  (Darkstalkers) Morrigan
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Morrigan Aensland from Darkstalkers, she has green eyes, long aqua green hair, bat wings and head wings{, large breasts^0|}
+    outfit = [skin.F.DarkstalkersMorrigan]
+    img = https://user.uploads.dev/file/44c1f995f9608a2a7a446177f33d2a82.webp
+
+  (Darling.. FranXX) Ichigo
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Ichigo from Darling in the Franxx, she has green eyes, short hair, blue hair, bob cut, swept bangs
+    outfit = [skin.F.DarlingInTheFranXXIchigo]
+    img = https://user.uploads.dev/file/6fec8c44c2c12134cd75777d91af7b84.webp
+
+  (Darling.. FranXX) Ichigo Shool Uniform
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Darling.. FranXX) Ichigo"].basePrompt]
+    outfit = [skin.F.DarlingInTheFranXXIchigoSchoolUniform]
+    img = https://user.uploads.dev/file/346b9660e1dc33a142fd7663ab5e10ea.webp
+
+  (Darling.. FranXX) Ichigo Pilot
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Darling.. FranXX) Ichigo"].basePrompt]
+    outfit = [skin.F.DarlingInTheFranXXIchigoPilotSuit]
+    img = https://user.uploads.dev/file/a8815890b8e8f778203daac0d4f5de2c.webp
+
+  (Darling.. FranXX) Zero Two
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Zero Two from Darling in the Franxx, she has blue eyes, long hair, pink hair
+    outfit = [skin.F.DarlingInTheFranXXZeroTwo]
+    img = https://user.uploads.dev/file/4c89a2e57e1e600a005e485715969a3a.webp
+
+  (Darling.. FranXX) Zero Two Pilot
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Darling.. FranXX) Zero Two"].basePrompt]
+    outfit = [skin.F.DarlingInTheFranXXZeroTwoPilotSuit]
+    img = https://user.uploads.dev/file/ec0b3b55acedaf69ea97d6c81a84f5d7.webp
+
+  (Dead or Alive) Marie Rose
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Marie Rose from Dead or Alive, she has blue eyes, hair between eyes, long blonde hair with twintails //small breasts
+    outfit = [skin.F.DeadOrAliveMarieRose]
+    img = https://user.uploads.dev/file/5acddf8924d52e4b87a09e9453e6c93c.webp
+
+  (Dead or Alive) Marie Rose Swinsuit
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Dead or Alive) Marie Rose"].basePrompt]
+    outfit = [skin.F.DeadOrAliveMarieRoseSwinsuit]
+    img = https://user.uploads.dev/file/4dbf17c607b6463ae5be2b6e489a1773.webp
+
+  『F』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Fate) Jeanne D'Arc
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Jeanne D'Arc from Fate Grand/Order, she has {purple|blue} eyes, blonde long hair with a long single braid
+    outfit = a headpiece, armored purple dress with a silver armor, gauntlets, purple thighhighs and armored knee boots{|, wielding a flag pole^0.2}
+
+  (Fate) Jeanne D'Arc Alter
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Jeanne d’Arc Alter from Fate/Grand Order, she has yellow eyes, short blonde hair{|, large breasts^0}
+    outfit = a black armored dress with a boobplate, black thighhighs, gauntlets, and a fur-trimmed cape{, wielding the sword La Grondement du Haine^0|}
+
+  『G』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Genshin) Amber
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Amber from Genshin Impact, she has brown eyes, long brown hair with hair between the eyes and a red ribbon{, medium breasts^0|}
+    outfit = [skin.F.GenshinImpactAmber]
+    img = https://user.uploads.dev/file/ffcfb2370f86c01a695210d05b451266.webp
+
+  (Genshin) Ayaka
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Kamisato Ayaka from Genshin Impact, she has blue eyes, long blue hair in a high ponytail with a hair ornament, a mole under her eye
+    outfit = [skin.F.GenshinImpactAyaka]
+    img = https://user.uploads.dev/file/4ecf6b242a568ed67f83f8033d0f4773.webp
+
+  (Genshin) Barbara
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Barbara from Genshin Impact, she has blue eyes, blonde hair, twintails, drill hair
+    outfit = [skin.F.GenshinImpactBarbara]
+    img = https://user.uploads.dev/file/ea35f8d7ac102051162ce548b90f6b34.webp
+
+  (Genshin) Citlali
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Citlali from Genshin Impact, she has blue eyes, very long pink and purple hair with a braid, facial and forehead markings{, medium breasts^0|}{, is holding a stuffed toy^0.1|^1.5}
+    outfit = [skin.F.GenshinImpactCitlali]
+    img = https://user.uploads.dev/file/bb1572c2c118298adeb4e3736dd0b628.webp
+
+  (Genshin) Columbina
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Columbina from Genshin Impact, she has {closed eyes|purple eyes^0}, long black and purple hair with hair intakes{, small breasts^0|}
+    outfit = [skin.F.GenshinImpactColumbina]
+    img = https://user.uploads.dev/file/3f17cda0605114232951fb91eb0f58a6.webp
+
+  (Genshin) Eula
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Eula from from Genshin Impact, she has yellow eyes, light blue hair, sidelocks
+    outfit = [skin.F.GenshinImpactEula]
+    img = https://user.uploads.dev/file/762a643436357ab695feb4cce8f31a41.webp
+
+  (Genshin) Furina
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Furina from Genshin Impact, she has white and blue hair that is worn in {a long ponytail|cut short}, a large ahoge, and heterochromatic blue eyes with mismatched drop-shaped pupils
+    outfit = [skin.F.GenshinImpactFurina]
+    img = [furina()] //{https://user.uploads.dev/file/c3480c96d96a6ce6a40756cc5f87fe93.webp|https://user.uploads.dev/file/717603daf575e53fb4d2db64fd771fdb.webp}
+
+  (Genshin) Ganyu
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Ganyu from from Genshin Impact, she has purple eyes, long blue hair, low ponytail, ahoge, goat horns
+    outfit = [skin.F.GenshinImpactGanyu]
+    img = https://user.uploads.dev/file/8dfe5dcd212f723b4e81394b82f1d429.webp
+
+  (Genshin) Hu Tao
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Hu tao from from Genshin Impact, she has red eyes, with unusual pupils, symbol-shaped pupils, brown hair, gradient hair, long hair, hair between eyes
+    outfit = [skin.F.GenshinImpactHutao]
+    img = https://user.uploads.dev/file/e7e6ec0e4badbdfe9c55236f8b972557.webp
+
+  (Genshin) Jean
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Jean from Genshin Impact, she has blue eyes, long blonde hair tied in a ponytail with sidelocks{, medium breasts^0|}
+    outfit = [skin.F.GenshinImpactJean]
+    img = https://user.uploads.dev/file/972e3b6b5bbe5b5919f1671ac57b56cf.webp
+
+  (Genshin) Keqing
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Keqing from Genshin Impact, she has purple eyes, purple hair, long hair, hair bun, hair between eyes
+    outfit = [skin.F.GenshinImpactKeqing]
+    img = https://user.uploads.dev/file/2f2ca1d8fd2580b26f16f3615544079f.webp
+
+  (Genshin) Kokomi
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Sangonomiya Kokomi from Genshin Impact, she has purple eyes, very long gradient blue and pink hair with bow-shaped ornaments, blue horns
+    outfit = [skin.F.GenshinImpactKokomi]
+    img = https://user.uploads.dev/file/b7359017b4b86472a409a50c97764014.webp
+
+  (Genshin) Lisa
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Lisa from Genshin Impact, she has green eyes, long brown hair, large breasts
+    outfit = [skin.F.GenshinImpactLisa]
+    img = https://user.uploads.dev/file/14757c613d81c8b3d9c54bd5d796e803.webp
+
+  (Genshin) Lumine
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Lumine from Genshin Impact, she has yellow eyes, blonde short hair with long locks, hair between eyes, hair flower ornament
+    outfit = [skin.F.GenshinImpactLumine]
+    img = https://user.uploads.dev/file/aba7bff1916f27161d388157d79202b0.webp
+
+  (Genshin) Mona
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Mona from Genshin Impact, she has green grey eyes, long hair, black hair
+    outfit = [skin.F.GenshinImpactMona]
+    img = https://user.uploads.dev/file/953c4a2645501a697bdae73408e5fbce.webp
+
+  (Genshin) Nahida
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Nahida from Genshin Impact, she has long white hair with green streaks and gradient with long bangs and a side ponytail, green eyes with cross-shaped pupils, and pointy ears
+    outfit = [skin.F.GenshinImpactNahida]
+    img = https://user.uploads.dev/file/ddaff14043cadb42895a7d91092fcaf3.webp
+
+  (Genshin) Nilou
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Nilou from Genshin Impact, she has aqua eyes, long red hair styled in low twintails{, medium breasts^0|}
+    outfit = [skin.F.GenshinImpactNilou]
+    img = https://user.uploads.dev/file/9fbf688414f6b9ef121308fa138f1c28.webp
+
+  (Genshin) Noelle
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Noelle from Genshin Impact, she has green eyes, short grey hair with a hair ornament{, medium breasts^0|}
+    outfit = [skin.F.GenshinImpactNoelle]
+    img = https://user.uploads.dev/file/97fe29ef43510c58817bc89c4b9fa87b.webp
+
+  (Genshin) Raiden Shogun
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Raiden Shogun from Genshin Impact, she has purple eyes, mole under eye, long hair, braid ponytail, blunt bangs, purple hair, streaked hair
+    outfit = [skin.F.GenshinImpactEi]
+    img = https://user.uploads.dev/file/756bea9f49e305dec0654ffa1f989b87.webp
+
+  (Genshin) Yae Miko
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Yae Miko from Genshin Impact, she has purple eyes, long hair, pink hair, crossed bangs, floppy ears
+    outfit = [skin.F.GenshinImpactYae]
+    img = https://user.uploads.dev/file/72bc5436fb86b1640ed5b519dfa5d432.webp
+
+  (Girls Frontline) HK416 (Bad/Inaccurate)
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Klukai from Girls' Frontline 2, HK416, she has green eyes, red teardrop mark below the left eye, long hair, silver hair, a pair of blue hair ornament //HK416 from Girls Frontline, she has green eyes, red drop mark in only one side of the face, long hair, silver hair
+    outfit = [skin.F.GirlsFrontlineHK416]
+    img = https://user.uploads.dev/file/4cf2609816896bc5f31d1fccfbfe5d30.webp
+
+  (Girls Frontline) HK416 Eva Suit (Bad/Inaccurate)
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = [$output["(Girls Frontline) HK416 (Bad/Inaccurate)"].basePrompt]
+    outfit = [skin.F.GirlsFrontlineHK416EvaSuit]
+    img = https://user.uploads.dev/file/ed4e99f906e8ffad42401fa88f022c59.webp
+
+  『H』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Himouto!) Umaru-Chan
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Umaru from Himouto! Umaru-chan!, she has orange brown eyes, blonde hair, long hair, hair between eyes
+    outfit = [skin.F.HimoutoUmaruChan]
+
+  (Hololive) Gawr Gura
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Gaw Gura from Hololive, shark girl, she has blue eyes, grey hair, blue streaked hair{, cute sharp teeth^0.2|}
+    outfit = [skin.F.HololiveGawrGura]
+    img = https://user.uploads.dev/file/5f5d7c24653f5238a06c149983cfb1d0.webp
+
+  (Hololive) Houshou Marine
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Houshou Marine from Hololive, she has her left eye being red, and her right eye being yellow{| but is concealed by a black eyepatch}, red hair, long hair, twintails
+    outfit = [skin.F.HololiveHoushouMarine]
+    img = https://user.uploads.dev/file/e2bb7f2ebde2ef9d63a746099c7748c8.webp
+
+  (Hololive) La+ Darknesss
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = La+ Darkness from Hololive, she has yellow eyes, very long hair, grey hair, ahoge, hair between eyes, purple streaked hair, striped demon horns
+    outfit = [skin.F.HololiveLaDarknesss]
+    img = https://user.uploads.dev/file/e7217f4a6f55da162ea62f13d399f206.webp
+
+  (Hollow Knight) Hornet
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Hornet from Hollow Knight Silksong, she has empty, black hollow eyes
+    outfit = a red cloak, and a V-shaped white horned-mask, with hollow eyes
+
+  (HSR) March 7th
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = March 7th from Honkai: Star Rail, she has two-tone pink and blue eyes, pink pupils, medium pink hair
+    outfit = gradient blue off-shoulder open jacket over a collared white shirt, the shirt has long sleeves, blue pleated miniskirt with a white hemline, black choker, white thigh strap
+
+  (HSR) Silver Wolf
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Silver Wolf from Honkai: Star Rail, she has silver eyes, short grey hair, a long flowing hair that is primarily silver in color, with darker roots. Her hairstyle features a unique, layered look with some strands framing her face
+    outfit = short black coat, a crop-top, black unbuttoned shorts, and a decorative piece of fabric, also has purple glasses, a black bow in the hair, and various accessories including a knife and bandages
+    img = https://user.uploads.dev/file/fe1802b3537b38550660a9c5ab5719e3.webp
+
+  『K』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Kancolle) Shimakaze
+    prompt = Shimakaze from Kancolle, she has grey eyes, long blonde hair[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.KancolleShimakaze]
+
+  (Konosuba) Aqua
+    prompt = Aqua from Konosuba, she has blue eyes, long hair, blue hair[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.KonosubaAqua]
+
+  (Konosuba) Megumin
+    prompt = Megumin from Konosuba, she has red eyes, black hair[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.KonosubaMegumin]
+
+  『L』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Litte Witch A.) Akko
+    prompt = Kagari Atsuko from Little Witch Academia, she has red eyes, brown hair, long hair[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.LWAAkko]
+
+  『M』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (MHA) Asui Tsuyu
+    basePrompt = Asui Tsuyu from Boku no Hero Academia, she has black eyes, large eyes, long hair, dark green hair
+    prompt = [$output["(MHA) Asui Tsuyu"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAAsuiTsuyu]
+
+  (MHA) Asui Tsuyu School Uniform
+    prompt = [$output["(MHA) Asui Tsuyu"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAAsuiTsuyuSchoolUniform]
+
+  (MHA) Hadou Nejire
+    basePrompt = Hadou Nejire from Boku no Hero Academia, she has blue eyes, very long hair, blue hair //{curious:0.4|curious}
+    prompt = [$output["(MHA) Hadou Nejire"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAHadouNejire]
+
+  (MHA) Hadou Nejire Shool Uniform
+    prompt = [$output["(MHA) Hadou Nejire"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAHadouNejireSchoolUniform]
+
+  (MHA) Jirou Kyouka
+    basePrompt = Jirou Kyouka from Boku no Hero Academia, she has black eyes, short hair, purple hair, blunt bangs, blunt sidelocks
+    prompt = [$output["(MHA) Jirou Kyouka"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAJirouKyouka]
+
+  (MHA) Jirou Kyouka School Uniform
+    prompt = [$output["(MHA) Jirou Kyouka"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAJirouKyoukaSchoolUniform]
+
+  (MHA) Himiko Toga
+    basePrompt = Toga Himiko from Boku no Hero Academia, she has narrowed yellow eyes, slitted pupils, black eyeliner, medium-length hair, blonde hair, messy hair, buns, bangs
+    prompt = [$output["(MHA) Himiko Toga"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAHimikoToga]
+
+  (MHA) Mirko
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Mirko from Boku no Hero Academia, she has dark skin, red eyes, very long hair, white hair, rabbit ears
+    outfit = [skin.F.MHAMirko]
+
+  (MHA) Momo Yaoyorozu
+    basePrompt = Yaoyorozu Momo from Boku no Hero Academia, she has black eyes, black hair, ponytail, long bangs, hair pulled back
+    prompt = [$output["(MHA) Momo Yaoyorozu"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAMomoYaoyorozu]
+
+  (MHA) Momo Yaoyorozu (Shool Uniform)
+    prompt = [$output["(MHA) Momo Yaoyorozu"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAMomoYaoyorozuSchoolUniform]
+
+  (MHA) Uraraka Ochako
+    basePrompt = Uraraka Ochako from Boku no Hero Academia, she has brown eyes, brown hair, short hair
+    prompt = [$output["(MHA) Uraraka Ochako"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAUrarakaOchako]
+
+  (MHA) Uraraka Ochako (Schook Uniform)
+    prompt = [$output["(MHA) Uraraka Ochako"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MHAUrarakaOchakoSchoolUniform]
+
+  (Monogatari) Oshino Shinobu (white dress)
+    prompt = Oshino Shinobu from Monogatari, she is small, has yellow eyes, very long yellow hair, hair flaps, small pointy ears[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.MonogatariOshinoShinobu]
+
+  (Monogatari) Oshino Shinobu Adult (kiss-shot) (red dress)
+    prompt = adult vampire form of Oshino Shinobu from Monogatari, she has yellow eyes, very long yellow hair, large breasts, pointy ears[window.characterOutfit === "active" ? `. Wearing a ${this.outfit}` : ""]
+    outfit = [skin.F.MonogatariOshinoShinobuKissShot]
+
+  『N』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (N.G.Evangelion) Asuka
+    basePrompt = Souryuu Asuka Langley, she has blue eyes, long hair, {brown|orange} hair, hair between eyes
+    prompt = [$output["(N.G.Evangelion) Asuka"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.NGEAsukaSchoolUniform]
+
+  (N.G.Evangelion) Asuka (Pilot)
+    prompt = [$output["(N.G.Evangelion) Asuka"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.NGEAsukaPilot]
+
+  (N.G.Evangelion) Mari Makinami
+    basePrompt = Makinam Mari Illustrious from Rebuild of Evangelion, she has teal eyes, burgundy rimmed glasses, long hair, brown hair, low twintails, parted bangs
+    prompt = [$output["(N.G.Evangelion) Mari Makinami"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.NGEMariMakinamiSchoolUniform]
+
+  (N.G.Evangelion) Mari Makinami (Pilot)
+    prompt = [$output["(N.G.Evangelion) Mari Makinami"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.NGEMariMakinamiPilot]
+
+  (N.G.Evangelion) Rei Ayanami
+    basePrompt = Ayanami Rei, she has red eyes, short hair, blue hair, hair between eyes
+    prompt = [$output["(N.G.Evangelion) Rei Ayanami"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.NGERei]
+
+  (N.G.Evangelion) Rei Ayanami (Pilot)
+    prompt = [$output["(N.G.Evangelion) Rei Ayanami"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.NGEReiPilot]
+
+  『O』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (One Piece) Nami
+    prompt = Nami from One Piece, she has orange eyes, orange hair[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.OnePieceNami]
+
+  (One Piece) Nico Robin
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Devil Chil Nico Robin from One Piece, she has blue eyes with big circular black pupils, a black long hair pulled back, noticeable forehead, an hourglass figure with large breasts
+    outfit = a long salmon sarong skirt that has a design of green seaweed with red and yellow flowers on the side, a short, partially-zipped and short-sleeved navy blue leather vest with a V-neckline, darker pink high-heeled pumps{|, and a lavender pink backpack^0.1}{|, also white sunglasses with orange lenses hangs on her forehead^0.4}
+
+  (One Punch-Man) Tatsumaki
+    prompt = Tatsumaki from One-punch Man, she has green eyes, green hair, short curly hair with bangs, ahoge, small breasts[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.OnePunchManTatsumaki]
+
+  (Overlord) Albedo
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Albedo from Overlord, she has yellow eyes, almond-shaped pupil, black long hair with a long strand falling across her face, large breasts, low white demon horns and a pair of black feathered low wings on her waist
+    outfit = a long white off-shoulder mermaid dress with a neckline and detached collar, the dress has small ruffles across the legs, and gold detailing, and two oval open at the hips; also withe gloves
+
+  『P』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Pokemon) Nessa
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Nessa from Pokemon, she has dark skin, aqua eyes with eyeshadow, long two-tone black and aqua hair with a bun
+    outfit = white tankini crop top, white and blue short bike shorts, a single blue glove in her right hand, wristband, also hoop earrings and an earclip, necklace, an armlet, and belly chain
+
+  (Pokemon) Rosa
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Rosa from Pokemon, she has blue eyes with bright pupils, very long brown hair worn in twintails, double hair bun, donut hair bun, hair between eyes
+    outfit = [skin.F.PokemonRosa]
+
+  『R』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (ReZero) Emilia
+    prompt = Emilia from Re:Zero, she has purple eyes, long hair, silver hair, pointy ears[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.ReZeroEmilia]
+
+  (ReZero) Rem
+    prompt = Rem from Re:Zero, she has blue eyes, blue hair, short hair{, hair over one eye^1.5|}[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.ReZeroRoswaalMansionMaidUniform]
+
+  (ReZero) Ram
+    prompt = Ram from Re:Zero, she has red eyes, pink hair, short hair{, hair over one eye^1.5|}[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.ReZeroRoswaalMansionMaidUniform]
+
+  『S』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (SAO) Asuna
+    basePrompt = Asuna from Sword Art Online, she has brown eyes, brown hair, long hair
+    prompt = [$output["(SAO) Asuna"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.SAOAsuna]
+
+  (SAO) Silica
+    prompt = Silica from Sword Art Online, she has red eyes, short hair, brown hair, two side up{, red hair ribbon|}[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.SAOSilica]
+
+  (SAO) Sinon
+    prompt = Sinon from Sword Art Online, she has aqua eyes, aqua hair, short hair, sidelocks[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.SAOSinon]
+
+  (SAO) Suguha
+    prompt = Kirigaya Suguha from Sword Art Online, she has green eyes, short hair, black hair, large breasts[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.SAOSuguha]
+
+  (Sono Bisque Doll) Marin Kitagawa
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Marin Kitagawa from Sono Bisque Doll wa Koi wo Suru, she has red eyes, a straight blonde long hair that turns to pink at the bottom, medium breasts
+    outfit = school uniform consisting of a tied white collared dress shirt, a blue necktie, a blue plaid pleated miniskirt, black ankle socks, brown loafers, {black collar|lace choker^0}
+
+  (Sousou no Frieren) Fern
+    prompt = Fern from Sousou no Frieren, she has purple eyes, long waist-length purple hair, styled with a straight cut and blunt bangs, sidelocks[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.SousouNoFrierenFern]
+
+  (Sousou no Frieren) Frieren
+    prompt = Frieren from Sousou no Frieren, she has long white hair, green eyes, pointy ears[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.SousouNoFrierenFrieren]
+
+  (Spy x Family ) Yor Forger
+    basePrompt = Yor Forger from Spy x Family, she has red eyes, black hair, long hair, long sidelocks, hair between eyes
+    prompt = [$output["(Spy x Family ) Yor Forger"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.SpyXFamilyYorForger]
+
+  (Spy x Family ) Yor Briar (assassin)
+    prompt = [$output["(Spy x Family ) Yor Forger"].basePrompt.replace("Forger", "Briar")][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.SpyXFamilyYorBriar]
+
+  『T』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (To Love-Ru) Momo
+    prompt = Momo Velia Deviluke from To Love-Ru, she has purple eyes, short hair, pink hair{[$output["(To Love-Ru) Momo"].negative = ""]|[$output["(To Love-Ru) Momo"].negative = "demon ears. pointy ears. demon wings.", ", demon tail"]}[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    negative = [""]
+    outfit = [skin.F.ToLoveRuMomo]
+
+  (Touhou) Reimu Hakurei
+    prompt = [window.characterOutfit === "active" ? `${this.basePrompt}. Wearing ${this.outfit}` : this.basePrompt]
+    basePrompt = Hakurei Reimu, she has {brown|red-brown} eyes, brown hair with sidelocks
+    outfit = a frilled red hair bow, and frilled hair tubes in the sidelocks, a short sleeveless red shirt with a frilled collar, detached white sleeves with a ribbon trim, frilled red skirt, white socks, and {brown loafers|black mary janes}
+
+
+  『V』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (Vocaloid) Hatsune Miku
+    basePrompt = Hatsune Miku she has aqua-eyes, aqua-hair, long hair //, twintails
+    prompt = [$output["(Vocaloid) Hatsune Miku"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.VocaloidHatsuneMiku]
+
+  (Vocaloid) Kagamine Rin
+    prompt = Kagamine Rin from Vocaloid, she has blue eyes, short hair, blonde hair[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.VocaloidKagamineRin]
+
+  (Vocaloid) Megurine Luka
+    prompt = Megurine Luka from Vocaloid, she has blue eyes, very long hair, pink hair, straight hair{, left shoulder has red shoulder tattoo with the number "03"^1.5|}[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.VocaloidMegurineLuka]
+
+  (Vocaloid) Yuzuki Yukari
+    prompt = Yuzuki Yukari from Voiceroid and Vocaloid, she has purple eyes, short hair with long locks, purple hair, small ahoge, pink hair tubes, pink hair ornament that resembles a small speaker[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.VocaloidYuzukiYukari]
+
+  『Z』↓ ❤️️ ❤️️ ❤️️
+    prompt = [""]
+    negative = [""]
+
+  (ZZZ) Belle
+    prompt = Belle from Zenless Zone Zero, she has green eyes, short hair, blue hair[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.ZZZBelle]
+
+  (ZZZ) Ellen Joe
+    basePrompt = Ellen Joe from Zenless Zone Zero, she has red eyes, short hair, black hair with red colored inner hair, shark tail
+    prompt = [$output["(ZZZ) Ellen Joe"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.ZZZEllenJoeMaid]
+
+  (ZZZ) Ellen Joe (Student)
+    prompt = [$output["(ZZZ) Ellen Joe"].basePrompt][window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.ZZZEllenJoeCasual]
+
+  (ZZZ) Hoshimi Miyabi
+    prompt = Hoshimi Miyabi from Zenless Zone Zero, she has red eyes, long hair, black hair, blunt bangs, fox ears[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.ZZZHoshimiMiyabi]
+
+  (ZZZ) Nicole
+    prompt = Nicole from Zenless Zone Zero, she has green eyes, long hair, pink hair, two side up, black hair ribbon[window.characterOutfit === "active" ? `. Wearing ${this.outfit}` : ""]
+    outfit = [skin.F.ZZZNicole]
+$meta
+  title = WAI list
+  description = Anime wai-- characters list. With image generation.
+
+remember = {import:remember-plugin}
+dyn = {import:dynamic-import-plugin}
+badSrc = {import:bad-source}
+
+
+peopleBox
+  channel = general
+  commentPlaceholderText = Comments, questions, etc.
+  containerStyle = width:500px; max-width:90vw; height:500px; max-height:70vh; border-radius:5px;
+  customEmojis = [ emojiList || ""]
+  bannedUsers
+    FH0E-c057a77995fc37efa85f
+  bannedWords
+    /QkmmEjfsNG4/i
+
+lastSubmit = [""]
+waiSubmit // canal: mês + algarismo romano
+  channel = marmmxxvi //fevmmxxvi //test1
+  style = height:var(--waiSbHeight, 1px); width:var(--waiSbWidth, 1px); pointer-events:var(--waiSbEv, none); opacity:var(--waiSbopt, 0.1)
+  onLoad(comments) =>
+    lastSubmit = comments.at(-1).message;
+  onComment(comment) =>
+    lastSubmit = comment.message;
+
+isMe = [localStorage.getItem("admin") || false]
+//// END 🧱🧱

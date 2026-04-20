@@ -1,0 +1,113 @@
+generateHTML = {import:ai-text-rewriter-framework}
+promptDefaultModes = {import:ai-text-rewriter-prompt-default}
+promptCharacterModes = {import:ai-text-rewriter-prompt-character}
+ai = {import:ai-text-plugin}
+comments = {import:comments-plugin}
+
+settings
+  pageTitle = AI Text Rewriter Moss NSFW
+  metaDescription = Rewrite any text with AI-powered Moss NSFW. Choose from various modes to customize your text rewriting experience.
+  metaKeywords = AI, text rewriter, Moss NSFW, rewrite text, AI modes
+  metaAuthor = Mosberg
+  favicon = https://user.uploads.dev/file/8c7563d0ece7c9ed36c8a83f8361a7a7.webp
+  helperLinkHtml = Also check out the <a href="https://perchance.org/ai-text-rewriter-moss" target="_blank">AI Text Rewriter Moss</a> version.
+  modeOptionsHtml = [generateModesHtml()]
+  instruction() =>
+    return getModeByName(currentMode).instruction.toString().replace(/<<<userInputText>>>/g, inputTextEl.value);
+  startWith() =>
+    if(responseEl.value.trim() === "") {
+      return getModeByName(currentMode).startWith || "";
+    } else {
+      return responseEl.value;
+    }
+  hideStartWith = [ responseEl.value.trim() === "" && getModeByName(currentMode).hideStartWith === true ? true : false ]
+  outputTo = [responseEl]
+  onChunk() =>
+    if(responseEl.scrollTop+responseEl.offsetHeight > responseEl.scrollHeight-60) {
+      responseEl.scrollTop = responseEl.scrollHeight;
+    }
+  onStart() =>
+    responseDeleteBtn.style.display = '';
+    responseDeleteBtn.dataset.mode = 'delete';
+    generateBtn.disabled = true;
+    continueBtn.disabled = true;
+    bottomContinueBtn.disabled = true;
+    retryBtn.disabled = true;
+  onFinish() =>
+    generateBtn.disabled = false;
+    continueBtn.disabled = false;
+    bottomContinueBtn.disabled = false;
+    retryBtn.disabled = false;
+    loaderEl.innerHTML = "";
+    localStorage.response = responseEl.value;
+  render = [ getModeByName(currentMode).render || null ]
+
+async generate() =>
+  window.responseContentBeforeLastGenerate = responseEl.value;
+  let pendingObj = ai(settings);
+  stopBtn.style.display = "";
+  bottomStopBtn.style.display = "";
+  function stopClickHandler() {
+    pendingObj.stop();
+    stopBtn.style.display = "none";
+    bottomStopBtn.style.display = "none";
+  };
+  stopBtn.onclick = stopClickHandler;
+  bottomStopBtn.onclick = stopClickHandler;
+  loaderEl.innerHTML = pendingObj.loadingIndicatorHtml;
+  continueBtn.disabled = false;
+  bottomContinueBtn.disabled = false;
+  retryBtn.disabled = false;
+  this.textContent = 'regenerate';
+  let data = await pendingObj.onFinishPromise;
+  stopBtn.style.display = "none";
+  bottomStopBtn.style.display = "none";
+
+
+
+getPromptPacks() =>
+  // Add new prompt packs to this array after importing them at the top.
+  return [promptDefaultModes, promptCharacterModes];
+
+getAllModes() =>
+  let all = [];
+  for(let pack of getPromptPacks()) {
+    if(!pack || !pack.selectAll) continue;
+    for(let mode of pack.selectAll) {
+      if(mode && mode.label !== undefined && mode.instruction !== undefined) {
+        all.push(mode);
+      }
+    }
+  }
+  return all;
+
+getModeByName(modeName) =>
+  let selected = getAllModes().find(m => m.getName === modeName);
+  if(selected) return selected;
+  return getAllModes()[0];
+
+currentMode = [localStorage.currentMode || getAllModes()[0].getName]
+
+// To add more prompt packs:
+// 1) Add an import at top (example module name: ai-text-rewriter-prompt-genre)
+// 2) Include that imported variable in getPromptPacks()
+
+generateModesHtml() =>
+  let allModes = getAllModes();
+  if(allModes.length === 0) {
+    return `<option selected value="__no_modes__">No modes loaded</option>`;
+  }
+  return allModes.map(m => `<option ${localStorage.currentMode === m.getName ? "selected" : ""} value="${m.getName}">${m.label}</option>`).join("");
+
+generateModesDataJs() =>
+  return "[" + getAllModes().map(m => {
+    return "{" +
+      "name:" + JSON.stringify(m.getName) + "," +
+      "label:" + JSON.stringify(m.label) +
+    "}";
+  }).join(",") + "]";
+
+
+$meta
+  title = AI Text Converter/Rewriter Moss NSFW (free, no sign-up, unlimited)
+  description = Convert text into *any* style you want based on your own custom instruction, or use a preset mode to make your text longer, shorter, more formal, more human ("humanize"), and many more, including silly styles. It's completely free, no login/signup, no limits on daily usage. Convert your text into any style with a single click. Can make text more formal, or less formal, or more intelligent, or more polite, or less snarky, or easier to read, or more sociable, and so on. convert AI text into a more human form. It rewrites your sentences/paragraphs/text using AI, and can paraphrase text into any writing style that you ask for, or even *completely* rewrite your text. Has several AI text-to-human conversion modes, and a "custom" mode based on your prompt.

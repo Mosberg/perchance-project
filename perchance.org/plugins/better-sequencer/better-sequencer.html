@@ -1,0 +1,175 @@
+<!-- BYT 👄🍆 !-->
+<div id="Content">
+  <title>Advanced Sequencer Documentation</title>
+
+  <h1>Better Sequencer</h1>
+
+  <div id="displayFunction">
+    <button onclick="update(displayFunction)">click ⚗️</button><br />
+    <p>
+      <span style="background: #a2b8db40; padding: 5px; border-radius: 5px"
+        >Item: [randomList()]</span
+      >
+    </p>
+    <p>List of items already selected: ([iconsItemArray])</p>
+    <p>All items: ([iconsItemList])</p>
+    <p>
+      <span style="background: #a2b8db40; padding: 5px; border-radius: 5px"
+        >Items in a list will be selected in order until all items are
+        selected.</span
+      >
+    </p>
+  </div>
+
+  <h2>To use it:</h2>
+  <div class="code">
+    \[betterSEQUENCE(<span style="color: green">","</span>,
+    <span style="color: green">"Name"</span>,
+    <span style="color: green">"word1, word2, word3")</span>\]
+  </div>
+  <ul>
+    <li>
+      <span>
+        The first <span style="color: green">","</span> is the character used to
+        separate the items. If your list has items separated by commas (for
+        example, <code>"item1, item2, item3"</code>), use a comma. If they are
+        separated by <code>*</code> (for example,
+        <code>"item1 * item2 * item3"</code>), use <code>"*"</code>, and so on.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        <span style="color: green">"Name"</span> is the name of the list that
+        will be created only when the function is used. You can use any name; it
+        is only used to make the variable unique. Do not use spaces, and avoid
+        names starting with numbers or special characters. Just use a short name
+        — it does not need to be meaningful.
+      </span>
+    </li>
+
+    <li>
+      <span>
+        The last parameter can be your list written inside quotation marks,
+        using the chosen separator (as shown in the example). In a special case,
+        you can also pass an existing variable or Perchance list (without
+        quotation marks), like this:
+      </span>
+      <br />
+      <span style="color: red">\[betterSEQUENCE(</span
+      ><span style="color: green">",", "list472",</span>
+      <span style="color: red">anotherRandomList)\]</span>
+    </li>
+
+    <li>
+      <span>
+        For items separated by new lines or line breaks, use
+        <span style="color: green">"\\n"</span>.
+      </span>
+    </li>
+  </ul>
+
+  <h2>To import into your generator (for builders or generator owners):</h2>
+  <div class="code">betterSEQUENCE = \{import:better-sequencer\}</div>
+
+  <h2>
+    "Ok but it is dumb to just shows words in sequence, go build something
+    really useful".
+  </h2>
+  <div>
+    Well this is useful if you know where to use. As example, you can use in the
+    generator
+    <a href="https://perchance.org/ai-art-generator-advanced" target="_blank"
+      >ai-art-generator-advanced</a
+    >
+    and use a sequence of single prompts that varies each pic
+  </div>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background: #000;
+      color: #fff;
+    }
+    #Content {
+      width: 650px;
+      max-width: 95vw;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .section {
+      margin-bottom: 15px;
+    }
+    .code {
+      font-family: monospace;
+      background-color: #181a19;
+      padding: 10px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+    }
+    h2 {
+      color: #238dad;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    button {
+      background: rgba(255, 255, 255, 0.05);
+      margin: 5px;
+      border-radius: 5px;
+      border-top: 1px solid #0cccf7;
+      border-right: 1px solid #e814ff;
+      border-bottom: 2px solid #7933f2;
+      border-left: 1px solid #3350f2;
+    }
+  </style>
+
+  <script>
+    anotherRandomList = ["applepie", "viruspanda", "giggles", "pirateplanet"];
+
+    function randomList() {
+      return $output(
+        ",",
+        "icons",
+        "Piracy 📀, 👄, 🍆, Linux 🪟, Windows 🐧, ⚰️",
+      );
+    }
+  </script>
+
+  <!--
+
+  useful garbage:
+
+  Eoutput(separator, Name, ...tagsToSelect)=> // Use in the input (descriptions or negatives).
+
+  tagsToSelect = tagsToSelect
+    .map(String)
+    .join(separator)
+    .split(separator)
+    .map(s => s.trim());
+  if (typeof window[Name + "ItemList"] === "undefined") {
+    window[Name + "ItemList"] = [...tagsToSelect];
+  }
+  if (String(window[Name + "ItemList"]) !== String(tagsToSelect)) {
+    window[Name + "ItemList"] = [...tagsToSelect];
+    window[Name + "ItemArray"] = [];
+  }
+  if (typeof window[Name + "ItemArray"] === "undefined") {
+    window[Name + "ItemArray"] = []
+  }
+  if (window[Name + "ItemArray"].length >= window[Name + "ItemList"].length) {
+    window[Name + "ItemArray"] = [];
+  }
+
+  window[Name + "SelectedItem"] = window[Name + "ItemList"][window[Name + "ItemArray"].length];
+
+  window[Name + "ItemArray"].push(window[Name + "SelectedItem"]);
+
+  return window[Name + "SelectedItem"];
+!-->
+</div>

@@ -1,0 +1,174 @@
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(
+      120deg,
+      black 0%,
+      #000000 45%,
+      #800080 60%,
+      #ad07ad 80%,
+      #00ffff 95%
+    );
+    background-attachment: fixed;
+  }
+
+  #Controls {
+    position: fixed;
+    margin: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+  }
+
+  #mainCtn {
+    position: relative;
+    width: 70vw;
+    margin-top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    align-items: center;
+  }
+</style>
+<div id="Controls">
+  <span style="font-size: 12px; color: #00ffff; background: rgba(0, 0, 0, 0.7)"
+    >ART STYLES - AI ART GENERATOR ADVANCED</span
+  >
+  <button
+    style="background: rgba(0, 0, 0, 0.4); border-radius: 5px"
+    onclick="SPAM()"
+  >
+    🚀</button
+  ><br />
+  <select
+    style="
+      width: 50px;
+      height: 26px;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 5px;
+    "
+    id="CharaSel"
+    onchange="
+      selectValue();
+      update(mainCtn);
+    "
+  >
+    <option value="">🚺</option>
+    <option value="higly detailed breathtaking scenery">Scenery</option>
+    <option
+      value="a beautiful, emphemeral beauty woman in a well crafted and detailed outfit"
+    >
+      Woman
+    </option>
+    <option value="a surreal scene">Surreal scene</option>
+    <option value="a mature and masculine man">Man</option>
+  </select>
+
+  <button
+    style="background: rgba(0, 0, 0, 0.4); border-radius: 5px"
+    onclick="
+      update(mainCtn);
+      topGo();
+    "
+  >
+    🎲
+  </button>
+</div>
+<br />
+<div id="mainCtn">
+  [IM(PortraitPrompt)] [IM(PortraitPrompt)]<br />
+  [IM(SquarePrompt)] [IM(SquarePrompt)]<br />
+  [IM(LandscapePrompt)] [IM(LandscapePrompt)]<br />
+</div>
+
+<script>
+  let input = { description: "" };
+  RandomStylesFilterList = ["AI Art Gen. Advanced Styles 🔻"];
+
+  const deviceType = /Mobi|Android/i.test(navigator.userAgent);
+  let screenWidthPx = window.innerWidth;
+  function adjustedScreenWidth(mode) {
+    if (mode === "portrait" && deviceType === false) {
+      return screenWidthPx * 0.2;
+    }
+    if (deviceType === false) {
+      return screenWidthPx * 0.4;
+    }
+    return screenWidthPx * 0.9;
+  }
+  const MainCln = document.querySelector("#mainCtn");
+  if (deviceType === true) MainCln.style.width = "100vw";
+
+  function topGo() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function selectValue() {
+    const Char = document.getElementById("CharaSel").value;
+    input.description = Char;
+  }
+
+  function AdvancedRandomStyles(
+    StylesFullListName,
+    SelectedStylesListName,
+    RandomStyleName,
+    ...args
+  ) {
+    let listArray = [...args];
+    // ↓ Checks if the Variable that will holds the style list exists, so it will not create one every single time...
+    if (typeof window[StylesFullListName] === "undefined") {
+      window[SelectedStylesListName] = [];
+      window[StylesFullListName] = listArray.flatMap((element) =>
+        element.getChildNames // can also use "selectOne" instead of "getChildNames" if there's no sublist.
+          // ↓ Then do this crazy thing just to be able to filter the styles that i don't want. I don't know why but it's only works this way with splitting and joining.
+          .join("|")
+          .split("|")
+          // ↓ Make an array to store the undesired styles.
+          .filter((fn) => !RandomStylesFilterList.includes(fn)),
+      );
+    }
+
+    // ↓ It will compare the list of items/styles already selected with the full list created above, when the length/number of items are the same or higher, then it resets.
+    if (
+      window[SelectedStylesListName].length >= window[StylesFullListName].length
+    ) {
+      window[SelectedStylesListName] = [];
+    }
+
+    // ↓ Sort the style.
+    const SortStyle = listArray.map((element) => element.selectOne);
+    // ↓ The 'math.random' will do... a math to randomize using the number that is equivalent at the array length above, this means that if the SortStyle have 5 styles, then Marth.random() * 5.
+    window[RandomStyleName] =
+      SortStyle[Math.floor(Math.random() * listArray.length)];
+    // ↓ If the item selected in the process above already was selected, then this function will run again and again until this condition is NOT met/reached (my english is failing).
+    if (window[SelectedStylesListName].includes(window[RandomStyleName])) {
+      AdvancedRandomStyles(
+        StylesFullListName,
+        SelectedStylesListName,
+        RandomStyleName,
+        ...args,
+      );
+    } else {
+      // ↓ If new item, add to the already selected items using push.
+      window[SelectedStylesListName].push(window[RandomStyleName]);
+    }
+
+    return "";
+  }
+
+  function animezation(list) {
+    if (list === "") {
+      return "";
+    } else if (!/(1girl|anime|pixiv)/.test(list)) {
+      return ", (1girl)";
+    } else {
+      return "";
+    }
+  }
+
+  function SPAM() {
+    window.open("https://perchance.org/ai-art-generator-advanced");
+  }
+</script>

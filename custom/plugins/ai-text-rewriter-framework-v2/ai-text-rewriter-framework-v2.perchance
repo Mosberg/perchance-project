@@ -1,0 +1,927 @@
+// Parser-safe framework v2 for AI text rewriter generators.
+//
+// Expected generator-side symbols:
+// - async generate()
+// - async generateBatchRewrite()
+// - generateModesHtml() -> returns <option>...</option> HTML
+//
+// Optional settings keys consumed by this framework:
+// - pageTitle, subtitleHtml
+// - metaDescription, metaKeywords, metaAuthor
+// - favicon
+// - helperLinkHtml
+// - modeOptionsHtml
+
+literal = {import:literal-plugin} //Auto-escape brackets in text
+
+$output(settings) =>
+  settings = settings || {};
+
+  let pageTitle = settings.pageTitle || "AI Text Rewriter v2";
+  let subtitleHtml = settings.subtitleHtml || "Advanced rewrite workspace with pack filters, profiles, history, and batch rewriting.";
+  let metaDescription = settings.metaDescription || "Advanced AI text rewriting framework.";
+  let metaKeywords = settings.metaKeywords || "AI, text rewriter, rewrite";
+  let metaAuthor = settings.metaAuthor || "Perchance";
+  let favicon = settings.favicon || "https://user.uploads.dev/file/8c7563d0ece7c9ed36c8a83f8361a7a7.webp";
+  let helperLinkHtml = settings.helperLinkHtml || "Built with <a href=\"https://perchance.org/ai-text-plugin\" target=\"_blank\">ai-text-plugin</a>.";
+  let modeOptionsHtml = settings.modeOptionsHtml || "";
+
+  function escapeHtml(text) {
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  let storedMode = localStorage.currentMode || "custom";
+  let storedInstruction = escapeHtml(localStorage.instruction || "");
+  let storedResponse = escapeHtml(localStorage.response || "");
+  let storedCustomInstruction = escapeHtml(localStorage.customModeInstruction || "");
+  let hasResponse = storedResponse.length > 0;
+  let hasInstruction = storedInstruction.length > 0;
+
+  let html = `<html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="${favicon}" type="image/x-icon" />
+      <meta name="description" content="${metaDescription}" />
+      <meta name="keywords" content="${metaKeywords}" />
+      <meta name="author" content="${metaAuthor}" />
+      <title>${pageTitle}</title>
+    </head>
+    <body style="margin:0;padding:16px;background:#f3f7fc;color:#18202b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.45;">
+      <div style="max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:12px;">
+        <section style="background:#ffffff;border:1px solid #d8e0ea;border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(23,36,56,0.06);">
+          <h1 style="margin:0 0 4px;font-size:1.72rem;line-height:1.2;letter-spacing:-0.02em;">${pageTitle}</h1>
+          <div style="font-size:0.9rem;color:#5d6a7b;margin-bottom:10px;">${subtitleHtml}</div>
+
+          <div style="display:grid;grid-template-columns:1fr;gap:8px;">
+            <div style="display:grid;grid-template-columns:minmax(220px,1.2fr) minmax(180px,0.8fr) minmax(180px,0.8fr) auto auto;gap:8px;align-items:center;">
+              <select id="currentModeEl" style="width:100%;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;">
+                ${modeOptionsHtml}
+              </select>
+              <input id="modeSearchEl" placeholder="Search modes..." style="width:100%;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;" />
+              <select id="modePackFilterEl" style="width:100%;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;"></select>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:#516176;white-space:nowrap;"><input type="checkbox" id="favoritesOnlyEl" /> Favorites only</label>
+              <button id="favoriteCurrentModeBtn" type="button" style="padding:9px 10px;border:none;border-radius:8px;background:#2b6fcc;color:#fff;cursor:pointer;font-weight:600;">☆ Favorite</button>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;">
+              <div id="modeMetaEl" style="font-size:0.82rem;color:#5d6a7b;"></div>
+              <div style="font-size:0.8rem;color:#708096;">Tip: Ctrl+Enter rewrite, Ctrl+Shift+Enter batch</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="border:1px solid #d8e0ea;border-radius:8px;padding:8px;">
+                <div style="font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;color:#6f7d90;margin-bottom:6px;font-weight:700;">Favorites</div>
+                <div id="favoriteModesCtn" style="display:flex;flex-wrap:wrap;gap:6px;min-height:22px;"></div>
+              </div>
+              <div style="border:1px solid #d8e0ea;border-radius:8px;padding:8px;">
+                <div style="font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;color:#6f7d90;margin-bottom:6px;font-weight:700;">Recent</div>
+                <div id="recentModesCtn" style="display:flex;flex-wrap:wrap;gap:6px;min-height:22px;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section style="background:#ffffff;border:1px solid #d8e0ea;border-radius:12px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div id="customModeInstructionCtn" style="display:block;">
+              <div style="font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#6f7d90;font-weight:700;margin-bottom:5px;">Custom Instruction</div>
+              <textarea id="customModeInstructionEl" style="width:100%;min-height:74px;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;">${storedCustomInstruction}</textarea>
+            </div>
+
+            <div>
+              <div style="font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#6f7d90;font-weight:700;margin-bottom:5px;">Global Prefix Instruction</div>
+              <textarea id="prependInstructionEl" placeholder="Applied before mode instruction." style="width:100%;min-height:64px;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;"></textarea>
+            </div>
+
+            <div>
+              <div style="font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#6f7d90;font-weight:700;margin-bottom:5px;">Global Suffix Instruction</div>
+              <textarea id="appendInstructionEl" placeholder="Applied after mode instruction." style="width:100%;min-height:64px;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;"></textarea>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+              <div>
+                <div style="font-size:0.75rem;color:#6f7d90;font-weight:700;margin-bottom:5px;">Tone Intensity</div>
+                <select id="toneStrengthEl" style="width:100%;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;">
+                  <option value="subtle">Subtle</option>
+                  <option value="normal" selected>Normal</option>
+                  <option value="strong">Strong</option>
+                  <option value="extreme">Extreme</option>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:0.75rem;color:#6f7d90;font-weight:700;margin-bottom:5px;">Length Target</div>
+                <select id="lengthControlEl" style="width:100%;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;">
+                  <option value="same" selected>Keep similar</option>
+                  <option value="shorter">Shorter</option>
+                  <option value="longer">Longer</option>
+                  <option value="much-longer">Much longer</option>
+                </select>
+              </div>
+              <div>
+                <div style="font-size:0.75rem;color:#6f7d90;font-weight:700;margin-bottom:5px;">Output Format</div>
+                <select id="outputFormatEl" style="width:100%;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;">
+                  <option value="plain" selected>Plain text</option>
+                  <option value="paragraphs">Paragraphs</option>
+                  <option value="bullets">Bulleted</option>
+                  <option value="numbered">Numbered</option>
+                  <option value="perchance-prompt-pack">Perchance Prompt Pack</option>
+                  <option value="perchance-prompt-pack-numbered">Perchance Prompt Pack (with $output header comments and numbering)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.84rem;color:#4b5d73;"><input type="checkbox" id="preserveLineBreaksEl" checked /> Preserve source line breaks</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.84rem;color:#4b5d73;"><input type="checkbox" id="trimOutputEl" checked /> Trim output edges</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.84rem;color:#4b5d73;"><input type="checkbox" id="collapseSpacesEl" /> Collapse repeated spaces</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.84rem;color:#4b5d73;"><input type="checkbox" id="autoCopyEl" /> Auto-copy on finish</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.84rem;color:#4b5d73;"><input type="checkbox" id="autoSaveHistoryEl" checked /> Auto-save snapshots</label>
+            </div>
+
+            <div style="border:1px solid #d8e0ea;border-radius:8px;padding:8px;display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;">
+              <input id="profileNameEl" placeholder="Profile name (e.g. Marketing polish)" style="width:100%;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;" />
+              <button id="saveProfileBtn" type="button" style="padding:9px 10px;border:none;border-radius:8px;background:#2b6fcc;color:#fff;cursor:pointer;font-weight:600;">Save profile</button>
+              <button id="deleteProfileBtn" type="button" style="padding:9px 10px;border:none;border-radius:8px;background:#993434;color:#fff;cursor:pointer;font-weight:600;">Delete profile</button>
+              <select id="loadProfileSelect" style="grid-column:1 / -1;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;"></select>
+            </div>
+          </div>
+        </section>
+
+        <section style="background:#ffffff;border:1px solid #d8e0ea;border-radius:12px;padding:12px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div>
+              <div style="font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#6f7d90;font-weight:700;margin-bottom:5px;">Input Text</div>
+              <div style="position:relative;">
+                <textarea id="inputTextEl" style="width:100%;min-height:190px;padding:10px 12px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;" placeholder="Paste source text here...">${storedInstruction}</textarea>
+                <button id="inputTextDeleteBtn" data-mode="delete" style="position:absolute;right:8px;bottom:8px;padding:6px 10px;border:none;border-radius:6px;background:#c53d3d;color:#fff;cursor:pointer;${hasInstruction ? "" : "display:none;"}">delete</button>
+              </div>
+
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;">
+                <button id="generateBtn" type="button" style="padding:9px 14px;border:none;border-radius:8px;background:#2b6fcc;color:#fff;font-weight:600;cursor:pointer;">${hasResponse ? "Regenerate" : "Rewrite"}</button>
+                <button id="batchRewriteBtn" type="button" style="padding:9px 14px;border:none;border-radius:8px;background:#2459a2;color:#fff;font-weight:600;cursor:pointer;">Batch Rewrite</button>
+                <button id="stopBtn" type="button" style="display:none;padding:9px 14px;border:none;border-radius:8px;background:#8a2a2a;color:#fff;font-weight:600;cursor:pointer;">Stop</button>
+                <span id="loaderEl" style="font-size:0.84rem;color:#5e6d82;"></span>
+                <span id="batchLoaderEl" style="font-size:0.84rem;color:#5e6d82;"></span>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#6f7d90;font-weight:700;margin-bottom:5px;">Batch Options</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <select id="batchDelimiterEl" style="padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;">
+                  <option value="newline" selected>Each line</option>
+                  <option value="double-newline">Paragraphs (blank line)</option>
+                  <option value="divider">Split by ---</option>
+                  <option value="custom">Custom delimiter</option>
+                </select>
+                <input id="batchCustomDelimiterEl" placeholder="Custom delimiter" style="padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;display:none;" />
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.84rem;color:#4b5d73;"><input type="checkbox" id="batchSkipBlankEl" checked /> Skip empty chunks</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.84rem;color:#4b5d73;"><input type="checkbox" id="batchIncludeHeaderEl" /> Include section headers</label>
+              </div>
+              <div style="font-size:0.82rem;color:#617086;margin-top:10px;">Batch mode processes multiple chunks one by one using your selected mode and advanced settings.</div>
+              <textarea id="notesScratchpadEl" placeholder="Scratchpad: keep notes, prompt ideas, and reusable fragments here." style="width:100%;min-height:92px;margin-top:10px;padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section style="background:#ffffff;border:1px solid #d8e0ea;border-radius:12px;padding:12px;">
+          <div style="font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#6f7d90;font-weight:700;margin-bottom:5px;">Output Text</div>
+          <div style="position:relative;">
+            <textarea id="responseEl" style="width:100%;min-height:300px;padding:10px 12px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;" placeholder="Rewritten output will appear here...">${storedResponse}</textarea>
+            <button id="responseDeleteBtn" data-mode="delete" style="position:absolute;right:8px;bottom:8px;padding:6px 10px;border:none;border-radius:6px;background:#c53d3d;color:#fff;cursor:pointer;${hasResponse ? "" : "display:none;"}">delete</button>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;">
+            <button id="continueBtn" type="button" ${hasResponse ? "" : "disabled"} style="padding:9px 14px;border:none;border-radius:8px;background:#2b6fcc;color:#fff;font-weight:600;cursor:pointer;">Continue</button>
+            <button id="retryBtn" type="button" disabled style="padding:9px 14px;border:none;border-radius:8px;background:#2b6fcc;color:#fff;font-weight:600;cursor:pointer;">Retry</button>
+            <button id="bottomContinueBtn" type="button" ${hasResponse ? "" : "disabled"} style="padding:9px 14px;border:none;border-radius:8px;background:#2b6fcc;color:#fff;font-weight:600;cursor:pointer;">Continue</button>
+            <button id="bottomStopBtn" type="button" style="display:none;padding:9px 14px;border:none;border-radius:8px;background:#8a2a2a;color:#fff;font-weight:600;cursor:pointer;">Stop</button>
+            <button id="copyOutputBtn" type="button" style="padding:9px 14px;border:none;border-radius:8px;background:#3d7b38;color:#fff;font-weight:600;cursor:pointer;">Copy</button>
+            <button id="downloadOutputBtn" type="button" style="padding:9px 14px;border:none;border-radius:8px;background:#4b4f9f;color:#fff;font-weight:600;cursor:pointer;">Download .txt</button>
+            <span id="outputStatsEl" style="font-size:0.82rem;color:#617086;"></span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;margin-top:10px;">
+            <select id="loadHistorySelect" style="padding:9px 10px;border:1px solid #cfd9e6;border-radius:8px;background:#fff;color:#17202c;"></select>
+            <button id="saveHistoryBtn" type="button" style="padding:9px 10px;border:none;border-radius:8px;background:#2b6fcc;color:#fff;font-weight:600;cursor:pointer;">Save snapshot</button>
+            <button id="restoreHistoryBtn" type="button" style="padding:9px 10px;border:none;border-radius:8px;background:#3f7b5a;color:#fff;font-weight:600;cursor:pointer;">Restore</button>
+            <button id="deleteHistoryBtn" type="button" style="padding:9px 10px;border:none;border-radius:8px;background:#993434;color:#fff;font-weight:600;cursor:pointer;">Delete</button>
+          </div>
+
+          <div id="diffPreviewEl" style="margin-top:10px;padding:8px;border:1px dashed #c8d3e3;border-radius:8px;font-size:0.82rem;color:#5f6f84;background:#fbfdff;"></div>
+        </section>
+
+        <p style="margin:4px 0 0;text-align:center;font-size:0.85rem;color:#6e7784;">${helperLinkHtml}</p>
+      </div>
+
+      <script>
+        (function() {
+          let modeData = [];
+          const storePrefix = 'atrw_v2_';
+          const persistedIds = [
+            'customModeInstructionEl',
+            'prependInstructionEl',
+            'appendInstructionEl',
+            'toneStrengthEl',
+            'lengthControlEl',
+            'outputFormatEl',
+            'preserveLineBreaksEl',
+            'trimOutputEl',
+            'collapseSpacesEl',
+            'autoCopyEl',
+            'autoSaveHistoryEl',
+            'batchDelimiterEl',
+            'batchCustomDelimiterEl',
+            'batchSkipBlankEl',
+            'batchIncludeHeaderEl',
+            'notesScratchpadEl'
+          ];
+
+          function byId(id) {
+            return document.getElementById(id);
+          }
+
+          function readJson(key, fallbackValue) {
+            try {
+              const raw = localStorage.getItem(storePrefix + key);
+              if(!raw) return fallbackValue;
+              return JSON.parse(raw);
+            } catch(e) {
+              return fallbackValue;
+            }
+          }
+
+          function saveJson(key, value) {
+            localStorage.setItem(storePrefix + key, JSON.stringify(value));
+          }
+
+          let favorites = readJson('favorites', []);
+          let recentModes = readJson('recentModes', []);
+          let history = readJson('history', []);
+          let profiles = readJson('profiles', {});
+          let retryState = '';
+          let deletedInputText = '';
+          let deletedOutputText = '';
+
+          function escapeHtml(text) {
+            return String(text || '')
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;');
+          }
+
+          function saveFieldState(id) {
+            const el = byId(id);
+            if(!el) return;
+            if(el.type === 'checkbox') {
+              localStorage.setItem(storePrefix + id, el.checked ? '1' : '0');
+            } else {
+              localStorage.setItem(storePrefix + id, el.value || '');
+            }
+          }
+
+          function restoreFieldState(id) {
+            const el = byId(id);
+            if(!el) return;
+            const raw = localStorage.getItem(storePrefix + id);
+            if(raw === null) return;
+            if(el.type === 'checkbox') {
+              el.checked = raw === '1';
+            } else {
+              el.value = raw;
+            }
+          }
+
+          function toPackKey(packLabel) {
+            return String(packLabel || 'other')
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '-')
+              .replace(/^-+|-+$/g, '') || 'other';
+          }
+
+          function splitPackAndLabel(optionText) {
+            const raw = String(optionText || '').trim();
+            const sep = ' | ';
+            const idx = raw.indexOf(sep);
+            if(idx < 0) {
+              return {packLabel: 'General', label: raw};
+            }
+            return {
+              packLabel: raw.slice(0, idx).trim() || 'General',
+              label: raw.slice(idx + sep.length).trim() || raw
+            };
+          }
+
+          function buildModeDataFromSelect() {
+            const select = byId('currentModeEl');
+            return Array.from(select.options)
+              .map(function(opt) {
+                const parts = splitPackAndLabel(opt.textContent || '');
+                return {
+                  name: String(opt.value || ''),
+                  label: String(parts.label || opt.value || ''),
+                  packKey: toPackKey(parts.packLabel),
+                  packLabel: String(parts.packLabel || 'General')
+                };
+              })
+              .filter(function(m) {
+                return m.name && m.name !== '__no_modes__';
+              });
+          }
+
+          function getVisibleModeData() {
+            const query = (byId('modeSearchEl').value || '').toLowerCase().trim();
+            const packFilter = byId('modePackFilterEl').value || 'all';
+            const favoritesOnly = byId('favoritesOnlyEl').checked;
+
+            return modeData.filter(function(m) {
+              const label = String(m.label || '').toLowerCase();
+              const name = String(m.name || '').toLowerCase();
+              const pack = String(m.packKey || '');
+              if(packFilter !== 'all' && pack !== packFilter) return false;
+              if(query && label.indexOf(query) === -1 && name.indexOf(query) === -1) return false;
+              if(favoritesOnly && favorites.indexOf(m.name) === -1) return false;
+              return true;
+            });
+          }
+
+          function renderPackFilterOptions() {
+            const sel = byId('modePackFilterEl');
+            const current = sel.value || 'all';
+            const packs = {};
+            modeData.forEach(function(m) {
+              const key = String(m.packKey || 'misc');
+              const label = String(m.packLabel || m.packKey || 'Other');
+              packs[key] = label;
+            });
+
+            let html = '<option value="all">All packs</option>';
+            Object.keys(packs).sort().forEach(function(key) {
+              html += '<option value="' + key + '">' + escapeHtml(packs[key]) + '</option>';
+            });
+            sel.innerHTML = html;
+            sel.value = packs[current] ? current : 'all';
+          }
+
+          function addRecentMode(modeName) {
+            if(!modeName || modeName === '__no_modes__') return;
+            recentModes = recentModes.filter(function(n) { return n !== modeName; });
+            recentModes.unshift(modeName);
+            recentModes = recentModes.slice(0, 18);
+            saveJson('recentModes', recentModes);
+            renderRecentModes();
+          }
+
+          function modeByName(modeName) {
+            return modeData.find(function(m) { return m.name === modeName; }) || null;
+          }
+
+          function renderChipList(targetId, modeNames, emptyText) {
+            const ctn = byId(targetId);
+            ctn.innerHTML = '';
+            let count = 0;
+            modeNames.forEach(function(name) {
+              const m = modeByName(name);
+              if(!m) return;
+              count += 1;
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.textContent = String(m.label || m.name);
+              btn.style.cssText = 'padding:4px 8px;border:none;border-radius:999px;background:#edf2fb;color:#1d2a3b;cursor:pointer;font-size:0.77rem;';
+              btn.onclick = function() {
+                selectMode(name, true);
+              };
+              ctn.appendChild(btn);
+            });
+
+            if(count === 0) {
+              ctn.innerHTML = '<span style="font-size:0.78rem;color:#7b8ba1;">' + escapeHtml(emptyText) + '</span>';
+            }
+          }
+
+          function renderFavoriteModes() {
+            renderChipList('favoriteModesCtn', favorites, 'No favorites yet.');
+          }
+
+          function renderRecentModes() {
+            renderChipList('recentModesCtn', recentModes, 'No recent modes yet.');
+          }
+
+          function updateFavoriteButton() {
+            const modeName = byId('currentModeEl').value;
+            const favBtn = byId('favoriteCurrentModeBtn');
+            const isFav = favorites.indexOf(modeName) >= 0;
+            favBtn.textContent = isFav ? '★ Favorited' : '☆ Favorite';
+            favBtn.style.background = isFav ? '#7851c7' : '#2b6fcc';
+          }
+
+          function updateModeMeta() {
+            const modeName = byId('currentModeEl').value;
+            const mode = modeByName(modeName);
+            const visibleCount = getVisibleModeData().length;
+            if(!mode) {
+              byId('modeMetaEl').textContent = 'No valid mode selected';
+              return;
+            }
+            byId('modeMetaEl').textContent = 'Mode: ' + mode.label + ' | Pack: ' + (mode.packLabel || mode.packKey || 'N/A') + ' | Visible: ' + visibleCount + ' | Total: ' + modeData.length;
+          }
+
+          function syncCustomInstructionVisibility() {
+            const modeName = byId('currentModeEl').value || '';
+            const show = modeName === 'custom' || modeName.indexOf('custom') === 0;
+            byId('customModeInstructionCtn').style.display = show ? '' : 'none';
+          }
+
+          function rebuildModeSelect() {
+            const select = byId('currentModeEl');
+            const prev = select.value || localStorage.currentMode || '';
+            const rows = getVisibleModeData();
+
+            if(rows.length === 0) {
+              select.innerHTML = '<option value="__no_modes__">No modes loaded</option>';
+              select.value = '__no_modes__';
+              localStorage.currentMode = '__no_modes__';
+            } else {
+              let html = '';
+              rows.forEach(function(m) {
+                html += '<option value="' + escapeHtml(m.name) + '">' + escapeHtml((m.packLabel || 'General') + ' | ' + (m.label || m.name)) + '</option>';
+              });
+              select.innerHTML = html;
+              let chosen = rows.find(function(m) { return m.name === prev; });
+              if(!chosen) chosen = rows[0];
+              select.value = chosen.name;
+              localStorage.currentMode = chosen.name;
+            }
+
+            syncCustomInstructionVisibility();
+            updateFavoriteButton();
+            updateModeMeta();
+          }
+
+          function selectMode(modeName, trackRecent) {
+            const select = byId('currentModeEl');
+            const exists = Array.from(select.options).some(function(opt) { return opt.value === modeName; });
+            if(!exists) {
+              byId('modeSearchEl').value = '';
+              byId('modePackFilterEl').value = 'all';
+              byId('favoritesOnlyEl').checked = false;
+              rebuildModeSelect();
+            }
+            const existsAfter = Array.from(select.options).some(function(opt) { return opt.value === modeName; });
+            if(!existsAfter) return;
+            select.value = modeName;
+            localStorage.currentMode = modeName;
+            syncCustomInstructionVisibility();
+            updateFavoriteButton();
+            updateModeMeta();
+            if(trackRecent) addRecentMode(modeName);
+          }
+
+          function updateStats() {
+            const input = byId('inputTextEl').value || '';
+            const output = byId('responseEl').value || '';
+            const inputWords = input.trim() ? input.trim().split(/\s+/).length : 0;
+            const outputWords = output.trim() ? output.trim().split(/\s+/).length : 0;
+            byId('outputStatsEl').textContent = 'Input: ' + input.length + ' chars / ' + inputWords + ' words | Output: ' + output.length + ' chars / ' + outputWords + ' words';
+          }
+
+          function updateDiffPreview() {
+            const input = byId('inputTextEl').value || '';
+            const output = byId('responseEl').value || '';
+            const shortIn = escapeHtml(input.slice(0, 220));
+            const shortOut = escapeHtml(output.slice(0, 220));
+            let html = '';
+            html += '<div><strong>Input preview:</strong> ' + (shortIn || '<em>(empty)</em>') + (input.length > 220 ? ' ...' : '') + '</div>';
+            html += '<div style="margin-top:4px;"><strong>Output preview:</strong> ' + (shortOut || '<em>(empty)</em>') + (output.length > 220 ? ' ...' : '') + '</div>';
+            byId('diffPreviewEl').innerHTML = html;
+          }
+
+          function saveSnapshot(meta) {
+            const out = byId('responseEl').value || '';
+            if(!out.trim()) return;
+            const item = {
+              id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+              at: new Date().toISOString(),
+              mode: byId('currentModeEl').value || '',
+              modeLabel: (modeByName(byId('currentModeEl').value) || {}).label || byId('currentModeEl').value,
+              input: byId('inputTextEl').value || '',
+              output: out,
+              batch: !!(meta && meta.batch)
+            };
+            history.unshift(item);
+            history = history.slice(0, 70);
+            saveJson('history', history);
+            renderHistorySelect();
+          }
+
+          function renderHistorySelect() {
+            const sel = byId('loadHistorySelect');
+            if(history.length === 0) {
+              sel.innerHTML = '<option value="">No snapshots yet</option>';
+              return;
+            }
+            let html = '<option value="">Select snapshot...</option>';
+            history.forEach(function(item) {
+              const stamp = item.at.replace('T', ' ').slice(0, 16);
+              html += '<option value="' + escapeHtml(item.id) + '">' + escapeHtml(stamp + ' | ' + item.modeLabel) + '</option>';
+            });
+            sel.innerHTML = html;
+          }
+
+          function getSelectedSnapshot() {
+            const id = byId('loadHistorySelect').value;
+            return history.find(function(h) { return h.id === id; }) || null;
+          }
+
+          function renderProfileSelect() {
+            const sel = byId('loadProfileSelect');
+            const names = Object.keys(profiles).sort();
+            if(names.length === 0) {
+              sel.innerHTML = '<option value="">No profiles saved</option>';
+              return;
+            }
+            let html = '<option value="">Load profile...</option>';
+            names.forEach(function(name) {
+              html += '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
+            });
+            sel.innerHTML = html;
+          }
+
+          function collectProfileData() {
+            return {
+              mode: byId('currentModeEl').value,
+              customModeInstructionEl: byId('customModeInstructionEl').value,
+              prependInstructionEl: byId('prependInstructionEl').value,
+              appendInstructionEl: byId('appendInstructionEl').value,
+              toneStrengthEl: byId('toneStrengthEl').value,
+              lengthControlEl: byId('lengthControlEl').value,
+              outputFormatEl: byId('outputFormatEl').value,
+              preserveLineBreaksEl: byId('preserveLineBreaksEl').checked,
+              trimOutputEl: byId('trimOutputEl').checked,
+              collapseSpacesEl: byId('collapseSpacesEl').checked,
+              autoCopyEl: byId('autoCopyEl').checked,
+              autoSaveHistoryEl: byId('autoSaveHistoryEl').checked,
+              batchDelimiterEl: byId('batchDelimiterEl').value,
+              batchCustomDelimiterEl: byId('batchCustomDelimiterEl').value,
+              batchSkipBlankEl: byId('batchSkipBlankEl').checked,
+              batchIncludeHeaderEl: byId('batchIncludeHeaderEl').checked
+            };
+          }
+
+          function applyProfileData(data) {
+            if(!data) return;
+            Object.keys(data).forEach(function(key) {
+              if(key === 'mode') return;
+              const el = byId(key);
+              if(!el) return;
+              if(el.type === 'checkbox') {
+                el.checked = !!data[key];
+              } else {
+                el.value = data[key] === undefined ? '' : data[key];
+              }
+              saveFieldState(key);
+            });
+            if(data.mode) selectMode(data.mode, false);
+            if(byId('batchDelimiterEl').value === 'custom') {
+              byId('batchCustomDelimiterEl').style.display = '';
+            } else {
+              byId('batchCustomDelimiterEl').style.display = 'none';
+            }
+            updateStats();
+            updateDiffPreview();
+          }
+
+          function setBusy(isBusy) {
+            byId('generateBtn').disabled = isBusy;
+            byId('batchRewriteBtn').disabled = isBusy;
+            byId('continueBtn').disabled = isBusy || !byId('responseEl').value.trim();
+            byId('bottomContinueBtn').disabled = isBusy || !byId('responseEl').value.trim();
+            byId('retryBtn').disabled = true;
+            byId('stopBtn').style.display = isBusy ? '' : 'none';
+            byId('bottomStopBtn').style.display = isBusy ? '' : 'none';
+          }
+
+          window.__v2_setStatus = function(text) {
+            byId('loaderEl').textContent = text || '';
+          };
+
+          window.__v2_updateBatchProgress = function(step, total) {
+            if(!total) {
+              byId('batchLoaderEl').textContent = '';
+              return;
+            }
+            byId('batchLoaderEl').textContent = 'Batch ' + step + '/' + total;
+          };
+
+          window.__v2_beforeGenerate = function(meta) {
+            retryState = byId('responseEl').value || '';
+            setBusy(true);
+            byId('loaderEl').textContent = meta && meta.batch ? 'Running batch...' : 'Rewriting...';
+            if(!(meta && meta.batch)) {
+              byId('batchLoaderEl').textContent = '';
+            }
+          };
+
+          window.__v2_afterGenerate = function(meta) {
+            setBusy(false);
+            byId('loaderEl').textContent = '';
+            if(!(meta && meta.batch)) {
+              byId('batchLoaderEl').textContent = '';
+            }
+
+            const out = byId('responseEl').value || '';
+            localStorage.response = out;
+            byId('responseDeleteBtn').style.display = out.trim() ? '' : 'none';
+            byId('generateBtn').textContent = out.trim() ? 'Regenerate' : 'Rewrite';
+
+            if(byId('autoSaveHistoryEl').checked) {
+              saveSnapshot(meta || {});
+            }
+
+            if(byId('autoCopyEl').checked && out.trim()) {
+              navigator.clipboard.writeText(out).catch(function(){});
+            }
+
+            updateStats();
+            updateDiffPreview();
+          };
+
+          byId('favoriteCurrentModeBtn').addEventListener('click', function() {
+            const modeName = byId('currentModeEl').value;
+            if(!modeName || modeName === '__no_modes__') return;
+            const idx = favorites.indexOf(modeName);
+            if(idx >= 0) favorites.splice(idx, 1);
+            else favorites.push(modeName);
+            favorites = Array.from(new Set(favorites));
+            saveJson('favorites', favorites);
+            renderFavoriteModes();
+            updateFavoriteButton();
+            rebuildModeSelect();
+          });
+
+          byId('modeSearchEl').addEventListener('input', rebuildModeSelect);
+          byId('modePackFilterEl').addEventListener('change', rebuildModeSelect);
+          byId('favoritesOnlyEl').addEventListener('change', rebuildModeSelect);
+
+          byId('currentModeEl').addEventListener('change', function() {
+            localStorage.currentMode = this.value;
+            syncCustomInstructionVisibility();
+            updateFavoriteButton();
+            updateModeMeta();
+            addRecentMode(this.value);
+          });
+
+          persistedIds.forEach(function(id) {
+            restoreFieldState(id);
+            const el = byId(id);
+            if(!el) return;
+            const eventName = el.type === 'checkbox' ? 'change' : 'input';
+            el.addEventListener(eventName, function() {
+              saveFieldState(id);
+            });
+          });
+
+          byId('batchDelimiterEl').addEventListener('change', function() {
+            byId('batchCustomDelimiterEl').style.display = this.value === 'custom' ? '' : 'none';
+          });
+          byId('batchCustomDelimiterEl').style.display = byId('batchDelimiterEl').value === 'custom' ? '' : 'none';
+
+          byId('inputTextEl').addEventListener('input', function() {
+            localStorage.instruction = this.value;
+            byId('inputTextDeleteBtn').style.display = this.value.trim() ? '' : 'none';
+            updateStats();
+            updateDiffPreview();
+          });
+
+          byId('responseEl').addEventListener('input', function() {
+            localStorage.response = this.value;
+            const hasValue = this.value.trim().length > 0;
+            byId('continueBtn').disabled = !hasValue;
+            byId('bottomContinueBtn').disabled = !hasValue;
+            byId('responseDeleteBtn').style.display = hasValue ? '' : 'none';
+            byId('generateBtn').textContent = hasValue ? 'Regenerate' : 'Rewrite';
+            byId('retryBtn').disabled = true;
+            updateStats();
+            updateDiffPreview();
+          });
+
+          byId('inputTextDeleteBtn').addEventListener('click', function() {
+            if(this.dataset.mode === 'delete') {
+              deletedInputText = byId('inputTextEl').value;
+              byId('inputTextEl').value = '';
+              this.dataset.mode = 'undo';
+              this.textContent = 'undo';
+            } else {
+              byId('inputTextEl').value = deletedInputText || '';
+              this.dataset.mode = 'delete';
+              this.textContent = 'delete';
+            }
+            localStorage.instruction = byId('inputTextEl').value;
+            this.style.display = byId('inputTextEl').value.trim() ? '' : 'none';
+            updateStats();
+            updateDiffPreview();
+          });
+
+          byId('responseDeleteBtn').addEventListener('click', function() {
+            if(this.dataset.mode === 'delete') {
+              deletedOutputText = byId('responseEl').value;
+              byId('responseEl').value = '';
+              this.dataset.mode = 'undo';
+              this.textContent = 'undo';
+            } else {
+              byId('responseEl').value = deletedOutputText || '';
+              this.dataset.mode = 'delete';
+              this.textContent = 'delete';
+            }
+            localStorage.response = byId('responseEl').value;
+            const hasValue = byId('responseEl').value.trim().length > 0;
+            this.style.display = hasValue ? '' : 'none';
+            byId('continueBtn').disabled = !hasValue;
+            byId('bottomContinueBtn').disabled = !hasValue;
+            byId('generateBtn').textContent = hasValue ? 'Regenerate' : 'Rewrite';
+            updateStats();
+            updateDiffPreview();
+          });
+
+          function resolveGenerateFn() {
+            if(typeof window.generate === 'function') return window.generate;
+            if(typeof generate === 'function') return generate;
+            return null;
+          }
+
+          function resolveBatchGenerateFn() {
+            if(typeof window.generateBatchRewrite === 'function') return window.generateBatchRewrite;
+            if(typeof generateBatchRewrite === 'function') return generateBatchRewrite;
+            return null;
+          }
+
+          byId('generateBtn').addEventListener('click', function() {
+            const runGenerate = resolveGenerateFn();
+            if(!runGenerate) {
+              byId('loaderEl').textContent = 'Missing generate() in generator';
+              return;
+            }
+            byId('responseEl').value = '';
+            byId('responseDeleteBtn').style.display = 'none';
+            byId('continueBtn').disabled = true;
+            byId('bottomContinueBtn').disabled = true;
+            runGenerate();
+          });
+
+          function continueRewrite() {
+            const runGenerate = resolveGenerateFn();
+            if(!runGenerate) {
+              byId('loaderEl').textContent = 'Missing generate() in generator';
+              return;
+            }
+            runGenerate();
+          }
+          byId('continueBtn').addEventListener('click', continueRewrite);
+          byId('bottomContinueBtn').addEventListener('click', continueRewrite);
+
+          byId('retryBtn').addEventListener('click', function() {
+            byId('responseEl').value = retryState || byId('responseEl').value;
+            localStorage.response = byId('responseEl').value;
+            const runGenerate = resolveGenerateFn();
+            if(runGenerate) runGenerate();
+          });
+
+          byId('batchRewriteBtn').addEventListener('click', function() {
+            const runBatchGenerate = resolveBatchGenerateFn();
+            if(!runBatchGenerate) {
+              byId('batchLoaderEl').textContent = 'Missing generateBatchRewrite() in generator';
+              return;
+            }
+            runBatchGenerate();
+          });
+
+          byId('copyOutputBtn').addEventListener('click', function() {
+            const text = byId('responseEl').value || '';
+            if(!text.trim()) return;
+            navigator.clipboard.writeText(text).then(function() {
+              byId('copyOutputBtn').textContent = 'Copied';
+              setTimeout(function() { byId('copyOutputBtn').textContent = 'Copy'; }, 1200);
+            }).catch(function(){});
+          });
+
+          byId('downloadOutputBtn').addEventListener('click', function() {
+            const text = byId('responseEl').value || '';
+            if(!text.trim()) return;
+            const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ai-text-rewriter-output.txt';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+          });
+
+          byId('saveHistoryBtn').addEventListener('click', function() {
+            saveSnapshot({batch:false, manual:true});
+          });
+
+          byId('restoreHistoryBtn').addEventListener('click', function() {
+            const item = getSelectedSnapshot();
+            if(!item) return;
+            byId('inputTextEl').value = item.input || '';
+            byId('responseEl').value = item.output || '';
+            localStorage.instruction = byId('inputTextEl').value;
+            localStorage.response = byId('responseEl').value;
+            selectMode(item.mode, false);
+            byId('inputTextDeleteBtn').style.display = byId('inputTextEl').value.trim() ? '' : 'none';
+            byId('responseDeleteBtn').style.display = byId('responseEl').value.trim() ? '' : 'none';
+            byId('continueBtn').disabled = !byId('responseEl').value.trim();
+            byId('bottomContinueBtn').disabled = !byId('responseEl').value.trim();
+            updateStats();
+            updateDiffPreview();
+          });
+
+          byId('deleteHistoryBtn').addEventListener('click', function() {
+            const id = byId('loadHistorySelect').value;
+            if(!id) return;
+            history = history.filter(function(h) { return h.id !== id; });
+            saveJson('history', history);
+            renderHistorySelect();
+          });
+
+          byId('saveProfileBtn').addEventListener('click', function() {
+            const name = (byId('profileNameEl').value || '').trim();
+            if(!name) return;
+            profiles[name] = collectProfileData();
+            saveJson('profiles', profiles);
+            renderProfileSelect();
+            byId('loadProfileSelect').value = name;
+          });
+
+          byId('loadProfileSelect').addEventListener('change', function() {
+            const name = this.value;
+            if(!name || !profiles[name]) return;
+            applyProfileData(profiles[name]);
+          });
+
+          byId('deleteProfileBtn').addEventListener('click', function() {
+            const current = byId('loadProfileSelect').value || (byId('profileNameEl').value || '').trim();
+            if(!current || !profiles[current]) return;
+            delete profiles[current];
+            saveJson('profiles', profiles);
+            renderProfileSelect();
+          });
+
+          document.addEventListener('keydown', function(e) {
+            if((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !e.shiftKey) {
+              if(document.activeElement === byId('inputTextEl') || document.activeElement === byId('responseEl')) {
+                e.preventDefault();
+                byId('generateBtn').click();
+              }
+            }
+            if((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter') {
+              if(document.activeElement === byId('inputTextEl')) {
+                e.preventDefault();
+                byId('batchRewriteBtn').click();
+              }
+            }
+          });
+
+          // Initial render and hydration
+          modeData = buildModeDataFromSelect();
+          renderPackFilterOptions();
+          rebuildModeSelect();
+
+          const initialMode = localStorage.currentMode || byId('currentModeEl').value;
+          if(initialMode) selectMode(initialMode, false);
+          addRecentMode(byId('currentModeEl').value);
+
+          renderFavoriteModes();
+          renderRecentModes();
+          renderHistorySelect();
+          renderProfileSelect();
+
+          if(byId('inputTextEl').value.trim()) {
+            byId('inputTextDeleteBtn').style.display = '';
+          }
+          if(byId('responseEl').value.trim()) {
+            byId('responseDeleteBtn').style.display = '';
+            byId('continueBtn').disabled = false;
+            byId('bottomContinueBtn').disabled = false;
+            byId('generateBtn').textContent = 'Regenerate';
+          }
+
+          updateStats();
+          updateDiffPreview();
+        })();
+      </script>
+    </body>
+  </html>`;
+
+  // Prevent Perchance from interpreting script/object braces and list brackets in generated HTML.
+  return html.replace(/([{}\[\]])/g, "\\$1");

@@ -1,0 +1,70 @@
+<script>
+  // BACKUP (02/02/26 DDMMYY) ⬇️ Remove Tag
+  function RmvTag(varName, TagListData, imgNumber) {
+    // | The function is not AddTag() in reverse, it removes the first item from the array (a, b, c, d) -> (b, c, d). The AddTag() viewed from the end to the beginning "removes" from the last spot: (a, b, c, d) -> (a, b, c).
+    // CTRL C+V from the AddTag(), so the varName should be different... if both functions are used at the same time. If not, whatever.
+    !window.tagSeparator ? (window.tagSeparator = ",") : "";
+    if (
+      typeof window[varName + "TagList"] === "undefined" ||
+      window[varName + "CopiedTagList"] !== TagListData
+    ) {
+      window[varName + "CopiedTagList"] = TagListData;
+      window[varName + "TagList"] = String(TagListData)
+        .split(window.tagSeparator)
+        .map((word) => word.trim());
+    }
+
+    if (
+      typeof window[varName + "Counter"] === "undefined" ||
+      window[varName + "Counter"] === "reseted"
+    ) {
+      window[varName + "Counter"] = 0;
+      window[varName + "Array"] = [];
+    }
+
+    //////////
+    if (!window[varName + "BigCounter"]) window[varName + "BigCounter"] = 0;
+    window[varName + "BigCounter"]++;
+    //////////
+
+    //////////
+    if (window[varName + "BigCounter"] >= Number(imgNumber)) {
+      window[varName + "BigCounter"] = 0;
+      window[varName + "Counter"] = "reseted";
+    }
+    //////////
+
+    if (
+      typeof window[varName + "Array"] === "undefined" ||
+      window[varName + "Array"].length === 0
+    ) {
+      window[varName + "Array"] = [...window[varName + "TagList"]];
+      return window[varName + "Array"].join(", ");
+    }
+
+    window[varName + "RemovedItem"] = window[varName + "Array"].shift();
+    return window[varName + "Array"].join(", ");
+  }
+
+  /*
+////////////////////////////
+
+  //if (!window[varName + "BigCounter"]) window[varName + "BigCounter"] = 0;
+  //window[varName + "BigCounter"]++;
+
+  // Right, instead of resetting to 0 (varNameCounter = 0), I use "reseted" (varNameCounter = "reseted") so, when the functions run with "reseted", it returns nothing (because the counter turns 0 in the condition below). IF i reset to 0 instead of "reseted", the function will run with 0, gaining +1, so the first step that have nothing is skiped.
+  //if (typeof window[varName + "Counter"] === "undefined" || window[varName + "Counter"] >= window[varName + "TagList"].length || window[varName + "Counter"] === "reseted") {
+    //window[varName + "Counter"] = 0;
+    //window[varName + "BigCounter"] = 0;
+    //window[varName + "Array"] = [];
+    //return "";
+  //}
+
+  //////////
+ // if (window[varName + "BigCounter"] >= Number(imgNumber)) {
+    //window[varName + "BigCounter"] = 0;
+    //window[varName + "Counter"] = "reseted";
+  //}
+  //////////
+  */
+</script>

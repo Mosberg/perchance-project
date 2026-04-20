@@ -1,0 +1,117 @@
+// Character-focused prompt pack for the AI Text Rewriter framework.
+//
+// Add these modes by importing this pack in your generator:
+// promptCharacterModes = {import:ai-text-rewriter-prompt-character}
+
+$output
+  characterVoice
+    label = 🧠 Character Voice
+    instruction
+      Rewrite the input text so it sounds like a distinct fictional character speaking naturally.
+      {|}
+      INPUT TEXT:
+      <<<userInputText>>>
+      {|}
+      ---
+      Respond with a rewritten version that keeps the meaning, but adds strong character voice, personality, and rhythm.
+      $output = [this.joinItems("\n")]
+    startWith = OUTPUT TEXT:\n
+    hideStartWith = true
+
+  firstPersonCharacter
+    label = 🗣️ Character (1st Person)
+    instruction
+      Rewrite the input text in first-person from a character perspective while preserving meaning.
+      {|}
+      INPUT TEXT:
+      <<<userInputText>>>
+      {|}
+      ---
+      Respond in first-person voice with clear personality and emotional texture.
+      $output = [this.joinItems("\n")]
+    startWith = OUTPUT TEXT:\n
+    hideStartWith = true
+
+  thirdPersonCharacter
+    label = 🎭 Character (3rd Person)
+    instruction
+      Rewrite the input text in third-person character-focused narration.
+      {|}
+      INPUT TEXT:
+      <<<userInputText>>>
+      {|}
+      ---
+      Respond with third-person narration that still reflects a vivid, consistent character viewpoint.
+      $output = [this.joinItems("\n")]
+    startWith = OUTPUT TEXT:\n
+    hideStartWith = true
+
+  cinematicDialogue
+    label = 🎬 Cinematic Dialogue
+    instruction
+      Rewrite the input text as cinematic character dialogue with natural pacing and subtext.
+      {|}
+      INPUT TEXT:
+      <<<userInputText>>>
+      {|}
+      ---
+      Respond with dialogue-driven text while preserving original meaning and key facts.
+      $output = [this.joinItems("\n")]
+    startWith = OUTPUT TEXT:\n
+    hideStartWith = true
+
+  villainMonologue
+    label = 😈 Villain Monologue
+    instruction
+      Rewrite the input text as a dramatic villain monologue while preserving core meaning.
+      {|}
+      INPUT TEXT:
+      <<<userInputText>>>
+      {|}
+      ---
+      Respond with confident, theatrical villain-style language, but keep original intent intact.
+      $output = [this.joinItems("\n")]
+    startWith = OUTPUT TEXT:\n
+    hideStartWith = true
+
+  heroicNarrator
+    label = 🛡️ Heroic Narrator
+    instruction
+      Rewrite the input text in a heroic, brave character tone with hopeful momentum.
+      {|}
+      INPUT TEXT:
+      <<<userInputText>>>
+      {|}
+      ---
+      Respond with a heroic voice while preserving meaning and factual content.
+      $output = [this.joinItems("\n")]
+    startWith = OUTPUT TEXT:\n
+    hideStartWith = true
+
+  groundedCharacter
+    label = 🧩 Grounded Character
+    instruction
+      Rewrite the input text as believable spoken language from a realistic modern character.
+      {|}
+      INPUT TEXT:
+      <<<userInputText>>>
+      {|}
+      ---
+      Respond in natural, grounded character voice with clear and readable phrasing.
+      $output = [this.joinItems("\n")]
+    startWith = OUTPUT TEXT:\n
+    hideStartWith = true
+
+  characterLorePass
+    label = 📚 Character Lore Pass
+    instruction
+      Rewrite the input text as if it belongs in a character lore entry: clear voice, vivid details, and coherent tone.
+      {|}
+      INPUT TEXT:
+      <<<userInputText>>>
+      {|}
+      ---
+      Respond with rewritten text that preserves meaning while fitting a lorebook-style character profile.
+      $output = [this.joinItems("\n")]
+    startWith = OUTPUT TEXT:\n
+    hideStartWith = true

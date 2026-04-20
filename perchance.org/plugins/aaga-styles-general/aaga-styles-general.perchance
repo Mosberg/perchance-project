@@ -1,0 +1,137 @@
+intro()=>
+  return `
+    AI ART GENERATOR ADVANCED
+    https://perchance.org/ai-art-generator-advanced
+    `
+
+// Styles ⤵️
+
+$output //Artistic
+  AI Art Gen. Advanced Styles 🔻^0
+    prompt = [""]
+    negative = [""]
+    meta:tags = [({AAGA:100})]
+
+  🎐 Acrylic CGI
+    prompt = is a breathtaking acrylic painting masterpiece, an acrylic painting that resembles oil painting, with sharp edges. Features 2D cel-shading and CGI, amazing depth. Highly detailed, soft focus with character emphasis. The most important and remarkable aspect of the composition is the characteristic of representing reality, is a realistic image, real-like[endDESCRIPTIONFLUX]
+    negative = [input.negative]
+
+  🎐 Acrylic CGI ◩ Scenery
+    prompt = is a mix between animated CGI and subtle acrylic art. Detailed scenery. A breathtaking, stunning landscape. The landscape main feature focus in a small area in the image that have a very reflective surface, that mirrors the surroundings and scatters the light, creating high contrast between lightning and shadows. High quality, UHD[endDESCRIPTIONFLUX]
+    negative = [input.negative]
+
+  🎐 Chromatic gl¡tch £ffect
+    prompt = image with heavy chromatic aberration effect, glitch effect and RGB split. Trippy outlines and vibrant contrast with color distortion, background have soft gradient, light noise and neon haze, foreground with glowing outlines, stroke edges, edge glow[endDESCRIPTIONFLUX] //[lastPart("Background have soft gradient, light noise and neon haze. Foreground with glowing outlines, stroke edges, edge glow")]
+    negative = [input.negative]
+
+  🎐 Chlorophyll Effect
+    prompt = a beautiful mystic enhanced effect, of a strong green hue, glowing, subsurface scattering. Forest corruption with varying shades of green spreads throughout the composition, creating crystal-like fragments that  reflects light. Glowing vines blend with elements from the background and evoke nature elements with visual effects, like leaves with metallic texture and green shimmery, green roots are printed on surfaces or skin, and small spores floating, flickering in lime-green hue[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Colored Particles
+    prompt = the image features astral effects that merge seamlessly with both the foreground and background elements. Additionally, there are colored micro particles, like small sparkles, that shine and glow, accompanied by some few micro grains in various colors that flicker subtly, appearing like fine accents. Some elements in the image have a metallic, reflective texture that catches and reflects colored light. Certain colors glow more intensely, while contrasting shadows enhance the scene. Together, this creates a stunning cosmic effect where everything feels dazzling, luminous, and vibrant. The overall effect is very subtle and only complements the scene[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Digitally Oiled
+    prompt = highly detailed digital painting, smooth oily skin, fresh wet-gloss texture, moist shine, realistic gloss, subtle lighting, high quality, ultra detailed, high resolution, digitally enhanced[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Graphic Illustration
+    prompt = is a graphic illustration, graphic novel art, with subtle details, colored, high quality, high resolution, digitally enhanced[endDESCRIPTION]
+    negative = anime. japanese illustration[endNEGATIVE] //, censor
+
+  🎐 Holography X-ray (iridescent void)
+    prompt = iridescent holography, dark cosmos face, transparent face, dark cosmos body, transparent body with outlines, neon wireframe, glowing outlines[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Holography X-Ray 🌈💀
+    prompt = rainbow holography, neon x-ray, body is transparent with outlines inside, iridescent wireframe, glowing outlines[endDESCRIPTION]
+    negative = [input.negative]
+    //modifiers
+      //extra
+        //extra = , internal skeleton, translucent hair with gradient glow
+
+  🎐 Machine Theme『Dark』
+    prompt = create an image that features robotic objects, mechanical body, iron texture, cables, LED circuit, glow, pulsating LED, in a dark environment, sinister, faint illumination, haze[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Machine Theme『Light』
+    prompt = create a futuristic image that features modern technology, robotic parts, mechanical body, chipset, digital panel, holographic panel, pulsating LED, reflective glass, visor, reflective metal, chromium, iridescent chromium[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Machine Theme『Rusty』
+    prompt = iron texture, rust, rusted devices, rusted machinery, rusted cables, haze, mechanical body, bronze body parts, leather, LED[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Machine Theme『Stone』
+    prompt = create an image that features earth and stone, hardened sand, golem creature, geometric, body with magic circuit, rune print, visor, glow, ruins, greenery, solemn, timeless[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Sacred Elegance 😇
+    prompt = divine and radiant, inspired by celestial beauty and sacred presence, ethereal glow with soft, shimmering light and elegant brilliance, the figure shines with a harmonious, graceful aura, luminous, polished glow, flowing forms, adorned with golden and silver highlights, and vivid gem-like colors, breathtaking, is beautiful and sexy, seductive, alluring figure, embodying sensuality, innocence, and a gently sense of otherworldly grace, sublime contrast between brilliance and soft shadows[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Seductive Evil 😈
+    prompt = grotesque and satanic, horror-inspired, creepy, with soft shadows and intense glow, reflective body with metallic-like texture that reflects light and shine, with a beautiful, seductive body, while being extremely diabolic. Is sexy cute and malicious, creepy and evil but with a pleasing and alluring figure, featuring high contrast between lightning and shadows, soft glowing colors. [DESCRIPTION]the overall composition should convey a creepy, eerie feel and lust //[lastPart("The overall composition should convey a creepy, eerie feel and lust")]
+    negative = [input.negative]
+
+  🎐 𝕍𝔸ℙ𝕆ℝ𝕎𝔸𝕍𝔼
+    prompt = vaporwave aesthetic style, synthwave style, retrofuture style, glitchart, saturated glow, neon-lit[endDESCRIPTION]
+    negative = [input.negative]
+
+  🎐 Maybe Crayon ✏️
+    prompt = high quality crayon drawing made in canvas, is a professional crayon art style, smooth soft crayon, high contrast, rich color grading, highly polished, vibrant colors. Overall the image was drawn with crayon, crayon aesthetic, high stylized crayon, high quality crayon style, with consistency and sharp edges[endDESCRIPTION]
+    negative = oil style. anime. cartoon. 3D. low quality[endNEGATIVE]
+
+
+////////////////////////////////
+// Functions and other shit ⤵️
+$meta
+  title = Artistic Styles - Ai Art Generator Advanced
+
+IM = {import:text-to-image-plugin}
+// old regex: .replace(/\[(?![^\[\]]*([\"\'])[^\[\]]*\1)([^\[\]]*[a-z][^\[\]]*)\]/g, "\\[$2\\]")
+DESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + "\n\n" : "")]
+endDESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ".\n\n" + input.description : "")]
+
+// old
+DESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + ", " : "")]
+endDESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ", " + input.description : "")]
+NEGATIVES = [input.negative ? input.negative + ", " : ""]
+endNEGATIVE = [input.negative ? ". " + input.negative : ""]
+TgWV = [window.generatorName === "ai-art-generator-advanced" ? "-100" : "100"]
+
+PortraitPrompt
+  prompt = [RND]
+  negativePrompt = [RandomArtStyle.negative || ""]
+  resolution = 512x768
+  width = [adjustedScreenWidth('portrait')]
+  hideGalleryButtons = true
+  guidanceScale = [RandomArtStyle.CFG || 5]
+
+LandscapePrompt
+  prompt = [RND]
+  negativePrompt = [RandomArtStyle.negative || ""]
+  resolution = 768x512
+  width = [adjustedScreenWidth()]
+  hideGalleryButtons = true
+  guidanceScale = [RandomArtStyle.CFG || 5]
+
+SquarePrompt
+  prompt = [RND]
+  negativePrompt = [RandomArtStyle.negative || ""]
+  resolution = 512x512
+  width = [adjustedScreenWidth('portrait')]
+  hideGalleryButtons = true
+  guidanceScale = [RandomArtStyle.CFG || 5]
+
+
+RND = [AdvancedRandomStyles("ArtFullList", "ArtSelectedList", "RandomArtStyle", $output)][RandomArtStyle.prompt]
+
+
+
+
+
+lastPart(tags) =>
+  window.endTags !== "" ? window.endTags += ".\n\n" + String(tags) : window.endTags = String(tags);
+  return "";

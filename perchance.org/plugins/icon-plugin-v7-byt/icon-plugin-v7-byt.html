@@ -1,0 +1,263 @@
+<style>
+	body {
+		background-color: #fafafa;
+	}
+
+	main {
+		background-color: #fff;
+		box-shadow: 0 0 3px #777;
+		border-radius: 2px;
+		width: 90vw;
+		max-width: 600px;
+		padding: 1em;
+		margin: auto;
+	}
+
+	code {
+	  background-color: #eee;
+		padding: 0.15em 0.2em
+	}
+
+	pre {
+	  background: #fcfcfc;
+		padding: 0.5em;
+		text-align: left;
+		border-radius: 2px;
+		white-space: pre-wrap;
+	}
+
+	.snippet-container {
+		margin-top: 1em;
+		display: table;
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.snippet-container pre {
+	  width: 65%;
+	}
+
+	.snippet-container pre, .snippet-container div {
+	  display: table-cell;
+		max-width: 50px;
+		height: 100%;
+		margin: 0;
+		border: 1.5px solid #555;
+	}
+
+  @media (max-width: 400px) {
+    .snippet-container pre {
+      font-size: 12px;
+    }
+  }
+
+	button {
+	  background: none;
+		color: #fff !important;
+		border: none;
+		border-radius: 2px;
+		width: 200px;
+		height: 30px;
+	  transition: box-shadow 0.2s;
+	}
+	button:focus {
+	  outline: none;
+	}
+
+	button.green {
+	  background: #20dc50;
+	}
+	button.green:focus, button.green:hover {
+	  box-shadow: 0 0 5px #20dc50;
+	}
+
+	button.blue {
+	  background: #00abff;
+	}
+	button.blue:focus, button.blue:hover {
+	  box-shadow: 0 0 5px #00abff;
+	}
+
+	button.red {
+	  background: #ff3040;
+    height: 48px;
+	}
+	button.red:focus, button.red:hover {
+	  box-shadow: 0 0 5px #ff3040;
+	}
+
+	.energy, .energy-hover {
+		 background-color: #ffcf10;
+		 color: white; padding: 0.2em;
+		 font-size: 19px;
+		 border-radius: 3px;
+		 transition: color 0.4s, background-color 0.5s;
+	}
+	.energy-hover:hover {
+	  color: #ffcc00;
+		background-color: white;
+	}
+
+  .heart-hover {
+		 background-color: #ff3040;
+		 color: white; padding: 0.2em;
+		 border-radius: 3px;
+		 transition: color 0.4s, background-color 0.5s;
+    --fa-beat-scale: 1.2;
+	}
+  .heart-hover:hover {
+	  color: #ff3040;
+		background-color: white;
+    --fa-animation-duration: 2.5s;
+    --fa-beat-scale: 1.5;
+	}
+
+  .reverse-flip {
+    --fa-flip-x: 1;
+    --fa-flip-y: 0;
+  }
+
+  .spinspeed {
+    --fa-animation-duration: 4s;
+  }
+</style>
+
+<h2>Font Awesome v7 Icon Plugin</h2>
+
+<main>
+  <div style="background-color: #FFF1B9; margin-bottom: 20px; padding: 4px 16px; border-radius: 16px">
+    <p>This is a forked version of the original <a href="icon-plugin-v6">icon plugin v6</a> and <a href="icon-plugin">icon plugin</a> that uses the new <b>Font Awesome 6.7 and 7</b> source that brings new icons and design changes. Note that some icon names from v6 and olver versions might be different from the old one, so you might need to re-arrange some code if you want to upgrade to this plugin.</p>
+    <p>All you need to do is use the full name of the icon, like 'fa-solid fa-icon-name'</p>
+    <p>If you want to use the older 6.6 or 5.8.1 icons, use the original ones instead, or change whatever is in the name to the format above (fa-solid fa-icon-name), check the awesome fonts site to see the icons names.</p></div>
+	<span>This plugin allows you to use icons from <a href="https://fontawesome.com/" target="_blank">Font Awesome.</a></span>
+	<p>Put this in your Perchance code: <code>icon = \{import:icon-plugin-v7-byt\}</code></p>
+  <br>
+  <p>Once you've done that, you can use icons by referencing their names: </p>
+
+<div class="snippet-container">
+<pre>
+\[icon("magnifying-glass")\]
+</pre>
+  <div>[$output("magnifying-glass")]</div>
+</div>
+
+  <p>You can also add styles: </p>
+
+  <div class="snippet-container">
+<pre>
+\[icon("flag", "color: red;")\]
+</pre>
+  <div>[$output("flag", "color: red")]</div>
+  </div>
+
+  <div class="snippet-container">
+<pre>
+\[icon("bolt", "background-color: #ffcc00; color: white; padding: 0.2em; font-size: 19px; border-radius: 3px;")\]
+</pre>
+  <div>[$output("bolt", "background-color: #ffcc00; color: white; padding: 0.2em; font-size: 19px; border-radius: 3px;")]</div>
+  </div>
+
+	<p>To shorten your code, use a class or an id: </p>
+
+  <div class="snippet-container">
+<pre>
+&lt;style&gt;
+  .energy \{
+     background-color: #ffcf10;
+     color: white;
+     padding: 0.2em;
+     font-size: 19px;
+     border-radius: 3px;
+  \}
+&lt;/style&gt;
+\[icon("bolt", ".energy")\]
+</pre>
+  <div>[$output("bolt", ".energy")]</div>
+  </div>
+
+	<p>This also allows you to use <a href="https://www.w3schools.com/css/css_pseudo_classes.asp" target="_blank;">pseudo classes</a>: <br> (Try hovering over the icon)</p>
+
+  <div class="snippet-container">
+<pre>
+&lt;style&gt;
+  .energy \{
+    background-color: #ffcf10;
+    color: white;
+    padding: 0.2em;
+    font-size: 19px;
+    border-radius: 3px;
+    transition: color 0.4s, background-color 0.4s;
+  \}
+ .energy:hover \{
+    color: #ffcf10;
+    background-color: white;
+  \}
+&lt;/style&gt;
+\[icon("bolt", ".energy")\]
+</pre>
+  <div>[$output("bolt", ".energy-hover")]</div>
+  </div>
+
+  <p><b>Not mentioned in the original plugin:</b><br>You can also apply Font Awesome v6's built-in animations to the icon with classes, too:</p>
+
+  <div class="snippet-container"><pre>\[icon("star", ".fa-beat")\]</pre><div>[$output("star", ".fa-beat")]</div></div>
+  <div class="snippet-container"><pre>\[icon("compact-disc", ".fa-flip")\]</pre><div>[$output("compact-disc", ".fa-flip")]</div></div>
+  <div class="snippet-container"><pre>\[icon("bomb", ".fa-shake")\]</pre><div>[$output("bomb", ".fa-shake")]</div></div>
+  <div class="snippet-container"><pre>\[icon("spinner", ".fa-spin")\]</pre><div>[$output("spinner", ".fa-spin")]</div></div>
+  <div class="snippet-container"><pre>\[icon("spinner", ".fa-spin fa-spin-reverse")\]</pre><div>[$output("spinner", ".fa-spin fa-spin-reverse")]</div></div>
+
+  <p>You can even set their properties (so you could make them slower, faster, or behave differently):</p>
+
+  <div class="snippet-container"><pre>
+&lt;style&gt;
+  .reverseflip \{
+    --fa-flip-x: 1;
+    --fa-flip-y: 0;
+  \}
+&lt;/style&gt;
+\[icon("heart", ".fa-flip reverseflip")\]
+</pre><div>[$output("heart", ".fa-flip reverse-flip")]</div></div>
+  <div class="snippet-container"><pre>
+&lt;style&gt;
+  .spinspeed \{
+    --fa-animation-duration: 4s;
+  \}
+&lt;/style&gt;
+\[icon("spinner", ".fa-spin spinspeed")\]
+</pre><div>[$output("spinner", ".fa-spin spinspeed")]</div></div>
+
+  <p>And combine them with pseudo-class styling:</p>
+
+  <div class="snippet-container"><pre>
+&lt;style&gt;
+  .heart-hover \{
+     background-color: #ff3040;
+     color: white; padding: 0.2em;
+     border-radius: 3px;
+     transition: color 0.4s, background-color 0.5s;
+     --fa-beat-scale: 1.2;
+  \}
+  .heart-hover:hover \{
+     color: #ff3040;
+     background-color: white;
+     --fa-animation-duration: 2.5s;
+     --fa-beat-scale: 1.5;
+  \}
+  .reverseflip \{
+     --fa-flip-x: 1;
+     --fa-flip-y: 0;
+  \}
+&lt;/style&gt;
+\[icon("heart", ".fa-beat heart-hover")\]
+</pre><div>[$output("heart", ".fa-beat heart-hover")]</div></div>
+
+  <p>These are just some examples on the animations, you can refer to <a href="https://origin.fontawesome.com/docs/web/style/animate" target="_blank">this page</a> for more supported animation classes.</p>
+  <p>[temps.suggestionfeedback]</p>
+
+	<p>Thanks for reading! This plugin was made due to the limitations of the <a href="/rpg-icon-plugin" target="_blank">RPG icon plugin</a>.</p>
+	<a href="/plugins"><button class="green">Find more plugins</button><a>
+	<a href="https://fontawesome.com/icons?d=listing&s=solid&m=free" target="_blank"><button class="blue">Find more icons</button></a>
+	<a href="/icon-plugin-v6-example" target="_blank"><button class="red">View an example<br>(v6 version)</button></a>
+
+</main>
+<br>

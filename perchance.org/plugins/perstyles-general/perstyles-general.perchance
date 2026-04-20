@@ -1,0 +1,326 @@
+advRng = {import:item-randomizer-byt} // 👄🍆
+// Changes:
+  // 23/02/26 ddmmyy
+    // Changed 'in the style of' to 'by'
+$output
+
+// t2i Styles
+  🎲❇️ T2I Styles (37)🔻
+    prompt = [advRng("t2iArtStyle", t2iArtStyleBanlist = banList1, $output)][window.S3TITLE = randomt2iArtStyle, randomt2iArtStyle.prompt]
+    negative = [randomt2iArtStyle ? randomt2iArtStyle.negative : ""]
+
+  // ArtisticStyle
+  💻 Concept Art
+    prompt = [DESCRIPTION]concept art, digital art, illustration, inspired by wlop style, 8k, fine details, sharp, very detailed, high resolution, world-class masterpiece\n\nOverall, it's absolute world-class masterpiece concept art. It's an aesthetically pleasing concept art with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({painting:50, landscape:70})]
+    modifiers = [ConceptArtModifiers]
+  ✏️ Concept Sketch
+    prompt = black and white technical drawing showcasing {a} [DESCRIPTION]annotation details, world-class masterpiece black and white, pencil strokes, annotated technical concept art sketch, pencil texture\n\nOverall, it's a charmingly aesthetic and well-composed concept sketch.
+    negative = [NEGATIVES]
+    meta:tags = [({sketch:75, comic:50, drawing:75})]
+  ✏️ Crayon Drawing
+    prompt = [DESCRIPTION]crayon drawing
+    negative = [NEGATIVES]
+    meta:tags = [({drawing:30})]
+  ✏️ Pencil
+    prompt = black and white pencil drawing, [DESCRIPTION]black and white, breathtaking pencil illustration, highly detailed, 4k, textured paper, pencil texture, sketch
+    negative = [NEGATIVES]
+    meta:tags = [({drawing:45})]
+  🎨 Illustration
+    prompt = breathtaking illustration [DESCRIPTION ? "of " + DESCRIPTION + ", illustration" : ""], masterpiece, breathtaking illustration\n\nOverall, it's an absolute world-class masterpiece illustration. It's an aesthetically pleasing illustration with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({illustration:100, drawing:75})]
+
+  🎨 Cute Illustration // adapted from a nice image by 'リュウ 🔵🐺': https://aigc.uploads.dev/image/765de3e463f307119a339788690c56c35ca53d8bd19364f533e65c672831c357.jpeg
+    prompt = A cute cartoon showing, [DESCRIPTION]in a soft, cute, minimalist, webcomic-style illustration. Line art is somewhat bold but gentle, with clean lines, and subtle variation. Colors are soft, flat, with gentle pastel tones. No shading except for light inner shadows or simple highlights. The background is plain white or contains a light wash of color with subtle textured style. The overall scene is wholesome and endearing like a page from a Liz Climo comic. Composition is centered with space around the character, evoking authentic warmth through the wholesome, soft, web comic style.\n\nIt's an aesthetically pleasing masterpiece, showing high skill in evoking an authentic and beautifully minimalist style.
+    negative = [NEGATIVES]
+    meta:tags = [({illustration:99, drawing:75})]
+
+  🎨 Flat Illustration
+    prompt = [DESCRIPTION]illustration, flat, 2D, vector art, masterpiece, made with adobe illustrator, behance competition winner, trending on dribble, 4k, high resolution, crisp lines\n\nOverall, it's an absolute world-class masterpiece flat-style illustration. It's an aesthetically pleasing flat-style illustration with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({illustration:85, drawing:40})]
+  🎨 Watercolor
+    prompt = [DESCRIPTION]watercolor, high resolution, intricate details, 4k, wallpaper, concept art, watercolor on textured paper\n\nOverall, it's an absolute world-class masterpiece watercolor artwork. It's an aesthetically pleasing watercolor artwork with impeccable attention to detail and impressive composition. // watercolor was (watercolor), maybe he forgot to remove...
+    negative = [NEGATIVES]
+    meta:tags = [({painting:30})]
+  🎨 Digital Painting
+    prompt = [DESCRIPTION]breathtaking digital art, trending on artstation, by atey ghailan, by greg rutkowski, by greg tocchini, by james gilleard, 8k, high resolution, best quality\n\nOverall, it's an absolute world-class masterpiece digital painting. It's an aesthetically pleasing digital painting with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({painting:90, landscape:70, digitalPainting:100, drawing:60})]
+  🎨 Oil Painting
+    prompt = breathtaking alla prima oil painting, [DESCRIPTION]close up, alla prima style, oil on linen, painterly oil on canvas, painterly style, exquisite composition and lighting, modern painterly masterpiece, by alexi zaitsev, award-winning painterly alla prima oil painting\n\nOverall, it's an absolute world-class masterpiece oil painting. It's an aesthetically pleasing oil painting with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({painting:87, oilPainting:100, landscape:60, portrait:65, drawing:40})]
+  🎨 Oil Painting - Realism
+    prompt = breathtaking oil painting, [DESCRIPTION]photorealistic oil painting, by charlie bowater, fine details, by wlop, trending on artstation, very detailed\n\nOverall, it's an absolute world-class masterpiece realism oil painting. It's an aesthetically pleasing realism oil painting with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({painting:87, oilPainting:95, landscape:60, portrait:70, drawing:40})]
+  🎨 Oil Painting - Old
+    prompt = [window.DISABLESTYLEPROMPT === "true" ? "" : input.description ? '(' + input.description + '), ' : '']Oil painting by Jean-François Millet and Gustave Courbet and Jules Breton
+    negative = [NEGATIVES]
+    meta:tags = [({painting:85, oilPainting:90, landscape:55, portrait:65, drawing:35})]
+  🎨 Oil Painting - 70s Pulp
+    prompt = 1970s vintage pulp art, ultra realistic, fully restored, exquisite lighting and composition, polished, masterpiece, vintage pulp art, by Earle K. Bergey, by Kelly Freas, by Alex Schomburg, by H. J. Ward, glossy pulp art, Amazing Stories, Weird Tales, 8k, high resolution, best quality, hyper-realistic, Mattias Adolfsson style, detailed stylization, [DESCRIPTION]ultra realistic, wlop-style, exquisite lighting and composition, polished, world-class masterpiece, digitally enhanced, breathtaking shot, subtle details, superb quality, art by Kuvshinov, Kuvshinov style, detailed stylization\n\nOverall, it's an absolute world-class masterpiece artwork. It's an aesthetically pleasing restored 1970s vintage pulp art with impeccable attention to detail and impressive composition. It has perfect contrast and color balance. Almost photorealism.
+    negative = [NEGATIVES]
+  🎨 Painterly
+    prompt = painterly digital painting, [DESCRIPTION]digital painting by Ilya Kuvshinov with painterly brush strokes, by Ilya Kuvshinov, world-class painterly masterpiece\n\nOverall, it's an absolute world-class masterpiece painterly digital painting. It's an aesthetically pleasing painterly digital painting with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({painting:85, landscape:65, digitalPainting:95, drawing:45})]
+  🎨 Fantasy Painting
+    prompt = [DESCRIPTION]d&d, fantasy, highly detailed, digital painting, artstation, sharp focus, fantasy art, illustration, 8k, by greg rutkowski\n\nIt's an absolute world-class masterpiece artwork. It's an aesthetically pleasing artwork with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({painting:50, landscape:80, fantasy:80})]
+  🎨 Fantasy Landscape
+    prompt = [DESCRIPTION]fantasy matte painting, absolute masterpiece, detailed matte painting by andreas rocha and greg rutkowski, by Brothers Hildebrandt, superb composition, vivid fantasy art, breathtaking fantasy masterpiece\n\nIt's an absolute world-class masterpiece artwork. It's an aesthetically pleasing artwork with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({painting:30, poster:30, coverArt:50, vintage:30, landscape:90, fantasy:20})]
+    modifiers = [landscapeModifiers]
+
+  🎨 Fantasy Portrait
+    prompt = [DESCRIPTION]d&d, fantasy, highly detailed, digital painting, artstation, sharp focus, fantasy art, character art, illustration, 8k, art by artgerm and greg rutkowski\n\nIt's an absolute world-class masterpiece artwork. It's an aesthetically pleasing artwork with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({fantasyPortrait:100, painting:50, fantasy:70, portrait:75})]
+  🎨 Medieval
+    prompt = medieval illuminated manuscript picture [DESCRIPTION ? "of " + DESCRIPTION + "medieval illuminated manuscript " : ""]art, masterpiece medieval color illustration, 16th century, 8k high-resolution scan of 16th century illuminated manuscript painting, detailed medieval masterpiece. //\n\n")]
+    negative = [NEGATIVES]
+    meta:tags = [({vintage:80, painting:70, portrait:40})]
+  🎨 Traditional Japanese
+    prompt = [DESCRIPTION]in ukiyo-e art style, traditional japanese masterpiece
+    negative = [NEGATIVES]
+    meta:tags = [({japanese:100, vintage:50, cartoon:30})]
+  🎨 Nihonga Painting
+    prompt = japanese nihonga painting [DESCRIPTION ? "about " + DESCRIPTION + "Nihonga": ""], ancient japanese painting, intricate, detailed
+    negative = [NEGATIVES]
+    meta:tags = [({japanese:95, vintage:55, comic:70})]
+  50s Enamel Sign
+    prompt = 50s enamel sign of [DESCRIPTION]50s advert enamel sign, masterpiece, authentic vintage enamel sign
+    negative = [NEGATIVES]
+    meta:tags = [({vintage:85})]
+  Vintage Pulp Art
+    prompt = 1970s vintage pulp art, [DESCRIPTION]vintage pulp art, by Earle K. Bergey, by Kelly Freas, by Alex Schomburg, by H. J. Ward, glossy pulp art, Amazing Stories, Weird Tales, 8k, high resolution, best quality
+    negative = [NEGATIVES]
+    meta:tags = [({painting:30, poster:30, coverArt:50, vintage:60, comic:40, cartoon:50})]
+
+  // Others
+  3D Emoji
+    prompt = masterpiece [window.DISABLESTYLEPROMPT === "true" ? "" : input.description ? input.description : ''] cartoon 3D emoji concept render, close-up, facing forward, matte finish, 3D emoji render, app icon, simple design, new iOS 18.4 style [input.description ? input.description : ''] emoji render, simple background, centered, world-class masterpiece work of art, crisp render, sharp focus, charmingly aesthetic design, 4k, soft lighting, masterpiece emoji-style figurine 3D render, pure white background
+    negative = [NEGATIVES]
+    meta:tags = [({emoji:90})]
+  Cute Figurine
+    prompt = [DESCRIPTION]figurine, modern Disney style, octane render, chibi
+    negative = [NEGATIVES]low-quality, deformed, text, poorly drawn
+    meta:tags = [({disney:50, emoji:60})]
+  💻 3D Isometric Icon
+    prompt = [DESCRIPTION]3D isometric render of cute [DESCRIPTION]3D app icon, clean isometric design, beautiful design, soft gradient background, soft colors, centered, 3D blender render, masterpiece, best quality, high resolution, 8k octane render, beautiful color scheme, soft smooth lighting, physically based rendering, square image, high polycount
+    negative = [NEGATIVES]
+    meta:tags = [({icon:90, emoji:86})]
+  💻 Cute 3D Icon
+    prompt = [DESCRIPTION]a cute 3D icon of [DESCRIPTION]cartoon 3D icon, very cute shape, stylized octane render, 8k, masterpiece, soooo cute, beautiful cute perfection, beautiful soft lighting, soft colors, centered, high resolution, [DESCRIPTION]soft gradient background
+    negative = [NEGATIVES]
+    meta:tags = [({icon:40})]
+  💻 Cute 3D Icon 𝗦𝗲𝘁
+    prompt = [DESCRIPTION]a set of lovely little 3D icons, cute 3D icons, very cute shapes, stylized octane render, 8k, masterpiece, soooo cute, beautiful cute perfection, beautiful soft lighting, soft colors, centered, high resolution, [DESCRIPTION]cute icon set
+    negative = [NEGATIVES]
+    meta:tags = [({icon:30})]
+  💻 Digital Painting Icon
+    prompt = [DESCRIPTION]app logo icon, digital art pictogram icon, trending on artstation, app icon by atey ghailan, app icon by greg rutkowski, app icon by greg tocchini, app icon by james gilleard, 8k, high resolution, best quality
+    negative = [NEGATIVES]
+    meta:tags = [({icon:60})]
+  💻 Concept Art Icon
+    prompt = [DESCRIPTION]a concept art icon, a digital art logo, illustration, league of legends style concept art logo icon, inspired by wlop style, 8k, fine details, sharp, very detailed, high resolution logo icon
+    negative = [NEGATIVES]
+    meta:tags = [({icon:50})]
+  💻 Flat Style Icon
+    prompt = [DESCRIPTION]creative icon, flat style icon, masterpiece, high resolution, crisp, beautiful composition and color choice, beautiful flat painted style, behance contest-winner, award winning icon illustration, 8k, best quality
+    negative = [NEGATIVES]
+    meta:tags = [({icon:80})]
+  💻 Flat Style Logo
+    prompt = beautiful flat-style logo design depicting [DESCRIPTION]creative flat-style logo design, trending on dribbble, featured on behance, portfolio piece, minimal flat design, breathtaking graphic design, 8k, high resolution vector logo, plain background, amazingly beautiful logo design, winner of best logo award
+    negative = [NEGATIVES]
+    meta:tags = [({icon:80, logo:80})]
+  💻 Game Art Icon
+    prompt = [DESCRIPTION]a concept art icon for league of legends, a digital art logo, illustration, league of legends style icon, inspired by wlop style, 8k, dota 2 style icon, fine details, sharp, very detailed icon, high resolution rpg ability/spell/item icon
+    negative = [NEGATIVES]
+    meta:tags = [({icon:70})]
+  Fantasy World Map
+    prompt = [DESCRIPTION ? "beautiful fantasy map of " + DESCRIPTION : ""]beautiful fantasy map inspired by middle earth and azeroth and discworld and westeros and essos and the witcher world and tamriel and faerûn and thedas, 4k, beautiful colors, crisp, high-resolution artistic map, topographic 3D terrain, artistic map\n\nOverall, it's an absolute world-class masterpiece fantasy world map. It's an aesthetically pleasing fantasy world map artwork with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({map:90, fantasy:20})]
+  Fantasy City Map
+    prompt = an aerial view of a city, TTRPG city map showing the full city, [DESCRIPTION]fantasy art, by senior environment artist, beautiful fantasy map\n\nOverall, it's an absolute world-class masterpiece fantasy city map. It's an aesthetically pleasing fantasy city map artwork with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({map:80, fantasy:20})]
+  Old World Map
+    prompt = [DESCRIPTION ? "fantasy world map of " + DESCRIPTION : ""]fantasy world map, highly detailed digital painting, fantasy art, map illustration, 8k\n\nOverall, it's an absolute world-class masterpiece old world map. It's an aesthetically pleasing old world style map artwork with impeccable attention to detail and impressive composition.
+    negative = [NEGATIVES]
+    meta:tags = [({map:70, fantasy:20})]
+  Tattoo Design
+    prompt = amazing tattoo design, [DESCRIPTION]breathtaking tattoo design, incredible tattoo design
+    negative = [NEGATIVES]
+    meta:tags = [({tattoo:100})]
+  Cursed Photo
+    prompt = cursed photo of [DESCRIPTION]creepy and cursed, absolutely cursed photo, nope nope nope nope, what the actual f, unsettling photo, cursed_thing, cursedimages, no context, cursed image, bad photo, weird photo, very strange, color photo, creepy photo, nightmare fuel
+    negative = [NEGATIVES]
+    meta:tags = [({creepy:100})]
+    modifiers = [cursedPhotoModifiers]
+
+// vionet20
+  🎲❇️ Vionet20 Styles (11)🔻
+    prompt = [advRng("vionet20ArtStyle", vionet20ArtStyleBanlist = banList2, $output)][window.S3TITLE = randomvionet20ArtStyle, randomvionet20ArtStyle.prompt]
+    negative = [randomvionet20ArtStyle ? randomvionet20ArtStyle.negative : ""]
+
+  // ArtisticStyle
+  Atmospheric Painting
+    meta:tags = [({painting:100, oilPainting:50, cinematic:30})]
+    prompt = [DESCRIPTION]masterful painting by Gregory Manchess, with soft blurry atmosphere in style of Zao Wou-Ki and expressionism by Karl Wilhelm Diefenbach
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+  Brushy Paintings
+    meta:tags = [({painting:100, oilPainting:50, portrait:40, landscape:40, cinematic:30})]
+    prompt = [DESCRIPTION]brushy digital painting by Cathleen McAllister, John Singer Sargent, with large brush strokes in style of Gregg Manchess, and smooth abstract atmosphere background by Zao Wou-Ki and Jackson Pollock in 8k UHD resolution
+    negative = [NEGATIVES]watermark and signature, noisy and grainy, 3d render
+
+  Brushy Paintings 2
+    prompt = [DESCRIPTION]brushy masterpiece painting with rough textured visible brush strokes and shapes by Colin Campbell Cooper, with atmospheric background by György Kepes and Zou Wou-Ki
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+  Drip/Palette Knife Paintings
+    meta:tags = [({painting:100, oilPainting:50, portrait:40, landscape:40, cinematic:30})]
+    prompt = [DESCRIPTION]drip/palette knife painting in style of Pino Daeni with large thick paint impastos and background in style of Bill Sienkiewicz and Jackson Pollock
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+  Flat Vector Illustration
+    meta:tags = [({illustration:100, logo:70, icon:70, poster:30})]
+    prompt = [DESCRIPTION]simple minimal flat colored and cel-shaded 2d vector art in SVG UHD resolution by jbstyle and Michael Deforge
+    negative = [NEGATIVES]noisy and grainy, 3d render, photograph, watermark and signature
+
+  Fineline Illustration
+    meta:tags = [({illustration:100, drawing:70})]
+    prompt = [DESCRIPTION]flat colored cel-shaded fineline illustration using a 0.5mm technical pen in crisp 8k resolution UHD by Adrian Tomine and Sachin Teng
+    negative = [NEGATIVES]noisy and grainy, 3d render, photograph, watermark and signature
+
+  Grim Dark Fantasy Illustration
+    meta:tags = [({illustration:100,comic:70, manga:50,fantasy: 40, anime:40,creepy:50})]
+    prompt = [DESCRIPTION]grim dark fantasy digital painting with design by Peder Balkeby and Mike Mignola and atmosphere by Zdzisław Beksiński and Yōji Shinkawa in low light moody lighting
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+  Polygonal Illustration
+    meta:tags = [({illustration:100, logo:70, icon:70, poster:30})]
+    prompt = [DESCRIPTION]cel-shaded very low poly illustration in style of Simón Prades, Syd Mead and Gregory Manchess with FXAA shaders
+    negative = [NEGATIVES]highly detailed, noisy and grainy, 3d render, photograph, watermark and signature
+
+  Marble Sculpture
+    meta:tags = [({sculpture:40, threeDimensional:30})]
+    prompt = [DESCRIPTION]realistic sculpture out of smooth marble stone, shot in 4k resolution with ambient occlusion, plaster texture
+    negative = [NEGATIVES]highly detailed, 3d render, illustration, painting, noise and grainy, watermarks and signatures
+
+  Noisy/Grainy Effect
+    meta:tags = [({render:100, filter:80, effects:60})]
+    prompt = [DESCRIPTION]noisy and grainy dithered illustration, in textured background, displayed with 8-bit VGA color space in Macintosh LC display, soft double exposure
+    negative = [NEGATIVES]highly detailed, 3d render, photograph, painting, watermarks and signatures
+
+  Stained Glass
+    meta:tags = [({painting:40, illustration:30})]
+    prompt = [DESCRIPTION]stained-glass art in a stained-glass window in 8k resolution, digital stained-glass illustration masterpiece
+    negative = [NEGATIVES]highly detailed, 3d render, photograph, painting, watermarks and signatures
+
+// text2image-gen
+  🎲❇️ text2image-gen Styles (4)🔻
+    prompt = [advRng("text2imgArtStyle", text2imgArtStyleBanlist = banList3, $output)][window.S3TITLE = randomtext2imgArtStyle, randomtext2imgArtStyle.prompt]
+    negative = [randomtext2imgArtStyle ? randomtext2imgArtStyle.negative : ""]
+
+  //ArtisticStyle
+  》Abstract art
+    prompt = [DESCRIPTION]abstract art, colorful image, smooth colors, bright image, vibrant, smooth coloring
+    negative = [NEGATIVES]
+  》Borderlands art
+    prompt = [DESCRIPTION]3D, CGI, Borderlands, Borderlands Style Artwork, Borderlands Characters, 3D Cell Shading, Comic-Style Outlines, Fine Details, Intricate Details, Detailed Shading, Sharp Thick Outlines, 3D Environment, 8k, HDR, Detailed Faces, Detailed Body
+    negative = [NEGATIVES]
+  》Concept art
+    prompt = [DESCRIPTION]concept art, sketch, detailed, illustration
+    negative = [NEGATIVES]
+
+  //Others
+ // 》Anti-NSFW
+ //   prompt = [DESCRIPTION]SFW
+  //  negative = [NEGATIVES]NSFW, inappropriate, nudity, 18+ content, naked, nude, censored
+  》Planet art
+    prompt = Space art of [DESCRIPTION]planet art, outer space, space, stars, detailed, realistic, accurate
+    negative = [NEGATIVES]
+
+
+
+// The character, scenery and clothes descriptions confuses the ai when they comes after the 'composition description', so I need to do put.
+lastPart(tags) =>
+  window.endTags !== "" ? window.endTags += String(tags) : window.endTags = String(tags);
+  return "";
+
+DESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + ", " : "")]
+endDESCRIPTION = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ", " + input.description : "")]
+NEGATIVES = [input.negative ? input.negative + ", " : ""]
+endNEGATIVE = [input.negative ? ", " + input.negative : ""]
+//
+DESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? input.description + ".\n\n" : "")]
+endDESCRIPTIONFLUX = [window.DISABLESTYLEPROMPT === "true" ? "" : (input.description ? ".\n\n" + input.description : "")]
+
+ConceptArtModifiers
+  modifier
+    league of legends = , league of legends style concept art
+    epic fantasy = , epic fantasy concept art by noah bradley
+    sci-fi = , sci-fi concept art
+    horror = , horror concept art
+    western = , western, wild west concept art
+
+cursedPhotoModifiers
+  modifier
+    found footage = , found footage
+    cult = , photo from a real cult
+    1920s = , 1920s photo
+    old phone = , old cell phone photo
+    VHS = , old VHS footage
+    CCTV = , old CCTV footage, high-angle CCTV image
+    trypophobia = , trypophobia
+    backrooms = , backrooms
+    black & white = , black & white
+    grainy = , grainy, noisy static effect
+    extreme close-up = , extreme close-up
+    low-angle = , low-angle shot
+    dramatic = , dramatic angle, extreme angle shot
+landscapeModifiers
+  shot
+    aerial = , aerial view
+    low-angle = , low-angle view
+    high-angle = , high-angle view
+    wide-angle = , wide-angle view
+  color
+    vibrant = , vibrant color tones
+    warm = , warm-toned colors
+    cool = , cool-toned colors
+    pastel = , pastel tones
+    muted = , muted color grading
+    sunset = , sunset color tones
+    monochrome = , monochrome
+  effect
+    tilt-shift = , tilt-shift effect
+    golden hour = , golden hour
+    mist = , misty
+    reflection = , water reflection
+    sun flare = , sun flare
+    starburst = , starburst effect
+    light trails = , light trails
+    long exposure = , long exposure
+    soft focus = , soft focus
+
+
+t2iPerchanceStyles = [["🎲❇️ T2I Styles (37)🔻", "💻 Concept Art", "✏️ Concept Sketch", "✏️ Crayon Drawing", "✏️ Pencil", "🎨 Illustration", "🎨 Cute Illustration", "🎨 Flat Illustration", "🎨 Watercolor", "🎨 Digital Painting", "🎨 Oil Painting", "🎨 Oil Painting - Realism", "🎨 Oil Painting - Old", "🎨 Oil Painting - 70s Pulp", "🎨 Painterly", "🎨 Fantasy Painting", "🎨 Fantasy Landscape", "🎨 Fantasy Portrait", "🎨 Medieval", "🎨 Traditional Japanese", "🎨 Nihonga Painting", "50s Enamel Sign", "Vintage Pulp Art", "3D Emoji", "Cute Figurine", "💻 3D Isometric Icon", "💻 Cute 3D Icon", "💻 Cute 3D Icon 𝗦𝗲𝘁", "💻 Digital Painting Icon", "💻 Concept Art Icon", "💻 Flat Style Icon", "💻 Flat Style Logo", "💻 Game Art Icon", "Fantasy World Map", "Fantasy City Map", "Old World Map", "Tattoo Design", "Cursed Photo"]]
+vionet20Styles = [["🎲❇️ Vionet20 Styles (11)🔻", "Atmospheric Painting", "Brushy Paintings", "Brushy Paintings 2", "Drip/Palette Knife Paintings", "Flat Vector Illustration", "Fineline Illustration", "Grim Dark Fantasy Illustration", "Polygonal Illustration", "Marble Sculpture", "Noisy/Grainy Effect", "Stained Glass"]]
+text2imageGenStyles = [["🎲❇️ text2image-gen Styles (4)🔻", "》Abstract art", "》Borderlands art", "》Concept art", "》Planet art"]]
+
+createBanList1 = [text2imageGenStyles.selectAll.join(",") + ",🎲❇️ T2I Styles (37)🔻," + vionet20Styles.selectAll.join(",")]
+banList1 = [String(createBanList1).split(",")]
+createBanList2 = [t2iPerchanceStyles.selectAll.join(",") + ",🎲❇️ Vionet20 Styles (11)🔻," + text2imageGenStyles.selectAll.join(",")]
+banList2 = [String(createBanList2).split(",")]
+createBanList3 = [t2iPerchanceStyles.selectAll.join(",") + ",🎲❇️ text2image-gen Styles (4)🔻," + vionet20Styles.selectAll.join(",")]
+banList3 = [String(createBanList3).split(",")]

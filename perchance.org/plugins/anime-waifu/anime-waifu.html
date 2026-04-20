@@ -1,0 +1,1265 @@
+<!-- Using the dynamic plugin here to import others plugins without affecting the content when this page is imported -->
+[remember(root, "@inputs")] [emojiList = dyn('huge-emoji-list'), ""]
+[commentsPlugin = dyn('comments-plugin'), ""] [ia = dyn('text-to-image-plugin'),
+""] [newImg = dyn('image-regeneration-byt'), ""] [gF =
+dyn('general-functions-byt'), ""] [date = dyn('date-plugin'), ""]
+
+<h2 class="h2Title">Anime Waifu List</h2>
+<span style="font-size: small">Work in progress...</span>
+<div id="topGrid">
+  <button class="wai-button" onclick="elDisplay('list', 'block')">
+    <span>💖 Waifu List 💖</span>
+  </button>
+  <button class="wai-button" onclick="elDisplay('template', 'block')">
+    <span>📝 Request</span>
+  </button>
+  <button class="wai-button" onclick="elDisplay('gallery', 'block')">
+    <span>🎴 Gallery</span>
+  </button>
+  <button class="wai-button" onclick="elDisplay('comments', 'block')">
+    <span>💭 Comments</span>
+  </button>
+  <button class="wai-button" onclick="elDisplay('importList', 'flex')">
+    <span>｛import:💝｝</span>
+  </button>
+  <button
+    class="wai-button"
+    id="adm"
+    style="display: none"
+    onclick="
+      readSubmits();
+      elDisplay('requestsAdm', 'block');
+    "
+  >
+    Submitted
+  </button>
+</div>
+
+<div id="list" style="display: block">
+  <div id="infos">
+    <div id="about">
+      <span
+        >This list contains only fictional female characters from anime and
+        games. It does not include characters from films or other realistic
+        works, unless an 'anime version' exists.<br />
+        Please note that this list is nothing more than text, textual
+        descriptions of characters; this <strong>is not</strong> a LoRA
+        (Low-Rank Adaptation).</span
+      >
+      <span
+        >If you want more options, different Art Styles, etc., use a generator
+        that has this list, like
+        <a href="ai-art-generator-advanced" target="_blank"
+          >Ai Art Generator-Advanced</a
+        >.</span
+      >
+    </div>
+  </div>
+
+  <div id="index">
+    <button
+      class="letterBtn wai-button"
+      onclick="
+        activateClassBtn(this);
+        showLetter('all');
+      "
+    >
+      All
+    </button>
+  </div>
+
+  <div id="characterCtn">
+    <div id="ZERO"></div>
+  </div>
+</div>
+
+<div id="template" style="display: none">
+  <span>Help improve the list</span><br />
+  <span
+    >You can create a character description and submit it to be added to the
+    list. The description must follow the format below:</span
+  >
+
+  <div id="waifuTemplate">
+    <div class="">
+      <div class="tp-btn-0">
+        Character Name
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+        </span>
+      </div>
+
+      <input class="c-template" id="cName" placeholder="Character Name" />
+    </div>
+
+    <div>
+      <div class="tp-btn-0">
+        Franchise Name
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+        </span>
+      </div>
+
+      <input
+        class="c-template"
+        id="cShow"
+        placeholder="Franchise Name (anime/game/comic)"
+      />
+    </div>
+
+    <div>
+      <div class="tp-btn-0">
+        eye
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+          <button
+            class="inputs-info-btn"
+            name="eyeC"
+            onclick="showInfo(this.name)"
+          >
+            ?
+          </button>
+        </span>
+      </div>
+
+      <input class="c-template" id="cEyeC" placeholder="[iInfo.eyeC]" />
+    </div>
+
+    <div>
+      <div class="tp-btn-0">
+        additional eyes features
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+          <button
+            class="inputs-info-btn"
+            name="eyeF"
+            onclick="showInfo(this.name)"
+          >
+            ?
+          </button>
+        </span>
+      </div>
+
+      <textarea
+        class="c-template"
+        id="cEyeF"
+        placeholder="examples: ringed eyes, star-shaped pupils, etc."
+      ></textarea>
+    </div>
+
+    <div>
+      <div class="tp-btn-0">
+        hair length
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+          <button
+            class="inputs-info-btn"
+            name="hairL"
+            onclick="showInfo(this.name)"
+          >
+            ?
+          </button>
+        </span>
+      </div>
+
+      <input class="c-template" id="cHairL" placeholder="[iInfo.hairL]" />
+    </div>
+
+    <div>
+      <div class="tp-btn-0">
+        hair color
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+          <button
+            class="inputs-info-btn"
+            name="hairC"
+            onclick="showInfo(this.name)"
+          >
+            ?
+          </button>
+        </span>
+      </div>
+
+      <input
+        class="c-template"
+        id="cHairC"
+        placeholder="examples: blonde, yellow, black, etc."
+      />
+    </div>
+
+    <div>
+      <div class="tp-btn-0">
+        additional hair features
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+          <button
+            class="inputs-info-btn"
+            name="hairF"
+            onclick="showInfo(this.name)"
+          >
+            ?
+          </button>
+        </span>
+      </div>
+
+      <textarea
+        class="c-template"
+        id="cHairF"
+        placeholder="examples: twintails, blunt bangs, ahoge, etc"
+      ></textarea>
+    </div>
+
+    <div>
+      <div class="tp-btn-0">
+        additional features
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+          <button
+            class="inputs-info-btn"
+            name="oF"
+            onclick="showInfo(this.name)"
+          >
+            ?
+          </button>
+        </span>
+      </div>
+
+      <textarea
+        class="c-template"
+        id="cOthersFeatures"
+        placeholder="examples: dark skin, large breasts, cat ears, etc"
+      ></textarea>
+    </div>
+
+    <div>
+      <div class="tp-btn-0">
+        clothes/outfit
+        <span class="tp-btn-1">
+          <button
+            class="inputs-info-btn"
+            onclick="
+              gF.toggleClear(
+                this,
+                this.closest('.tp-btn-0').parentElement.querySelector(
+                  '.c-template',
+                ),
+                '🗑️',
+              )
+            "
+          >
+            🗑️
+          </button>
+          <button
+            class="inputs-info-btn"
+            name="outfit"
+            onclick="showInfo(this.name)"
+          >
+            ?
+          </button>
+        </span>
+      </div>
+
+      <textarea
+        class="c-template"
+        id="cOutfit"
+        placeholder="examples: two tone dress, purple dress, mid dress, long black sleeves, purple hair ornament, purple boots"
+      ></textarea>
+    </div>
+
+    <div>
+      <div
+        style="
+          display: flex;
+          align-self: center;
+          justify-content: right;
+          gap: 6px;
+        "
+      >
+        <button
+          style="padding: 0 2px; font-size: small; height: 20px"
+          onclick="toggleEditPrompt(this)"
+        >
+          Edit
+        </button>
+        <button
+          style="padding: 0 2px; font-size: small; height: 20px"
+          onclick="
+            createImgObjectData(finalPrompt.value, gD());
+            newImg.createImgWrapper();
+          "
+        >
+          Generate 💖
+        </button>
+        <button
+          style="padding: 0 2px; font-size: small; height: 20px"
+          onclick="submitCharacter()"
+        >
+          Submit
+        </button>
+      </div>
+      <textarea
+        id="finalPrompt"
+        class="edit-not-allowed"
+        style="width: 100%; height: 80px; border-radius: 5px"
+        readonly
+      ></textarea>
+    </div>
+  </div>
+
+  <ul
+    style="
+      font-size: small;
+      width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0;
+    "
+  >
+    Notes:
+    <li>
+      <strong
+        >Before submitting, check if the generated character image is
+        approximately 50% accurate by clicking 'Generate 💖'</strong
+      >. Characters that don't have enough data for good images will not be
+      added to the list. If the generated image doesn't match the original
+      character at all, don't waste your time submitting it (not your fault, the
+      model simply lacks data).
+    </li>
+    <li>The AI cannot faithfully recreate most characters; this is normal.</li>
+    <li>
+      Sometimes 'less is more,' for example, a character with 'parted bangs'
+      performs better WITHOUT needing to use the 'parted bangs' tag, as the tag
+      would force generic parted bangs results and distort the character.
+    </li>
+    <li>Fill the clothes/outfit input.</li>
+    <li>
+      I will manually check all submitted descriptions. As you can see, this is
+      time-consuming. Good descriptions will be copied and pasted into the list,
+      saving time and therefore making the process faster.
+    </li>
+    <li>
+      The generated character image needs to be consistent and similar, not just
+      a poorly made imitation. If the description fails to maintain quality and
+      consistency, it's because the model doesn't have enough data about the
+      character, and in that case, it's recommended to give up and not waste
+      time. Examples of poorly made characters (she was good before the last
+      model update 😞): <span style="color: pink">(To Love-Ru) Momo</span>
+    </li>
+  </ul>
+</div>
+
+<div id="comments" style="display: none">
+  [pBox = commentsPlugin(peopleBox)]
+</div>
+
+<div id="requests">
+  <span id="requestsAdm" style="display: none">Admin mode</span>
+  [wai = commentsPlugin(waiSubmit)]
+</div>
+
+<div id="gallery" style="display: none">[ia(museu)]</div>
+<div id="importList" style="display: none">
+  <span
+    >If you own an 'Ai Perchance Generator', you can import this list
+    with:</span
+  >
+  <span style="color: #7a7a7a"><code>AWL = \{import:anime-waifu\}</code></span>
+  <span
+    >Then, in the '<span style="color: #7a7a7a">settings</span>', inside '<span
+      style="color: #7a7a7a"
+      >userInputs</span
+    >', you can use something like (example):</span
+  >
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      align-self: center;
+      background: #00000080;
+      padding: 6px;
+      border-radius: 5px;
+    "
+  >
+    <span>animeCharacter</span>
+    <span>&nbsp;&nbsp;label = Waifu</span>
+    <span>&nbsp;&nbsp;type = select</span>
+    <span>&nbsp;&nbsp;options</span>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;meta:import</span>
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from = \[AWL\]</span>
+  </div>
+
+  <span
+    >You also need to create a variable to enable/disable the characters'
+    outfits (otherwise they will only have basic descriptions of their body,
+    eyes, and hair).</span
+  >
+  <span>Simply place this in the left panel →:</span>
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      align-self: center;
+    "
+  >
+    <span style="color: #f08e05"><code>&lt;script&gt;</code></span>
+    <code
+      ><span style="color: #ff0000">&nbsp;&nbsp;window</span
+      ><span style="color: #05f0dc">.characterOutfit = </span
+      ><span style="color: #37a603">"active"</span>;</code
+    >
+    <span style="color: #f08e05"><code>&lt;/script&gt;</code></span>
+  </div>
+  <br />
+  <span
+    >You can also create a button to turn the outfits on and off. Here's a basic
+    example:</span
+  >
+  <span style="color: #7a7a7a"
+    ><code
+      >&lt;button onclick='<span style="color: #faee0f"
+        >window.characterOutfit = window.characterOutfit === "active" ?
+        "inactive" : "active"</span
+      >'&gt;toggle Outfit&lt;/button&gt;</code
+    ></span
+  ><br />
+
+  <span
+    >This list is like an Art Style; you simply call it with '<span
+      style="color: #ff0000"
+      >name</span
+    ><span style="color: #05f0dc">.prompt</span>', where 'name' is where you
+    imported it, for example, artStyle3.prompt, or animeCharacter.prompt,
+    etc.</span
+  >
+  <span
+    >You can also use just the characters' outfits. Instead of using '.prompt',
+    just call '<span style="color: #05f0dc">.outfit</span>'.</span
+  >
+</div>
+
+<div class="merchan"><a href="blackyt" target="_blank">by BlackYT 👄🍆</a></div>
+<style>
+  html {
+    color-scheme: light dark;
+  }
+  :root {
+    /* Light Mode Theme (Waifu Pastels) */
+    --bg-color: #fff0f5; /* Lavender Blush */
+    --text-color: #5c3a4a;
+    --heading-color: #ff69b4; /* Hot Pink */
+    --btn-bg: #ffb7c5; /* Sakura Pink */
+    --btn-text: #5c3a4a;
+    --btn-hover-bg: #ff85a2;
+    --shadow-color: rgba(255, 105, 180, 0.3);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Dark Mode Theme (Warm Dark Purple/Grey, avoiding blue) */
+      --bg-color: #1e151a;
+      --text-color: #f8bbd0;
+      --heading-color: #ff80ab;
+      --btn-bg: #ad1457;
+      --btn-text: #ffffff;
+      --btn-hover-bg: #d81b60;
+      --shadow-color: rgba(216, 27, 96, 0.4);
+    }
+  }
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: "Nunito", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+    width: 100dvw;
+  }
+  #topGrid {
+    margin: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  #about {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    max-width: 95vw;
+    font-size: small;
+  }
+  #about a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+  }
+  #list {
+    /* display: block; */
+  }
+  #index {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px 0;
+  }
+  .letterBtn {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ffffff00;
+    border-radius: 8px;
+  }
+  #characterCtn {
+    max-width: 95vw;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    max-width: 45vw;
+    aspect-ratio: 200 / 250; /*height: 250px; */
+    border: 1px solid red;
+    border-radius: 5px;
+    padding: 1px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.5);
+  }
+</style>
+<style>
+  #template {
+    /* display: none; */
+  }
+  #waifuTemplate {
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 320px;
+    align-items: start;
+  }
+  #waifuTemplate div {
+    width: 100%;
+  }
+  .tp-btn-0 {
+    position: relative;
+    width: 100%;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    font-size: small;
+  }
+  .tp-btn-1 {
+    position: absolute;
+    display: inline-flex;
+    gap: 2px;
+    justify-content: right;
+    width: 50px;
+    right: 0;
+  }
+  .inputs-info-btn {
+    height: 20px;
+    padding: 0 2px;
+    margin-bottom: 2px;
+  }
+  #waifuTemplate input {
+    width: 100%;
+    padding: 0 4px;
+    border-radius: 5px;
+    border: 1px inset var(--shadow-color);
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+  }
+  #waifuTemplate textarea {
+    width: 100%;
+    height: 60px;
+    padding: 4px;
+    border-radius: 5px;
+    border: 1px inset var(--shadow-color);
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+  }
+  #waifuTemplate button {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    border: none;
+  }
+  .edit-not-allowed {
+    border: 1px solid #ff0000 !important;
+    background: rgba(232, 44, 157, 0.2);
+    cursor: not-allowed;
+  }
+  .edit-allowed {
+    border: 1px dashed #2ff74a !important;
+    background: rgba(145, 145, 145, 0.2);
+    cursor: auto;
+  }
+  #importList {
+    flex-direction: column;
+    width: 600px;
+    max-width: 95vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+<style>
+  .h2Title {
+    color: var(--heading-color);
+    font-weight: 800;
+    text-shadow: 2px 2px 0px var(--shadow-color);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+  .wai-button {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    border-radius: 25px; /* Pill shape */
+    cursor: pointer;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: all 0.2s ease-in-out;
+    font-family: inherit;
+  }
+  #topGrid .wai-button {
+    padding: 6px 12px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .wai-button:hover {
+    background-color: var(--btn-hover-bg);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 12px var(--shadow-color);
+  }
+  .wai-button.active {
+    transform: translateY(1px) scale(0.9);
+    box-shadow: 0 2px 4px var(--shadow-color);
+  }
+  .activated-i {
+    transform: scale(1.2);
+    border: 1px solid #eb3672;
+    box-shadow: 0 0 8px #eb3672;
+  }
+  .merchan a {
+    text-decoration: none;
+    color: #ccc;
+    border-radius: 8px;
+  }
+  .merchan {
+    font-size: small;
+    margin-top: 20px;
+    opacity: 0.5;
+    margin-bottom: 5px;
+    padding: 8px;
+    transition: 1.5s easy-in;
+  }
+  .merchan:hover {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.02);
+  }
+  .merchan a:hover {
+    color: #00ffff !important;
+    box-shadow: 0 6px 12px var(--shadow-color);
+  }
+
+  iframe.text-to-image-plugin-image-iframe {
+    max-width: 100%;
+  }
+  .t2i-SeedBtn {
+    display: none; /*var(--seed-button-display, inline-flex); */
+  }
+  .t2i-privateSaveBtn {
+    display: none; /*var(--private-button-display, inline-flex);*/
+  }
+  @keyframes rainbow-flicker {
+    0% {
+      background-color: red;
+    }
+    14% {
+      background-color: orange;
+    }
+    28% {
+      background-color: yellow;
+    }
+    42% {
+      background-color: green;
+    }
+    57% {
+      background-color: blue;
+    }
+    71% {
+      background-color: indigo;
+    }
+    85% {
+      background-color: violet;
+    }
+    100% {
+      background-color: red;
+    }
+  }
+  .rainbow-effect {
+    animation: rainbow-flicker 0.5s linear infinite;
+  }
+  @keyframes flickerCyan {
+    0% {
+      border-color: #fa4dc3;
+    }
+    5% {
+      border-color: #00ffff;
+    }
+    10% {
+      border-color: #fa4dc3;
+    }
+    15% {
+      border-color: #00ffff;
+    }
+    20% {
+      border-color: #fa4dc3;
+    }
+    25% {
+      border-color: #00ffff;
+    }
+    30% {
+      border-color: #fa4dc3;
+    }
+    35% {
+      border-color: #00ffff;
+    }
+    40% {
+      border-color: #fa4dc3;
+    }
+    45% {
+      border-color: #00ffff;
+    }
+    50% {
+      border-color: #fa4dc3;
+    }
+    55% {
+      border-color: #00ffff;
+    }
+    60% {
+      border-color: #fa4dc3;
+    }
+    65% {
+      border-color: #00ffff;
+    }
+    70% {
+      border-color: #fa4dc3;
+    }
+    75% {
+      border-color: #00ffff;
+    }
+    80% {
+      border-color: #fa4dc3;
+    }
+    85% {
+      border-color: #00ffff;
+    }
+    90% {
+      border-color: #fa4dc3;
+    }
+    95% {
+      border-color: #00ffff;
+    }
+    100% {
+      border-color: #fa4dc3;
+    }
+  }
+  .cyan-flicker {
+    animation: flickerCyan 1s;
+  }
+  .active-btn-main {
+    color: #00ffff !important;
+    font-weight: 600;
+    border: 1px solid #00ffff !important;
+    text-shadow:
+      1px -1px 0px #000,
+      2px 2px 0px #00ffff40,
+      -2px -2px 3px #00ffff40,
+      0 0 1px #00ffff80,
+      0 0 3px #00ffff80,
+      0 0 6px #00ffff80,
+      0 0 8px #00ffff80,
+      0 0 10px #00ffff80,
+      0 0 12px #00ffff80,
+      0 0 10px #00ffff80,
+      0 0 15px #00ffff80 !important;
+  }
+</style>
+
+<script>
+  // Handle image generation
+  window.sITS = "inactive";
+  window.removeBackground = "inactive";
+  window.regenerateArtStyles = "inactive";
+  window.characterOutfit = "active";
+  function gD() {
+    return date().format("MMM Do, YYYY");
+  }
+  function createImgObjectData(characterPrompt, date) {
+    if (!characterPrompt)
+      characterPrompt = "Beautiful anime girl, from Oshi no Ko";
+    const objectData = {
+      prompt: `Aesthetic 10, high-quality anime. ${characterPrompt}.`,
+      negativePrompt: "",
+      guidanceScale: "15",
+      seed: "-1",
+      resolution: "512x768",
+      width: "800",
+      saveTitle: String(characterPrompt).match(/^[^,.]+/)[0] || "Waifu",
+      saveDescription: date || " ",
+    };
+    imgObj = {};
+    Object.assign(imgObj, objectData);
+  }
+  createImgObjectData();
+
+  museu = {
+    gallery: true,
+    sort: "recent",
+    timeRange: "all-time",
+    hideIfScoreIsBelow: "-5",
+    adaptiveHeight: true,
+    style: "background-color: rgba(0,0,0,0.1)",
+    defaultGalleryNames: "public",
+    bannedPromptPhrases: badSrc.regexBadW,
+  };
+  function furina() {
+    // .-.
+    if (!localStorage.hydroArchon) localStorage.hydroArchon = "focalors";
+    const archon =
+      localStorage.hydroArchon === "furina" ? "focalors" : "furina";
+    localStorage.hydroArchon = archon;
+    if (archon === "furina") {
+      return "https://user.uploads.dev/file/717603daf575e53fb4d2db64fd771fdb.webp";
+    } else {
+      return "https://user.uploads.dev/file/c3480c96d96a6ce6a40756cc5f87fe93.webp";
+    }
+  }
+</script>
+<script>
+  // Handle the list from perchance panel
+  indexLetters = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+  //indexCatalog = [A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z];
+  indexContainer = document.querySelector("#index");
+  waifuCtn = document.getElementById("characterCtn");
+  function activateClassBtn(btn) {
+    const buttons = document.querySelectorAll(".letterBtn");
+    buttons.forEach((lBtn) => lBtn.classList.remove("active"));
+    btn.classList.add("active");
+  }
+  indexLetters.forEach((letter) => {
+    const div = document.createElement("div");
+    div.id = `_${letter}`;
+    div.style =
+      "display:flex; flex-wrap:wrap; gap:5px; justify-content:center;";
+    waifuCtn.appendChild(div);
+
+    const btn = document.createElement("button");
+    btn.textContent = letter;
+    btn.dataset.letter = letter;
+    btn.classList = "letterBtn wai-button";
+
+    btn.onclick = () => {
+      activateClassBtn(btn);
+      showLetter(letter);
+    };
+
+    indexContainer.appendChild(btn);
+  });
+  // To put in alphabetic order
+  function getIndexLetter(name) {
+    const match = name.match(/^\(\s*([A-Za-z])/);
+    //by character name-> //const match = name.match(/\)\s*([A-Za-z])/);
+    if (match) return match[1].toUpperCase();
+    return "ZERO";
+  }
+  // Turn the list into cards
+  function render() {
+    const characters = $output.selectAll;
+    //const index = document.createElement("div");
+    //index.style = "display:flex; flex-wrap:wrap; gap:5px; justify-content:center; align-items:center;";
+
+    characters.forEach((name) => {
+      const fig = document.createElement("div");
+      fig.classList = "card";
+      //fig.style = "position:relative; display:flex; flex-direction:column; width:100px; height:150px; border:1px solid red; border-radius:5px; padding:1px; overflow:hidden; background:rgba(255,255,255,0.5);";
+
+      const im = document.createElement("img");
+      im.style =
+        "width:100%; height:100%; object-fit:cover; object-position: 50% 0%; border-radius:5px; cursor:pointer";
+      im.src = `${name.img || "noImage"}`;
+      im.onclick = () => {
+        createImgObjectData(name.prompt, gD());
+        newImg.createImgWrapper();
+      };
+
+      const title = document.createElement("span");
+      title.style =
+        "position:absolute; bottom:0; align-self:center; background:rgba(255,255,255,0.7); color:#000; border-radius:5px; border:1px solid #fff; padding: 1px 5px; font-size:small; cursor:pointer";
+      title.textContent = `${name}`;
+      title.onclick = () => {
+        createImgObjectData(name.prompt, gD());
+        newImg.createImgWrapper();
+      };
+
+      fig.append(im);
+      fig.appendChild(title);
+
+      const letter = getIndexLetter(String(name));
+      const target =
+        document.getElementById(`_${letter}`) ||
+        document.getElementById("ZERO");
+      target.append(fig);
+    });
+  }
+  // Menu
+  function showLetter(letter) {
+    const all = document.querySelectorAll("#characterCtn > div");
+    if (letter === "all") {
+      all.forEach((ctn) => (ctn.style.display = "flex"));
+      ZERO.style.display = "none";
+      return;
+    }
+    all.forEach((ctn) => (ctn.style.display = "none"));
+
+    const current = document.getElementById(`_${letter}`);
+    if (current) current.style.display = "flex";
+  }
+
+  render();
+  showLetter("all");
+</script>
+<script>
+  function elDisplay(el, visibleStatus) {
+    const ctn = document.getElementById(el);
+    const status = visibleStatus; //ctn.style.display === visibleStatus ? 'none' : visibleStatus;
+    list.style.display = "none";
+    template.style.display = "none";
+    comments.style.display = "none";
+    gallery.style.display = "none";
+    importList.style.display = "none";
+    requestsAdm.style.display = "none";
+    ctn.style.display = status;
+  }
+  // Handle template/submit things
+  iInfo = {
+    name: "Character Name",
+    franchise: "Franchise Name",
+    eyeC: "examples: red, blue, aquamarine, etc",
+    eyeF: "ONLY if the character features it.\nExamples:\n - pupils shape or details (star-shaped pupils, bright pupils, etc),\n - sclera color (black sclera, red sclera, etc),\n - etc.",
+    hairL: "examples: long, short, etc.",
+    hairC:
+      "examples: blonde, yellow, etc. For more than one color, try something like 'two tone hair, blue and white hair' (if two colors). For more than two use 'multicolored'",
+    hairF:
+      "ONLY if the character features it.\nExamples:\n - hair texture (curly, wavy, etc),\n - hair style/cut (twintails, himecut, pixie cut, etc.),\n - hair bangs (blunt bangs, parted bangs, etc),\n - others features (ahoge, hair over one eyes, etc.)",
+    oF: "Others features like:\n - skin color (dark skin, tanned skin, blue skin, etc. DO NOT INCLUDE FAIR, WHITE OR PORCELAIN SKIN beucase it is unnecessary)\n - skin features like scars, mole, tatoo, etc\n (Breast size can also be included here, but only mention it if really necessary, try to always avoid it because it can 'lock' the character's appearance and limit what can be generated (for example it can limit angles, positions, clothes, etc. Beasts description will generate the character front in most cases).\n- animal ears (cat ears, bunny ears, etc)\n - tail\netc.",
+    outfit:
+      "The shorter and simple the better. Avoid mentioning any footwear unless if it is really necessary (something striking about the character, which has a great impact on their characterization).",
+  };
+  function showInfo(info) {
+    alert(iInfo[info]);
+  }
+  // Simple text cleanup
+  function fTC(target) {
+    if (!target) return "";
+    return target.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+  function fLC(target) {
+    if (!target) return "";
+    return target.toLowerCase();
+  }
+  function formatText(target) {
+    return (
+      target
+        //.replace(/ {2,}/g, " ") // duplicate spaces
+        .replace(/^ /gm, "") // leading spaces
+        .replace(/, \./g, "")
+        .replace(/,\s?,+/g, ", ")
+        .replace(/\s? she is wearing \s?\./gi, "")
+        .replace(/,\s*$/gm, "") // Removes a trailing comma at the end of the line.
+        .replace(/ {2,}/g, " ")
+    ); // duplicate spaces
+  }
+  // Get data from inputs and create the prompt template
+  function createCharacter() {
+    //const dataInputsWrapper = document.getElementById("waifuTemplate");
+    //const dataInputs = dataInputsWrapper.querySelectorAll(".c-template");
+    //const dataArray = [];
+    //dataInputs.forEach(input => {
+    //dataArray.push(input.value);
+    //});
+    //console.log(dataArray);
+    const name = fTC(cName.value) || "";
+    const show = fTC(cShow.value) || "";
+    const eye_color = fLC(cEyeC.value.toLowerCase()) || "";
+    const eye_features = cEyeF.value.toLowerCase() || "";
+    const hair_lenght = cHairL.value.toLowerCase() || "";
+    const hair_color = cHairC.value.toLowerCase() || "";
+    const hair_features = cHairF.value.toLowerCase() || "";
+    const others_features = cOthersFeatures.value.toLowerCase() || "";
+    const outfit = cOutfit.value.toLowerCase() || "";
+    const prompt = `${name} from ${show}, she has ${eye_color.replace(/\beyes?/g, "")} eyes, ${eye_features}, ${hair_color.replace(/\bhair\b/g, "")} ${hair_lenght.replace(/\bhair\b/g, "")} hair, ${hair_features}, ${others_features}. She is wearing ${outfit}.`;
+
+    finalPrompt.value = formatText(prompt).replace(
+      "from , she has eyes, hair",
+      "",
+    );
+  }
+
+  dataInputsWrapper = document.getElementById("waifuTemplate");
+  function startCleanup() {
+    const fp = document.getElementById("finalPrompt");
+    setTimeout(() => {
+      if (fp.value === "") {
+        fp.value = "";
+      }
+    }, 500);
+  }
+
+  // Starts/ends event listener to get data from inputs.
+  function handleDataInputs() {
+    let dataInputsTimeout;
+    if (!event.target.matches("input") && !event.target.matches("textarea"))
+      return;
+    clearTimeout(dataInputsTimeout);
+    dataInputsTimeout = setTimeout(() => {
+      createCharacter();
+    }, 500); // runs once after this time in ms of no typing
+  }
+  function dataInputsWatcher() {
+    dataInputsWrapper.addEventListener("input", handleDataInputs);
+  }
+  function removeDataInputsWatcher() {
+    dataInputsWrapper.removeEventListener("input", handleDataInputs);
+  }
+  function toggleEditPrompt(btn) {
+    const dataInputsWrapper = document.getElementById("waifuTemplate");
+    const dataInputs = dataInputsWrapper.querySelectorAll(".c-template");
+    if (finalPrompt.readOnly === true) {
+      removeDataInputsWatcher();
+      finalPrompt.readOnly = false;
+      finalPrompt.classList.add("edit-allowed");
+      finalPrompt.classList.remove("edit-not-allowed");
+      btn.classList.add("activated-i");
+      dataInputs.forEach((input) => {
+        input.classList.add("edit-not-allowed");
+        input.readOnly = true;
+      });
+    } else {
+      dataInputsWatcher();
+      finalPrompt.readOnly = true;
+      finalPrompt.classList.add("edit-not-allowed");
+      finalPrompt.classList.remove("edit-allowed");
+      btn.classList.remove("activated-i");
+      dataInputs.forEach((input) => {
+        input.classList.remove("edit-not-allowed");
+        input.readOnly = false;
+      });
+    }
+  }
+  dataInputsWatcher();
+  window.ignoreCheckMessage = "inactive"; // Something to ignore individual inputs? Maybe in the future...
+  function submitCharacter() {
+    // Check if the important fields have been filled.
+    let check_message = [];
+
+    if (!cName.value.trim()) {
+      check_message.push("- The character's NAME is missing.");
+    }
+    if (!cShow.value.trim()) {
+      check_message.push(
+        "- The FRANCHISE (anime/game/comic/etc) name is missing.",
+      );
+    }
+    if (!cEyeC.value.trim()) {
+      check_message.push(
+        "- What COLOR are the character's EYES? If their eyes are always closed, use 'closed'.",
+      );
+    }
+    if (!cHairL.value.trim()) {
+      check_message.push("- The character's HAIR LENGTH is missing.");
+    }
+    if (!cHairC.value.trim()) {
+      check_message.push("- The character's HAIR COLOR is missing.");
+    }
+    if (!cOutfit.value.trim()) {
+      check_message.push(
+        "- She IS NAKED?! Put her clothes on! Your perv! Hentai!",
+      );
+    }
+    if (window.ignoreCheckMessage === "active") check_message = []; // to ignore individual inputs
+    if (check_message.length > 0) {
+      alert(`⚠️⚠️⚠️\n${check_message.join("\n")}`);
+      return;
+    }
+
+    const message = `SUBMIT THIS CHARACTER? \nPrompt: ${finalPrompt.value}`;
+    const confirmation = confirm(message);
+    if (!confirmation) return;
+    const waitDiv = document.createElement("div");
+    waitDiv.style =
+      "background:#000; color:#fff; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); border-radius:8px; width:280px; height:120px; display:flex; justify-content:center; align-items:center;";
+    document.body.appendChild(waitDiv);
+    const characterDescription = finalPrompt.value;
+    //wai.submit(characterDescription);
+    let sec = 0;
+    let waiTime = setInterval(() => {
+      if (sec % 40 === 0) {
+        wai.submit(characterDescription);
+      }
+      if (lastSubmit !== characterDescription) {
+        sec++;
+        waitDiv.textContent = `Wait... (${sec}s)`;
+      } else if (lastSubmit === characterDescription) {
+        waitDiv.textContent = "Done.";
+        clearInterval(waiTime);
+        waitDiv.remove();
+        alert("Submited. Thank you ;D");
+      }
+    }, 1000);
+    //document.body.appendChild(waitDiv);
+    //setTimeout(() => {
+    //wai.submit(finalPrompt.value);
+    //setTimeout(() => {
+    //waitDiv.remove();
+    //alert("Submited. Thank you ;D");
+    //}, 2000)
+    //}, 100)
+  }
+  function readSubmits() {
+    document.documentElement.style.setProperty("--waiSbHeight", "500px");
+    document.documentElement.style.setProperty("--waiSbWidth", "400px");
+    document.documentElement.style.setProperty("--waiSbEv", "auto");
+    document.documentElement.style.setProperty("--waiSbopt", "1");
+  }
+
+  window.onload = () => {
+    if (isMe !== false) {
+      adm.style.display = "inline-flex";
+    }
+    startCleanup();
+  };
+</script>

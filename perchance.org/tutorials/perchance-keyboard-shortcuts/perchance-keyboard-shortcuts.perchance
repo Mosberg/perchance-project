@@ -1,0 +1,38 @@
+// https://perchance.org/perchance-keyboard-shortcuts
+
+markdown = {import:markdown-plugin}
+
+output = [markdown(markdownText)]
+
+markdownText
+	# Perchance Keyboard Shortcuts
+	Keys                | Command
+	--------------------|------------------------------------------------
+	Ctrl + X            | Cut line
+	Ctrl + ↩            | Insert line after
+	Ctrl + Shift + ↩    | Insert line before
+	Ctrl + Shift + ↑ (or Alt + ↑)   | Move line/selection up
+	Ctrl + Shift + ↓ (or Alt + ↓)   | Move line/selection down
+	Ctrl + L            | Select line - Repeat to select next lines
+	Ctrl + D            | Select word - Repeat select others occurrences
+	Ctrl + M            | Jump to closing parentheses
+	Ctrl + Shift + M    | Select all contents of the current parentheses
+	Ctrl + Shift + K    | Delete Line
+	Ctrl + KK           | Delete from cursor to end of line
+	Ctrl + K + ⌫        | Delete from cursor to start of line
+	Ctrl + \\\]         | Indent current line(s) (same as Tab)
+	Ctrl + \\\[         | Un-indent current line(s) (same as Shift + Tab)
+	Ctrl + Shift + D    | Duplicate line(s)
+	Ctrl + J            | Join line below to the end of the current line
+	Ctrl + /            | Comment/un-comment current line
+	Ctrl + Y            | Redo, or repeat last keyboard shortcut command
+	Ctrl + Shift + V    | Paste and indent correctly
+	Ctrl + U            | Jumps to your last edit
+	Ctrl + F            | Findtext
+	Ctrl + H            | Find and replace text
+	Ctrl + KU           | Transform selected text to uppercase
+	Ctrl + KL           | Transform selected text to lowercase
+	\s
+	Also, you can highlight multiple lines at once and press tab to indent them, or shift+tab to dedent them. This page uses the [markdown plugin](https://perchance.org/markdown-plugin) (click the edit button on this page to take a look).
+	<br>
+	<br>
