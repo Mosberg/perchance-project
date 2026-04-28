@@ -1,0 +1,258 @@
+<div id="perchanceAdultSheet" style="font-family:Arial,sans-serif;max-width:800px;margin:0 auto;background:#222;color:#ddd;padding:20px;border:2px solid #d00;border-radius:5px;">
+
+  <!-- Age Gate -->
+  <div id="ageGate" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#111;z-index:100;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+    <h2 style="color:#d00;">EXPLICIT CONTENT WARNING</h2>
+    <p>This sheet contains graphic sexual content. You must be 18+ to proceed.</p>
+    <div style="margin:20px 0;">
+      <label><input type="checkbox" id="ageConfirm"> I am 18+</label>
+      <label><input type="checkbox" id="consentConfirm"> I consent to explicit content</label>
+    </div>
+    <button id="enterBtn" disabled style="padding:10px 20px;background:#d00;color:white;border:none;cursor:pointer;">Enter</button>
+  </div>
+
+  <!-- Main Content (hidden initially) -->
+  <div id="mainContent" style="display:none;">
+
+    <!-- Header -->
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #d00;padding-bottom:10px;margin-bottom:20px;">
+      <h1>Adult Character Sheet</h1>
+      <div>
+        <label>Explicitness: </label>
+        <select id="explicitnessLevel" style="background:#333;color:#fff;border:1px solid #d00;">
+          <option value="soft">Soft</option>
+          <option value="medium">Medium</option>
+          <option value="hard" selected>Hard</option>
+          <option value="extreme">Extreme</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Basic Info -->
+    <div style="background:#333;padding:15px;border-radius:5px;margin-bottom:20px;">
+      <h3 style="margin-top:0;color:#d00;">Basic Info</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
+        <div>
+          <label>Name</label>
+          <input type="text" id="charName" style="width:100%;background:#444;border:1px solid #555;color:#fff;">
+        </div>
+        <div>
+          <label>Race</label>
+          <input type="text" id="charRace" style="width:100%;background:#444;border:1px solid #555;color:#fff;">
+        </div>
+        <div>
+          <label>Class</label>
+          <input type="text" id="charClass" style="width:100%;background:#444;border:1px solid #555;color:#fff;">
+        </div>
+        <div>
+          <label>Gender</label>
+          <select id="charGender" style="width:100%;background:#444;border:1px solid #555;color:#fff;">
+            <option>Female</option>
+            <option>Male</option>
+            <option>Non-binary</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Physical Characteristics -->
+    <div class="nsfw-section" style="background:#331111;padding:15px;border-radius:5px;margin-bottom:20px;">
+      <h3 style="margin-top:0;color:#f88;">Physical Characteristics</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
+        <div>
+          <label>Height/Build</label>
+          <input type="text" id="physHeight" style="width:100%;background:#551111;border:1px solid #d00;color:#fff;">
+        </div>
+        <div>
+          <label>Body Type</label>
+          <input type="text" id="physType" style="width:100%;background:#551111;border:1px solid #d00;color:#fff;">
+        </div>
+        <div>
+          <label>Genital Details</label>
+          <input type="text" id="physGenital" style="width:100%;background:#551111;border:1px solid #d00;color:#fff;">
+        </div>
+        <div>
+          <label>Grooming</label>
+          <select id="physGrooming" style="width:100%;background:#551111;border:1px solid #d00;color:#fff;">
+            <option>Shaved</option>
+            <option>Trimmed</option>
+            <option>Natural</option>
+            <option>Hairy</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sexual Characteristics -->
+    <div class="nsfw-section" style="background:#331111;padding:15px;border-radius:5px;margin-bottom:20px;">
+      <h3 style="margin-top:0;color:#f88;">Sexual Characteristics</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
+        <div>
+          <label>Libido (1-10)</label>
+          <input type="range" id="sexLibido" min="1" max="10" style="width:100%;background:#551111;">
+        </div>
+        <div>
+          <label>Stamina (1-10)</label>
+          <input type="range" id="sexStamina" min="1" max="10" style="width:100%;background:#551111;">
+        </div>
+        <div>
+          <label>Experience</label>
+          <select id="sexExp" style="width:100%;background:#551111;border:1px solid #d00;color:#fff;">
+            <option>Inexperienced</option>
+            <option>Some Experience</option>
+            <option>Experienced</option>
+            <option>Very Experienced</option>
+          </select>
+        </div>
+        <div>
+          <label>Orientation</label>
+          <select id="sexOrient" style="width:100%;background:#551111;border:1px solid #d00;color:#fff;">
+            <option>Straight</option>
+            <option>Gay</option>
+            <option>Bi</option>
+            <option>Pan</option>
+            <option>Asexual</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:15px;">
+        <label>Kinks/Fetishes</label>
+        <textarea id="sexKinks" style="width:100%;height:80px;background:#551111;border:1px solid #d00;color:#fff;"></textarea>
+      </div>
+      <div>
+        <label>Turn-ons</label>
+        <textarea id="sexTurnOns" style="width:100%;height:80px;background:#551111;border:1px solid #d00;color:#fff;"></textarea>
+      </div>
+    </div>
+
+    <!-- Backstory -->
+    <div style="background:#333;padding:15px;border-radius:5px;margin-bottom:20px;">
+      <h3 style="margin-top:0;color:#d00;">Sexual Backstory</h3>
+      <textarea id="charBackstory" style="width:100%;height:200px;background:#444;border:1px solid #555;color:#fff;"></textarea>
+      <button id="genBackstory" style="margin-top:10px;padding:5px 15px;background:#d00;color:#fff;border:none;cursor:pointer;">Generate Backstory</button>
+    </div>
+
+    <!-- Controls -->
+    <div style="display:flex;gap:10px;justify-content:space-between;margin-top:20px;">
+      <button id="randomChar" style="padding:10px 20px;background:#333;color:#fff;border:1px solid #555;cursor:pointer;">Random Character</button>
+      <button id="saveChar" style="padding:10px 20px;background:#d00;color:#fff;border:none;cursor:pointer;">Save Character</button>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    // Age gate controls
+    ageConfirm.onchange = consentConfirm.onchange = function() {
+      enterBtn.disabled = !(ageConfirm.checked && consentConfirm.checked);
+    };
+
+    enterBtn.onclick = function() {
+      ageGate.style.display = 'none';
+      mainContent.style.display = 'block';
+    };
+
+    // Random character generator
+    randomChar.onclick = function() {
+      // Basic info
+      charName.value = ['Lilith','Vex','Morgana','Thranduil','Grok','Sylas','Elara'][Math.floor(Math.random()*7)];
+      charRace.value = ['Human','Elf','Tiefling','Orc','Dragonborn','Dwarf','Halfling'][Math.floor(Math.random()*7)];
+      charClass.value = ['Bard','Sorcerer','Warlock','Rogue','Cleric','Paladin','Fighter'][Math.floor(Math.random()*7)];
+      charGender.selectedIndex = Math.floor(Math.random()*4);
+
+      // Physical characteristics
+      physHeight.value = ['5\'8" Slender','6\'2" Muscular','5\'4" Curvy','6\'0" Athletic'][Math.floor(Math.random()*4)];
+      physType.value = ['Hourglass','Athletic','Stocky','Petite','Voluptuous'][Math.floor(Math.random()*5)];
+      physGenital.value = ['Above average','Average','Large','Small'][Math.floor(Math.random()*4)];
+      physGrooming.selectedIndex = Math.floor(Math.random()*4);
+
+      // Sexual characteristics
+      sexLibido.value = Math.floor(Math.random()*10)+1;
+      sexStamina.value = Math.floor(Math.random()*10)+1;
+      sexExp.selectedIndex = Math.floor(Math.random()*4);
+      sexOrient.selectedIndex = Math.floor(Math.random()*5);
+
+      // Kinks/turn-ons
+      const kinks = ['BDSM','Dom/sub','Exhibitionism','Voyeurism','Roleplay','Toys','Anal','Oral','Group'];
+      sexKinks.value = kinks.slice(0, Math.floor(Math.random()*5)+1).join(', ');
+
+      const turnOns = ['Slow foreplay','Rough sex','Romantic sex','Quickies','Morning sex'];
+      sexTurnOns.value = turnOns.slice(0, Math.floor(Math.random()*3)+1).join(', ');
+    };
+
+    // Generate backstory
+    genBackstory.onclick = function() {
+      const orientations = ['straight','gay','bisexual','pansexual','asexual'];
+      const orientationsText = ['heterosexual','homosexual','bisexual','pansexual','asexual'];
+
+      const orientation = orientationsText[sexOrient.selectedIndex];
+      const expLevel = ['Inexperienced','Some Experience','Experienced','Very Experienced'][sexExp.selectedIndex];
+      const libidoText = ['Low','Average','High'][Math.floor(sexLibido.value/3.4)];
+      const staminaText = ['Low','Average','High'][Math.floor(sexStamina.value/3.4)];
+
+      charBackstory.value = `${charName.value} is ${orientation.toLowerCase()} with ${libidoText.toLowerCase()} libido and ${staminaText.toLowerCase()} stamina. `;
+      charBackstory.value += `They consider themselves ${expLevel.toLowerCase()} sexually. `;
+
+      if(sexKinks.value) {
+        charBackstory.value += `Their kinks include ${sexKinks.value}. `;
+      }
+
+      if(sexTurnOns.value) {
+        charBackstory.value += `They're particularly turned on by ${sexTurnOns.value}. `;
+      }
+
+      charBackstory.value += `\n\n${charName.value} has had various sexual experiences that have shaped who they are today. `;
+      charBackstory.value += `Their first time was ${['awkward','pleasurable','forgettable','memorable','traumatic','exciting'][Math.floor(Math.random()*6)]}. `;
+      charBackstory.value += `They ${['enjoy','prefer','tend to avoid','are curious about','have mixed feelings about'][Math.floor(Math.random()*5)]} casual encounters. `;
+      charBackstory.value += `When it comes to relationships, they ${['take things slow','jump in quickly','are cautious','are passionate'][Math.floor(Math.random()*4)]}.`;
+    };
+
+    // Save character
+    saveChar.onclick = function() {
+      const charData = {
+        name: charName.value,
+        race: charRace.value,
+        class: charClass.value,
+        gender: charGender.value,
+        physical: {
+          height: physHeight.value,
+          type: physType.value,
+          genital: physGenital.value,
+          grooming: physGrooming.value
+        },
+        sexual: {
+          libido: sexLibido.value,
+          stamina: sexStamina.value,
+          experience: sexExp.value,
+          orientation: sexOrient.value,
+          kinks: sexKinks.value,
+          turnOns: sexTurnOns.value
+        },
+        backstory: charBackstory.value
+      };
+
+      const blob = new Blob([JSON.stringify(charData, null, 2)], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${charName.value || 'character'}_adult_sheet.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+  </script>
+
+  <style>
+    /* General styling */
+    body { margin:0; padding:0; background:#111; }
+    input, select, textarea { padding:5px; margin-bottom:10px; }
+    button:hover { opacity:0.9; }
+
+    /* NSFW section styling */
+    .nsfw-section { border:1px solid #d00; }
+
+    /* Responsive adjustments */
+    @media (max-width:600px) {
+      #perchanceAdultSheet { padding:10px; }
+    }
+  </style>
+</div>

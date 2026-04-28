@@ -1,0 +1,3628 @@
+// listX = {import:listx-plugin}
+
+selectLeaf = {import:select-leaf-plugin}
+selectLeaves = {import:select-leaves-plugin}
+selectAllLeaves = {import:select-all-leaves-plugin}
+
+// Character Lists
+
+firstNames
+  maleFirstNames
+    Aaron
+    Adam
+    Adrian
+    Aidan
+
+  femaleFirstNames
+    Abigail
+    Ada
+    Adele
+    Adeline
+
+  unisexFirstNames
+    Alex
+    Avery
+    Casey
+    Charlie
+
+lastNames
+  commonLastNames
+    Smith
+    Johnson
+    Williams
+    Brown
+
+  fantasyLastNames
+    Stormwind
+    Nightshade
+    Ironfist
+    Shadowalker
+
+genders
+  male
+    description: "Male characters typically have masculine traits and pronouns."
+  female
+    description: "Female characters typically have feminine traits and pronouns."
+  nonbinary
+    description: "Nonbinary characters do not identify strictly as male or female and may use a variety of pronouns."
+  other
+    description: "Other characters may have unique gender identities that don't fit traditional categories."
+
+species
+  human
+    description: "Humans are versatile and adaptable, found in nearly every setting."
+  elf
+    description: "Elves are graceful and often have a strong connection to nature."
+  dwarf
+    description: "Dwarves are sturdy and skilled in craftsmanship, often living underground."
+  orc
+    description: "Orcs are strong and fierce, often portrayed as warriors or barbarians."
+  goblin
+    description: "Goblins are small and cunning, often depicted as mischievous or malevolent creatures."
+  dragonborn
+    description: "Dragonborn are humanoid dragons, known for their strength and draconic heritage."
+  tiefling
+    description: "Tieflings are humanoids with infernal heritage, often facing prejudice due to their appearance."
+  halfling
+    description: "Halflings are small and nimble, known for their cheerful disposition and love of comfort."
+
+sexualities
+  heterosexual
+    description: "Heterosexual characters are attracted to individuals of the opposite gender."
+  homosexual
+    description: "Homosexual characters are attracted to individuals of the same gender."
+  bisexual
+    description: "Bisexual characters are attracted to individuals of both the same and opposite genders."
+  pansexual
+    description: "Pansexual characters are attracted to individuals regardless of gender."
+  asexual
+    description: "Asexual characters do not experience sexual attraction to others."
+
+appearances
+  eyeColors
+    blue
+    green
+    brown
+    hazel
+    gray
+
+  hairColors
+    black
+    brown
+    blonde
+    red
+    white
+
+  skinTones
+    fair
+    light
+    medium
+    olive
+    dark
+    ebony
+
+  heights
+    short
+    average
+    tall
+
+  builds
+    slender
+    average
+    muscular
+    stocky
+
+  facialFeatures
+    freckles
+    scars
+    tattoos
+    piercings
+    birthmarks
+
+  genitials
+    male
+      description: "Male genitals typically include a penis and testicles."
+    female
+      description: "Female genitals typically include a vulva, clitoris, and vagina."
+    nonbinary
+      description: "Nonbinary genitals may vary and do not conform to traditional male or female anatomy."
+
+
+```perchance
+// identity = {import:identity-plugin}
+
+selectGender = {import:select-gender-plugin}
+selectSpecies = {import:select-species-plugin}
+selectSexuality = {import:select-sexuality-plugin}
+
+// Identity Attributes
+
+firstName
+  maleFirstNames
+    Aaron
+    Adam
+    Adrian
+    Aidan
+
+  femaleFirstNames
+    Abigail
+    Ada
+    Adele
+    Adeline
+
+  unisexFirstNames
+    Alex
+    Avery
+    Casey
+    Charlie
+
+lastName
+  commonLastNames
+    Smith
+    Johnson
+    Williams
+    Brown
+
+  fantasyLastNames
+    Stormwind
+    Nightshade
+    Ironfist
+    Shadowalker
+
+age
+  child = 1-12
+  teen = 13-19
+  youngAdult = 20-35
+  adult = 36-60
+  elder = 61+
+
+gender
+  male
+    description: "Male gender identity"
+  female
+    description: "Female gender identity"
+  trans
+    description: "Transgender identity"
+  nonBinary
+    description: "Non-binary gender identity"
+  customGender
+    description: "Custom gender identity"
+
+species
+  human
+    description: "Human species"
+  elf
+    description: "Elf species"
+  dwarf
+    description: "Dwarf species"
+  orc
+    description: "Orc species"
+  customSpecies
+    description: "Custom species"
+
+sexuality
+  straight
+    description: "Heterosexual orientation"
+  gay
+    description: "Homosexual orientation"
+  lesbian
+    description: "Lesbian orientation"
+  bisexual
+    description: "Bisexual orientation"
+  pansexual
+    description: "Pansexual orientation"
+  asexual
+    description: "Asexual orientation"
+  customSexuality
+    description: "Custom sexual orientation"
+
+// Appearance Attributes
+
+skinTone
+  pale
+  fair
+  light
+  medium
+  olive
+  tan
+  brown
+  dark
+  ebony
+  customSkinTone
+
+height
+  short = 120-160cm
+  average = 161-180cm
+  tall = 181-210cm
+
+weight
+  light = 40-60kg
+  average = 61-90kg
+  heavy = 91-120kg
+
+build
+  skinny
+  slim
+  average
+  athletic
+  muscular
+  curvy
+  chubby
+  obese
+  customBuild
+
+genitals
+  penis
+    description: "Male genitalia"
+    details:
+      length: 5-25cm
+      girth: 3-8cm
+  vagina
+    description: "Female genitalia"
+  both
+    description: "Intersex genitalia"
+  customGenitals
+    description: "Custom genital configuration"
+
+hairColor
+  black
+  brown
+  blonde
+  red
+  gray
+  white
+  customHairColor
+
+hairStyle
+  buzzCut
+  crewCut
+  fade
+  undercut
+  pompadour
+  quiff
+  mohawk
+  bowlCut
+  bob
+  customHairStyle
+```
+
+```perchance
+// Identity Section
+gender
+  male
+    description: "Male characters typically have masculine traits and pronouns."
+  female
+    description: "Female characters typically have feminine traits and pronouns."
+  trans
+    description: "Transgender characters identify differently than their birth gender."
+  non-binary
+    description: "Non-binary characters don't identify strictly as male or female."
+  custom
+    description: "Custom gender identities beyond standard categories."
+
+species
+  human
+    description: "Humans are versatile and adaptable."
+  elf
+    description: "Elves are graceful with natural affinity."
+  dwarf
+    description: "Dwarves are sturdy underground craftspeople."
+  orc
+    description: "Orcs are strong warrior cultures."
+  custom
+    description: "Custom species outside standard fantasy."
+
+sexuality
+  straight
+    description: "Attracted to opposite gender."
+  gay
+    description: "Male attracted to males."
+  lesbian
+    description: "Female attracted to females."
+  bisexual
+    description: "Attracted to multiple genders."
+  pansexual
+    description: "Attracted regardless of gender."
+  asexual
+    description: "Little/no sexual attraction."
+  custom
+    description: "Unique sexual orientations."
+
+// Appearance Section
+skinTone
+  pale
+  fair
+  light
+  medium
+  olive
+  tan
+  brown
+  dark
+  ebony
+  custom
+
+build
+  skinny
+  slim
+  average
+  athletic
+  muscular
+  curvy
+  chubby
+  obese
+  custom
+
+hairColor
+  black
+  brown
+  blonde
+  red
+  gray
+  white
+  custom
+
+hairStyle
+  buzz_cut
+  crew_cut
+  fade
+  undercut
+  pompadour
+  quiff
+  mohawk
+  bowl_cut
+  custom
+
+genitals
+  penis
+    length: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]cm
+    girth: [3, 4, 5, 6]cm
+  vagina
+  both
+  custom
+
+// Extended Options
+ageCategories
+  teen: 13-19
+  young_adult: 20-29
+  adult: 30-49
+  middle_aged: 50-64
+  senior: 65+
+
+heightCategories
+  short: <160cm
+  average: 160-180cm
+  tall: >180cm
+
+eyeColors
+  blue
+  green
+  brown
+  hazel
+  gray
+  heterochromatic
+
+bodyModifications
+  tattoos
+  piercings
+  scars
+  brandings
+  implants
+
+// Dynamic Generator Output
+[character]
+  name = {firstName} {lastName}
+  age = {ageCategories}
+  gender = {gender}
+  species = {species}
+  sexuality = {sexuality}
+  appearance = {
+    skin: {skinTone},
+    eyes: {eyeColors},
+    hair: {hairColor} {hairStyle},
+    build: {build},
+    height: {heightCategories},
+    genitals: {genitals}
+  }
+  traits = {
+    personality: {personalityTraits},
+    quirks: {characterQuirks}
+  }
+```
+
+```perchance
+// identity = {import:identity-plugin}
+selectGender = {import:select-gender-plugin}
+selectSpecies = {import:select-species-plugin}
+selectSexuality = {import:select-sexuality-plugin}
+
+// Identity Attributes
+firstName
+  maleFirstNames
+    Aaron, Adam, Adrian, Aidan, Alan, Alex, Andrew, Anthony, Arthur
+  femaleFirstNames
+    Abigail, Ada, Adele, Adeline, Alice, Allison, Amber, Amy, Anna
+  unisexFirstNames
+    Alex, Avery, Casey, Charlie, Dakota, Jamie, Jordan, Morgan, Riley
+
+lastName
+  commonLastNames
+    Smith, Johnson, Williams, Brown, Jones, Miller, Davis, Wilson, Taylor
+  fantasyLastNames
+    Stormwind, Nightshade, Ironfist, Shadowalker, Blackthorn, Frostbane, Moonshadow
+
+ageCategories
+  child = 1-12
+  teen = 13-19
+  youngAdult = 20-35
+  adult = 36-60
+  elder = 61+
+
+gender
+  male
+    pronouns: he/him
+  female
+    pronouns: she/her
+  trans
+    pronouns: varies
+  nonBinary
+    pronouns: they/them
+  customGender
+    pronouns: custom
+
+species
+  human
+    traits: versatile, adaptable
+  elf
+    traits: graceful, long-lived
+  dwarf
+    traits: sturdy, craftspeople
+  orc
+    traits: strong, warrior culture
+  customSpecies
+    traits: custom
+
+sexuality
+  straight
+    attraction: opposite gender
+  gay
+    attraction: same gender (male)
+  lesbian
+    attraction: same gender (female)
+  bisexual
+    attraction: multiple genders
+  pansexual
+    attraction: regardless of gender
+  asexual
+    attraction: little/none
+  customSexuality
+    attraction: custom
+
+// Appearance Section
+skinTone
+  pale, fair, light, medium, olive, tan, brown, dark, ebony, custom
+
+eyeColor
+  blue, green, brown, hazel, gray, amber, heterochromatic
+
+hairColor
+  black, brown, blonde, red, gray, white, pastel, rainbow, custom
+
+hairStyle
+  short
+    buzzCut, crewCut, pixie, bob
+  medium
+    shag, lob, wolfCut, braids
+  long
+    straight, wavy, curly, dreadlocks
+
+heightCategories
+  short = <160cm
+  average = 160-180cm
+  tall = >180cm
+
+build
+  slender, slim, average, athletic, muscular, curvy, chubby, obese, custom
+
+genitals
+  penis
+    length: [5-25]cm
+    girth: [3-8]cm
+  vagina
+  both
+  custom
+
+bodyMods
+  tattoos
+    size: small, medium, large
+    visibility: visible, hidden
+  piercings
+    facial: eyebrow, lip, nose
+    body: nipple, genital
+  scars
+    origin: accident, battle, ritual
+  implants
+    type: cybernetic, magical
+
+// Adult Content
+kinkLevel
+  vanilla, curious, exploring, experienced, kinky, extreme, depraved
+
+kinks
+  BDSM, bondage, domination, submission, petplay, ageplay, exhibitionism
+
+fetishes
+  feet, latex, leather, uniforms, pregnancy, body hair, disabilities
+
+sexualActs
+  oral, anal, vaginal, fisting, pegging, gangbang, creampie, facials
+
+powerDynamics
+  Dom/sub, Master/slave, Daddy/boy, Mommy/girl, Owner/pet, Brat/tamer
+
+equipment
+  vibrators, dildos, plugs, gags, cuffs, whips, crops, chastity devices
+
+// Character Output
+[character]
+  identity = {
+    name: {firstName} {lastName}
+    age: {ageCategories}
+    gender: {gender}
+    species: {species}
+    sexuality: {sexuality}
+  }
+  appearance = {
+    skin: {skinTone}
+    eyes: {eyeColor}
+    hair: {hairColor} {hairStyle}
+    height: {heightCategories}
+    build: {build}
+    genitals: {genitals}
+    mods: {bodyMods}
+  }
+  adult = {
+    kinks: {kinks}
+    fetishes: {fetishes}
+    acts: {sexualActs}
+    dynamics: {powerDynamics}
+    equipment: {equipment}
+  }
+```
+
+// Perchance Character Generator
+// Core Identity Components
+
+identity
+  name
+    firstName
+      male: ["Aaron", "Adam", "Adrian", "Aidan"]
+      female: ["Abigail", "Ada", "Adele", "Adeline"]
+      unisex: ["Alex", "Avery", "Casey", "Charlie"]
+    lastName
+      common: ["Smith", "Johnson", "Williams", "Brown"]
+      fantasy: ["Stormwind", "Nightshade", "Ironfist", "Shadowalker"]
+
+  demographics
+    age
+      child: 1-12
+      teen: 13-19
+      youngAdult: 20-35
+      adult: 36-60
+      elder: 61+
+    gender
+      male: "Identifies as male"
+      female: "Identifies as female"
+      trans: "Transgender identity"
+      nonBinary: "Non-binary identity"
+      custom: "Custom gender identity"
+    species
+      human: "Human species"
+      elf: "Elven species"
+      dwarf: "Dwarven species"
+      orc: "Orcish species"
+      custom: "Custom species"
+    sexuality
+      straight: "Heterosexual"
+      gay: "Male homosexual"
+      lesbian: "Female homosexual"
+      bisexual: "Bisexual"
+      pansexual: "Pansexual"
+      asexual: "Asexual"
+      custom: "Custom sexuality"
+
+// Physical Attributes
+appearance
+  body
+    skinTone: ["pale", "fair", "light", "medium", "olive", "tan", "brown", "dark", "ebony"]
+    height
+      short: "<160cm"
+      average: "160-180cm"
+      tall: ">180cm"
+    weight
+      light: "40-60kg"
+      average: "61-90kg"
+      heavy: "91-120kg"
+    build: ["skinny", "slim", "average", "athletic", "muscular", "curvy", "chubby", "obese"]
+
+  facial
+    eyeColor: ["blue", "green", "brown", "hazel", "gray"]
+    facialFeatures: ["freckles", "scars", "tattoos", "piercings", "birthmarks"]
+
+  hair
+    color: ["black", "brown", "blonde", "red", "gray", "white"]
+    style: ["buzzCut", "crewCut", "fade", "undercut", "bob", "long"]
+
+  genitals
+    male: {length: [5,6,7,8,9,10,11,12,13,14,15]cm, girth: [3,4,5,6]cm}
+    female: "Vagina"
+    both: "Intersex anatomy"
+    custom: "Custom configuration"
+
+// Extended Attributes
+personality
+  traits: ["bold", "shy", "intelligent", "creative", "logical", "emotional"]
+  quirks: ["bites lip", "plays with hair", "taps fingers", "hums quietly"]
+
+sexuality
+  kinks
+    level: ["vanilla", "curious", "exploring", "experienced", "kinky", "extreme"]
+    interests: ["BDSM", "bondage", "petplay", "voyeurism", "roleplay"]
+
+  preferences
+    acts: ["oral", "anal", "vaginal", "foreplay", "aftercare"]
+    dynamics: ["dom", "sub", "switch", "primal"]
+
+// Portrait Generation
+portrait
+  style: ["digital art", "photorealistic", "oil painting", "anime"]
+  pose: ["standing", "kneeling", "reclining", "provocative"]
+  clothing: ["nude", "lingerie", "armor", "robes"]
+  accessories: ["choker", "piercings", "body chains", "tattoos"]
+  lighting: ["candlelight", "moonlight", "studio", "neon"]
+
+// Character Output Template
+[character]
+  identity = {
+    name: {identity.name.firstName} {identity.name.lastName},
+    age: {identity.demographics.age},
+    gender: {identity.demographics.gender},
+    species: {identity.demographics.species},
+    sexuality: {identity.demographics.sexuality}
+  }
+
+  appearance = {
+    body: {
+      skin: {appearance.body.skinTone},
+      height: {appearance.body.height},
+      build: {appearance.body.build}
+    },
+    face: {
+      eyes: {appearance.facial.eyeColor},
+      features: {appearance.facial.facialFeatures}
+    },
+    hair: {
+      color: {appearance.hair.color},
+      style: {appearance.hair.style}
+    },
+    genitals: {appearance.genitals}
+  }
+
+  portrait = {
+    style: {portrait.style},
+    pose: {portrait.pose},
+    accessories: {portrait.accessories}
+  }
+
+Implementation Notes:
+- Structured for easy randomization
+- Categories nested logically
+- Simple output template
+- Include NSFW terms where possible
+
+Validation Checklist:
+✓ All categories properly nested
+✓ No malformed syntax
+✓ Consistent indentation
+✓ Output template functional
+
+```perchance
+// character-generator = {import:character-generator-plugin}
+
+// Core Identity Components
+identity
+  firstName
+    male
+      Aaron, Adam, Adrian, Aidan, Alan, Alex, Andrew, Anthony, Arthur
+    female
+      Abigail, Ada, Adele, Adeline, Alice, Allison, Amber, Amy, Anna
+    unisex
+      Alex, Avery, Casey, Charlie, Dakota, Jamie, Jordan, Morgan, Riley
+
+  lastName
+    common
+      Smith, Johnson, Williams, Brown, Jones, Miller, Davis, Wilson, Taylor
+    fantasy
+      Stormwind, Nightshade, Ironfist, Shadowalker, Blackthorn, Frostbane, Moonshadow
+
+  ageCategories
+    child: 1-12
+    teen: 13-19
+    youngAdult: 20-35
+    adult: 36-60
+    elder: 61+
+
+  gender
+    male
+      pronouns: he/him
+    female
+      pronouns: she/her
+    trans
+      pronouns: varies
+    nonBinary
+      pronouns: they/them
+    custom
+      pronouns: custom
+
+// Appearance Attributes
+appearance
+  skinTone
+    pale, fair, light, medium, olive, tan, brown, dark, ebony, custom
+
+  eyeColor
+    blue, green, brown, hazel, gray, amber, heterochromatic
+
+  hair
+    color
+      black, brown, blonde, red, gray, white, pastel, rainbow, custom
+    style
+      short
+        buzzCut, crewCut, pixie, bob
+      medium
+        shag, lob, wolfCut, braids
+      long
+        straight, wavy, curly, dreadlocks
+
+  body
+    height
+      short: <160cm
+      average: 160-180cm
+      tall: >180cm
+    build
+      slender, slim, average, athletic, muscular, curvy, chubby, obese, custom
+
+  genitals
+    penis
+      length: [5-25]cm
+      girth: [3-8]cm
+    vagina
+    both
+    custom
+
+// Adult Content Section
+adult
+  kinks
+    BDSM, bondage, domination, submission, petplay, ageplay, exhibitionism
+
+  fetishes
+    feet, latex, leather, uniforms, pregnancy, piercings, tattoos
+
+  sexualActs
+    oral, anal, vaginal, fisting, pegging, gangbang, creampie, facials
+
+  equipment
+    vibrators, dildos, plugs, gags, cuffs, whips, crops, chastity devices
+
+// Character Output Template
+[character]
+  identity = {
+    name: {identity.firstName} {identity.lastName}
+    age: {identity.ageCategories}
+    gender: {identity.gender}
+  }
+  appearance = {
+    skin: {appearance.skinTone}
+    eyes: {appearance.eyeColor}
+    hair: {appearance.hair.color} {appearance.hair.style}
+    body: {
+      height: {appearance.body.height}
+      build: {appearance.body.build}
+      genitals: {appearance.genitals}
+    }
+  }
+  adult = {
+    kinks: {adult.kinks}
+    fetishes: {adult.fetishes}
+    acts: {adult.sexualActs}
+    equipment: {adult.equipment}
+  }
+```
+
+Validation Checklist:
+1. All categories properly nested under parent elements
+2. Proper comma separation in lists
+3. Consistent indentation throughout
+4. Valid perchance syntax for generator output
+5. No malformed brackets or braces
+6. All sections properly closed
+7. Adult content properly isolated in its own section
+
+
+<fieldset id="identity">
+  <h2>🧠 Identity 🧠</h2>
+
+  <button class="collapsible">Name Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        placeholder="First Name"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+    <div style="margin-bottom: 0.5em">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        placeholder="Last Name"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Social Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="age">Age</label>
+      <input
+        type="number"
+        id="age"
+        placeholder="Years"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="gender">Gender</label>
+      <select
+        id="gender"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="trans">Trans</option>
+        <option value="non-binary">Non-Binary</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customGender"
+        class="custom-input"
+        placeholder="Custom Gender"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="species">Species</label>
+      <select
+        id="species"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="human">Human</option>
+        <option value="elf">Elf</option>
+        <option value="dwarf">Dwarf</option>
+        <option value="orc">Orc</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customSpecies"
+        class="custom-input"
+        placeholder="Species"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="sexuality">Sexuality</label>
+      <select
+        id="sexuality"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="straight">Straight</option>
+        <option value="gay">Gay</option>
+        <option value="lesbian">Lesbian</option>
+        <option value="bisexual">Bisexual</option>
+        <option value="pansexual">Pansexual</option>
+        <option value="asexual">Asexual</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customSexuality"
+        class="custom-input"
+        placeholder="Sexuality"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+</fieldset>
+
+<fieldset id="appearance">
+  <h2>👤 Appearance 👤</h2>
+
+  <button class="collapsible">Body Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="skinTone">Skin Tone</label>
+      <select
+        id="skinTone"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="pale">Pale</option>
+        <option value="fair">Fair</option>
+        <option value="light">Light</option>
+        <option value="medium">Medium</option>
+        <option value="olive">Olive</option>
+        <option value="tan">Tan</option>
+        <option value="brown">Brown</option>
+        <option value="dark">Dark</option>
+        <option value="ebony">Ebony</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customSkinTone"
+        class="custom-input"
+        placeholder="Skin Tone"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="height">Height</label>
+      <input
+        type="number"
+        id="height"
+        placeholder="Centimeters"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="weight">Weight</label>
+      <input
+        type="number"
+        id="weight"
+        placeholder="Kilograms"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="build">Build</label>
+      <select
+        id="build"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="skinny">Skinny</option>
+        <option value="slim">Slim</option>
+        <option value="average">Average</option>
+        <option value="athletic">Athletic</option>
+        <option value="muscular">Muscular</option>
+        <option value="curvy">Curvy</option>
+        <option value="chubby">Chubby</option>
+        <option value="obese">Obese</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customBuild"
+        class="custom-input"
+        placeholder="Build"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="genitals">Genitals</label>
+      <select
+        id="genitals"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="penis">Penis</option>
+        <option value="vagina">Vagina</option>
+        <option value="both">Both</option>
+        <option value="custom">Custom</option>
+      </select>
+      <div id="penisDetails" style="display: none; margin-top: 0.5em">
+        <input
+          type="number"
+          id="penisLength"
+          placeholder="Length (cm)"
+          style="width: 48%; padding: 0.5em; margin-right: 4%"
+        />
+        <input
+          type="number"
+          id="penisGirth"
+          placeholder="Girth (cm)"
+          style="width: 48%; padding: 0.5em"
+        />
+      </div>
+      <input
+        type="text"
+        id="customGenitals"
+        class="custom-input"
+        placeholder="Genitals"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Hair Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="hairColor">Hair Color</label>
+      <select
+        id="hairColor"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="black">Black</option>
+        <option value="brown">Brown</option>
+        <option value="blonde">Blonde</option>
+        <option value="red">Red</option>
+        <option value="gray">Gray</option>
+        <option value="white">White</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customHairColor"
+        class="custom-input"
+        placeholder="Hair Color"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="hairStyle">Hair Style</label>
+      <select
+        id="hairStyle"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="buzz cut">Buzz Cut</option>
+        <option value="crew cut">Crew Cut</option>
+        <option value="fade">Fade</option>
+        <option value="undercut">Undercut</option>
+        <option value="pompadour">Pompadour</option>
+        <option value="quiff">Quiff</option>
+        <option value="mohawk">Mohawk</option>
+        <option value="bowl cut">Bowl Cut</option>
+        <option value="bob">Bob</option>
+        <option value="lob">Lob</option>
+        <option value="pixie">Pixie</option>
+        <option value="shag">Shag</option>
+        <option value="wolf cut">Wolf Cut</option>
+        <option value="mullet">Mullet</option>
+        <option value="afro">Afro</option>
+        <option value="cornrows">Cornrows</option>
+        <option value="box braids">Box Braids</option>
+        <option value="fishtail braid">Fishtail Braid</option>
+        <option value="french braid">French Braid</option>
+        <option value="dutch braid">Dutch Braid</option>
+        <option value="bun">Bun</option>
+        <option value="top knot">Top Knot</option>
+        <option value="ponytail">Ponytail</option>
+        <option value="pigtails">Pigtails</option>
+        <option value="layered">Layered</option>
+        <option value="straight">Straight</option>
+        <option value="wavy">Wavy</option>
+        <option value="curly">Curly</option>
+        <option value="bald">Bald</option>
+        <option value="long">Long</option>
+        <option value="medium">Medium</option>
+        <option value="short">Short</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customHairStyle"
+        class="custom-input"
+        placeholder="Hair Style"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="hairLength">Hair Length</label>
+      <select
+        id="hairLength"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="bald">Bald</option>
+        <option value="short">Short</option>
+        <option value="medium">Medium</option>
+        <option value="long">Long</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="number"
+        id="customHairLengthValue"
+        class="custom-input"
+        placeholder="Centimeters"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="facialHair">Facial Hair</label>
+      <select
+        id="facialHair"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="mustache">Mustache</option>
+        <option value="beard">Beard</option>
+        <option value="goatee">Goatee</option>
+        <option value="sideburns">Sideburns</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFacialHair"
+        class="custom-input"
+        placeholder="Facial Hair"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="facialHairLength">Facial Hair Length</label>
+      <select
+        id="facialHairLength"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="short">Short</option>
+        <option value="medium">Medium</option>
+        <option value="long">Long</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="number"
+        id="customFacialHairLengthValue"
+        class="custom-input"
+        placeholder="Centimeters"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Eye Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="eyeColor">Eye Color</label>
+      <select
+        id="eyeColor"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="brown">Brown</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="hazel">Hazel</option>
+        <option value="gray">Gray</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customEyeColor"
+        class="custom-input"
+        placeholder="Eye Color"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="eyeShape">Eye Shape</label>
+      <select
+        id="eyeShape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="almond">Almond</option>
+        <option value="round">Round</option>
+        <option value="hooded">Hooded</option>
+        <option value="monolid">Monolid</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customEyeShape"
+        class="custom-input"
+        placeholder="Eye Shape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="eyeSize">Eye Size</label>
+      <select
+        id="eyeSize"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customEyeSize"
+        class="custom-input"
+        placeholder="Eye Size"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Facial Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="faceShape">Face Shape</label>
+      <select
+        id="faceShape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="oval">Oval</option>
+        <option value="round">Round</option>
+        <option value="square">Square</option>
+        <option value="heart">Heart</option>
+        <option value="diamond">Diamond</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFaceShape"
+        class="custom-input"
+        placeholder="Face Shape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="noseShape">Nose Shape</label>
+      <select
+        id="noseShape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="straight">Straight</option>
+        <option value="aquiline">Aquiline</option>
+        <option value="button">Button</option>
+        <option value="snub">Snub</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customNoseShape"
+        class="custom-input"
+        placeholder="Nose Shape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="mouthShape">Mouth Shape</label>
+      <select
+        id="mouthShape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="full">Full</option>
+        <option value="thin">Thin</option>
+        <option value="wide">Wide</option>
+        <option value="small">Small</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customMouthShape"
+        class="custom-input"
+        placeholder="Mouth Shape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+</fieldset>
+
+<fieldset id="features">
+  <h2>📸 Distinguishing Features 📸</h2>
+
+  <button class="collapsible">Tattoos Details</button>
+  <div class="content">
+    <!-- Location -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooLocation">Location</label>
+      <select
+        id="tattooLocation"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="sleeve">Sleeve</option>
+        <option value="chest">Chest</option>
+        <option value="back">Back</option>
+        <option value="neck">Neck</option>
+        <option value="face">Face</option>
+        <option value="hands">Hands</option>
+        <option value="legs">Legs</option>
+        <option value="feet">Feet</option>
+        <option value="ribs">Ribs</option>
+        <option value="stomach">Stomach</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooLocation"
+        class="custom-input"
+        placeholder="Custom location..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Style -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooStyle">Style</label>
+      <select
+        id="tattooStyle"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="tribal">Tribal</option>
+        <option value="geometric">Geometric</option>
+        <option value="watercolor">Watercolor</option>
+        <option value="minimalist">Minimalist</option>
+        <option value="traditional">Traditional</option>
+        <option value="neo-traditional">Neo-Traditional</option>
+        <option value="realism">Realism</option>
+        <option value="abstract">Abstract</option>
+        <option value="script">Script</option>
+        <option value="dotwork">Dotwork</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooStyle"
+        class="custom-input"
+        placeholder="Custom style..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Theme -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooTheme">Theme</label>
+      <select
+        id="tattooTheme"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="animals">Animals</option>
+        <option value="flowers">Flowers</option>
+        <option value="skulls">Skulls</option>
+        <option value="celestial">Celestial</option>
+        <option value="mythological">Mythological</option>
+        <option value="religious">Religious</option>
+        <option value="cultural">Cultural</option>
+        <option value="fantasy">Fantasy</option>
+        <option value="biomechanical">Biomechanical</option>
+        <option value="personal-symbols">Personal Symbols</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooTheme"
+        class="custom-input"
+        placeholder="Custom theme..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Density -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooDensity">Density</label>
+      <select
+        id="tattooDensity"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="single">Single</option>
+        <option value="few">Few</option>
+        <option value="scattered">Scattered</option>
+        <option value="sleeve">Sleeve</option>
+        <option value="full-body">Full Body</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooDensity"
+        class="custom-input"
+        placeholder="Custom density..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Visibility -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooVisibility">Visibility</label>
+      <select
+        id="tattooVisibility"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="hidden">Hidden</option>
+        <option value="visible">Visible</option>
+        <option value="partially-concealed">Partially Concealed</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooVisibility"
+        class="custom-input"
+        placeholder="Custom visibility..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Piercings Details</button>
+  <div class="content">
+    <!-- Facial Piercings -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingFacial">Facial Piercings</label>
+      <select
+        id="piercingFacial"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="nostril">Nose – Nostril</option>
+        <option value="septum">Nose – Septum</option>
+        <option value="eyebrow">Eyebrow</option>
+        <option value="labret">Lip – Labret</option>
+        <option value="monroe">Lip – Monroe</option>
+        <option value="medusa">Lip – Medusa</option>
+        <option value="cheek">Cheek</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingFacial"
+        class="custom-input"
+        placeholder="Custom facial piercing..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Ear Piercings -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingEar">Ear Piercings</label>
+      <select
+        id="piercingEar"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="lobe">Lobe</option>
+        <option value="helix">Helix</option>
+        <option value="industrial">Industrial</option>
+        <option value="tragus">Tragus</option>
+        <option value="daith">Daith</option>
+        <option value="rook">Rook</option>
+        <option value="conch">Conch</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingEar"
+        class="custom-input"
+        placeholder="Custom ear piercing..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Body Piercings -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingBody">Body Piercings</label>
+      <select
+        id="piercingBody"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="navel">Navel</option>
+        <option value="nipple">Nipple</option>
+        <option value="dermal">Dermal</option>
+        <option value="tongue">Tongue</option>
+        <option value="surface">Surface</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingBody"
+        class="custom-input"
+        placeholder="Custom body piercing..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Jewelry Type -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingJewelry">Jewelry Type</label>
+      <select
+        id="piercingJewelry"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="studs">Studs</option>
+        <option value="hoops">Hoops</option>
+        <option value="barbells">Barbells</option>
+        <option value="captive-beads">Captive Beads</option>
+        <option value="spikes">Spikes</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingJewelry"
+        class="custom-input"
+        placeholder="Custom jewelry..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Style -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingStyle">Style</label>
+      <select
+        id="piercingStyle"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="subtle">Subtle</option>
+        <option value="bold">Bold</option>
+        <option value="symmetrical">Symmetrical</option>
+        <option value="asymmetrical">Asymmetrical</option>
+        <option value="clustered">Clustered</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingStyle"
+        class="custom-input"
+        placeholder="Custom style..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Scars Details</button>
+  <div class="content">
+    <!-- Origin -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarOrigin">Origin</label>
+      <select
+        id="scarOrigin"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="accident">Accident</option>
+        <option value="surgery">Surgery</option>
+        <option value="battle">Battle</option>
+        <option value="self-inflicted">Self-Inflicted</option>
+        <option value="ritual">Ritual</option>
+        <option value="animal-attack">Animal Attack</option>
+        <option value="burn">Burn</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarOrigin"
+        class="custom-input"
+        placeholder="Custom origin..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Type -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarType">Type</label>
+      <select
+        id="scarType"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="linear">Linear</option>
+        <option value="jagged">Jagged</option>
+        <option value="raised">Raised (Keloid)</option>
+        <option value="sunken">Sunken</option>
+        <option value="patterned">Patterned</option>
+        <option value="stitched">Stitched</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarType"
+        class="custom-input"
+        placeholder="Custom type..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Location -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarLocation">Location</label>
+      <select
+        id="scarLocation"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="face">Face</option>
+        <option value="arms">Arms</option>
+        <option value="legs">Legs</option>
+        <option value="torso">Torso</option>
+        <option value="hands">Hands</option>
+        <option value="back">Back</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarLocation"
+        class="custom-input"
+        placeholder="Custom location..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Visibility -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarVisibility">Visibility</label>
+      <select
+        id="scarVisibility"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="prominent">Prominent</option>
+        <option value="faint">Faint</option>
+        <option value="concealed">Concealed</option>
+        <option value="stylized">Stylized</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarVisibility"
+        class="custom-input"
+        placeholder="Custom visibility..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Symbolism -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarSymbolism">Symbolism</label>
+      <select
+        id="scarSymbolism"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="trauma">Trauma</option>
+        <option value="survival">Survival</option>
+        <option value="initiation">Initiation</option>
+        <option value="mystery">Mystery</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarSymbolism"
+        class="custom-input"
+        placeholder="Custom symbolism..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Freckles Details</button>
+  <div class="content">
+    <!-- Density -->
+    <div style="margin-bottom: 0.5em">
+      <label for="freckleDensity">Density</label>
+      <select
+        id="freckleDensity"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="sparse">Sparse</option>
+        <option value="scattered">Scattered</option>
+        <option value="clustered">Clustered</option>
+        <option value="full-face">Full Face</option>
+        <option value="shoulders-only">Shoulders Only</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFreckleDensity"
+        class="custom-input"
+        placeholder="Custom density..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Tone -->
+    <div style="margin-bottom: 0.5em">
+      <label for="freckleTone">Tone</label>
+      <select
+        id="freckleTone"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="light-brown">Light Brown</option>
+        <option value="reddish">Reddish</option>
+        <option value="dark-brown">Dark Brown</option>
+        <option value="golden">Golden</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFreckleTone"
+        class="custom-input"
+        placeholder="Custom tone..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Pattern -->
+    <div style="margin-bottom: 0.5em">
+      <label for="frecklePattern">Pattern</label>
+      <select
+        id="frecklePattern"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="symmetrical">Symmetrical</option>
+        <option value="random">Random</option>
+        <option value="sun-kissed">Sun-Kissed</option>
+        <option value="seasonal">Seasonal</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFrecklePattern"
+        class="custom-input"
+        placeholder="Custom pattern..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Visibility -->
+    <div style="margin-bottom: 0.5em">
+      <label for="freckleVisibility">Visibility</label>
+      <select
+        id="freckleVisibility"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="faint">Faint</option>
+        <option value="prominent">Prominent</option>
+        <option value="blended">Blended with Skin Tone</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFreckleVisibility"
+        class="custom-input"
+        placeholder="Custom visibility..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Origin -->
+    <div style="margin-bottom: 0.5em">
+      <label for="freckleOrigin">Origin</label>
+      <select
+        id="freckleOrigin"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="natural">Natural</option>
+        <option value="sun-exposure">Sun Exposure</option>
+        <option value="cosmetic">Cosmetic</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFreckleOrigin"
+        class="custom-input"
+        placeholder="Custom origin..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+</fieldset>
+
+<fieldset id="identity">
+  <h2>🧠 Identity 🧠</h2>
+
+  <button class="collapsible">Name Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        placeholder="First Name"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+    <div style="margin-bottom: 0.5em">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        placeholder="Last Name"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Social Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="age">Age</label>
+      <input
+        type="number"
+        id="age"
+        placeholder="Years"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="gender">Gender</label>
+      <select
+        id="gender"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="trans">Trans</option>
+        <option value="non-binary">Non-Binary</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customGender"
+        class="custom-input"
+        placeholder="Custom Gender"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="species">Species</label>
+      <select
+        id="species"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="human">Human</option>
+        <option value="elf">Elf</option>
+        <option value="dwarf">Dwarf</option>
+        <option value="orc">Orc</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customSpecies"
+        class="custom-input"
+        placeholder="Species"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="sexuality">Sexuality</label>
+      <select
+        id="sexuality"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="straight">Straight</option>
+        <option value="gay">Gay</option>
+        <option value="lesbian">Lesbian</option>
+        <option value="bisexual">Bisexual</option>
+        <option value="pansexual">Pansexual</option>
+        <option value="asexual">Asexual</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customSexuality"
+        class="custom-input"
+        placeholder="Sexuality"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+</fieldset>
+
+<fieldset id="appearance">
+  <h2>👤 Appearance 👤</h2>
+
+  <button class="collapsible">Body Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="skinTone">Skin Tone</label>
+      <select
+        id="skinTone"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="pale">Pale</option>
+        <option value="fair">Fair</option>
+        <option value="light">Light</option>
+        <option value="medium">Medium</option>
+        <option value="olive">Olive</option>
+        <option value="tan">Tan</option>
+        <option value="brown">Brown</option>
+        <option value="dark">Dark</option>
+        <option value="ebony">Ebony</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customSkinTone"
+        class="custom-input"
+        placeholder="Skin Tone"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="height">Height</label>
+      <input
+        type="number"
+        id="height"
+        placeholder="Centimeters"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="weight">Weight</label>
+      <input
+        type="number"
+        id="weight"
+        placeholder="Kilograms"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="build">Build</label>
+      <select
+        id="build"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="skinny">Skinny</option>
+        <option value="slim">Slim</option>
+        <option value="average">Average</option>
+        <option value="athletic">Athletic</option>
+        <option value="muscular">Muscular</option>
+        <option value="curvy">Curvy</option>
+        <option value="chubby">Chubby</option>
+        <option value="obese">Obese</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customBuild"
+        class="custom-input"
+        placeholder="Build"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="genitals">Genitals</label>
+      <select
+        id="genitals"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="penis">Penis</option>
+        <option value="vagina">Vagina</option>
+        <option value="both">Both</option>
+        <option value="custom">Custom</option>
+      </select>
+      <div id="penisDetails" style="display: none; margin-top: 0.5em">
+        <input
+          type="number"
+          id="penisLength"
+          placeholder="Length (cm)"
+          style="width: 48%; padding: 0.5em; margin-right: 4%"
+        />
+        <input
+          type="number"
+          id="penisGirth"
+          placeholder="Girth (cm)"
+          style="width: 48%; padding: 0.5em"
+        />
+      </div>
+      <input
+        type="text"
+        id="customGenitals"
+        class="custom-input"
+        placeholder="Genitals"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Hair Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="hairColor">Hair Color</label>
+      <select
+        id="hairColor"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="black">Black</option>
+        <option value="brown">Brown</option>
+        <option value="blonde">Blonde</option>
+        <option value="red">Red</option>
+        <option value="gray">Gray</option>
+        <option value="white">White</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customHairColor"
+        class="custom-input"
+        placeholder="Hair Color"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="hairStyle">Hair Style</label>
+      <select
+        id="hairStyle"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="buzz cut">Buzz Cut</option>
+        <option value="crew cut">Crew Cut</option>
+        <option value="fade">Fade</option>
+        <option value="undercut">Undercut</option>
+        <option value="pompadour">Pompadour</option>
+        <option value="quiff">Quiff</option>
+        <option value="mohawk">Mohawk</option>
+        <option value="bowl cut">Bowl Cut</option>
+        <option value="bob">Bob</option>
+        <option value="lob">Lob</option>
+        <option value="pixie">Pixie</option>
+        <option value="shag">Shag</option>
+        <option value="wolf cut">Wolf Cut</option>
+        <option value="mullet">Mullet</option>
+        <option value="afro">Afro</option>
+        <option value="cornrows">Cornrows</option>
+        <option value="box braids">Box Braids</option>
+        <option value="fishtail braid">Fishtail Braid</option>
+        <option value="french braid">French Braid</option>
+        <option value="dutch braid">Dutch Braid</option>
+        <option value="bun">Bun</option>
+        <option value="top knot">Top Knot</option>
+        <option value="ponytail">Ponytail</option>
+        <option value="pigtails">Pigtails</option>
+        <option value="layered">Layered</option>
+        <option value="straight">Straight</option>
+        <option value="wavy">Wavy</option>
+        <option value="curly">Curly</option>
+        <option value="bald">Bald</option>
+        <option value="long">Long</option>
+        <option value="medium">Medium</option>
+        <option value="short">Short</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customHairStyle"
+        class="custom-input"
+        placeholder="Hair Style"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="hairLength">Hair Length</label>
+      <select
+        id="hairLength"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="bald">Bald</option>
+        <option value="short">Short</option>
+        <option value="medium">Medium</option>
+        <option value="long">Long</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="number"
+        id="customHairLengthValue"
+        class="custom-input"
+        placeholder="Centimeters"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="facialHair">Facial Hair</label>
+      <select
+        id="facialHair"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="mustache">Mustache</option>
+        <option value="beard">Beard</option>
+        <option value="goatee">Goatee</option>
+        <option value="sideburns">Sideburns</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFacialHair"
+        class="custom-input"
+        placeholder="Facial Hair"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="facialHairLength">Facial Hair Length</label>
+      <select
+        id="facialHairLength"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="short">Short</option>
+        <option value="medium">Medium</option>
+        <option value="long">Long</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="number"
+        id="customFacialHairLengthValue"
+        class="custom-input"
+        placeholder="Centimeters"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Eye Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="eyeColor">Eye Color</label>
+      <select
+        id="eyeColor"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="brown">Brown</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="hazel">Hazel</option>
+        <option value="gray">Gray</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customEyeColor"
+        class="custom-input"
+        placeholder="Eye Color"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="eyeShape">Eye Shape</label>
+      <select
+        id="eyeShape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="almond">Almond</option>
+        <option value="round">Round</option>
+        <option value="hooded">Hooded</option>
+        <option value="monolid">Monolid</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customEyeShape"
+        class="custom-input"
+        placeholder="Eye Shape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="eyeSize">Eye Size</label>
+      <select
+        id="eyeSize"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customEyeSize"
+        class="custom-input"
+        placeholder="Eye Size"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Facial Details</button>
+  <div class="content">
+    <div style="margin-bottom: 0.5em">
+      <label for="faceShape">Face Shape</label>
+      <select
+        id="faceShape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="oval">Oval</option>
+        <option value="round">Round</option>
+        <option value="square">Square</option>
+        <option value="heart">Heart</option>
+        <option value="diamond">Diamond</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFaceShape"
+        class="custom-input"
+        placeholder="Face Shape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="noseShape">Nose Shape</label>
+      <select
+        id="noseShape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="straight">Straight</option>
+        <option value="aquiline">Aquiline</option>
+        <option value="button">Button</option>
+        <option value="snub">Snub</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customNoseShape"
+        class="custom-input"
+        placeholder="Nose Shape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <div style="margin-bottom: 0.5em">
+      <label for="mouthShape">Mouth Shape</label>
+      <select
+        id="mouthShape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="full">Full</option>
+        <option value="thin">Thin</option>
+        <option value="wide">Wide</option>
+        <option value="small">Small</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customMouthShape"
+        class="custom-input"
+        placeholder="Mouth Shape"
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+</fieldset>
+
+<fieldset id="features">
+  <h2>📸 Distinguishing Features 📸</h2>
+
+  <button class="collapsible">Tattoos Details</button>
+  <div class="content">
+    <!-- Location -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooLocation">Location</label>
+      <select
+        id="tattooLocation"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="sleeve">Sleeve</option>
+        <option value="chest">Chest</option>
+        <option value="back">Back</option>
+        <option value="neck">Neck</option>
+        <option value="face">Face</option>
+        <option value="hands">Hands</option>
+        <option value="legs">Legs</option>
+        <option value="feet">Feet</option>
+        <option value="ribs">Ribs</option>
+        <option value="stomach">Stomach</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooLocation"
+        class="custom-input"
+        placeholder="Custom location..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Style -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooStyle">Style</label>
+      <select
+        id="tattooStyle"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="tribal">Tribal</option>
+        <option value="geometric">Geometric</option>
+        <option value="watercolor">Watercolor</option>
+        <option value="minimalist">Minimalist</option>
+        <option value="traditional">Traditional</option>
+        <option value="neo-traditional">Neo-Traditional</option>
+        <option value="realism">Realism</option>
+        <option value="abstract">Abstract</option>
+        <option value="script">Script</option>
+        <option value="dotwork">Dotwork</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooStyle"
+        class="custom-input"
+        placeholder="Custom style..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Theme -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooTheme">Theme</label>
+      <select
+        id="tattooTheme"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="animals">Animals</option>
+        <option value="flowers">Flowers</option>
+        <option value="skulls">Skulls</option>
+        <option value="celestial">Celestial</option>
+        <option value="mythological">Mythological</option>
+        <option value="religious">Religious</option>
+        <option value="cultural">Cultural</option>
+        <option value="fantasy">Fantasy</option>
+        <option value="biomechanical">Biomechanical</option>
+        <option value="personal-symbols">Personal Symbols</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooTheme"
+        class="custom-input"
+        placeholder="Custom theme..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Density -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooDensity">Density</label>
+      <select
+        id="tattooDensity"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="single">Single</option>
+        <option value="few">Few</option>
+        <option value="scattered">Scattered</option>
+        <option value="sleeve">Sleeve</option>
+        <option value="full-body">Full Body</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooDensity"
+        class="custom-input"
+        placeholder="Custom density..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Visibility -->
+    <div style="margin-bottom: 0.5em">
+      <label for="tattooVisibility">Visibility</label>
+      <select
+        id="tattooVisibility"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="hidden">Hidden</option>
+        <option value="visible">Visible</option>
+        <option value="partially-concealed">Partially Concealed</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customTattooVisibility"
+        class="custom-input"
+        placeholder="Custom visibility..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Piercings Details</button>
+  <div class="content">
+    <!-- Facial Piercings -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingFacial">Facial Piercings</label>
+      <select
+        id="piercingFacial"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="nostril">Nose – Nostril</option>
+        <option value="septum">Nose – Septum</option>
+        <option value="eyebrow">Eyebrow</option>
+        <option value="labret">Lip – Labret</option>
+        <option value="monroe">Lip – Monroe</option>
+        <option value="medusa">Lip – Medusa</option>
+        <option value="cheek">Cheek</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingFacial"
+        class="custom-input"
+        placeholder="Custom facial piercing..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Ear Piercings -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingEar">Ear Piercings</label>
+      <select
+        id="piercingEar"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="lobe">Lobe</option>
+        <option value="helix">Helix</option>
+        <option value="industrial">Industrial</option>
+        <option value="tragus">Tragus</option>
+        <option value="daith">Daith</option>
+        <option value="rook">Rook</option>
+        <option value="conch">Conch</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingEar"
+        class="custom-input"
+        placeholder="Custom ear piercing..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Body Piercings -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingBody">Body Piercings</label>
+      <select
+        id="piercingBody"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="navel">Navel</option>
+        <option value="nipple">Nipple</option>
+        <option value="dermal">Dermal</option>
+        <option value="tongue">Tongue</option>
+        <option value="surface">Surface</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingBody"
+        class="custom-input"
+        placeholder="Custom body piercing..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Jewelry Type -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingJewelry">Jewelry Type</label>
+      <select
+        id="piercingJewelry"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="studs">Studs</option>
+        <option value="hoops">Hoops</option>
+        <option value="barbells">Barbells</option>
+        <option value="captive-beads">Captive Beads</option>
+        <option value="spikes">Spikes</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingJewelry"
+        class="custom-input"
+        placeholder="Custom jewelry..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Style -->
+    <div style="margin-bottom: 0.5em">
+      <label for="piercingStyle">Style</label>
+      <select
+        id="piercingStyle"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="subtle">Subtle</option>
+        <option value="bold">Bold</option>
+        <option value="symmetrical">Symmetrical</option>
+        <option value="asymmetrical">Asymmetrical</option>
+        <option value="clustered">Clustered</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customPiercingStyle"
+        class="custom-input"
+        placeholder="Custom style..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Scars Details</button>
+  <div class="content">
+    <!-- Origin -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarOrigin">Origin</label>
+      <select
+        id="scarOrigin"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="accident">Accident</option>
+        <option value="surgery">Surgery</option>
+        <option value="battle">Battle</option>
+        <option value="self-inflicted">Self-Inflicted</option>
+        <option value="ritual">Ritual</option>
+        <option value="animal-attack">Animal Attack</option>
+        <option value="burn">Burn</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarOrigin"
+        class="custom-input"
+        placeholder="Custom origin..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Type -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarType">Type</label>
+      <select
+        id="scarType"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="linear">Linear</option>
+        <option value="jagged">Jagged</option>
+        <option value="raised">Raised (Keloid)</option>
+        <option value="sunken">Sunken</option>
+        <option value="patterned">Patterned</option>
+        <option value="stitched">Stitched</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarType"
+        class="custom-input"
+        placeholder="Custom type..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Location -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarLocation">Location</label>
+      <select
+        id="scarLocation"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="face">Face</option>
+        <option value="arms">Arms</option>
+        <option value="legs">Legs</option>
+        <option value="torso">Torso</option>
+        <option value="hands">Hands</option>
+        <option value="back">Back</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarLocation"
+        class="custom-input"
+        placeholder="Custom location..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Visibility -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarVisibility">Visibility</label>
+      <select
+        id="scarVisibility"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="prominent">Prominent</option>
+        <option value="faint">Faint</option>
+        <option value="concealed">Concealed</option>
+        <option value="stylized">Stylized</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarVisibility"
+        class="custom-input"
+        placeholder="Custom visibility..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Symbolism -->
+    <div style="margin-bottom: 0.5em">
+      <label for="scarSymbolism">Symbolism</label>
+      <select
+        id="scarSymbolism"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="trauma">Trauma</option>
+        <option value="survival">Survival</option>
+        <option value="initiation">Initiation</option>
+        <option value="mystery">Mystery</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customScarSymbolism"
+        class="custom-input"
+        placeholder="Custom symbolism..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+
+  <button class="collapsible">Freckles Details</button>
+  <div class="content">
+    <!-- Density -->
+    <div style="margin-bottom: 0.5em">
+      <label for="freckleDensity">Density</label>
+      <select
+        id="freckleDensity"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="sparse">Sparse</option>
+        <option value="scattered">Scattered</option>
+        <option value="clustered">Clustered</option>
+        <option value="full-face">Full Face</option>
+        <option value="shoulders-only">Shoulders Only</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFreckleDensity"
+        class="custom-input"
+        placeholder="Custom density..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Tone -->
+    <div style="margin-bottom: 0.5em">
+      <label for="freckleTone">Tone</label>
+      <select
+        id="freckleTone"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="light-brown">Light Brown</option>
+        <option value="reddish">Reddish</option>
+        <option value="dark-brown">Dark Brown</option>
+        <option value="golden">Golden</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFreckleTone"
+        class="custom-input"
+        placeholder="Custom tone..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Pattern -->
+    <div style="margin-bottom: 0.5em">
+      <label for="frecklePattern">Pattern</label>
+      <select
+        id="frecklePattern"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="symmetrical">Symmetrical</option>
+        <option value="random">Random</option>
+        <option value="sun-kissed">Sun-Kissed</option>
+        <option value="seasonal">Seasonal</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFrecklePattern"
+        class="custom-input"
+        placeholder="Custom pattern..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Visibility -->
+    <div style="margin-bottom: 0.5em">
+      <label for="freckleVisibility">Visibility</label>
+      <select
+        id="freckleVisibility"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="faint">Faint</option>
+        <option value="prominent">Prominent</option>
+        <option value="blended">Blended with Skin Tone</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFreckleVisibility"
+        class="custom-input"
+        placeholder="Custom visibility..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+
+    <!-- Origin -->
+    <div style="margin-bottom: 0.5em">
+      <label for="freckleOrigin">Origin</label>
+      <select
+        id="freckleOrigin"
+        style="width: 100%; padding: 0.5em; margin-top: 0.25em"
+      >
+        <option value="">Select...</option>
+        <option value="none">None</option>
+        <option value="natural">Natural</option>
+        <option value="sun-exposure">Sun Exposure</option>
+        <option value="cosmetic">Cosmetic</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input
+        type="text"
+        id="customFreckleOrigin"
+        class="custom-input"
+        placeholder="Custom origin..."
+        style="width: 100%; padding: 0.5em; margin-top: 0.5em; display: none"
+      />
+    </div>
+  </div>
+</fieldset>
+
+<script>
+  const TABLES = {
+    names: [
+      "Arin",
+      "Belwyn",
+      "Cade",
+      "Dorian",
+      "Elira",
+      "Fenric",
+      "Galen",
+      "Hestia",
+      "Ilya",
+      "Kael",
+      "Thorne",
+      "Lyra",
+      "Magnus",
+      "Seraphina",
+      "Orion",
+      "Aelion",
+      "Donaar",
+      "Lysandra",
+      "Morgana",
+      "Velvet",
+      "Scarlett",
+      "Raven",
+      "Jasmine",
+      "Lola",
+      "Candy",
+      "Bambi",
+      "Sienna",
+      "Dahlia",
+      "Violet",
+      "Ruby",
+      "Roxanne",
+      "Chastity",
+      "Faith",
+      "Hope",
+      "Mercy",
+      "Prudence",
+      "Temperance",
+      "Verity",
+      "Grace",
+    ],
+
+    races: [
+      "Human",
+      "High Elf",
+      "Wood Elf",
+      "Dwarf",
+      "Halfling",
+      "Tiefling",
+      "Dragonborn",
+      "Gnome",
+      "Half-Orc",
+      "Aasimar",
+      "Goliath",
+      "Fairy",
+      "Nymph",
+      "Succubus/Incubus",
+      "Drow",
+      "Half-Elf",
+      "Tabaxi",
+      "Kenku",
+      "Demon",
+      "Angel",
+      "Vampire",
+      "Werewolf",
+      "Changeling",
+      "Centaur",
+      "Merfolk",
+    ],
+
+    classes: [
+      "Courtesan",
+      "Pleasure Slave",
+      "Entertainer",
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Rogue",
+      "Monk",
+      "Cleric - Love Domain",
+      "Paladin - Oath of Lust",
+      "Druid",
+      "Fighter",
+      "Wizard",
+      "Ranger",
+      "Dominatrix",
+      "Submissive",
+      "Switch",
+      "Pet",
+      "Owner",
+      "Master",
+      "Mistress",
+      "Slave",
+      "Toy",
+    ],
+
+    backgrounds: [
+      "Pleasure Slave",
+      "Courtesan",
+      "Escort",
+      "Dancer",
+      "Seductress/Seducer",
+      "Harem Dweller",
+      "Brothel Worker",
+      "Street Walker",
+      "Noble's Mistress",
+      "Temple Prostitute",
+      "Pirate's Toy",
+      "Gladiator",
+      "Acolyte",
+      "Criminal",
+      "Entertainer",
+      "Outlander",
+      "BDSM Practitioner",
+      "Sugar Baby",
+      "Porn Star",
+      "Cam Model",
+      "Sex Therapist",
+      "Fetish Model",
+    ],
+
+    alignments: [
+      "Chaotic Good",
+      "Chaotic Neutral",
+      "Chaotic Evil",
+      "Neutral Good",
+      "True Neutral",
+      "Neutral Evil",
+      "Lawful Good",
+      "Lawful Neutral",
+      "Lawful Evil",
+      "Chaotic Sexual",
+      "Neutral Sexual",
+    ],
+
+    genders: [
+      "Female",
+      "Male",
+      "Futanari",
+      "Femboy",
+      "Sissy",
+      "Crossdresser",
+      "Ladyboy",
+      "Shemale",
+      "Transgender",
+      "Genderfluid",
+      "Non-binary",
+      "Hermaphrodite",
+      "Agender",
+      "Bigender",
+      "Demiboy",
+      "Demigirl",
+      "Two-Spirit",
+      "Genderqueer",
+      "Transmasc",
+      "Transfem",
+      "Intersex",
+    ],
+
+    bodyTypes: [
+      "Slender",
+      "Athletic",
+      "Curvy",
+      "Voluptuous",
+      "Petite",
+      "Muscular",
+      "Hourglass",
+      "Pear",
+      "Apple",
+      "BBW",
+      "Slim-thick",
+      "Chubby",
+      "Bodybuilder",
+      "Twink",
+      "Bear",
+      "Otter",
+      "Wolf",
+      "Thicc",
+      "Stocky",
+    ],
+
+    orientations: [
+      "Heterosexual",
+      "Homosexual",
+      "Bisexual",
+      "Pansexual",
+      "Lesbian",
+      "Gay",
+      "Demisexual",
+      "Polyamorous",
+      "Asexual",
+      "Queer",
+      "Omnisexual",
+      "Sapiosexual",
+      "Straight",
+      "Bi",
+      "Pan",
+      "Ace",
+    ],
+
+    kinkLevels: [
+      "Vanilla",
+      "Curious",
+      "Exploring",
+      "Experienced",
+      "Kinky",
+      "Extreme",
+      "Depraved",
+    ],
+
+    kinksList: [
+      "BDSM",
+      "Bondage",
+      "Domination",
+      "Submission",
+      "Sadomasochism",
+      "Petplay",
+      "Ageplay",
+      "DDLG",
+      "ABDL",
+      "Furries",
+      "Vore",
+      "Exhibitionism",
+      "Voyeurism",
+      "Cuckoldry",
+      "Swinging",
+      "Watersports",
+      "Scat",
+      "Necrophilia",
+      "Bestiality",
+      "Incest",
+      "Foot Worship",
+      "Breeding",
+      "Praise Kink",
+      "Degradation",
+      "Humiliation",
+      "Edgeplay",
+      "Knifeplay",
+      "Bloodplay",
+      "Cannibalism",
+      "Guro",
+      "Snuff",
+      "Hypnosis",
+      "Mind Control",
+      "Transformation",
+      "Inflation",
+      "Macrophilia",
+      "Microphilia",
+      "Pegging",
+      "Shibari",
+    ],
+
+    fetishesList: [
+      "Feet",
+      "Latex",
+      "Leather",
+      "Uniforms",
+      "Pregnancy",
+      "Piercings",
+      "Tattoos",
+      "Scars",
+      "Stretch Marks",
+      "Body Hair",
+      "Disabled",
+      "Amputee",
+      "Wheelchair",
+    ],
+
+    sexualActsList: [
+      "Oral",
+      "Anal",
+      "Vaginal",
+      "Fisting",
+      "Pegging",
+      "Double Penetration",
+      "Gangbang",
+      "Creampie",
+      "Facials",
+      "Rimming",
+      "Teabagging",
+      "Facesitting",
+      "Cunnilingus",
+      "Fellatio",
+      "Anilingus",
+      "Breast Play",
+      "Nipple Play",
+      "Genital Play",
+      "Ass Play",
+      "Foot Play",
+      "Handjob",
+      "Footjob",
+      "Titjob",
+      "Thighjob",
+      "Edging",
+      "Orgasm Denial",
+      "Orgasm Control",
+      "Orgasm Torture",
+      "Sensory Deprivation",
+      "Temperature Play",
+      "Wax Play",
+      "Electroplay",
+      "Sound Play",
+      "Figging",
+    ],
+
+    powerDynamicsList: [
+      "Master/Slave",
+      "Daddy/Boy",
+      "Mommy/Girl",
+      "Owner/Pet",
+      "Teacher/Student",
+      "Boss/Employee",
+      "Doctor/Patient",
+      "Cop/Criminal",
+      "Priest/Sinner",
+      "King/Subject",
+      "Queen/Subject",
+      "Prince/Princess",
+      "Knight/Damsel",
+      "Warrior/Captive",
+      "Alchemist/Test Subject",
+      "Dom",
+      "Sub",
+      "Switch",
+      "Primal",
+      "Handler",
+      "Brat",
+    ],
+
+    equipmentsList: [
+      "Vibrators",
+      "Dildos",
+      "Plugs",
+      "Gags",
+      "Cuffs",
+      "Whips",
+      "Crops",
+      "Chastity Devices",
+      "Fucking Machines",
+      "Strap-ons",
+      "Harnesses",
+      "Collars",
+      "Leashes",
+      "Blindfolds",
+      "Masks",
+      "Latex Suits",
+      "Leather Gear",
+      "Corsets",
+      "Stockings",
+      "Heels",
+      "Boots",
+      "Gloves",
+      "Electrostim Devices",
+      "Temperature Toys",
+      "Wax Tools",
+      "Knives",
+      "Needles",
+      "Hooks",
+    ],
+
+    extremeContentsList: [
+      "Guro",
+      "Snuff",
+      "Vore",
+      "Cannibalism",
+      "Amputation",
+      "Dismemberment",
+      "Decapitation",
+      "Disfigurement",
+      "Mutilation",
+      "Torture",
+      "Crucifixion",
+      "Impalement",
+      "Drowning",
+      "Burning",
+      "Freezing",
+      "Electrocution",
+      "Poisoning",
+      "Drugging",
+      "Mindbreak",
+      "Brainwashing",
+      "Stockholm Syndrome",
+      "Gaslighting",
+      "Manipulation",
+      "Coercion",
+      "Blackmail",
+      "Extortion",
+      "Kidnapping",
+      "Rape",
+      "Non-con",
+      "Dub-con",
+    ],
+
+    rolesList: [
+      "Daddy",
+      "Mommy",
+      "Babygirl",
+      "Boy",
+      "Pup",
+      "Kitten",
+      "Bunny",
+      "Fox",
+      "Little",
+      "Caregiver",
+    ],
+
+    intensitiesList: ["Vanilla", "Soft", "Kinky", "Hardcore", "Extreme"],
+
+    pairingsList: [
+      "Monogamous",
+      "Poly",
+      "Open",
+      "Swinging",
+      "Cuckold",
+      "Hotwife",
+      "Gangbang",
+      "Orgy",
+      "Solo",
+      "Group",
+    ],
+
+    fluidsList: [
+      "Creampie",
+      "Facials",
+      "Bukkake",
+      "Swallowing",
+      "Spitting",
+      "Squirting",
+      "Watersports",
+      "Scat",
+      "Blood",
+      "Lactation",
+    ],
+
+    sensoryPlaysList: [
+      "Feathers",
+      "Ice",
+      "Wax",
+      "Vibrations",
+      "Scents",
+      "Tastes",
+      "Textures",
+      "Sounds",
+      "Lights",
+      "Restriction",
+    ],
+
+    transformationStagesList: [
+      "Initial Resistance",
+      "Growing Curiosity",
+      "First Submission",
+      "Eager Participation",
+      "Total Conversion",
+      "Beyond Original Limits",
+    ],
+
+    corruptionLevelsList: [
+      "Pure",
+      "Tempted",
+      "Experienced",
+      "Depraved",
+      "Irreversible",
+      "Legendary Debauchery",
+    ],
+
+    forbiddenMagicsList: [
+      "Orgasmomancy",
+      "Flesh Sculpting",
+      "Soul Binding",
+      "Pleasure Paradox",
+      "Eldritch Awakening",
+    ],
+
+    exoticFluidsList: [
+      "Ichor",
+      "Stardust",
+      "Liquid Shadow",
+      "Primordial Essence",
+      "Dragon's Milk",
+      "Angel's Tears",
+    ],
+
+    genitalHair: ["Shaved", "Trimmed", "Natural", "Bushy", "Styled"],
+
+    chestCupSizes: ["A", "B", "C", "D", "DD", "E"],
+
+    portraitTags: [
+      "high detail",
+      "fantasy character",
+      "sensual lighting",
+      "realistic textures",
+      "dramatic composition",
+      "ornate accessories",
+      "cinematic glow",
+      "soft skin shading",
+      "adult fantasy",
+    ],
+
+    portraitPoses: [
+      "standing",
+      "kneeling",
+      "reclining",
+      "leaning against a wall",
+      "sitting on a throne",
+      "arched pose",
+      "over-the-shoulder pose",
+      "lounging",
+    ],
+
+    portraitClothing: ["nude", "lingerie", "partially clothed", "silk robes"],
+
+    portraitArousal: ["low", "medium", "high"],
+
+    spellSchools: [
+      "Enchantment",
+      "Transmutation",
+      "Illusion",
+      "Necromancy",
+      "Conjuration",
+    ],
+
+    spellTypes: [
+      "Touch",
+      "Aura",
+      "Charm",
+      "Control",
+      "Whisper",
+      "Mark",
+      "Caress",
+    ],
+
+    spellThemes: [
+      "Ecstasy",
+      "Submission",
+      "Dominance",
+      "Arousal",
+      "Lust",
+      "Pleasure",
+    ],
+
+    spellCastTimes: ["1 action", "1 bonus action", "1 hour"],
+
+    spellRanges: ["Touch", "Self", "30 ft", "60 ft"],
+
+    spellDurations: ["Instantaneous", "Concentration, up to 1 min", "1 hour"],
+
+    backstoryTones: {
+      mild: {
+        label: "sensual, romantic",
+        words: 200,
+        prompt:
+          "Focus on desire, romance, emotional intimacy, and suggestive adult themes without graphic anatomical detail.",
+      },
+      explicit: {
+        label: "explicit, detailed",
+        words: 250,
+        prompt:
+          "Include explicit adult themes, notable experiences, sexual awakening, and intimate details.",
+      },
+      extreme: {
+        label: "extremely explicit, detailed",
+        words: 300,
+        prompt:
+          "Include highly explicit adult themes, transformative events, notable encounters, and intense erotic detail.",
+      },
+    },
+
+    historyTones: {
+      mild: "Describe their romantic and sexual history, including first loves, significant relationships, and how they discovered their sexuality.",
+      explicit:
+        "Include explicit details of their sexual awakening, first experiences, number and types of partners, memorable encounters, discovery of kinks, and current sexual practices.",
+      extreme:
+        "Include explicit details of first sexual experiences, number of partners, specific acts performed, memorable encounters, kink discovery, unusual or extreme experiences, and current sexual practices in detail.",
+    },
+
+    complicationsPrompts: [
+      "addictions",
+      "dangerous attractions",
+      "unhealthy sexual patterns",
+      "taboo desires",
+      "risky behaviors",
+      "social consequences",
+      "emotional consequences",
+    ],
+
+    flavorCombatPrompts: [
+      "sensual feint",
+      "teasing dominance",
+      "intoxicating magic",
+      "provocative distraction",
+      "alluring finishing move",
+    ],
+
+    portraitTags: [
+      "detailed face",
+      "fantasy armor",
+      "seductive expression",
+      "lingerie",
+      "bare skin",
+      "erotic pose",
+      "sweat",
+      "flushed cheeks",
+      "glistening skin",
+      "heavy breathing",
+      "parted lips",
+      "intense gaze",
+      "dynamic lighting",
+    ],
+    portraitPoses: [
+      "kneeling seductively",
+      "leaning forward",
+      "arched back",
+      "looking over shoulder",
+      "biting lip",
+      "touching self",
+      "spread legs",
+      "hands on hips",
+      "chest forward",
+    ],
+    portraitClothing: [
+      "nude",
+      "sheer lingerie",
+      "corset",
+      "leather straps",
+      "silk robe open",
+      "fishnet stockings",
+      "pasties",
+      "thong",
+      "garter belt",
+      "body paint",
+    ],
+    portraitArousal: [
+      "highly aroused",
+      "flushed with desire",
+      "wet and ready",
+      "breathless",
+      "eyes half-closed",
+      "nipples erect",
+      "body glistening",
+    ],
+    portraitLowArousal: ["relaxed", "calm", "serene", "confident"],
+    portraitAccessories: [
+      "choker",
+      "nipple piercings",
+      "body chain",
+      "thigh garters",
+      "ankle cuffs",
+      "collar",
+      "veil",
+      "crown",
+    ],
+    portraitLighting: [
+      "candlelight",
+      "moonlight",
+      "firelight",
+      "golden hour",
+      "neon glow",
+    ],
+    artStyles: [
+      "hyper-detailed digital art",
+      "photorealistic rendering",
+      "cinematic fantasy art",
+      "oil painting style",
+    ],
+    portraitQuality: [
+      "8k resolution, ultra-detailed, masterpiece quality",
+      "professional photography, perfect anatomy",
+    ],
+    adultSpellTypes: [
+      "Lust",
+      "Charm",
+      "Arousal",
+      "Pleasure",
+      "Domination",
+      "Submission",
+      "Ecstasy",
+      "Corruption",
+    ],
+    adultSpellTargets: ["single creature", "area", "self", "touch"],
+    adultSpellEffects: ["Wave", "Pulse", "Touch", "Aura", "Gaze"],
+    adultSpellRanges: ["Touch", "Self", "30ft", "60ft", "120ft"],
+    adultSpellFlavors: [
+      "overwhelms with pleasure",
+      "enslaves the mind",
+      "ignites uncontrollable desire",
+      "commands total submission",
+    ],
+    backstoryEvents: [
+      "first forbidden encounter",
+      "temple initiation ritual",
+      "noble seduction scandal",
+      "demonic pact",
+      "public humiliation",
+    ],
+    adultClasses: [
+      "Courtesan",
+      "Succubus",
+      "Incubus",
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Dominatrix",
+      "Submissive",
+    ],
+    adultBackgrounds: [
+      "Pleasure Slave",
+      "Courtesan",
+      "Temple Prostitute",
+      "Harem Favorite",
+      "Brothel Madame",
+    ],
+  };
+</script>

@@ -1,0 +1,30 @@
+@media print {
+  html,
+  body {
+    background: #f2e2c8 !important;
+    color: #2c1a0f !important;
+  }
+  .toolbar,
+  .panel-collapse-btn,
+  .btn-sheet,
+  #importJsonFile,
+  .btn-ai,
+  .save-status {
+    display: none !important;
+  }
+  .panel {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid rgba(70, 43, 18, 0.35) !important;
+    background: #f6e9d3 !important;
+  }
+  .form-control,
+  .form-select,
+  textarea {
+    background: #fbf2e2 !important;
+    color: #2b1f13 !important;
+    border-color: rgba(70, 43, 18, 0.25) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

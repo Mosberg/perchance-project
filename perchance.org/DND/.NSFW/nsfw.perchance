@@ -1,0 +1,11 @@
+categories = {
+  sexual_orientations: ["heterosexual", "homosexual", "bisexual", "pansexual", "asexual", "demisexual", "queer", "polysexual"],
+  genders: ["male", "female", "non-binary", "genderfluid", "agender", "bigender", "demiboy", "demigirl", "two-spirit"],
+  kinks: ["BDSM", "bondage", "domination", "submission", "sadomasochism", "petplay", "ageplay", "ddlg", "ABDL", "furries", "vore", "exhibitionism", "voyeurism", "cuckoldry", "swinging", "watersports", "scat", "necrophilia", "bestiality", "incest"],
+  fetishes: ["feet", "latex", "leather", "uniforms", "pregnancy", "inflation", "transformation", "mindcontrol", "hypnosis"],
+  sexual_acts: ["oral", "anal", "vaginal", "fisting", "pegging", "double penetration", "gangbang", "creampie", "facials", "rimming", "teabagging", "facesitting", "cunnilingus", "fellatio", "anilingus"],
+  body_focus: ["breasts", "butts", "genitals", "muscles", "body hair", "piercings", "tattoos", "stretch marks", "scars"],
+  power_dynamics: ["master/slave", "daddy/boy", "mommy/girl", "owner/pet", "teacher/student", "boss/employee"],
+  equipment: ["vibrators", "dildos", "plugs", "gags", "cuffs", "whips", "crops", "chastity devices", "fucking machines"],
+  extreme_content: ["guro", "snuff", "vore", "cannibalism", "amputation"]
+}

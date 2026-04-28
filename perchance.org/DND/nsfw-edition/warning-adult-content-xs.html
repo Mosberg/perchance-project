@@ -1,0 +1,731 @@
+<!--
+  Ultimate D&D 5e Character Sheet - NSFW Edition
+  Note: This tool is designed for adult audiences and contains explicit content generation features.
+-->
+
+<div class="app-shell" id="dndSheetApp">
+  <!-- Age Verification Gate -->
+  <div id="ageGateOverlayEl" style="position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; padding:20px; text-align:center;">
+    <h1 style="color:var(--nsfw-accent); margin-bottom:10px;">🔞 Age Verification Required</h1>
+    <p style="max-width:600px; line-height:1.6; margin-bottom:30px;">
+      This application generates explicit NSFW content including erotic text and images.
+      By proceeding, you confirm that you are 18 years of age or older and consent to viewing adult material.
+    </p>
+    <button id="enterSiteBtn" class="btn-sheet btn-nsfw" style="font-size:1.2rem; padding:15px 40px;">I am 18+ - Enter</button>
+  </div>
+
+  <!-- Top Navigation -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">🔞</div>
+      <div>
+        <h1>D&D 5e Ultimate - NSFW Edition</h1>
+        <div class="subtle" id="nsfwStatusBadgeEl">Mode: Explicit</div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <span id="saveStatus" class="save-status"></span>
+      <button id="randomizeBtn" class="btn-sheet btn-accent">✨ Randomize</button>
+      <button id="newSheetBtn" class="btn-sheet">New</button>
+      <button id="printBtn" class="btn-sheet">Print</button>
+      <button id="openSettingsBtn" class="btn-sheet">Settings</button>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="grid-main">
+    <!-- Left Column: Portrait & Stats -->
+    <aside class="section-stack sticky-side">
+      <section class="panel">
+        <div class="panel-header"><h2 class="panel-title">Portrait</h2></div>
+        <div class="panel-body">
+          <div class="portrait-container" id="portraitCtn">
+            <img id="portraitImgEl" class="portrait-img" />
+            <div id="portraitPlaceholderEl" class="portrait-placeholder">No Portrait</div>
+            <div id="loadingSpinnerEl" style="position:absolute; inset:0; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; color:white;">
+              Generating...
+            </div>
+          </div>
+          <button id="generatePortraitBtn" class="btn-sheet btn-nsfw" style="width:100%">Generate NSFW Art</button>
+          <div style="font-size:0.75rem; color:var(--muted); margin-top:5px; text-align:center;">Click to generate explicit character art based on stats.</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header"><h2 class="panel-title">Core Stats</h2></div>
+        <div class="panel-body">
+          <div class="ability-grid" id="abilitiesGridEl">
+            <!-- Abilities injected by JS -->
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header"><h2 class="panel-title">Vitals</h2></div>
+        <div class="panel-body">
+          <div class="field">
+            <label>HP</label>
+            <div class="hp-bar"><div class="hp-fill" id="hpFillEl"></div></div>
+            <div style="display:flex; justify-content:space-between; margin-top:4px;">
+              <input type="number" id="hpMaxEl" class="form-control tiny-input" value="10" style="width:30%">
+              <input type="number" id="hpCurrentEl" class="form-control tiny-input" value="10" style="width:30%">
+              <input type="number" id="hpTemp" class="form-control tiny-input" value="0" placeholder="Temp" style="width:35%">
+            </div>
+          </div>
+          <div class="field">
+            <label>AC / Speed / Init</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px;">
+              <input type="number" id="ac" class="form-control" value="10">
+              <input type="number" id="speed" class="form-control" value="30">
+              <input type="text" id="initiativeEl" class="form-control text-center" value="+0" readonly>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header"><h2 class="panel-title">Conditions</h2></div>
+        <div class="panel-body">
+          <div class="status-pills" id="conditionsContainerEl"></div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Center Column: Details & Tabs -->
+    <main class="section-stack">
+      <section class="panel">
+        <div class="panel-header"><h2 class="panel-title">Identity</h2></div>
+        <div class="panel-body">
+          <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:10px;">
+            <div class="field"><label>Name</label><input type="text" id="charName" class="form-control"></div>
+            <div class="field"><label>Race</label><input type="text" id="race" class="form-control"></div>
+            <div class="field"><label>Class</label><input type="text" id="classLevel" class="form-control"></div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:10px;">
+            <div class="field"><label>Background</label><input type="text" id="background" class="form-control"></div>
+            <div class="field"><label>Alignment</label><input type="text" id="alignment" class="form-control"></div>
+            <div class="field"><label>XP</label><input type="number" id="xp" class="form-control" value="0"></div>
+          </div>
+
+          <!-- NSFW Quick Stats -->
+          <div class="nsfw-section" style="margin-top:15px; padding:10px; border-left:3px solid var(--nsfw-accent); background:rgba(255, 77, 136, 0.05);">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <div class="field"><label>Gender Identity</label><input type="text" id="gender" class="form-control"></div>
+              <div class="field"><label>Orientation</label><input type="text" id="orientation" class="form-control"></div>
+              <div class="field"><label>Body Type</label><input type="text" id="bodyType" class="form-control"></div>
+              <div class="field"><label>Kink Experience</label><input type="text" id="kinkLevel" class="form-control"></div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:5px;">
+               <div class="field"><label>Cup/Endowment</label><input type="text" id="genitalSize" class="form-control" placeholder="e.g. 36DD / 9 inches"></div>
+               <div class="field"><label>Hygiene/Grooming</label><input type="text" id="grooming" class="form-control" placeholder="e.g. Shaved smooth"></div>
+               <div class="field"><label>Piercings/Ink</label><input type="text" id="modifications" class="form-control"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-body" style="padding-top:0;">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="tab-skills">Skills</button>
+            <button class="tab-btn" data-tab="tab-combat">Combat</button>
+            <button class="tab-btn" data-tab="tab-inventory">Inventory</button>
+            <button class="tab-btn" data-tab="tab-spells">Spells</button>
+            <button class="tab-btn" data-tab="tab-notes">Backstory</button>
+            <button class="tab-btn" style="color:var(--nsfw-accent); border-color:var(--nsfw-accent);" data-tab="tab-nsfw">🔞 NSFW Details</button>
+          </div>
+
+          <!-- Skills Tab -->
+          <div id="tab-skills" class="tab-panel active">
+            <div id="skillsListEl" class="list-card"></div>
+          </div>
+
+          <!-- Combat Tab -->
+          <div id="tab-combat" class="tab-panel">
+            <div style="margin-bottom:10px; display:flex; justify-content:space-between;">
+              <strong>Attacks & Maneuvers</strong>
+              <button id="addAttackBtn" class="btn-sheet btn-sm">Add Attack</button>
+            </div>
+            <div id="attacksRepeaterEl" class="repeat-table"></div>
+          </div>
+
+          <!-- Inventory Tab -->
+          <div id="tab-inventory" class="tab-panel">
+             <div style="margin-bottom:10px; display:flex; justify-content:space-between;">
+              <strong>Equipment & Assets</strong>
+              <button id="addItemBtn" class="btn-sheet btn-sm">Add Item</button>
+            </div>
+            <div id="itemsRepeaterEl" class="repeat-table"></div>
+            <div style="margin-top:10px; text-align:right; font-weight:bold;">Total Weight: <span id="totalWeightEl">0</span> lb</div>
+            <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:5px; margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
+              <input type="number" id="cp" class="form-control" placeholder="CP" value="0">
+              <input type="number" id="sp" class="form-control" placeholder="SP" value="0">
+              <input type="number" id="ep" class="form-control" placeholder="EP" value="0">
+              <input type="number" id="gp" class="form-control" placeholder="GP" value="0">
+              <input type="number" id="pp" class="form-control" placeholder="PP" value="0">
+            </div>
+          </div>
+
+          <!-- Spells Tab -->
+          <div id="tab-spells" class="tab-panel">
+             <div style="margin-bottom:10px; display:flex; justify-content:space-between;">
+              <strong>Spellbook</strong>
+              <button id="addSpellBtn" class="btn-sheet btn-sm">Add Spell</button>
+            </div>
+            <div id="spellsRepeaterEl" class="repeat-table"></div>
+          </div>
+
+          <!-- Backstory Tab -->
+          <div id="tab-notes" class="tab-panel">
+            <div style="margin-bottom:10px;">
+              <button id="generateBackstoryBtn" class="btn-sheet btn-nsfw">✨ Generate Explicit Backstory</button>
+            </div>
+            <textarea id="backstoryTextEl" class="form-control" rows="15" placeholder="Character history..."></textarea>
+          </div>
+
+          <!-- NSFW Tab -->
+          <div id="tab-nsfw" class="tab-panel">
+            <div class="nsfw-warning" style="background:rgba(255,0,0,0.1); border:1px solid red; padding:10px; margin-bottom:15px;">
+              Explicit Content Area
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+              <div>
+                <label class="field-label">Primary Kinks</label>
+                <textarea id="primaryKinks" class="form-control" rows="4"></textarea>
+
+                <label class="field-label">Sexual History</label>
+                <button id="generateHistoryBtn" class="btn-sheet btn-nsfw btn-sm" style="width:100%; margin-bottom:5px;">✨ Generate History</button>
+                <textarea id="sexualHistoryEl" class="form-control" rows="6"></textarea>
+              </div>
+              <div>
+                <label class="field-label">Turn-offs / Hard Limits</label>
+                <textarea id="hardLimits" class="form-control" rows="4"></textarea>
+
+                <label class="field-label">Notable Encounters</label>
+                <textarea id="notableEncounters" class="form-control" rows="6"></textarea>
+              </div>
+            </div>
+
+            <div style="margin-top:15px;">
+              <label class="field-label">Sexual Powers / Supernatural Traits</label>
+              <textarea id="sexualPowers" class="form-control" rows="4"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModalEl" class="modal-overlay" hidden>
+    <div class="modal-dialog">
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Settings</h2>
+          <button id="closeSettingsBtn" class="btn-sheet btn-sm">Close</button>
+        </div>
+        <div class="panel-body">
+          <div class="field">
+            <label>NSFW Content Level</label>
+            <select id="nsfwLevelSettingEl" class="form-control">
+              <option value="mild">Mild (Suggestive only)</option>
+              <option value="explicit" selected>Explicit (Full nudity/acts)</option>
+              <option value="extreme">Extreme (Hardcore/Fetish)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Art Style</label>
+            <select id="artStyleSettingEl" class="form-control">
+              <option value="realistic">Realistic</option>
+              <option value="anime">Anime/Hentai</option>
+              <option value="painted">Fantasy Painted</option>
+              <option value="sketch">Ink Sketch</option>
+            </select>
+          </div>
+          <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:10px;">
+             <button id="clearDataBtn" class="btn-sheet" style="border-color:red; color:red;">Reset All Data</button>
+             <button id="saveSettingsBtn" class="btn-sheet btn-accent">Save & Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    :root {
+      --bg: #121212;
+      --surface: #1e1e1e;
+      --surface-2: #2c2c2c;
+      --border: #444;
+      --text: #e0e0e0;
+      --muted: #a0a0a0;
+      --accent: #bb86fc;
+      --nsfw-accent: #ff0055;
+      --radius: 8px;
+    }
+
+    body { margin:0; font-family: 'Segoe UI', sans-serif; background:var(--bg); color:var(--text); }
+
+    .app-shell { max-width:1400px; margin:0 auto; padding:20px; }
+
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:15px; }
+    .brand { display:flex; align-items:center; gap:15px; }
+    .brand-mark { width:40px; height:40px; background:linear-gradient(135deg, #ff0055, #aa00ff); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem; }
+
+    .toolbar { display:flex; gap:10px; }
+
+    .grid-main { display:grid; grid-template-columns: 300px 1fr; gap:20px; }
+
+    .panel { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:20px; }
+    .panel-header { background:var(--surface-2); padding:10px 15px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; }
+    .panel-title { margin:0; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px; }
+    .panel-body { padding:15px; }
+
+    .btn-sheet { background:var(--surface-2); border:1px solid var(--border); color:var(--text); padding:8px 16px; border-radius:4px; cursor:pointer; font-size:0.9rem; }
+    .btn-sheet:hover { background:var(--border); }
+    .btn-sheet.btn-accent { background:var(--accent); border-color:var(--accent); color:black; }
+    .btn-sheet.btn-nsfw { background:var(--nsfw-accent); border-color:var(--nsfw-accent); color:white; }
+
+    .form-control { background:var(--bg); border:1px solid var(--border); color:var(--text); padding:8px; border-radius:4px; width:100%; box-sizing:border-box; }
+    .form-control:focus { outline:2px solid var(--accent); border-color:transparent; }
+
+    .field { margin-bottom:10px; }
+    .field-label { display:block; font-size:0.8rem; color:var(--muted); margin-bottom:4px; }
+
+    .ability-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
+    .ability-card { background:var(--surface-2); padding:10px; border-radius:4px; text-align:center; }
+    .ability-score { font-size:1.4rem; font-weight:bold; }
+    .ability-mod { font-size:0.9rem; color:var(--accent); margin-top:4px; }
+
+    .hp-bar { height:10px; background:#333; border-radius:5px; overflow:hidden; margin-top:5px; }
+    .hp-fill { height:100%; background:var(--accent); width:50%; transition:width 0.3s; }
+
+    .status-pills { display:flex; flex-wrap:wrap; gap:5px; }
+    .pill { padding:4px 8px; border:1px solid var(--border); border-radius:12px; font-size:0.75rem; cursor:pointer; user-select:none; }
+    .pill.active { background:var(--nsfw-accent); border-color:var(--nsfw-accent); color:white; }
+
+    .tabs { display:flex; gap:5px; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:15px; overflow-x:auto; }
+    .tab-btn { background:none; border:1px solid transparent; color:var(--muted); padding:6px 12px; cursor:pointer; border-radius:4px; font-size:0.9rem; white-space:nowrap; }
+    .tab-btn.active { background:var(--surface-2); color:var(--text); border-color:var(--border); }
+    .tab-btn:hover { color:var(--text); }
+
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+
+    .list-card { background:var(--bg); border:1px solid var(--border); }
+    .list-row { display:grid; grid-template-columns:30px 1fr 40px; gap:10px; padding:8px 12px; align-items:center; border-bottom:1px solid var(--border); }
+    .list-row:last-child { border-bottom:0; }
+
+    .repeat-table { display:flex; flex-direction:column; gap:8px; }
+    .repeat-row { background:var(--bg); border:1px solid var(--border); padding:10px; border-radius:4px; }
+
+    .tiny-input { padding:4px; font-size:0.9rem; }
+
+    .portrait-container { width:100%; aspect-ratio:3/4; background:#000; position:relative; overflow:hidden; border-radius:4px; display:flex; align-items:center; justify-content:center; }
+    .portrait-img { width:100%; height:100%; object-fit:cover; display:none; }
+    .portrait-placeholder { color:#555; text-align:center; padding:20px; }
+
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; display:flex; align-items:center; justify-content:center; }
+    .modal-dialog { width:90%; max-width:500px; }
+
+    @media print {
+      .topbar, .tabs, #settingsModal, #ageGateOverlay, button { display:none !important; }
+      .panel { break-inside:avoid; border:1px solid #ccc; box-shadow:none; }
+      body { background:white; color:black; }
+      .form-control { border:1px solid #ccc; background:white; color:black; }
+    }
+  </style>
+
+  <script type="module">
+    const root = window.root || window;
+
+    // --- Data Tables ---
+    const TABLES = {
+      genders: ["Female", "Male", "Futanari", "Shemale", "Genderfluid", "Non-binary"],
+      orientations: ["Heterosexual", "Homosexual", "Bisexual", "Pansexual", "Lesbian", "Polyamorous"],
+      bodyTypes: ["Slender", "Athletic", "Curvy", "Voluptuous", "Muscular", "Petite", "Chubby", "Hourglass"],
+      kinkLevels: ["Vanilla", "Curious", "Experienced", "Kinky", "Depraved"],
+      races: ["Human", "Elf", "Tiefling", "Dragonborn", "Dwarf", "Orc", "Halfling", "Gnome", "Half-Orc", "Aasimar"],
+      classes: ["Bard", "Sorcerer", "Warlock", "Rogue", "Cleric", "Paladin", "Druid", "Fighter", "Wizard", "Monk"],
+      backgrounds: ["Courtesan", "Noble", "Criminal", "Entertainer", "Slave", "Sage", "Soldier", "Outlander", "Acolyte"],
+      nsfwClasses: ["Courtesan", "Pleasure Slave", "Domina", "Submissive", "Harem Dweller", "Gladiator", "Brothel Worker"],
+      kinks: ["BDSM", "Exhibitionism", "Voyeurism", "Bondage", "Roleplay", "Impact Play", "Sensation Play", "Pet Play", "Breeding", "CNC", "Watersports", "Latex", "Feet"],
+      conditions: ["Blinded", "Charmed", "Frightened", "Grappled", "Incapacitated", "Invisible", "Paralyzed", "Petrified", "Poisoned", "Prone", "Restrained", "Stunned", "Unconscious", "Aroused", "Bound", "Exposed"]
+    };
+
+    const SKILLS = [
+      { name: "Acrobatics", ab: "dex" }, { name: "Animal Handling", ab: "wis" }, { name: "Arcana", ab: "int" },
+      { name: "Athletics", ab: "str" }, { name: "Deception", ab: "cha" }, { name: "History", ab: "int" },
+      { name: "Insight", ab: "wis" }, { name: "Intimidation", ab: "cha" }, { name: "Investigation", ab: "int" },
+      { name: "Medicine", ab: "wis" }, { name: "Nature", ab: "int" }, { name: "Perception", ab: "wis" },
+      { name: "Performance", ab: "cha" }, { name: "Persuasion", ab: "cha" }, { name: "Religion", ab: "int" },
+      { name: "Sleight of Hand", ab: "dex" }, { name: "Stealth", ab: "dex" }, { name: "Survival", ab: "wis" }
+    ];
+
+    // --- State & Helper Functions ---
+    let state = {
+      stats: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
+      prof: 2,
+      settings: { nsfwLevel: 'explicit', artStyle: 'realistic' }
+    };
+
+    const getVal = (id) => document.getElementById(id).value;
+    const setVal = (id, val) => document.getElementById(id).value = val;
+    const getMod = (score) => Math.floor((score - 10) / 2);
+    const formatMod = (mod) => (mod >= 0 ? "+" : "") + mod;
+
+    function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // --- UI Builders ---
+    function buildAbilities() {
+      const grid = abilitiesGridEl;
+      grid.innerHTML = "";
+      ["str", "dex", "con", "int", "wis", "cha"].forEach(ab => {
+        const div = document.createElement('div');
+        div.className = "ability-card";
+        div.innerHTML = `
+          <div style="font-size:0.8rem; text-transform:uppercase; color:var(--muted)">${ab}</div>
+          <input type="number" id="score_${ab}" class="ability-score form-control" value="10" style="border:none; background:transparent; text-align:center;">
+          <div id="mod_${ab}" class="ability-mod">+0</div>
+        `;
+        grid.appendChild(div);
+        document.getElementById(`score_${ab}`).addEventListener('input', recalc);
+      });
+    }
+
+    function buildSkills() {
+      const list = skillsListEl;
+      list.innerHTML = "";
+      SKILLS.forEach(sk => {
+        const row = document.createElement('div');
+        row.className = "list-row";
+        row.innerHTML = `
+          <input type="checkbox" id="prof_${sk.name}" class="skill-prof">
+          <div>${sk.name} <small style="color:var(--muted)">(${sk.ab})</small></div>
+          <div id="bonus_${sk.name}" style="font-weight:bold; text-align:right;">0</div>
+        `;
+        list.appendChild(row);
+        row.querySelector('input').addEventListener('change', recalc);
+      });
+    }
+
+    function buildConditions() {
+      const ctn = conditionsContainerEl;
+      ctn.innerHTML = "";
+      TABLES.conditions.forEach(cond => {
+        const p = document.createElement('div');
+        p.className = "pill";
+        p.textContent = cond;
+        p.onclick = () => {
+          p.classList.toggle('active');
+          if(p.classList.contains('active')) p.style.borderColor = 'var(--nsfw-accent)';
+          else p.style.borderColor = 'var(--border)';
+        };
+        ctn.appendChild(p);
+      });
+    }
+
+    function createRepeaterRow(type) {
+      const row = document.createElement('div');
+      row.className = "repeat-row";
+
+      if(type === 'attack') {
+        row.innerHTML = `
+          <input type="text" class="form-control attack-name" placeholder="Name" style="margin-bottom:5px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px;">
+            <input type="text" class="form-control attack-bonus" placeholder="+X">
+            <input type="text" class="form-control attack-dmg" placeholder="Dmg">
+            <button class="btn-sheet btn-sm btn-danger" onclick="this.closest('.repeat-row').remove()">X</button>
+          </div>
+        `;
+      } else if (type === 'item') {
+        row.innerHTML = `
+           <div style="display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:5px;">
+             <input type="text" class="form-control item-name" placeholder="Item">
+             <input type="number" class="form-control item-qty" value="1">
+             <input type="number" class="form-control item-wt" value="0">
+             <button class="btn-sheet btn-sm btn-danger" onclick="this.closest('.repeat-row').remove()">X</button>
+           </div>
+        `;
+      } else if (type === 'spell') {
+        row.innerHTML = `
+           <input type="text" class="form-control spell-name" placeholder="Spell Name" style="margin-bottom:5px;">
+           <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px;">
+             <input type="text" class="form-control spell-school" placeholder="School">
+             <input type="text" class="form-control spell-time" placeholder="Time">
+             <button class="btn-sheet btn-sm btn-danger" onclick="this.closest('.repeat-row').remove()">X</button>
+           </div>
+        `;
+      }
+      return row;
+    }
+
+    // --- Core Logic ---
+    function recalc() {
+      ["str", "dex", "con", "int", "wis", "cha"].forEach(ab => {
+        let val = parseInt(document.getElementById(`score_${ab}`).value) || 10;
+        document.getElementById(`mod_${ab}`).textContent = formatMod(getMod(val));
+      });
+
+      SKILLS.forEach(sk => {
+        let baseMod = getMod(parseInt(document.getElementById(`score_${sk.ab}`).value) || 10);
+        let isProf = document.getElementById(`prof_${sk.name}`).checked;
+        let bonus = baseMod + (isProf ? state.prof : 0);
+        document.getElementById(`bonus_${sk.name}`).textContent = formatMod(bonus);
+      });
+
+      let dexMod = getMod(parseInt(score_dexEl.value) || 10);
+      initiativeEl.value = formatMod(dexMod);
+
+      // HP Bar
+      let max = parseInt(hpMaxEl.value) || 1;
+      let cur = parseInt(hpCurrentEl.value) || 0;
+      let pct = Math.max(0, Math.min(100, (cur / max) * 100));
+      hpFillEl.style.width = pct + "%";
+
+      // Inventory Weight
+      let totalWt = 0;
+      document.querySelectorAll('.item-qty, .item-wt').forEach((el, i, arr) => {
+        if(el.classList.contains('item-qty') && arr[i+1]) {
+           totalWt += (parseFloat(el.value)||0) * (parseFloat(arr[i+1].value)||0);
+        }
+      });
+      totalWeightEl.textContent = totalWt;
+
+      saveToLocal();
+    }
+
+    function saveToLocal() {
+      // Save basic fields
+      document.querySelectorAll('input, textarea').forEach(el => {
+        if(el.id && !el.type.startsWith('file')) localStorage.setItem('dnd_'+el.id, el.value);
+      });
+    }
+
+    function loadFromLocal() {
+      document.querySelectorAll('input, textarea').forEach(el => {
+        if(el.id) {
+          let val = localStorage.getItem('dnd_'+el.id);
+          if(val) el.value = val;
+        }
+      });
+      recalc();
+    }
+
+    async function randomizeSheet() {
+      // Basic
+      setVal('charName', rand(["Lyanna", "Cassandra", "Thorne", "Vesper", "Ignis", "Silas", "Elara", "Kael"]) + " " + rand(["Storm", "Vane", "Blackwood", "Delacour", "Whitestone"]));
+      setVal('race', rand(TABLES.races));
+      setVal('classLevel', rand(TABLES.classes) + " " + rand([1,2,3,4,5]));
+      setVal('background', rand(TABLES.backgrounds));
+      setVal('alignment', rand(["Lawful Good", "Neutral Good", "Chaotic Good", "Lawful Neutral", "True Neutral", "Chaotic Neutral", "Lawful Evil", "Neutral Evil", "Chaotic Evil"]));
+
+      // NSFW Specifics
+      setVal('gender', rand(TABLES.genders));
+      setVal('orientation', rand(TABLES.orientations));
+      setVal('bodyType', rand(TABLES.bodyTypes));
+      setVal('kinkLevel', rand(TABLES.kinkLevels));
+      setVal('genitalSize', rand(["Small", "Average", "Large", "Massive"]) + " / " + rand(["A-Cup","B-Cup","C-Cup","D-Cup","DD-Cup","Large"]));
+      setVal('grooming', rand(["Shaved", "Trimmed", "Natural", "Landing Strip", "Styled"]));
+
+      // Random Kinks
+      let selectedKinks = [];
+      for(let i=0; i<3; i++) selectedKinks.push(rand(TABLES.kinks));
+      setVal('primaryKinks', selectedKinks.join(", "));
+
+      // Stats
+      ["str", "dex", "con", "int", "wis", "cha"].forEach(ab => {
+        let rolls = Array(4).fill(0).map(() => Math.floor(Math.random()*6)+1).sort((a,b)=>b-a).slice(0,3);
+        let sum = rolls.reduce((a,b)=>a+b,0);
+        document.getElementById(`score_${ab}`).value = sum;
+      });
+
+      // Randomize Proficiencies
+      document.querySelectorAll('.skill-prof').forEach(cb => cb.checked = Math.random() < 0.25);
+
+      recalc();
+    }
+
+    // --- AI Generators ---
+    async function generatePortrait() {
+      const btn = document.getElementById('generatePortraitBtn');
+      const img = portraitImgEl;
+      const placeholder = portraitPlaceholderEl;
+      const spinner = loadingSpinnerEl;
+
+      btn.disabled = true;
+      spinner.style.display = 'flex';
+
+      try {
+        const name = getVal('charName') || "Character";
+        const race = getVal('race') || "Human";
+        const cls = getVal('classLevel') || "Adventurer";
+        const gender = getVal('gender') || "Female";
+        const body = getVal('bodyType') || "Athletic";
+        const nsfwLvl = state.settings.nsfwLevel;
+        const style = state.settings.artStyle;
+
+        let prompt = `Full body portrait of a ${race} ${gender} D&D character named ${name}. Class: ${cls}. Body type: ${body}. `;
+
+        if(nsfwLvl === 'explicit') {
+          prompt += `Fully nude, explicit erotica, detailed genitalia, aroused state, high quality ${style} art style. `;
+        } else if (nsfwLvl === 'extreme') {
+          prompt += `Hardcore pornography, explicit sexual acts, cum, fluids, spread legs, detailed anatomy, ${style} style. `;
+        } else {
+          prompt += `Suggestive pose, revealing outfit, erotic fantasy art, ${style} style. `;
+        }
+
+        prompt += "Detailed background, professional lighting.";
+
+        const dataUrl = await root.generateImage(prompt, { resolution: "768x768" });
+
+        img.src = dataUrl;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      } catch(e) {
+        console.error(e);
+        alert("Failed to generate portrait. API might be busy.");
+      } finally {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+      }
+    }
+
+    async function generateBackstory() {
+      const btn = document.getElementById('generateBackstoryBtn');
+      const target = backstoryTextEl;
+
+      btn.disabled = true;
+      const origText = btn.textContent;
+      btn.textContent = "Writing...";
+
+      try {
+        const name = getVal('charName');
+        const gender = getVal('gender');
+        const race = getVal('race');
+        const cls = getVal('classLevel');
+        const bg = getVal('background');
+        const kinks = getVal('primaryKinks');
+        const lvl = state.settings.nsfwLevel;
+
+        let prompt = `Write a 300 word D&D backstory for ${name}, a ${gender} ${race} ${cls} with the '${bg}' background. `;
+
+        if(lvl === 'mild') {
+          prompt += "Focus on their romantic inclinations and general attractiveness without being too graphic. Mention their sexuality.";
+        } else {
+          prompt += `Be extremely explicit regarding their sexual development, loss of virginity, and sexual appetites. `;
+          if(kinks) prompt += `They are into ${kinks}. Describe how they discovered these kinks. `;
+          prompt += `Include at least one detailed erotic memory involving a partner.`;
+        }
+
+        const text = await root.generateText(prompt);
+        target.value = text;
+      } catch(e) {
+        console.error(e);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = origText;
+      }
+    }
+
+    async function generateHistory() {
+      const btn = document.getElementById('generateHistoryBtn');
+      const target = sexualHistoryEl;
+
+      btn.disabled = true;
+      const origText = btn.textContent;
+      btn.textContent = "Writing...";
+
+      try {
+        const name = getVal('charName');
+        const gender = getVal('gender');
+        const orientation = getVal('orientation');
+        const lvl = state.settings.nsfwLevel;
+
+        let prompt = `Write a chronological list of ${name}'s (a ${gender} ${orientation} person) sexual history. `;
+        prompt += `Format as bullet points. Include first times, number of partners, favorite positions, and any magical sexual encounters. `;
+        if(lvl !== 'mild') prompt += "Be very graphic and explicit about anatomy and fluids.";
+
+        const text = await root.generateText(prompt);
+        target.value = text;
+      } catch(e) {
+        console.error(e);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = origText;
+      }
+    }
+
+    // --- Initialization & Event Listeners ---
+    document.addEventListener('DOMContentLoaded', () => {
+      // Init UI
+      buildAbilities();
+      buildSkills();
+      buildConditions();
+
+      // Event Wiring
+      document.getElementById('randomizeBtn').addEventListener('click', randomizeSheet);
+      document.getElementById('generatePortraitBtn').addEventListener('click', generatePortrait);
+      document.getElementById('generateBackstoryBtn').addEventListener('click', generateBackstory);
+      document.getElementById('generateHistoryBtn').addEventListener('click', generateHistory);
+
+      document.getElementById('addAttackBtn').addEventListener('click', () => {
+        attacksRepeaterEl.appendChild(createRepeaterRow('attack'));
+      });
+      document.getElementById('addItemBtn').addEventListener('click', () => {
+        itemsRepeaterEl.appendChild(createRepeaterRow('item'));
+        // Attach listeners to new item inputs for weight calc
+        const row = document.querySelector('#itemsRepeater .repeat-row:last-child');
+        row.querySelectorAll('input').forEach(i => i.addEventListener('input', recalc));
+      });
+      document.getElementById('addSpellBtn').addEventListener('click', () => {
+        spellsRepeaterEl.appendChild(createRepeaterRow('spell'));
+      });
+
+      // Tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+      });
+
+      // Settings
+      const modal = settingsModalEl;
+      document.getElementById('openSettingsBtn').addEventListener('click', () => modal.hidden = false);
+      document.getElementById('closeSettingsBtn').addEventListener('click', () => modal.hidden = true);
+      document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+        state.settings.nsfwLevel = nsfwLevelSettingEl.value;
+        state.settings.artStyle = artStyleSettingEl.value;
+        nsfwStatusBadgeEl.textContent = `Mode: ${state.settings.nsfwLevel.toUpperCase()}`;
+        modal.hidden = true;
+      });
+
+      // New Sheet
+      document.getElementById('newSheetBtn').addEventListener('click', () => {
+        if(confirm("Clear all data?")) {
+          document.querySelectorAll('input').forEach(i => i.value = "");
+          document.querySelectorAll('textarea').forEach(t => t.value = "");
+          localStorage.clear();
+          randomizeSheet();
+        }
+      });
+
+      // Age Gate
+      document.getElementById('enterSiteBtn').addEventListener('click', () => {
+        ageGateOverlayEl.style.display = 'none';
+        loadFromLocal(); // Load existing data if any
+        if(!getVal('charName')) randomizeSheet(); // If empty, seed
+      });
+
+      // Print
+      document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+      // Initial Recalc
+      recalc();
+    });
+  </script>
+</div>

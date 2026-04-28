@@ -1,0 +1,1910 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-parchment="off">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>D&D 5e Character Sheet - Enhanced</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f%5B%5D=satoshi@400,500,700,900&f%5B%5D=clash_display@500,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #12100e;
+        --surface: #1d1915;
+        --surface-2: #27211c;
+        --surface-3: #322a24;
+        --border: rgba(255, 240, 216, 0.14);
+        --border-strong: rgba(255, 240, 216, 0.26);
+        --text: #f3eadc;
+        --muted: #b8aa97;
+        --faint: #8e8275;
+        --accent: #c16a2e;
+        --accent-2: #f2b65f;
+        --success: #4fa36c;
+        --warning: #d39a39;
+        --danger: #cd5f5f;
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 22px;
+        --shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      }
+
+      [data-theme="light"] {
+        --bg: #ece2d1;
+        --surface: #fbf5e9;
+        --surface-2: #f7eddf;
+        --surface-3: #efe0cb;
+        --border: rgba(61, 45, 27, 0.18);
+        --border-strong: rgba(61, 45, 27, 0.3);
+        --text: #2b1f13;
+        --muted: #705a42;
+        --faint: #99846f;
+        --accent: #a54f1d;
+        --accent-2: #d88a39;
+        --success: #2f7d46;
+        --warning: #99601f;
+        --danger: #9f3c3c;
+        --shadow: 0 12px 30px rgba(40, 26, 12, 0.12);
+      }
+
+      [data-parchment="on"] {
+        --bg: #e6d4b8;
+        --surface: #f4e6cf;
+        --surface-2: #efddc2;
+        --surface-3: #e7d2b1;
+        --border: rgba(70, 43, 18, 0.22);
+        --border-strong: rgba(70, 43, 18, 0.34);
+        --text: #2c1a0f;
+        --muted: #6a4e34;
+        --faint: #8c6d4f;
+        --accent: #8d3f1b;
+        --accent-2: #bc7335;
+        --shadow: 0 10px 25px rgba(67, 43, 22, 0.15);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Satoshi", system-ui, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(241, 183, 101, 0.12), transparent 35%),
+          radial-gradient(circle at 85% 5%, rgba(141, 63, 27, 0.14), transparent 30%), var(--bg);
+        color: var(--text);
+        font-size: 16px;
+        line-height: 1.45;
+      }
+
+      .app-shell {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .brand-mark {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: white;
+        box-shadow: var(--shadow);
+        font-weight: 900;
+        letter-spacing: 0.06em;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-family: "Clash Display", "Satoshi", sans-serif;
+        font-size: clamp(1.35rem, 1rem + 1vw, 2rem);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .subtle {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .grid-main {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr) 370px;
+        gap: 16px;
+      }
+
+      @media (max-width: 1260px) {
+        .grid-main {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .panel {
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--surface) 86%, black 14%),
+          var(--surface-2)
+        );
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 14px 16px 8px;
+      }
+
+      .panel-title {
+        margin: 0;
+        font-size: 0.92rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        font-weight: 800;
+      }
+
+      .panel-body {
+        padding: 14px 16px 16px;
+      }
+
+      .panel-collapse-btn {
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        color: var(--muted);
+        border-radius: 999px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 5px 10px;
+        display: none;
+      }
+
+      @media (max-width: 900px) {
+        .panel-collapse-btn {
+          display: inline-flex;
+        }
+
+        .panel-body.is-collapsed {
+          display: none;
+        }
+      }
+
+      .btn-sheet {
+        border: 1px solid var(--border-strong);
+        background: var(--surface-3);
+        color: var(--text);
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        transition: 0.18s ease;
+      }
+
+      .btn-sheet:hover,
+      .btn-sheet:focus-visible {
+        background: color-mix(in srgb, var(--surface-3) 62%, var(--accent) 38%);
+        border-color: var(--accent);
+        color: white;
+      }
+
+      .btn-accent {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
+      }
+
+      .btn-success {
+        background: var(--success);
+        border-color: var(--success);
+        color: white;
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: white;
+      }
+
+      .sheet-input,
+      .sheet-select,
+      .sheet-textarea,
+      .form-control,
+      .form-select {
+        background-color: var(--surface-3) !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text) !important;
+        border-radius: 12px !important;
+        min-height: 42px;
+      }
+
+      .sheet-textarea,
+      textarea.form-control {
+        min-height: 92px;
+        resize: vertical;
+      }
+
+      .form-control::placeholder,
+      .form-select::placeholder,
+      textarea::placeholder {
+        color: var(--faint) !important;
+      }
+
+      .form-control:focus,
+      .form-select:focus,
+      textarea:focus {
+        box-shadow: 0 0 0 0.22rem color-mix(in srgb, var(--accent) 34%, transparent) !important;
+        border-color: var(--accent) !important;
+      }
+
+      .ability-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .ability-card {
+        border: 1px solid var(--border);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent), var(--surface-3);
+        border-radius: var(--radius-md);
+        padding: 12px;
+        text-align: center;
+      }
+
+      .ability-card h3 {
+        margin: 0 0 8px;
+        font-size: 0.82rem;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      .ability-score-input {
+        text-align: center;
+        font-size: 1.26rem;
+        font-weight: 900;
+        padding: 8px 10px;
+      }
+
+      .ability-mod {
+        margin-top: 8px;
+        font-size: 1.2rem;
+        font-weight: 900;
+      }
+
+      .derived-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 10px;
+      }
+
+      .mini-stat {
+        padding: 12px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        text-align: center;
+      }
+
+      .tiny {
+        font-size: 0.76rem;
+        color: var(--faint);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .mini-stat .value {
+        font-weight: 900;
+        font-size: 1.35rem;
+        line-height: 1.1;
+        margin-top: 4px;
+      }
+
+      .inline-metric {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-3);
+      }
+
+      .inline-metric strong {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .field {
+        margin-bottom: 12px;
+      }
+
+      .field label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.78rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        font-weight: 700;
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .tab-btn {
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+
+      .tab-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+      }
+
+      .tab-panel {
+        display: none;
+      }
+
+      .tab-panel.active {
+        display: block;
+      }
+
+      .list-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        background: var(--surface-3);
+      }
+
+      .list-row {
+        display: grid;
+        grid-template-columns: 26px 26px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 9px 12px;
+        border-top: 1px solid var(--border);
+      }
+
+      .list-row:first-child {
+        border-top: 0;
+      }
+
+      .list-row small {
+        color: var(--faint);
+      }
+
+      .score-badge {
+        min-width: 44px;
+        text-align: right;
+        font-weight: 900;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .hp-bar {
+        position: relative;
+        overflow: hidden;
+        height: 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border);
+      }
+
+      .hp-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--success), #7edc83);
+        transition: width 0.2s ease;
+      }
+
+      .quick-actions,
+      .coin-grid,
+      .death-track {
+        display: grid;
+        gap: 10px;
+      }
+
+      .quick-actions {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .coin-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .death-track {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .compact-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      .compact-table th,
+      .compact-table td {
+        border-top: 1px solid var(--border);
+        padding: 10px;
+        vertical-align: top;
+      }
+
+      .compact-table tr:first-child th,
+      .compact-table tr:first-child td {
+        border-top: 0;
+      }
+
+      .compact-table th {
+        color: var(--muted);
+        font-size: 0.76rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+
+      .repeat-table {
+        display: grid;
+        gap: 10px;
+      }
+
+      .repeat-row {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--surface-3);
+        padding: 10px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .repeat-grid-attack {
+        grid-template-columns: 1.4fr 0.8fr 1fr 1fr auto;
+        align-items: end;
+      }
+
+      .repeat-grid-item {
+        grid-template-columns: 1.5fr 0.6fr 0.8fr 0.8fr 0.9fr auto;
+        align-items: end;
+      }
+
+      .repeat-grid-feat {
+        grid-template-columns: 1fr 0.7fr 2fr auto;
+        align-items: end;
+      }
+
+      .repeat-grid-spell {
+        grid-template-columns: 0.6fr 1.4fr 0.8fr 0.8fr 0.8fr 0.7fr 0.9fr auto;
+        align-items: end;
+      }
+
+      .repeat-flags {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .repeat-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .muted-box {
+        border: 1px dashed var(--border-strong);
+        border-radius: var(--radius-md);
+        padding: 12px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .footer-note {
+        margin-top: 10px;
+        color: var(--faint);
+        font-size: 0.82rem;
+      }
+
+      .pill {
+        border: 1px solid var(--border-strong);
+        background: var(--surface-3);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 8px 10px;
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .pill.active {
+        color: white;
+        border-color: transparent;
+      }
+
+      .pill-good.active {
+        background: var(--success);
+      }
+
+      .pill-warn.active {
+        background: var(--warning);
+      }
+
+      .pill-bad.active {
+        background: var(--danger);
+      }
+
+      .status-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .search-box {
+        margin-bottom: 10px;
+      }
+
+      .section-stack > * + * {
+        margin-top: 14px;
+      }
+
+      .sticky-side {
+        position: sticky;
+        top: 20px;
+      }
+
+      @media (max-width: 1260px) {
+        .sticky-side {
+          position: static;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .repeat-grid-attack,
+        .repeat-grid-item,
+        .repeat-grid-feat,
+        .repeat-grid-spell {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .quick-actions,
+        .coin-grid,
+        .death-track {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media print {
+        html,
+        body {
+          background: #f2e2c8 !important;
+          color: #2c1a0f !important;
+        }
+
+        .toolbar,
+        .panel-collapse-btn,
+        .btn-sheet,
+        #importJsonFile {
+          display: none !important;
+        }
+
+        .panel {
+          break-inside: avoid;
+          box-shadow: none;
+          border: 1px solid rgba(70, 43, 18, 0.35) !important;
+          background: #f6e9d3 !important;
+        }
+
+        .form-control,
+        .form-select,
+        textarea {
+          background: #fbf2e2 !important;
+          color: #2b1f13 !important;
+          border-color: rgba(70, 43, 18, 0.25) !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+      #themeToggle {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+        z-index: 999;
+        padding: 0.2em 0.2em;
+      }
+      #parchmentToggle {
+        position: fixed;
+        top: 60px;
+        right: 10px;
+        font-size: 1.5rem;
+        z-index: 999;
+        padding: 0.2em 0.2em;
+      }
+      #themeToggle.active {
+        color: var(--accent);
+        background-color: var(--accent);
+      }
+      #parchmentToggle.active {
+        color: var(--accent);
+        background-color: var(--accent);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app-shell" id="dnd-sheet">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">D20</div>
+          <div>
+            <h1>D&D 5e Character Sheet</h1>
+            <div class="subtle">
+              Improved sandbox-friendly sheet with hash tabs and full repeaters
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button class="btn-sheet" id="newSheetBtn" type="button">New Character</button>
+          <button class="btn-sheet" id="exportJsonBtn" type="button">Export JSON</button>
+          <button class="btn-sheet" id="importJsonBtn" type="button">Import JSON</button>
+          <input type="file" id="importJsonFile" accept="application/json" hidden />
+          <button class="btn-sheet btn-accent" id="randomizeBtn" type="button">Randomize</button>
+          <button class="btn-sheet" id="printBtn" type="button">Print</button>
+          <button class="btn-sheet" id="parchmentToggle" type="button">📜</button>
+          <button class="btn-sheet" id="themeToggle" type="button">🎨</button>
+        </div>
+      </div>
+
+      <div class="grid-main">
+        <aside class="section-stack sticky-side">
+          <section class="panel" id="panel-abilities">
+            <div class="panel-header">
+              <h2 class="panel-title">Abilities</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-abilities">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="ability-grid">
+                <div class="ability-card">
+                  <h3>Strength</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="strScore"
+                    data-ability="str"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-str">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Dexterity</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="dexScore"
+                    data-ability="dex"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-dex">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Constitution</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="conScore"
+                    data-ability="con"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-con">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Intelligence</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="intScore"
+                    data-ability="int"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-int">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Wisdom</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="wisScore"
+                    data-ability="wis"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-wis">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Charisma</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="chaScore"
+                    data-ability="cha"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-cha">+0</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-derived">
+            <div class="panel-header">
+              <h2 class="panel-title">Derived</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-derived">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="derived-row">
+                <div class="mini-stat">
+                  <div class="tiny">Proficiency</div>
+                  <input
+                    type="number"
+                    class="form-control autosync text-center mt-2"
+                    id="profBonus"
+                    value="2"
+                    min="0"
+                  />
+                </div>
+                <div class="mini-stat">
+                  <div class="tiny">Passive Perception</div>
+                  <div class="value" id="passivePerception">10</div>
+                </div>
+                <div class="mini-stat">
+                  <div class="tiny">Spell Save DC</div>
+                  <div class="value" id="spellSaveDc">10</div>
+                </div>
+              </div>
+
+              <div class="field mt-3">
+                <label>
+                  <input type="checkbox" class="form-check-input autosync" id="jackOfAllTrades" />
+                  Jack of All Trades (Bard)
+                </label>
+              </div>
+
+              <div class="inline-metric">
+                <span>Initiative</span>
+                <strong id="initiativeDerived">+0</strong>
+              </div>
+              <div class="inline-metric mt-2">
+                <span>Carry Capacity</span>
+                <strong id="carryCapacity">150 lb</strong>
+              </div>
+              <div class="inline-metric mt-2">
+                <span>Inventory Weight</span>
+                <strong id="inventoryWeightSummary">0 lb (light)</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-conditions">
+            <div class="panel-header">
+              <h2 class="panel-title">Conditions</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-conditions">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="status-pills">
+                <button class="pill pill-bad toggle-pill" type="button" data-target="statusBlinded">
+                  Blinded
+                </button>
+                <button
+                  class="pill pill-bad toggle-pill"
+                  type="button"
+                  data-target="statusPoisoned"
+                >
+                  Poisoned
+                </button>
+                <button
+                  class="pill pill-warn toggle-pill"
+                  type="button"
+                  data-target="statusGrappled"
+                >
+                  Grappled
+                </button>
+                <button class="pill pill-warn toggle-pill" type="button" data-target="statusProne">
+                  Prone
+                </button>
+                <button
+                  class="pill pill-good toggle-pill"
+                  type="button"
+                  data-target="statusInspired"
+                >
+                  Inspired
+                </button>
+                <button
+                  class="pill pill-good toggle-pill"
+                  type="button"
+                  data-target="statusBlessed"
+                >
+                  Blessed
+                </button>
+              </div>
+
+              <input type="hidden" id="statusBlinded" value="false" />
+              <input type="hidden" id="statusPoisoned" value="false" />
+              <input type="hidden" id="statusGrappled" value="false" />
+              <input type="hidden" id="statusProne" value="false" />
+              <input type="hidden" id="statusInspired" value="false" />
+              <input type="hidden" id="statusBlessed" value="false" />
+            </div>
+          </section>
+        </aside>
+
+        <main class="section-stack">
+          <section class="panel" id="panel-character">
+            <div class="panel-header">
+              <h2 class="panel-title">Character</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-character">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="row g-3">
+                <div class="col-md-4 field">
+                  <label for="charName">Character Name</label>
+                  <input type="text" class="form-control autosync" id="charName" />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="classLevel">Class & Level</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="classLevel"
+                    placeholder="Bard 5"
+                  />
+                </div>
+                <div class="col-md-2 field">
+                  <label for="race">Race</label>
+                  <input type="text" class="form-control autosync" id="race" />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="background">Background</label>
+                  <input type="text" class="form-control autosync" id="background" />
+                </div>
+
+                <div class="col-md-3 field">
+                  <label for="alignment">Alignment</label>
+                  <input type="text" class="form-control autosync" id="alignment" />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="playerName">Player Name</label>
+                  <input type="text" class="form-control autosync" id="playerName" />
+                </div>
+                <div class="col-md-2 field">
+                  <label for="level">Level</label>
+                  <input type="number" class="form-control autosync" id="level" value="1" min="1" />
+                </div>
+                <div class="col-md-2 field">
+                  <label for="xp">XP</label>
+                  <input type="number" class="form-control autosync" id="xp" value="0" />
+                </div>
+                <div class="col-md-2 field">
+                  <label for="faction">Faction</label>
+                  <input type="text" class="form-control autosync" id="faction" />
+                </div>
+
+                <div class="col-md-3 field">
+                  <label for="inspiration">Inspiration</label>
+                  <input type="number" class="form-control autosync" id="inspiration" value="0" />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="ac">Armor Class</label>
+                  <input type="number" class="form-control autosync" id="ac" value="10" />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="speed">Speed</label>
+                  <input type="number" class="form-control autosync" id="speed" value="30" />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="spellcastingAbility">Spellcasting Ability</label>
+                  <select class="form-select autosync" id="spellcastingAbility">
+                    <option value="none">None</option>
+                    <option value="int">Intelligence</option>
+                    <option value="wis">Wisdom</option>
+                    <option value="cha">Charisma</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-tabs">
+            <div class="panel-header">
+              <h2 class="panel-title">Character Workspace</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-tabs">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="tabs" role="tablist" aria-label="Character tabs">
+                <button class="tab-btn" type="button" data-tab="tab-skills">Skills</button>
+                <button class="tab-btn" type="button" data-tab="tab-saves">Saving Throws</button>
+                <button class="tab-btn" type="button" data-tab="tab-attacks">Attacks</button>
+                <button class="tab-btn" type="button" data-tab="tab-spellbook">Spellbook</button>
+                <button class="tab-btn" type="button" data-tab="tab-inventory">Inventory</button>
+                <button class="tab-btn" type="button" data-tab="tab-feats">Feats</button>
+                <button class="tab-btn" type="button" data-tab="tab-notes">Notes</button>
+              </div>
+
+              <div class="tab-panel" id="tab-skills">
+                <div class="search-box">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="skillSearch"
+                    placeholder="Filter skills..."
+                  />
+                </div>
+                <div class="list-card" id="skillsList"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-saves">
+                <div class="list-card" id="savingThrowsList"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-attacks">
+                <div class="repeat-controls">
+                  <div class="tiny">Editable repeating attacks</div>
+                  <button class="btn-sheet" type="button" id="addAttackBtn">Add Attack</button>
+                </div>
+                <div class="repeat-table mt-2" id="attacksRepeater"></div>
+
+                <div class="field mt-3">
+                  <label for="attackNotes">Attacks & Spellcasting Notes</label>
+                  <textarea class="form-control autosync" id="attackNotes"></textarea>
+                </div>
+              </div>
+
+              <div class="tab-panel" id="tab-spellbook">
+                <div class="row g-3">
+                  <div class="col-md-3 field">
+                    <label for="preparedBonus">Prepared Bonus</label>
+                    <input
+                      type="number"
+                      class="form-control autosync"
+                      id="preparedBonus"
+                      value="0"
+                    />
+                  </div>
+                  <div class="col-md-3 field">
+                    <label>Prepared Count</label>
+                    <div class="inline-metric">
+                      <span>Prepared</span> <strong id="preparedCount">0 / 0</strong>
+                    </div>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label>Spell Slots</label>
+                    <div class="inline-metric">
+                      <span>Slots (Current/Max)</span> <strong id="slotSummary">0 / 0</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <table class="compact-table">
+                  <thead>
+                    <tr>
+                      <th>Lvl</th>
+                      <th>Current</th>
+                      <th>Max</th>
+                    </tr>
+                  </thead>
+                  <tbody id="slotsTableBody"></tbody>
+                </table>
+
+                <div class="repeat-controls mt-3">
+                  <div class="tiny">Full spellbook with prepared/ritual/concentration flags</div>
+                  <button class="btn-sheet" type="button" id="addSpellBtn">Add Spell</button>
+                </div>
+                <div class="repeat-table mt-2" id="spellsRepeater"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-inventory">
+                <div class="repeat-controls">
+                  <div class="tiny">Inventory rows with automatic weight totals</div>
+                  <button class="btn-sheet" type="button" id="addItemBtn">Add Item</button>
+                </div>
+                <div class="repeat-table mt-2" id="itemsRepeater"></div>
+                <div class="inline-metric mt-2">
+                  <span>Total Carried Weight</span>
+                  <strong id="inventoryWeightTotal">0 lb</strong>
+                </div>
+              </div>
+
+              <div class="tab-panel" id="tab-feats">
+                <div class="repeat-controls">
+                  <div class="tiny">Custom repeating feats/features</div>
+                  <button class="btn-sheet" type="button" id="addFeatBtn">Add Feat</button>
+                </div>
+                <div class="repeat-table mt-2" id="featsRepeater"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-notes">
+                <div class="row g-3">
+                  <div class="col-md-6 field">
+                    <label for="otherProfs">Other Proficiencies & Languages</label>
+                    <textarea class="form-control autosync" id="otherProfs"></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="featuresTraits">Features & Traits</label>
+                    <textarea class="form-control autosync" id="featuresTraits"></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="personalityTraits">Personality Traits</label>
+                    <textarea class="form-control autosync" id="personalityTraits"></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="ideals">Ideals</label>
+                    <textarea class="form-control autosync" id="ideals"></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="bonds">Bonds</label>
+                    <textarea class="form-control autosync" id="bonds"></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="flaws">Flaws</label>
+                    <textarea class="form-control autosync" id="flaws"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <aside class="section-stack sticky-side">
+          <section class="panel" id="panel-hp">
+            <div class="panel-header">
+              <h2 class="panel-title">Hit Points</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-hp">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="field">
+                <label for="hpMax">HP Maximum</label>
+                <input type="number" class="form-control autosync" id="hpMax" value="10" />
+              </div>
+              <div class="field">
+                <label for="hpCurrent">Current HP</label>
+                <input type="number" class="form-control autosync" id="hpCurrent" value="10" />
+              </div>
+              <div class="field">
+                <label for="hpTemp">Temporary HP</label>
+                <input type="number" class="form-control autosync" id="hpTemp" value="0" />
+              </div>
+
+              <div class="hp-bar" aria-hidden="true">
+                <div class="hp-fill" id="hpFill"></div>
+              </div>
+              <div class="footer-note" id="hpSummary">10 / 10 HP</div>
+
+              <div class="quick-actions mt-3">
+                <button class="btn-sheet" type="button" data-hp-action="-1">-1</button>
+                <button class="btn-sheet" type="button" data-hp-action="-5">-5</button>
+                <button class="btn-sheet btn-success" type="button" data-hp-action="+1">+1</button>
+                <button class="btn-sheet btn-success" type="button" data-hp-action="+5">+5</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-dice">
+            <div class="panel-header">
+              <h2 class="panel-title">Hit Dice & Death Saves</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-dice">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="row g-3">
+                <div class="col-6 field">
+                  <label for="hitDice">Hit Dice</label>
+                  <input type="text" class="form-control autosync" id="hitDice" value="1d8" />
+                </div>
+                <div class="col-6 field">
+                  <label for="hitDiceTotal">Total</label>
+                  <input type="number" class="form-control autosync" id="hitDiceTotal" value="1" />
+                </div>
+              </div>
+
+              <div class="tiny mt-2 mb-2">Successes</div>
+              <div class="death-track">
+                <label
+                  ><input type="checkbox" class="form-check-input autosync" id="dsSucc1" /> 1</label
+                >
+                <label
+                  ><input type="checkbox" class="form-check-input autosync" id="dsSucc2" /> 2</label
+                >
+                <label
+                  ><input type="checkbox" class="form-check-input autosync" id="dsSucc3" /> 3</label
+                >
+              </div>
+
+              <div class="tiny mt-3 mb-2">Failures</div>
+              <div class="death-track">
+                <label
+                  ><input type="checkbox" class="form-check-input autosync" id="dsFail1" /> 1</label
+                >
+                <label
+                  ><input type="checkbox" class="form-check-input autosync" id="dsFail2" /> 2</label
+                >
+                <label
+                  ><input type="checkbox" class="form-check-input autosync" id="dsFail3" /> 3</label
+                >
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-equipment">
+            <div class="panel-header">
+              <h2 class="panel-title">Equipment & Coins</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-equipment">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="coin-grid">
+                <div class="field">
+                  <label for="cp">CP</label>
+                  <input type="number" class="form-control autosync" id="cp" value="0" />
+                </div>
+                <div class="field">
+                  <label for="sp">SP</label>
+                  <input type="number" class="form-control autosync" id="sp" value="0" />
+                </div>
+                <div class="field">
+                  <label for="ep">EP</label>
+                  <input type="number" class="form-control autosync" id="ep" value="0" />
+                </div>
+                <div class="field">
+                  <label for="gp">GP</label>
+                  <input type="number" class="form-control autosync" id="gp" value="0" />
+                </div>
+                <div class="field">
+                  <label for="pp">PP</label>
+                  <input type="number" class="form-control autosync" id="pp" value="0" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="equipment">Equipment Notes</label>
+                <textarea class="form-control autosync" id="equipment"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-session">
+            <div class="panel-header">
+              <h2 class="panel-title">Session Utility</h2>
+              <button class="panel-collapse-btn" type="button" data-collapse="panel-session">
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="muted-box">
+                Tabs are persisted through URL hash for sandbox-safe state routing. Data persists by
+                explicit JSON export/import.
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+
+    <script>
+      const ABILITIES = [
+        { key: "str", name: "Strength" },
+        { key: "dex", name: "Dexterity" },
+        { key: "con", name: "Constitution" },
+        { key: "int", name: "Intelligence" },
+        { key: "wis", name: "Wisdom" },
+        { key: "cha", name: "Charisma" }
+      ];
+
+      const SKILLS = [
+        { key: "acrobatics", name: "Acrobatics", ability: "dex" },
+        { key: "animalHandling", name: "Animal Handling", ability: "wis" },
+        { key: "arcana", name: "Arcana", ability: "int" },
+        { key: "athletics", name: "Athletics", ability: "str" },
+        { key: "deception", name: "Deception", ability: "cha" },
+        { key: "history", name: "History", ability: "int" },
+        { key: "insight", name: "Insight", ability: "wis" },
+        { key: "intimidation", name: "Intimidation", ability: "cha" },
+        { key: "investigation", name: "Investigation", ability: "int" },
+        { key: "medicine", name: "Medicine", ability: "wis" },
+        { key: "nature", name: "Nature", ability: "int" },
+        { key: "perception", name: "Perception", ability: "wis" },
+        { key: "performance", name: "Performance", ability: "cha" },
+        { key: "persuasion", name: "Persuasion", ability: "cha" },
+        { key: "religion", name: "Religion", ability: "int" },
+        { key: "sleightOfHand", name: "Sleight of Hand", ability: "dex" },
+        { key: "stealth", name: "Stealth", ability: "dex" },
+        { key: "survival", name: "Survival", ability: "wis" }
+      ];
+
+      const REPEATER_KEYS = ["attacks", "items", "spells", "feats"];
+
+      function abilityMod(score) {
+        const parsed = parseInt(score, 10);
+        if (!Number.isFinite(parsed)) return 0;
+        return Math.floor((parsed - 10) / 2);
+      }
+
+      function formatMod(value) {
+        return `${value >= 0 ? "+" : ""}${value}`;
+      }
+
+      function num(id, fallback = 0) {
+        const value = parseFloat(document.getElementById(id)?.value);
+        return Number.isFinite(value) ? value : fallback;
+      }
+
+      function setValue(id, value) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.value = value;
+      }
+
+      function buildSkillsAndSaves() {
+        const skillsList = document.getElementById("skillsList");
+        const savesList = document.getElementById("savingThrowsList");
+
+        skillsList.innerHTML = SKILLS.map(
+          (skill) => `
+          <label class="list-row skill-row" data-skill-name="${skill.name.toLowerCase()}">
+            <input type="checkbox" class="form-check-input skill-prof autosync" id="prof_${skill.key}" data-skill="${skill.key}" data-ability="${skill.ability}" title="Proficient" />
+            <input type="checkbox" class="form-check-input autosync" id="exp_${skill.key}" data-expertise="${skill.key}" title="Expertise" />
+            <div>
+              <div>${skill.name}</div>
+              <small>${skill.ability.toUpperCase()} / Prof / Exp</small>
+            </div>
+            <div class="score-badge" id="skill-${skill.key}">+0</div>
+          </label>
+        `
+        ).join("");
+
+        savesList.innerHTML = ABILITIES.map(
+          (ab) => `
+          <label class="list-row">
+            <input type="checkbox" class="form-check-input save-prof autosync" id="saveProf_${ab.key}" data-ability="${ab.key}" title="Proficient" />
+            <input type="checkbox" class="form-check-input autosync" id="saveExp_${ab.key}" data-save-expertise="${ab.key}" title="Expertise" />
+            <div>
+              <div>${ab.name}</div>
+              <small>${ab.key.toUpperCase()} save / Prof / Exp</small>
+            </div>
+            <div class="score-badge" id="save-${ab.key}">+0</div>
+          </label>
+        `
+        ).join("");
+      }
+
+      function buildSlotsTable() {
+        const tbody = document.getElementById("slotsTableBody");
+        tbody.innerHTML = "";
+        for (let lvl = 1; lvl <= 9; lvl += 1) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${lvl}</td>
+            <td><input type="number" min="0" class="form-control autosync" id="slotCur${lvl}" value="0" /></td>
+            <td><input type="number" min="0" class="form-control autosync" id="slotMax${lvl}" value="0" /></td>
+          `;
+          tbody.appendChild(tr);
+        }
+      }
+
+      function createRowInput(label, field, value = "", type = "text", min = "") {
+        return `
+          <div class="field mb-0">
+            <label>${label}</label>
+            <input type="${type}" ${min !== "" ? `min="${min}"` : ""} class="form-control autosync" data-field="${field}" value="${String(value).replace(/"/g, "&quot;")}" />
+          </div>
+        `;
+      }
+
+      function createRepeaterRow(kind, data = {}) {
+        const row = document.createElement("div");
+        row.className = "repeat-row";
+
+        if (kind === "attacks") {
+          row.innerHTML = `
+            <div class="repeat-grid-attack">
+              ${createRowInput("Name", "name", data.name || "")}
+              ${createRowInput("Bonus", "bonus", data.bonus || "")}
+              ${createRowInput("Damage", "damage", data.damage || "")}
+              ${createRowInput("Type", "type", data.type || "")}
+              <button type="button" class="btn-sheet btn-danger" data-remove-row="attacks">Remove</button>
+            </div>
+            <div class="field mb-0">
+              <label>Notes</label>
+              <textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea>
+            </div>
+          `;
+        }
+
+        if (kind === "items") {
+          row.innerHTML = `
+            <div class="repeat-grid-item">
+              ${createRowInput("Item", "name", data.name || "")}
+              ${createRowInput("Qty", "qty", data.qty ?? 1, "number", 0)}
+              ${createRowInput("Wt Each", "weight", data.weight ?? 0, "number", 0)}
+              ${createRowInput("Cost", "cost", data.cost || "")}
+              <div class="field mb-0">
+                <label>Total Wt</label>
+                <input type="text" class="form-control" data-field="total" value="0" readonly />
+              </div>
+              <button type="button" class="btn-sheet btn-danger" data-remove-row="items">Remove</button>
+            </div>
+            <div class="field mb-0">
+              <label>Description</label>
+              <textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea>
+            </div>
+          `;
+        }
+
+        if (kind === "spells") {
+          row.innerHTML = `
+            <div class="repeat-grid-spell">
+              ${createRowInput("Lvl", "level", data.level ?? 0, "number", 0)}
+              ${createRowInput("Spell Name", "name", data.name || "")}
+              ${createRowInput("School", "school", data.school || "")}
+              ${createRowInput("Cast Time", "castTime", data.castTime || "")}
+              ${createRowInput("Range", "range", data.range || "")}
+              ${createRowInput("Components", "components", data.components || "")}
+              ${createRowInput("Duration", "duration", data.duration || "")}
+              <button type="button" class="btn-sheet btn-danger" data-remove-row="spells">Remove</button>
+            </div>
+            <div class="repeat-flags">
+              <label><input type="checkbox" class="form-check-input autosync" data-field="prepared" ${data.prepared ? "checked" : ""} /> Prepared</label>
+              <label><input type="checkbox" class="form-check-input autosync" data-field="ritual" ${data.ritual ? "checked" : ""} /> Ritual</label>
+              <label><input type="checkbox" class="form-check-input autosync" data-field="concentration" ${data.concentration ? "checked" : ""} /> Concentration</label>
+            </div>
+            <div class="field mb-0">
+              <label>Description / Notes</label>
+              <textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea>
+            </div>
+          `;
+        }
+
+        if (kind === "feats") {
+          row.innerHTML = `
+            <div class="repeat-grid-feat">
+              ${createRowInput("Name", "name", data.name || "")}
+              ${createRowInput("Source", "source", data.source || "")}
+              ${createRowInput("Summary", "summary", data.summary || "")}
+              <button type="button" class="btn-sheet btn-danger" data-remove-row="feats">Remove</button>
+            </div>
+            <div class="field mb-0">
+              <label>Details</label>
+              <textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea>
+            </div>
+          `;
+        }
+
+        return row;
+      }
+
+      function addRepeaterRow(kind, data = {}) {
+        const target = document.getElementById(`${kind}Repeater`);
+        if (!target) return;
+        target.appendChild(createRepeaterRow(kind, data));
+      }
+
+      function serializeRepeater(kind) {
+        const host = document.getElementById(`${kind}Repeater`);
+        if (!host) return [];
+        return Array.from(host.children).map((row) => {
+          const obj = {};
+          row.querySelectorAll("[data-field]").forEach((el) => {
+            const key = el.dataset.field;
+            if (el.type === "checkbox") obj[key] = el.checked;
+            else obj[key] = el.value;
+          });
+          return obj;
+        });
+      }
+
+      function hydrateRepeater(kind, rows) {
+        const host = document.getElementById(`${kind}Repeater`);
+        if (!host) return;
+        host.innerHTML = "";
+        const source = Array.isArray(rows) && rows.length ? rows : [{}];
+        source.forEach((item) => addRepeaterRow(kind, item));
+      }
+
+      function collectSheetData() {
+        const data = {};
+        document.querySelectorAll("input, textarea, select").forEach((el) => {
+          if (!el.id) return;
+          if (el.type === "checkbox") data[el.id] = el.checked;
+          else data[el.id] = el.value;
+        });
+        data.repeaters = {
+          attacks: serializeRepeater("attacks"),
+          items: serializeRepeater("items"),
+          spells: serializeRepeater("spells"),
+          feats: serializeRepeater("feats")
+        };
+        return data;
+      }
+
+      function applySheetData(data) {
+        Object.entries(data || {}).forEach(([id, value]) => {
+          if (id === "repeaters") return;
+          const el = document.getElementById(id);
+          if (!el) return;
+          if (el.type === "checkbox") el.checked = !!value;
+          else el.value = value;
+        });
+
+        const repeaters = data?.repeaters || {};
+        REPEATER_KEYS.forEach((key) => hydrateRepeater(key, repeaters[key]));
+
+        syncPillsFromHiddenFields();
+        recalc();
+      }
+
+      function recalc() {
+        const prof = Math.max(0, Math.floor(num("profBonus", 0)));
+        const jack = document.getElementById("jackOfAllTrades")?.checked;
+        const halfProf = Math.floor(prof / 2);
+        const mods = {};
+
+        ABILITIES.forEach((ab) => {
+          const score = num(`${ab.key}Score`, 10);
+          const mod = abilityMod(score);
+          mods[ab.key] = mod;
+          const out = document.getElementById(`mod-${ab.key}`);
+          if (out) out.textContent = formatMod(mod);
+        });
+
+        ABILITIES.forEach((ab) => {
+          const proficient = document.getElementById(`saveProf_${ab.key}`)?.checked;
+          const expertise = document.getElementById(`saveExp_${ab.key}`)?.checked;
+          let bonus = mods[ab.key] || 0;
+          if (proficient) bonus += prof * (expertise ? 2 : 1);
+          const out = document.getElementById(`save-${ab.key}`);
+          if (out) out.textContent = formatMod(bonus);
+        });
+
+        SKILLS.forEach((skill) => {
+          const proficient = document.getElementById(`prof_${skill.key}`)?.checked;
+          const expertise = document.getElementById(`exp_${skill.key}`)?.checked;
+          let bonus = mods[skill.ability] || 0;
+          if (proficient) bonus += prof * (expertise ? 2 : 1);
+          else if (jack) bonus += halfProf;
+          const out = document.getElementById(`skill-${skill.key}`);
+          if (out) out.textContent = formatMod(bonus);
+        });
+
+        const perceptionBonus =
+          parseInt(document.getElementById("skill-perception")?.textContent, 10) || 0;
+        document.getElementById("passivePerception").textContent = 10 + perceptionBonus;
+
+        const spellAbility = document.getElementById("spellcastingAbility")?.value || "none";
+        const spellMod = spellAbility === "none" ? 0 : mods[spellAbility] || 0;
+        document.getElementById("spellSaveDc").textContent = 8 + prof + spellMod;
+
+        let initiative = mods.dex || 0;
+        if (jack) initiative += halfProf;
+        document.getElementById("initiativeDerived").textContent = formatMod(initiative);
+
+        const carry = Math.max(0, num("strScore", 10) * 15);
+        document.getElementById("carryCapacity").textContent = `${carry} lb`;
+
+        updateHpBar();
+        updateItemWeights(carry);
+        updateSpellbookSummary(spellMod);
+      }
+
+      function updateHpBar() {
+        const max = Math.max(1, num("hpMax", 1));
+        let current = num("hpCurrent", max);
+        current = Math.min(max, Math.max(0, current));
+        setValue("hpCurrent", current);
+
+        const temp = Math.max(0, num("hpTemp", 0));
+        const pct = Math.max(0, Math.min(100, (current / max) * 100));
+        document.getElementById("hpFill").style.width = `${pct}%`;
+        document.getElementById("hpSummary").textContent =
+          `${current} / ${max} HP${temp ? ` (+${temp} temp)` : ""}`;
+      }
+
+      function updateItemWeights(carryCapacity) {
+        let sum = 0;
+        document.querySelectorAll("#itemsRepeater .repeat-row").forEach((row) => {
+          const qty = Math.max(0, parseFloat(row.querySelector('[data-field="qty"]')?.value) || 0);
+          const wt = Math.max(
+            0,
+            parseFloat(row.querySelector('[data-field="weight"]')?.value) || 0
+          );
+          const total = qty * wt;
+          const out = row.querySelector('[data-field="total"]');
+          if (out) out.value = `${total.toFixed(2).replace(/\.00$/, "")} lb`;
+          sum += total;
+        });
+
+        const totalText = `${sum.toFixed(2).replace(/\.00$/, "")} lb`;
+        document.getElementById("inventoryWeightTotal").textContent = totalText;
+
+        let state = "light";
+        if (sum > carryCapacity) state = "overburdened";
+        else if (sum > carryCapacity * 0.66) state = "heavy";
+
+        document.getElementById("inventoryWeightSummary").textContent = `${totalText} (${state})`;
+      }
+
+      function updateSpellbookSummary(spellMod) {
+        let prepared = 0;
+        document.querySelectorAll('#spellsRepeater [data-field="prepared"]').forEach((cb) => {
+          if (cb.checked) prepared += 1;
+        });
+
+        const level = Math.max(1, Math.floor(num("level", 1)));
+        const bonus = Math.floor(num("preparedBonus", 0));
+        const limit = Math.max(0, level + spellMod + bonus);
+        document.getElementById("preparedCount").textContent = `${prepared} / ${limit}`;
+
+        let curTotal = 0;
+        let maxTotal = 0;
+        for (let lvl = 1; lvl <= 9; lvl += 1) {
+          curTotal += Math.max(0, Math.floor(num(`slotCur${lvl}`, 0)));
+          maxTotal += Math.max(0, Math.floor(num(`slotMax${lvl}`, 0)));
+        }
+        document.getElementById("slotSummary").textContent = `${curTotal} / ${maxTotal}`;
+      }
+
+      function exportJson() {
+        const data = collectSheetData();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${data.charName || "character"}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function importJsonFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+            applySheetData(data);
+          } catch {
+            alert("Invalid JSON file.");
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      function rand(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function rollStat() {
+        const rolls = Array.from({ length: 4 }, () => Math.floor(Math.random() * 6) + 1).sort(
+          (a, b) => b - a
+        );
+        return rolls[0] + rolls[1] + rolls[2];
+      }
+
+      const TABLES = {
+        names: [
+          "Arin",
+          "Belwyn",
+          "Cade",
+          "Dorian",
+          "Elira",
+          "Fenric",
+          "Galen",
+          "Hestia",
+          "Ilya",
+          "Kael"
+        ],
+        races: ["Human", "Elf", "Dwarf", "Halfling", "Tiefling", "Dragonborn", "Gnome", "Half-Orc"],
+        classes: [
+          "Fighter",
+          "Wizard",
+          "Rogue",
+          "Cleric",
+          "Barbarian",
+          "Ranger",
+          "Paladin",
+          "Bard",
+          "Warlock",
+          "Druid"
+        ],
+        backgrounds: [
+          "Soldier",
+          "Sage",
+          "Criminal",
+          "Noble",
+          "Hermit",
+          "Acolyte",
+          "Outlander",
+          "Charlatan"
+        ],
+        alignments: ["LG", "NG", "CG", "LN", "N", "CN", "LE", "NE", "CE"]
+      };
+
+      function randomizeSheet() {
+        setValue("charName", rand(TABLES.names));
+        setValue("race", rand(TABLES.races));
+        const cls = rand(TABLES.classes);
+        setValue("classLevel", `${cls} 1`);
+        setValue("background", rand(TABLES.backgrounds));
+        setValue("alignment", rand(TABLES.alignments));
+        setValue("level", 1);
+
+        ["str", "dex", "con", "int", "wis", "cha"].forEach((ab) =>
+          setValue(`${ab}Score`, rollStat())
+        );
+
+        document.querySelectorAll(".save-prof, .skill-prof").forEach((cb) => {
+          cb.checked = Math.random() < 0.3;
+        });
+
+        document.querySelectorAll('[id^="exp_"], [id^="saveExp_"]').forEach((cb) => {
+          cb.checked = Math.random() < 0.1;
+        });
+
+        recalc();
+      }
+
+      function syncPillsFromHiddenFields(reset = false) {
+        document.querySelectorAll(".toggle-pill").forEach((btn) => {
+          const target = document.getElementById(btn.dataset.target);
+          if (!target) return;
+          if (reset) target.value = "false";
+          btn.classList.toggle("active", target.value === "true");
+        });
+      }
+
+      function setupPills() {
+        document.querySelectorAll(".toggle-pill").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const target = document.getElementById(btn.dataset.target);
+            if (!target) return;
+            const next = !(target.value === "true");
+            target.value = String(next);
+            btn.classList.toggle("active", next);
+          });
+        });
+      }
+
+      function setupHpButtons() {
+        document.querySelectorAll("[data-hp-action]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const delta = parseInt(btn.dataset.hpAction, 10) || 0;
+            const max = Math.max(1, num("hpMax", 1));
+            const current = Math.max(0, Math.min(max, num("hpCurrent", max) + delta));
+            setValue("hpCurrent", current);
+            recalc();
+          });
+        });
+      }
+
+      function activateTab(tabId, pushHash = true) {
+        const panel = document.getElementById(tabId);
+        if (!panel) return;
+
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.toggle("active", b.dataset.tab === tabId));
+        document
+          .querySelectorAll(".tab-panel")
+          .forEach((p) => p.classList.toggle("active", p.id === tabId));
+
+        if (pushHash && location.hash !== `#${tabId}`) {
+          location.hash = tabId;
+        }
+      }
+
+      function setupTabsHashPersistence() {
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.addEventListener("click", () => activateTab(btn.dataset.tab, true));
+        });
+
+        const fromHash = location.hash.replace("#", "");
+        if (fromHash && document.getElementById(fromHash)?.classList.contains("tab-panel")) {
+          activateTab(fromHash, false);
+        } else {
+          activateTab("tab-skills", true);
+        }
+
+        window.addEventListener("hashchange", () => {
+          const key = location.hash.replace("#", "");
+          if (document.getElementById(key)?.classList.contains("tab-panel")) {
+            activateTab(key, false);
+          }
+        });
+      }
+
+      function setupSkillFilter() {
+        document.getElementById("skillSearch").addEventListener("input", (e) => {
+          const query = e.target.value.trim().toLowerCase();
+          document.querySelectorAll(".skill-row").forEach((row) => {
+            row.style.display = row.dataset.skillName.includes(query) ? "" : "none";
+          });
+        });
+      }
+
+      function setupTheme() {
+        const root = document.documentElement;
+
+        document.getElementById("themeToggle").addEventListener("click", () => {
+          root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
+        });
+
+        document.getElementById("parchmentToggle").addEventListener("click", () => {
+          root.dataset.parchment = root.dataset.parchment === "on" ? "off" : "on";
+        });
+
+        document.getElementById("printBtn").addEventListener("click", () => {
+          window.print();
+        });
+      }
+
+      function setupImportExport() {
+        document.getElementById("exportJsonBtn").addEventListener("click", exportJson);
+        document.getElementById("importJsonBtn").addEventListener("click", () => {
+          document.getElementById("importJsonFile").click();
+        });
+        document.getElementById("importJsonFile").addEventListener("change", function () {
+          if (this.files && this.files[0]) importJsonFile(this.files[0]);
+          this.value = "";
+        });
+      }
+
+      function setupRepeaters() {
+        document
+          .getElementById("addAttackBtn")
+          .addEventListener("click", () => addRepeaterRow("attacks", {}));
+        document
+          .getElementById("addItemBtn")
+          .addEventListener("click", () => addRepeaterRow("items", { qty: 1, weight: 0 }));
+        document
+          .getElementById("addSpellBtn")
+          .addEventListener("click", () => addRepeaterRow("spells", { level: 0 }));
+        document
+          .getElementById("addFeatBtn")
+          .addEventListener("click", () => addRepeaterRow("feats", {}));
+
+        document.addEventListener("click", (e) => {
+          const btn = e.target.closest("[data-remove-row]");
+          if (!btn) return;
+          const row = btn.closest(".repeat-row");
+          const kind = btn.dataset.removeRow;
+          row?.remove();
+          if (!document.querySelector(`#${kind}Repeater .repeat-row`)) {
+            addRepeaterRow(kind, {});
+          }
+          recalc();
+        });
+      }
+
+      function setupMobileCollapsibles() {
+        document.querySelectorAll(".panel-collapse-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const panel = document.getElementById(btn.dataset.collapse);
+            const body = panel?.querySelector(".panel-body");
+            if (!body) return;
+            body.classList.toggle("is-collapsed");
+            btn.textContent = body.classList.contains("is-collapsed") ? "Expand" : "Collapse";
+          });
+        });
+      }
+
+      function setupGeneralRecalc() {
+        document.addEventListener("input", (e) => {
+          if (e.target.matches("input, textarea, select")) recalc();
+        });
+        document.addEventListener("change", (e) => {
+          if (e.target.matches("input, textarea, select")) recalc();
+        });
+      }
+
+      function clearSheet() {
+        document.querySelectorAll("input, textarea, select").forEach((el) => {
+          if (!el.id) return;
+          if (el.type === "checkbox") el.checked = false;
+          else if (el.type === "number") el.value = 0;
+          else el.value = "";
+        });
+
+        ["str", "dex", "con", "int", "wis", "cha"].forEach((ab) => setValue(`${ab}Score`, 10));
+        setValue("profBonus", 2);
+        setValue("hpMax", 10);
+        setValue("hpCurrent", 10);
+        setValue("speed", 30);
+        setValue("ac", 10);
+        setValue("level", 1);
+        setValue("hitDice", "1d8");
+        setValue("hitDiceTotal", 1);
+        setValue("spellcastingAbility", "none");
+        setValue("preparedBonus", 0);
+
+        REPEATER_KEYS.forEach((key) => hydrateRepeater(key, [{}]));
+        syncPillsFromHiddenFields(true);
+        recalc();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        buildSkillsAndSaves();
+        buildSlotsTable();
+        setupTabsHashPersistence();
+        setupSkillFilter();
+        setupTheme();
+        setupHpButtons();
+        setupPills();
+        setupImportExport();
+        setupRepeaters();
+        setupMobileCollapsibles();
+        setupGeneralRecalc();
+
+        document.getElementById("randomizeBtn").addEventListener("click", randomizeSheet);
+        document.getElementById("newSheetBtn").addEventListener("click", clearSheet);
+
+        clearSheet();
+      });
+    </script>
+  </body>
+</html>

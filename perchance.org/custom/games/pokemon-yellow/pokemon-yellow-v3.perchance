@@ -1,0 +1,18 @@
+// https://perchance.org/pokemon-yellow-v3
+
+// Controls:
+// Arrow Up: "up"
+// Arrow Down: "down"
+// Arrow Left: "left"
+// Arrow Right: "right"
+// Key Z: "a"
+// Key X: "b"
+// Enter: "start"
+
+kv = {import:kv-plugin}
+generateImage = {import:text-to-image-plugin}
+
+$meta
+	title = Pokémon Yellow v3 - Sprite Link Edition
+	description = An expanded Phaser 4 Pokémon Yellow experience that uses linked sprite packs for Pokémon front/back battle sprites, gym badges, and type icons while preserving v2 progression, battles, and party management.
+  tags = pokemon, pokemon yellow, phaser 4, game, sprites, badges, types, battle, adventure

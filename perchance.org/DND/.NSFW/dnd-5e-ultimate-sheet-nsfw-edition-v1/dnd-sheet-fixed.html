@@ -1,0 +1,2072 @@
+<html lang="en" data-theme="dark" data-parchment="off">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>D&D 5e Ultimate Character Sheet - NSFW Edition</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Fonts -->
+    <link
+      href="https://api.fontshare.com/v2/css?f%5B%5D=satoshi@400,500,700,900&f%5B%5D=clash_display@500,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tippy.js for Tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <!-- Custom CSS -->
+    <link
+      rel="stylesheet"
+      href="https://mosberg.github.io/src/styles/styling.css"
+    />
+  </head>
+
+  <body>
+    <!-- Age Verification Gate -->
+    <div id="ageGate">
+      <h1>⚠️ Warning: Adult Content</h1>
+      <p
+        style="
+          font-size: 1.2rem;
+          max-width: 600px;
+          margin-bottom: 30px;
+          line-height: 1.6;
+        "
+      >
+        This interactive sheet contains <strong>explicit NSFW content</strong>,
+        sexual themes, detailed anatomy descriptions, and adult-oriented
+        character generation for D&D 5e.
+      </p>
+      <p style="font-size: 1rem; color: var(--muted); margin-bottom: 30px">
+        By entering, you confirm you are 18 years of age or older.
+      </p>
+      <button
+        id="enterSiteBtn"
+        class="btn-sheet btn-nsfw"
+        style="font-size: 1.5rem; padding: 15px 40px"
+      >
+        I am 18+ & Enter
+      </button>
+    </div>
+
+    <div
+      class="app-shell"
+      id="dndSheet"
+      style="filter: blur(5px); pointer-events: none; transition: filter 0.5s"
+    >
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">🔞</div>
+          <div>
+            <h1>D&D 5e Ultimate Sheet - NSFW Edition</h1>
+            <div class="subtle">
+              Explicit Adult Content • AI-Integrated • Full Automation
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <span id="saveStatus" class="save-status"></span>
+          <button class="btn-sheet" id="newSheetBtn" type="button">
+            New Character
+          </button>
+          <button class="btn-sheet" id="exportJsonBtn" type="button">
+            Export JSON
+          </button>
+          <button class="btn-sheet" id="importJsonBtn" type="button">
+            Import JSON
+          </button>
+          <input
+            type="file"
+            id="importJsonFile"
+            accept="application/json"
+            hidden
+          />
+          <button class="btn-sheet btn-accent" id="randomizeBtn" type="button">
+            Randomize
+          </button>
+          <button class="btn-sheet" id="printBtn" type="button">Print</button>
+          <button class="btn-sheet" id="openSettingsBtn" type="button">
+            Settings
+          </button>
+          <button class="btn-sheet" id="parchmentToggle" type="button">
+            📜
+          </button>
+          <button class="btn-sheet" id="themeToggle" type="button">🎨</button>
+        </div>
+      </div>
+
+      <div class="grid-main">
+        <aside class="section-stack sticky-side">
+          <!-- Portrait Panel -->
+          <section class="panel" id="panel-portrait">
+            <div class="panel-header">
+              <h2 class="panel-title">NSFW Portrait</h2>
+            </div>
+            <div class="panel-body">
+              <div class="portrait-container" id="portraitCtn">
+                <img
+                  id="portraitImg"
+                  class="portrait-img"
+                  alt="NSFW Character Portrait"
+                />
+                <div id="portraitPlaceholder" class="portrait-placeholder">
+                  No Portrait<br />Click Generate to create one
+                </div>
+              </div>
+              <button
+                class="btn-sheet btn-nsfw"
+                id="generatePortraitBtn"
+                type="button"
+                style="width: 100%"
+              >
+                ✨ Generate NSFW Portrait
+              </button>
+              <div
+                style="margin-top: 8px; font-size: 0.8rem; color: var(--muted)"
+              >
+                Generates explicit adult content
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-abilities">
+            <div class="panel-header">
+              <h2 class="panel-title">Abilities</h2>
+              <button
+                class="panel-collapse-btn"
+                type="button"
+                data-collapse="panel-abilities"
+              >
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="ability-grid">
+                <div class="ability-card">
+                  <h3>Strength</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="strScore"
+                    data-ability="str"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-str">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Dexterity</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="dexScore"
+                    data-ability="dex"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-dex">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Constitution</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="conScore"
+                    data-ability="con"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-con">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Intelligence</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="intScore"
+                    data-ability="int"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-int">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Wisdom</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="wisScore"
+                    data-ability="wis"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-wis">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Charisma</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-input autosync ability-score-input"
+                    id="chaScore"
+                    data-ability="cha"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-cha">+0</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-derived">
+            <div class="panel-header">
+              <h2 class="panel-title">Derived</h2>
+              <button
+                class="panel-collapse-btn"
+                type="button"
+                data-collapse="panel-derived"
+              >
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="derived-row">
+                <div
+                  class="mini-stat"
+                  data-tippy="Add this to ability checks for things you are proficient in."
+                >
+                  <div class="tiny">Proficiency</div>
+                  <input
+                    type="number"
+                    class="form-control autosync text-center mt-2"
+                    id="profBonus"
+                    value="2"
+                    min="0"
+                  />
+                </div>
+                <div
+                  class="mini-stat"
+                  data-tippy="10 + Perception Modifier. Used when you aren't actively looking."
+                >
+                  <div class="tiny">Passive Perc</div>
+                  <div class="value" id="passivePerception">10</div>
+                </div>
+                <div
+                  class="mini-stat"
+                  data-tippy="8 + Proficiency + Spellcasting Ability Modifier. Target DC for enemy saves."
+                >
+                  <div class="tiny">Spell DC</div>
+                  <div class="value" id="spellSaveDc">10</div>
+                </div>
+              </div>
+
+              <div class="field mt-3">
+                <label
+                  data-tippy="Add half proficiency bonus to untrained skill checks (Bard feature)."
+                >
+                  <input
+                    type="checkbox"
+                    class="form-check-input autosync"
+                    id="jackOfAllTrades"
+                  />
+                  Jack of All Trades
+                </label>
+              </div>
+
+              <div class="inline-metric">
+                <span>Initiative</span>
+                <strong id="initiativeDerived">+0</strong>
+              </div>
+              <div class="inline-metric mt-2">
+                <span>Carry Cap</span>
+                <strong id="carryCapacity">150 lb</strong>
+              </div>
+              <div class="inline-metric mt-2">
+                <span>Weight</span>
+                <strong id="inventoryWeightSummary">0 lb (light)</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-conditions">
+            <div class="panel-header">
+              <h2 class="panel-title">Conditions</h2>
+              <button
+                class="panel-collapse-btn"
+                type="button"
+                data-collapse="panel-conditions"
+              >
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="status-pills">
+                <button
+                  class="pill pill-bad toggle-pill"
+                  type="button"
+                  data-target="statusBlinded"
+                >
+                  Blinded
+                </button>
+                <button
+                  class="pill pill-bad toggle-pill"
+                  type="button"
+                  data-target="statusPoisoned"
+                >
+                  Poisoned
+                </button>
+                <button
+                  class="pill pill-warn toggle-pill"
+                  type="button"
+                  data-target="statusGrappled"
+                >
+                  Grappled
+                </button>
+                <button
+                  class="pill pill-warn toggle-pill"
+                  type="button"
+                  data-target="statusProne"
+                >
+                  Prone
+                </button>
+                <button
+                  class="pill pill-warn toggle-pill"
+                  type="button"
+                  data-target="statusRestrained"
+                >
+                  Restrained
+                </button>
+                <button
+                  class="pill pill-warn toggle-pill"
+                  type="button"
+                  data-target="statusStunned"
+                >
+                  Stunned
+                </button>
+                <button
+                  class="pill pill-bad toggle-pill"
+                  type="button"
+                  data-target="statusAroused"
+                >
+                  Aroused
+                </button>
+                <button
+                  class="pill pill-bad toggle-pill"
+                  type="button"
+                  data-target="statusBound"
+                >
+                  Bound
+                </button>
+                <button
+                  class="pill pill-good toggle-pill"
+                  type="button"
+                  data-target="statusInspired"
+                >
+                  Inspired
+                </button>
+                <button
+                  class="pill pill-good toggle-pill"
+                  type="button"
+                  data-target="statusBlessed"
+                >
+                  Blessed
+                </button>
+              </div>
+              <input type="hidden" id="statusBlinded" value="false" />
+              <input type="hidden" id="statusPoisoned" value="false" />
+              <input type="hidden" id="statusGrappled" value="false" />
+              <input type="hidden" id="statusProne" value="false" />
+              <input type="hidden" id="statusRestrained" value="false" />
+              <input type="hidden" id="statusStunned" value="false" />
+              <input type="hidden" id="statusAroused" value="false" />
+              <input type="hidden" id="statusBound" value="false" />
+              <input type="hidden" id="statusInspired" value="false" />
+              <input type="hidden" id="statusBlessed" value="false" />
+            </div>
+          </section>
+        </aside>
+
+        <main class="section-stack">
+          <section class="panel" id="panel-character">
+            <div class="panel-header">
+              <h2 class="panel-title">Character</h2>
+              <button
+                class="panel-collapse-btn"
+                type="button"
+                data-collapse="panel-character"
+              >
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="row g-3">
+                <div class="col-md-4 field">
+                  <label for="charName">Character Name</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="charName"
+                    placeholder="e.g. Lyanna"
+                  />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="classLevel">Class & Level</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="classLevel"
+                    placeholder="e.g. Courtesan 5"
+                  />
+                </div>
+                <div class="col-md-2 field">
+                  <label for="race">Race</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="race"
+                    placeholder="e.g. Elf"
+                  />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="background">Background</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="background"
+                    placeholder="e.g. Pleasure Slave"
+                  />
+                </div>
+
+                <div class="col-md-3 field">
+                  <label for="alignment">Alignment</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="alignment"
+                    placeholder="e.g. Chaotic Good"
+                  />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="playerName">Player Name</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="playerName"
+                  />
+                </div>
+                <div class="col-md-2 field">
+                  <label for="level">Level</label>
+                  <input
+                    type="number"
+                    class="form-control autosync"
+                    id="level"
+                    value="1"
+                    min="1"
+                  />
+                </div>
+                <div class="col-md-2 field">
+                  <label for="xp">XP</label>
+                  <input
+                    type="number"
+                    class="form-control autosync"
+                    id="xp"
+                    value="0"
+                  />
+                </div>
+                <div class="col-md-2 field">
+                  <label for="faction">Faction</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="faction"
+                  />
+                </div>
+
+                <div class="col-md-3 field">
+                  <label for="inspiration">Inspiration</label>
+                  <input
+                    type="number"
+                    class="form-control autosync"
+                    id="inspiration"
+                    value="0"
+                  />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="ac">Armor Class</label>
+                  <input
+                    type="number"
+                    class="form-control autosync"
+                    id="ac"
+                    value="10"
+                  />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="speed">Speed</label>
+                  <input
+                    type="number"
+                    class="form-control autosync"
+                    id="speed"
+                    value="30"
+                  />
+                </div>
+                <div class="col-md-3 field">
+                  <label for="spellcastingAbility">Spellcasting Ability</label>
+                  <select class="form-select autosync" id="spellcastingAbility">
+                    <option value="none">None</option>
+                    <option value="int">Intelligence</option>
+                    <option value="wis">Wisdom</option>
+                    <option value="cha">Charisma</option>
+                  </select>
+                </div>
+
+                <div class="col-md-2 field">
+                  <label for="gender">Gender Identity</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="gender"
+                    placeholder="e.g. Female"
+                  />
+                </div>
+
+                <div class="col-md-2 field">
+                  <label for="bodyType">Body Type</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="bodyType"
+                    placeholder="e.g. Slender"
+                  />
+                </div>
+
+                <div class="col-md-2 field">
+                  <label for="sexualOrientation">Sexual Orientation</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="sexualOrientation"
+                    placeholder="e.g. Heterosexual"
+                  />
+                </div>
+
+                <div class="col-md-2 field">
+                  <label for="kinkLevels">Kink Levels</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="kinkLevels"
+                    placeholder="e.g. Curious"
+                  />
+                </div>
+              </div>
+
+              <!-- NSFW Physical Attributes Section -->
+              <div class="nsfw-section mt-4">
+                <h4 style="color: var(--nsfw-accent); margin-bottom: 12px">
+                  Physical Attributes
+                </h4>
+                <div class="row g-3">
+                  <div class="col-md-4 field">
+                    <label for="chestSize">Chest Size</label>
+                    <input
+                      type="text"
+                      class="form-control autosync"
+                      id="chestSize"
+                      placeholder="e.g. 34DD"
+                    />
+                  </div>
+                  <div class="col-md-4 field">
+                    <label for="cockSize">Cock Size</label>
+                    <input
+                      type="text"
+                      class="form-control autosync"
+                      id="cockSize"
+                      placeholder="e.g. 8 inches, uncut"
+                    />
+                  </div>
+                  <div class="col-md-4 field">
+                    <label for="bodyHair">Body Hair</label>
+                    <input
+                      type="text"
+                      class="form-control autosync"
+                      id="bodyHair"
+                      placeholder="e.g. Completely shaved"
+                    />
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="piercings">Piercings & Modifications</label>
+                    <input
+                      type="text"
+                      class="form-control autosync"
+                      id="piercings"
+                      placeholder="e.g. Nipple rings, tongue piercing"
+                    />
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="tattoos">Tattoos & Marks</label>
+                    <input
+                      type="text"
+                      class="form-control autosync"
+                      id="tattoos"
+                      placeholder="e.g. Tramp stamp, tribal armband"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Kinks & Fetishes Section -->
+              <div class="nsfw-section mt-4">
+                <h4 style="color: var(--nsfw-accent); margin-bottom: 12px">
+                  Kinks & Fetishes
+                </h4>
+                <div class="field">
+                  <label for="primaryKinks">Primary Kinks</label>
+                  <textarea
+                    class="form-control autosync"
+                    id="primaryKinks"
+                    rows="3"
+                    placeholder="e.g. Bondage, domination, public exhibition"
+                  ></textarea>
+                </div>
+                <div class="field">
+                  <label for="secondaryKinks">Secondary Kinks</label>
+                  <textarea
+                    class="form-control autosync"
+                    id="secondaryKinks"
+                    rows="3"
+                    placeholder="e.g. Roleplay, costumes, light BDSM"
+                  ></textarea>
+                </div>
+                <div class="field">
+                  <label for="hardLimits">Hard Limits (No-Go List)</label>
+                  <textarea
+                    class="form-control autosync"
+                    id="hardLimits"
+                    rows="2"
+                    placeholder="e.g. No blood play, no permanent marks"
+                  ></textarea>
+                </div>
+              </div>
+
+              <!-- NSFW Metrics Section (New) -->
+              <div class="nsfw-section mt-4">
+                <h4 style="color: var(--nsfw-accent); margin-bottom: 12px">
+                  Sexual Metrics
+                </h4>
+                <div class="row g-3">
+                  <div class="col-md-6 field">
+                    <label for="libido">Libido (1-10)</label>
+                    <input
+                      type="range"
+                      class="form-control autosync"
+                      id="libido"
+                      min="1"
+                      max="10"
+                      value="5"
+                    />
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="stamina">Sexual Stamina (1-10)</label>
+                    <input
+                      type="range"
+                      class="form-control autosync"
+                      id="stamina"
+                      min="1"
+                      max="10"
+                      value="5"
+                    />
+                  </div>
+                  <div class="col-md-12 field">
+                    <label for="erogenousZones">Erogenous Zones</label>
+                    <input
+                      type="text"
+                      class="form-control autosync"
+                      id="erogenousZones"
+                      placeholder="e.g. Neck, inner thighs, ears, lower back..."
+                    />
+                  </div>
+                  <div class="col-md-12 field">
+                    <label for="preferredIntimacy"
+                      >Preferred Intimacy Style</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control autosync"
+                      id="preferredIntimacy"
+                      placeholder="e.g. Rough and fast, Slow and romantic, Public and risky..."
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-tabs">
+            <div class="panel-header">
+              <h2 class="panel-title">Workspace</h2>
+              <button
+                class="panel-collapse-btn"
+                type="button"
+                data-collapse="panel-tabs"
+              >
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="tabs" role="tablist" aria-label="Character tabs">
+                <button class="tab-btn" type="button" data-tab="tab-skills">
+                  Skills
+                </button>
+                <button class="tab-btn" type="button" data-tab="tab-saves">
+                  Saves
+                </button>
+                <button class="tab-btn" type="button" data-tab="tab-attacks">
+                  Attacks
+                </button>
+                <button class="tab-btn" type="button" data-tab="tab-spellbook">
+                  Spellbook
+                </button>
+                <button class="tab-btn" type="button" data-tab="tab-inventory">
+                  Inventory
+                </button>
+                <button class="tab-btn" type="button" data-tab="tab-feats">
+                  Feats
+                </button>
+                <button class="tab-btn" type="button" data-tab="tab-notes">
+                  Notes
+                </button>
+                <button class="tab-btn" type="button" data-tab="tab-nsfw">
+                  NSFW Info
+                </button>
+              </div>
+
+              <div class="tab-panel" id="tab-skills">
+                <div class="repeat-controls">
+                  <div class="search-box" style="flex: 1">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="skillSearch"
+                      placeholder="Filter skills..."
+                    />
+                  </div>
+                  <button
+                    class="btn-sheet"
+                    id="selectAllSkillsBtn"
+                    type="button"
+                    data-tippy="Select all proficiency checkboxes"
+                  >
+                    All
+                  </button>
+                  <button
+                    class="btn-sheet"
+                    id="deselectAllSkillsBtn"
+                    type="button"
+                  >
+                    None
+                  </button>
+                </div>
+                <div class="list-card" id="skillsList"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-saves">
+                <div class="list-card" id="savingThrowsList"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-attacks">
+                <div class="repeat-controls">
+                  <div class="tiny">Editable repeating attacks</div>
+                  <button class="btn-sheet" type="button" id="addAttackBtn">
+                    Add Attack
+                  </button>
+                </div>
+                <div class="repeat-table mt-2" id="attacksRepeater"></div>
+                <div class="field mt-3">
+                  <label for="attackNotes"
+                    >Attacks & Spellcasting Notes
+                    <button class="btn-ai" id="aiAttackNotesBtn">
+                      ✨ Flavor Text
+                    </button></label
+                  >
+                  <textarea
+                    class="form-control autosync"
+                    id="attackNotes"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="tab-panel" id="tab-spellbook">
+                <div class="row g-3">
+                  <div class="col-md-3 field">
+                    <label for="preparedBonus">Prepared Bonus</label>
+                    <input
+                      type="number"
+                      class="form-control autosync"
+                      id="preparedBonus"
+                      value="0"
+                    />
+                  </div>
+                  <div class="col-md-3 field">
+                    <label>Prepared Count</label>
+                    <div class="inline-metric">
+                      <span>Prepared</span>
+                      <strong id="preparedCount">0 / 0</strong>
+                    </div>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label>Spell Slots</label>
+                    <div class="inline-metric">
+                      <span>Slots (Current/Max)</span>
+                      <strong id="slotSummary">0 / 0</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <table class="compact-table">
+                  <thead>
+                    <tr>
+                      <th>Lvl</th>
+                      <th>Current</th>
+                      <th>Max</th>
+                    </tr>
+                  </thead>
+                  <tbody id="slotsTableBody"></tbody>
+                </table>
+
+                <!-- Slot presets + filters -->
+                <div
+                  style="
+                    display: flex;
+                    gap: 8px;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    margin-top: 10px;
+                  "
+                >
+                  <div>
+                    <label class="muted">Caster Type</label>
+                    <select id="casterType" class="form-select compact">
+                      <option value="full">Full Caster</option>
+                      <option value="half">Half Caster</option>
+                      <option value="third">Third Caster</option>
+                      <option value="warlock">Warlock (Pact)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="muted">Caster Level</label
+                    ><input
+                      id="casterLevel"
+                      type="number"
+                      class="form-control compact"
+                      min="1"
+                      max="20"
+                      value="1"
+                    />
+                  </div>
+                  <div>
+                    <label class="muted">Refill</label
+                    ><input id="refillSlots" type="checkbox" />
+                  </div>
+                  <div style="align-self: end">
+                    <button id="applyPreset" class="btn-sheet btn-accent">
+                      Apply Slot Preset
+                    </button>
+                  </div>
+                  <div
+                    style="flex: 1; font-size: 0.9rem; color: var(--muted)"
+                    id="presetNote"
+                  >
+                    Preset notes: approximate; warlock uses pact scaling.
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    gap: 8px;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    margin-top: 12px;
+                  "
+                >
+                  <div>
+                    <label class="muted">Filter Level</label>
+                    <select id="fLevel" class="form-select compact">
+                      <option value="all">All</option>
+                      <option value="0">Cantrips(0)</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="muted">Filter School</label>
+                    <select id="fSchool" class="form-select compact">
+                      <option value="all">All</option>
+                      <option>Abjuration</option>
+                      <option>Conjuration</option>
+                      <option>Divination</option>
+                      <option>Enchantment</option>
+                      <option>Evocation</option>
+                      <option>Illusion</option>
+                      <option>Necromancy</option>
+                      <option>Transmutation</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="muted">Prepared Only</label
+                    ><input id="fPrepared" type="checkbox" />
+                  </div>
+                  <div style="flex: 1">
+                    <label class="muted">Search</label
+                    ><input
+                      id="fSearch"
+                      class="form-control compact"
+                      placeholder="name or notes"
+                    />
+                  </div>
+                  <div>
+                    <label class="muted">Sort By</label
+                    ><select id="fSort" class="form-select compact">
+                      <option value="level">Level</option>
+                      <option value="school">School</option>
+                      <option value="name">Name</option>
+                    </select>
+                  </div>
+                  <div style="align-self: end">
+                    <button id="clearFilters" class="btn-sheet">Clear</button>
+                  </div>
+                </div>
+
+                <div class="repeat-controls mt-3">
+                  <div class="tiny">
+                    Full spellbook with prepared/ritual/concentration flags
+                  </div>
+                  <button class="btn-sheet" type="button" id="addSpellBtn">
+                    Add Spell
+                  </button>
+                  <button
+                    class="btn-sheet btn-nsfw"
+                    type="button"
+                    id="addAdultSpellBtn"
+                  >
+                    ✨ Gen Adult Spell
+                  </button>
+                </div>
+                <div class="repeat-table mt-2" id="spellsRepeater"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-inventory">
+                <div class="repeat-controls">
+                  <div class="tiny">
+                    Inventory rows with automatic weight totals
+                  </div>
+                  <button class="btn-sheet" type="button" id="addItemBtn">
+                    Add Item
+                  </button>
+                </div>
+                <div class="repeat-table mt-2" id="itemsRepeater"></div>
+                <div class="inline-metric mt-2">
+                  <span>Total Carried Weight</span>
+                  <strong id="inventoryWeightTotal">0 lb</strong>
+                </div>
+              </div>
+
+              <div class="tab-panel" id="tab-feats">
+                <div class="repeat-controls">
+                  <div class="tiny">Custom repeating feats/features</div>
+                  <button class="btn-sheet" type="button" id="addFeatBtn">
+                    Add Feat
+                  </button>
+                </div>
+                <div class="repeat-table mt-2" id="featsRepeater"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-notes">
+                <div class="row g-3">
+                  <div class="col-md-12 field">
+                    <label for="featuresTraits"
+                      >Backstory & Features
+                      <button class="btn-ai btn-nsfw" id="aiBackstoryBtn">
+                        ✨ Generate NSFW Backstory
+                      </button></label
+                    >
+                    <textarea
+                      class="form-control autosync"
+                      id="featuresTraits"
+                      style="height: 250px"
+                    ></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="otherProfs"
+                      >Other Proficiencies & Languages</label
+                    >
+                    <textarea
+                      class="form-control autosync"
+                      id="otherProfs"
+                    ></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="personalityTraits">Personality Traits</label>
+                    <textarea
+                      class="form-control autosync"
+                      id="personalityTraits"
+                    ></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="ideals">Ideals</label>
+                    <textarea
+                      class="form-control autosync"
+                      id="ideals"
+                    ></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="bonds">Bonds</label>
+                    <textarea
+                      class="form-control autosync"
+                      id="bonds"
+                    ></textarea>
+                  </div>
+                  <div class="col-md-12 field">
+                    <label for="flaws">Flaws & Secrets</label>
+                    <textarea
+                      class="form-control autosync"
+                      id="flaws"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-panel" id="tab-nsfw">
+                <div class="nsfw-warning">
+                  ⚠️ This section contains explicit adult content for mature
+                  audiences only.
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-12 field">
+                    <label for="sexualHistory"
+                      >Sexual History & Experience
+                      <button class="btn-ai btn-nsfw" id="aiSexHistoryBtn">
+                        ✨ Generate History
+                      </button></label
+                    >
+                    <textarea
+                      class="form-control autosync"
+                      id="sexualHistory"
+                      rows="6"
+                      placeholder="Describe your character's sexual past, first experiences, notable encounters..."
+                    ></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="fetishDetails"
+                      >Detailed Fetish Information</label
+                    >
+                    <textarea
+                      class="form-control autosync"
+                      id="fetishDetails"
+                      rows="5"
+                      placeholder="Describe specific kinks, scenarios, and preferences in detail..."
+                    ></textarea>
+                  </div>
+                  <div class="col-md-6 field">
+                    <label for="sexualPowers">Sexual Powers & Abilities</label>
+                    <textarea
+                      class="form-control autosync"
+                      id="sexualPowers"
+                      rows="5"
+                      placeholder="Describe any supernatural or magical sexual abilities your character possesses..."
+                    ></textarea>
+                  </div>
+                  <div class="col-md-12 field">
+                    <label for="relationshipPreferences"
+                      >Relationship Preferences & Dynamics</label
+                    >
+                    <textarea
+                      class="form-control autosync"
+                      id="relationshipPreferences"
+                      rows="4"
+                      placeholder="Dominant/submissive roles, preferred partners, relationship styles..."
+                    ></textarea>
+                  </div>
+                  <div class="col-md-12 field">
+                    <label for="sexualComplications"
+                      >Complications & Vices
+                      <button class="btn-ai" id="aiComplicationsBtn">
+                        ✨ Generate
+                      </button></label
+                    >
+                    <textarea
+                      class="form-control autosync"
+                      id="sexualComplications"
+                      rows="5"
+                      placeholder="Addictions, unhealthy patterns, dangerous desires..."
+                    ></textarea>
+                  </div>
+                  <div class="col-md-12 field">
+                    <label for="eroticScenarios"
+                      >Favorite Erotic Scenarios</label
+                    >
+                    <textarea
+                      class="form-control autosync"
+                      id="eroticScenarios"
+                      rows="4"
+                      placeholder="Describe ideal sexual encounters and fantasy scenarios..."
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <aside class="section-stack sticky-side">
+          <section class="panel" id="panel-hp">
+            <div class="panel-header">
+              <h2 class="panel-title">Hit Points</h2>
+              <button
+                class="panel-collapse-btn"
+                type="button"
+                data-collapse="panel-hp"
+              >
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="field">
+                <label for="hpMax">HP Maximum</label>
+                <input
+                  type="number"
+                  class="form-control autosync"
+                  id="hpMax"
+                  value="10"
+                />
+              </div>
+              <div class="field">
+                <label for="hpCurrent">Current HP</label>
+                <input
+                  type="number"
+                  class="form-control autosync"
+                  id="hpCurrent"
+                  value="10"
+                />
+              </div>
+              <div class="field">
+                <label for="hpTemp">Temporary HP</label>
+                <input
+                  type="number"
+                  class="form-control autosync"
+                  id="hpTemp"
+                  value="0"
+                />
+              </div>
+
+              <div class="hp-bar" aria-hidden="true">
+                <div class="hp-fill" id="hpFill"></div>
+              </div>
+              <div class="footer-note" id="hpSummary">10 / 10 HP</div>
+
+              <div class="quick-actions mt-3">
+                <button class="btn-sheet" type="button" data-hp-action="-1">
+                  -1
+                </button>
+                <button class="btn-sheet" type="button" data-hp-action="-5">
+                  -5
+                </button>
+                <button
+                  class="btn-sheet btn-success"
+                  type="button"
+                  data-hp-action="+1"
+                >
+                  +1
+                </button>
+                <button
+                  class="btn-sheet btn-success"
+                  type="button"
+                  data-hp-action="+5"
+                >
+                  +5
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-dice">
+            <div class="panel-header">
+              <h2 class="panel-title">Hit Dice & Death Saves</h2>
+              <button
+                class="panel-collapse-btn"
+                type="button"
+                data-collapse="panel-dice"
+              >
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="row g-3">
+                <div class="col-6 field">
+                  <label for="hitDice">Hit Dice</label>
+                  <input
+                    type="text"
+                    class="form-control autosync"
+                    id="hitDice"
+                    value="1d8"
+                  />
+                </div>
+                <div class="col-6 field">
+                  <label for="hitDiceTotal">Total</label>
+                  <input
+                    type="number"
+                    class="form-control autosync"
+                    id="hitDiceTotal"
+                    value="1"
+                  />
+                </div>
+              </div>
+
+              <div class="tiny mt-2 mb-2">Successes</div>
+              <div class="death-track">
+                <label
+                  ><input
+                    type="checkbox"
+                    class="form-check-input autosync"
+                    id="dsSucc1"
+                  />
+                  1</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    class="form-check-input autosync"
+                    id="dsSucc2"
+                  />
+                  2</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    class="form-check-input autosync"
+                    id="dsSucc3"
+                  />
+                  3</label
+                >
+              </div>
+
+              <div class="tiny mt-3 mb-2">Failures</div>
+              <div class="death-track">
+                <label
+                  ><input
+                    type="checkbox"
+                    class="form-check-input autosync"
+                    id="dsFail1"
+                  />
+                  1</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    class="form-check-input autosync"
+                    id="dsFail2"
+                  />
+                  2</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    class="form-check-input autosync"
+                    id="dsFail3"
+                  />
+                  3</label
+                >
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-equipment">
+            <div class="panel-header">
+              <h2 class="panel-title">Equipment & Coins</h2>
+              <button
+                class="panel-collapse-btn"
+                type="button"
+                data-collapse="panel-equipment"
+              >
+                Toggle
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="coin-grid">
+                <div class="field">
+                  <label for="cp">CP</label
+                  ><input
+                    type="number"
+                    class="form-control autosync"
+                    id="cp"
+                    value="0"
+                  />
+                </div>
+                <div class="field">
+                  <label for="sp">SP</label
+                  ><input
+                    type="number"
+                    class="form-control autosync"
+                    id="sp"
+                    value="0"
+                  />
+                </div>
+                <div class="field">
+                  <label for="ep">EP</label
+                  ><input
+                    type="number"
+                    class="form-control autosync"
+                    id="ep"
+                    value="0"
+                  />
+                </div>
+                <div class="field">
+                  <label for="gp">GP</label
+                  ><input
+                    type="number"
+                    class="form-control autosync"
+                    id="gp"
+                    value="0"
+                  />
+                </div>
+                <div class="field">
+                  <label for="pp">PP</label
+                  ><input
+                    type="number"
+                    class="form-control autosync"
+                    id="pp"
+                    value="0"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label for="equipment">Equipment Notes</label>
+                <textarea
+                  class="form-control autosync"
+                  id="equipment"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <!-- Settings Modal -->
+      <div class="settings-overlay" id="settingsOverlay">
+        <div
+          class="settings-dialog panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Settings"
+        >
+          <div class="panel-header">
+            <h2 class="panel-title">Settings</h2>
+            <button id="closeSettingsBtn" class="btn-sheet">Close</button>
+          </div>
+          <div class="panel-body">
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px"
+            >
+              <div class="field">
+                <label>Theme</label>
+                <select id="settingTheme" class="form-select">
+                  <option value="dark">Dark</option>
+                  <option value="light">Light</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Parchment</label>
+                <select id="settingParchment" class="form-select">
+                  <option value="off">Off</option>
+                  <option value="on">On</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Auto Save</label><br /><input
+                  id="settingAutoSave"
+                  type="checkbox"
+                />
+              </div>
+              <div class="field">
+                <label>Auto Apply Slot Preset</label><br /><input
+                  id="settingAutoPreset"
+                  type="checkbox"
+                />
+              </div>
+              <div class="field">
+                <label>Compact Mobile Repeaters</label><br /><input
+                  id="settingCompactRepeaters"
+                  type="checkbox"
+                />
+              </div>
+              <div class="field">
+                <label>Weight Units</label>
+                <select id="settingWeightUnits" class="form-select">
+                  <option value="lb">lb</option>
+                  <option value="kg">kg</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>NSFW Content Level</label>
+                <select id="settingNSFWLevel" class="form-select">
+                  <option value="mild">Mild</option>
+                  <option value="explicit">Explicit</option>
+                  <option value="extreme">Extreme</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Auto-generate NSFW content</label><br /><input
+                  id="settingAutoNSFW"
+                  type="checkbox"
+                />
+              </div>
+            </div>
+
+            <div
+              style="
+                margin-top: 12px;
+                display: flex;
+                gap: 8px;
+                justify-content: flex-end;
+              "
+            >
+              <button id="saveSettingsBtn" class="btn-sheet btn-accent">
+                Save
+              </button>
+              <button id="saveCloudBtn" class="btn-sheet">Save to Cloud</button>
+              <button id="loadCloudBtn" class="btn-sheet">
+                Load from Cloud
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      const root = window.root || window;
+      const ABILITIES = [
+        { key: "str", name: "Strength" },
+        { key: "dex", name: "Dexterity" },
+        { key: "con", name: "Constitution" },
+        { key: "int", name: "Intelligence" },
+        { key: "wis", name: "Wisdom" },
+        { key: "cha", name: "Charisma" },
+      ];
+      const SKILLS = [
+        { key: "acrobatics", name: "Acrobatics", ability: "dex" },
+        { key: "animalHandling", name: "Animal Handling", ability: "wis" },
+        { key: "arcana", name: "Arcana", ability: "int" },
+        { key: "athletics", name: "Athletics", ability: "str" },
+        { key: "deception", name: "Deception", ability: "cha" },
+        { key: "history", name: "History", ability: "int" },
+        { key: "insight", name: "Insight", ability: "wis" },
+        { key: "intimidation", name: "Intimidation", ability: "cha" },
+        { key: "investigation", name: "Investigation", ability: "int" },
+        { key: "medicine", name: "Medicine", ability: "wis" },
+        { key: "nature", name: "Nature", ability: "int" },
+        { key: "perception", name: "Perception", ability: "wis" },
+        { key: "performance", name: "Performance", ability: "cha" },
+        { key: "persuasion", name: "Persuasion", ability: "cha" },
+        { key: "religion", name: "Religion", ability: "int" },
+        { key: "sleightOfHand", name: "Sleight of Hand", ability: "dex" },
+        { key: "stealth", name: "Stealth", ability: "dex" },
+        { key: "survival", name: "Survival", ability: "wis" },
+      ];
+      const REPEATER_KEYS = ["attacks", "items", "spells", "feats"];
+      const rand = (a) => a[Math.floor(Math.random() * a.length)];
+      const rint = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+      const num = (id, f = 0) => {
+        const v = parseFloat(document.getElementById(id)?.value);
+        return Number.isFinite(v) ? v : f;
+      };
+      const setValue = (id, v) => {
+        const el = document.getElementById(id);
+        if (el) el.value = v;
+      };
+      const fmt = (n) => `${n >= 0 ? "+" : ""}${n}`;
+      const mod = (s) => Math.floor((parseInt(s, 10) - 10) / 2) || 0;
+      function buildSkillsAndSaves() {
+        document.getElementById("skillsList").innerHTML = SKILLS.map(
+          (s) =>
+            `<label class="list-row skill-row" data-skill-name="${s.name.toLowerCase()}"><input type="checkbox" class="form-check-input skill-prof autosync" id="prof_${s.key}" data-skill="${s.key}" data-ability="${s.ability}" title="Proficient" /><input type="checkbox" class="form-check-input autosync" id="exp_${s.key}" data-expertise="${s.key}" title="Expertise" /><div><div>${s.name}</div><small>${s.ability.toUpperCase()}</small></div><div class="score-badge" id="skill-${s.key}">+0</div></label>`,
+        ).join("");
+        document.getElementById("savingThrowsList").innerHTML = ABILITIES.map(
+          (a) =>
+            `<label class="list-row"><input type="checkbox" class="form-check-input save-prof autosync" id="saveProf_${a.key}" data-ability="${a.key}" title="Proficient" /><input type="checkbox" class="form-check-input autosync" id="saveExp_${a.key}" data-save-expertise="${a.key}" title="Expertise" /><div><div>${a.name}</div><small>${a.key.toUpperCase()} save</small></div><div class="score-badge" id="save-${a.key}">+0</div></label>`,
+        ).join("");
+      }
+      function buildSlotsTable() {
+        const tbody = document.getElementById("slotsTableBody");
+        tbody.innerHTML = "";
+        for (let lvl = 1; lvl <= 9; lvl++) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${lvl}</td><td><input type="number" min="0" class="form-control autosync" id="slotCur${lvl}" value="0" /></td><td><input type="number" min="0" class="form-control autosync" id="slotMax${lvl}" value="0" /></td>`;
+          tbody.appendChild(tr);
+        }
+      }
+      function createRowInput(
+        label,
+        field,
+        value = "",
+        type = "text",
+        min = "",
+      ) {
+        return `<div class="field mb-0"><label>${label}</label><input type="${type}" ${min !== "" ? `min="${min}"` : ""} class="form-control autosync" data-field="${field}" value="${String(value).replace(/"/g, "&quot;")}" /></div>`;
+      }
+      function createRepeaterRow(kind, data = {}) {
+        const row = document.createElement("div");
+        row.className = "repeat-row";
+        if (kind === "attacks")
+          row.innerHTML = `<div class="repeat-grid-attack">${createRowInput("Name", "name", data.name || "")}${createRowInput("Bonus", "bonus", data.bonus || "")}${createRowInput("Damage", "damage", data.damage || "")}${createRowInput("Type", "type", data.type || "")}<button type="button" class="btn-sheet btn-danger" data-remove-row="attacks">Remove</button></div><div class="field mb-0"><label>Notes</label><textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea></div>`;
+        if (kind === "items")
+          row.innerHTML = `<div class="repeat-grid-item">${createRowInput("Item", "name", data.name || "")}${createRowInput("Qty", "qty", data.qty ?? 1, "number", 0)}${createRowInput("Wt Each", "weight", data.weight ?? 0, "number", 0)}${createRowInput("Cost", "cost", data.cost || "")}<div class="field mb-0"><label>Total Wt</label><input type="text" class="form-control" data-field="total" value="0" readonly /></div><button type="button" class="btn-sheet btn-danger" data-remove-row="items">Remove</button></div><div class="field mb-0"><label>Description</label><textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea></div>`;
+        if (kind === "spells")
+          row.innerHTML = `<div class="repeat-grid-spell">${createRowInput("Lvl", "level", data.level ?? 0, "number", 0)}${createRowInput("Spell Name", "name", data.name || "")}${createRowInput("School", "school", data.school || "")}${createRowInput("Cast Time", "castTime", data.castTime || "")}${createRowInput("Range", "range", data.range || "")}${createRowInput("Components", "components", data.components || "")}${createRowInput("Duration", "duration", data.duration || "")}<button type="button" class="btn-sheet btn-danger" data-remove-row="spells">Remove</button></div><div class="repeat-flags"><label><input type="checkbox" class="form-check-input autosync" data-field="prepared" ${data.prepared ? "checked" : ""} /> Prepared</label><label><input type="checkbox" class="form-check-input autosync" data-field="ritual" ${data.ritual ? "checked" : ""} /> Ritual</label><label><input type="checkbox" class="form-check-input autosync" data-field="concentration" ${data.concentration ? "checked" : ""} /> Concentration</label></div><div class="field mb-0"><label>Description / Notes</label><textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea></div>`;
+        if (kind === "feats")
+          row.innerHTML = `<div class="repeat-grid-feat">${createRowInput("Name", "name", data.name || "")}${createRowInput("Source", "source", data.source || "")}${createRowInput("Summary", "summary", data.summary || "")}<button type="button" class="btn-sheet btn-danger" data-remove-row="feats">Remove</button></div><div class="field mb-0"><label>Details</label><textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea></div>`;
+        return row;
+      }
+      function addRepeaterRow(kind, data = {}) {
+        document
+          .getElementById(`${kind}Repeater`)
+          ?.appendChild(createRepeaterRow(kind, data));
+      }
+      function serializeRepeater(kind) {
+        const host = document.getElementById(`${kind}Repeater`);
+        return host
+          ? Array.from(host.children).map((row) => {
+              const obj = {};
+              row
+                .querySelectorAll("[data-field]")
+                .forEach(
+                  (el) =>
+                    (obj[el.dataset.field] =
+                      el.type === "checkbox" ? el.checked : el.value),
+                );
+              return obj;
+            })
+          : [];
+      }
+      function hydrateRepeater(kind, rows) {
+        const host = document.getElementById(`${kind}Repeater`);
+        if (!host) return;
+        host.innerHTML = "";
+        (Array.isArray(rows) && rows.length ? rows : [{}]).forEach((item) =>
+          addRepeaterRow(kind, item),
+        );
+      }
+      function getSettings() {
+        return {
+          theme: document.documentElement.dataset.theme || "dark",
+          parchment: document.documentElement.dataset.parchment || "off",
+          autoSave: !!document.getElementById("settingAutoSave")?.checked,
+          autoPreset: !!document.getElementById("settingAutoPreset")?.checked,
+          compactRepeaters: !!document.getElementById("settingCompactRepeaters")
+            ?.checked,
+          weightUnits:
+            document.getElementById("settingWeightUnits")?.value || "lb",
+          casterType: document.getElementById("casterType")?.value || "full",
+          casterLevel:
+            parseInt(document.getElementById("casterLevel")?.value, 10) || 1,
+          nsfwLevel:
+            document.getElementById("settingNSFWLevel")?.value || "explicit",
+          autoNSFW: !!document.getElementById("settingAutoNSFW")?.checked,
+        };
+      }
+      function applySettings(s = {}) {
+        if (s.theme) document.documentElement.dataset.theme = s.theme;
+        if (s.parchment)
+          document.documentElement.dataset.parchment = s.parchment;
+        if (document.getElementById("settingAutoSave") && "autoSave" in s)
+          document.getElementById("settingAutoSave").checked = !!s.autoSave;
+        if (document.getElementById("settingAutoPreset") && "autoPreset" in s)
+          document.getElementById("settingAutoPreset").checked = !!s.autoPreset;
+        if (
+          document.getElementById("settingCompactRepeaters") &&
+          "compactRepeaters" in s
+        ) {
+          document.getElementById("settingCompactRepeaters").checked =
+            !!s.compactRepeaters;
+          document.documentElement.classList.toggle(
+            "compact-repeaters",
+            !!s.compactRepeaters,
+          );
+        }
+        if (document.getElementById("settingWeightUnits") && s.weightUnits)
+          document.getElementById("settingWeightUnits").value = s.weightUnits;
+        if (document.getElementById("casterType") && s.casterType)
+          document.getElementById("casterType").value = s.casterType;
+        if (document.getElementById("casterLevel") && s.casterLevel)
+          document.getElementById("casterLevel").value = s.casterLevel;
+        if (document.getElementById("settingNSFWLevel") && s.nsfwLevel)
+          document.getElementById("settingNSFWLevel").value = s.nsfwLevel;
+        if (document.getElementById("settingAutoNSFW") && "autoNSFW" in s)
+          document.getElementById("settingAutoNSFW").checked = !!s.autoNSFW;
+      }
+      function collectSheetData() {
+        const data = {};
+        document.querySelectorAll("input, textarea, select").forEach((el) => {
+          if (!el.id) return;
+          data[el.id] = el.type === "checkbox" ? el.checked : el.value;
+        });
+        data.repeaters = {
+          attacks: serializeRepeater("attacks"),
+          items: serializeRepeater("items"),
+          spells: serializeRepeater("spells"),
+          feats: serializeRepeater("feats"),
+        };
+        const img = document.getElementById("portraitImg");
+        if (img?.src && img.src !== location.href) data.portraitUrl = img.src;
+        data.settings = getSettings();
+        return data;
+      }
+      function applySheetData(data = {}) {
+        Object.entries(data).forEach(([id, v]) => {
+          if (["repeaters", "portraitUrl", "settings"].includes(id)) return;
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.type === "checkbox" ? (el.checked = !!v) : (el.value = v);
+        });
+        if (data.portraitUrl) {
+          const img = document.getElementById("portraitImg");
+          img.src = data.portraitUrl;
+          img.style.display = "block";
+          document.getElementById("portraitPlaceholder").style.display = "none";
+        }
+        if (data.settings) applySettings(data.settings);
+        const reps = data.repeaters || {};
+        REPEATER_KEYS.forEach((k) => hydrateRepeater(k, reps[k]));
+        recalc();
+      }
+      function recalc() {
+        const prof = Math.max(0, Math.floor(num("profBonus", 0)));
+        const halfProf = Math.floor(prof / 2);
+        const jack = document.getElementById("jackOfAllTrades")?.checked;
+        const mods = {};
+        ABILITIES.forEach((a) => {
+          const m = mod(num(`${a.key}Score`, 10));
+          mods[a.key] = m;
+          document.getElementById(`mod-${a.key}`) &&
+            (document.getElementById(`mod-${a.key}`).textContent = fmt(m));
+        });
+        ABILITIES.forEach((a) => {
+          let bonus = mods[a.key] || 0;
+          if (document.getElementById(`saveProf_${a.key}`)?.checked)
+            bonus +=
+              prof *
+              (document.getElementById(`saveExp_${a.key}`)?.checked ? 2 : 1);
+          document.getElementById(`save-${a.key}`) &&
+            (document.getElementById(`save-${a.key}`).textContent = fmt(bonus));
+        });
+        SKILLS.forEach((s) => {
+          let bonus = mods[s.ability] || 0;
+          if (document.getElementById(`prof_${s.key}`)?.checked)
+            bonus +=
+              prof * (document.getElementById(`exp_${s.key}`)?.checked ? 2 : 1);
+          else if (jack) bonus += halfProf;
+          document.getElementById(`skill-${s.key}`) &&
+            (document.getElementById(`skill-${s.key}`).textContent =
+              fmt(bonus));
+        });
+        const perc =
+          parseInt(
+            document.getElementById("skill-perception")?.textContent,
+            10,
+          ) || 0;
+        document.getElementById("passivePerception").textContent = 10 + perc;
+        const sa =
+          document.getElementById("spellcastingAbility")?.value || "none";
+        document.getElementById("spellSaveDc").textContent =
+          8 + prof + (sa === "none" ? 0 : mods[sa] || 0);
+        document.getElementById("initiativeDerived").textContent = fmt(
+          (mods.dex || 0) + (jack ? halfProf : 0),
+        );
+        const carry = Math.max(0, num("strScore", 10) * 15);
+        document.getElementById("carryCapacity").textContent = `${carry} lb`;
+        let sum = 0;
+        document
+          .querySelectorAll("#itemsRepeater .repeat-row")
+          .forEach((row) => {
+            const qty = Math.max(
+              0,
+              parseFloat(row.querySelector('[data-field="qty"]')?.value) || 0,
+            );
+            const wt = Math.max(
+              0,
+              parseFloat(row.querySelector('[data-field="weight"]')?.value) ||
+                0,
+            );
+            const total = qty * wt;
+            const out = row.querySelector('[data-field="total"]');
+            if (out) out.value = `${total.toFixed(2).replace(/\.00$/, "")} lb`;
+            sum += total;
+          });
+        document.getElementById("inventoryWeightTotal").textContent =
+          `${sum.toFixed(2).replace(/\.00$/, "")} lb`;
+        document.getElementById("inventoryWeightSummary").textContent =
+          `${sum.toFixed(2).replace(/\.00$/, "")} lb (${sum > carry ? "overburdened" : sum > carry * 0.66 ? "heavy" : "light"})`;
+        let prepared = 0;
+        document
+          .querySelectorAll('#spellsRepeater [data-field="prepared"]')
+          .forEach((cb) => cb.checked && prepared++);
+        const lvl = Math.max(1, Math.floor(num("level", 1)));
+        const bonus = Math.floor(num("preparedBonus", 0));
+        document.getElementById("preparedCount").textContent =
+          `${prepared} / ${Math.max(0, lvl + (mods[sa] || 0) + bonus)}`;
+        let cur = 0,
+          max = 0;
+        for (let i = 1; i <= 9; i++) {
+          cur += Math.max(0, Math.floor(num(`slotCur${i}`, 0)));
+          max += Math.max(0, Math.floor(num(`slotMax${i}`, 0)));
+        }
+        document.getElementById("slotSummary").textContent = `${cur} / ${max}`;
+        const maxHp = Math.max(1, num("hpMax", 1));
+        const curHp = Math.min(maxHp, Math.max(0, num("hpCurrent", maxHp)));
+        setValue("hpCurrent", curHp);
+        const temp = Math.max(0, num("hpTemp", 0));
+        document.getElementById("hpFill").style.width =
+          `${(curHp / maxHp) * 100}%`;
+        document.getElementById("hpSummary").textContent =
+          `${curHp} / ${maxHp} HP${temp ? ` (+${temp} temp)` : ""}`;
+        if (document.getElementById("settingAutoSave")?.checked) saveToKV();
+      }
+      function saveLocal() {
+        localStorage.setItem("dnd5eSheet", JSON.stringify(collectSheetData()));
+        localStorage.setItem("dnd5eSettings", JSON.stringify(getSettings()));
+      }
+      async function saveToKV() {
+        try {
+          const d = collectSheetData();
+          if (root.kv) await root.kv.dnd5eSheet.set("current", d);
+          else saveLocal();
+          document.getElementById("saveStatus").textContent = "Saved";
+          setTimeout(
+            () => (document.getElementById("saveStatus").textContent = ""),
+            1500,
+          );
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      async function loadSettingsFromStorage() {
+        try {
+          const s = root.kv
+            ? await root.kv.dnd5eSettings.get("ui")
+            : JSON.parse(localStorage.getItem("dnd5eSettings") || "null");
+          if (s) applySettings(s);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      async function loadFromStorage() {
+        try {
+          const d = root.kv
+            ? await root.kv.dnd5eSheet.get("current")
+            : JSON.parse(localStorage.getItem("dnd5eSheet") || "null");
+          if (d) applySheetData(d);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      function exportJson() {
+        const blob = new Blob([JSON.stringify(collectSheetData(), null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${document.getElementById("charName")?.value || "character"}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+      function importJsonFile(file) {
+        const r = new FileReader();
+        r.onload = (e) => {
+          try {
+            applySheetData(JSON.parse(e.target.result));
+          } catch {
+            alert("Invalid JSON file.");
+          }
+        };
+        r.readAsText(file);
+      }
+      function clearSheet() {
+        document.querySelectorAll("input, textarea, select").forEach((el) => {
+          if (el.type === "checkbox") el.checked = false;
+          else if (el.type === "number")
+            el.value = el.id.includes("Score") ? 10 : el.defaultValue || 0;
+          else if (el.tagName === "SELECT") el.selectedIndex = 0;
+          else el.value = el.defaultValue || "";
+        });
+        ["attacks", "items", "spells", "feats"].forEach((k) =>
+          hydrateRepeater(k, [{}]),
+        );
+        recalc();
+      }
+      function setup() {
+        buildSkillsAndSaves();
+        buildSlotsTable();
+        ["attacks", "items", "spells", "feats"].forEach((k) =>
+          hydrateRepeater(k, [{}]),
+        );
+        document
+          .querySelectorAll(".autosync")
+          .forEach((el) => el.addEventListener("input", recalc));
+        document.querySelectorAll(".toggle-pill").forEach((btn) =>
+          btn.addEventListener("click", () => {
+            const t = document.getElementById(btn.dataset.target);
+            t.value = String(!(t.value === "true"));
+            btn.classList.toggle("active", t.value === "true");
+            recalc();
+          }),
+        );
+        document.querySelectorAll("[data-hp-action]").forEach((btn) =>
+          btn.addEventListener("click", () => {
+            const d = parseInt(btn.dataset.hpAction, 10) || 0;
+            setValue(
+              "hpCurrent",
+              Math.max(
+                0,
+                Math.min(Math.max(1, num("hpMax", 1)), num("hpCurrent", 0) + d),
+              ),
+            );
+            recalc();
+          }),
+        );
+        document.getElementById("addAttackBtn").onclick = () =>
+          addRepeaterRow("attacks", {});
+        document.getElementById("addItemBtn").onclick = () =>
+          addRepeaterRow("items", { qty: 1, weight: 0 });
+        document.getElementById("addSpellBtn").onclick = () =>
+          addRepeaterRow("spells", { level: 0 });
+        document.getElementById("addFeatBtn").onclick = () =>
+          addRepeaterRow("feats", {});
+        document.getElementById("randomizeBtn").onclick = randomizeSheet;
+        document.getElementById("newSheetBtn").onclick = clearSheet;
+        document.getElementById("exportJsonBtn").onclick = exportJson;
+        document.getElementById("importJsonBtn").onclick = () =>
+          document.getElementById("importJsonFile").click();
+        document
+          .getElementById("importJsonFile")
+          .addEventListener(
+            "change",
+            (e) => e.target.files?.[0] && importJsonFile(e.target.files[0]),
+          );
+        document.getElementById("saveCloudBtn").onclick = saveToKV;
+        document.getElementById("loadCloudBtn").onclick = loadFromStorage;
+        document.getElementById("saveSettingsBtn").onclick = () => {
+          saveLocal();
+          document.getElementById("saveStatus").textContent = "Settings saved";
+          setTimeout(
+            () => (document.getElementById("saveStatus").textContent = ""),
+            1500,
+          );
+        };
+        document.getElementById("themeToggle").onclick = () => {
+          document.documentElement.dataset.theme =
+            document.documentElement.dataset.theme === "light"
+              ? "dark"
+              : "light";
+          saveLocal();
+        };
+        document.getElementById("parchmentToggle").onclick = () => {
+          document.documentElement.dataset.parchment =
+            document.documentElement.dataset.parchment === "on" ? "off" : "on";
+          saveLocal();
+        };
+        document.getElementById("printBtn").onclick = () => window.print();
+        document.getElementById("generatePortraitBtn").onclick = () =>
+          alert(
+            "Portrait generation is unavailable in this fixed offline HTML.",
+          );
+        document.getElementById("aiBackstoryBtn").onclick = () =>
+          alert("AI generation is unavailable in this fixed offline HTML.");
+        document.getElementById("aiSexHistoryBtn").onclick = () =>
+          alert("AI generation is unavailable in this fixed offline HTML.");
+        document.getElementById("aiComplicationsBtn").onclick = () =>
+          alert("AI generation is unavailable in this fixed offline HTML.");
+        document.getElementById("aiAttackNotesBtn").onclick = () =>
+          alert("AI generation is unavailable in this fixed offline HTML.");
+        document.getElementById("openSettingsBtn").onclick = () =>
+          (document.getElementById("settingsOverlay").style.display = "flex");
+        document.getElementById("closeSettingsBtn").onclick = () =>
+          (document.getElementById("settingsOverlay").style.display = "none");
+        document.getElementById("applyPreset").onclick = () => {
+          const type = document.getElementById("casterType").value,
+            lvl = Math.max(
+              1,
+              Math.min(
+                20,
+                parseInt(document.getElementById("casterLevel").value, 10) || 1,
+              ),
+            );
+          const tables = {
+            full: [
+              [],
+              [2],
+              [3],
+              [4],
+              [4, 2],
+              [4, 3],
+              [4, 3],
+              [4, 3, 1],
+              [4, 3, 2],
+              [4, 3, 3],
+              [4, 3, 3, 1],
+              [4, 3, 3, 2],
+              [4, 3, 3, 2, 1],
+              [4, 3, 3, 2, 1],
+              [4, 3, 3, 2, 2],
+              [4, 3, 3, 2, 2, 1],
+              [4, 3, 3, 2, 2, 1],
+              [4, 3, 3, 2, 2, 2],
+              [4, 3, 3, 2, 2, 2, 1],
+              [4, 3, 3, 2, 2, 2, 2],
+            ],
+            half: [
+              [],
+              [],
+              [2],
+              [3],
+              [3],
+              [3],
+              [3],
+              [3],
+              [4, 2],
+              [4, 2],
+              [4, 3],
+              [4, 3],
+              [4, 3],
+              [4, 3, 1],
+              [4, 3, 2],
+              [4, 3, 2],
+              [4, 3, 2],
+              [4, 3, 3],
+              [4, 3, 3],
+              [4, 3, 3],
+            ],
+            third: [
+              [],
+              [],
+              [],
+              [2],
+              [2],
+              [2],
+              [2],
+              [3],
+              [3, 2],
+              [3, 2],
+              [3, 3],
+              [3, 3],
+              [3, 3],
+              [3, 3, 1],
+              [3, 3, 2],
+              [3, 3, 2],
+              [3, 3, 2],
+              [3, 3, 3],
+              [3, 3, 3],
+              [3, 3, 3],
+            ],
+            warlock: [
+              [],
+              [1],
+              [2],
+              [2],
+              [3],
+              [3],
+              [4],
+              [4],
+              [5],
+              [5],
+              [6],
+              [6],
+              [7],
+              [7],
+              [8],
+              [8],
+              [9],
+              [9],
+              [10],
+              [10],
+            ],
+          };
+          const slots = tables[type][lvl] || [];
+          for (let i = 1; i <= 9; i++) {
+            document.getElementById(`slotMax${i}`).value = slots[i - 1] || 0;
+            if (document.getElementById("refillSlots").checked)
+              document.getElementById(`slotCur${i}`).value = slots[i - 1] || 0;
+          }
+          recalc();
+        };
+        document.addEventListener("click", (e) => {
+          const rm = e.target.closest("[data-remove-row]");
+          if (rm) {
+            rm.closest(".repeat-row")?.remove();
+            if (
+              !document.querySelector(
+                `#${rm.dataset.removeRow}Repeater .repeat-row`,
+              )
+            )
+              addRepeaterRow(rm.dataset.removeRow, {});
+            recalc();
+          }
+        });
+        if (window.tippy)
+          tippy("[data-tippy]", {
+            allowHTML: true,
+            theme: "light-border",
+            delay: [100, 50],
+          });
+        loadSettingsFromStorage().then(loadFromStorage).then(recalc);
+      }
+      function randomizeSheet() {
+        setValue(
+          "charName",
+          rand([
+            "Arin",
+            "Belwyn",
+            "Cade",
+            "Dorian",
+            "Elira",
+            "Lyra",
+            "Raven",
+            "Aurelia",
+          ]),
+        );
+        setValue(
+          "race",
+          rand(["Human", "Elf", "Dwarf", "Tiefling", "Dragonborn", "Half-Elf"]),
+        );
+        setValue(
+          "classLevel",
+          `${rand(["Bard", "Sorcerer", "Warlock", "Rogue", "Cleric", "Wizard"])} 1`,
+        );
+        setValue(
+          "background",
+          rand(["Entertainer", "Acolyte", "Noble", "Criminal", "Outlander"]),
+        );
+        setValue(
+          "alignment",
+          rand([
+            "Chaotic Good",
+            "Neutral Good",
+            "True Neutral",
+            "Chaotic Neutral",
+          ]),
+        );
+        ["str", "dex", "con", "int", "wis", "cha"].forEach((a) =>
+          setValue(`${a}Score`, rint(8, 18)),
+        );
+        recalc();
+      }
+      window.addEventListener("DOMContentLoaded", setup);
+    </script>
+  </body>
+</html>

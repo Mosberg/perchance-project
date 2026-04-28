@@ -1,0 +1,18 @@
+// https://perchance.org/pokemon-yellow
+
+// Controls:
+// Arrow Up: "up"
+// Arrow Down: "down"
+// Arrow Left: "left"
+// Arrow Right: "right"
+// Key Z: "a"
+// Key X: "b"
+// Enter: "start"
+
+kv = {import:kv-plugin}
+generateImage = {import:text-to-image-plugin}
+
+$meta
+	title = Pokémon Yellow - Complete Phaser 4 Edition for Perchance.org
+	description = A complete Phaser 4 edition of Pokémon Yellow, a classic Pokémon game. Play as Ash Ketchum and embark on an adventure to become a Pokémon Master. Catch, train, and battle with your favorite Pokémon in this nostalgic game.
+  tags = pokemon, pokemon yellow, phaser 4, game, adventure, catch, train, battle, nostalgic

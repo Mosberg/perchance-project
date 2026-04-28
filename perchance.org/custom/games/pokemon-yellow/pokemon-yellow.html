@@ -1,0 +1,2315 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pokémon Yellow - Complete Phaser 4 Edition for Perchance.org</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      body {
+        background: linear-gradient(180deg, #0f0f23 0%, #000 100%);
+        color: #e0f8e0;
+        font-family: "Press Start 2P", monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+      h1 {
+        font-size: 18px;
+        color: #f8d030;
+        text-shadow:
+          2px 2px 0 #000,
+          0 0 10px #f8d030;
+        margin-bottom: 10px;
+        letter-spacing: 2px;
+      }
+
+      #game-wrapper {
+        border: 8px solid #c8c8c8;
+        border-radius: 0 0 60px 0;
+        box-shadow:
+          inset 0 0 20px rgba(0, 0, 0, 0.8),
+          0 0 40px rgba(248, 208, 48, 0.6);
+        background: #081820;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #game-container {
+        width: 360px;
+        height: 320px;
+        background: #0f0f1f;
+      }
+
+      #loadingEl {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        color: #f8d030;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        font-size: 14px;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      #controls {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        gap: 20px;
+        width: 360px;
+        max-width: 90vw;
+      }
+
+      .dpad-container {
+        display: grid;
+        grid-template-areas:
+          ". up ."
+          "left center right"
+          ". down .";
+        grid-template-columns: 60px 60px 60px;
+        grid-template-rows: 60px 60px 60px;
+        gap: 5px;
+        place-items: center;
+      }
+
+      .dpad-btn {
+        width: 60px;
+        height: 60px;
+        border: 4px solid #606060;
+        border-radius: 8px;
+        background: linear-gradient(145deg, #404040, #303030);
+        color: #e0e0e0;
+        font-size: 24px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #202020;
+        transition: all 0.1s;
+        user-select: none;
+      }
+
+      .dpad-btn:active {
+        background: linear-gradient(145deg, #303030, #202020);
+        box-shadow: 0 1px 0 #202020;
+        transform: translateY(3px);
+      }
+
+      .dpad-up {
+        grid-area: up;
+      }
+      .dpad-left {
+        grid-area: left;
+      }
+      .dpad-down {
+        grid-area: down;
+      }
+      .dpad-right {
+        grid-area: right;
+      }
+
+      .action-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .ab-btn {
+        width: 70px;
+        height: 70px;
+        border: 4px solid #c04050;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #d06070, #a03040);
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        box-shadow: 0 6px 0 #802030;
+        transition: all 0.1s;
+      }
+
+      .ab-btn:active {
+        background: linear-gradient(145deg, #a03040, #802030);
+        box-shadow: 0 2px 0 #802030;
+        transform: translateY(4px);
+      }
+
+      .start-btn {
+        width: 120px;
+        height: 40px;
+        border: 3px solid #60a0c0;
+        border-radius: 20px;
+        background: linear-gradient(145deg, #70b0d0, #5090b0);
+        color: white;
+        font-size: 14px;
+        font-family: inherit;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #407090;
+      }
+
+      .start-btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #407090;
+      }
+
+      .info {
+        margin-top: 15px;
+        font-size: 11px;
+        color: #a0c0a0;
+        text-align: center;
+        max-width: 360px;
+      }
+
+      #save-status {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 10px;
+        color: #f8d030;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🐾 POKÉMON YELLOW 🐾</h1>
+
+    <div id="game-wrapper">
+      <div id="save-status" style="display: none"></div>
+      <div id="loadingEl">
+        <div>🔥 Generating Pallet Town...</div>
+        <div style="font-size: 12px; margin-top: 10px">
+          Loading AI sprites & music...
+        </div>
+        <div id="progress" style="margin-top: 10px; font-size: 10px">0%</div>
+      </div>
+      <div id="game-container"></div>
+    </div>
+
+    <div id="controls">
+      <div class="dpad-container">
+        <div class="dpad-btn dpad-up" data-dir="up">↑</div>
+        <div class="dpad-btn dpad-left" data-dir="left">←</div>
+        <div class="dpad-btn dpad-down" data-dir="down">↓</div>
+        <div class="dpad-btn dpad-right" data-dir="right">→</div>
+      </div>
+      <div class="action-container">
+        <button class="ab-btn" data-action="B" style="order: 1">B</button>
+        <button class="start-btn" data-action="START" style="order: 2">
+          START
+        </button>
+        <button class="ab-btn" data-action="A" style="order: 3">A</button>
+      </div>
+    </div>
+
+    <div class="info">
+      Arrow Keys / D-Pad: Move | A/Z: Confirm | B/X: Cancel | START: Menu<br />
+      Walk in grass for wild encounters! Catch 'em all! ✨
+    </div>
+
+    <script type="module">
+      import * as Phaser from "https://cdn.jsdelivr.net/npm/phaser@4.0.0-rc.4/+esm";
+
+      const ROOT = typeof root !== "undefined" ? root : globalThis;
+      const SAVE_KEY = "pokemonYellowSaveV3";
+      const TILE_SIZE = 32;
+
+      const TILE = Object.freeze({
+        GRASS: 0,
+        WALL: 1,
+        PATH: 2,
+        WATER: 3,
+        LAB: 4,
+        CENTER: 5,
+        GYM: 6,
+      });
+
+      const WORLD_MAP = [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1],
+        [1, 2, 4, 2, 2, 5, 2, 2, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 0, 3, 3, 0, 0, 2, 1],
+        [1, 2, 6, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 1],
+        [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 1],
+        [1, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
+        [1, 2, 3, 3, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
+        [1, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      ];
+
+      const MOVES = Object.freeze({
+        Tackle: { power: 35, accuracy: 95 },
+        "Quick Attack": { power: 40, accuracy: 100 },
+        "Thunder Shock": { power: 40, accuracy: 100 },
+        "Vine Whip": { power: 45, accuracy: 100 },
+        Ember: { power: 40, accuracy: 100 },
+        "Water Gun": { power: 40, accuracy: 100 },
+        "Rock Throw": { power: 50, accuracy: 90 },
+        Bite: { power: 45, accuracy: 100 },
+        "String Shot": { power: 0, accuracy: 95, status: "speedDown" },
+      });
+
+      const SPECIES = Object.freeze({
+        Pikachu: {
+          base: { hp: 35, atk: 55, def: 40, spd: 90 },
+          catchRate: 190,
+          expYield: 82,
+          moves: ["Thunder Shock", "Quick Attack"],
+        },
+        Pidgey: {
+          base: { hp: 40, atk: 45, def: 40, spd: 56 },
+          catchRate: 255,
+          expYield: 50,
+          moves: ["Tackle", "Quick Attack"],
+        },
+        Rattata: {
+          base: { hp: 30, atk: 56, def: 35, spd: 72 },
+          catchRate: 255,
+          expYield: 51,
+          moves: ["Tackle", "Quick Attack"],
+        },
+        Caterpie: {
+          base: { hp: 45, atk: 30, def: 35, spd: 45 },
+          catchRate: 255,
+          expYield: 39,
+          moves: ["Tackle", "String Shot"],
+        },
+        Nidoran: {
+          base: { hp: 46, atk: 57, def: 40, spd: 50 },
+          catchRate: 235,
+          expYield: 55,
+          moves: ["Tackle", "Bite"],
+        },
+        Eevee: {
+          base: { hp: 55, atk: 55, def: 50, spd: 55 },
+          catchRate: 45,
+          expYield: 65,
+          moves: ["Quick Attack", "Bite"],
+        },
+        Geodude: {
+          base: { hp: 40, atk: 80, def: 100, spd: 20 },
+          catchRate: 255,
+          expYield: 60,
+          moves: ["Tackle", "Rock Throw"],
+        },
+        Onix: {
+          base: { hp: 35, atk: 45, def: 160, spd: 70 },
+          catchRate: 45,
+          expYield: 77,
+          moves: ["Tackle", "Rock Throw"],
+        },
+        Bulbasaur: {
+          base: { hp: 45, atk: 49, def: 49, spd: 45 },
+          catchRate: 45,
+          expYield: 64,
+          moves: ["Tackle", "Vine Whip"],
+        },
+        Charmander: {
+          base: { hp: 39, atk: 52, def: 43, spd: 65 },
+          catchRate: 45,
+          expYield: 62,
+          moves: ["Tackle", "Ember"],
+        },
+        Squirtle: {
+          base: { hp: 44, atk: 48, def: 65, spd: 43 },
+          catchRate: 45,
+          expYield: 63,
+          moves: ["Tackle", "Water Gun"],
+        },
+      });
+
+      const inputState = {
+        up: false,
+        down: false,
+        left: false,
+        right: false,
+        a: false,
+        b: false,
+        start: false,
+        upTap: false,
+        downTap: false,
+        leftTap: false,
+        rightTap: false,
+        aTap: false,
+        bTap: false,
+        startTap: false,
+      };
+
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+      const slug = (value) =>
+        String(value)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "");
+
+      const speciesTextureKey = (species) => `mon-${slug(species)}`;
+
+      function markPressed(key) {
+        if (!(key in inputState)) return;
+        inputState[key] = true;
+        const tapKey = `${key}Tap`;
+        if (tapKey in inputState) {
+          inputState[tapKey] = true;
+        }
+      }
+
+      function markReleased(key) {
+        if (key in inputState) {
+          inputState[key] = false;
+        }
+      }
+
+      function consumeTap(key) {
+        const tapKey = `${key}Tap`;
+        if (!(tapKey in inputState)) return false;
+        const wasTapped = inputState[tapKey];
+        inputState[tapKey] = false;
+        return wasTapped;
+      }
+
+      function bindHoldButton(button, key) {
+        const onDown = (event) => {
+          if (event.cancelable) event.preventDefault();
+          markPressed(key);
+        };
+
+        const onUp = (event) => {
+          if (event && event.cancelable) event.preventDefault();
+          markReleased(key);
+        };
+
+        button.addEventListener("mousedown", onDown);
+        button.addEventListener("mouseup", onUp);
+        button.addEventListener("mouseleave", onUp);
+        button.addEventListener("touchstart", onDown, { passive: false });
+        button.addEventListener("touchend", onUp, { passive: false });
+        button.addEventListener("touchcancel", onUp, { passive: false });
+      }
+
+      document.querySelectorAll("[data-dir]").forEach((button) => {
+        bindHoldButton(button, button.dataset.dir);
+      });
+
+      document.querySelectorAll("[data-action]").forEach((button) => {
+        bindHoldButton(button, button.dataset.action.toLowerCase());
+      });
+
+      function makeTextureDataUrl(size, drawFn) {
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return "";
+        drawFn(ctx, size);
+        return canvas.toDataURL();
+      }
+
+      function makeTileTexture(kind) {
+        return makeTextureDataUrl(32, (ctx) => {
+          if (kind === "grass") {
+            ctx.fillStyle = "#74c241";
+            ctx.fillRect(0, 0, 32, 32);
+            ctx.fillStyle = "#5ba832";
+            ctx.fillRect(0, 16, 32, 16);
+            ctx.fillStyle = "#83d652";
+            for (let y = 0; y < 32; y += 8) {
+              for (let x = (y / 8) % 2; x < 32; x += 8) {
+                ctx.fillRect(x, y, 2, 2);
+              }
+            }
+            return;
+          }
+
+          if (kind === "path") {
+            ctx.fillStyle = "#d4ce9b";
+            ctx.fillRect(0, 0, 32, 32);
+            ctx.fillStyle = "#c8b888";
+            for (let y = 0; y < 32; y += 4) {
+              ctx.fillRect(0, y, 32, 1);
+            }
+            return;
+          }
+
+          if (kind === "wall") {
+            ctx.fillStyle = "#3f6a2f";
+            ctx.fillRect(0, 0, 32, 32);
+            ctx.fillStyle = "#4c8038";
+            ctx.fillRect(2, 2, 28, 28);
+            ctx.fillStyle = "#315123";
+            for (let x = 0; x < 32; x += 8) {
+              ctx.fillRect(x, 0, 4, 32);
+            }
+            return;
+          }
+
+          if (kind === "water") {
+            ctx.fillStyle = "#68a8e0";
+            ctx.fillRect(0, 0, 32, 32);
+            ctx.fillStyle = "#4c91c8";
+            for (let y = 0; y < 32; y += 6) {
+              ctx.fillRect(0, y, 32, 2);
+            }
+            return;
+          }
+
+          ctx.fillStyle = "#888888";
+          ctx.fillRect(0, 0, 32, 32);
+        });
+      }
+
+      function makeCharacterTexture(primary, secondary) {
+        return makeTextureDataUrl(32, (ctx) => {
+          ctx.clearRect(0, 0, 32, 32);
+          ctx.fillStyle = secondary;
+          ctx.fillRect(10, 3, 12, 8);
+          ctx.fillStyle = "#f6d4b8";
+          ctx.fillRect(11, 11, 10, 6);
+          ctx.fillStyle = primary;
+          ctx.fillRect(8, 17, 16, 10);
+          ctx.fillStyle = "#1b2b38";
+          ctx.fillRect(9, 27, 6, 4);
+          ctx.fillRect(17, 27, 6, 4);
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(12, 13, 2, 2);
+          ctx.fillRect(18, 13, 2, 2);
+        });
+      }
+
+      function makeMonsterTexture(species) {
+        const palettes = {
+          pikachu: ["#f4d02f", "#d4ac0d"],
+          pidgey: ["#d7ccc8", "#8d6e63"],
+          rattata: ["#b39ddb", "#7e57c2"],
+          caterpie: ["#81c784", "#43a047"],
+          nidoran: ["#9fa8da", "#5c6bc0"],
+          eevee: ["#bcaaa4", "#6d4c41"],
+          geodude: ["#b0bec5", "#607d8b"],
+          onix: ["#90a4ae", "#546e7a"],
+          bulbasaur: ["#80cbc4", "#00897b"],
+          charmander: ["#ffab91", "#ff7043"],
+          squirtle: ["#90caf9", "#42a5f5"],
+        };
+
+        const [primary, secondary] = palettes[slug(species)] || ["#bdbdbd", "#757575"];
+        return makeTextureDataUrl(32, (ctx) => {
+          ctx.fillStyle = primary;
+          ctx.fillRect(5, 8, 22, 16);
+          ctx.fillStyle = secondary;
+          ctx.fillRect(3, 12, 5, 8);
+          ctx.fillRect(24, 12, 5, 8);
+          ctx.fillRect(9, 4, 14, 6);
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(11, 13, 2, 2);
+          ctx.fillRect(19, 13, 2, 2);
+          ctx.fillStyle = "#ffffff";
+          ctx.font = "bold 7px monospace";
+          ctx.fillText(species[0].toUpperCase(), 13, 22);
+        });
+      }
+
+      function calcStat(base, level, isHp = false) {
+        if (isHp) {
+          return Math.floor((2 * base * level) / 100 + level + 10);
+        }
+        return Math.floor((2 * base * level) / 100 + 5);
+      }
+
+      function experienceForNext(level) {
+        return Math.max(20, Math.floor(level * level * 1.6 + level * 8));
+      }
+
+      function buildPokemon(species, level = 5) {
+        const meta = SPECIES[species] || SPECIES.Pidgey;
+        const safeLevel = clamp(Math.floor(level) || 5, 2, 100);
+        return {
+          species,
+          level: safeLevel,
+          exp: 0,
+          maxHp: calcStat(meta.base.hp, safeLevel, true),
+          hp: calcStat(meta.base.hp, safeLevel, true),
+          attack: calcStat(meta.base.atk, safeLevel),
+          defense: calcStat(meta.base.def, safeLevel),
+          speed: calcStat(meta.base.spd, safeLevel),
+          moves: meta.moves.slice(0, 2),
+        };
+      }
+
+      function normalizePokemon(raw) {
+        if (!raw || typeof raw !== "object") return null;
+        const species = SPECIES[raw.species] ? raw.species : "Pidgey";
+        const meta = SPECIES[species];
+        const level = clamp(Math.floor(raw.level) || 3, 2, 100);
+        const normalized = {
+          species,
+          level,
+          exp: Math.max(0, Math.floor(raw.exp) || 0),
+          maxHp: calcStat(meta.base.hp, level, true),
+          hp: 0,
+          attack: calcStat(meta.base.atk, level),
+          defense: calcStat(meta.base.def, level),
+          speed: calcStat(meta.base.spd, level),
+          moves:
+            Array.isArray(raw.moves) && raw.moves.length > 0
+              ? raw.moves.filter((move) => MOVES[move]).slice(0, 2)
+              : meta.moves.slice(0, 2),
+        };
+
+        if (normalized.moves.length === 0) {
+          normalized.moves = ["Tackle"];
+        }
+
+        normalized.hp = clamp(
+          Math.floor(raw.hp) || normalized.maxHp,
+          0,
+          normalized.maxHp,
+        );
+        return normalized;
+      }
+
+      function healPokemon(pokemon) {
+        pokemon.hp = pokemon.maxHp;
+        return pokemon;
+      }
+
+      function grantExperience(pokemon, amount) {
+        pokemon.exp += Math.max(0, Math.floor(amount) || 0);
+        let levelsGained = 0;
+
+        while (
+          pokemon.level < 100 &&
+          pokemon.exp >= experienceForNext(pokemon.level)
+        ) {
+          pokemon.exp -= experienceForNext(pokemon.level);
+          pokemon.level += 1;
+          levelsGained += 1;
+
+          const meta = SPECIES[pokemon.species] || SPECIES.Pidgey;
+          const previousMaxHp = pokemon.maxHp;
+          pokemon.maxHp = calcStat(meta.base.hp, pokemon.level, true);
+          pokemon.attack = calcStat(meta.base.atk, pokemon.level);
+          pokemon.defense = calcStat(meta.base.def, pokemon.level);
+          pokemon.speed = calcStat(meta.base.spd, pokemon.level);
+          pokemon.hp = clamp(
+            pokemon.hp + (pokemon.maxHp - previousMaxHp) + 4,
+            1,
+            pokemon.maxHp,
+          );
+        }
+
+        pokemon.hp = clamp(pokemon.hp, 0, pokemon.maxHp);
+        return levelsGained;
+      }
+
+      function createDefaultSave() {
+        return {
+          version: 3,
+          playerName: "Ash",
+          position: { x: 5, y: 7 },
+          lastHeal: { x: 5, y: 7 },
+          party: [],
+          boxed: [],
+          pokedex: { seen: {}, caught: {} },
+          inventory: { pokeball: 8, potion: 3 },
+          badges: 0,
+          money: 3000,
+          activeIndex: 0,
+          flags: {
+            oakIntro: false,
+            starterPicked: false,
+            rivalDefeated: false,
+            brockDefeated: false,
+          },
+        };
+      }
+
+      function normalizeSave(raw) {
+        const base = createDefaultSave();
+        const source = raw && typeof raw === "object" ? raw : {};
+
+        const save = {
+          ...base,
+          ...source,
+          position: { ...base.position, ...(source.position || {}) },
+          lastHeal: { ...base.lastHeal, ...(source.lastHeal || {}) },
+          inventory: { ...base.inventory, ...(source.inventory || {}) },
+          flags: { ...base.flags, ...(source.flags || {}) },
+          pokedex: {
+            seen: {
+              ...(base.pokedex.seen || {}),
+              ...((source.pokedex && source.pokedex.seen) || {}),
+            },
+            caught: {
+              ...(base.pokedex.caught || {}),
+              ...((source.pokedex && source.pokedex.caught) || {}),
+            },
+          },
+        };
+
+        save.party = (Array.isArray(source.party) ? source.party : [])
+          .map(normalizePokemon)
+          .filter(Boolean);
+
+        save.boxed = (Array.isArray(source.boxed) ? source.boxed : [])
+          .map(normalizePokemon)
+          .filter(Boolean);
+
+        save.activeIndex = clamp(
+          Math.floor(source.activeIndex) || 0,
+          0,
+          Math.max(0, save.party.length - 1),
+        );
+
+        save.money = Math.max(0, Math.floor(save.money) || 0);
+        save.badges = Math.max(0, Math.floor(save.badges) || 0);
+        save.inventory.pokeball = Math.max(
+          0,
+          Math.floor(save.inventory.pokeball) || 0,
+        );
+        save.inventory.potion = Math.max(
+          0,
+          Math.floor(save.inventory.potion) || 0,
+        );
+
+        if (save.party.length === 0 && save.flags.starterPicked) {
+          save.party.push(buildPokemon("Pikachu", 5));
+          save.activeIndex = 0;
+        }
+
+        return save;
+      }
+
+      function registerDex(saveData, species, caught = false) {
+        saveData.pokedex.seen[species] = true;
+        if (caught) {
+          saveData.pokedex.caught[species] = true;
+        }
+      }
+
+      function addPokemonToCollection(saveData, pokemon) {
+        const normalized = normalizePokemon(pokemon);
+        if (!normalized) return "none";
+        if (saveData.party.length < 6) {
+          saveData.party.push(normalized);
+          return "party";
+        }
+        saveData.boxed.push(normalized);
+        return "box";
+      }
+
+      async function loadGame() {
+        try {
+          let raw = null;
+          if (ROOT?.kv?.pokemonSave?.get) {
+            raw = await ROOT.kv.pokemonSave.get(SAVE_KEY);
+          } else {
+            raw = localStorage.getItem(SAVE_KEY);
+          }
+
+          if (!raw) return createDefaultSave();
+          return normalizeSave(JSON.parse(raw));
+        } catch (error) {
+          console.warn("Load failed, using default save", error);
+          return createDefaultSave();
+        }
+      }
+
+      async function saveGame(state) {
+        try {
+          const payload = JSON.stringify(normalizeSave(state));
+          if (ROOT?.kv?.pokemonSave?.set) {
+            await ROOT.kv.pokemonSave.set(SAVE_KEY, payload);
+          } else {
+            localStorage.setItem(SAVE_KEY, payload);
+          }
+          return true;
+        } catch (error) {
+          console.warn("Save failed", error);
+          return false;
+        }
+      }
+
+      function chooseWildPokemon() {
+        const table = [
+          { species: "Pidgey", min: 2, max: 5, weight: 35 },
+          { species: "Rattata", min: 2, max: 5, weight: 30 },
+          { species: "Caterpie", min: 2, max: 4, weight: 20 },
+          { species: "Nidoran", min: 3, max: 6, weight: 15 },
+        ];
+
+        const totalWeight = table.reduce((sum, entry) => sum + entry.weight, 0);
+        let roll = Math.random() * totalWeight;
+
+        for (const entry of table) {
+          roll -= entry.weight;
+          if (roll <= 0) {
+            const level = Phaser.Math.Between(entry.min, entry.max);
+            return buildPokemon(entry.species, level);
+          }
+        }
+
+        return buildPokemon("Pidgey", 3);
+      }
+
+      async function generateAssets() {
+        const assets = {};
+        const progressEl = document.getElementById("progress");
+        const spriteRequests = [
+          {
+            key: "player",
+            prompt:
+              "Game Boy Pokemon Yellow style Ash Ketchum trainer sprite from behind, 32x32 pixel art, transparent background",
+            fallback: makeCharacterTexture("#1e88e5", "#f44336"),
+          },
+          {
+            key: "oak",
+            prompt:
+              "Game Boy Pokemon Yellow style Professor Oak sprite, 32x32 pixel art, transparent background",
+            fallback: makeCharacterTexture("#ef6c00", "#fafafa"),
+          },
+          {
+            key: "rival",
+            prompt:
+              "Game Boy Pokemon Yellow style Blue rival trainer sprite, 32x32 pixel art, transparent background",
+            fallback: makeCharacterTexture("#6d4c41", "#5c6bc0"),
+          },
+          {
+            key: "brock",
+            prompt:
+              "Game Boy Pokemon style Brock gym leader sprite, 32x32 pixel art, transparent background",
+            fallback: makeCharacterTexture("#8d6e63", "#3e2723"),
+          },
+          {
+            key: "nurse",
+            prompt:
+              "Game Boy Pokemon style Nurse Joy sprite, 32x32 pixel art, transparent background",
+            fallback: makeCharacterTexture("#ec407a", "#ffe0f0"),
+          },
+        ];
+
+        const totalTasks = spriteRequests.length + Object.keys(SPECIES).length + 4;
+        let completed = 0;
+
+        const updateProgress = () => {
+          const pct = Math.round((completed / totalTasks) * 100);
+          progressEl.textContent = `${pct}%`;
+        };
+
+        for (const request of spriteRequests) {
+          let generated = null;
+          if (typeof ROOT.generateImage === "function") {
+            try {
+              generated = await ROOT.generateImage(request.prompt, {
+                resolution: "64x64",
+                style: "pixel art",
+              });
+            } catch (error) {
+              console.warn(`Image generation failed for ${request.key}`, error);
+            }
+          }
+
+          assets[request.key] = generated || request.fallback;
+          completed += 1;
+          updateProgress();
+        }
+
+        assets["tile-grass"] = makeTileTexture("grass");
+        completed += 1;
+        updateProgress();
+        assets["tile-path"] = makeTileTexture("path");
+        completed += 1;
+        updateProgress();
+        assets["tile-wall"] = makeTileTexture("wall");
+        completed += 1;
+        updateProgress();
+        assets["tile-water"] = makeTileTexture("water");
+        completed += 1;
+        updateProgress();
+
+        for (const species of Object.keys(SPECIES)) {
+          assets[speciesTextureKey(species)] = makeMonsterTexture(species);
+          completed += 1;
+          updateProgress();
+        }
+
+        progressEl.textContent = "100%";
+        return assets;
+      }
+
+      class PalletTownGame {
+        constructor() {
+          this.assets = null;
+          this.game = null;
+          this.saveData = null;
+          this.autoSaveInterval = null;
+          this.init();
+        }
+
+        async init() {
+          const loadingEl = document.getElementById("loadingEl");
+          this.saveData = await loadGame();
+
+          try {
+            this.assets = await generateAssets();
+          } catch (error) {
+            console.warn("Asset generation fallback", error);
+            this.assets = {};
+          }
+
+          loadingEl.style.display = "none";
+          document.getElementById("save-status").style.display = "block";
+          this.startGame();
+          this.autoSaveInterval = setInterval(() => this.autoSave(), 12000);
+
+          window.addEventListener("beforeunload", () => {
+            if (this.autoSaveInterval) {
+              clearInterval(this.autoSaveInterval);
+            }
+          });
+        }
+
+        startGame() {
+          const config = {
+            type: Phaser.AUTO,
+            width: 360,
+            height: 320,
+            parent: "game-container",
+            backgroundColor: "#0f1f3f",
+            scale: {
+              mode: Phaser.Scale.FIT,
+              autoCenter: Phaser.Scale.CENTER_BOTH,
+              pixelArt: true,
+            },
+            scene: [BootScene, WorldScene, BattleScene, MenuScene],
+            physics: {
+              default: "arcade",
+              arcade: {
+                gravity: { x: 0, y: 0 },
+                debug: false,
+              },
+            },
+          };
+
+          this.game = new Phaser.Game(config);
+          this.game.registry.set("assets", this.assets || {});
+          this.game.registry.set("saveData", normalizeSave(this.saveData));
+          this.game.registry.set("pendingBattleResult", null);
+        }
+
+        async autoSave() {
+          if (!this.game) return;
+          const statusEl = document.getElementById("save-status");
+          const success = await saveGame(this.game.registry.get("saveData"));
+          statusEl.textContent = success ? "Saved" : "Save failed";
+          setTimeout(() => {
+            statusEl.textContent = "";
+          }, 1700);
+        }
+      }
+
+      class BootScene extends Phaser.Scene {
+        constructor() {
+          super({ key: "BootScene" });
+        }
+
+        preload() {
+          const assets = this.registry.get("assets") || {};
+          Object.entries(assets).forEach(([key, dataUrl]) => {
+            if (typeof dataUrl === "string" && dataUrl.startsWith("data:image")) {
+              this.load.image(key, dataUrl);
+            }
+          });
+        }
+
+        createFallbackTexture(key, color) {
+          if (this.textures.exists(key)) return;
+          const graphics = this.add.graphics();
+          graphics.fillStyle(color, 1);
+          graphics.fillRect(0, 0, 32, 32);
+          graphics.generateTexture(key, 32, 32);
+          graphics.destroy();
+        }
+
+        create() {
+          this.createFallbackTexture("player", 0x4488cc);
+          this.createFallbackTexture("oak", 0xffaa00);
+          this.createFallbackTexture("rival", 0x7788ff);
+          this.createFallbackTexture("brock", 0x996633);
+          this.createFallbackTexture("nurse", 0xff66aa);
+          this.createFallbackTexture("tile-grass", 0x66aa33);
+          this.createFallbackTexture("tile-path", 0xd4ce9b);
+          this.createFallbackTexture("tile-wall", 0x4c8038);
+          this.createFallbackTexture("tile-water", 0x5599dd);
+
+          Object.keys(SPECIES).forEach((species) => {
+            this.createFallbackTexture(speciesTextureKey(species), 0xb0bec5);
+          });
+
+          this.scene.start("WorldScene");
+        }
+      }
+
+      class WorldScene extends Phaser.Scene {
+        constructor() {
+          super({ key: "WorldScene" });
+          this.lastDirection = "down";
+          this.dialogueQueue = [];
+          this.dialogueActive = false;
+          this.dialogueOnComplete = null;
+          this.encounterMeter = 0;
+          this.encounterCooldown = 1200;
+          this.battleInProgress = false;
+          this.lastPositionSync = 0;
+        }
+
+        create() {
+          this.saveData = normalizeSave(this.registry.get("saveData"));
+          this.registry.set("saveData", this.saveData);
+
+          this.createTilemap();
+          this.createNPCs();
+          this.createPlayer();
+          this.setupInput();
+          this.createHud();
+          this.createDialogueBox();
+
+          this.physics.add.collider(this.player, this.wallGroup);
+          this.physics.add.collider(this.player, this.waterGroup);
+          this.physics.add.collider(this.player, this.npcGroup);
+
+          this.events.on("resume", this.onSceneResume, this);
+          this.updateHud();
+
+          if (!this.saveData.flags.oakIntro) {
+            this.saveData.flags.oakIntro = true;
+            this.showDialogue([
+              "Ash! Your Pokemon adventure starts today.",
+              "Talk to Professor Oak to receive your partner Pikachu.",
+            ]);
+          }
+        }
+
+        createTilemap() {
+          const mapWidth = WORLD_MAP[0].length * TILE_SIZE;
+          const mapHeight = WORLD_MAP.length * TILE_SIZE;
+
+          this.physics.world.setBounds(0, 0, mapWidth, mapHeight);
+          this.cameras.main.setBounds(0, 0, mapWidth, mapHeight);
+
+          this.wallGroup = this.physics.add.staticGroup();
+          this.waterGroup = this.physics.add.staticGroup();
+          this.interactTiles = new Map();
+
+          WORLD_MAP.forEach((row, y) => {
+            row.forEach((tileId, x) => {
+              const worldX = x * TILE_SIZE;
+              const worldY = y * TILE_SIZE;
+
+              if (tileId === TILE.WALL) {
+                this.add.image(worldX, worldY, "tile-wall").setOrigin(0);
+                this.wallGroup.create(worldX + 16, worldY + 16, "tile-wall");
+                return;
+              }
+
+              if (tileId === TILE.WATER) {
+                this.add.image(worldX, worldY, "tile-water").setOrigin(0);
+                this.waterGroup.create(worldX + 16, worldY + 16, "tile-water");
+                return;
+              }
+
+              if (tileId === TILE.GRASS) {
+                this.add.image(worldX, worldY, "tile-grass").setOrigin(0);
+                return;
+              }
+
+              this.add.image(worldX, worldY, "tile-path").setOrigin(0);
+
+              if (tileId === TILE.LAB) {
+                this.interactTiles.set(`${x},${y}`, "lab");
+                this.add.rectangle(worldX + 16, worldY + 16, 20, 8, 0xffeb3b).setAlpha(0.95);
+              }
+
+              if (tileId === TILE.CENTER) {
+                this.interactTiles.set(`${x},${y}`, "center");
+                this.add.rectangle(worldX + 16, worldY + 16, 20, 8, 0x90caf9).setAlpha(0.95);
+              }
+
+              if (tileId === TILE.GYM) {
+                this.interactTiles.set(`${x},${y}`, "gym");
+                this.add.rectangle(worldX + 16, worldY + 16, 20, 8, 0xffcc80).setAlpha(0.95);
+              }
+            });
+          });
+        }
+
+        createNPCs() {
+          this.npcGroup = this.physics.add.staticGroup();
+          this.npcSprites = [];
+
+          const npcDefinitions = [
+            { type: "oak", texture: "oak", x: 3, y: 2 },
+            { type: "nurse", texture: "nurse", x: 6, y: 2 },
+            { type: "brock", texture: "brock", x: 3, y: 4 },
+            { type: "rival", texture: "rival", x: 14, y: 6 },
+          ];
+
+          npcDefinitions.forEach((npcDef) => {
+            const sprite = this.physics.add
+              .staticSprite(
+                npcDef.x * TILE_SIZE + TILE_SIZE / 2,
+                npcDef.y * TILE_SIZE + TILE_SIZE / 2,
+                npcDef.texture,
+              )
+              .setDepth(15);
+
+            sprite.setData("type", npcDef.type);
+            sprite.refreshBody();
+            this.npcGroup.add(sprite);
+            this.npcSprites.push(sprite);
+          });
+        }
+
+        createPlayer() {
+          const startX =
+            clamp(this.saveData.position.x || 5, 1, WORLD_MAP[0].length - 2) *
+              TILE_SIZE +
+            TILE_SIZE / 2;
+          const startY =
+            clamp(this.saveData.position.y || 7, 1, WORLD_MAP.length - 2) * TILE_SIZE +
+            TILE_SIZE / 2;
+
+          this.player = this.physics.add.sprite(startX, startY, "player").setDepth(20);
+          this.player.setCollideWorldBounds(true);
+          this.player.body.setSize(20, 24);
+          this.player.body.setOffset(6, 8);
+
+          this.cameras.main.startFollow(this.player, true, 0.15, 0.15);
+        }
+
+        setupInput() {
+          this.keys = this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.UP,
+            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+            right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            a: Phaser.Input.Keyboard.KeyCodes.Z,
+            b: Phaser.Input.Keyboard.KeyCodes.X,
+            start: Phaser.Input.Keyboard.KeyCodes.ENTER,
+          });
+        }
+
+        createHud() {
+          this.add
+            .rectangle(180, 17, 350, 28, 0x000000, 0.62)
+            .setScrollFactor(0)
+            .setDepth(130);
+
+          this.hudText = this.add
+            .text(10, 7, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "8px",
+              color: "#e0f8e0",
+            })
+            .setScrollFactor(0)
+            .setDepth(131);
+
+          this.objectiveText = this.add
+            .text(10, 18, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "7px",
+              color: "#f8d030",
+            })
+            .setScrollFactor(0)
+            .setDepth(131);
+        }
+
+        createDialogueBox() {
+          this.dialoguePanel = this.add
+            .rectangle(180, 278, 340, 78, 0x081820, 0.96)
+            .setStrokeStyle(2, 0xe0f8e0)
+            .setScrollFactor(0)
+            .setDepth(220)
+            .setVisible(false);
+
+          this.dialogueText = this.add
+            .text(22, 248, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "10px",
+              color: "#ffffff",
+              wordWrap: { width: 316 },
+            })
+            .setScrollFactor(0)
+            .setDepth(221)
+            .setVisible(false);
+
+          this.dialogueHint = this.add
+            .text(255, 301, "A / Z", {
+              fontFamily: "Press Start 2P",
+              fontSize: "8px",
+              color: "#f8d030",
+            })
+            .setScrollFactor(0)
+            .setDepth(221)
+            .setVisible(false);
+        }
+
+        updateHud() {
+          const active =
+            this.saveData.party[this.saveData.activeIndex] || this.saveData.party[0] || null;
+
+          const teamLine = active
+            ? `${active.species} Lv${active.level} HP ${active.hp}/${active.maxHp}`
+            : "No Pokemon in party";
+
+          this.hudText.setText(
+            `ASH  ${teamLine}  BALLS ${this.saveData.inventory.pokeball}  $${this.saveData.money}`,
+          );
+
+          let objective = "Objective: Talk to Professor Oak";
+          if (this.saveData.flags.starterPicked && !this.saveData.flags.rivalDefeated) {
+            objective = "Objective: Defeat Rival Blue on Route 1";
+          } else if (
+            this.saveData.flags.rivalDefeated &&
+            !this.saveData.flags.brockDefeated
+          ) {
+            objective = "Objective: Challenge Brock for the Boulder Badge";
+          } else if (this.saveData.flags.brockDefeated) {
+            objective = `Objective: Train your team and complete the Pokedex (${Object.keys(this.saveData.pokedex.caught).length} caught)`;
+          }
+
+          this.objectiveText.setText(objective);
+        }
+
+        onSceneResume() {
+          this.battleInProgress = false;
+          this.updateHud();
+        }
+
+        showDialogue(lines, onComplete = null) {
+          this.dialogueQueue = Array.isArray(lines) ? lines.slice() : [String(lines)];
+          this.dialogueOnComplete = onComplete;
+          this.dialogueActive = true;
+          this.dialoguePanel.setVisible(true);
+          this.dialogueText.setVisible(true);
+          this.dialogueHint.setVisible(true);
+          this.advanceDialogue();
+        }
+
+        closeDialogue() {
+          this.dialogueActive = false;
+          this.dialoguePanel.setVisible(false);
+          this.dialogueText.setVisible(false);
+          this.dialogueHint.setVisible(false);
+
+          const callback = this.dialogueOnComplete;
+          this.dialogueOnComplete = null;
+          if (typeof callback === "function") {
+            callback();
+          }
+        }
+
+        advanceDialogue() {
+          if (!this.dialogueActive) return;
+
+          if (this.dialogueQueue.length === 0) {
+            this.closeDialogue();
+            return;
+          }
+
+          this.dialogueText.setText(this.dialogueQueue.shift());
+        }
+
+        getFirstAliveIndex() {
+          for (let i = 0; i < this.saveData.party.length; i += 1) {
+            if (this.saveData.party[i].hp > 0) return i;
+          }
+          return -1;
+        }
+
+        healParty(showMessage = true) {
+          this.saveData.party.forEach((pokemon) => healPokemon(pokemon));
+          this.registry.set("saveData", this.saveData);
+          this.updateHud();
+
+          if (showMessage) {
+            this.showDialogue(["Your party is fully healed!", "Good luck, Ash!"]);
+          }
+        }
+
+        giveStarter() {
+          const starter = buildPokemon("Pikachu", 5);
+          this.saveData.party = [starter];
+          this.saveData.activeIndex = 0;
+          this.saveData.flags.starterPicked = true;
+          this.saveData.inventory.pokeball += 5;
+          registerDex(this.saveData, "Pikachu", true);
+          this.registry.set("saveData", this.saveData);
+          this.updateHud();
+
+          this.showDialogue([
+            "Professor Oak: Ash, this Pikachu is your partner!",
+            "You received Pikachu and 5 Poke Balls!",
+            "Head to Route 1 and test your skills.",
+          ]);
+        }
+
+        startBattle(config) {
+          if (this.battleInProgress) return;
+
+          const aliveIndex = this.getFirstAliveIndex();
+          if (aliveIndex === -1) {
+            this.healParty(false);
+            this.showDialogue([
+              "Your team has no conscious Pokemon.",
+              "You hurry to the Pokemon Center to recover.",
+            ]);
+            return;
+          }
+
+          this.saveData.activeIndex = aliveIndex;
+          this.registry.set("saveData", this.saveData);
+          this.registry.set("pendingBattleResult", null);
+
+          this.battleInProgress = true;
+          this.scene.launch("BattleScene", config);
+          this.scene.pause();
+        }
+
+        handleNpcInteraction(npcType) {
+          if (npcType === "oak") {
+            if (!this.saveData.flags.starterPicked) {
+              this.showDialogue(
+                [
+                  "Professor Oak: Ah, Ash! I have been waiting.",
+                  "A trainer needs a trusted Pokemon companion.",
+                ],
+                () => this.giveStarter(),
+              );
+              return;
+            }
+
+            this.showDialogue([
+              "Professor Oak: Keep training your team.",
+              "A true Pokemon Master is made through battles and friendship.",
+            ]);
+            return;
+          }
+
+          if (npcType === "nurse") {
+            this.saveData.lastHeal = {
+              x: Math.floor(this.player.x / TILE_SIZE),
+              y: Math.floor(this.player.y / TILE_SIZE),
+            };
+            this.healParty(true);
+            return;
+          }
+
+          if (npcType === "rival") {
+            if (!this.saveData.flags.starterPicked) {
+              this.showDialogue(["Blue: Get your starter first, newbie."]);
+              return;
+            }
+
+            if (!this.saveData.flags.rivalDefeated) {
+              this.showDialogue(
+                ["Blue: Ash! I will show you what a real trainer can do!"],
+                () => {
+                  this.startBattle({
+                    battleType: "trainer",
+                    trainerName: "Rival Blue",
+                    canRun: false,
+                    allowCapture: false,
+                    moneyReward: 450,
+                    flagOnWin: "rivalDefeated",
+                    enemyTeam: [buildPokemon("Eevee", 6)],
+                  });
+                },
+              );
+              return;
+            }
+
+            this.showDialogue([
+              "Blue: Not bad, Ash.",
+              "Train harder and maybe you can keep up with me.",
+            ]);
+            return;
+          }
+
+          if (npcType === "brock") {
+            if (!this.saveData.flags.rivalDefeated) {
+              this.showDialogue([
+                "Brock: Come back after proving yourself against your rival.",
+              ]);
+              return;
+            }
+
+            if (!this.saveData.flags.brockDefeated) {
+              this.showDialogue(["Brock: My rock-solid defense will crush you!"], () => {
+                this.startBattle({
+                  battleType: "gym",
+                  trainerName: "Leader Brock",
+                  canRun: false,
+                  allowCapture: false,
+                  moneyReward: 1200,
+                  flagOnWin: "brockDefeated",
+                  badgeOnWin: 1,
+                  enemyTeam: [buildPokemon("Geodude", 7), buildPokemon("Onix", 9)],
+                });
+              });
+              return;
+            }
+
+            this.showDialogue([
+              "Brock: The Boulder Badge suits you.",
+              "Keep climbing, future champion.",
+            ]);
+          }
+        }
+
+        getFacingTile() {
+          const currentTileX = Math.floor(this.player.x / TILE_SIZE);
+          const currentTileY = Math.floor(this.player.y / TILE_SIZE);
+          const directionMap = {
+            up: { x: 0, y: -1 },
+            down: { x: 0, y: 1 },
+            left: { x: -1, y: 0 },
+            right: { x: 1, y: 0 },
+          };
+
+          const offset = directionMap[this.lastDirection] || directionMap.down;
+          return {
+            x: currentTileX + offset.x,
+            y: currentTileY + offset.y,
+          };
+        }
+
+        handleTileInteraction(tileType) {
+          if (tileType === "lab") {
+            this.showDialogue([
+              "Oak's Lab is filled with research notes and strange devices.",
+              "You feel inspired to catch every Pokemon you can find.",
+            ]);
+            return;
+          }
+
+          if (tileType === "center") {
+            this.saveData.lastHeal = {
+              x: Math.floor(this.player.x / TILE_SIZE),
+              y: Math.floor(this.player.y / TILE_SIZE),
+            };
+            this.healParty(true);
+            return;
+          }
+
+          if (tileType === "gym") {
+            if (!this.saveData.flags.brockDefeated) {
+              this.showDialogue([
+                "Pewter Gym Sign: Leader Brock, The Rock-Solid Pokemon Trainer.",
+              ]);
+            } else {
+              this.showDialogue([
+                "Pewter Gym Sign: Congratulations, Boulder Badge Holder!",
+              ]);
+            }
+          }
+        }
+
+        interact() {
+          const nearbyNpc = this.npcSprites.find(
+            (npc) => Phaser.Math.Distance.Between(this.player.x, this.player.y, npc.x, npc.y) < 36,
+          );
+
+          if (nearbyNpc) {
+            this.handleNpcInteraction(nearbyNpc.getData("type"));
+            return;
+          }
+
+          const facing = this.getFacingTile();
+          const tileType = this.interactTiles.get(`${facing.x},${facing.y}`);
+          if (tileType) {
+            this.handleTileInteraction(tileType);
+          }
+        }
+
+        consumeBattleResult() {
+          const result = this.registry.get("pendingBattleResult");
+          if (!result) return;
+
+          this.registry.set("pendingBattleResult", null);
+
+          const messages = [];
+          if (Array.isArray(result.seenSpecies)) {
+            result.seenSpecies.forEach((species) => registerDex(this.saveData, species, false));
+          }
+
+          if (result.result === "win") {
+            if (result.flagOnWin) {
+              this.saveData.flags[result.flagOnWin] = true;
+            }
+            if (result.badgeOnWin && this.saveData.badges < result.badgeOnWin) {
+              this.saveData.badges = result.badgeOnWin;
+              messages.push("You earned the Boulder Badge!");
+            }
+            if (result.moneyReward) {
+              this.saveData.money += result.moneyReward;
+              messages.push(`Received $${result.moneyReward}!`);
+            }
+          }
+
+          if (result.capturedPokemon) {
+            registerDex(this.saveData, result.capturedPokemon.species, true);
+            const location = addPokemonToCollection(this.saveData, result.capturedPokemon);
+            if (location === "party") {
+              messages.push(`${result.capturedPokemon.species} joined your party!`);
+            } else if (location === "box") {
+              messages.push(`${result.capturedPokemon.species} was sent to your PC Box.`);
+            }
+          }
+
+          if (result.playerFainted) {
+            this.healParty(false);
+            const healX = this.saveData.lastHeal.x * TILE_SIZE + TILE_SIZE / 2;
+            const healY = this.saveData.lastHeal.y * TILE_SIZE + TILE_SIZE / 2;
+            this.player.setPosition(healX, healY);
+            messages.push("Your team recovered at the Pokemon Center.");
+          }
+
+          this.registry.set("saveData", this.saveData);
+          this.updateHud();
+
+          if (messages.length > 0) {
+            this.showDialogue(messages);
+          }
+        }
+
+        checkWildEncounter(delta, isMoving) {
+          if (!isMoving || this.battleInProgress || !this.saveData.flags.starterPicked) {
+            this.encounterMeter = Math.max(0, this.encounterMeter - delta * 0.0006);
+            return;
+          }
+
+          if (this.encounterCooldown > 0) return;
+
+          const tileX = Math.floor(this.player.x / TILE_SIZE);
+          const tileY = Math.floor(this.player.y / TILE_SIZE);
+          const onGrass = WORLD_MAP[tileY] && WORLD_MAP[tileY][tileX] === TILE.GRASS;
+
+          if (!onGrass) {
+            this.encounterMeter = Math.max(0, this.encounterMeter - delta * 0.0009);
+            return;
+          }
+
+          this.encounterMeter += delta * 0.0014;
+          const chance = Math.min(0.21, this.encounterMeter * 0.018);
+          if (Math.random() < chance) {
+            this.encounterMeter = 0;
+            this.encounterCooldown = 2500;
+
+            const wildPokemon = chooseWildPokemon();
+            this.showDialogue([`A wild ${wildPokemon.species} appeared!`], () => {
+              this.startBattle({
+                battleType: "wild",
+                trainerName: "Wild",
+                canRun: true,
+                allowCapture: true,
+                enemyTeam: [wildPokemon],
+              });
+            });
+          }
+        }
+
+        update(time, delta) {
+          this.consumeBattleResult();
+          this.encounterCooldown = Math.max(0, this.encounterCooldown - delta);
+
+          const aTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.a) || consumeTap("a");
+          const bTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.b) || consumeTap("b");
+          const startTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.start) || consumeTap("start");
+
+          if (this.dialogueActive) {
+            if (aTap || bTap) {
+              this.advanceDialogue();
+            }
+            this.player.body.setVelocity(0);
+            return;
+          }
+
+          if (!this.battleInProgress && startTap) {
+            this.scene.launch("MenuScene");
+            this.scene.pause();
+            return;
+          }
+
+          if (!this.battleInProgress && aTap) {
+            this.interact();
+            return;
+          }
+
+          const up = this.keys.up.isDown || inputState.up;
+          const down = this.keys.down.isDown || inputState.down;
+          const left = this.keys.left.isDown || inputState.left;
+          const right = this.keys.right.isDown || inputState.right;
+
+          const moveX = (right ? 1 : 0) - (left ? 1 : 0);
+          const moveY = (down ? 1 : 0) - (up ? 1 : 0);
+          const moveVector = new Phaser.Math.Vector2(moveX, moveY);
+
+          this.player.body.setVelocity(0);
+
+          let isMoving = false;
+          if (moveVector.lengthSq() > 0) {
+            isMoving = true;
+            moveVector.normalize().scale(122);
+            this.player.body.setVelocity(moveVector.x, moveVector.y);
+
+            if (Math.abs(moveVector.x) > Math.abs(moveVector.y)) {
+              this.lastDirection = moveVector.x < 0 ? "left" : "right";
+              this.player.setFlipX(moveVector.x < 0);
+            } else {
+              this.lastDirection = moveVector.y < 0 ? "up" : "down";
+            }
+          }
+
+          if (time - this.lastPositionSync > 200) {
+            this.lastPositionSync = time;
+            this.saveData.position = {
+              x: clamp(Math.floor(this.player.x / TILE_SIZE), 1, WORLD_MAP[0].length - 2),
+              y: clamp(Math.floor(this.player.y / TILE_SIZE), 1, WORLD_MAP.length - 2),
+            };
+            this.registry.set("saveData", this.saveData);
+          }
+
+          this.checkWildEncounter(delta, isMoving);
+        }
+      }
+
+      class BattleScene extends Phaser.Scene {
+        constructor() {
+          super({ key: "BattleScene" });
+          this.battleConfig = {};
+          this.cursor = 0;
+          this.inputEnabled = false;
+          this.battleEnded = false;
+        }
+
+        init(data) {
+          this.battleConfig = data || {};
+        }
+
+        create() {
+          this.saveData = normalizeSave(this.registry.get("saveData"));
+          this.playerTeam = this.saveData.party;
+
+          this.playerIndex = this.findNextAlivePartyIndex(this.saveData.activeIndex || 0);
+          if (this.playerIndex === -1) {
+            this.finishBattle("lose", { playerFainted: true });
+            return;
+          }
+
+          this.battleConfig = {
+            battleType: "wild",
+            trainerName: "Wild",
+            canRun: true,
+            allowCapture: true,
+            moneyReward: 0,
+            flagOnWin: null,
+            badgeOnWin: 0,
+            enemyTeam: [buildPokemon("Pidgey", 3)],
+            ...this.battleConfig,
+          };
+
+          this.enemyTeam = (
+            Array.isArray(this.battleConfig.enemyTeam)
+              ? this.battleConfig.enemyTeam
+              : [buildPokemon("Pidgey", 3)]
+          )
+            .map(normalizePokemon)
+            .filter(Boolean);
+
+          if (this.enemyTeam.length === 0) {
+            this.enemyTeam = [buildPokemon("Pidgey", 3)];
+          }
+
+          this.enemyIndex = 0;
+          this.commands = ["FIGHT", "BALL", "SWITCH", "RUN"];
+
+          this.keys = this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.UP,
+            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+            right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            a: Phaser.Input.Keyboard.KeyCodes.Z,
+            b: Phaser.Input.Keyboard.KeyCodes.X,
+          });
+
+          this.createBattleBackground();
+          this.createSprites();
+          this.createUi();
+          this.refreshBattleUi();
+
+          const enemy = this.currentEnemyPokemon();
+          this.showMessage(
+            `${this.battleConfig.trainerName} sent out ${enemy.species}!`,
+            1100,
+          ).then(() => {
+            this.inputEnabled = true;
+            this.messageText.setText("Choose an action.");
+          });
+        }
+
+        currentPlayerPokemon() {
+          return this.playerTeam[this.playerIndex];
+        }
+
+        currentEnemyPokemon() {
+          return this.enemyTeam[this.enemyIndex];
+        }
+
+        findNextAlivePartyIndex(startIndex) {
+          if (!this.playerTeam || this.playerTeam.length === 0) return -1;
+          const total = this.playerTeam.length;
+          for (let i = 0; i < total; i += 1) {
+            const idx = (startIndex + i) % total;
+            if (this.playerTeam[idx].hp > 0) {
+              return idx;
+            }
+          }
+          return -1;
+        }
+
+        createBattleBackground() {
+          this.add.rectangle(180, 160, 360, 320, 0x83c24b).setOrigin(0.5);
+          this.add.rectangle(180, 278, 344, 80, 0x081820).setOrigin(0.5);
+          this.add.rectangle(255, 96, 150, 82, 0xe8f8f8).setOrigin(0.5);
+          this.add.rectangle(100, 214, 150, 86, 0xe8f8f8).setOrigin(0.5);
+        }
+
+        createSprites() {
+          this.enemySprite = this.add
+            .sprite(258, 82, speciesTextureKey(this.currentEnemyPokemon().species))
+            .setScale(2.45)
+            .setDepth(10);
+
+          this.playerSprite = this.add
+            .sprite(100, 232, speciesTextureKey(this.currentPlayerPokemon().species))
+            .setScale(2.25)
+            .setFlipX(true)
+            .setDepth(10);
+        }
+
+        createUi() {
+          this.enemyNameText = this.add
+            .text(186, 53, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "9px",
+              color: "#081820",
+            })
+            .setDepth(12);
+
+          this.playerNameText = this.add
+            .text(28, 184, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "9px",
+              color: "#081820",
+            })
+            .setDepth(12);
+
+          this.enemyHpBg = this.add
+            .rectangle(226, 78, 108, 10, 0x233822)
+            .setOrigin(0, 0.5)
+            .setDepth(12);
+          this.enemyHpBar = this.add
+            .rectangle(226, 78, 108, 8, 0x00ff66)
+            .setOrigin(0, 0.5)
+            .setDepth(13);
+
+          this.playerHpBg = this.add
+            .rectangle(30, 210, 108, 10, 0x233822)
+            .setOrigin(0, 0.5)
+            .setDepth(12);
+          this.playerHpBar = this.add
+            .rectangle(30, 210, 108, 8, 0x00ff66)
+            .setOrigin(0, 0.5)
+            .setDepth(13);
+
+          this.enemyHpText = this.add
+            .text(226, 86, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "7px",
+              color: "#081820",
+            })
+            .setDepth(12);
+
+          this.playerHpText = this.add
+            .text(30, 218, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "7px",
+              color: "#081820",
+            })
+            .setDepth(12);
+
+          this.messageText = this.add
+            .text(20, 250, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "10px",
+              color: "#ffffff",
+              wordWrap: { width: 320 },
+            })
+            .setDepth(20);
+
+          this.commandTexts = [];
+          for (let i = 0; i < this.commands.length; i += 1) {
+            const x = 24 + (i % 2) * 150;
+            const y = 290 + Math.floor(i / 2) * 16;
+            const text = this.add
+              .text(x, y, "", {
+                fontFamily: "Press Start 2P",
+                fontSize: "9px",
+                color: "#ffffff",
+              })
+              .setDepth(21);
+            this.commandTexts.push(text);
+          }
+        }
+
+        refreshBattleUi() {
+          const player = this.currentPlayerPokemon();
+          const enemy = this.currentEnemyPokemon();
+
+          this.enemyNameText.setText(`${enemy.species} Lv${enemy.level}`);
+          this.playerNameText.setText(`${player.species} Lv${player.level}`);
+
+          this.enemyHpText.setText(`${enemy.hp}/${enemy.maxHp}`);
+          this.playerHpText.setText(`${player.hp}/${player.maxHp}`);
+
+          this.updateHpBar(this.enemyHpBar, enemy.hp, enemy.maxHp);
+          this.updateHpBar(this.playerHpBar, player.hp, player.maxHp);
+
+          this.enemySprite.setTexture(speciesTextureKey(enemy.species));
+          this.playerSprite.setTexture(speciesTextureKey(player.species));
+          this.updateCommandCursor();
+        }
+
+        updateHpBar(bar, current, max) {
+          const percent = clamp(current / Math.max(1, max), 0, 1);
+          bar.scaleX = percent;
+          const color = percent > 0.5 ? 0x00ff66 : percent > 0.2 ? 0xffeb3b : 0xff5252;
+          bar.setFillStyle(color);
+        }
+
+        updateCommandCursor() {
+          this.commandTexts.forEach((text, index) => {
+            let label = this.commands[index];
+            if (label === "BALL" && !this.battleConfig.allowCapture) {
+              label = "BALL-";
+            }
+            if (label === "RUN" && !this.battleConfig.canRun) {
+              label = "RUN-";
+            }
+            text.setText(`${index === this.cursor ? ">" : " "} ${label}`);
+          });
+        }
+
+        async showMessage(message, duration = 950) {
+          this.messageText.setText(message);
+          await this.wait(duration);
+        }
+
+        wait(ms) {
+          return new Promise((resolve) => this.time.delayedCall(ms, resolve));
+        }
+
+        calculateDamage(attacker, defender, moveName) {
+          const move = MOVES[moveName] || MOVES.Tackle;
+          if (move.power <= 0) return 0;
+
+          const baseDamage =
+            ((2 * attacker.level) / 5 + 2) *
+            move.power *
+            (attacker.attack / Math.max(1, defender.defense));
+          const scaled = Math.floor(baseDamage / 40 + 2);
+          const randomBonus = Phaser.Math.Between(0, 4);
+          return Math.max(1, scaled + randomBonus);
+        }
+
+        async useMove(attacker, defender, moveName, isPlayerAttack) {
+          const move = MOVES[moveName] || MOVES.Tackle;
+          await this.showMessage(`${attacker.species} used ${moveName}!`, 750);
+
+          if (Math.random() * 100 > move.accuracy) {
+            await this.showMessage("The attack missed!", 700);
+            return;
+          }
+
+          if (move.status === "speedDown") {
+            defender.speed = Math.max(3, defender.speed - 2);
+            await this.showMessage(`${defender.species}'s speed fell!`, 700);
+            return;
+          }
+
+          const damage = this.calculateDamage(attacker, defender, moveName);
+          defender.hp = clamp(defender.hp - damage, 0, defender.maxHp);
+
+          const targetSprite = isPlayerAttack ? this.enemySprite : this.playerSprite;
+          this.tweens.add({
+            targets: targetSprite,
+            x: targetSprite.x + (isPlayerAttack ? 8 : -8),
+            yoyo: true,
+            duration: 55,
+            repeat: 2,
+          });
+
+          this.refreshBattleUi();
+          await this.wait(320);
+        }
+
+        async handleEnemyDefeated() {
+          const defeated = this.currentEnemyPokemon();
+          await this.showMessage(`${defeated.species} fainted!`, 800);
+
+          const player = this.currentPlayerPokemon();
+          const expGain = (SPECIES[defeated.species]?.expYield || 40) + defeated.level * 8;
+          const gainedLevels = grantExperience(player, expGain);
+          await this.showMessage(`${player.species} gained ${expGain} EXP!`, 900);
+          if (gainedLevels > 0) {
+            await this.showMessage(`${player.species} grew to Lv${player.level}!`, 900);
+          }
+
+          const nextEnemyIndex = this.enemyTeam.findIndex(
+            (pokemon, index) => index > this.enemyIndex && pokemon.hp > 0,
+          );
+
+          if (nextEnemyIndex === -1) {
+            await this.finishBattle("win");
+            return true;
+          }
+
+          this.enemyIndex = nextEnemyIndex;
+          this.refreshBattleUi();
+          await this.showMessage(
+            `${this.battleConfig.trainerName} sent out ${this.currentEnemyPokemon().species}!`,
+            900,
+          );
+          return true;
+        }
+
+        async doFight() {
+          const player = this.currentPlayerPokemon();
+          const enemy = this.currentEnemyPokemon();
+          const moveName = player.moves[0] || "Tackle";
+
+          await this.useMove(player, enemy, moveName, true);
+          if (enemy.hp <= 0) {
+            return this.handleEnemyDefeated();
+          }
+          return false;
+        }
+
+        async throwBall() {
+          if (!this.battleConfig.allowCapture || this.battleConfig.battleType !== "wild") {
+            await this.showMessage("You cannot catch a trainer's Pokemon!", 950);
+            return false;
+          }
+
+          if (this.saveData.inventory.pokeball <= 0) {
+            await this.showMessage("No Poke Balls left!", 850);
+            return false;
+          }
+
+          this.saveData.inventory.pokeball -= 1;
+          const enemy = this.currentEnemyPokemon();
+          await this.showMessage(`Ash threw a Poke Ball at ${enemy.species}!`, 850);
+
+          const hpFactor = 1 - enemy.hp / Math.max(1, enemy.maxHp);
+          const catchRate = (SPECIES[enemy.species]?.catchRate || 120) / 255;
+          const chance = 0.16 + hpFactor * 0.56 + catchRate * 0.3;
+
+          if (Math.random() < chance) {
+            await this.showMessage(`Gotcha! ${enemy.species} was caught!`, 1050);
+            await this.finishBattle("caught", {
+              capturedPokemon: {
+                ...enemy,
+                hp: enemy.maxHp,
+              },
+            });
+            return true;
+          }
+
+          await this.showMessage(`${enemy.species} broke free!`, 750);
+          return false;
+        }
+
+        async switchPokemon() {
+          const next = this.findNextAlivePartyIndex(this.playerIndex + 1);
+          if (next === -1 || next === this.playerIndex) {
+            await this.showMessage("No other conscious Pokemon available.", 900);
+            return false;
+          }
+
+          this.playerIndex = next;
+          this.saveData.activeIndex = next;
+          this.refreshBattleUi();
+          await this.showMessage(`Go ${this.currentPlayerPokemon().species}!`, 800);
+          return false;
+        }
+
+        async attemptRun() {
+          if (!this.battleConfig.canRun) {
+            await this.showMessage("You cannot run from this battle!", 900);
+            return false;
+          }
+
+          const player = this.currentPlayerPokemon();
+          const enemy = this.currentEnemyPokemon();
+          const speedChance =
+            0.35 +
+            clamp((player.speed - enemy.speed) / Math.max(1, enemy.speed), -0.2, 0.35);
+
+          if (Math.random() < speedChance) {
+            await this.showMessage("Got away safely!", 700);
+            await this.finishBattle("run");
+            return true;
+          }
+
+          await this.showMessage("Could not escape!", 700);
+          return false;
+        }
+
+        async enemyTurn() {
+          if (this.battleEnded) return;
+          const enemy = this.currentEnemyPokemon();
+          const player = this.currentPlayerPokemon();
+          const moveName = enemy.moves[Phaser.Math.Between(0, enemy.moves.length - 1)] || "Tackle";
+
+          await this.useMove(enemy, player, moveName, false);
+
+          if (player.hp <= 0) {
+            await this.showMessage(`${player.species} fainted!`, 800);
+            const nextIndex = this.findNextAlivePartyIndex(this.playerIndex + 1);
+            if (nextIndex === -1) {
+              await this.finishBattle("lose", { playerFainted: true });
+              return;
+            }
+
+            this.playerIndex = nextIndex;
+            this.saveData.activeIndex = nextIndex;
+            this.refreshBattleUi();
+            await this.showMessage(`Go ${this.currentPlayerPokemon().species}!`, 800);
+          }
+        }
+
+        async chooseAction() {
+          if (!this.inputEnabled || this.battleEnded) return;
+
+          this.inputEnabled = false;
+          const action = this.commands[this.cursor];
+          let skipEnemyTurn = false;
+
+          if (action === "FIGHT") {
+            skipEnemyTurn = await this.doFight();
+          } else if (action === "BALL") {
+            skipEnemyTurn = await this.throwBall();
+          } else if (action === "SWITCH") {
+            skipEnemyTurn = await this.switchPokemon();
+          } else if (action === "RUN") {
+            skipEnemyTurn = await this.attemptRun();
+          }
+
+          if (this.battleEnded) return;
+
+          if (!skipEnemyTurn) {
+            await this.enemyTurn();
+          }
+
+          if (this.battleEnded) return;
+          this.inputEnabled = true;
+          this.messageText.setText("Choose an action.");
+        }
+
+        async finishBattle(result, extra = {}) {
+          if (this.battleEnded) return;
+          this.battleEnded = true;
+          this.inputEnabled = false;
+
+          this.saveData.activeIndex = this.playerIndex;
+          this.registry.set("saveData", this.saveData);
+          this.registry.set("pendingBattleResult", {
+            result,
+            seenSpecies: this.enemyTeam.map((pokemon) => pokemon.species),
+            moneyReward: result === "win" ? this.battleConfig.moneyReward : 0,
+            flagOnWin: result === "win" ? this.battleConfig.flagOnWin : null,
+            badgeOnWin: result === "win" ? this.battleConfig.badgeOnWin : 0,
+            ...extra,
+          });
+
+          await this.wait(350);
+          this.scene.stop();
+          this.scene.resume("WorldScene");
+        }
+
+        update() {
+          if (this.battleEnded || !this.inputEnabled) return;
+
+          const leftTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.left) || consumeTap("left");
+          const rightTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.right) || consumeTap("right");
+          const upTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.up) || consumeTap("up");
+          const downTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.down) || consumeTap("down");
+          const aTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.a) || consumeTap("a");
+          const bTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.b) || consumeTap("b");
+
+          if (leftTap || rightTap) {
+            this.cursor = this.cursor === 0 ? 1 : this.cursor === 1 ? 0 : this.cursor === 2 ? 3 : 2;
+            this.updateCommandCursor();
+            return;
+          }
+
+          if (upTap || downTap) {
+            this.cursor = this.cursor < 2 ? this.cursor + 2 : this.cursor - 2;
+            this.updateCommandCursor();
+            return;
+          }
+
+          if (aTap) {
+            this.chooseAction();
+            return;
+          }
+
+          if (bTap) {
+            this.cursor = 3;
+            this.updateCommandCursor();
+          }
+        }
+      }
+
+      class MenuScene extends Phaser.Scene {
+        constructor() {
+          super({ key: "MenuScene" });
+          this.cursor = 0;
+          this.options = ["PARTY", "BAG", "SAVE", "EXIT"];
+        }
+
+        create() {
+          this.saveData = normalizeSave(this.registry.get("saveData"));
+
+          this.add.rectangle(180, 160, 360, 320, 0x000000, 0.82).setDepth(1);
+          this.add
+            .text(98, 26, "TRAINER MENU", {
+              fontFamily: "Press Start 2P",
+              fontSize: "14px",
+              color: "#f8d030",
+            })
+            .setDepth(2);
+
+          this.optionTexts = this.options.map((option, index) =>
+            this.add
+              .text(36, 70 + index * 26, option, {
+                fontFamily: "Press Start 2P",
+                fontSize: "10px",
+                color: "#ffffff",
+              })
+              .setDepth(2),
+          );
+
+          this.detailsText = this.add
+            .text(160, 72, "", {
+              fontFamily: "Press Start 2P",
+              fontSize: "8px",
+              color: "#e0f8e0",
+              wordWrap: { width: 185 },
+            })
+            .setDepth(2);
+
+          this.helpText = this.add
+            .text(25, 292, "A/Z: Select   B/X or START: Close", {
+              fontFamily: "Press Start 2P",
+              fontSize: "7px",
+              color: "#9bc89b",
+            })
+            .setDepth(2);
+
+          this.keys = this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.UP,
+            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            a: Phaser.Input.Keyboard.KeyCodes.Z,
+            b: Phaser.Input.Keyboard.KeyCodes.X,
+            start: Phaser.Input.Keyboard.KeyCodes.ENTER,
+          });
+
+          this.refreshMenu();
+          this.showPartySummary();
+        }
+
+        refreshMenu() {
+          this.optionTexts.forEach((text, index) => {
+            text.setText(`${index === this.cursor ? ">" : " "} ${this.options[index]}`);
+          });
+        }
+
+        showPartySummary() {
+          if (this.saveData.party.length === 0) {
+            this.detailsText.setText("No Pokemon in your party.");
+            return;
+          }
+
+          const lines = this.saveData.party.map((pokemon, index) => {
+            const marker = index === this.saveData.activeIndex ? ">" : " ";
+            return `${marker}${pokemon.species} Lv${pokemon.level} HP ${pokemon.hp}/${pokemon.maxHp}`;
+          });
+          this.detailsText.setText(lines.join("\n"));
+        }
+
+        showBagSummary() {
+          this.detailsText.setText(
+            [
+              `Poke Balls: ${this.saveData.inventory.pokeball}`,
+              `Potions: ${this.saveData.inventory.potion}`,
+              `Money: $${this.saveData.money}`,
+              `Badges: ${this.saveData.badges}`,
+            ].join("\n"),
+          );
+        }
+
+        async performSelection() {
+          const selected = this.options[this.cursor];
+          if (selected === "PARTY") {
+            this.showPartySummary();
+            return;
+          }
+
+          if (selected === "BAG") {
+            this.showBagSummary();
+            return;
+          }
+
+          if (selected === "SAVE") {
+            this.registry.set("saveData", this.saveData);
+            const success = await saveGame(this.saveData);
+            this.detailsText.setText(success ? "Game saved successfully." : "Save failed.");
+            return;
+          }
+
+          if (selected === "EXIT") {
+            this.closeMenu();
+          }
+        }
+
+        closeMenu() {
+          this.scene.stop();
+          this.scene.resume("WorldScene");
+        }
+
+        update() {
+          const upTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.up) || consumeTap("up");
+          const downTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.down) || consumeTap("down");
+          const aTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.a) || consumeTap("a");
+          const bTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.b) || consumeTap("b");
+          const startTap =
+            Phaser.Input.Keyboard.JustDown(this.keys.start) || consumeTap("start");
+
+          if (upTap) {
+            this.cursor = (this.cursor - 1 + this.options.length) % this.options.length;
+            this.refreshMenu();
+            return;
+          }
+
+          if (downTap) {
+            this.cursor = (this.cursor + 1) % this.options.length;
+            this.refreshMenu();
+            return;
+          }
+
+          if (aTap) {
+            this.performSelection();
+            return;
+          }
+
+          if (bTap || startTap) {
+            this.closeMenu();
+          }
+        }
+      }
+
+      window.addEventListener("load", () => {
+        new PalletTownGame();
+      });
+
+      window.addEventListener("keydown", (event) => {
+        const tracked = {
+          ArrowUp: "up",
+          ArrowDown: "down",
+          ArrowLeft: "left",
+          ArrowRight: "right",
+          KeyZ: "a",
+          KeyX: "b",
+          Enter: "start",
+        };
+
+        if (tracked[event.code]) {
+          event.preventDefault();
+          markPressed(tracked[event.code]);
+        }
+      });
+
+      window.addEventListener("keyup", (event) => {
+        const tracked = {
+          ArrowUp: "up",
+          ArrowDown: "down",
+          ArrowLeft: "left",
+          ArrowRight: "right",
+          KeyZ: "a",
+          KeyX: "b",
+          Enter: "start",
+        };
+
+        if (tracked[event.code]) {
+          markReleased(tracked[event.code]);
+        }
+      });
+
+      window.addEventListener("blur", () => {
+        Object.keys(inputState).forEach((key) => {
+          inputState[key] = false;
+        });
+      });
+    </script>
+  </body>
+</html>

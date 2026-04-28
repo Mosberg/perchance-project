@@ -1,0 +1,18 @@
+// https://perchance.org/pokemon-yellow-v2
+
+// Controls:
+// Arrow Up: "up"
+// Arrow Down: "down"
+// Arrow Left: "left"
+// Arrow Right: "right"
+// Key Z: "a"
+// Key X: "b"
+// Enter: "start"
+
+kv = {import:kv-plugin}
+generateImage = {import:text-to-image-plugin}
+
+$meta
+	title = Pokémon Yellow v2 - Expanded Phaser 4 Adventure
+	description = A complete expanded Phaser 4 edition of Pokémon Yellow. Play as Ash Ketchum across multiple cities and routes, challenge Brock, Misty, and Lt. Surge, use advanced move and type battles with status effects, and manage your party with reordering, items, and nicknames.
+  tags = pokemon, pokemon yellow, phaser 4, game, adventure, catch, train, battle, gyms, type effectiveness

@@ -1,0 +1,358 @@
+<div id="ageGateEl" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999;">
+  <h1 style="color:#d00; font-size:3rem; margin-bottom:1rem;">WARNING: ADULT CONTENT</h1>
+  <p style="max-width:600px; text-align:center; margin-bottom:2rem; font-size:1.2rem;">
+    This character sheet contains explicit sexual themes, nudity, and adult-oriented content suitable only for mature audiences (18+).
+  </p>
+  <button id="enterSiteBtn" style="padding:1rem 3rem; font-size:1.5rem; background:#d00; color:#fff; border:none; cursor:pointer; border-radius:5px;">I am 18+ - Enter</button>
+</div>
+
+<div id="mainAppEl" hidden style="max-width:1400px; margin:0 auto; padding:20px; color:#ccc; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+  <!-- Header / Toolbar -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:2px solid #444; padding-bottom:10px;">
+    <h1 style="margin:0; color:#d00;">D&D 5e: <span style="color:#fff;">Explicit Edition</span></h1>
+    <div style="display:flex; gap:20px; align-items:center;">
+      <div>
+        <label style="display:block; font-size:0.8rem;">NSFW Mode</label>
+        <button id="nsfwToggleBtn" style="background:#d00; color:#fff; border:none; padding:5px 15px; cursor:pointer;">Explicit ON</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Info -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin-bottom:20px; background:#222; padding:15px; border:1px solid #444;">
+    <div>
+      <label>Character Name</label>
+      <input type="text" id="charNameInput" placeholder="Name" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+    </div>
+    <div>
+      <label>Race</label>
+      <input type="text" id="raceInput" placeholder="Race" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+    </div>
+    <div>
+      <label>Class</label>
+      <input type="text" id="classInput" placeholder="Class" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+    </div>
+    <div>
+      <label>Gender</label>
+      <select id="genderSelect" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+        <option value="nonbinary">Non-Binary</option>
+        <option value="futanari">Futanari</option>
+      </select>
+    </div>
+    <div>
+      <label>Level</label>
+      <input type="number" id="levelInput" value="1" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 300px 1fr 300px; gap:20px;">
+
+    <!-- Left Column: Stats -->
+    <div>
+      <div style="background:#222; padding:15px; border:1px solid #444; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#fff; border-bottom:1px solid #d00; padding-bottom:5px;">Attributes</h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" id="statsContainer">
+          <!-- JS will populate basic stats if needed, but let's do manual for simplicity -->
+          <div>STR <input type="number" id="strInput" value="10" style="width:50px;"></div>
+          <div>DEX <input type="number" id="dexInput" value="10" style="width:50px;"></div>
+          <div>CON <input type="number" id="conInput" value="10" style="width:50px;"></div>
+          <div>INT <input type="number" id="intInput" value="10" style="width:50px;"></div>
+          <div>WIS <input type="number" id="wisInput" value="10" style="width:50px;"></div>
+          <div>CHA <input type="number" id="chaInput" value="10" style="width:50px;"></div>
+        </div>
+        <button onclick="rollStatsBtn()" style="margin-top:10px; width:100%; padding:5px;">Roll Stats</button>
+      </div>
+
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#faa;">Physical Traits</h3>
+        <div style="margin-bottom:10px;">
+          <label>Body Type</label>
+          <input type="text" id="bodyTypeInput" placeholder="e.g. Voluptuous" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Genitalia Size/Desc</label>
+          <input type="text" id="genitalSizeInput" placeholder="e.g. 8 inches, tight" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Grooming</label>
+          <select id="groomingSelect" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+            <option value="shaved">Shaved</option>
+            <option value="trimmed">Trimmed</option>
+            <option value="natural">Natural/Bushy</option>
+            <option value="styled">Styled</option>
+          </select>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Piercings</label>
+          <input type="text" id="piercingsInput" placeholder="Nipples, Genitals..." style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+      </div>
+
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00;">
+        <h3 style="margin-top:0; color:#faa;">Performance Metrics</h3>
+        <div style="margin-bottom:10px;">
+          <label>Libido (1-10)</label>
+          <input type="range" id="libidoRange" min="1" max="10" value="5" oninput="libidoValEl.textContent = this.value"> <span id="libidoValEl">5</span>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Stamina (1-10)</label>
+          <input type="range" id="staminaRange" min="1" max="10" value="5" oninput="staminaValEl.textContent = this.value"> <span id="staminaValEl">5</span>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Sexual Experience</label>
+          <input type="number" id="expInput" value="0" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Column: Visuals & Backstory -->
+    <div>
+      <div style="background:#222; padding:15px; border:1px solid #444; margin-bottom:20px; text-align:center;">
+        <h3 style="margin-top:0; color:#fff;">Portrait</h3>
+        <img id="portraitImgEl" src="https://placehold.co/400x500?text=NSFW+Portrait" style="max-width:100%; height:auto; border:1px solid #555; min-height:300px; object-fit:cover;">
+        <div style="margin-top:10px;">
+          <button id="genPortraitBtn" style="background:#444; color:#fff; border:none; padding:8px 16px; cursor:pointer;">Generate Portrait</button>
+        </div>
+        <p id="portraitStatusEl" style="font-size:0.8rem; color:#888; height:1.2em;"></p>
+      </div>
+
+      <div style="background:#222; padding:15px; border:1px solid #444;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="margin:0; color:#fff;">Backstory & History</h3>
+          <button id="genBackstoryBtn" style="background:#444; color:#fff; border:none; padding:5px 10px; cursor:pointer; font-size:0.8rem;">Generate History</button>
+        </div>
+        <textarea id="backstoryInput" style="width:100%; height:300px; background:#111; border:1px solid #555; color:#ccc; padding:10px; resize:vertical;" placeholder="Character history and sexual biography will appear here..."></textarea>
+      </div>
+    </div>
+
+    <!-- Right Column: Preferences & Spells -->
+    <div>
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#faa;">Preferences</h3>
+        <div style="margin-bottom:10px;">
+          <label>Orientation</label>
+          <select id="orientationSelect" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+            <option value="heterosexual">Heterosexual</option>
+            <option value="homosexual">Homosexual</option>
+            <option value="bisexual">Bisexual</option>
+            <option value="pansexual">Pansexual</option>
+            <option value="demisexual">Demisexual</option>
+          </select>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Kinks / Fetishes</label>
+          <textarea id="kinksInput" style="width:100%; height:80px; background:#111; border:1px solid #d00; color:#fff; padding:5px;" placeholder="e.g. Bondage, Breeding, Exhibitionism..."></textarea>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Hard Limits</label>
+          <textarea id="limitsInput" style="width:100%; height:60px; background:#111; border:1px solid #d00; color:#fff; padding:5px;" placeholder="Consent boundaries..."></textarea>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Safe Word</label>
+          <input type="text" id="safeWordInput" value="Red" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <button id="randomKinksBtn" style="width:100%; background:#522; color:#fff; border:none; padding:5px; cursor:pointer;">Randomize Kinks</button>
+      </div>
+
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#faa;">Erotic Magic</h3>
+        <button id="addSpellBtn" style="width:100%; background:#522; color:#fff; border:none; padding:5px; margin-bottom:10px; cursor:pointer;">Add Random Erotic Spell</button>
+        <div id="spellsListCtn" style="display:flex; flex-direction:column; gap:5px;">
+          <!-- Spells go here -->
+        </div>
+      </div>
+
+      <div style="background:#222; padding:15px; border:1px solid #444;">
+        <button id="fullGenBtn" style="width:100%; background:#d00; color:#fff; font-weight:bold; padding:15px; border:none; cursor:pointer; font-size:1.1rem;">GENERATE FULL CHARACTER</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // --- Configuration & Data ---
+  const NSFW_CONFIG = {
+    bodyTypes: ["slim", "athletic", "curvy", "voluptuous", "bbw", "muscular", "toned", "petite", "thick", "hyper-endowed"],
+    poses: ["provocative", "seductive", "dominant", "submissive", " missionary", "doggy style", "cowgirl", "oral sex", "masturbating"],
+    arousalLevels: ["flaccid", "semi-aroused", "fully erect", "dripping wet", "orgasmic"],
+    kinks: ["BDSM", "roleplay", "exhibitionism", "voyeurism", "petplay", "impact play", "sensation play", "bondage", "orgasm control", "watersports", "latex", "foot fetish", "breeding", "CNC", "hypnosis", "tentacles", "size difference"],
+    genitalDesc: ["small", "average", "large", "massive", "horse-hung", "tight", "loose", "tentacled", "barbed"],
+    grooming: ["shaved smooth", "landing strip", "natural bush", "waxed"]
+  };
+
+  let nsfwEnabled = true;
+
+  // --- DOM Elements ---
+  const ageGate = ageGateEl;
+  const mainApp = mainAppEl;
+    const nsfwOnlyElements = document.querySelectorAll('.nsfw-only');
+
+  // --- Event Listeners ---
+  enterSiteBtn.onclick = () => {
+    ageGate.hidden = true;
+    mainApp.hidden = false;
+  };
+
+  nsfwToggleBtn.onclick = () => {
+    nsfwEnabled = !nsfwEnabled;
+    updateNSFWVisibility();
+  };
+
+  function updateNSFWVisibility() {
+    if (nsfwEnabled) {
+      nsfwToggleBtn.textContent = "Explicit ON";
+      nsfwToggleBtn.style.background = "#d00";
+      nsfwOnlyElements.forEach(el => el.hidden = false);
+    } else {
+      nsfwToggleBtn.textContent = "Explicit OFF";
+      nsfwToggleBtn.style.background = "#555";
+      nsfwOnlyElements.forEach(el => el.hidden = true);
+    }
+  }
+
+  // --- Generators ---
+
+  // 1. Random Stats
+  function rollStatsBtn() {
+    ['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(stat => {
+      // 4d6 drop lowest
+      let rolls = Array.from({length:4}, () => Math.floor(Math.random()*6)+1).sort((a,b)=>b-a);
+      let val = rolls[0] + rolls[1] + rolls[2];
+      document.getElementById(stat + 'Input').value = val;
+    });
+  }
+
+  // 2. Random Kinks
+  randomKinksBtn.onclick = () => {
+    let count = Math.floor(Math.random() * 4) + 2; // 2 to 5 kinks
+    let shuffled = NSFW_CONFIG.kinks.sort(() => 0.5 - Math.random());
+    kinksInput.value = shuffled.slice(0, count).join(", ");
+  };
+
+  // 3. Spell Generator (Adult Themed)
+  addSpellBtn.onclick = () => {
+    const schools = ["Enchantment", "Transmutation", "Illusion", "Necromancy", "Evocation"];
+    const nouns = ["Ecstasy", "Lust", "Arousal", "Submission", "Dominance", "Fertility", "Pleasure", "Tentacles"];
+    const effects = ["Causes intense arousal", "Forces submission", "Enhances sensitivity", "Summons magical bindings", "Induces orgasm", "Alters genitalia temporarily"];
+
+    let lvl = Math.floor(Math.random() * 5);
+    let school = schools[Math.floor(Math.random() * schools.length)];
+    let name = nouns[Math.floor(Math.random() * nouns.length)];
+    let effect = effects[Math.floor(Math.random() * effects.length)];
+
+    let spellDiv = document.createElement('div');
+    spellDiv.style.cssText = "background:#111; padding:5px; border-left:3px solid #d00; font-size:0.9rem;";
+    spellDiv.innerHTML = `<strong>Level ${lvl} ${school}:</strong> ${name}. <em>${effect}.</em>`;
+    spellsListCtn.appendChild(spellDiv);
+  };
+
+  // 4. Portrait Generation (using root.generateImage)
+  genPortraitBtn.onclick = async () => {
+    if (!nsfwEnabled) return alert("Enable NSFW mode to generate portraits.");
+
+    const gender = genderSelect.value;
+    const race = raceInput.value || "human";
+    const body = bodyTypeInput.value || "athletic";
+    const pose = NSFW_CONFIG.poses[Math.floor(Math.random() * NSFW_CONFIG.poses.length)];
+
+    genPortraitBtn.disabled = true;
+    genPortraitBtn.textContent = "Generating...";
+    portraitStatusEl.textContent = "Summoning succubus...";
+
+    // Construct prompt based on user requirements
+    let prompt = `High quality fantasy D&D character portrait. ${race} ${gender}. ${body} body type. `;
+    prompt += `Explicit NSFW content. Fully nude. ${pose} pose. `;
+    prompt += `Detailed anatomical correctness, visible genitalia, highly detailed skin texture, erotic atmosphere. `;
+    prompt += `Digital art, trending on artstation, sharp focus.`;
+
+    try {
+      let dataUrl = await root.generateImage(prompt, {resolution: "768x768"});
+      portraitImgEl.src = dataUrl;
+      portraitStatusEl.textContent = "Generation complete.";
+    } catch (e) {
+      portraitStatusEl.textContent = "Error generating portrait.";
+      console.error(e);
+    } finally {
+      genPortraitBtn.disabled = false;
+      genPortraitBtn.textContent = "Generate Portrait";
+    }
+  };
+
+  // 5. Backstory Generation (using root.generateText)
+  genBackstoryBtn.onclick = async () => {
+    if (!nsfwEnabled) return alert("Enable NSFW mode for explicit history.");
+
+    const name = charNameInput.value || "The Character";
+    const race = raceInput.value || "Human";
+    const gender = genderSelect.value;
+    const charClass = classInput.value || "Adventurer";
+    const kinks = kinksInput.value || "general depravity";
+
+    genBackstoryBtn.disabled = true;
+    genBackstoryBtn.textContent = "Writing...";
+
+    let instruction = `Write a detailed, explicit NSFW backstory for a D&D 5e character named ${name}. `;
+    instruction += `They are a ${race} ${gender} ${charClass}. `;
+    instruction += `Include their sexual history, first experiences, specific kinks (${kinks}), and notable erotic encounters. `;
+    instruction += `Focus on adult themes, motivations driven by lust or desire, and explicit descriptions of their body and sexual prowess. `;
+    instruction += `Keep the tone dark and erotic.`;
+
+    try {
+      let text = await root.generateText(instruction);
+      backstoryInput.value = text;
+    } catch (e) {
+      backstoryInput.value = "Error generating backstory.";
+      console.error(e);
+    } finally {
+      genBackstoryBtn.disabled = false;
+      genBackstoryBtn.textContent = "Generate History";
+    }
+  };
+
+  // 6. Full Character Generator
+  fullGenBtn.onclick = async () => {
+    // 1. Basic Info
+    const races = ["Human", "Elf", "Tiefling", "Orc", "Dragonborn", "Dwarf"];
+    const classes = ["Bard", "Sorcerer", "Warlock", "Rogue", "Cleric", "Paladin"];
+    const names = ["Lilith", "Vex", "Morgana", "Thranduil", "Grok", "Sylas", "Elara"];
+
+    raceInput.value = races[Math.floor(Math.random() * races.length)];
+    classInput.value = classes[Math.floor(Math.random() * classes.length)];
+    charNameInput.value = names[Math.floor(Math.random() * names.length)];
+
+    // 2. Stats
+    rollStatsBtn();
+
+    // 3. NSFW Physical
+    bodyTypeInput.value = NSFW_CONFIG.bodyTypes[Math.floor(Math.random() * NSFW_CONFIG.bodyTypes.length)];
+    genitalSizeInput.value = NSFW_CONFIG.genitalDesc[Math.floor(Math.random() * NSFW_CONFIG.genitalDesc.length)];
+
+    // 4. NSFW Mental
+    randomKinksBtn.click();
+    libidoRange.value = Math.floor(Math.random() * 10) + 1;
+    libidoValEl.textContent = libidoRange.value;
+    staminaRange.value = Math.floor(Math.random() * 10) + 1;
+    staminaValEl.textContent = staminaRange.value;
+    expInput.value = Math.floor(Math.random() * 50);
+
+    // 5. Trigger Async Generators
+    await genPortraitBtn.onclick();
+    await genBackstoryBtn.onclick();
+  };
+
+  // Initialize toggle state
+  updateNSFWVisibility();
+
+</script>
+
+<style>
+  /* Inline styles preferred, but hover states need this */
+  button:hover { opacity: 0.9; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid #d00; }
+  label { font-weight:bold; color:#aaa; font-size:0.9rem; display:block; margin-bottom:4px; }
+  h3 { color:#d00; text-transform:uppercase; letter-spacing:1px; }
+</style>

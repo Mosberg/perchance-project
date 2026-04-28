@@ -1,0 +1,533 @@
+Here's a complete HTML/CSS/JS implementation for an enhanced NSFW D&D 5e character sheet with all requested features:
+
+```html
+<div id="ageGateEl" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999;">
+  <h1 style="color:#d00; font-size:3rem; margin-bottom:1rem;">WARNING: EXPLICIT ADULT CONTENT</h1>
+  <p style="max-width:600px; text-align:center; margin-bottom:2rem; font-size:1.2rem;">
+    This character sheet contains explicit sexual themes, nudity, anatomical details, and adult-oriented content suitable only for mature audiences (18+). By entering, you agree that you are of legal age and consent to viewing explicit material.
+  </p>
+  <div style="margin-bottom:1rem;">
+    <label style="margin-right:15px;">
+      <input type="checkbox" id="consentCheck1" style="margin-right:5px;"> I am 18 or older
+    </label>
+    <label>
+      <input type="checkbox" id="consentCheck2" style="margin-right:5px;"> I consent to explicit content
+    </label>
+  </div>
+  <button id="enterSiteBtn" disabled style="padding:1rem 3rem; font-size:1.5rem; background:#555; color:#fff; border:none; cursor:pointer; border-radius:5px;">I am 18+ - Enter</button>
+</div>
+
+<div id="mainAppEl" hidden style="max-width:1400px; margin:0 auto; padding:20px; color:#ccc; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+
+  <!-- Header / Toolbar -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:2px solid #444; padding-bottom:10px;">
+    <h1 style="margin:0; color:#d00;">D&D 5e: <span style="color:#fff;">Explicit Adult Edition</span></h1>
+    <div style="display:flex; gap:20px; align-items:center;">
+      <div>
+        <label style="display:block; font-size:0.8rem;">Explicitness Level</label>
+        <select id="explicitnessSelect" style="background:#333; color:#fff; border:1px solid #d00; padding:5px;">
+          <option value="soft">Soft (Suggestive)</option>
+          <option value="medium">Medium (Mature)</option>
+          <option value="hard" selected>Hard (Explicit)</option>
+          <option value="extreme">Extreme (Graphic)</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block; font-size:0.8rem;">NSFW Mode</label>
+        <button id="nsfwToggleBtn" style="background:#d00; color:#fff; border:none; padding:5px 15px; cursor:pointer;">Explicit ON</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Warning Banner (collapsible) -->
+  <div id="contentWarningEl" class="nsfw-only" style="background:#520000; border:1px solid #d00; padding:10px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+    <span style="color:#ffaaaa;">⚠️ Content Warning: This sheet contains explicit sexual descriptions, anatomical details, and adult themes.</span>
+    <button onclick="contentWarningEl.hidden=true" style="background:transparent; border:none; color:#ffaaaa; cursor:pointer;">✕ Dismiss</button>
+  </div>
+
+  <!-- Core Info -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin-bottom:20px; background:#222; padding:15px; border:1px solid #444;">
+    <div>
+      <label>Character Name</label>
+      <input type="text" id="charNameInput" placeholder="Name" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+    </div>
+    <div>
+      <label>Race</label>
+      <input type="text" id="raceInput" placeholder="Race" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+    </div>
+    <div>
+      <label>Class</label>
+      <input type="text" id="classInput" placeholder="Class" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+    </div>
+    <div>
+      <label>Gender Identity</label>
+      <select id="genderSelect" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+        <option value="nonbinary">Non-Binary</option>
+        <option value="futanari">Futanari</option>
+        <option value="genderfluid">Genderfluid</option>
+      </select>
+    </div>
+    <div>
+      <label>Sexual Orientation</label>
+      <select id="orientationSelect" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+        <option value="heterosexual">Heterosexual</option>
+        <option value="homosexual">Homosexual</option>
+        <option value="bisexual">Bisexual</option>
+        <option value="pansexual">Pansexual</option>
+        <option value="demisexual">Demisexual</option>
+        <option value="asexual">Asexual (Grey-Ace)</option>
+      </select>
+    </div>
+    <div>
+      <label>Level</label>
+      <input type="number" id="levelInput" value="1" style="width:100%; background:#111; border:1px solid #555; color:#fff; padding:5px;">
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 320px 1fr 320px; gap:20px;">
+
+    <!-- Left Column: Stats -->
+    <div>
+      <div style="background:#222; padding:15px; border:1px solid #444; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#fff; border-bottom:1px solid #d00; padding-bottom:5px;">Core Attributes</h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;" id="statsContainer">
+          <div>STR <input type="number" id="strInput" value="10" style="width:50px;"></div>
+          <div>DEX <input type="number" id="dexInput" value="10" style="width:50px;"></div>
+          <div>CON <input type="number" id="conInput" value="10" style="width:50px;"></div>
+          <div>INT <input type="number" id="intInput" value="10" style="width:50px;"></div>
+          <div>WIS <input type="number" id="wisInput" value="10" style="width:50px;"></div>
+          <div>CHA <input type="number" id="chaInput" value="10" style="width:50px;"></div>
+        </div>
+        <button onclick="rollStatsBtn()" style="margin-top:10px; width:100%; padding:5px;">Roll Stats</button>
+      </div>
+
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#faa;">Physical Characteristics</h3>
+        <div style="margin-bottom:10px;">
+          <label>Body Type</label>
+          <input type="text" id="bodyTypeInput" placeholder="e.g. Hourglass, Muscular" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Height / Build</label>
+          <input type="text" id="heightInput" placeholder="e.g. 5'8\" Slender" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Genitalia Details</label>
+          <input type="text" id="genitalSizeInput" placeholder="e.g. Above average, uncut" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Grooming Style</label>
+          <select id="groomingSelect" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+            <option value="shaved">Completely Shaved</option>
+            <option value="trimmed">Trimmed/Neat</option>
+            <option value="landing_strip">Landing Strip</option>
+            <option value="natural">Natural/Bushy</option>
+            <option value="styled">Styled/Shaped</option>
+            <option value="hairy">Hairy/Unkempt</option>
+          </select>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Body Hair</label>
+          <select id="bodyHairSelect" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+            <option value="none">None</option>
+            <option value="light">Light</option>
+            <option value="moderate">Moderate</option>
+            <option value="heavy">Heavy</option>
+          </select>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Piercings</label>
+          <input type="text" id="piercingsInput" placeholder="e.g. Nipple, genital, etc." style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Tattoos</label>
+          <input type="text" id="tattoosInput" placeholder="Describe location/details" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Distinctive Features</label>
+          <input type="text" id="featuresInput" placeholder="Scars, birthmarks, etc." style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+      </div>
+
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#faa;">Sexual Performance</h3>
+        <div style="margin-bottom:10px;">
+          <label>Libido (1-10)</label>
+          <input type="range" id="libidoRange" min="1" max="10" value="5" style="width:100%;">
+          <div id="libidoValEl" style="text-align:center;">5</div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Stamina (1-10)</label>
+          <input type="range" id="staminaRange" min="1" max="10" value="5" style="width:100%;">
+          <div id="staminaValEl" style="text-align:center;">5</div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Sensitivity (1-10)</label>
+          <input type="range" id="sensitivityRange" min="1" max="10" value="5" style="width:100%;">
+          <div id="sensitivityValEl" style="text-align:center;">5</div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Recovery Time</label>
+          <input type="text" id="recoveryInput" placeholder="e.g. 15 min, 1 hour" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Experience Level</label>
+          <select id="expSelect" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+            <option value="inexperienced">Inexperienced</option>
+            <option value="average">Average</option>
+            <option value="experienced">Experienced</option>
+            <option value="expert">Expert</option>
+            <option value="insatiable">Insatiable</option>
+          </select>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Special Skills</label>
+          <input type="text" id="skillsInput" placeholder="e.g. Deep throat, kegels" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Column: Main Content -->
+    <div>
+      <div style="background:#222; padding:15px; border:1px solid #444; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="margin-top:0; color:#fff;">Character Portrait</h3>
+          <div>
+            <button onclick="generatePortraitImage('clothed')" style="padding:5px 10px; margin-right:5px;">Clothed</button>
+            <button onclick="generatePortraitImage('nude')" style="padding:5px 10px; background:#d00;">Nude</button>
+          </div>
+        </div>
+        <div style="width:100%; aspect-ratio:1/1; background:#111; display:flex; align-items:center; justify-content:center; margin-bottom:10px; overflow:hidden;">
+          <img id="portraitImgEl" src="" style="max-width:100%; max-height:100%; display:none;">
+          <div id="portraitPlaceholderEl" style="color:#666; font-style:italic;">No portrait generated yet</div>
+        </div>
+        <div id="portraitStatusEl" style="text-align:center; font-size:0.8rem; color:#d00;"></div>
+      </div>
+
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="margin-top:0; color:#faa;">Sexual Preferences</h3>
+          <button id="randomKinksBtn" style="padding:5px 10px;">Randomize</button>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Primary Erogenous Zones</label>
+          <input type="text" id="primaryZonesInput" placeholder="e.g. Neck, inner thighs, nipples" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Secondary Erogenous Zones</label>
+          <input type="text" id="secondaryZonesInput" placeholder="e.g. Earlobes, lower back" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Turn-Ons</label>
+          <input type="text" id="turnOnsInput" placeholder="e.g. Dirty talk, lingerie, being watched" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Turn-Offs</label>
+          <input type="text" id="turnOffsInput" placeholder="e.g. Spanking, humiliation" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+      </div>
+
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#faa;">Kinks & Limits</h3>
+        <div style="margin-bottom:10px;">
+          <label>Kinks/Fetishes</label>
+          <textarea id="kinksInput" placeholder="List all kinks (e.g. bondage, exhibitionism, pet play)" style="width:100%; height:80px; background:#111; border:1px solid #d00; color:#fff; padding:5px;"></textarea>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Hard Limits</label>
+          <textarea id="limitsInput" placeholder="Absolute no-go activities" style="width:100%; height:60px; background:#111; border:1px solid #d00; color:#fff; padding:5px;"></textarea>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Soft Limits</label>
+          <textarea id="softLimitsInput" placeholder="Activities needing caution/discussion" style="width:100%; height:60px; background:#111; border:1px solid #d00; color:#fff; padding:5px;"></textarea>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Safeword/System</label>
+          <input type="text" id="safeWordInput" placeholder="e.g. Red/Yellow/Green" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Preferred Aftercare</label>
+          <textarea id="aftercareInput" placeholder="e.g. Cuddling, soft words, blankets" style="width:100%; height:60px; background:#111; border:1px solid #d00; color:#fff; padding:5px;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Additional Info -->
+    <div>
+      <div style="background:#222; padding:15px; border:1px solid #444; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="margin-top:0; color:#fff;">Backstory</h3>
+          <button id="genBackstoryBtn" style="padding:5px 10px;">Generate</button>
+        </div>
+        <textarea id="backstoryInput" placeholder="Character's backstory including sexual history" style="width:100%; height:300px; background:#111; border:1px solid #555; color:#fff; padding:5px;"></textarea>
+      </div>
+
+      <div style="background:#222; padding:15px; border:1px solid #444; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="margin-top:0; color:#fff;">Relationships</h3>
+          <button id="genRelationshipBtn" style="padding:5px 10px;">Generate</button>
+        </div>
+        <textarea id="relationshipInput" placeholder="Current/past relationships including sexual compatibility" style="width:100%; height:200px; background:#111; border:1px solid #555; color:#fff; padding:5px;"></textarea>
+      </div>
+
+      <div class="nsfw-only" style="background:#2a1111; padding:15px; border:1px solid #d00; margin-bottom:20px;">
+        <h3 style="margin-top:0; color:#faa;">Sexual Health</h3>
+        <div style="margin-bottom:10px;">
+          <label>Birth Control Status</label>
+          <select id="birthControlSelect" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+            <option value="none">None</option>
+            <option value="condoms">Condoms</option>
+            <option value="pill">Pill</option>
+            <option value="iud">IUD</option>
+            <option value="implant">Implant</option>
+            <option value="vasectomy">Vasectomy</option>
+            <option value="hysterectomy">Hysterectomy</option>
+            <option value="sterile">Naturally Sterile</option>
+          </select>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>STI Status</label>
+          <select id="stiSelect" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+            <option value="clean">Clean</option>
+            <option value="cleanOnMeds">Clean (On Medications)</option>
+            <option value="hsv1">HSV-1</option>
+            <option value="hsv2">HSV-2</option>
+            <option value="hpv">HPV</option>
+            <option value="hiv">HIV+</option>
+            <option value="undisclosed">Undisclosed</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
+        <div style="margin-bottom:10px;">
+          <label>Last Tested</label>
+          <input type="text" id="testedInput" placeholder="Date or approximate time" style="width:100%; background:#111; border:1px solid #d00; color:#fff; padding:5px;">
+        </div>
+      </div>
+
+      <div style="background:#222; padding:15px; border:1px solid #444; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="margin-top:0; color:#fff;">Actions</h3>
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <button id="randomCharBtn" style="flex:1; padding:10px; background:#d00; color:#fff; border:none; cursor:pointer;">Randomize Character</button>
+          <button id="exportBtn" style="flex:1; padding:10px; background:#555; color:#fff; border:none; cursor:pointer;">Export Sheet</button>
+        </div>
+        <div style="margin-top:10px; font-size:0.8rem; color:#666; text-align:center;">
+          Warning: Exporting will include all explicit content
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Age gate functionality
+  const ageGateEl = document.getElementById('ageGateEl');
+  const mainAppEl = document.getElementById('mainAppEl');
+  const consentCheck1 = document.getElementById('consentCheck1');
+  const consentCheck2 = document.getElementById('consentCheck2');
+  const enterSiteBtn = document.getElementById('enterSiteBtn');
+
+  const checkConsent = () => {
+    enterSiteBtn.disabled = !(consentCheck1.checked && consentCheck2.checked);
+  };
+
+  consentCheck1.addEventListener('change', checkConsent);
+  consentCheck2.addEventListener('change', checkConsent);
+
+  enterSiteBtn.addEventListener('click', () => {
+    ageGateEl.style.display = 'none';
+    mainAppEl.hidden = false;
+    localStorage.setItem('nsfwCharacterSheetConsent', 'true');
+  });
+
+  // Check for previous consent
+  if (localStorage.getItem('nsfwCharacterSheetConsent') === 'true') {
+    ageGateEl.style.display = 'none';
+    mainAppEl.hidden = false;
+  }
+
+  // NSFW toggle functionality
+  const nsfwToggleBtn = document.getElementById('nsfwToggleBtn');
+  let nsfwEnabled = true;
+
+  nsfwToggleBtn.addEventListener('click', () => {
+    nsfwEnabled = !nsfwEnabled;
+    nsfwToggleBtn.textContent = nsfwEnabled ? 'Explicit ON' : 'Explicit OFF';
+    updateNSFWVisibility();
+  });
+
+  function updateNSFWVisibility() {
+    document.querySelectorAll('.nsfw-only').forEach(el => {
+      el.style.display = nsfwEnabled ? '' : 'none';
+    });
+  }
+
+  // Random character generation
+  const randomCharBtn = document.getElementById('randomCharBtn');
+  const raceInput = document.getElementById('raceInput');
+  const classInput = document.getElementById('classInput');
+  const charNameInput = document.getElementById('charNameInput');
+  const orientationSelect = document.getElementById('orientationSelect');
+  const bodyTypeInput = document.getElementById('bodyTypeInput');
+  const genitalSizeInput = document.getElementById('genitalSizeInput');
+  const groomingSelect = document.getElementById('groomingSelect');
+  const randomKinksBtn = document.getElementById('randomKinksBtn');
+  const dominanceSelect = document.getElementById('dominanceSelect');
+  const libidoRange = document.getElementById('libidoRange');
+  const libidoValEl = document.getElementById('libidoVal');
+  const staminaRange = document.getElementById('staminaRange');
+  const staminaValEl = document.getElementById('staminaVal');
+  const sensitivityRange = document.getElementById('sensitivityRange');
+  const sensitivityValEl = document.getElementById('sensitivityVal');
+  const expSelect = document.getElementById('expSelect');
+  const genBackstoryBtn = document.getElementById('genBackstoryBtn');
+  const exportBtn = document.getElementById('exportBtn');
+
+  const NSFW_CONFIG = {
+    bodyTypes: ["Slender", "Athletic", "Curvy", "Voluptuous", "Thick", "Muscular", "Petite", "Plump", "Stocky"],
+    genitalDesc: ["Small", "Average", "Large", "Impressive", "Massive"],
+    grooming: ["Trimmed", "Shaved", "Natural", "Wild", "Stylized", "Waxed", "Bare"],
+    orientations: ["heterosexual", "homosexual", "bisexual", "pansexual", "demisexual", "asexual"],
+    dominanceStyles: ["Submissive", "Switch", "Dominant", "Brat", "Owner", "Pet", "Master/Mistress"]
+  };
+
+  randomCharBtn.onclick = async function() {
+    // 1. Basic Info
+    const races = ["Human", "Elf", "Dwarf", "Tiefling", "Dragonborn", "Gnome", "Halfling", "Half-Elf", "Half-Orc"];
+    const classes = ["Bard", "Sorcerer", "Warlock", "Rogue", "Cleric", "Paladin", "Fighter", "Barbarian", "Monk", "Druid", "Wizard", "Ranger"];
+    const names = ["Lilith", "Vex", "Morgana", "Thranduil", "Grok", "Sylas", "Elara", "Kael", "Zara", "Draven", "Lyra", "Orion", "Seraphina", "Marcus", "Ivy", "Damien", "Freya", "Caspian", "Nova", "Asher"];
+
+    raceInput.value = races[Math.floor(Math.random() * races.length)];
+    classInput.value = classes[Math.floor(Math.random() * classes.length)];
+    charNameInput.value = names[Math.floor(Math.random() * names.length)];
+
+    // 2. Stats
+    rollStatsBtn();
+
+    // 3. NSFW Physical
+    bodyTypeInput.value = NSFW_CONFIG.bodyTypes[Math.floor(Math.random() * NSFW_CONFIG.bodyTypes.length)];
+    genitalSizeInput.value = NSFW_CONFIG.genitalDesc[Math.floor(Math.random() * NSFW_CONFIG.genitalDesc.length)];
+    groomingSelect.value = NSFW_CONFIG.grooming[Math.floor(Math.random() * NSFW_CONFIG.grooming.length)];
+
+    // 4. NSFW Mental
+    randomKinksBtn.click();
+    dominanceSelect.value = NSFW_CONFIG.dominanceStyles[Math.floor(Math.random() * NSFW_CONFIG.dominanceStyles.length)];
+    libidoRange.value = Math.floor(Math.random() * 10) + 1;
+    libidoValEl.textContent = libidoRange.value;
+    staminaRange.value = Math.floor(Math.random() * 10) + 1;
+    staminaValEl.textContent = staminaRange.value;
+    sensitivityRange.value = Math.floor(Math.random() * 10) + 1;
+    sensitivityValEl.textContent = sensitivityRange.value;
+    expSelect.value = ["inexperienced", "average", "experienced", "expert", "insatiable"][Math.floor(Math.random() * 5)];
+    orientationSelect.value = NSFW_CONFIG.orientations[Math.floor(Math.random() * NSFW_CONFIG.orientations.length)];
+
+    // 5. Generate content
+    await generatePortraitImage('nude');
+    await genBackstoryBtn.onclick();
+  };
+
+  exportBtn.onclick = () => {
+    const charData = {
+      name: charNameInput.value,
+      race: raceInput.value,
+      class: classInput.value,
+      gender: genderSelect.value,
+      level: levelInput.value,
+      orientation: orientationSelect.value,
+      stats: {
+        str: strInput.value,
+        dex: dexInput.value,
+        con: conInput.value,
+        int: intInput.value,
+        wis: wisInput.value,
+        cha: chaInput.value
+      },
+      physical: {
+        bodyType: bodyTypeInput.value,
+        height: heightInput.value,
+        genitalia: genitalSizeInput.value,
+        grooming: groomingSelect.value,
+        bodyHair: bodyHairSelect.value,
+        piercings: piercingsInput.value,
+        tattoos: tattoosInput.value,
+        features: featuresInput.value
+      },
+      sexual: {
+        libido: libidoRange.value,
+        stamina: staminaRange.value,
+        sensitivity: sensitivityRange.value,
+        recovery: recoveryInput.value,
+        experience: expSelect.value,
+        skills: skillsInput.value,
+        primaryZones: primaryZonesInput.value,
+        secondaryZones: secondaryZonesInput.value,
+        turnOns: turnOnsInput.value,
+        turnOffs: turnOffsInput.value
+      },
+      preferences: {
+        dominance: dominanceSelect.value,
+        kinks: kinksInput.value,
+        hardLimits: limitsInput.value,
+        softLimits: softLimitsInput.value,
+        safeWord: safeWordInput.value,
+        aftercare: aftercareInput.value
+      },
+      health: {
+        birthControl: birthControlSelect.value,
+        stiStatus: stiSelect.value,
+        lastTested: testedInput.value
+      },
+      backstory: backstoryInput.value,
+      relationships: relationshipInput.value,
+      portrait: currentPortraitDataUrl
+    };
+
+    // Create downloadable JSON
+    const blob = new Blob([JSON.stringify(charData, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${charNameInput.value || 'character'}_nsfw_sheet.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Initialize toggle state
+  updateNSFWVisibility();
+
+</script>
+
+<style>
+  /* General hover effects and focus states */
+  button:hover { opacity: 0.9; transform: translateY(-1px); }
+  button:active { transform: translateY(1px); }
+  input:focus, textarea:focus, select:focus { outline: 2px solid #d00; background:#1a1a1a; }
+
+  /* Label styling */
+  label { font-weight:bold; color:#aaa; font-size:0.9rem; display:block; margin-bottom:4px; }
+
+  /* Header styling */
+  h3 { color:#d00; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+
+  /* Scrollbar styling for textarea and containers */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #222; }
+  ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #d00; }
+
+  /* NSFW section borders */
+  .nsfw-only { border-color: #a00; }
+
+  /* Range input styling */
+  input[type=range] { accent-color: #d00; }
+
+  /* Animations */
+  @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+  #portraitStatusEl { animation: pulse 1.5s infinite; }
+  #portraitStatusEl:not(:empty) { display: block; }
+  #portraitStatusEl:empty { display: none; }
+</style>
+```

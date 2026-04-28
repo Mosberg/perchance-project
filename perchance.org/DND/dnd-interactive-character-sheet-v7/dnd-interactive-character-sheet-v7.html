@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-parchment="off">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>D&D 5e Ultimate Character Sheet (v7 — AI Lab)</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Fonts -->
+    <link
+      href="https://api.fontshare.com/v2/css?f%5B%5D=satoshi@400,500,700,900&f%5B%5D=clash_display@500,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tippy.js for Tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <style>
+      /* Copied from v6 styles — keeps the same look */
+      :root {
+        --bg: #12100e;
+        --surface: #1d1915;
+        --surface-2: #27211c;
+        --surface-3: #322a24;
+        --border: rgba(255, 240, 216, 0.14);
+        --border-strong: rgba(255, 240, 216, 0.26);
+        --text: #f3eadc;
+        --muted: #b8aa97;
+        --faint: #8e8275;
+        --accent: #c16a2e;
+        --accent-2: #f2b65f;
+        --success: #4fa36c;
+        --warning: #d39a39;
+        --danger: #cd5f5f;
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 22px;
+        --shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      }
+
+      [data-theme="light"] { --bg: #ece2d1; --surface: #fbf5e9; --text: #2b1f13; }
+      [data-parchment="on"] { --bg: #e6d4b8; --surface: #f4e6cf; --text: #2c1a0f; }
+
+      * { box-sizing: border-box; }
+      body { margin:0; font-family: "Satoshi", system-ui, sans-serif; background: var(--bg); color: var(--text); }
+      .app-shell { max-width:1600px; margin:0 auto; padding:20px; }
+      .panel { background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 86%, black 14%), var(--surface-2)); border:1px solid var(--border); border-radius: var(--radius-lg); box-shadow:var(--shadow); }
+      .panel-body { padding: 14px 16px 16px; }
+      .panel-header { padding:14px 16px 8px; display:flex; align-items:center; justify-content:space-between; }
+      .panel-title { color: var(--muted); text-transform: uppercase; font-weight:800; font-size:0.92rem; }
+      .topbar, .toolbar { display:flex; gap:10px; align-items:center; }
+      .ai-output { max-height:320px; overflow:auto; background:#0b0a09; padding:8px; border-radius:8px; }
+      .btn-sheet { border:1px solid var(--border-strong); background:var(--surface-3); color:var(--text); border-radius:12px; padding:10px 14px; font-weight:700; }
+      .btn-accent { background:var(--accent); color:white; border:none; }
+      .small { font-size:0.9rem; color:var(--muted); }
+    </style>
+  </head>
+
+  <body>
+    <div class="app-shell" id="dnd-sheet">
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="brand-mark" style="width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));font-weight:900;color:white">D20</div>
+          <div>
+            <h1 style="margin:0;font-family:'Clash Display',sans-serif">D&D 5e Ultimate Sheet (v7)</h1>
+            <div class="small">AI Lab • KV persistence hooks • DDB mapping helpers</div>
+          </div>
+        </div>
+
+        <div class="toolbar" style="margin-left:auto">
+          <span id="saveStatus" style="font-size:0.85rem;color:var(--faint);margin-right:10px"></span>
+          <button class="btn-sheet" id="newSheetBtn">New</button>
+          <button class="btn-sheet" id="exportJsonBtn">Export JSON</button>
+          <button class="btn-sheet" id="importJsonBtn">Import JSON</button>
+          <input type="file" id="importJsonFile" accept="application/json" hidden />
+          <button class="btn-sheet" id="exportDdbJsonBtn">Export DDB JSON</button>
+          <button class="btn-sheet" id="importDdbBtn">Import DDB</button>
+          <input type="file" id="importDdbFile" accept="application/json" hidden />
+          <button class="btn-sheet btn-accent" id="randomizeBtn">Randomize</button>
+          <button class="btn-sheet" id="printBtn">Print</button>
+          <button class="btn-sheet" id="openSettingsBtn">Settings</button>
+        </div>
+      </div>
+
+      <!-- AI Lab Panel (v7 additions) -->
+      <div class="panel" style="margin-top:14px;margin-bottom:14px" id="panel-ai">
+        <div class="panel-header">
+          <h2 class="panel-title">AI Lab — Mass Generation</h2>
+          <div class="small">Use Perchance plugins when available; falls back to local behavior.</div>
+        </div>
+        <div class="panel-body" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
+          <div style="min-width:320px">
+            <label class="small">Seed / Name</label>
+            <input id="aiSeed" class="form-control" placeholder="Optional seed or name" />
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button id="genAllBtn" class="btn-sheet btn-accent">Generate Entire Character</button>
+              <button id="genQuickBtn" class="btn-sheet">Quick Randomize</button>
+            </div>
+
+            <hr />
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button id="genAbilitiesBtn" class="btn-sheet">Abilities</button>
+              <button id="genClassBtn" class="btn-sheet">Class</button>
+              <button id="genSpellsBtn" class="btn-sheet">Spells</button>
+              <button id="genItemsBtn" class="btn-sheet">Items</button>
+              <button id="genFeatsBtn" class="btn-sheet">Feats</button>
+              <button id="genPortraitBtn" class="btn-sheet">Portrait</button>
+              <button id="genBackstoryBtn" class="btn-sheet">Backstory</button>
+            </div>
+
+            <hr />
+            <label class="small">AI Options</label>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+              <select id="aiDetail" class="form-select compact" style="width:130px">
+                <option value="short">Short</option>
+                <option value="medium" selected>Medium</option>
+                <option value="long">Long</option>
+              </select>
+              <select id="aiTone" class="form-select compact" style="width:130px">
+                <option value="neutral">Neutral</option>
+                <option value="epic">Epic</option>
+                <option value="funny">Humorous</option>
+                <option value="grim">Grim</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="flex:1;min-width:420px">
+            <div class="panel" style="padding:10px">
+              <strong>Preview / Output</strong>
+              <div id="aiOutput" class="ai-output" style="margin-top:8px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main grid (copied from v6) -->
+      <div class="grid-main">
+        <!-- The rest of the v6 UI is copied verbatim below -->
+        <aside class="section-stack sticky-side">
+          <!-- Portrait Panel -->
+          <section class="panel" id="panel-portrait">
+            <div class="panel-header"><h2 class="panel-title">Portrait</h2></div>
+            <div class="panel-body">
+              <div class="portrait-container" id="portraitCtn">
+                <img id="portraitImg" class="portrait-img" alt="Character Portrait" />
+                <div id="portraitPlaceholder" class="portrait-placeholder">No Portrait<br>Click Generate to create one</div>
+              </div>
+              <button class="btn-sheet btn-accent" id="generatePortraitBtn" style="width:100%">✨ Generate Portrait</button>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-abilities">
+            <div class="panel-header"><h2 class="panel-title">Abilities</h2><button class="panel-collapse-btn" data-collapse="panel-abilities">Toggle</button></div>
+            <div class="panel-body">
+              <div class="ability-grid">
+                <div class="ability-card"><h3>Strength</h3><input type="number" class="form-control ability-input autosync ability-score-input" id="strScore" data-ability="str" value="10" /><div class="ability-mod" id="mod-str">+0</div></div>
+                <div class="ability-card"><h3>Dexterity</h3><input type="number" class="form-control ability-input autosync ability-score-input" id="dexScore" data-ability="dex" value="10" /><div class="ability-mod" id="mod-dex">+0</div></div>
+                <div class="ability-card"><h3>Constitution</h3><input type="number" class="form-control ability-input autosync ability-score-input" id="conScore" data-ability="con" value="10" /><div class="ability-mod" id="mod-con">+0</div></div>
+                <div class="ability-card"><h3>Intelligence</h3><input type="number" class="form-control ability-input autosync ability-score-input" id="intScore" data-ability="int" value="10" /><div class="ability-mod" id="mod-int">+0</div></div>
+                <div class="ability-card"><h3>Wisdom</h3><input type="number" class="form-control ability-input autosync ability-score-input" id="wisScore" data-ability="wis" value="10" /><div class="ability-mod" id="mod-wis">+0</div></div>
+                <div class="ability-card"><h3>Charisma</h3><input type="number" class="form-control ability-input autosync ability-score-input" id="chaScore" data-ability="cha" value="10" /><div class="ability-mod" id="mod-cha">+0</div></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-derived">
+            <div class="panel-header"><h2 class="panel-title">Derived</h2><button class="panel-collapse-btn" data-collapse="panel-derived">Toggle</button></div>
+            <div class="panel-body">
+              <div class="derived-row">
+                <div class="mini-stat"><div class="tiny">Proficiency</div><input type="number" class="form-control autosync text-center mt-2" id="profBonus" value="2" min="0" /></div>
+                <div class="mini-stat"><div class="tiny">Passive Perc</div><div class="value" id="passivePerception">10</div></div>
+                <div class="mini-stat"><div class="tiny">Spell DC</div><div class="value" id="spellSaveDc">10</div></div>
+              </div>
+              <div class="field mt-3"><label><input type="checkbox" class="form-check-input autosync" id="jackOfAllTrades" /> Jack of All Trades</label></div>
+              <div class="inline-metric"><span>Initiative</span><strong id="initiativeDerived">+0</strong></div>
+              <div class="inline-metric mt-2"><span>Carry Cap</span><strong id="carryCapacity">150 lb</strong></div>
+              <div class="inline-metric mt-2"><span>Weight</span><strong id="inventoryWeightSummary">0 lb (light)</strong></div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-conditions">
+            <div class="panel-header"><h2 class="panel-title">Conditions</h2><button class="panel-collapse-btn" data-collapse="panel-conditions">Toggle</button></div>
+            <div class="panel-body">
+              <div class="status-pills">
+                <button class="pill pill-bad toggle-pill" data-target="statusBlinded">Blinded</button>
+                <button class="pill pill-bad toggle-pill" data-target="statusPoisoned">Poisoned</button>
+                <button class="pill pill-warn toggle-pill" data-target="statusGrappled">Grappled</button>
+                <button class="pill pill-warn toggle-pill" data-target="statusProne">Prone</button>
+                <button class="pill pill-good toggle-pill" data-target="statusInspired">Inspired</button>
+                <button class="pill pill-good toggle-pill" data-target="statusBlessed">Blessed</button>
+              </div>
+              <input type="hidden" id="statusBlinded" value="false" />
+              <input type="hidden" id="statusPoisoned" value="false" />
+              <input type="hidden" id="statusGrappled" value="false" />
+              <input type="hidden" id="statusProne" value="false" />
+              <input type="hidden" id="statusInspired" value="false" />
+              <input type="hidden" id="statusBlessed" value="false" />
+            </div>
+          </section>
+        </aside>
+
+        <main class="section-stack">
+          <section class="panel" id="panel-character">
+            <div class="panel-header"><h2 class="panel-title">Character</h2><button class="panel-collapse-btn" data-collapse="panel-character">Toggle</button></div>
+            <div class="panel-body">
+              <div class="row g-3">
+                <div class="col-md-4 field"><label for="charName">Character Name</label><input type="text" class="form-control autosync" id="charName" placeholder="e.g. Gandalf" /></div>
+                <div class="col-md-3 field"><label for="classLevel">Class & Level</label><input type="text" class="form-control autosync" id="classLevel" placeholder="e.g. Wizard 5" /></div>
+                <div class="col-md-2 field"><label for="race">Race</label><input type="text" class="form-control autosync" id="race" placeholder="e.g. Human" /></div>
+                <div class="col-md-3 field"><label for="background">Background</label><input type="text" class="form-control autosync" id="background" placeholder="e.g. Sage" /></div>
+
+                <div class="col-md-3 field"><label for="alignment">Alignment</label><input type="text" class="form-control autosync" id="alignment" placeholder="e.g. NG" /></div>
+                <div class="col-md-3 field"><label for="playerName">Player Name</label><input type="text" class="form-control autosync" id="playerName" /></div>
+                <div class="col-md-2 field"><label for="level">Level</label><input type="number" class="form-control autosync" id="level" value="1" min="1" /></div>
+                <div class="col-md-2 field"><label for="xp">XP</label><input type="number" class="form-control autosync" id="xp" value="0" /></div>
+                <div class="col-md-2 field"><label for="faction">Faction</label><input type="text" class="form-control autosync" id="faction" /></div>
+
+                <div class="col-md-3 field"><label for="inspiration">Inspiration</label><input type="number" class="form-control autosync" id="inspiration" value="0" /></div>
+                <div class="col-md-3 field"><label for="ac">Armor Class</label><input type="number" class="form-control autosync" id="ac" value="10" /></div>
+                <div class="col-md-3 field"><label for="speed">Speed</label><input type="number" class="form-control autosync" id="speed" value="30" /></div>
+                <div class="col-md-3 field"><label for="spellcastingAbility">Spellcasting Ability</label><select class="form-select autosync" id="spellcastingAbility"><option value="none">None</option><option value="int">Intelligence</option><option value="wis">Wisdom</option><option value="cha">Charisma</option></select></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="panel-tabs">
+            <div class="panel-header"><h2 class="panel-title">Workspace</h2><button class="panel-collapse-btn" data-collapse="panel-tabs">Toggle</button></div>
+            <div class="panel-body">
+              <div class="tabs" role="tablist" aria-label="Character tabs">
+                <button class="tab-btn" type="button" data-tab="tab-skills">Skills</button>
+                <button class="tab-btn" type="button" data-tab="tab-saves">Saves</button>
+                <button class="tab-btn" type="button" data-tab="tab-attacks">Attacks</button>
+                <button class="tab-btn" type="button" data-tab="tab-spellbook">Spellbook</button>
+                <button class="tab-btn" type="button" data-tab="tab-inventory">Inventory</button>
+                <button class="tab-btn" type="button" data-tab="tab-feats">Feats</button>
+                <button class="tab-btn" type="button" data-tab="tab-notes">Notes</button>
+              </div>
+
+              <div class="tab-panel" id="tab-skills">
+                <div class="repeat-controls"><div class="search-box" style="flex:1"><input type="text" class="form-control" id="skillSearch" placeholder="Filter skills..." /></div><button class="btn-sheet" id="selectAllSkillsBtn">All</button><button class="btn-sheet" id="deselectAllSkillsBtn">None</button></div>
+                <div class="list-card" id="skillsList"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-saves"><div class="list-card" id="savingThrowsList"></div></div>
+
+              <div class="tab-panel" id="tab-attacks">
+                <div class="repeat-controls"><div class="tiny">Editable repeating attacks</div><button class="btn-sheet" id="addAttackBtn">Add Attack</button></div>
+                <div class="repeat-table mt-2" id="attacksRepeater"></div>
+                <div class="field mt-3"><label for="attackNotes">Attacks & Spellcasting Notes <button class="btn-ai" id="aiAttackNotesBtn">✨ Flavor Text</button></label><textarea class="form-control autosync" id="attackNotes"></textarea></div>
+              </div>
+
+              <div class="tab-panel" id="tab-spellbook">
+                <div class="row g-3">
+                  <div class="col-md-3 field"><label for="preparedBonus">Prepared Bonus</label><input type="number" class="form-control autosync" id="preparedBonus" value="0" /></div>
+                  <div class="col-md-3 field"><label>Prepared Count</label><div class="inline-metric"><span>Prepared</span> <strong id="preparedCount">0 / 0</strong></div></div>
+                  <div class="col-md-6 field"><label>Spell Slots</label><div class="inline-metric"><span>Slots (Current/Max)</span> <strong id="slotSummary">0 / 0</strong></div></div>
+                </div>
+
+                <table class="compact-table"><thead><tr><th>Lvl</th><th>Current</th><th>Max</th></tr></thead><tbody id="slotsTableBody"></tbody></table>
+
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">
+                  <div><label class="muted">Caster Type</label><select id="casterType" class="form-select compact"><option value="full">Full Caster</option><option value="half">Half Caster</option><option value="third">Third Caster</option><option value="warlock">Warlock (Pact)</option></select></div>
+                  <div><label class="muted">Caster Level</label><input id="casterLevel" type="number" class="form-control compact" min="1" max="20" value="1"/></div>
+                  <div><label class="muted">Refill</label><input id="refillSlots" type="checkbox"/></div>
+                  <div style="align-self:end"><button id="applyPreset" class="btn-sheet btn-accent">Apply Slot Preset</button></div>
+                  <div style="flex:1;font-size:0.9rem;color:var(--muted)" id="presetNote">Preset notes: approximate; warlock uses pact scaling.</div>
+                </div>
+
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px">
+                  <div><label class="muted">Filter Level</label><select id="fLevel" class="form-select compact"><option value="all">All</option><option value="0">Cantrips(0)</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select></div>
+                  <div><label class="muted">Filter School</label><select id="fSchool" class="form-select compact"><option value="all">All</option><option>Abjuration</option><option>Conjuration</option><option>Divination</option><option>Enchantment</option><option>Evocation</option><option>Illusion</option><option>Necromancy</option><option>Transmutation</option></select></div>
+                  <div><label class="muted">Prepared Only</label><input id="fPrepared" type="checkbox" /></div>
+                  <div style="flex:1"><label class="muted">Search</label><input id="fSearch" class="form-control compact" placeholder="name or notes"/></div>
+                  <div><label class="muted">Sort By</label><select id="fSort" class="form-select compact"><option value="level">Level</option><option value="school">School</option><option value="name">Name</option></select></div>
+                  <div style="align-self:end"><button id="clearFilters" class="btn-sheet">Clear</button></div>
+                </div>
+
+                <div class="repeat-controls mt-3"><div class="tiny">Full spellbook with prepared/ritual/concentration flags</div><button class="btn-sheet" id="addSpellBtn">Add Spell</button></div>
+                <div class="repeat-table mt-2" id="spellsRepeater"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-inventory">
+                <div class="repeat-controls"><div class="tiny">Inventory rows with automatic weight totals</div><button class="btn-sheet" id="addItemBtn">Add Item</button></div>
+                <div class="repeat-table mt-2" id="itemsRepeater"></div>
+                <div class="inline-metric mt-2"><span>Total Carried Weight</span><strong id="inventoryWeightTotal">0 lb</strong></div>
+              </div>
+
+              <div class="tab-panel" id="tab-feats">
+                <div class="repeat-controls"><div class="tiny">Custom repeating feats/features</div><button class="btn-sheet" id="addFeatBtn">Add Feat</button></div>
+                <div class="repeat-table mt-2" id="featsRepeater"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-notes">
+                <div class="row g-3">
+                  <div class="col-md-12 field"><label for="featuresTraits">Backstory & Features <button class="btn-ai" id="aiBackstoryBtn">✨ Generate Backstory</button></label><textarea class="form-control autosync" id="featuresTraits" style="height:200px"></textarea></div>
+                  <div class="col-md-6 field"><label for="otherProfs">Other Proficiencies & Languages</label><textarea class="form-control autosync" id="otherProfs"></textarea></div>
+                  <div class="col-md-6 field"><label for="personalityTraits">Personality Traits</label><textarea class="form-control autosync" id="personalityTraits"></textarea></div>
+                  <div class="col-md-6 field"><label for="ideals">Ideals</label><textarea class="form-control autosync" id="ideals"></textarea></div>
+                  <div class="col-md-6 field"><label for="bonds">Bonds</label><textarea class="form-control autosync" id="bonds"></textarea></div>
+                  <div class="col-md-12 field"><label for="flaws">Flaws & Secrets</label><textarea class="form-control autosync" id="flaws"></textarea></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <aside class="section-stack sticky-side">
+          <section class="panel" id="panel-hp"><div class="panel-header"><h2 class="panel-title">Hit Points</h2><button class="panel-collapse-btn" data-collapse="panel-hp">Toggle</button></div><div class="panel-body"><div class="field"><label for="hpMax">HP Maximum</label><input type="number" class="form-control autosync" id="hpMax" value="10" /></div><div class="field"><label for="hpCurrent">Current HP</label><input type="number" class="form-control autosync" id="hpCurrent" value="10" /></div><div class="field"><label for="hpTemp">Temporary HP</label><input type="number" class="form-control autosync" id="hpTemp" value="0" /></div><div class="hp-bar" aria-hidden="true"><div class="hp-fill" id="hpFill"></div></div><div class="footer-note" id="hpSummary">10 / 10 HP</div><div class="quick-actions mt-3"><button class="btn-sheet" data-hp-action="-1">-1</button><button class="btn-sheet" data-hp-action="-5">-5</button><button class="btn-sheet btn-success" data-hp-action="+1">+1</button><button class="btn-sheet btn-success" data-hp-action="+5">+5</button></div></div></section>
+
+          <section class="panel" id="panel-dice"><div class="panel-header"><h2 class="panel-title">Hit Dice & Death Saves</h2><button class="panel-collapse-btn" data-collapse="panel-dice">Toggle</button></div><div class="panel-body"><div class="row g-3"><div class="col-6 field"><label for="hitDice">Hit Dice</label><input type="text" class="form-control autosync" id="hitDice" value="1d8" /></div><div class="col-6 field"><label for="hitDiceTotal">Total</label><input type="number" class="form-control autosync" id="hitDiceTotal" value="1" /></div></div><div class="tiny mt-2 mb-2">Successes</div><div class="death-track"><label><input type="checkbox" class="form-check-input autosync" id="dsSucc1" /> 1</label><label><input type="checkbox" class="form-check-input autosync" id="dsSucc2" /> 2</label><label><input type="checkbox" class="form-check-input autosync" id="dsSucc3" /> 3</label></div><div class="tiny mt-3 mb-2">Failures</div><div class="death-track"><label><input type="checkbox" class="form-check-input autosync" id="dsFail1" /> 1</label><label><input type="checkbox" class="form-check-input autosync" id="dsFail2" /> 2</label><label><input type="checkbox" class="form-check-input autosync" id="dsFail3" /> 3</label></div></div></section>
+
+          <section class="panel" id="panel-equipment"><div class="panel-header"><h2 class="panel-title">Equipment & Coins</h2><button class="panel-collapse-btn" data-collapse="panel-equipment">Toggle</button></div><div class="panel-body"><div class="coin-grid"><div class="field"><label for="cp">CP</label><input type="number" class="form-control autosync" id="cp" value="0" /></div><div class="field"><label for="sp">SP</label><input type="number" class="form-control autosync" id="sp" value="0" /></div><div class="field"><label for="ep">EP</label><input type="number" class="form-control autosync" id="ep" value="0" /></div><div class="field"><label for="gp">GP</label><input type="number" class="form-control autosync" id="gp" value="0" /></div><div class="field"><label for="pp">PP</label><input type="number" class="form-control autosync" id="pp" value="0" /></div></div><div class="field"><label for="equipment">Equipment Notes</label><textarea class="form-control autosync" id="equipment"></textarea></div></div></section>
+        </aside>
+      </div>
+
+      <!-- Settings Modal (copied from v6) -->
+      <div class="settings-overlay" id="settingsOverlay"><div class="settings-dialog panel" role="dialog" aria-modal="true" aria-label="Settings"><div class="panel-header"><h2 class="panel-title">Settings</h2><button id="closeSettingsBtn" class="btn-sheet">Close</button></div><div class="panel-body"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div class="field"><label>Theme</label><select id="settingTheme" class="form-select"><option value="dark">Dark</option><option value="light">Light</option></select></div><div class="field"><label>Parchment</label><select id="settingParchment" class="form-select"><option value="off">Off</option><option value="on">On</option></select></div><div class="field"><label>Auto Save</label><br/><input id="settingAutoSave" type="checkbox" /></div><div class="field"><label>Auto Apply Slot Preset</label><br/><input id="settingAutoPreset" type="checkbox" /></div><div class="field"><label>Compact Mobile Repeaters</label><br/><input id="settingCompactRepeaters" type="checkbox" /></div><div class="field"><label>Weight Units</label><select id="settingWeightUnits" class="form-select"><option value="lb">lb</option><option value="kg">kg</option></select></div></div><div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end"><button id="saveSettingsBtn" class="btn-sheet btn-accent">Save</button><button id="saveCloudBtn" class="btn-sheet">Save to Cloud</button><button id="loadCloudBtn" class="btn-sheet">Load from Cloud</button></div></div></div></div>
+
+    </div>
+
+    <script type="module">
+      // Perchance / standalone root mapping
+      const root = window.root || window;
+
+      // --- AI wrappers (use Perchance plugins if available) ---
+      async function aiText(prompt, opts={}){
+        try{ if (root.generateText) return await root.generateText(prompt, opts); }catch(e){ console.warn('AI text plugin failed', e); }
+        return '[Fallback AI] ' + (String(prompt).slice(0,240)) + '...';
+      }
+
+      async function aiImage(prompt, opts={}){
+        try{ if (root.generateImage) return await root.generateImage(prompt, opts); }catch(e){ console.warn('AI image plugin failed', e); }
+        return null;
+      }
+
+      function logOut(text){ const o = document.getElementById('aiOutput'); if(!o) return; const p = document.createElement('div'); p.style.padding='6px 8px'; p.style.borderBottom='1px solid rgba(255,255,255,0.03)'; p.innerHTML = text; o.prepend(p); }
+
+      // --- Small helpers reused from v6 ---
+      function abilityMod(score) { let parsed = parseInt(score,10); if(!Number.isFinite(parsed)) return 0; return Math.floor((parsed - 10) / 2); }
+      function formatMod(value) { return `${value >= 0 ? '+' : ''}${value}`; }
+      function num(id, fallback = 0) { let value = parseFloat(document.getElementById(id)?.value); return Number.isFinite(value) ? value : fallback; }
+      function setValue(id, value){ let el=document.getElementById(id); if(!el) return; el.value = value; }
+
+      // --- v7 high-level AI generators (reuse v6 addRepeaterRow/recalc) ---
+      async function generateAbilities(seed){
+        const prompt = 'Generate 6 ability scores (str,dex,con,int,wis,cha) as JSON with numeric values 3-18. Seed: ' + (seed||'random');
+        const txt = await aiText(prompt, {detail:'short'});
+        logOut('<strong>Abilities AI:</strong><pre>'+escapeHtml(txt)+'</pre>');
+        try{ const parsed = JSON.parse(txt); ['str','dex','con','int','wis','cha'].forEach(k=>{ const id = k+'Score'; if(document.getElementById(id) && parsed[k] !== undefined) document.getElementById(id).value = parsed[k]; }); recalc(); return; }catch(e){ console.warn('Could not parse abilities JSON',e); }
+        // fallback: random rolls
+        ['str','dex','con','int','wis','cha'].forEach(k=> setValue(k+'Score', rollStat()));
+        recalc();
+      }
+
+      async function generateClass(seed){
+        const prompt = 'Suggest a class, subclass, and starting equipment for a D&D 5e character. Output JSON: {class:"",subclass:"",level:1,startingEquipment:[]}. Seed: ' + (seed||'none');
+        const txt = await aiText(prompt);
+        logOut('<strong>Class AI:</strong><pre>'+escapeHtml(txt)+'</pre>');
+        try{ const p = JSON.parse(txt); if(p.class) setValue('classLevel', p.class + ' ' + (p.level||1)); if(Array.isArray(p.startingEquipment)){ p.startingEquipment.forEach(it=> addRepeaterRow('items', {name:it, qty:1, weight:0})); } recalc(); }catch(e){ console.warn('Could not parse class JSON', e); }
+      }
+
+      async function generateSpells(seed, count=6){
+        const prompt = 'Generate ' + count + ' D&D 5e spells suitable for the character. Output JSON array of spells with fields: level,name,school,castTime,range,components,duration,prepared,notes. Seed:' + (seed||'random');
+        const txt = await aiText(prompt, {detail: document.getElementById('aiDetail')?.value || 'medium'});
+        logOut('<strong>Spells AI:</strong><pre>'+escapeHtml(txt)+'</pre>');
+        try{ const arr = JSON.parse(txt); if(Array.isArray(arr)) arr.forEach(sp=> addRepeaterRow('spells', sp)); applyFilters(); }catch(e){ console.warn('Could not parse spells',e); }
+      }
+
+      async function generateItems(seed, count=6){
+        const prompt = 'Generate ' + count + ' adventuring items (name,qty,weight,cost,notes) as JSON array. Seed:' + (seed||'random');
+        const txt = await aiText(prompt);
+        logOut('<strong>Items AI:</strong><pre>'+escapeHtml(txt)+'</pre>');
+        try{ const arr = JSON.parse(txt); if(Array.isArray(arr)) arr.forEach(it=> addRepeaterRow('items', it)); recalc(); }catch(e){ console.warn('Could not parse items',e); }
+      }
+
+      async function generateFeats(seed, count=3){
+        const prompt = 'Generate ' + count + ' feats or features (name,summary,notes) as JSON array. Seed:' + (seed||'random');
+        const txt = await aiText(prompt);
+        logOut('<strong>Feats AI:</strong><pre>'+escapeHtml(txt)+'</pre>');
+        try{ const arr = JSON.parse(txt); if(Array.isArray(arr)) arr.forEach(f=> addRepeaterRow('feats', f)); }catch(e){ console.warn('Could not parse feats',e); }
+      }
+
+      async function generatePortraitSeed(seed){
+        const prompt = 'Portrait: Fantasy digital art portrait of a D&D character named ' + (seed||'Adventurer') + '. Cinematic, detailed.';
+        const dataUrl = await aiImage(prompt, {resolution:'512x512'});
+        if(dataUrl){ const img = document.getElementById('portraitImg'); img.src = dataUrl; img.style.display='block'; document.getElementById('portraitPlaceholder').style.display='none'; saveToKV(); logOut('<strong>Portrait generated</strong>'); }
+      }
+
+      async function generateBackstorySeed(seed){
+        const prompt = 'Write a vivid ~250 word backstory for a D&D character named ' + (seed||document.getElementById('charName')?.value||'the hero') + '. Include a secret and a hook.';
+        const txt = await aiText(prompt, {detail:'long'});
+        logOut('<strong>Backstory AI:</strong><pre>'+escapeHtml(txt)+'</pre>');
+        if(document.getElementById('featuresTraits')) document.getElementById('featuresTraits').value = txt;
+      }
+
+      async function generateEntireCharacter(){
+        const seed = (document.getElementById('aiSeed')?.value || '').trim();
+        logOut('<strong>Starting full AI generation</strong>');
+        await generateAbilities(seed);
+        await generateClass(seed);
+        await generateSpells(seed, 8);
+        await generateItems(seed, 8);
+        await generateFeats(seed, 4);
+        await generateBackstorySeed(seed);
+        await generatePortraitSeed(seed);
+        logOut('<strong>Generation complete.</strong>');
+      }
+
+      // --- DDB import/export mapping helpers (best-effort) ---
+      function mapDdbToSheet(obj){
+        if(!obj) return;
+        if(obj.name) document.getElementById('charName').value = obj.name;
+        if(obj.class && obj.level) document.getElementById('classLevel').value = obj.class + ' ' + obj.level;
+        if(obj.race) document.getElementById('race').value = obj.race;
+        if(obj.abilities){ ['str','dex','con','int','wis','cha'].forEach(k=>{ const id = k+'Score'; if(obj.abilities[k] !== undefined && document.getElementById(id)) document.getElementById(id).value = obj.abilities[k]; }); }
+        if(obj.spells && Array.isArray(obj.spells)) obj.spells.forEach(s=> addRepeaterRow('spells', s));
+        if(obj.items && Array.isArray(obj.items)) obj.items.forEach(i=> addRepeaterRow('items', i));
+        recalc();
+      }
+
+      function importDdbFile(file){
+        const r = new FileReader(); r.onload = (e)=>{ try{ const obj = JSON.parse(e.target.result); logOut('<strong>Imported DDB JSON</strong>'); mapDdbToSheet(obj); } catch(err){ alert('Invalid JSON'); } }; r.readAsText(file);
+      }
+
+      function exportDdbJson(){
+        const out = {}; out.name = document.getElementById('charName')?.value || '';
+        out.class = document.getElementById('classLevel')?.value || '';
+        out.race = document.getElementById('race')?.value || '';
+        out.abilities = {}; ['str','dex','con','int','wis','cha'].forEach(k=>{ const el = document.getElementById(k+'Score'); if(el) out.abilities[k]=parseInt(el.value||0,10); });
+        out.spells = [];
+        try{ const spells = document.querySelectorAll('#spellsRepeater .repeat-row'); spells.forEach(r=>{ const s={}; r.querySelectorAll('[data-field]').forEach(f=>{ s[f.dataset.field]= f.type==='checkbox'? f.checked : f.value }); out.spells.push(s); }); }catch(e){}
+        const blob = new Blob([JSON.stringify(out,null,2)], {type:'application/json'}); const a=document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (out.name||'character')+'-ddb.json'; a.click(); URL.revokeObjectURL(a.href);
+      }
+
+      // --- Expose some helpers globally for console / window reuse if needed ---
+      window.v7 = { generateAbilities, generateClass, generateSpells, generateItems, generateFeats, generatePortraitSeed, generateBackstorySeed, generateEntireCharacter };
+
+      // --- Escape helper ---
+      function escapeHtml(unsafe){ return (''+unsafe).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+      /*
+       * The rest of main sheet logic (repeaters, recalc, persistence, UI wiring)
+       * is copied largely from v6 to keep behavior consistent.
+       */
+
+      const ABILITIES = [ { key: 'str', name: 'Strength' }, { key: 'dex', name: 'Dexterity' }, { key: 'con', name: 'Constitution' }, { key: 'int', name: 'Intelligence' }, { key: 'wis', name: 'Wisdom' }, { key: 'cha', name: 'Charisma' } ];
+      const SKILLS = [ { key: 'acrobatics', name: 'Acrobatics', ability: 'dex' }, { key: 'animalHandling', name: 'Animal Handling', ability: 'wis' }, { key: 'arcana', name: 'Arcana', ability: 'int' }, { key: 'athletics', name: 'Athletics', ability: 'str' }, { key: 'deception', name: 'Deception', ability: 'cha' }, { key: 'history', name: 'History', ability: 'int' }, { key: 'insight', name: 'Insight', ability: 'wis' }, { key: 'intimidation', name: 'Intimidation', ability: 'cha' }, { key: 'investigation', name: 'Investigation', ability: 'int' }, { key: 'medicine', name: 'Medicine', ability: 'wis' }, { key: 'nature', name: 'Nature', ability: 'int' }, { key: 'perception', name: 'Perception', ability: 'wis' }, { key: 'performance', name: 'Performance', ability: 'cha' }, { key: 'persuasion', name: 'Persuasion', ability: 'cha' }, { key: 'religion', name: 'Religion', ability: 'int' }, { key: 'sleightOfHand', name: 'Sleight of Hand', ability: 'dex' }, { key: 'stealth', name: 'Stealth', ability: 'dex' }, { key: 'survival', name: 'Survival', ability: 'wis' } ];
+      const REPEATER_KEYS = ['attacks','items','spells','feats'];
+
+      function rollStat(){ let rolls = Array.from({length:4}, ()=> Math.floor(Math.random()*6)+1).sort((a,b)=>b-a); return rolls[0]+rolls[1]+rolls[2]; }
+
+      function buildSkillsAndSaves(){ let skillsList = document.getElementById('skillsList'); let savesList = document.getElementById('savingThrowsList'); skillsList.innerHTML = SKILLS.map(skill=>`<label class="list-row skill-row" data-skill-name="${skill.name.toLowerCase()}"><input type="checkbox" class="form-check-input skill-prof autosync" id="prof_${skill.key}" data-skill="${skill.key}" data-ability="${skill.ability}" title="Proficient" /><input type="checkbox" class="form-check-input autosync" id="exp_${skill.key}" data-expertise="${skill.key}" title="Expertise" /><div><div>${skill.name}</div><small>${skill.ability.toUpperCase()}</small></div><div class="score-badge" id="skill-${skill.key}">+0</div></label>`).join(''); savesList.innerHTML = ABILITIES.map(ab=>`<label class="list-row"><input type="checkbox" class="form-check-input save-prof autosync" id="saveProf_${ab.key}" data-ability="${ab.key}" title="Proficient" /><input type="checkbox" class="form-check-input autosync" id="saveExp_${ab.key}" data-save-expertise="${ab.key}" title="Expertise" /><div><div>${ab.name}</div><small>${ab.key.toUpperCase()} save</small></div><div class="score-badge" id="save-${ab.key}">+0</div></label>`).join(''); }
+
+      function buildSlotsTable(){ let tbody = document.getElementById('slotsTableBody'); tbody.innerHTML=''; for(let lvl=1;lvl<=9;lvl++){ let tr = document.createElement('tr'); tr.innerHTML = `<td>${lvl}</td><td><input type="number" min="0" class="form-control autosync" id="slotCur${lvl}" value="0" /></td><td><input type="number" min="0" class="form-control autosync" id="slotMax${lvl}" value="0" /></td>`; tbody.appendChild(tr); } }
+
+      function createRowInput(label, field, value = '', type='text', min=''){ return `<div class="field mb-0"><label>${label}</label><input type="${type}" ${min !== '' ? `min="${min}"` : ''} class="form-control autosync" data-field="${field}" value="${String(value).replace(/"/g,'&quot;')}" /></div>`; }
+
+      function createRepeaterRow(kind, data={}){ let row = document.createElement('div'); row.className='repeat-row'; if(kind==='attacks'){ row.innerHTML = `<div class="repeat-grid-attack">${createRowInput('Name','name',data.name||'')}${createRowInput('Bonus','bonus',data.bonus||'')}${createRowInput('Damage','damage',data.damage||'')}${createRowInput('Type','type',data.type||'')}<button type="button" class="btn-sheet btn-danger" data-remove-row="attacks">Remove</button></div><div class="field mb-0"><label>Notes</label><textarea class="form-control autosync" data-field="notes">${data.notes||''}</textarea></div>`; }
+        if(kind==='items'){ row.innerHTML = `<div class="repeat-grid-item">${createRowInput('Item','name',data.name||'')}${createRowInput('Qty','qty',data.qty ?? 1,'number',0)}${createRowInput('Wt Each','weight',data.weight ?? 0,'number',0)}${createRowInput('Cost','cost',data.cost||'')}<div class="field mb-0"><label>Total Wt</label><input type="text" class="form-control" data-field="total" value="0" readonly /></div><button type="button" class="btn-sheet btn-danger" data-remove-row="items">Remove</button></div><div class="field mb-0"><label>Description</label><textarea class="form-control autosync" data-field="notes">${data.notes||''}</textarea></div>`; }
+        if(kind==='spells'){ row.innerHTML = `<div class="repeat-grid-spell">${createRowInput('Lvl','level',data.level ?? 0,'number',0)}${createRowInput('Spell Name','name',data.name||'')}${createRowInput('School','school',data.school||'')}${createRowInput('Cast Time','castTime',data.castTime||'')}${createRowInput('Range','range',data.range||'')}${createRowInput('Components','components',data.components||'')}${createRowInput('Duration','duration',data.duration||'')}<button type="button" class="btn-sheet btn-danger" data-remove-row="spells">Remove</button></div><div class="repeat-flags"><label><input type="checkbox" class="form-check-input autosync" data-field="prepared" ${data.prepared ? 'checked' : ''} /> Prepared</label><label><input type="checkbox" class="form-check-input autosync" data-field="ritual" ${data.ritual ? 'checked' : ''} /> Ritual</label><label><input type="checkbox" class="form-check-input autosync" data-field="concentration" ${data.concentration ? 'checked' : ''} /> Concentration</label></div><div class="field mb-0"><label>Description / Notes</label><textarea class="form-control autosync" data-field="notes">${data.notes||''}</textarea></div>`; }
+        if(kind==='feats'){ row.innerHTML = `<div class="repeat-grid-feat">${createRowInput('Name','name',data.name||'')}${createRowInput('Source','source',data.source||'')}${createRowInput('Summary','summary',data.summary||'')}<button type="button" class="btn-sheet btn-danger" data-remove-row="feats">Remove</button></div><div class="field mb-0"><label>Details</label><textarea class="form-control autosync" data-field="notes">${data.notes||''}</textarea></div>`; }
+        return row; }
+
+      function addRepeaterRow(kind,data={}){ let target = document.getElementById(kind+'Repeater'); if(!target) return; target.appendChild(createRepeaterRow(kind,data)); }
+
+      function serializeRepeater(kind){ let host=document.getElementById(kind+'Repeater'); if(!host) return []; return Array.from(host.children).map(row=>{ let obj={}; row.querySelectorAll('[data-field]').forEach(el=>{ let key = el.dataset.field; if(el.type==='checkbox') obj[key]=el.checked; else obj[key]=el.value; }); return obj; }); }
+
+      function hydrateRepeater(kind, rows){ let host = document.getElementById(kind+'Repeater'); if(!host) return; host.innerHTML=''; let source = Array.isArray(rows) && rows.length ? rows : [{}]; source.forEach(item => addRepeaterRow(kind,item)); }
+
+      // Settings helpers (from v6)
+      function getSettings(){ return { theme: document.documentElement.dataset.theme || 'dark', parchment: document.documentElement.dataset.parchment || 'off', autoSave: !!document.getElementById('settingAutoSave')?.checked, autoPreset: !!document.getElementById('settingAutoPreset')?.checked, compactRepeaters: !!document.getElementById('settingCompactRepeaters')?.checked, weightUnits: document.getElementById('settingWeightUnits')?.value || 'lb', casterType: document.getElementById('casterType')?.value || 'full', casterLevel: parseInt(document.getElementById('casterLevel')?.value,10) || 1 }; }
+
+      function applySettings(settings={}){ if(!settings) return; if(settings.theme) document.documentElement.dataset.theme = settings.theme; if(settings.parchment) document.documentElement.dataset.parchment = settings.parchment; if(typeof settings.autoSave !== 'undefined' && document.getElementById('settingAutoSave')) document.getElementById('settingAutoSave').checked = !!settings.autoSave; if(typeof settings.autoPreset !== 'undefined' && document.getElementById('settingAutoPreset')) document.getElementById('settingAutoPreset').checked = !!settings.autoPreset; if(typeof settings.compactRepeaters !== 'undefined' && document.getElementById('settingCompactRepeaters')) { document.getElementById('settingCompactRepeaters').checked = !!settings.compactRepeaters; document.documentElement.classList.toggle('compact-repeaters', !!settings.compactRepeaters); } if(settings.weightUnits && document.getElementById('settingWeightUnits')) document.getElementById('settingWeightUnits').value = settings.weightUnits; if(settings.casterType && document.getElementById('casterType')) document.getElementById('casterType').value = settings.casterType; if(settings.casterLevel && document.getElementById('casterLevel')) document.getElementById('casterLevel').value = settings.casterLevel; }
+
+      async function saveSettings(){ const s = getSettings(); if(root.kv){ try{ await root.kv.dnd5eSettings.set('ui', s); document.getElementById('saveStatus').textContent = 'Settings saved'; setTimeout(()=>document.getElementById('saveStatus').textContent='',1500);}catch(e){console.error(e)} } else { localStorage.setItem('dnd5eSettings', JSON.stringify(s)); document.getElementById('saveStatus').textContent = 'Settings saved locally'; setTimeout(()=>document.getElementById('saveStatus').textContent='',1500); } }
+
+      async function loadSettingsFromStorage(){ try{ if(root.kv){ let settings = await root.kv.dnd5eSettings.get('ui'); if(settings) applySettings(settings); } else { let stored = localStorage.getItem('dnd5eSettings'); if(stored) applySettings(JSON.parse(stored)); } } catch(e){ console.error('Load settings failed', e); } }
+
+      // --- Sheet cloud helpers (from v6) ---
+      async function saveSheetToCloud(){ const data = collectSheetData(); if(root.kv){ try{ await root.kv.dnd5eSheet.set('current', data); document.getElementById('saveStatus').textContent = 'Sheet saved to Cloud'; }catch(e){ console.error('Save sheet failed', e); document.getElementById('saveStatus').textContent = 'Sheet save failed'; } } else { localStorage.setItem('dnd5eSheet', JSON.stringify(data)); document.getElementById('saveStatus').textContent = 'Sheet saved locally'; } setTimeout(()=>document.getElementById('saveStatus').textContent='',1500); }
+
+      async function loadSheetFromCloud(){ try{ let data; if(root.kv){ data = await root.kv.dnd5eSheet.get('current'); } else { let stored = localStorage.getItem('dnd5eSheet'); if(stored) data = JSON.parse(stored); } if(data) applySheetData(data); else clearSheet(); } catch(e){ console.error('Load failed', e); clearSheet(); } }
+
+      // --- collect/hydrate sheet data ---
+      function collectSheetData(){ let data={}; document.querySelectorAll('input, textarea, select').forEach(el=>{ if(!el.id) return; if(el.type === 'checkbox') data[el.id] = el.checked; else data[el.id] = el.value; }); data.repeaters = { attacks: serializeRepeater('attacks'), items: serializeRepeater('items'), spells: serializeRepeater('spells'), feats: serializeRepeater('feats') }; let portraitSrc = document.getElementById('portraitImg').src; if(portraitSrc && portraitSrc !== window.location.href) data.portraitUrl = portraitSrc; data.settings = getSettings(); return data; }
+
+      function applySheetData(data){ Object.entries(data || {}).forEach(([id,value])=>{ if(id === 'repeaters' || id === 'portraitUrl' || id === 'settings') return; let el = document.getElementById(id); if(!el) return; if(el.type === 'checkbox') el.checked = !!value; else el.value = value; }); if(data.portraitUrl){ let img = document.getElementById('portraitImg'); img.src = data.portraitUrl; img.style.display = 'block'; document.getElementById('portraitPlaceholder').style.display = 'none'; } if(data.settings) applySettings(data.settings); let repeaters = data?.repeaters || {}; REPEATER_KEYS.forEach(key=> hydrateRepeater(key, repeaters[key])); syncPillsFromHiddenFields(); recalc(); }
+
+      // save debounce
+      let saveTimeout;
+      async function saveToKV(){ clearTimeout(saveTimeout); document.getElementById('saveStatus').textContent = 'Saving...'; saveTimeout = setTimeout(async ()=>{ try{ let data = collectSheetData(); if(root.kv){ await root.kv.dnd5eSheet.set('current', data); document.getElementById('saveStatus').textContent = 'Saved to Cloud'; } else { localStorage.setItem('dnd5eSheet', JSON.stringify(data)); document.getElementById('saveStatus').textContent = 'Saved Locally'; } setTimeout(()=>{ document.getElementById('saveStatus').textContent=''; },2000); } catch(err){ console.error('Save failed', err); document.getElementById('saveStatus').textContent = 'Save Failed'; } }, 1000); }
+
+      async function loadFromKV(){ try{ let data; if(root.kv){ data = await root.kv.dnd5eSheet.get('current'); } else { let stored = localStorage.getItem('dnd5eSheet'); if(stored) data = JSON.parse(stored); } if(data){ applySheetData(data); await loadSettingsFromStorage(); } else clearSheet(); } catch(err){ console.error('Load failed', err); clearSheet(); } }
+
+      // --- Recalc and helpers (copied from v6) ---
+      function recalc(){ let prof = Math.max(0, Math.floor(num('profBonus',0))); let jack = document.getElementById('jackOfAllTrades')?.checked; let halfProf = Math.floor(prof/2); let mods = {}; ABILITIES.forEach(ab=>{ let score = num(`${ab.key}Score`,10); let mod = abilityMod(score); mods[ab.key] = mod; let out = document.getElementById(`mod-${ab.key}`); if(out) out.textContent = formatMod(mod); }); ABILITIES.forEach(ab=>{ let proficient = document.getElementById(`saveProf_${ab.key}`)?.checked; let expertise = document.getElementById(`saveExp_${ab.key}`)?.checked; let bonus = mods[ab.key]||0; if(proficient) bonus += prof * (expertise ? 2 : 1); let out = document.getElementById(`save-${ab.key}`); if(out) out.textContent = formatMod(bonus); }); SKILLS.forEach(skill=>{ let proficient = document.getElementById(`prof_${skill.key}`)?.checked; let expertise = document.getElementById(`exp_${skill.key}`)?.checked; let bonus = mods[skill.ability]||0; if(proficient) bonus += prof * (expertise ? 2 : 1); else if(jack) bonus += halfProf; let out = document.getElementById(`skill-${skill.key}`); if(out) out.textContent = formatMod(bonus); }); let perceptionBonus = parseInt(document.getElementById('skill-perception')?.textContent,10) || 0; document.getElementById('passivePerception').textContent = 10 + perceptionBonus; let spellAbility = document.getElementById('spellcastingAbility')?.value || 'none'; let spellMod = spellAbility === 'none' ? 0 : mods[spellAbility] || 0; document.getElementById('spellSaveDc').textContent = 8 + prof + spellMod; let initiative = mods.dex || 0; if(jack) initiative += halfProf; document.getElementById('initiativeDerived').textContent = formatMod(initiative); let carry = Math.max(0, num('strScore',10) * 15); document.getElementById('carryCapacity').textContent = `${carry} lb`; updateHpBar(); updateItemWeights(carry); updateSpellbookSummary(spellMod); if(document.getElementById('settingAutoSave')?.checked) saveToKV(); }
+
+      function updateHpBar(){ let max = Math.max(1, num('hpMax',1)); let current = num('hpCurrent', max); current = Math.min(max, Math.max(0, current)); setValue('hpCurrent', current); let temp = Math.max(0, num('hpTemp',0)); let pct = Math.max(0, Math.min(100, (current/max) * 100)); document.getElementById('hpFill').style.width = `${pct}%`; document.getElementById('hpSummary').textContent = `${current} / ${max} HP${temp ? ` (+${temp} temp)` : ''}`; }
+
+      function updateItemWeights(carryCapacity){ let sum = 0; document.querySelectorAll('#itemsRepeater .repeat-row').forEach(row=>{ let qty = Math.max(0, parseFloat(row.querySelector('[data-field="qty"]')?.value) || 0); let wt = Math.max(0, parseFloat(row.querySelector('[data-field="weight"]')?.value) || 0); let total = qty * wt; let out = row.querySelector('[data-field="total"]'); if(out) out.value = `${total.toFixed(2).replace(/\.00$/,'')} lb`; sum += total; }); let totalText = `${sum.toFixed(2).replace(/\.00$/,'')} lb`; document.getElementById('inventoryWeightTotal').textContent = totalText; let state = 'light'; if(sum > carryCapacity) state = 'overburdened'; else if(sum > carryCapacity * 0.66) state = 'heavy'; document.getElementById('inventoryWeightSummary').textContent = `${totalText} (${state})`; }
+
+      function updateSpellbookSummary(spellMod){ let prepared = 0; document.querySelectorAll('#spellsRepeater [data-field="prepared"]').forEach(cb=>{ if(cb.checked) prepared += 1; }); let level = Math.max(1, Math.floor(num('level',1))); let bonus = Math.floor(num('preparedBonus',0)); let limit = Math.max(0, level + spellMod + bonus); document.getElementById('preparedCount').textContent = `${prepared} / ${limit}`; let curTotal = 0; let maxTotal = 0; for(let lvl=1;lvl<=9;lvl++){ curTotal += Math.max(0, Math.floor(num(`slotCur${lvl}`,0))); maxTotal += Math.max(0, Math.floor(num(`slotMax${lvl}`,0))); } document.getElementById('slotSummary').textContent = `${curTotal} / ${maxTotal}`; }
+
+      // --- Import/Export (includes settings) ---
+      function exportJson(){ let data = collectSheetData(); let blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'}); let url = URL.createObjectURL(blob); let a = document.createElement('a'); a.href = url; a.download = `${data.charName || 'character'}.json`; a.click(); URL.revokeObjectURL(url); }
+
+      function importJsonFile(file){ let reader = new FileReader(); reader.onload = (e)=>{ try{ let data = JSON.parse(e.target.result); applySheetData(data); }catch{ alert('Invalid JSON file.'); } }; reader.readAsText(file); }
+
+      // --- Randomize ---
+      function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+      const TABLES = { names: ['Arin','Belwyn','Cade','Dorian','Elira','Fenric','Galen','Hestia','Ilya','Kael','Thorne','Lyra','Magnus','Seraphina','Orion'], races:['Human','Elf','Dwarf','Halfling','Tiefling','Dragonborn','Gnome','Half-Orc','Aasimar','Goliath'], classes:['Fighter','Wizard','Rogue','Cleric','Barbarian','Ranger','Paladin','Bard','Warlock','Druid','Monk','Sorcerer'], backgrounds:['Soldier','Sage','Criminal','Noble','Hermit','Acolyte','Outlander','Charlatan','Folk Hero','Guild Artisan'], alignments:['Lawful Good','Neutral Good','Chaotic Good','Lawful Neutral','True Neutral','Chaotic Neutral','Lawful Evil','Neutral Evil','Chaotic Evil'] };
+
+      function randomizeSheet(){ setValue('charName', rand(TABLES.names)); setValue('race', rand(TABLES.races)); let cls = rand(TABLES.classes); setValue('classLevel', `${cls} 1`); setValue('background', rand(TABLES.backgrounds)); setValue('alignment', rand(TABLES.alignments)); setValue('level',1); ['str','dex','con','int','wis','cha'].forEach(ab=> setValue(`${ab}Score`, rollStat())); document.querySelectorAll('.save-prof, .skill-prof').forEach(cb=> cb.checked = Math.random() < 0.3); document.querySelectorAll('[id^="exp_"], [id^="saveExp_"]').forEach(cb=> cb.checked = Math.random() < 0.1); recalc(); }
+
+      // --- AI features from v6 (generatePortrait / generateBackstory / flavor) ---
+      async function generatePortrait(){ let btn = document.getElementById('generatePortraitBtn'); let img = document.getElementById('portraitImg'); let ph = document.getElementById('portraitPlaceholder'); let name = document.getElementById('charName').value || 'Hero'; let race = document.getElementById('race').value || 'Human'; let cls = document.getElementById('classLevel').value || 'Adventurer'; btn.disabled = true; btn.textContent = '✨ Generating...'; ph.textContent = 'Painting portrait...'; try{ if(root.generateImage){ let dataUrl = await root.generateImage(`Fantasy digital art portrait of a D&D character. A ${race} ${cls} named ${name}. Highly detailed, cinematic lighting.`, {resolution:'512x512'}); img.src = dataUrl; img.style.display = 'block'; ph.style.display = 'none'; saveToKV(); } else { ph.textContent = 'AI generator unavailable.'; } }catch(e){ ph.textContent = 'Generation failed. Try again.'; console.error(e); } finally{ btn.disabled = false; btn.textContent = '✨ Generate Portrait'; } }
+
+      async function generateBackstory(){ let btn = document.getElementById('aiBackstoryBtn'); let target = document.getElementById('featuresTraits'); let name = document.getElementById('charName').value || 'The Hero'; let race = document.getElementById('race').value || 'Human'; let cls = document.getElementById('classLevel').value || 'Wizard'; let bg = document.getElementById('background').value || 'Soldier'; let trait = document.getElementById('personalityTraits').value || 'brave but secretive'; btn.disabled = true; btn.textContent = '⏳ Writing...'; target.value += "\n\nGenerating backstory..."; try{ if(root.generateText){ let story = await root.generateText(`Write a creative, engaging backstory (about 200 words) for a D&D character named ${name}, a ${race} ${cls} with the ${bg} background. Their personality is: ${trait}. Include a secret they are hiding.`); target.value = story; recalc(); } else { target.value += "\nAI text generator unavailable."; } }catch(e){ target.value += "\nError generating backstory."; } finally{ btn.disabled = false; btn.textContent = '✨ Generate Backstory'; } }
+
+      async function generateFlavorText(){ let btn = document.getElementById('aiAttackNotesBtn'); let target = document.getElementById('attackNotes'); btn.disabled = true; btn.textContent = '⏳ Writing...'; try{ if(root.generateText){ let text = await root.generateText('Write 3 creative descriptions for combat actions in D&D 5e. Keep it brief.'); target.value = text; } else { target.value += '\nAI text generator unavailable.'; } }catch(e){ console.error(e); } finally{ btn.disabled = false; btn.textContent = '✨ Flavor Text'; } }
+
+      // --- UI helpers from v6 ---
+      function syncPillsFromHiddenFields(reset=false){ document.querySelectorAll('.toggle-pill').forEach(btn=>{ let target = document.getElementById(btn.dataset.target); if(!target) return; if(reset) target.value='false'; btn.classList.toggle('active', target.value === 'true'); }); }
+
+      function setupPills(){ document.querySelectorAll('.toggle-pill').forEach(btn=>{ btn.addEventListener('click', ()=>{ let target = document.getElementById(btn.dataset.target); if(!target) return; let next = !(target.value === 'true'); target.value = String(next); btn.classList.toggle('active', next); recalc(); }); }); }
+
+      function setupHpButtons(){ document.querySelectorAll('[data-hp-action]').forEach(btn=>{ btn.addEventListener('click', ()=>{ let delta = parseInt(btn.dataset.hpAction,10) || 0; let max = Math.max(1, num('hpMax',1)); let current = Math.max(0, Math.min(max, num('hpCurrent',max) + delta)); setValue('hpCurrent', current); recalc(); }); }); }
+
+      function activateTab(tabId, pushHash=true){ let panel = document.getElementById(tabId); if(!panel) return; document.querySelectorAll('.tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.tab === tabId)); document.querySelectorAll('.tab-panel').forEach(p=> p.classList.toggle('active', p.id === tabId)); if(pushHash && location.hash !== `#${tabId}`) location.hash = tabId; }
+
+      function setupTabsHashPersistence(){ document.querySelectorAll('.tab-btn').forEach(btn=> btn.addEventListener('click', ()=> activateTab(btn.dataset.tab, true))); let fromHash = location.hash.replace('#',''); if(fromHash && document.getElementById(fromHash)?.classList.contains('tab-panel')) activateTab(fromHash, false); else activateTab('tab-skills', true); window.addEventListener('hashchange', ()=>{ let key = location.hash.replace('#',''); if(document.getElementById(key)?.classList.contains('tab-panel')) activateTab(key,false); }); }
+
+      function setupSkillFilter(){ document.getElementById('skillSearch').addEventListener('input', (e)=>{ let query = e.target.value.trim().toLowerCase(); document.querySelectorAll('.skill-row').forEach(row=>{ row.style.display = row.dataset.skillName.includes(query) ? '' : 'none'; }); }); }
+
+      function setupTheme(){ let rootEl = document.documentElement; document.getElementById('themeToggle')?.addEventListener('click', ()=>{ rootEl.dataset.theme = rootEl.dataset.theme === 'light' ? 'dark' : 'light'; saveSettings(); }); document.getElementById('parchmentToggle')?.addEventListener('click', ()=>{ rootEl.dataset.parchment = rootEl.dataset.parchment === 'on' ? 'off' : 'on'; saveSettings(); }); document.getElementById('printBtn').addEventListener('click', ()=> window.print()); }
+
+      async function saveSettingsBtnHandler(){ await saveSettings(); }
+
+      function setupImportExport(){ document.getElementById('exportJsonBtn').addEventListener('click', exportJson); document.getElementById('importJsonBtn').addEventListener('click', ()=> document.getElementById('importJsonFile').click()); document.getElementById('importJsonFile').addEventListener('change', function(){ if(this.files && this.files[0]) importJsonFile(this.files[0]); this.value=''; }); document.getElementById('exportDdbJsonBtn').addEventListener('click', exportDdbJson); document.getElementById('importDdbBtn').addEventListener('click', ()=> document.getElementById('importDdbFile').click()); document.getElementById('importDdbFile').addEventListener('change', function(){ if(this.files && this.files[0]) importDdbFile(this.files[0]); this.value=''; }); }
+
+      function setupRepeaters(){ document.getElementById('addAttackBtn').addEventListener('click', ()=> addRepeaterRow('attacks', {})); document.getElementById('addItemBtn').addEventListener('click', ()=> addRepeaterRow('items', {qty:1, weight:0})); document.getElementById('addSpellBtn').addEventListener('click', ()=> addRepeaterRow('spells', {level:0})); document.getElementById('addFeatBtn').addEventListener('click', ()=> addRepeaterRow('feats', {})); document.addEventListener('click', (e)=>{ let btn = e.target.closest('[data-remove-row]'); if(!btn) return; let row = btn.closest('.repeat-row'); let kind = btn.dataset.removeRow; row?.remove(); if(!document.querySelector(`#${kind}Repeater .repeat-row`)) addRepeaterRow(kind, {}); recalc(); }); }
+
+      function setupMobileCollapsibles(){ document.querySelectorAll('.panel-collapse-btn').forEach(btn=> btn.addEventListener('click', ()=>{ let panel = document.getElementById(btn.dataset.collapse); let body = panel?.querySelector('.panel-body'); if(!body) return; body.classList.toggle('is-collapsed'); btn.textContent = body.classList.contains('is-collapsed') ? 'Expand' : 'Collapse'; })); }
+
+      function setupGeneralRecalc(){ document.addEventListener('input', (e)=>{ if(e.target.matches('input, textarea, select')) recalc(); }); document.addEventListener('change', (e)=>{ if(e.target.matches('input, textarea, select')) recalc(); }); }
+
+      function setupBulkSelection(){ document.getElementById('selectAllSkillsBtn').addEventListener('click', ()=>{ document.querySelectorAll('.skill-prof').forEach(cb=> cb.checked = true); recalc(); }); document.getElementById('deselectAllSkillsBtn').addEventListener('click', ()=>{ document.querySelectorAll('.skill-prof').forEach(cb=> cb.checked = false); recalc(); }); }
+
+      function clearSheet(){ document.querySelectorAll('input, textarea, select').forEach(el=>{ if(!el.id) return; if(el.type === 'checkbox') el.checked = false; else if(el.type === 'number') el.value = 0; else el.value = ''; }); ['str','dex','con','int','wis','cha'].forEach(ab=> setValue(`${ab}Score`,10)); setValue('profBonus',2); setValue('hpMax',10); setValue('hpCurrent',10); setValue('speed',30); setValue('ac',10); setValue('level',1); setValue('hitDice','1d8'); setValue('hitDiceTotal',1); setValue('spellcastingAbility','none'); setValue('preparedBonus',0); let img = document.getElementById('portraitImg'); img.src = ''; img.style.display = 'none'; document.getElementById('portraitPlaceholder').style.display = 'block'; REPEATER_KEYS.forEach(key=> hydrateRepeater(key,[{}])); syncPillsFromHiddenFields(true); recalc(); }
+
+      // --- Spell filters + helpers ---
+      function readRow(r){ const o={}; r.querySelectorAll('[data-field]').forEach(f=> { o[f.dataset.field] = f.type === 'checkbox' ? f.checked : f.value; }); return o; }
+
+      function applyFilters(){ const lvl = document.getElementById('fLevel')?.value || 'all'; const sch = (document.getElementById('fSchool')?.value || '').toLowerCase(); const prep = !!document.getElementById('fPrepared')?.checked; const sterm = (document.getElementById('fSearch')?.value || '').toLowerCase(); const sort = document.getElementById('fSort')?.value || 'level'; const container = document.getElementById('spellsRepeater'); const rows = Array.from(container.querySelectorAll('.repeat-row')).map(r=>({ row:r, data: readRow(r)})); let filtered = rows.filter(o=>{ if(lvl !== 'all' && String((o.data.level||'')).trim() !== String(lvl).trim()) return false; if(sch && sch !== 'all' && sch !== '' && ((o.data.school||'').toLowerCase() !== sch)) return false; if(prep && !o.data.prepared) return false; if(sterm && !((String(o.data.name||'') + ' ' + String(o.data.notes||'')).toLowerCase().includes(sterm))) return false; return true; }); filtered.sort((a,b)=>{ if(sort === 'level') return (parseInt(a.data.level||0,10) - parseInt(b.data.level||0,10)); if(sort === 'school') return String((a.data.school||'')).localeCompare(String(b.data.school||'')); return String((a.data.name||'')).localeCompare(String(b.data.name||'')); }); container.innerHTML = ''; filtered.forEach(o=> container.appendChild(o.row)); }
+
+      // --- Slot presets helpers ---
+      function fullCasterSlots(lvl){ const table={1:[2,0,0,0,0,0,0,0,0],2:[3,0,0,0,0,0,0,0,0],3:[4,2,0,0,0,0,0,0,0],4:[4,3,0,0,0,0,0,0,0],5:[4,3,2,0,0,0,0,0,0],6:[4,3,3,0,0,0,0,0,0],7:[4,3,3,1,0,0,0,0,0],8:[4,3,3,2,0,0,0,0,0],9:[4,3,3,3,1,0,0,0,0],10:[4,3,3,3,2,0,0,0,0],11:[4,3,3,3,2,1,0,0,0],12:[4,3,3,3,2,1,0,0,0],13:[4,3,3,3,2,1,1,0,0],14:[4,3,3,3,2,1,1,1,0],15:[4,3,3,3,2,1,1,1,1],16:[4,3,3,3,3,2,1,1,1],17:[4,3,3,3,3,2,2,1,1],18:[4,3,3,3,3,3,2,2,1],19:[4,3,3,3,3,3,3,2,2],20:[4,3,3,3,3,3,3,3,3]}; return table[Math.min(20,Math.max(1,lvl))]||table[1]; }
+
+      function warlockSlots(lvl){ const map={1:[1,0,0,0,0,0,0,0,0],2:[2,0,0,0,0,0,0,0,0],3:[2,0,0,0,0,0,0,0,0],4:[2,0,0,0,0,0,0,0,0],5:[2,0,0,0,0,0,0,0,0],6:[2,0,0,0,0,0,0,0,0],7:[2,1,0,0,0,0,0,0,0],8:[2,2,0,0,0,0,0,0,0],9:[2,2,1,0,0,0,0,0,0],10:[2,2,2,0,0,0,0,0,0],11:[2,2,2,1,0,0,0,0,0],12:[2,2,2,1,0,0,0,0,0],13:[2,2,2,1,1,0,0,0,0],14:[2,2,2,1,1,0,0,0,0],15:[2,2,2,1,1,1,0,0,0],16:[2,2,2,1,1,1,0,0,0],17:[2,2,2,1,1,1,1,0,0],18:[2,2,2,1,1,1,1,1,0],19:[2,2,2,1,1,1,1,1,1],20:[2,2,2,2,1,1,1,1,1]}; return map[Math.min(20,Math.max(1,lvl))]||map[1]; }
+
+      function applySlotPreset(){ const type = document.getElementById('casterType')?.value || 'full'; const level = Math.min(20, Math.max(1, parseInt(document.getElementById('casterLevel')?.value,10) || 1)); let slots = []; if(type==='full') slots = fullCasterSlots(level); else if(type==='half') slots = fullCasterSlots(level).map(v=>Math.floor(v/2)); else if(type==='third') slots = fullCasterSlots(level).map(v=>Math.floor(v/3)); else if(type==='warlock') slots = warlockSlots(level); for(let i=1;i<=9;i++){ setValue(`slotMax${i}`, slots[i-1]||0); if(document.getElementById('refillSlots')?.checked) setValue(`slotCur${i}`, slots[i-1]||0); } recalc(); }
+      document.getElementById('applyPreset')?.addEventListener('click', applySlotPreset);
+
+      // --- Wiring on DOMContentLoaded ---
+      document.addEventListener('DOMContentLoaded', async ()=>{
+        buildSkillsAndSaves();
+        buildSlotsTable();
+        setupTabsHashPersistence();
+        setupSkillFilter();
+        setupTheme();
+        setupHpButtons();
+        setupPills();
+        setupImportExport();
+        setupRepeaters();
+        setupMobileCollapsibles();
+        setupGeneralRecalc();
+        setupBulkSelection();
+
+        // Tooltip Plugin initialization
+        if(typeof tippy !== 'undefined') tippy('[data-tippy]', { theme: 'light-border', arrow: true, delay: [100,50] });
+
+        // AI Buttons wiring
+        document.getElementById('genAbilitiesBtn')?.addEventListener('click', ()=> generateAbilities(document.getElementById('aiSeed')?.value));
+        document.getElementById('genClassBtn')?.addEventListener('click', ()=> generateClass(document.getElementById('aiSeed')?.value));
+        document.getElementById('genSpellsBtn')?.addEventListener('click', ()=> generateSpells(document.getElementById('aiSeed')?.value, 6));
+        document.getElementById('genItemsBtn')?.addEventListener('click', ()=> generateItems(document.getElementById('aiSeed')?.value, 6));
+        document.getElementById('genFeatsBtn')?.addEventListener('click', ()=> generateFeats(document.getElementById('aiSeed')?.value, 3));
+        document.getElementById('genPortraitBtn')?.addEventListener('click', ()=> generatePortraitSeed(document.getElementById('aiSeed')?.value));
+        document.getElementById('genBackstoryBtn')?.addEventListener('click', ()=> generateBackstorySeed(document.getElementById('aiSeed')?.value));
+        document.getElementById('genAllBtn')?.addEventListener('click', generateEntireCharacter);
+        document.getElementById('genQuickBtn')?.addEventListener('click', ()=>{ document.getElementById('aiSeed').value=''; generateEntireCharacter(); });
+
+        // v6 existing AI wiring
+        document.getElementById('randomizeBtn')?.addEventListener('click', randomizeSheet);
+        document.getElementById('newSheetBtn')?.addEventListener('click', clearSheet);
+        document.getElementById('generatePortraitBtn')?.addEventListener('click', generatePortrait);
+        document.getElementById('aiBackstoryBtn')?.addEventListener('click', generateBackstory);
+        document.getElementById('aiAttackNotesBtn')?.addEventListener('click', generateFlavorText);
+
+        // Settings modal wiring
+        document.getElementById('openSettingsBtn')?.addEventListener('click', ()=> document.getElementById('settingsOverlay').style.display='flex');
+        document.getElementById('closeSettingsBtn')?.addEventListener('click', ()=> document.getElementById('settingsOverlay').style.display='none');
+        document.getElementById('saveSettingsBtn')?.addEventListener('click', saveSettingsBtnHandler);
+        document.getElementById('saveCloudBtn')?.addEventListener('click', async ()=>{ await saveSettings(); await saveSheetToCloud(); alert(root.kv ? 'Saved to cloud' : 'Saved locally'); });
+        document.getElementById('loadCloudBtn')?.addEventListener('click', async ()=>{ await loadSheetFromCloud(); await loadSettingsFromStorage(); alert('Loaded sheet and settings'); });
+
+        // Filters wiring
+        document.getElementById('fLevel')?.addEventListener('change', applyFilters);
+        document.getElementById('fSchool')?.addEventListener('change', applyFilters);
+        document.getElementById('fPrepared')?.addEventListener('change', applyFilters);
+        document.getElementById('fSearch')?.addEventListener('input', applyFilters);
+        document.getElementById('fSort')?.addEventListener('change', applyFilters);
+        document.getElementById('clearFilters')?.addEventListener('click', ()=>{ document.getElementById('fLevel').value='all'; document.getElementById('fSchool').value='all'; document.getElementById('fPrepared').checked=false; document.getElementById('fSearch').value=''; applyFilters(); });
+
+        // Import file input
+        document.getElementById('importJsonFile')?.addEventListener('change', function(){ if(this.files && this.files[0]) importJsonFile(this.files[0]); this.value=''; });
+
+        // Repeaters sample
+        addRepeaterRow('spells',{level:0,name:'Prestidigitation',school:'Transmutation',castTime:'1 action',range:'10 ft',components:'V,S',duration:'Instant',prepared:true,notes:'Minor magical effects'});
+        addRepeaterRow('spells',{level:1,name:'Healing Word',school:'Evocation',castTime:'Bonus action',range:'60 ft',components:'V',duration:'Instant',prepared:false,notes:''});
+
+        // Load Data from KV
+        await loadFromKV();
+        try{ if(getSettings().autoPreset) applySlotPreset(); }catch(e){ console.warn('Auto preset failed', e); }
+      });
+    </script>
+  </body>
+</html>

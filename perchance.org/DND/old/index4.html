@@ -1,0 +1,1169 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-parchment="off">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>D&D 5e Character Sheet — Index4</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f%5B%5D=satoshi@400,500,700,900&f%5B%5D=clash_display@500,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Base theme copied from index3 and tightened for index4 mobile compactness */
+      :root {
+        --bg: #12100e;
+        --surface: #1d1915;
+        --surface-2: #27211c;
+        --surface-3: #322a24;
+        --border: rgba(255, 240, 216, 0.14);
+        --border-strong: rgba(255, 240, 216, 0.26);
+        --text: #f3eadc;
+        --muted: #b8aa97;
+        --faint: #8e8275;
+        --accent: #c16a2e;
+        --accent-2: #f2b65f;
+        --success: #4fa36c;
+        --warning: #d39a39;
+        --danger: #cd5f5f;
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 22px;
+        --shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      }
+      [data-theme="light"] {
+        --bg: #ece2d1;
+        --surface: #fbf5e9;
+        --surface-2: #f7eddf;
+        --surface-3: #efe0cb;
+        --border: rgba(61, 45, 27, 0.18);
+        --border-strong: rgba(61, 45, 27, 0.3);
+        --text: #2b1f13;
+        --muted: #705a42;
+        --faint: #99846f;
+        --accent: #a54f1d;
+        --accent-2: #d88a39;
+        --success: #2f7d46;
+        --warning: #99601f;
+        --danger: #9f3c3c;
+        --shadow: 0 12px 30px rgba(40, 26, 12, 0.12);
+      }
+      [data-parchment="on"] {
+        --bg: #e6d4b8;
+        --surface: #f4e6cf;
+        --surface-2: #efddc2;
+        --surface-3: #e7d2b1;
+        --border: rgba(70, 43, 18, 0.22);
+        --border-strong: rgba(70, 43, 18, 0.34);
+        --text: #2c1a0f;
+        --muted: #6a4e34;
+        --faint: #8c6d4f;
+        --accent: #8d3f1b;
+        --accent-2: #bc7335;
+        --shadow: 0 10px 25px rgba(67, 43, 22, 0.15);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        min-height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: "Satoshi", system-ui, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(241, 183, 101, 0.12), transparent 35%),
+          radial-gradient(circle at 85% 5%, rgba(141, 63, 27, 0.14), transparent 30%), var(--bg);
+        color: var(--text);
+        font-size: 16px;
+        line-height: 1.45;
+      }
+      .app-shell {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 18px;
+      }
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand-mark {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+        font-weight: 900;
+      }
+      .brand h1 {
+        margin: 0;
+        font-family: "Clash Display", "Satoshi", sans-serif;
+        font-size: 1.25rem;
+      }
+      .subtle {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .grid-main {
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr) 360px;
+        gap: 14px;
+      }
+      @media (max-width: 1200px) {
+        .grid-main {
+          grid-template-columns: 1fr;
+        }
+      }
+      .panel {
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--surface) 86%, black 14%),
+          var(--surface-2)
+        );
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+      }
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 14px;
+      }
+      .panel-title {
+        margin: 0;
+        font-size: 0.88rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.11em;
+        font-weight: 800;
+      }
+      .panel-body {
+        padding: 12px 14px 16px;
+      }
+      .btn-sheet {
+        border: 1px solid var(--border-strong);
+        background: var(--surface-3);
+        color: var(--text);
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-weight: 700;
+      }
+      .btn-accent {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      .sheet-input,
+      .form-control,
+      .form-select {
+        background-color: var(--surface-3) !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text) !important;
+        border-radius: 10px !important;
+        min-height: 40px;
+      }
+      .ability-grid {
+        display: grid;
+        gap: 10px;
+      }
+      .ability-card {
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        border-radius: 12px;
+        padding: 10px;
+        text-align: center;
+      }
+      .ability-score-input {
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 900;
+        padding: 6px;
+      }
+      .ability-mod {
+        margin-top: 6px;
+        font-weight: 900;
+      }
+      .derived-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 10px;
+      }
+      .mini-stat {
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        text-align: center;
+      }
+      .tiny {
+        font-size: 0.75rem;
+        color: var(--faint);
+        text-transform: uppercase;
+      }
+      .inline-metric {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--surface-3);
+      }
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .tab-btn {
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 7px 11px;
+        font-weight: 700;
+      }
+      .tab-btn.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+      .list-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--surface-3);
+      }
+      .list-row {
+        display: grid;
+        grid-template-columns: 26px 26px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 8px 10px;
+        border-top: 1px solid var(--border);
+      }
+      .list-row:first-child {
+        border-top: 0;
+      }
+      .score-badge {
+        min-width: 44px;
+        text-align: right;
+        font-weight: 900;
+      }
+      .repeat-table {
+        display: grid;
+        gap: 8px;
+      }
+      .repeat-row {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-3);
+        padding: 8px;
+        display: grid;
+        gap: 8px;
+      }
+      .repeat-grid-attack {
+        grid-template-columns: 1.2fr 0.9fr 1fr 0.9fr auto;
+        align-items: end;
+      }
+      .repeat-grid-item {
+        grid-template-columns: 1.4fr 0.7fr 0.8fr 0.8fr 0.9fr auto;
+        align-items: end;
+      }
+      .repeat-grid-spell {
+        grid-template-columns: 0.6fr 1.2fr 0.7fr 0.7fr 0.7fr 0.6fr 0.8fr auto;
+        align-items: end;
+      }
+      .repeat-grid-feat {
+        grid-template-columns: 1fr 0.7fr 1.6fr auto;
+      }
+      .repeat-flags {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .repeat-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* Compact mobile repeater layout */
+      @media (max-width: 640px) {
+        .repeat-row {
+          padding: 6px;
+          gap: 6px;
+        }
+        .repeat-row .field {
+          margin-bottom: 0;
+        }
+        .repeat-row .field label {
+          display: none;
+        }
+        .repeat-row .form-control {
+          min-height: 34px;
+          font-size: 0.92rem;
+        }
+        .repeat-grid-attack {
+          grid-template-columns: 1fr 0.9fr auto;
+        }
+        .repeat-grid-item {
+          grid-template-columns: 1fr 0.8fr auto;
+        }
+        .repeat-grid-spell {
+          grid-template-columns: 1fr 1fr auto;
+        }
+        .repeat-grid-feat {
+          grid-template-columns: 1fr auto;
+        }
+        .btn-sheet {
+          padding: 6px 8px;
+          font-size: 0.85rem;
+        }
+      }
+
+      @media (print) {
+        .toolbar,
+        .panel-collapse-btn,
+        .btn-sheet,
+        #importJsonFile {
+          display: none !important;
+        }
+        .panel {
+          box-shadow: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell" id="dnd-sheet">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-mark">D20</div>
+          <div>
+            <h1>D&D 5e Character Sheet</h1>
+            <div class="subtle">Compact mobile repeaters + spell filters</div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn-sheet" id="newSheetBtn">New</button>
+          <button class="btn-sheet" id="exportJsonBtn">Export</button>
+          <button class="btn-sheet" id="importJsonBtn">Import</button>
+          <input type="file" id="importJsonFile" accept="application/json" hidden />
+          <button class="btn-sheet btn-accent" id="randomizeBtn">Random</button>
+          <button class="btn-sheet" id="printBtn">Print</button>
+        </div>
+      </div>
+
+      <div class="grid-main">
+        <!-- Left -->
+        <aside class="section-stack sticky-side">
+          <section class="panel">
+            <div class="panel-header"><h2 class="panel-title">Abilities</h2></div>
+            <div class="panel-body">
+              <div class="ability-grid">
+                <div class="ability-card">
+                  <h3>Strength</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-score-input autosync"
+                    id="strScore"
+                    data-ability="str"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-str">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Dexterity</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-score-input autosync"
+                    id="dexScore"
+                    data-ability="dex"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-dex">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Constitution</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-score-input autosync"
+                    id="conScore"
+                    data-ability="con"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-con">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Intelligence</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-score-input autosync"
+                    id="intScore"
+                    data-ability="int"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-int">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Wisdom</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-score-input autosync"
+                    id="wisScore"
+                    data-ability="wis"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-wis">+0</div>
+                </div>
+                <div class="ability-card">
+                  <h3>Charisma</h3>
+                  <input
+                    type="number"
+                    class="form-control ability-score-input autosync"
+                    id="chaScore"
+                    data-ability="cha"
+                    value="10"
+                  />
+                  <div class="ability-mod" id="mod-cha">+0</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header"><h2 class="panel-title">Derived</h2></div>
+            <div class="panel-body">
+              <div class="derived-row">
+                <div class="mini-stat">
+                  <div class="tiny">Proficiency</div>
+                  <input
+                    type="number"
+                    class="form-control autosync text-center"
+                    id="profBonus"
+                    value="2"
+                    min="0"
+                  />
+                </div>
+                <div class="mini-stat">
+                  <div class="tiny">Passive Perception</div>
+                  <div class="value" id="passivePerception">10</div>
+                </div>
+                <div class="mini-stat">
+                  <div class="tiny">Spell Save DC</div>
+                  <div class="value" id="spellSaveDc">10</div>
+                </div>
+              </div>
+              <div class="field mt-2">
+                <label
+                  ><input type="checkbox" class="form-check-input autosync" id="jackOfAllTrades" />
+                  Jack of All Trades</label
+                >
+              </div>
+              <div class="inline-metric mt-2">
+                <span>Initiative</span><strong id="initiativeDerived">+0</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header"><h2 class="panel-title">Conditions</h2></div>
+            <div class="panel-body">
+              <div class="status-pills">
+                <button class="pill pill-bad toggle-pill" type="button" data-target="statusBlinded">
+                  Blinded
+                </button>
+                <button
+                  class="pill pill-bad toggle-pill"
+                  type="button"
+                  data-target="statusPoisoned"
+                >
+                  Poisoned
+                </button>
+                <button
+                  class="pill pill-warn toggle-pill"
+                  type="button"
+                  data-target="statusGrappled"
+                >
+                  Grappled
+                </button>
+              </div>
+              <input type="hidden" id="statusBlinded" value="false" />
+              <input type="hidden" id="statusPoisoned" value="false" />
+              <input type="hidden" id="statusGrappled" value="false" />
+            </div>
+          </section>
+        </aside>
+
+        <!-- Center -->
+        <main class="section-stack">
+          <section class="panel">
+            <div class="panel-header"><h2 class="panel-title">Character</h2></div>
+            <div class="panel-body">
+              <div class="row g-2">
+                <div class="col-md-4 field">
+                  <label>Character Name</label
+                  ><input type="text" class="form-control autosync" id="charName" />
+                </div>
+                <div class="col-md-3 field">
+                  <label>Class & Level</label
+                  ><input
+                    type="text"
+                    class="form-control autosync"
+                    id="classLevel"
+                    placeholder="Bard 5"
+                  />
+                </div>
+                <div class="col-md-2 field">
+                  <label>Race</label><input type="text" class="form-control autosync" id="race" />
+                </div>
+                <div class="col-md-3 field">
+                  <label>Background</label
+                  ><input type="text" class="form-control autosync" id="background" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header"><h2 class="panel-title">Workspace</h2></div>
+            <div class="panel-body">
+              <div class="tabs" role="tablist">
+                <button class="tab-btn" data-tab="tab-skills">Skills</button>
+                <button class="tab-btn" data-tab="tab-spellbook">Spellbook</button>
+                <button class="tab-btn active" data-tab="tab-attacks">Attacks</button>
+                <button class="tab-btn" data-tab="tab-inventory">Inventory</button>
+              </div>
+
+              <div class="tab-panel" id="tab-skills">
+                <div class="search-box">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="skillSearch"
+                    placeholder="Filter skills..."
+                  />
+                </div>
+                <div class="list-card" id="skillsList"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-spellbook">
+                <!-- Filters -->
+                <div class="row g-2 align-items-end">
+                  <div class="col-auto field">
+                    <label>Level</label>
+                    <select id="spellFilterLevel" class="form-select">
+                      <option value="all">All</option>
+                      <option value="0">Cantrip (0)</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                    </select>
+                  </div>
+                  <div class="col-auto field">
+                    <label>School</label>
+                    <select id="spellFilterSchool" class="form-select">
+                      <option value="all">All</option>
+                      <option>Abjuration</option>
+                      <option>Conjuration</option>
+                      <option>Divination</option>
+                      <option>Enchantment</option>
+                      <option>Evocation</option>
+                      <option>Illusion</option>
+                      <option>Necromancy</option>
+                      <option>Transmutation</option>
+                    </select>
+                  </div>
+                  <div class="col-auto field">
+                    <label>&nbsp;</label>
+                    <div><input type="checkbox" id="spellFilterPrepared" /> Prepared only</div>
+                  </div>
+                  <div class="col-auto field">
+                    <label>Search</label
+                    ><input
+                      id="spellFilterSearch"
+                      class="form-control"
+                      placeholder="name or notes"
+                    />
+                  </div>
+                  <div class="col-auto field">
+                    <label>&nbsp;</label
+                    ><button id="spellFilterClear" class="btn-sheet">Clear</button>
+                  </div>
+                </div>
+
+                <!-- Slot presets -->
+                <div class="row g-2 align-items-end mt-2">
+                  <div class="col-auto field">
+                    <label>Preset</label>
+                    <select id="slotPresetType" class="form-select">
+                      <option value="none">None</option>
+                      <option value="full">Full Caster</option>
+                      <option value="half">Half Caster</option>
+                    </select>
+                  </div>
+                  <div class="col-auto field">
+                    <label>Caster Level</label
+                    ><input
+                      id="casterLevel"
+                      type="number"
+                      class="form-control"
+                      min="1"
+                      max="20"
+                      value="1"
+                    />
+                  </div>
+                  <div class="col-auto field">
+                    <label>&nbsp;</label
+                    ><button id="applySlotPresetBtn" class="btn-sheet btn-accent">
+                      Apply Slots
+                    </button>
+                  </div>
+                  <div class="col-auto field">
+                    <label>&nbsp;</label><input type="checkbox" id="refillSlots" /> Refill current
+                  </div>
+                </div>
+
+                <table class="compact-table mt-2">
+                  <thead>
+                    <tr>
+                      <th>Lvl</th>
+                      <th>Current</th>
+                      <th>Max</th>
+                    </tr>
+                  </thead>
+                  <tbody id="slotsTableBody"></tbody>
+                </table>
+
+                <div class="repeat-controls mt-2">
+                  <div class="tiny">Spellbook</div>
+                  <button id="addSpellBtn" class="btn-sheet">Add Spell</button>
+                </div>
+                <div class="repeat-table mt-2" id="spellsRepeater"></div>
+              </div>
+
+              <div class="tab-panel active" id="tab-attacks">
+                <div class="repeat-controls">
+                  <div class="tiny">Attacks</div>
+                  <button id="addAttackBtn" class="btn-sheet">Add Attack</button>
+                </div>
+                <div class="repeat-table mt-2" id="attacksRepeater"></div>
+              </div>
+
+              <div class="tab-panel" id="tab-inventory">
+                <div class="repeat-controls">
+                  <div class="tiny">Items</div>
+                  <button id="addItemBtn" class="btn-sheet">Add Item</button>
+                </div>
+                <div class="repeat-table mt-2" id="itemsRepeater"></div>
+                <div class="inline-metric mt-2">
+                  <span>Total Carried Weight</span><strong id="inventoryWeightTotal">0 lb</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- Right -->
+        <aside class="section-stack sticky-side">
+          <section class="panel">
+            <div class="panel-header"><h2 class="panel-title">Hit Points</h2></div>
+            <div class="panel-body">
+              <div class="field">
+                <label>HP Max</label
+                ><input id="hpMax" class="form-control autosync" type="number" value="10" />
+              </div>
+              <div class="field">
+                <label>HP Current</label
+                ><input id="hpCurrent" class="form-control autosync" type="number" value="10" />
+              </div>
+              <div class="hp-bar" aria-hidden="true"><div class="hp-fill" id="hpFill"></div></div>
+              <div class="footer-note" id="hpSummary">10 / 10 HP</div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header"><h2 class="panel-title">Equipment</h2></div>
+            <div class="panel-body">
+              <div class="coin-grid">
+                <div class="field">
+                  <label>GP</label
+                  ><input id="gp" class="form-control autosync" type="number" value="0" />
+                </div>
+              </div>
+              <div class="field">
+                <label>Notes</label
+                ><textarea id="equipment" class="form-control autosync"></textarea>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+
+    <script>
+      const ABILITIES = [
+        { key: "str", name: "Strength" },
+        { key: "dex", name: "Dexterity" },
+        { key: "con", name: "Constitution" },
+        { key: "int", name: "Intelligence" },
+        { key: "wis", name: "Wisdom" },
+        { key: "cha", name: "Charisma" }
+      ];
+      const SKILLS = [
+        { key: "acrobatics", name: "Acrobatics", ability: "dex" },
+        { key: "arcana", name: "Arcana", ability: "int" },
+        { key: "athletics", name: "Athletics", ability: "str" },
+        { key: "history", name: "History", ability: "int" },
+        { key: "perception", name: "Perception", ability: "wis" },
+        { key: "stealth", name: "Stealth", ability: "dex" }
+      ];
+
+      function abilityMod(score) {
+        const s = parseInt(score, 10);
+        if (isNaN(s)) return 0;
+        return Math.floor((s - 10) / 2);
+      }
+      function formatMod(n) {
+        return `${n >= 0 ? "+" : ""}${n}`;
+      }
+      function num(id, fallback = 0) {
+        const v = parseFloat(document.getElementById(id)?.value);
+        return Number.isFinite(v) ? v : fallback;
+      }
+      function setValue(id, val) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.value = val;
+      }
+
+      /* Repeat helpers */
+      function createRowInput(label, field, value = "", type = "text", min = "") {
+        return `<div class="field mb-0"><label>${label}</label><input type="${type}" ${min !== "" ? `min="${min}"` : ""} class="form-control autosync" data-field="${field}" placeholder="${label}" value="${String(value).replace(/"/g, "&quot;")}"/></div>`;
+      }
+
+      function createRepeaterRow(kind, data = {}) {
+        const row = document.createElement("div");
+        row.className = "repeat-row";
+        if (kind === "attacks") {
+          row.innerHTML = `<div class="repeat-grid-attack">${createRowInput("Name", "name", data.name || "")}${createRowInput("Bonus", "bonus", data.bonus || "")}${createRowInput("Damage", "damage", data.damage || "")}${createRowInput("Type", "type", data.type || "")}<button class="btn-sheet btn-danger" data-remove-row="attacks">Remove</button></div><div class="field mb-0"><label>Notes</label><textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea></div>`;
+        }
+        if (kind === "items") {
+          row.innerHTML = `<div class="repeat-grid-item">${createRowInput("Item", "name", data.name || "")}${createRowInput("Qty", "qty", data.qty ?? 1, "number", 0)}${createRowInput("Wt Each", "weight", data.weight ?? 0, "number", 0)}${createRowInput("Cost", "cost", data.cost || "")}${createRowInput("Total Wt", "total", data.total || "", "text")}<button class="btn-sheet btn-danger" data-remove-row="items">Remove</button></div><div class="field mb-0"><label>Description</label><textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea></div>`;
+        }
+        if (kind === "spells") {
+          row.innerHTML = `<div class="repeat-grid-spell">${createRowInput("Lvl", "level", data.level ?? 0, "number", 0)}${createRowInput("Name", "name", data.name || "")}${createRowInput("School", "school", data.school || "")}${createRowInput("Cast Time", "castTime", data.castTime || "")}${createRowInput("Range", "range", data.range || "")}${createRowInput("Components", "components", data.components || "")}${createRowInput("Duration", "duration", data.duration || "")}<button class="btn-sheet btn-danger" data-remove-row="spells">Remove</button></div><div class="repeat-flags"><label><input type="checkbox" class="form-check-input autosync" data-field="prepared" ${data.prepared ? "checked" : ""}/> Prepared</label><label><input type="checkbox" class="form-check-input autosync" data-field="ritual" ${data.ritual ? "checked" : ""}/> Ritual</label></div><div class="field mb-0"><label>Notes</label><textarea class="form-control autosync" data-field="notes">${data.notes || ""}</textarea></div>`;
+        }
+        return row;
+      }
+
+      function addRepeaterRow(kind, data = {}) {
+        const host = document.getElementById(`${kind}Repeater`);
+        if (!host) return;
+        host.appendChild(createRepeaterRow(kind, data));
+        applySpellFilters();
+      }
+      function serializeRepeater(kind) {
+        const host = document.getElementById(`${kind}Repeater`);
+        if (!host) return [];
+        return Array.from(host.children).map((row) => {
+          const obj = {};
+          row.querySelectorAll("[data-field]").forEach((el) => {
+            const k = el.dataset.field;
+            if (el.type === "checkbox") obj[k] = el.checked;
+            else obj[k] = el.value;
+          });
+          return obj;
+        });
+      }
+      function hydrateRepeater(kind, rows) {
+        const host = document.getElementById(`${kind}Repeater`);
+        if (!host) return;
+        host.innerHTML = "";
+        const source = Array.isArray(rows) && rows.length ? rows : [{}];
+        source.forEach((it) => addRepeaterRow(kind, it));
+      }
+
+      function collectSheetData() {
+        const data = {};
+        document.querySelectorAll("input,textarea,select").forEach((el) => {
+          if (!el.id) return;
+          if (el.type === "checkbox") data[el.id] = el.checked;
+          else data[el.id] = el.value;
+        });
+        data.repeaters = {
+          attacks: serializeRepeater("attacks"),
+          items: serializeRepeater("items"),
+          spells: serializeRepeater("spells")
+        };
+        return data;
+      }
+      function applySheetData(data) {
+        Object.entries(data || {}).forEach(([id, value]) => {
+          if (id === "repeaters") return;
+          const el = document.getElementById(id);
+          if (!el) return;
+          if (el.type === "checkbox") el.checked = !!value;
+          else el.value = value;
+        });
+        const repeat = data?.repeaters || {};
+        ["attacks", "items", "spells"].forEach((k) => hydrateRepeater(k, repeat[k]));
+        recalc();
+      }
+
+      function buildSkills() {
+        const skillsList = document.getElementById("skillsList");
+        skillsList.innerHTML = SKILLS.map(
+          (s) =>
+            `<label class="list-row" data-skill-name="${s.name.toLowerCase()}"><input type="checkbox" class="form-check-input skill-prof autosync" id="prof_${s.key}" data-ability="${s.ability}"/><input type="checkbox" class="form-check-input autosync" id="exp_${s.key}" data-expertise="${s.key}"/><div><div>${s.name}</div><small>${s.ability.toUpperCase()}</small></div><div class="score-badge" id="skill-${s.key}">+0</div></label>`
+        ).join("");
+      }
+
+      function buildSlotsTable() {
+        const tbody = document.getElementById("slotsTableBody");
+        tbody.innerHTML = "";
+        for (let i = 1; i <= 9; i++) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${i}</td><td><input type="number" min="0" class="form-control autosync" id="slotCur${i}" value="0"/></td><td><input type="number" min="0" class="form-control autosync" id="slotMax${i}" value="0"/></td>`;
+          tbody.appendChild(tr);
+        }
+      }
+
+      function recalc() {
+        const prof = Math.max(0, Math.floor(num("profBonus", 0)));
+        const jack = document.getElementById("jackOfAllTrades")?.checked;
+        const halfProf = Math.floor(prof / 2);
+        const mods = {};
+        ABILITIES.forEach((ab) => {
+          const sc = num(`${ab.key}Score`, 10);
+          mods[ab.key] = abilityMod(sc);
+          const out = document.getElementById(`mod-${ab.key}`);
+          if (out) out.textContent = formatMod(mods[ab.key]);
+        });
+        SKILLS.forEach((skill) => {
+          const p = document.getElementById(`prof_${skill.key}`)?.checked;
+          const e = document.getElementById(`exp_${skill.key}`)?.checked;
+          let bonus = mods[skill.ability] || 0;
+          if (p) bonus += prof * (e ? 2 : 1);
+          else if (jack) bonus += halfProf;
+          const out = document.getElementById(`skill-${skill.key}`);
+          if (out) out.textContent = formatMod(bonus);
+        });
+        updateHpBar();
+        updateItemWeights();
+        updateSpellbookSummary();
+        applySpellFilters();
+      }
+
+      function updateHpBar() {
+        const max = Math.max(1, num("hpMax", 1));
+        let cur = num("hpCurrent", max);
+        cur = Math.max(0, Math.min(max, cur));
+        setValue("hpCurrent", cur);
+        const pct = Math.max(0, Math.min(100, (cur / max) * 100));
+        document.getElementById("hpFill").style.width = `${pct}%`;
+        document.getElementById("hpSummary").textContent = `${cur} / ${max} HP`;
+      }
+
+      function updateItemWeights() {
+        let sum = 0;
+        document.querySelectorAll("#itemsRepeater .repeat-row").forEach((row) => {
+          const qty = Math.max(0, parseFloat(row.querySelector('[data-field="qty"]')?.value) || 0);
+          const wt = Math.max(
+            0,
+            parseFloat(row.querySelector('[data-field="weight"]')?.value) || 0
+          );
+          const total = qty * wt;
+          const out = row.querySelector('[data-field="total"]');
+          if (out) out.value = `${total.toFixed(2).replace(/\.00$/, "")} lb`;
+          sum += total;
+        });
+        document.getElementById("inventoryWeightTotal").textContent =
+          `${sum.toFixed(2).replace(/\.00$/, "")} lb`;
+      }
+
+      function updateSpellbookSummary() {
+        let prepared = 0;
+        document.querySelectorAll('#spellsRepeater [data-field="prepared"]').forEach((cb) => {
+          if (cb.checked) prepared++;
+        });
+        const level = Math.max(1, Math.floor(num("level", 1)));
+        const bonus = Math.floor(num("preparedBonus", 0));
+        const spellMod = 0;
+        const limit = Math.max(0, level + spellMod + bonus);
+        document.getElementById("preparedCount")?.textContent = `${prepared} / ${limit}`;
+        let curTotal = 0,
+          maxTotal = 0;
+        for (let i = 1; i <= 9; i++) {
+          curTotal += Math.max(0, Math.floor(num(`slotCur${i}`, 0)));
+          maxTotal += Math.max(0, Math.floor(num(`slotMax${i}`, 0)));
+        }
+        document.getElementById("slotSummary")?.textContent = `${curTotal} / ${maxTotal}`;
+      }
+
+      /* Spell filters */
+      function applySpellFilters() {
+        const levelSel = document.getElementById("spellFilterLevel").value;
+        const schoolSel = document.getElementById("spellFilterSchool").value.toLowerCase();
+        const preparedOnly = document.getElementById("spellFilterPrepared")?.checked;
+        const search = document.getElementById("spellFilterSearch")?.value.trim().toLowerCase();
+        document.querySelectorAll("#spellsRepeater .repeat-row").forEach((row) => {
+          let lvl = parseInt(row.querySelector('[data-field="level"]')?.value, 10);
+          if (isNaN(lvl)) lvl = 0;
+          const school = (row.querySelector('[data-field="school"]')?.value || "").toLowerCase();
+          const name = (row.querySelector('[data-field="name"]')?.value || "").toLowerCase();
+          const notes = (row.querySelector('[data-field="notes"]')?.value || "").toLowerCase();
+          const prepared = row.querySelector('[data-field="prepared"]')?.checked;
+          let ok = true;
+          if (levelSel !== "all" && parseInt(levelSel, 10) !== lvl) ok = false;
+          if (schoolSel !== "all" && schoolSel !== "" && schoolSel !== school) ok = false;
+          if (preparedOnly && !prepared) ok = false;
+          if (search && !(name + notes).includes(search)) ok = false;
+          row.style.display = ok ? "" : "none";
+        });
+      }
+
+      /* Slot presets: compact full-caster table (approximate) */
+      const fullCasterSlots = {
+        1: [2, 0, 0, 0, 0, 0, 0, 0, 0],
+        2: [3, 0, 0, 0, 0, 0, 0, 0, 0],
+        3: [4, 2, 0, 0, 0, 0, 0, 0, 0],
+        4: [4, 3, 0, 0, 0, 0, 0, 0, 0],
+        5: [4, 3, 2, 0, 0, 0, 0, 0, 0],
+        6: [4, 3, 3, 0, 0, 0, 0, 0, 0],
+        7: [4, 3, 3, 1, 0, 0, 0, 0, 0],
+        8: [4, 3, 3, 2, 0, 0, 0, 0, 0],
+        9: [4, 3, 3, 3, 1, 0, 0, 0, 0],
+        10: [4, 3, 3, 3, 2, 0, 0, 0, 0],
+        11: [4, 3, 3, 3, 2, 1, 0, 0, 0],
+        12: [4, 3, 3, 3, 2, 1, 0, 0, 0],
+        13: [4, 3, 3, 3, 2, 1, 1, 0, 0],
+        14: [4, 3, 3, 3, 2, 1, 1, 1, 0],
+        15: [4, 3, 3, 3, 2, 1, 1, 1, 1],
+        16: [4, 3, 3, 3, 3, 2, 1, 1, 1],
+        17: [4, 3, 3, 3, 3, 2, 2, 1, 1],
+        18: [4, 3, 3, 3, 3, 3, 2, 2, 1],
+        19: [4, 3, 3, 3, 3, 3, 3, 2, 2],
+        20: [4, 3, 3, 3, 3, 3, 3, 3, 3]
+      };
+
+      function applySlotPreset() {
+        const type = document.getElementById("slotPresetType").value;
+        const lvl = Math.min(
+          20,
+          Math.max(1, parseInt(document.getElementById("casterLevel").value, 10) || 1)
+        );
+        if (type === "none") return;
+        let arr = fullCasterSlots[lvl] || fullCasterSlots[1];
+        if (type === "half") {
+          arr = arr.map((v) => Math.floor(v / 2));
+        } // half caster approx
+        for (let i = 1; i <= 9; i++) {
+          setValue(`slotMax${i}`, arr[i - 1] || 0);
+          if (document.getElementById("refillSlots")?.checked)
+            setValue(`slotCur${i}`, arr[i - 1] || 0);
+        }
+        recalc();
+      }
+
+      /* Setup and UI wiring */
+      function setupTabs() {
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+            document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+            btn.classList.add("active");
+            const id = btn.dataset.tab;
+            document.getElementById(id)?.classList.add("active");
+            location.hash = id;
+          });
+        });
+        const fromHash = location.hash.replace("#", "");
+        if (fromHash && document.getElementById(fromHash)) {
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.toggle("active", b.dataset.tab === fromHash));
+          document
+            .querySelectorAll(".tab-panel")
+            .forEach((p) => p.classList.toggle("active", p.id === fromHash));
+        } else {
+          location.hash = "tab-attacks";
+        }
+      }
+
+      function setupGeneral() {
+        document.getElementById("exportJsonBtn").addEventListener("click", () => {
+          const data = collectSheetData();
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = `${data.charName || "character"}.json`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        });
+        document
+          .getElementById("importJsonBtn")
+          .addEventListener("click", () => document.getElementById("importJsonFile").click());
+        document.getElementById("importJsonFile").addEventListener("change", function () {
+          if (this.files && this.files[0]) {
+            const r = new FileReader();
+            r.onload = (e) => {
+              try {
+                applySheetData(JSON.parse(e.target.result));
+              } catch {
+                alert("Invalid JSON");
+              }
+            };
+            r.readAsText(this.files[0]);
+          }
+          this.value = "";
+        });
+        document.getElementById("randomizeBtn").addEventListener("click", randomizeSheet);
+        document.getElementById("newSheetBtn").addEventListener("click", clearSheet);
+        document.getElementById("printBtn").addEventListener("click", () => window.print());
+        document.getElementById("applySlotPresetBtn").addEventListener("click", applySlotPreset);
+        document.getElementById("spellFilterLevel").addEventListener("change", applySpellFilters);
+        document.getElementById("spellFilterSchool").addEventListener("change", applySpellFilters);
+        document
+          .getElementById("spellFilterPrepared")
+          .addEventListener("change", applySpellFilters);
+        document.getElementById("spellFilterSearch").addEventListener("input", applySpellFilters);
+        document.getElementById("spellFilterClear").addEventListener("click", () => {
+          document.getElementById("spellFilterSearch").value = "";
+          document.getElementById("spellFilterLevel").value = "all";
+          document.getElementById("spellFilterSchool").value = "all";
+          document.getElementById("spellFilterPrepared").checked = false;
+          applySpellFilters();
+        });
+
+        document.addEventListener("input", (e) => {
+          if (e.target.matches("input,textarea,select")) recalc();
+        });
+
+        document.addEventListener("click", (e) => {
+          const btn = e.target.closest("[data-remove-row]");
+          if (!btn) return;
+          const row = btn.closest(".repeat-row");
+          const kind = btn.dataset.removeRow;
+          row?.remove();
+          if (!document.querySelector(`#${kind}Repeater .repeat-row`)) addRepeaterRow(kind, {});
+          recalc();
+        });
+
+        document
+          .getElementById("addAttackBtn")
+          .addEventListener("click", () => addRepeaterRow("attacks", {}));
+        document
+          .getElementById("addItemBtn")
+          .addEventListener("click", () => addRepeaterRow("items", {}));
+        document
+          .getElementById("addSpellBtn")
+          .addEventListener("click", () => addRepeaterRow("spells", {}));
+        document
+          .getElementById("addItemBtn")
+          .addEventListener("click", () => addRepeaterRow("items", {}));
+
+        setupPills();
+        setupHpButtons();
+      }
+
+      function setupPills() {
+        document.querySelectorAll(".toggle-pill").forEach((btn) =>
+          btn.addEventListener("click", () => {
+            const t = document.getElementById(btn.dataset.target);
+            if (!t) return;
+            const next = !(t.value === "true");
+            t.value = String(next);
+            btn.classList.toggle("active", next);
+          })
+        );
+      }
+      function setupHpButtons() {
+        document.querySelectorAll("[data-hp-action]").forEach((btn) =>
+          btn.addEventListener("click", () => {
+            const delta = parseInt(btn.dataset.hpAction, 10) || 0;
+            const max = Math.max(1, num("hpMax", 1));
+            const current = Math.max(0, Math.min(max, num("hpCurrent", max) + delta));
+            setValue("hpCurrent", current);
+            recalc();
+          })
+        );
+      }
+
+      function clearSheet() {
+        document.querySelectorAll("input,textarea,select").forEach((el) => {
+          if (!el.id) return;
+          if (el.type === "checkbox") el.checked = false;
+          else if (el.type === "number") el.value = 0;
+          else el.value = "";
+        });
+        ["str", "dex", "con", "int", "wis", "cha"].forEach((a) => setValue(`${a}Score`, 10));
+        setValue("profBonus", 2);
+        setValue("hpMax", 10);
+        setValue("hpCurrent", 10);
+        setValue("level", 1);
+        buildSlotsTable();
+        hydrateRepeater("attacks", [{}]);
+        hydrateRepeater("items", [{}]);
+        hydrateRepeater("spells", []);
+        recalc();
+      }
+
+      function randomizeSheet() {
+        setValue(
+          "charName",
+          ["Arin", "Belwyn", "Cade", "Dorian", "Elira"][Math.floor(Math.random() * 5)]
+        );
+        ["str", "dex", "con", "int", "wis", "cha"].forEach((a) =>
+          setValue(`${a}Score`, Math.floor(Math.random() * 8) + 8)
+        );
+        recalc();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        buildSkills();
+        buildSlotsTable();
+        setupTabs();
+        setupGeneral();
+        clearSheet();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,489 @@
+// --- Perchance-Compatible Data Tables ---
+listX_names
+  Arin
+  Belwyn
+  Cade
+  Dorian
+  Elira
+  Fenric
+  Galen
+  Hestia
+  Ilya
+  Kael
+  Thorne
+  Lyra
+  Magnus
+  Seraphina
+  Orion
+  Aelion
+  Donaar
+  Lysandra
+  Morgana
+  Velvet
+  Scarlett
+  Raven
+  Jasmine
+  Lola
+  Candy
+  Bambi
+  Sienna
+  Dahlia
+  Violet
+  Ruby
+  Roxanne
+  Chastity
+  Faith
+  Hope
+  Mercy
+  Prudence
+  Temperance
+  Verity
+  Grace
+
+listX_races
+  Human
+  High_Elf
+  Wood_Elf
+  Dwarf
+  Halfling
+  Tiefling
+  Dragonborn
+  Gnome
+  Half-Orc
+  Aasimar
+  Goliath
+  Fairy
+  Nymph
+  Succubus/Incubus
+  Drow
+  Half-Elf
+  Tabaxi
+  Kenku
+  Demon
+  Angel
+  Vampire
+  Werewolf
+  Changeling
+  Centaur
+  Merfolk
+
+listX_classes
+  Courtesan
+  Pleasure_Slave
+  Entertainer
+  Bard
+  Sorcerer
+  Warlock
+  Rogue
+  Monk
+  Cleric - Love_Domain
+  Paladin - Oath_of_Lust
+  Druid
+  Fighter
+  Wizard
+  Ranger
+  Dominatrix
+  Submissive
+  Switch
+  Pet
+  Owner
+  Master
+  Mistress
+  Slave
+  Toy
+
+listX_backgrounds
+  Pleasure_Slave
+  Courtesan
+  Escort
+  Dancer
+  Seductress/Seducer
+  Harem_Dweller
+  Brothel_Worker
+  Street_Walker
+  Noble's_Mistress
+  Temple_Prostitute
+  Pirate's_Toy
+  Gladiator
+  Acolyte
+  Criminal
+  Entertainer
+  Outlander
+  BDSM_Practitioner
+  Sugar_Baby
+  Porn_Star
+  Cam_Model
+  Sex_Therapist
+  Fetish_Model
+
+listX_alignments
+  Chaotic_Good
+  Chaotic_Neutral
+  Chaotic_Evil
+  Neutral_Good
+  True_Neutral
+  Neutral_Evil
+  Lawful_Good
+  Lawful_Neutral
+  Lawful_Evil
+  Chaotic_Sexual
+  Neutral_Sexual
+
+listX_genders
+  Female
+  Male
+  Futanari
+  Femboy
+  Sissy
+  Crossdresser
+  Ladyboy
+  Shemale
+  Transgender
+  Genderfluid
+  Non-binary
+  Hermaphrodite
+  Agender
+  Bigender
+  Demiboy
+  Demigirl
+  Two-Spirit
+  Genderqueer
+  Transmasc
+  Transfem
+  Intersex
+
+listX_bodyTypes
+  Slender
+  Athletic
+  Curvy
+  Voluptuous
+  Petite
+  Muscular
+  Hourglass
+  Pear
+  Apple
+  BBW
+  Slim-thick
+  Chubby
+  Bodybuilder
+  Twink
+  Bear
+  Otter
+  Wolf
+  Thicc
+  Stocky
+
+listX_orientations
+  Heterosexual
+  Homosexual
+  Bisexual
+  Pansexual
+  Lesbian
+  Gay
+  Demisexual
+  Polyamorous
+  Asexual
+  Queer
+  Omnisexual
+  Sapiosexual
+  Straight
+  Bi
+  Pan
+  Ace
+
+listX_kinkLevels
+  Vanilla
+  Curious
+  Exploring
+  Experienced
+  Kinky
+  Extreme
+  Depraved
+
+listX_kinksList
+  BDSM
+  Bondage
+  Domination
+  Submission
+  Sadomasochism
+  Petplay
+  Ageplay
+  DDLG
+  ABDL
+  Furries
+  Vore
+  Exhibitionism
+  Voyeurism
+  Cuckoldry
+  Swinging
+  Watersports
+  Scat
+  Necrophilia
+  Bestiality
+  Incest
+  Foot_Worship
+  Breeding
+  Praise_Kink
+  Degradation
+  Humiliation
+  Edgeplay
+  Knifeplay
+  Bloodplay
+  Cannibalism
+  Guro
+  Snuff
+  Hypnosis
+  Mind_Control
+  Transformation
+  Inflation
+  Macrophilia
+  Microphilia
+  Pegging
+  Shibari
+
+listX_fetishesList
+  Feet
+  Latex
+  Leather
+  Uniforms
+  Pregnancy
+  Piercings
+  Tattoos
+  Scars
+  Stretch_Marks
+  Body_Hair
+  Disabled
+  Amputee
+  Wheelchair
+
+listX_sexualActsList
+  Oral
+  Anal
+  Vaginal
+  Fisting
+  Pegging
+  Double_Penetration
+  Gangbang
+  Creampie
+  Facials
+  Rimming
+  Teabagging
+  Facesitting
+  Cunnilingus
+  Fellatio
+  Anilingus
+  Breast_Play
+  Nipple_Play
+  Genital_Play
+  Ass_Play
+  Foot_Play
+  Handjob
+  Footjob
+  Titjob
+  Thighjob
+  Edging
+  Orgasm_Denial
+  Orgasm_Control
+  Orgasm_Torture
+  Sensory_Deprivation
+  Temperature_Play
+  Wax_Play
+  Electroplay
+  Sound_Play
+  Figging
+
+listX_powerDynamicsList
+  Master/Slave
+  Daddy/Boy
+  Mommy/Girl
+  Owner/Pet
+  Teacher/Student
+  Boss/Employee
+  Doctor/Patient
+  Cop/Criminal
+  Priest/Sinner
+  King/Subject
+  Queen/Subject
+  Prince/Princess
+  Knight/Damsel
+  Warrior/Captive
+  Alchemist/Test_Subject
+  Dom
+  Sub
+  Switch
+  Primal
+  Handler
+  Brat
+
+listX_equipmentsList
+  Vibrators
+  Dildos
+  Plugs
+  Gags
+  Cuffs
+  Whips
+  Crops
+  Chastity_Devices
+  Fucking_Machines
+  Strap-ons
+  Harnesses
+  Collars
+  Leashes
+  Blindfolds
+  Masks
+  Latex_Suits
+  Leather_Gear
+  Corsets
+  Stockings
+  Heels
+  Boots
+  Gloves
+  Electrostim_Devices
+  Temperature_Toys
+  Wax_Tools
+  Knives
+  Needles
+  Hooks
+
+listX_extremeContentsList
+  Guro
+  Snuff
+  Vore
+  Cannibalism
+  Amputation
+  Dismemberment
+  Decapitation
+  Disfigurement
+  Mutilation
+  Torture
+  Crucifixion
+  Impalement
+  Drowning
+  Burning
+  Freezing
+  Electrocution
+  Poisoning
+  Drugging
+  Mindbreak
+  Brainwashing
+  Stockholm_Syndrome
+  Gaslighting
+  Manipulation
+  Coercion
+  Blackmail
+  Extortion
+  Kidnapping
+  Rape
+  Non-con
+  Dub-con
+
+listX_rolesList
+  Daddy
+  Mommy
+  Babygirl
+  Boy
+  Pup
+  Kitten
+  Bunny
+  Fox
+  Little
+  Caregiver
+
+listX_intensitiesList
+  Vanilla
+  Soft
+  Kinky
+  Hardcore
+  Extreme
+
+listX_pairingsList
+  Monogamous
+  Poly
+  Open
+  Swinging
+  Cuckold
+  Hotwife
+  Gangbang
+  Orgy
+  Solo
+  Group
+
+listX_fluidsList
+  Creampie
+  Facials
+  Bukkake
+  Swallowing
+  Spitting
+  Squirting
+  Watersports
+  Scat
+  Blood
+  Lactation
+
+listX_sensoryPlaysList
+  Feathers
+  Ice
+  Wax
+  Vibrations
+  Scents
+  Tastes
+  Textures
+  Sounds
+  Lights
+  Restriction
+
+listX_genitalHairList
+  Shaved
+  Trimmed
+  Natural
+  Bushy
+  Styled
+
+listX_corruptionLevelsList
+  Pure
+  Tempted
+  Experienced
+  Depraved
+  Irreversible
+  Legendary_Debauchery
+
+listX_forbiddenMagicsList
+  Orgasmomancy
+  Flesh_Sculpting
+  Soul_Binding
+  Pleasure_Paradox
+  Eldritch_Awakening
+
+listX_exoticFluidsList
+  Ichor
+  Stardust
+  Liquid_Shadow
+  Primordial_Essence
+  Dragon's_Milk
+  Angel's_Tears
+
+// --- Perchance Helper Functions ---
+listX_rand = {listX_names}
+listX_race = {listX_races}
+listX_class = {listX_classes}
+listX_background = {listX_backgrounds}
+listX_alignment = {listX_alignments}
+listX_gender = {listX_genders}
+listX_bodyType = {listX_bodyTypes}
+listX_orientation = {listX_orientations}
+listX_kinkLevel = {listX_kinkLevels}
+listX_kinks = {listX_kinksList}
+listX_fetishes = {listX_fetishesList}
+listX_sexualActs = {listX_sexualActsList}
+listX_powerDynamics = {listX_powerDynamicsList}
+listX_equipment = {listX_equipmentsList}
+listX_extremeContent = {listX_extremeContentsList}
+listX_roles = {listX_rolesList}
+listX_intensity = {listX_intensitiesList}
+listX_pairing = {listX_pairingsList}
+listX_fluids = {listX_fluidsList}
+listX_sensoryPlay = {listX_sensoryPlaysList}
+listX_genitalHair = {listX_genitalHairList}
+listX_corruptionLevel = {listX_corruptionLevelsList}
+listX_forbiddenMagic = {listX_forbiddenMagicsList}
+listX_exoticFluid = {listX_exoticFluidsList}
