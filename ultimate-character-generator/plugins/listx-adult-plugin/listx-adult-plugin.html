@@ -35,10 +35,10 @@
 </style>
 
 <div class="plugins">
-  <h1>📋 listX Plugin — Ultimate Character List 📋</h1>
+  <h1>📋 listX Adult Plugin — Ultimate Character List 📋</h1>
   <div>
     <p>Import in Perchance code panel:</p>
-    <pre>listX = \{import:listx-plugin\}</pre>
+    <pre>listX = \{import:listx-adult-plugin\}</pre>
     <p>
       This plugin provides a comprehensive, hierarchical, and extensible set of
       lists for character generation, covering identity, appearance,
@@ -55,9 +55,8 @@
     <p>Example usage:</p>
     <pre>
 output
-  [character_first_name_male] [character_last_name_fantasy] is a [character_age_young_adult] [character_gender_female_pronouns] [character_species_elf] with [character_hair_color_silver] hair and [character_personality_trait_positive] personality.
-  Random leaf: [selectLeaf(character_first_name_male)]
-  5 unique leaves: [selectLeaves(character_first_name_male, 5).joinItems(", ")]
+  Full character: [selectAllLeaves(character).joinItems(", ")]
+  Random leaf: [selectLeaf(character)]
   5-10 random unique leaves: [selectLeaves(character, 5, 10).joinItems(", ")]
 </pre
     >
@@ -67,16 +66,6 @@ output
     </p>
     <p><b>Sections included:</b></p>
     <ul>
-      <li>Identity (name, age, gender, species, sexuality, pronouns, etc.)</li>
-      <li>
-        Appearance (skin, eyes, hair, height, build, genitals, modifications,
-        etc.)
-      </li>
-      <li>Personality (traits, quirks, alignment, values, etc.)</li>
-      <li>Background (origin, culture, occupation, education, wealth, etc.)</li>
-      <li>Skills & Abilities (combat, magic, talents, languages, etc.)</li>
-      <li>Relationships (family, friends, rivals, romance, etc.)</li>
-      <li>Equipment (clothing, weapons, items, etc.)</li>
       <li>Adult Content (kinks, fetishes, acts, power dynamics, etc.)</li>
       <li>Portrait (style, pose, clothing, accessories, lighting, etc.)</li>
       <li>Custom/Extensible fields</li>

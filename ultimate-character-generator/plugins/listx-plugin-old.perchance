@@ -1,3 +1,74 @@
+selectLeaf = {import:select-leaf-plugin}
+selectLeaves = {import:select-leaves-plugin}
+selectAllLeaves = {import:select-all-leaves-plugin}
+
+// Character generator structure
+character = {
+  identity = {
+    name = [firstName] [lastName]
+    age = [ageCategories]
+    gender = [gender]
+    species = [species]
+    sexuality = [sexuality]
+  }
+
+  appearance = {
+    physical = {
+      skin = [skinTone]
+      eyes = [eyeColors]
+      hair = [hairColor], [hairStyle]
+      height = [heightCategories]
+      build = [build]
+      genitals = [genitals]
+    }
+    modifications = [bodyMods]
+  }
+
+  traits = {
+    personality = [personalityTraits]
+    quirks = [characterQuirks]
+  }
+
+  adult = {
+    preferences = {
+      kinks = [kinks]
+      fetishes = [fetishes]
+    }
+    dynamics = [powerDynamics]
+    equipment = [equipment]
+  }
+}
+
+// List definitions (partial implementation)
+firstName = {
+  male = [Aaron, Adam, Adrian, Aidan]
+  female = [Abigail, Ada, Adele, Adeline]
+  unisex = [Alex, Avery, Casey, Charlie]
+}
+
+lastName = {
+  common = [Smith, Johnson, Williams, Brown]
+  fantasy = [Stormwind, Nightshade, Ironfist, Shadowalker]
+}
+
+gender = {
+  male = {description:"Male characters typically have masculine traits and pronouns."}
+  female = {description:"Female characters typically have feminine traits and pronouns."}
+  nonbinary = {description:"Nonbinary characters do not identify strictly as male or female."}
+  other = {description:"Other gender identities that don't fit traditional categories."}
+}
+
+// Usage examples:
+output
+  [character.identity.name] is a [character.appearance.physical.height] [character.gender] [character.species]
+  with [character.appearance.physical.hair] hair and [character.traits.personality] personality.
+
+// Leaf selection examples:
+output
+  Random leaf name: [selectLeaf(firstName)]
+  3 random leaves: [listX(selectAllLeaves(firstName), 3)]
+  Unique leaves: [selectLeaves(lastName, 2)]
+
 // listX = {import:listx-plugin}
 
 selectLeaf = {import:select-leaf-plugin}
@@ -522,10 +593,6 @@ powerDynamics
 equipment
   vibrators, dildos, plugs, gags, cuffs, whips, crops, chastity devices
 
-
-
-
-// Perchance Character Generator
 // Core Identity Components
 
 identity
