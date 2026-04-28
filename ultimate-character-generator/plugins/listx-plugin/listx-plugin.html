@@ -2,340 +2,71 @@
   .plugins {
     margin: 20px auto;
     width: 100%;
-    max-width: 650px;
+    max-width: 700px;
     background: white;
     border-radius: 20px;
-    padding: 1em;
+    padding: 1.5em;
     box-sizing: border-box;
     border: 2px solid #333;
+  }
+  body {
+    background: #f5f5f5;
+  }
+  code {
+    background-color: #eee;
+    padding: 0.1em 0.2em;
+  }
+  pre {
+    text-align: left;
+    background: #222;
+    color: #fff;
+    padding: 1em;
+    border-radius: 4px;
+    tab-size: 2;
+    -moz-tab-size: 2;
+    -o-tab-size: 2;
+    -webkit-tab-size: 2;
+    font-size: 1em;
+    overflow-x: auto;
+  }
+  ul li {
+    margin-top: 0.4em;
   }
 </style>
 
 <div class="plugins">
-  <h1>📋 listX Plugin 📋</h1>
-
-  <div
-    style="
-      margin: 0 auto;
-      width: 100%;
-      max-width: 650px;
-      background: white;
-      border-radius: 2px;
-      padding: 1em;
-      box-sizing: border-box;
-    "
-  >
-    <p>Put this in your Perchance code panel:</p>
+  <h1>📋 listX Plugin — Ultimate Character List 📋</h1>
+  <div>
+    <p>Import in Perchance code panel:</p>
     <pre>listX = \{import:listx-plugin\}</pre>
-    <br />
-    <p>Now you can do stuff like this:</p>
-    <pre>
-output
-  \[listX(myList, 3)\]
-</pre
-    >
-  </div>
-  <br /><br /><br />
-
-  <style>
-    body {
-      background: #eee;
-    }
-    code {
-      background-color: #eee;
-      padding: 0.1em 0.2em;
-    }
-    pre {
-      text-align: left;
-      background: #333;
-      color: white;
-      padding: 1em;
-      border-radius: 2px;
-      tab-size: 2;
-      -moz-tab-size: 2;
-      -o-tab-size: 2;
-      -webkit-tab-size: 2;
-    }
-    ul li {
-      margin-top: 0.4em;
-    }
-  </style>
-</div>
-
-<div class="plugins">
-  <h1>🍂 Select Leaf Plugin 🍂</h1>
-
-  <div
-    style="
-      margin: 0 auto;
-      width: 100%;
-      max-width: 650px;
-      background: white;
-      border-radius: 2px;
-      padding: 1em;
-      box-sizing: border-box;
-    "
-  >
-    <p>Put this in your Perchance code panel:</p>
-    <pre>selectLeaf = \{import:select-leaf-plugin\}</pre>
-    <br />
-    <p>
-      Now you can select a "<a
-        href="https://perchance.org/select-leaf-plugin-example#edit"
-        >leaf</a
-      >" item from your hierarchy:
-    </p>
-    <pre>\[selectLeaf(myList)\]</pre>
-    <p style="text-align: left">
-      A "leaf" is an item that doesn't have any "children" - that is, a item
-      that doesn't have any "sub-items" underneath it. Think of it like a tree.
-      You start with a trunk, and then that trunk branches several times until
-      you get to the twigs, and then you've got the leaves attached to those
-      twigs:
-    </p>
-    <pre>
-trunk
-  branch1
-    subbranch
-      leaf1
-      leaf2
-  branch2
-    leaf3
-    leaf4
-		leaf5
-		subbranch
-			leaf6
-			leaf7
-</pre
-    >
-    <p>
-      You can treat the result of the <code>selectLeaf(listName)</code> just
-      like you would with <code>listName.selectOne</code>, so you can do stuff
-      like this, for example:
-    </p>
-    <pre>
-output
-  The \[a = selectLeaf(animal)\] sits with the other \[a.pluralForm\].
-
-animal
-  mammal
-    mouse
-    deer
-    marsupial
-      kangaroo
-      opossum
-    monotreme
-      platypus
-  reptile
-    lizard
-    turtle
-  bird
-    flamingo
-    dove
-</pre
-    >
-    <br />
-    <p><b>Notes:</b></p>
+    <p>This plugin provides a comprehensive, hierarchical, and extensible set of lists for character generation, covering identity, appearance, personality, background, skills, relationships, adult content, and more.</p>
     <ul>
-      <li>
-        <a href="https://perchance.org/select-leaf-plugin-example#edit"
-          >Here's a simple example</a
-        >
-        showing how to use it
-      </li>
-      <li>
-        Also see
-        <a href="https://perchance.org/select-leaves-plugin"
-          >select-leaves-plugin</a
-        >
-        for getting several leaves at once, and
-        <a href="https://perchance.org/consumable-leaf-list-plugin"
-          >consumable-leaf-list-plugin</a
-        >
-        if you want to make a <code>consumableList</code> out of all your leaf
-        nodes so you can select a set of <i>unique</i> leaves.
-      </li>
-      <li>
-        Check out more plugins at <a href="/plugins">perchance.org/plugins</a>
-      </li>
+      <li>All standard and extended character attributes</li>
+      <li>Supports leaf selection, random sampling, and unique draws</li>
+      <li>Ready for use with <code>selectLeaf</code>, <code>selectLeaves</code>, <code>selectAllLeaves</code>, and <code>listX</code></li>
     </ul>
-  </div>
-  <br /><br /><br />
-
-  <style>
-    body {
-      background: #eee;
-    }
-    code {
-      background-color: #eee;
-      padding: 0.1em 0.2em;
-    }
-    pre {
-      text-align: left;
-      background: #333;
-      color: white;
-      padding: 1em;
-      border-radius: 2px;
-      tab-size: 2;
-      -moz-tab-size: 2;
-      -o-tab-size: 2;
-      -webkit-tab-size: 2;
-    }
-    ul li {
-      margin-top: 0.4em;
-    }
-  </style>
-</div>
-
-<div class="plugins">
-  <h1>🌿 Select Leaves Plugin 🌿</h1>
-
-  <div
-    style="
-      margin: 0 auto;
-      width: 100%;
-      max-width: 650px;
-      background: white;
-      border-radius: 2px;
-      padding: 1em;
-      box-sizing: border-box;
-    "
-  >
-    <p>
-      This is the <code>selectMany</code> version of the
-      <code>selectLeaf</code> plugin. See
-      <a href="https://perchance.org/select-leaf-plugin"
-        >that plugin page for more details</a
-      >. Very briefly: just write this in your Perchance code panel:
-    </p>
-    <p><code>selectLeaves = \{import:select-leaves-plugin\}</code></p>
-    <p>And then grab 10 items from your list like this:</p>
-    <p><code>\[selectLeaves(myList, 10)\]</code></p>
-    <p>Or grab between 5 and 10 items from your list like this:</p>
-    <p><code>\[selectLeaves(myList, 5, 10)\]</code></p>
-    <p><b>Notes:</b></p>
-    <ul>
-      <li>
-        <a href="https://perchance.org/select-leaves-plugin-example#edit"
-          >Here's a simple example</a
-        >
-        showing how to use it
-      </li>
-      <li>
-        If you want to make a <code>consumableList</code> of your leaf items so
-        you get unique selections, check out the
-        <a href="https://perchance.org/consumable-leaf-list-plugin"
-          >consumable-leaf-list-plugin</a
-        >
-      </li>
-      <li>
-        Check out more plugins at <a href="/plugins">perchance.org/plugins</a>
-      </li>
-    </ul>
-  </div>
-  <br /><br /><br />
-
-  <style>
-    body {
-      background: #eee;
-    }
-    code {
-      background-color: #eee;
-      padding: 0.1em 0.2em;
-    }
-    ul li {
-      margin-top: 0.3em;
-    }
-  </style>
-</div>
-
-<div class="plugins">
-  <h1>🍃 selectAllLeaves Plugin 🍃</h1>
-
-  <div
-    style="
-      text-align: left;
-      margin: 0 auto;
-      width: 100%;
-      max-width: 650px;
-      background: white;
-      border-radius: 2px;
-      padding: 1em;
-      box-sizing: border-box;
-    "
-  >
-    <p style="margin-top: 0">
-      This is plugin allows you to create a list that has all the "leaf" items
-      in your hierarchy. See the
-      <a href="https://perchance.org/select-leaf-plugin">select-leaf-plugin</a>
-      page to see what I mean by "leaf". Very briefly: just write this in your
-      Perchance code panel:
-    </p>
-    <pre>selectAllLeaves = \{import:select-all-leaves-plugin\}</pre>
-    <p>And then make your list, and use it like a normal one:</p>
+    <p>Example usage:</p>
     <pre>
 output
-  \[l = selectAllLeaves(myList)\] \[l\] \[l\]
-</pre
-    >
-    <p>
-      This plugin is also handy if you need to count the number of leaves in a
-      list:
-    </p>
-    <pre>
-output
-  myList has \[selectAllLeaves(myList).getLength\] leaves.
-</pre
-    >
-    <p><b>Notes:</b></p>
+  [character_first_name_male] [character_last_name_fantasy] is a [character_age_young_adult] [character_gender_female_pronouns] [character_species_elf] with [character_hair_color_silver] hair and [character_personality_trait_positive] personality.
+  Random leaf: [selectLeaf(character_first_name_male)]
+  5 unique leaves: [selectLeaves(character_first_name_male, 5).joinItems(", ")]
+  5-10 random unique leaves: [selectLeaves(character, 5, 10).joinItems(", ")]
+</pre>
+    <p>See <b>listx-plugin.perchance</b> for the full list structure and all available attributes.</p>
+    <p><b>Sections included:</b></p>
     <ul>
-      <li>
-        <a href="https://perchance.org/select-all-leaves-plugin-example#edit"
-          >Here's a simple example</a
-        >
-        showing how to use it
-      </li>
-      <li>
-        You can also use <code>l.selectOne</code>,
-        <code>l.selectMany(...)</code> and <code>l.selectAll</code>, just like
-        with normal lists.
-      </li>
-      <li>
-        You may also like to check out the
-        <a
-          href="https://perchance.org/consumable-leaf-list-plugin"
-          target="_blank"
-          >consumable-leaf-list-plugin</a
-        >.
-      </li>
-      <li>
-        Check out more plugins at <a href="/plugins">perchance.org/plugins</a>
-      </li>
+      <li>Identity (name, age, gender, species, sexuality, pronouns, etc.)</li>
+      <li>Appearance (skin, eyes, hair, height, build, genitals, modifications, etc.)</li>
+      <li>Personality (traits, quirks, alignment, values, etc.)</li>
+      <li>Background (origin, culture, occupation, education, wealth, etc.)</li>
+      <li>Skills & Abilities (combat, magic, talents, languages, etc.)</li>
+      <li>Relationships (family, friends, rivals, romance, etc.)</li>
+      <li>Equipment (clothing, weapons, items, etc.)</li>
+      <li>Adult Content (kinks, fetishes, acts, power dynamics, etc.)</li>
+      <li>Portrait (style, pose, clothing, accessories, lighting, etc.)</li>
+      <li>Custom/Extensible fields</li>
     </ul>
+    <p>For more info, see <a href="https://perchance.org/plugins">perchance.org/plugins</a>.</p>
   </div>
-  <br /><br /><br />
-
-  <style>
-    body {
-      background: #eee;
-    }
-    code {
-      background-color: #eee;
-      padding: 0.1em 0.2em;
-    }
-    ul li {
-      margin-top: 0.5rem;
-    }
-    pre {
-      text-align: left;
-      background: #333;
-      color: white;
-      padding: 1em;
-      border-radius: 2px;
-      tab-size: 2;
-      -moz-tab-size: 2;
-      -o-tab-size: 2;
-      -webkit-tab-size: 2;
-    }
-  </style>
 </div>

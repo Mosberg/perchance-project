@@ -1,15 +1,9 @@
-// listX = {import:listx-plugin-v3}
-// Comprehensive Character List Structure for Perchance (v3)
-// This is a direct copy of v2, preserving all structure and list names for compatibility.
+// listX = {import:listx-plugin}
+// Comprehensive Character List Structure for Perchance
 
 selectLeaf = {import:select-leaf-plugin}
 selectLeaves = {import:select-leaves-plugin}
 selectAllLeaves = {import:select-all-leaves-plugin}
-
-// --- Character List Structure ---
-// (See v2 for full documentation)
-
-// ...existing code copied from v2 below...
 
 character
   identity
@@ -213,25 +207,31 @@ character
           Oakenshield
           Fireheart
           Mistwalker
+
+// Age and Life Stages
     age
-      child
+      toddler
         1
         2
         3
+      preschooler
         4
         5
         6
+      child
         7
         8
         9
+      pre_teen
         10
         11
         12
-      teen
+      teenager
         13
         14
         15
         16
+      adolescent
         17
         18
         19
@@ -242,6 +242,7 @@ character
         23
         24
         25
+      adult
         26
         27
         28
@@ -252,12 +253,12 @@ character
         33
         34
         35
-      adult
         36
         37
         38
         39
         40
+      middle_aged_adult
         41
         42
         43
@@ -278,12 +279,13 @@ character
         58
         59
         60
-      elder
+      mature_adult
         61
         62
         63
         64
         65
+      senior_adult
         66
         67
         68
@@ -294,6 +296,7 @@ character
         73
         74
         75
+      older_adult
         76
         77
         78
@@ -304,6 +307,7 @@ character
         83
         84
         85
+      elderly
         86
         87
         88
@@ -319,6 +323,30 @@ character
         98
         99
         100
+      centenarian
+        101
+        102
+        103
+        104
+        105
+        106
+        107
+        108
+        109
+        110
+      supercentenarian
+        111
+        112
+        113
+        114
+        115
+        116
+        117
+        118
+        119
+        120
+
+// Gender and Pronouns
     gender
       male
         pronouns
@@ -341,25 +369,280 @@ character
       custom
         pronouns
           custom
+
+// Note: Pronouns are listed under each gender for better organization, but can also be accessed directly under the character's identity if needed.
+    pronouns
+      he/him
+      she/her
+      they/them
+      xe/xem
+      ze/zir
+      fae/faer
+      it/its
+      custom
+
+// Species and Subspecies
     species
       human
+        description = Versatile, ambitious, adaptable.
       elf
+        description = Graceful, long-lived, magical.
       dwarf
-      orc
-      goblin
-      dragonborn
-      tiefling
+        description = Stout, resilient, master craftsmen.
       halfling
+        description = Cheerful, nimble, lucky wanderers.
+      gnome
+        description = Inventive, eccentric, magically curious.
+      orc
+        description = Fierce, honor-bound, powerful.
+      goblin
+        description = Cunning, quick, opportunistic.
+      hobgoblin
+        description = Militaristic, disciplined, strategic.
+      bugbear
+        description = Large, stealthy, surprisingly quiet hunters.
+      giantkin
+        description = Humanoids with giant ancestry and immense strength.
+      ogre
+        description = Massive, brutish, simple-minded but loyal.
+      troll
+        description = Regenerative, towering, primal.
       fae
-      vampire
-      werewolf
-      angel
-      demon
+        description = Otherworldly, whimsical, unpredictable.
       merfolk
-      construct
-      elemental
+        description = Aquatic humanoids with deep cultural lore.
+      naga
+        description = Serpentine humanoids with ancient magic.
+      satyr
+        description = Mischievous, musical, nature‑bound.
+      centaur
+        description = Half-human, half-horse nomads.
+      minotaur
+        description = Bull-headed warriors of labyrinthine cultures.
+      kitsune
+        description = Fox‑spirits with illusion magic.
+      tengu
+        description = Avian humanoids with martial discipline.
+      lizardfolk
+        description = Cold-blooded, pragmatic, survival-focused.
+      kobold
+        description = Small draconic tinkerers and trapmakers.
+      dragonborn
+        description = Proud draconic humanoids with elemental breath.
+      tiefling
+        description = Mortals touched by infernal bloodlines.
+      aasimar
+        description = Celestial‑touched mortals with radiant gifts.
+      genasi
+        description = Elemental‑infused humanoids.
+      changeling
+        description = Subtle shapeshifters with fluid identities.
       shapeshifter
+        description = Beings able to assume many forms.
+      vampire
+        description = Elegant undead sustained by blood.
+      dhampir
+        description = Half‑vampire mortals with predatory instincts.
+      werewolf
+        description = Lunar‑bound shapeshifters with primal fury.
+      lycanthrope
+        description = Shifters tied to various animal forms.
+      angel
+        description = Celestial beings of radiant purpose.
+      demon
+        description = Fiends born of chaos or corruption.
+      devil
+        description = Lawful, manipulative, contract‑bound fiends.
+      imp
+        description = Small, mischievous fiends with sharp wit.
+      elemental
+        description = Living embodiments of primal forces.
+      construct
+        description = Artificial beings of metal, stone, or arcane design.
+      golem
+        description = Massive constructs bound to commands.
+      automaton
+        description = Clockwork or arcane‑powered humanoids.
+      revenant
+        description = Undead driven by unfinished purpose.
+      wight
+        description = Malicious undead with draining touch.
+      ghost
+        description = Ethereal remnants of the dead.
+      shade
+        description = Shadow‑infused beings of darkness.
+      dryad
+        description = Tree‑bound nature spirits.
+      nymph
+        description = Elemental beauty spirits tied to natural places.
+      sylph
+        description = Air‑spirits of grace and speed.
+      undine
+        description = Water‑spirits with fluid forms.
+      ifrit
+        description = Fire‑spirits of passion and destruction.
+      oread
+        description = Earth‑spirits of stone and endurance.
+      merrow
+        description = Savage deep‑sea merfolk.
+      harpy
+        description = Winged humanoids with predatory instincts.
+      cyclops
+        description = One‑eyed giants with primal strength.
+      faun
+        description = Gentle forest‑dwellers with musical talent.
+      sprite
+        description = Tiny winged fae of mischief and magic.
+      brownie
+        description = Household fae with helpful tendencies.
+      ogre-magi
+        description = Magical ogres with cunning intellect.
+      frostborn
+        description = Cold‑adapted humanoids with icy resilience.
+      fireborn
+        description = Flame‑touched humanoids with burning spirit.
+      stormborn
+        description = Sky‑touched humanoids with lightning affinity.
+      voidborn
+        description = Beings touched by cosmic darkness.
+      starborn
+        description = Celestial‑infused mortals with astral gifts.
+      fungalfolk
+        description = Mycelial humanoids with spore‑based biology.
+      plantfolk
+        description = Living plant‑beings with regenerative growth.
+      crystalborn
+        description = Mineral‑based humanoids with crystalline bodies.
+      beastkin
+        description = Humanoids with animalistic traits.
+      ratfolk
+        description = Quick, clever, urban scavengers.
+      catfolk
+        description = Agile, curious, feline humanoids.
+      wolfkin
+        description = Pack‑oriented humanoids with keen senses.
+      avian
+        description = Birdlike humanoids with hollow bones and sharp vision.
+      insectoid
+        description = Chitin‑armored beings with hive instincts.
+      arachnid
+        description = Spider‑folk with silk‑weaving abilities.
+      drider
+        description = Spider‑centaur hybrids with dark magic.
+      djinn
+        description = Wish‑bound elemental spirits of air.
+      efreet
+        description = Tyrannical fire‑spirits ruling molten realms.
+      marid
+        description = Water‑spirits of pride and power.
+      dao
+        description = Earth‑spirits of wealth and stubbornness.
+      celestial
+        description = Pure beings of divine light.
+      infernal
+        description = Hell‑forged beings of fire and ambition.
+      abyssal
+        description = Chaotic fiends of endless hunger.
+      eldritch
+        description = Beings touched by incomprehensible cosmic forces.
+      mimic
+        description = Shape‑stealing predators that imitate objects.
+      slimefolk
+        description = Amorphous beings of gelatinous biology.
+      ooze
+        description = Mindless or semi‑sentient blobs of corrosive matter.
+      wisp
+        description = Floating motes of magical energy.
+      spirit
+        description = Incorporeal beings tied to emotion or memory.
       custom
+        description = A unique species defined by the player.
+    elf_subspecies
+      high_elf
+        description = Arcane‑focused elves of ancient cities.
+      wood_elf
+        description = Forest‑dwelling hunters with keen senses.
+      shadow_elf
+        description = Dark‑adapted elves tied to twilight magic.
+      sun_elf
+        description = Radiant elves with solar affinity.
+      moon_elf
+        description = Mystical elves tied to lunar cycles.
+      frost_elf
+        description = Cold‑adapted elves of icy realms.
+      desert_elf
+        description = Heat‑hardened nomads with mirage magic.
+      deep_elf
+        description = Subterranean elves with darkvision and secrecy.
+      storm_elf
+        description = Sky‑born elves with lightning affinity.
+    dwarf_subspecies
+      mountain_dwarf
+        description = Hardy miners and smiths of high peaks.
+      hill_dwarf
+        description = Wise, enduring dwarves of rolling hills.
+      deep_dwarf
+        description = Underground dwellers with stone‑sense.
+      ember_dwarf
+        description = Fire‑forged dwarves with volcanic heritage.
+      frost_dwarf
+        description = Ice‑born dwarves of frozen halls.
+      rune_dwarf
+        description = Magic‑inscribing dwarves with ancient lore.
+    fae_subspecies
+      pixie
+        description = Tiny winged tricksters.
+      sprite
+        description = Nature‑bound fae of light and color.
+      leanan_sidhe
+        description = Muse‑spirits offering inspiration at a cost.
+      briar_fae
+        description = Thorn‑armored guardians of wild forests.
+      court_fae
+        description = Nobles of the Seelie or Unseelie courts.
+    lycan_subspecies
+      werewolf
+        description = Wolf‑shifters of primal fury.
+      weretiger
+        description = Stealthy feline hunters.
+      werebear
+        description = Massive, protective shifters.
+      wererat
+        description = Urban, cunning, plague‑resistant shifters.
+      wereboar
+        description = Ferocious, unstoppable chargers.
+    dragonborn_subspecies
+      red
+        description = Fire‑breathing, proud, destructive.
+      blue
+        description = Lightning‑breathing strategists.
+      green
+        description = Poison‑breathing manipulators.
+      black
+        description = Acid‑breathing swamp hunters.
+      white
+        description = Frost‑breathing survivalists.
+      gold
+        description = Noble fire‑breathers with radiant power.
+      silver
+        description = Cold‑aligned, honorable warriors.
+      bronze
+        description = Storm‑aligned coastal guardians.
+      brass
+        description = Talkative desert wanderers.
+    vampire_subspecies
+      noble_vampire
+        description = Aristocratic, elegant, politically powerful.
+      feral_vampire
+        description = Bestial, uncontrollable, driven by hunger.
+      daywalker
+        description = Sun‑resistant hybrids with unique gifts.
+      sanguine_mage
+        description = Blood‑magic wielders with arcane focus.
+      shadow_vampire
+        description = Darkness‑bound vampires with stealth powers.
+
+// Sexuality and Orientation
     sexuality
       heterosexual
       homosexual
@@ -378,15 +661,8 @@ character
       panromantic
       demiromantic
       custom
-    pronouns
-      he/him
-      she/her
-      they/them
-      xe/xem
-      ze/zir
-      fae/faer
-      it/its
-      custom
+
+// Alignment and Morality
     alignment
       lawful_good
       neutral_good
@@ -397,6 +673,8 @@ character
       lawful_evil
       neutral_evil
       chaotic_evil
+
+// Cultural and Social Background
     culture
       fantasy
       modern
@@ -406,6 +684,8 @@ character
       steampunk
       cyberpunk
       custom
+
+// Language and Communication
     language
       common
       elvish
@@ -416,6 +696,8 @@ character
       celestial
       sign_language
       custom
+
+// Nationality and Political Structure
     nationality
       kingdom
       empire
@@ -425,6 +707,8 @@ character
       clan
       city-state
       custom
+
+// Religion and Belief Systems
     religion
       polytheist
       monotheist
@@ -434,6 +718,8 @@ character
       spiritualist
       cultist
       custom
+
+// Background and Upbringing
     background
       noble
       commoner
@@ -449,6 +735,8 @@ character
       outcast
       explorer
       custom
+
+// Occupation
     occupation
       adventurer
       warrior
@@ -470,6 +758,8 @@ character
       hunter
       healer
       custom
+
+// Education and Knowledge
     education
       none
       basic
@@ -479,6 +769,8 @@ character
       religious
       self-taught
       custom
+
+// Wealth and Economic Status
     wealth
       destitute
       poor
@@ -487,6 +779,8 @@ character
       wealthy
       noble
       royal
+
+// Social and Legal Status
     status
       free
       enslaved
@@ -498,8 +792,13 @@ character
       disgraced
       custom
 
+// Appearance
   appearance
+
+// Skin
     skin
+
+// Skin Tone
       tone
         pale
         fair
@@ -516,6 +815,8 @@ character
         gold
         silver
         custom
+
+// Skin Features
       markings
         freckles
         moles
@@ -528,7 +829,11 @@ character
         magical
         none
         custom
+
+// Eyes
     eyes
+
+// Eye Color
       color
         blue
         green
@@ -544,6 +849,8 @@ character
         black
         white
         custom
+
+// Eye Shape
       shape
         almond
         round
@@ -552,6 +859,8 @@ character
         upturned
         downturned
         custom
+
+// Eye Features
       features
         long_lashes
         thick_brows
@@ -559,7 +868,11 @@ character
         bushy_brows
         arched_brows
         custom
+
+// Hair
     hair
+
+// Hair Colors
       color
         black
         brown
@@ -576,6 +889,8 @@ character
         silver
         gold
         custom
+
+// Hair Styles
       style
         short
         medium
@@ -603,6 +918,8 @@ character
         shaved
         topknot
         custom
+
+// Facial Hair
       facial
         beard
         mustache
@@ -612,6 +929,8 @@ character
         clean_shaven
         none
         custom
+
+// Height Categories and Ranges
     height
       tiny
         50cm
@@ -780,6 +1099,8 @@ character
         219cm
         220cm
       custom
+
+// Weight Categories and Ranges
     weight
       light
         40kg
@@ -875,6 +1196,7 @@ character
         128kg
         129kg
         130kg
+      very_heavy
         131kg
         132kg
         133kg
@@ -896,23 +1218,107 @@ character
         149kg
         150kg
       custom
+
+// Build Categories and Ranges
     build
       slender
-          slim
-          average
-          athletic
-          muscular
-          curvy
-          chubby
-          obese
-          stocky
-          petite
-          lanky
-          burly
-          custom
+        description = Narrow frame, delicate proportions, minimal body mass.
+      slim
+        description = Lean build with light muscle definition and low body fat.
+      average
+        description = Balanced proportions with typical muscle and fat distribution.
+      athletic
+        description = Toned physique with visible muscle definition and strong posture.
+      muscular
+        description = Broad, powerful build with pronounced muscle mass.
+      curvy
+        description = Soft contours with fuller hips, chest, or thighs.
+      chubby
+        description = Rounder shape with noticeable softness and extra body mass.
+      obese
+        description = Large, heavyset build with significant body mass and fullness.
+      stocky
+        description = Shorter, thick build with dense muscle and solid frame.
+      petite
+        description = Small, compact frame with delicate proportions.
+      lanky
+        description = Tall, thin build with long limbs and minimal mass.
+      burly
+        description = Large, rugged build with heavy muscle and imposing presence.
+      wiry
+        description = Lean but strong, with ropey muscles and low fat.
+      broad
+        description = Wide shoulders and chest, sturdy and powerful silhouette.
+      barrel_chested
+        description = Thick torso with strong ribcage and heavy upper‑body mass.
+      soft
+        description = Gentle, rounded build with minimal muscle definition.
+      toned
+        description = Lean with clear muscle lines and athletic conditioning.
+      hulking
+        description = Massive, intimidating build with extreme muscle bulk.
+      delicate
+        description = Fine‑boned, fragile‑looking frame with subtle proportions.
+      towering
+        description = Exceptionally tall build with long limbs and commanding presence.
+      stout
+        description = Short, wide, and solidly built with dense mass.
+      rotund
+        description = Round, full-bodied shape with pronounced belly and softness.
+      sinewy
+        description = Thin but strong, with visible tendons and wiry muscle.
+      rugged
+        description = Weathered, sturdy build with hardened muscle and rough edges.
+      imposing
+        description = Physically dominant build that commands attention.
+      custom
+        description = A unique body type defined by the player.
+
+// Genital Categories and Ranges
     genitals
+
+// Penis Categories, Shapes and Ranges
       penis
+        penis_shape
+          straight
+            description = Shaft aligns vertically without noticeable curvature.
+          upward_curve
+            description = Natural upward curvature when erect; a common variation.
+          downward_curve
+            description = Natural downward curvature; typically mild and harmless.
+          left_curve
+            description = Shaft curves gently to the left.
+          right_curve
+            description = Shaft curves gently to the right.
+          tapered
+            description = Narrower toward the tip with a gradual taper.
+          cylindrical
+            description = Even thickness along most of the shaft.
+          wide_base
+            description = Thicker at the base with a narrower mid‑shaft.
+          wide_tip
+            description = Slightly broader near the glans.
+          foreskin_present
+            description = Foreskin fully or partially covers the glans when flaccid.
+          foreskin_retracted
+            description = Foreskin naturally rests behind the glans.
+          prominent_ridge
+            description = Well‑defined coronal ridge around the glans.
+          smooth_glans
+            description = Glans has a more uniform, rounded shape.
+          prominent_veins
+            description = Visible superficial veins along the shaft.
+          minimal_veins
+            description = Smooth appearance with fewer visible veins.
+          custom
+            description = A unique natural variation not covered above.
+
+// Penis Lengths
         length
+          1cm
+          2cm
+          3cm
+          4cm
           5cm
           6cm
           7cm
@@ -944,6 +1350,13 @@ character
           33cm
           34cm
           35cm
+          36cm
+          37cm
+          38cm
+          39cm
+          40cm
+
+// Penis Girth/Circumference
         girth
           3cm
           4cm
@@ -963,11 +1376,86 @@ character
           18cm
           19cm
           20cm
+
+// Vagina Categories and Shapes
       vagina
+        vulva_shape
+          asymmetrical_inner_lips
+            description = One inner lip is longer or larger than the other; a very common natural variation.
+          prominent_inner_lips
+            description = Inner lips extend beyond the outer lips; may be subtle or pronounced.
+          prominent_outer_lips
+            description = Outer lips are fuller or lower-set, usually covering the inner lips.
+          curved_outer_lips
+            description = Outer lips form a gentle horseshoe shape, with the inner lips visible toward the front.
+          visible_inner_lips
+            description = Inner and outer lips are similar in size, with the inner lips naturally peeking through.
+          small_open_outer_lips
+            description = Outer lips lie flat against the pubic area with a slight separation, showing the inner lips.
+          small_closed_outer_lips
+            description = Outer lips meet fully in the center, concealing the inner lips completely.
+          long_inner_lips
+            description = Inner lips extend noticeably beyond the outer lips, sometimes with additional folds.
+          long_outer_lips
+            description = Outer lips are longer or looser, sometimes extending downward and exposing the inner lips.
+          custom
+            description = A unique natural variation not covered by the categories above.
+
+// Both Genital Sets
       both
-      none
+        combined_anatomy
+          distinct_structures
+            description = External traits from both sets are present as separate structures.
+          partially_fused
+            description = Some tissues blend or overlap, forming intermediate structures.
+          asymmetric_combination
+            description = One side presents traits from one set, the other from another.
+          reduced_structures
+            description = One or more structures are present in smaller or simplified form.
+          prominent_structures
+            description = Both sets of external traits are well‑defined and visible.
+          custom
+            description = A unique combination not covered above.
+
+// Intersex Variations
       intersex
+        intersex_variation
+          atypical_lip_development
+            description = Outer or inner folds develop in patterns outside typical ranges.
+          atypical_phallic_development
+            description = External phallic structure varies in size or shape.
+          partially_fused_folds
+            description = Outer folds meet or fuse to varying degrees.
+          prominent_clitoral_structure
+            description = Clitoral tissue is larger or more pronounced than average.
+          reduced_phallic_structure
+            description = External phallic tissue is smaller or less defined.
+          mixed_characteristics
+            description = Combination of traits typically associated with different sexes.
+          variable_urethral_position
+            description = Urethral opening appears in a non‑typical location.
+          custom
+            description = A unique natural variation not covered above.
+
+// None/Absent Genitalia
+      none
+        no_external_genitalia
+          smooth_surface
+            description = No external structures; surface is continuous and unbroken.
+          minimal_ridge
+            description = Slight contour or ridge without defined anatomy.
+          recessed_opening
+            description = A small, non‑sexual opening for biological functions.
+          sealed_surface
+            description = Fully smooth with no visible openings.
+          custom
+            description = A unique configuration not covered above.
+
+
+// Other Physical Attributes
       custom
+
+//
     chest
       flat
       small
@@ -1680,12 +2168,12 @@ character
       abstract
       custom
 
-  custom_fields
-    field1
-    field2
-    field3
-    field4
-    field5
+  //custom_fields
+    //field1
+    //field2
+    //field3
+    //field4
+    //field5
 
 
 // --- Flat Perchance-Compatible Lists for Output ---
@@ -1798,4 +2286,4 @@ character_personality_trait_positive
   thoughtful
 
 output
-  [character_first_name_male] [character_last_name_fantasy] is a [character_age_young_adult] [character_gender_female_pronouns] [character_species_elf] with [character_hair_color_silver] hair and [character_personality_trait_positive] personality. Random leaf: [selectLeaf(character_first_name_male)] 5 unique leaves: [selectLeaves(character_first_name_male, 5)]
+  [character_first_name_male] [character_last_name_fantasy] is a [character_age_young_adult] [character_gender_female_pronouns] [character_species_elf] with [character_hair_color_silver] hair and [character_personality_trait_positive] personality. Random leaf: [selectLeaf(character_first_name_male)] 5 unique leaves: [selectLeaves(character_first_name_male, 5).joinItems(", ")] 5-10 random unique leaves: [selectLeaves(character, 5, 10).joinItems(", ")]
