@@ -1,0 +1,297 @@
+<!--
+Select ListX Plugin Demo Page
+This page demonstrates the three core functions:
+- selectListX: Selects ONE random leaf from nested structures
+- selectListsX: Selects MANY random leaves (with count options)
+- selectAllListsX: Returns ALL leaves from nested structures
+-->
+
+<div style="max-width:900px; margin:40px auto; padding:20px; font-family:system-ui,-apple-system,sans-serif; text-align:left;">
+  <header style="text-align:center; margin-bottom:40px; border-bottom:2px solid #eee; padding-bottom:20px;">
+    <h1 style="margin:0 0 10px 0; color:#333;">Select ListX Plugin</h1>
+    <p style="margin:0; color:#666;">Random selection utilities for nested list structures</p>
+  </header>
+
+  <!-- selectListX Section -->
+  <section style="margin-bottom:40px; padding:20px; background:#f9f9f9; border-radius:8px;">
+    <h2 style="margin:0 0 15px 0; color:#444;">1. selectListX <span style="font-size:0.7em; color:#888;">- Select ONE leaf</span></h2>
+    <p style="margin:0 0 15px 0; color:#666; font-size:0.95em;">Selects a single random leaf from nested structures.</p>
+
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:280px;">
+        <label style="display:block; font-weight:600; margin-bottom:8px;">Sample Data:</label>
+        <textarea id="listxInput1" style="width:100%; height:150px; padding:10px; border:1px solid #ccc; border-radius:4px; font-family:monospace; font-size:0.85em;">{
+  "animals": ["cat", "dog", "bird"],
+  "colors": { "primary": ["red", "blue"], "secondary": "green" },
+  "numbers": [1, 2, 3, 4, 5]
+}</textarea>
+      </div>
+      <div style="flex:1; min-width:280px;">
+        <label style="display:block; font-weight:600; margin-bottom:8px;">Result:</label>
+        <div id="result1" style="padding:15px; background:white; border:1px solid #ddd; border-radius:4px; min-height:150px; font-size:1.2em; font-weight:bold; color:#2563eb;"></div>
+        <button id="runListXBtn" style="margin-top:10px; padding:10px 20px; background:#2563eb; color:white; border:none; border-radius:4px; cursor:pointer; font-size:1em;">🎲 Select Random</button>
+        <button onclick="runListX()" style="margin-top:10px; padding:10px 20px; background:#4ade80; color:white; border:none; border-radius:4px; cursor:pointer; font-size:1em;">⚡ Quick Test</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- selectListsX Section -->
+  <section style="margin-bottom:40px; padding:20px; background:#f9f9f9; border-radius:8px;">
+    <h2 style="margin:0 0 15px 0; color:#444;">2. selectListsX <span style="font-size:0.7em; color:#888;">- Select MANY leaves</span></h2>
+    <p style="margin:0 0 15px 0; color:#666; font-size:0.95em;">Selects multiple random leaves. Supports: single number, [min,max] array, or multiple numbers to pick from.</p>
+
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:280px;">
+        <label style="display:block; font-weight:600; margin-bottom:8px;">Sample Data:</label>
+        <textarea id="listxInput2" style="width:100%; height:120px; padding:10px; border:1px solid #ccc; border-radius:4px; font-family:monospace; font-size:0.85em;">["apple", "banana", "cherry", "date", "elderberry", "fig", "grape"]</textarea>
+
+        <label style="display:block; font-weight:600; margin-top:15px; margin-bottom:8px;">Count Option:</label>
+        <select id="countOption" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:100%;">
+          <option value="3">Single number: 3</option>
+          <option value="[2,5]">Range: [2, 5] (random between 2-5)</option>
+          <option value="[1,3,5]">Pick from: [1, 3, 5]</option>
+        </select>
+      </div>
+      <div style="flex:1; min-width:280px;">
+        <label style="display:block; font-weight:600; margin-bottom:8px;">Result:</label>
+        <div id="result2" style="padding:15px; background:white; border:1px solid #ddd; border-radius:4px; min-height:120px;"></div>
+        <button id="runListsXBtn" style="margin-top:10px; padding:10px 20px; background:#7c3aed; color:white; border:none; border-radius:4px; cursor:pointer; font-size:1em;">🎲 Select Multiple</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- selectAllListsX Section -->
+  <section style="margin-bottom:40px; padding:20px; background:#f9f9f9; border-radius:8px;">
+    <h2 style="margin:0 0 15px 0; color:#444;">3. selectAllListsX <span style="font-size:0.7em; color:#888;">- Get ALL leaves</span></h2>
+    <p style="margin:0 0 15px 0; color:#666; font-size:0.95em;">Recursively gathers all leaf values from nested structures.</p>
+
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:280px;">
+        <label style="display:block; font-weight:600; margin-bottom:8px;">Sample Data:</label>
+        <textarea id="listxInput3" style="width:100%; height:150px; padding:10px; border:1px solid #ccc; border-radius:4px; font-family:monospace; font-size:0.85em;">{
+  "weapons": {
+    "melee": ["sword", "axe", "dagger"],
+    "ranged": { "bows": ["longbow", "shortbow"], "crossbows": "heavy_crossbow" }
+  },
+  "armor": ["plate", "chainmail", "leather"],
+  "potions": "health_potion"
+}</textarea>
+      </div>
+      <div style="flex:1; min-width:280px;">
+        <label style="display:block; font-weight:600; margin-bottom:8px;">All Leaves Found:</label>
+        <div id="result3" style="padding:15px; background:white; border:1px solid #ddd; border-radius:4px; min-height:150px; max-height:200px; overflow-y:auto; font-size:0.9em;"></div>
+        <button id="runAllListsXBtn" style="margin-top:10px; padding:10px 20px; background:#dc2626; color:white; border:none; border-radius:4px; cursor:pointer; font-size:1em;">📋 Extract All</button>
+        <button id="randomFromAllBtn" style="margin-top:10px; padding:10px 20px; background:#f59e0b; color:white; border:none; border-radius:4px; cursor:pointer; font-size:1em;">🎲 Pick Random from All</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom Input Section -->
+  <section style="padding:20px; background:#f0f9ff; border-radius:8px; border:1px solid #bae6fd;">
+    <h2 style="margin:0 0 15px 0; color:#0c4a6e;">Try Your Own Data</h2>
+    <p style="margin:0 0 15px 0; color:#0369a1; font-size:0.95em;">Enter your own JSON structure and test any function.</p>
+
+    <textarea id="customInput" style="width:100%; height:100px; padding:10px; border:1px solid #7dd3fc; border-radius:4px; font-family:monospace;" placeholder='Enter JSON here, e.g.: {"a": [1,2,3], "b": { "c": "hello" }}'></textarea>
+
+    <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button onclick="runCustom('selectListX')" style="padding:8px 16px; background:#2563eb; color:white; border:none; border-radius:4px; cursor:pointer;">selectListX</button>
+      <button onclick="runCustom('selectListsX', 3)" style="padding:8px 16px; background:#7c3aed; color:white; border:none; border-radius:4px; cursor:pointer;">selectListsX(3)</button>
+      <button onclick="runCustom('selectAllListsX')" style="padding:8px 16px; background:#dc2626; color:white; border:none; border-radius:4px; cursor:pointer;">selectAllListsX</button>
+    </div>
+    <div id="customResult" style="margin-top:15px; padding:15px; background:white; border:1px solid #bae6fd; border-radius:4px; min-height:60px;"></div>
+  </section>
+
+  <footer style="text-align:center; margin-top:40px; padding-top:20px; border-top:1px solid #eee; color:#888; font-size:0.9em;">
+    <p>Select ListX Plugin Demo • Handles nested objects, arrays, and mixed structures</p>
+  </footer>
+</div>
+
+<script>
+// ============================================================
+// SHARED CORE UTILITIES
+// ============================================================
+
+// Select a single leaf
+function selectLeaf(listx, maxDepth = 10000) {
+  let i = 0;
+  let result;
+
+  while (i++ < maxDepth) {
+    try {
+      if (listx && typeof listx.selectOne !== "undefined") {
+        result = listx.selectOne;
+      } else if (Array.isArray(listx)) {
+        if (listx.length === 0) return "(no listx found)";
+        result = listx[Math.floor(Math.random() * listx.length)];
+      } else {
+        if (typeof listx === "string" || typeof listx === "number" || typeof listx === "boolean")
+          return listx;
+        if (!listx || Object.keys(listx).length === 0)
+          return "(no listx found)";
+        if (listx.value || listx.text || listx.label || listx.name) {
+          result = listx.value || listx.text || listx.label || listx.name;
+        } else {
+          let keys = Object.keys(listx);
+          result = listx[keys[Math.floor(Math.random() * keys.length)]];
+        }
+      }
+
+      if (result === null || typeof result === "undefined")
+        return "(no listx found)";
+      if (typeof result === "string" || typeof result === "number" || typeof result === "boolean")
+        return result;
+      if (Array.isArray(result)) {
+        listx = result[Math.floor(Math.random() * result.length)];
+        continue;
+      }
+      if (result && typeof result.selectOne !== "undefined") {
+        listx = result;
+        continue;
+      }
+      if (result && Object.keys(result).length === 0)
+        return "";
+      let keys = Object.keys(result);
+      if (keys.length === 0) return "(no listx found)";
+      listx = result[keys[Math.floor(Math.random() * keys.length)]];
+    }
+    catch (e) {
+      return "(error in select-listx-plugin: " + e + ")";
+    }
+  }
+  return "(error in select-listx-plugin: max depth)";
+}
+
+// Recursively gather all leaves
+function getAllLeaves(node) {
+  if(!node) return [];
+  if(typeof node === "string" || typeof node === "number" || typeof node === "boolean")
+    return [node];
+  if(Array.isArray(node))
+    return node.flatMap(getAllLeaves);
+  if(typeof node === "object") {
+    if(Object.keys(node).length === 0) return [];
+    if(node.value || node.text || node.label || node.name)
+      return [node.value || node.text || node.label || node.name];
+    if(typeof node.selectAll !== "undefined")
+      return getAllLeaves([...node.selectAll]);
+    return Object.values(node).flatMap(getAllLeaves);
+  }
+  return [];
+}
+
+// Select many leaves
+function selectMany(list, ...a) {
+  let num = 1;
+  if(a.length === 1) {
+    if(Array.isArray(a[0])) {
+      num = Number(a[0][Math.floor(Math.random()*a[0].length)]);
+    } else {
+      num = Number(a[0]);
+    }
+  } else if(a.length === 2) {
+    num = Number(a[0]) + Math.round(Math.random()*(a[1]-a[0]));
+  } else if(a.length > 2) {
+    num = Number(a[Math.floor(Math.random()*a.length)]);
+  }
+  if(isNaN(num) || num < 1) num = 1;
+  let arr = [];
+  for(let i = 0; i < num; i++) {
+    arr.push(selectLeaf(list));
+  }
+  arr.toString = function() { return this.join(""); };
+  return arr;
+}
+
+// ============================================================
+// EXPORTED FUNCTIONS
+// ============================================================
+
+let selectListX = (list) => {
+  if(!list) return "(no list given to selectListX plugin)";
+  return selectLeaf(list);
+};
+
+let selectListsX = (list, ...a) => {
+  if(!list) return "(no list given to selectListsX plugin)";
+  return selectMany(list, ...a);
+};
+
+let selectAllListsX = (list) => {
+  if(!list) return "(no list given to selectAllListsX plugin)";
+  const leaves = getAllLeaves(list);
+  leaves.toString = function() {
+    if(this.length === 0) return "";
+    return this[Math.floor(Math.random()*this.length)]+"";
+  };
+  return leaves;
+};
+
+// ============================================================
+// UI HANDLERS
+// ============================================================
+
+function parseInput(id) {
+  try {
+    return JSON.parse(document.getElementById(id).value);
+  } catch(e) {
+    return null;
+  }
+}
+
+function runListX() {
+  let list = parseInput('listxInput1');
+  result1.textContent = selectListX(list);
+}
+
+function runListsX() {
+  let list = parseInput('listxInput2');
+  let countOpt = countOption.value;
+  let parsedCount = JSON.parse(countOpt);
+
+  // If array, spread arguments to allow selectMany to handle Range vs Pick-From logic correctly
+  let result = Array.isArray(parsedCount) ? selectListsX(list, ...parsedCount) : selectListsX(list, parsedCount);
+
+  result2.innerHTML = Array.isArray(result)
+    ? result.map((r,i) => `<span style="display:inline-block; padding:4px 8px; margin:2px; background:#ede9fe; border-radius:4px; color:#5b21b6;">${i+1}. ${r}</span>`).join('')
+    : result;
+}
+
+function runAllListsX() {
+  let list = parseInput('listxInput3');
+  let all = selectAllListsX(list);
+  result3.innerHTML = `<div style="color:#666; margin-bottom:8px;">Found ${all.length} leaves:</div>` +
+    all.map((r,i) => `<div style="padding:4px 0; border-bottom:1px solid #eee;"><span style="color:#dc2626; font-weight:bold;">[${i+1}]</span> ${r}</div>`).join('');
+}
+
+let allLeavesCache = [];
+function runRandomFromAll() {
+  let list = parseInput('listxInput3');
+  allLeavesCache = selectAllListsX(list);
+  if(allLeavesCache.length > 0) {
+    let random = allLeavesCache[Math.floor(Math.random() * allLeavesCache.length)];
+    result3.innerHTML = `<div style="font-size:1.5em; color:#f59e0b; text-align:center; padding:20px;">🎲 ${random}</div>`;
+  }
+}
+
+function runCustom(funcName, ...args) {
+  try {
+    let list = JSON.parse(customInput.value);
+    let result;
+    if(funcName === 'selectListX') result = selectListX(list);
+    else if(funcName === 'selectListsX') result = selectListsX(list, ...args);
+    else if(funcName === 'selectAllListsX') {
+      let arr = selectAllListsX(list);
+      result = `[${arr.length} items] ` + arr.join(', ');
+    }
+    customResult.innerHTML = `<span style="color:#059669;">✓</span> <strong>${funcName}:</strong> ${JSON.stringify(result)}`;
+  } catch(e) {
+    customResult.innerHTML = `<span style="color:#dc2626;">✗</span> Error: ${e.message}`;
+  }
+}
+
+// Event listeners
+runListXBtn.onclick = runListX;
+runListsXBtn.onclick = runListsX;
+runAllListsXBtn.onclick = runAllListsX;
+randomFromAllBtn.onclick = runRandomFromAll;
+</script>

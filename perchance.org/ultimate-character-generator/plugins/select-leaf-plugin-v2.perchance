@@ -1,0 +1,46 @@
+// select-leaf-plugin-v2 — robust leaf selector tuned for listx-plugin
+
+selectLeafV2
+
+$output (list, maxDepth = 10000) =>
+  if(!list) return "(no list given to selectLeafV2 plugin)";
+  let leaf = list;
+  let i = 0;
+  let result;
+  while (i++ < maxDepth) {
+    try {
+      if (leaf && typeof leaf.selectOne !== "undefined") {
+        result = leaf.selectOne;
+      } else if (Array.isArray(leaf)) {
+        if (leaf.length === 0) return "(no leaf found)";
+        result = leaf[Math.floor(Math.random() * leaf.length)];
+      } else {
+        if (typeof leaf === "string" || typeof leaf === "number" || typeof leaf === "boolean") return leaf;
+        if (!leaf || Object.keys(leaf).length === 0) return "(no leaf found)";
+        if (leaf.value || leaf.text || leaf.label || leaf.name) {
+          result = leaf.value || leaf.text || leaf.label || leaf.name;
+        } else {
+          let keys = Object.keys(leaf);
+          result = leaf[keys[Math.floor(Math.random() * keys.length)]];
+        }
+      }
+
+      if (result === null || typeof result === "undefined") return "(no leaf found)";
+      if (typeof result === "string" || typeof result === "number" || typeof result === "boolean") return result;
+      if (Array.isArray(result)) {
+        leaf = result[Math.floor(Math.random() * result.length)];
+        continue;
+      }
+      if (result && typeof result.selectOne !== "undefined") {
+        leaf = result;
+        continue;
+      }
+      if (result && Object.keys(result).length === 0) return "";
+      let keys = Object.keys(result);
+      if (keys.length === 0) return "(no leaf found)";
+      leaf = result[keys[Math.floor(Math.random() * keys.length)]];
+    } catch (e) {
+      return "(error in select-leaf-plugin-v2: " + e + ")";
+    }
+  }
+  return "(error in select-leaf-plugin-v2: max depth)";

@@ -1,0 +1,441 @@
+selectListX
+selectListsX
+selectAllListsX
+selectSpecific
+selectOrder
+selectRange
+selectExcept
+selectUniqueX
+selectShuffle
+selectWeighted
+selectPath
+selectWhere
+
+// ------------------------------------------------------------
+// CORE HELPERS
+// ------------------------------------------------------------
+
+function isPrimitive(value) {
+  return typeof value === "string" || typeof value === "number" || typeof value === "boolean";
+}
+
+function extractLeafValue(node) {
+  if (!node) return undefined;
+  if (isPrimitive(node)) return node;
+  if (node.value !== undefined) return node.value;
+  if (node.text !== undefined) return node.text;
+  if (node.label !== undefined) return node.label;
+  if (node.name !== undefined) return node.name;
+  return undefined;
+}
+
+function asJoinedArray(arr) {
+  arr.toString = function() { return this.join(""); };
+  return arr;
+}
+
+// Recursively select one value
+function _selectListX(listx, maxDepth = 10000) {
+  let i = 0;
+  let result;
+
+  while (i++ < maxDepth) {
+    try {
+      if (listx && typeof listx.selectOne === "function" && !Array.isArray(listx)) {
+        result = listx.selectOne();
+
+      } else if (Array.isArray(listx)) {
+        if (listx.length === 0) return "(no listx found)";
+        result = listx[Math.floor(Math.random() * listx.length)];
+
+      } else {
+        if (isPrimitive(listx)) return listx;
+
+        if (!listx || Object.keys(listx).length === 0) return "(no listx found)";
+
+        let extracted = extractLeafValue(listx);
+        if (extracted !== undefined) {
+          result = extracted;
+        } else {
+          let keys = Object.keys(listx);
+          result = listx[keys[Math.floor(Math.random() * keys.length)]];
+        }
+      }
+
+      if (result === null || result === undefined) return "(no listx found)";
+
+      if (isPrimitive(result)) return result;
+
+      if (Array.isArray(result)) {
+        if (result.length === 0) return "(no listx found)";
+        listx = result[Math.floor(Math.random() * result.length)];
+        continue;
+      }
+
+      if (result && typeof result.selectOne === "function") {
+        listx = result;
+        continue;
+      }
+
+      if (result && Object.keys(result).length === 0) return "";
+
+      let keys = Object.keys(result || {});
+      if (keys.length === 0) return "(no listx found)";
+      listx = result[keys[Math.floor(Math.random() * keys.length)]];
+    }
+    catch (e) {
+      return "(error in select-listx-plugin: " + e + ")";
+    }
+  }
+
+  return "(error in select-listx-plugin: max depth)";
+}
+
+// Recursively gather all terminal values
+function _getAllListsX(node) {
+  if (!node) return [];
+
+  if (isPrimitive(node)) return [node];
+
+  if (Array.isArray(node)) return node.flatMap(_getAllListsX);
+
+  if (typeof node === "object") {
+    if (Object.keys(node).length === 0) return [];
+
+    let extracted = extractLeafValue(node);
+    if (extracted !== undefined) return [extracted];
+
+    if (typeof node.selectAll !== "undefined") {
+      return _getAllListsX(node.selectAll);
+    }
+
+    return Object.values(node).flatMap(_getAllListsX);
+  }
+
+  return [];
+}
+
+function _getListXByIndex(list, index) {
+  const listsx = _getAllListsX(list);
+  if (listsx.length === 0) return "(no listx found)";
+
+  index = Number(index) - 1;
+  if (isNaN(index) || index < 0 || index >= listsx.length) return "(index out of range)";
+
+  return listsx[index];
+}
+
+function _pickCount(...a) {
+  let num = 1;
+
+  if (a.length === 1) {
+    if (Array.isArray(a[0])) {
+      num = Number(a[0][Math.floor(Math.random() * a[0].length)]);
+    } else {
+      num = Number(a[0]);
+    }
+  } else if (a.length === 2) {
+    num = Number(a[0]) + Math.round(Math.random() * (Number(a[1]) - Number(a[0])));
+  } else if (a.length > 2) {
+    num = Number(a[Math.floor(Math.random() * a.length)]);
+  }
+
+  if (isNaN(num) || num < 1) num = 1;
+  return num;
+}
+
+function _selectManyX(list, ...a) {
+  let num = _pickCount(...a);
+  let arr = [];
+
+  for (let i = 0; i < num; i++) {
+    arr.push(_selectListX(list));
+  }
+
+  return asJoinedArray(arr);
+}
+
+function _selectOrderX(list, ...indices) {
+  const listsx = _getAllListsX(list);
+  if (listsx.length === 0) return asJoinedArray([]);
+
+  const result = indices.map(i => {
+    const idx = Number(i) - 1;
+    if (isNaN(idx) || idx < 0 || idx >= listsx.length) return "(index out of range)";
+    return listsx[idx];
+  });
+
+  return asJoinedArray(result);
+}
+
+function _selectRangeX(list, start, end) {
+  const listsx = _getAllListsX(list);
+  if (listsx.length === 0) return asJoinedArray([]);
+
+  start = Number(start);
+  end = Number(end);
+
+  if (isNaN(start) || isNaN(end)) return asJoinedArray(["(invalid range)"]);
+
+  if (start > end) {
+    let t = start;
+    start = end;
+    end = t;
+  }
+
+  return asJoinedArray(listsx.slice(start - 1, end));
+}
+
+function _selectExceptX(list, ...indices) {
+  const listsx = _getAllListsX(list);
+  if (listsx.length === 0) return asJoinedArray([]);
+
+  const excluded = new Set(indices.map(i => Number(i) - 1).filter(i => !isNaN(i)));
+  return asJoinedArray(listsx.filter((_, i) => !excluded.has(i)));
+}
+
+function _selectUniqueX(list, count) {
+  const listsx = [..._getAllListsX(list)];
+  if (listsx.length === 0) return asJoinedArray([]);
+
+  count = Number(count);
+  if (isNaN(count) || count < 1) count = 1;
+
+  let result = [];
+  while (listsx.length > 0 && result.length < count) {
+    const i = Math.floor(Math.random() * listsx.length);
+    result.push(listsx.splice(i, 1)[0]);
+  }
+
+  return asJoinedArray(result);
+}
+
+function _shuffleArray(arr) {
+  let copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = copy[i];
+    copy[i] = copy[j];
+    copy[j] = t;
+  }
+  return copy;
+}
+
+function _selectShuffleX(list) {
+  return asJoinedArray(_shuffleArray(_getAllListsX(list)));
+}
+
+function _selectWeightedX(list, weights) {
+  const listsx = _getAllListsX(list);
+  if (listsx.length === 0) return "(no listx found)";
+
+  let w = Array.isArray(weights) ? weights.map(Number) : [Number(weights)];
+  while (w.length < listsx.length) w.push(1);
+
+  let total = 0;
+  for (let i = 0; i < listsx.length; i++) {
+    const weight = (!isNaN(w[i]) && w[i] > 0) ? w[i] : 0;
+    total += weight;
+  }
+
+  if (total <= 0) return "(invalid weights)";
+
+  let r = Math.random() * total;
+  for (let i = 0; i < listsx.length; i++) {
+    const weight = (!isNaN(w[i]) && w[i] > 0) ? w[i] : 0;
+    r -= weight;
+    if (r <= 0) return listsx[i];
+  }
+
+  return listsx[listsx.length - 1];
+}
+
+function _getPathNode(root, path) {
+  if (!root || !path) return undefined;
+  const parts = (path + "").split(".");
+  let node = root;
+
+  for (let part of parts) {
+    if (!node || typeof node !== "object" || !(part in node)) return undefined;
+    node = node[part];
+  }
+
+  return node;
+}
+
+function _selectPathX(root, path) {
+  const node = _getPathNode(root, path);
+  if (node === undefined) return asJoinedArray(["(path not found)"]);
+  return asJoinedArray(_getAllListsX(node));
+}
+
+function _selectWhereX(list, predicate) {
+  const listsx = _getAllListsX(list);
+  if (listsx.length === 0) return asJoinedArray([]);
+
+  if (typeof predicate !== "function") return asJoinedArray(listsx);
+
+  return asJoinedArray(listsx.filter((item, i, arr) => {
+    try {
+      return !!predicate(item, i + 1, arr);
+    } catch (e) {
+      return false;
+    }
+  }));
+}
+
+// ------------------------------------------------------------
+// ATTACH METHODS TO A LIST / OBJECT
+// ------------------------------------------------------------
+
+function addSelectListXMethods(target, root) {
+  if (!target || typeof target !== "object") return target;
+  if (target.__selectListXMethodsAdded) return target;
+
+  Object.defineProperty(target, "__selectListXMethodsAdded", {
+    value: true,
+    enumerable: false
+  });
+
+  target.selectListX = function() {
+    return _selectListX(this);
+  };
+
+  target.selectListsX = function(...a) {
+    return _selectManyX(this, ...a);
+  };
+
+  target.selectAllListsX = function() {
+    const listsx = _getAllListsX(this);
+    listsx.toString = function() {
+      if (this.length === 0) return "";
+      return this[Math.floor(Math.random() * this.length)] + "";
+    };
+    return listsx;
+  };
+
+  target.selectSpecific = function(index) {
+    return _getListXByIndex(this, index);
+  };
+
+  target.selectOrder = function(...indices) {
+    return _selectOrderX(this, ...indices);
+  };
+
+  target.selectRange = function(start, end) {
+    return _selectRangeX(this, start, end);
+  };
+
+  target.selectExcept = function(...indices) {
+    return _selectExceptX(this, ...indices);
+  };
+
+  target.selectUniqueX = function(count) {
+    return _selectUniqueX(this, count);
+  };
+
+  target.selectShuffle = function() {
+    return _selectShuffleX(this);
+  };
+
+  target.selectWeighted = function(weights) {
+    return _selectWeightedX(this, weights);
+  };
+
+  target.selectPath = function(path) {
+    return _selectPathX(root || this, path);
+  };
+
+  target.selectWhere = function(predicate) {
+    return _selectWhereX(this, predicate);
+  };
+
+  for (let value of Object.values(target)) {
+    if (value && typeof value === "object") {
+      addSelectListXMethods(value, root || target);
+    }
+  }
+
+  return target;
+}
+
+// ------------------------------------------------------------
+// GLOBAL EXPORTS
+// ------------------------------------------------------------
+
+$output selectListX = (list) => {
+  if (!list) return "(no list given to selectListX)";
+  addSelectListXMethods(list, list);
+  return _selectListX(list);
+};
+
+$output selectListsX = (list, ...a) => {
+  if (!list) return "(no list given to selectListsX)";
+  addSelectListXMethods(list, list);
+  return _selectManyX(list, ...a);
+};
+
+$output selectAllListsX = (list) => {
+  if (!list) return "(no list given to selectAllListsX)";
+  addSelectListXMethods(list, list);
+  const listsx = _getAllListsX(list);
+  listsx.toString = function() {
+    if (this.length === 0) return "";
+    return this[Math.floor(Math.random() * this.length)] + "";
+  };
+  return listsx;
+};
+
+$output selectSpecific = (list, index) => {
+  if (!list) return "(no list given to selectSpecific)";
+  addSelectListXMethods(list, list);
+  return _getListXByIndex(list, index);
+};
+
+$output selectOrder = (list, ...indices) => {
+  if (!list) return "(no list given to selectOrder)";
+  addSelectListXMethods(list, list);
+  return _selectOrderX(list, ...indices);
+};
+
+$output selectRange = (list, start, end) => {
+  if (!list) return "(no list given to selectRange)";
+  addSelectListXMethods(list, list);
+  return _selectRangeX(list, start, end);
+};
+
+$output selectExcept = (list, ...indices) => {
+  if (!list) return "(no list given to selectExcept)";
+  addSelectListXMethods(list, list);
+  return _selectExceptX(list, ...indices);
+};
+
+$output selectUniqueX = (list, count) => {
+  if (!list) return "(no list given to selectUniqueX)";
+  addSelectListXMethods(list, list);
+  return _selectUniqueX(list, count);
+};
+
+$output selectShuffle = (list) => {
+  if (!list) return "(no list given to selectShuffle)";
+  addSelectListXMethods(list, list);
+  return _selectShuffleX(list);
+};
+
+$output selectWeighted = (list, weights) => {
+  if (!list) return "(no list given to selectWeighted)";
+  addSelectListXMethods(list, list);
+  return _selectWeightedX(list, weights);
+};
+
+$output selectPath = (root, path) => {
+  if (!root) return "(no root given to selectPath)";
+  addSelectListXMethods(root, root);
+  return _selectPathX(root, path);
+};
+
+$output selectWhere = (list, predicate) => {
+  if (!list) return "(no list given to selectWhere)";
+  addSelectListXMethods(list, list);
+  return _selectWhereX(list, predicate);
+};

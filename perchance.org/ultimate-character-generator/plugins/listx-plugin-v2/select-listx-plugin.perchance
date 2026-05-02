@@ -1,0 +1,46 @@
+// select-listx-plugin — robust listx selector tuned for listx-plugin
+
+selectListX
+
+$output (list, maxDepth = 10000) =>
+  if(!list) return "(no list given to selectListX plugin)";
+  let listx = list;
+  let i = 0;
+  let result;
+  while (i++ < maxDepth) {
+    try {
+      if (listx && typeof listx.selectOne !== "undefined") {
+        result = listx.selectOne;
+      } else if (Array.isArray(listx)) {
+        if (listx.length === 0) return "(no listx found)";
+        result = listx[Math.floor(Math.random() * listx.length)];
+      } else {
+        if (typeof listx === "string" || typeof listx === "number" || typeof listx === "boolean") return listx;
+        if (!listx || Object.keys(listx).length === 0) return "(no listx found)";
+        if (listx.value || listx.text || listx.label || listx.name) {
+          result = listx.value || listx.text || listx.label || listx.name;
+        } else {
+          let keys = Object.keys(listx);
+          result = listx[keys[Math.floor(Math.random() * keys.length)]];
+        }
+      }
+
+      if (result === null || typeof result === "undefined") return "(no listx found)";
+      if (typeof result === "string" || typeof result === "number" || typeof result === "boolean") return result;
+      if (Array.isArray(result)) {
+        listx = result[Math.floor(Math.random() * result.length)];
+        continue;
+      }
+      if (result && typeof result.selectOne !== "undefined") {
+        listx = result;
+        continue;
+      }
+      if (result && Object.keys(result).length === 0) return "";
+      let keys = Object.keys(result);
+      if (keys.length === 0) return "(no listx found)";
+      listx = result[keys[Math.floor(Math.random() * keys.length)]];
+    } catch (e) {
+      return "(error in select-listx-plugin: " + e + ")";
+    }
+  }
+  return "(error in select-listx-plugin: max depth)";

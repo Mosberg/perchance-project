@@ -1,0 +1,447 @@
+// MASTER CHARACTER GENERATOR
+// Uses: selectLeaf, selectLeaves, selectAllLeaves plugins already imported at top of file.
+
+// Entry point
+master_character
+  = {character_profile_readable}
+
+  \n\n=== JSON EXPORT ===\n
+  {character_profile_json}
+
+// -----------------------------
+// READABLE CHARACTER PROFILE
+// -----------------------------
+
+character_profile_readable
+  = === CHARACTER PROFILE ===
+  \nName: {mc_name}
+  \nAge: {mc_age}
+  \nGender: {mc_gender} ({mc_pronouns})
+  \nSpecies: {mc_species}
+  \nSubspecies: {mc_subspecies}
+  \nSexuality: {mc_sexuality}
+  \nRomantic Orientation: {mc_orientation}
+  \nAlignment: {mc_alignment}
+
+  \n\n=== CULTURE & SOCIETY ===
+  \nCulture: {mc_culture}
+  \nLanguage: {mc_language}
+  \nNationality: {mc_nationality}
+  \nReligion: {mc_religion}
+  \nBackground: {mc_background}
+  \nOccupation: {mc_occupation}
+  \nEducation: {mc_education}
+  \nWealth: {mc_wealth}
+  \nStatus: {mc_status}
+
+  \n\n=== APPEARANCE ===
+  \nSkin Tone: {mc_skin_tone}
+  \nSkin Markings: {mc_skin_markings}
+  \nEye Color: {mc_eye_color}
+  \nEye Shape: {mc_eye_shape}
+  \nEye Features: {mc_eye_features}
+  \nHair Color: {mc_hair_color}
+  \nHair Style: {mc_hair_style}
+  \nFacial Hair: {mc_facial_hair}
+  \nChest: {mc_chest}
+  \nBody Modifications: {mc_body_mods}
+
+  \n\n=== PERSONALITY & MIND ===
+  \nPositive Traits: {mc_positive_traits}
+  \nNegative Traits: {mc_negative_traits}
+  \nNeutral Traits: {mc_neutral_traits}
+  \nQuirks: {mc_quirks}
+  \nValues: {mc_values}
+  \nFears: {mc_fears}
+  \nMotivations: {mc_motivations}
+  \nFlaws: {mc_flaws}
+  \nMental State: {mc_mental_health}
+  \nTemperament: {mc_temperament}
+
+  \n\n=== BACKGROUND ===
+  \nOrigin: {mc_origin}
+  \nParents: {mc_parents}
+  \nSiblings: {mc_siblings}
+  \nChildren: {mc_children}
+  \nMarital Status: {mc_marital_status}
+  \nSocial Class: {mc_social_class}
+  \nReputation: {mc_reputation}
+  \nCriminal Record: {mc_criminal_record}
+  \nNotable Events: {mc_notable_events}
+  \nAffiliations: {mc_affiliations}
+  \nMentor: {mc_mentor}
+  \nRival: {mc_rival}
+  \nNemesis: {mc_nemesis}
+  \nFriends: {mc_friends}
+  \nPets: {mc_pets}
+
+  \n\n=== SKILLS ===
+  \nCombat Skills: {mc_combat_skills}
+  \nMagic Skills: {mc_magic_skills}
+  \nTalents: {mc_talents}
+  \nLanguages Known: {mc_language_skills}
+  \nKnowledge Areas: {mc_knowledge_skills}
+  \nTool Proficiencies: {mc_tool_skills}
+  \nVehicle Skills: {mc_vehicle_skills}
+
+  \n\n=== RELATIONSHIPS ===
+  \nRomantic Orientation: {mc_romance_orientation}
+  \nRomantic Status: {mc_romance_status}
+  \nRomantic History: {mc_romance_history}
+
+  \n\n=== EQUIPMENT ===
+  \nClothing: {mc_equipment_clothing}
+  \nWeapons: {mc_equipment_weapons}
+  \nItems: {mc_equipment_items}
+  \nValuables: {mc_equipment_valuables}
+  \nMount: {mc_equipment_mounts}
+
+  \n\n=== PORTRAIT ===
+  \nArt Style: {mc_portrait_style}
+  \nPose: {mc_portrait_pose}
+  \nPortrait Clothing: {mc_portrait_clothing}
+  \nPortrait Accessories: {mc_portrait_accessories}
+  \nLighting: {mc_portrait_lighting}
+  \nBackground: {mc_portrait_background}
+
+// -----------------------------
+// JSON-STYLE EXPORT
+// -----------------------------
+
+character_profile_json
+  = {
+  "name": "{mc_name}",
+  "age": "{mc_age}",
+  "gender": "{mc_gender}",
+  "pronouns": "{mc_pronouns}",
+  "species": "{mc_species}",
+  "subspecies": "{mc_subspecies}",
+  "sexuality": "{mc_sexuality}",
+  "romantic_orientation": "{mc_orientation}",
+  "alignment": "{mc_alignment}",
+
+  "culture": "{mc_culture}",
+  "language": "{mc_language}",
+  "nationality": "{mc_nationality}",
+  "religion": "{mc_religion}",
+  "background": "{mc_background}",
+  "occupation": "{mc_occupation}",
+  "education": "{mc_education}",
+  "wealth": "{mc_wealth}",
+  "status": "{mc_status}",
+
+  "appearance": {
+    "skin_tone": "{mc_skin_tone}",
+    "skin_markings": "{mc_skin_markings}",
+    "eye_color": "{mc_eye_color}",
+    "eye_shape": "{mc_eye_shape}",
+    "eye_features": "{mc_eye_features}",
+    "hair_color": "{mc_hair_color}",
+    "hair_style": "{mc_hair_style}",
+    "facial_hair": "{mc_facial_hair}",
+    "chest": "{mc_chest}",
+    "body_modifications": "{mc_body_mods}"
+  },
+
+  "personality": {
+    "positive_traits": "{mc_positive_traits}",
+    "negative_traits": "{mc_negative_traits}",
+    "neutral_traits": "{mc_neutral_traits}",
+    "quirks": "{mc_quirks}",
+    "values": "{mc_values}",
+    "fears": "{mc_fears}",
+    "motivations": "{mc_motivations}",
+    "flaws": "{mc_flaws}",
+    "mental_health": "{mc_mental_health}",
+    "temperament": "{mc_temperament}"
+  },
+
+  "background_detail": {
+    "origin": "{mc_origin}",
+    "parents": "{mc_parents}",
+    "siblings": "{mc_siblings}",
+    "children": "{mc_children}",
+    "marital_status": "{mc_marital_status}",
+    "social_class": "{mc_social_class}",
+    "reputation": "{mc_reputation}",
+    "criminal_record": "{mc_criminal_record}",
+    "notable_events": "{mc_notable_events}",
+    "affiliations": "{mc_affiliations}",
+    "mentor": "{mc_mentor}",
+    "rival": "{mc_rival}",
+    "nemesis": "{mc_nemesis}",
+    "friends": "{mc_friends}",
+    "pets": "{mc_pets}"
+  },
+
+  "skills": {
+    "combat": "{mc_combat_skills}",
+    "magic": "{mc_magic_skills}",
+    "talents": "{mc_talents}",
+    "languages": "{mc_language_skills}",
+    "knowledge": "{mc_knowledge_skills}",
+    "tools": "{mc_tool_skills}",
+    "vehicles": "{mc_vehicle_skills}"
+  },
+
+  "relationships": {
+    "romance_orientation": "{mc_romance_orientation}",
+    "romance_status": "{mc_romance_status}",
+    "romance_history": "{mc_romance_history}"
+  },
+
+  "equipment": {
+    "clothing": "{mc_equipment_clothing}",
+    "weapons": "{mc_equipment_weapons}",
+    "items": "{mc_equipment_items}",
+    "valuables": "{mc_equipment_valuables}",
+    "mounts": "{mc_equipment_mounts}"
+  },
+
+  "portrait": {
+    "style": "{mc_portrait_style}",
+    "pose": "{mc_portrait_pose}",
+    "clothing": "{mc_portrait_clothing}",
+    "accessories": "{mc_portrait_accessories}",
+    "lighting": "{mc_portrait_lighting}",
+    "background": "{mc_portrait_background}"
+  }
+}
+
+// -----------------------------
+// FIELD RESOLVERS
+// -----------------------------
+
+// Identity basics
+mc_name
+  = {selectLeaf:identity.name.first} {selectLeaf:identity.name.last}
+
+mc_age
+  = {selectLeaf:identity.age}
+
+mc_gender
+  = {selectLeaf:identity.gender}
+
+mc_pronouns
+  = {selectLeaf:identity.pronouns}
+
+mc_species
+  = {selectLeaf:identity.species}
+
+mc_subspecies
+  = {selectLeaf:identity.elf_subspecies|identity.dwarf_subspecies|identity.fae_subspecies|identity.lycan_subspecies|identity.dragonborn_subspecies|identity.vampire_subspecies|none_subspecies}
+
+none_subspecies
+  = none
+
+mc_sexuality
+  = {selectLeaf:identity.sexuality}
+
+mc_orientation
+  = {selectLeaf:identity.orientation}
+
+mc_alignment
+  = {selectLeaf:identity.alignment}
+
+// Culture & society
+mc_culture
+  = {selectLeaf:identity.culture}
+
+mc_language
+  = {selectLeaf:identity.language}
+
+mc_nationality
+  = {selectLeaf:identity.nationality}
+
+mc_religion
+  = {selectLeaf:identity.religion}
+
+mc_background
+  = {selectLeaf:identity.background}
+
+mc_occupation
+  = {selectLeaf:identity.occupation}
+
+mc_education
+  = {selectLeaf:identity.education}
+
+mc_wealth
+  = {selectLeaf:identity.wealth}
+
+mc_status
+  = {selectLeaf:identity.status}
+
+// Appearance
+mc_skin_tone
+  = {selectLeaf:appearance.skin.tone}
+
+mc_skin_markings
+  = {selectLeaf:appearance.skin.markings}
+
+mc_eye_color
+  = {selectLeaf:appearance.eyes.color}
+
+mc_eye_shape
+  = {selectLeaf:appearance.eyes.shape}
+
+mc_eye_features
+  = {selectLeaf:appearance.eyes.features}
+
+mc_hair_color
+  = {selectLeaf:appearance.hair.color}
+
+mc_hair_style
+  = {selectLeaf:appearance.hair.style}
+
+mc_facial_hair
+  = {selectLeaf:appearance.hair.facial}
+
+mc_chest
+  = {selectLeaf:appearance.chest}
+
+mc_body_mods
+  = {selectLeaf:appearance.body_modifications}
+
+// Personality (assuming you’ve defined personality.* as in our earlier pass)
+mc_positive_traits
+  = {selectLeaves:personality.traits.positive,3}
+
+mc_negative_traits
+  = {selectLeaves:personality.traits.negative,2}
+
+mc_neutral_traits
+  = {selectLeaves:personality.traits.neutral,2}
+
+mc_quirks
+  = {selectLeaves:personality.quirks,2}
+
+mc_values
+  = {selectLeaves:personality.values,2}
+
+mc_fears
+  = {selectLeaves:personality.fears,2}
+
+mc_motivations
+  = {selectLeaves:personality.motivations,2}
+
+mc_flaws
+  = {selectLeaves:personality.flaws,1}
+
+mc_mental_health
+  = {selectLeaf:personality.mental_health}
+
+mc_temperament
+  = {selectLeaf:personality.temperament}
+
+// Background detail
+mc_origin
+  = {selectLeaf:background.origin}
+
+mc_parents
+  = {selectLeaf:background.family.parents}
+
+mc_siblings
+  = {selectLeaf:background.family.siblings}
+
+mc_children
+  = {selectLeaf:background.family.children}
+
+mc_marital_status
+  = {selectLeaf:background.family.marital_status}
+
+mc_social_class
+  = {selectLeaf:background.social_class}
+
+mc_reputation
+  = {selectLeaf:background.reputation}
+
+mc_criminal_record
+  = {selectLeaf:background.criminal_record}
+
+mc_notable_events
+  = {selectLeaves:background.notable_events,2}
+
+mc_affiliations
+  = {selectLeaves:background.affiliations,2}
+
+mc_mentor
+  = {selectLeaf:background.mentor}
+
+mc_rival
+  = {selectLeaf:background.rival}
+
+mc_nemesis
+  = {selectLeaf:background.nemesis}
+
+mc_friends
+  = {selectLeaf:background.friends}
+
+mc_pets
+  = {selectLeaf:background.pets}
+
+// Skills
+mc_combat_skills
+  = {selectLeaves:skills.combat,2}
+
+mc_magic_skills
+  = {selectLeaves:skills.magic,2}
+
+mc_talents
+  = {selectLeaves:skills.talents,3}
+
+mc_language_skills
+  = {selectLeaves:skills.languages,2}
+
+mc_knowledge_skills
+  = {selectLeaves:skills.knowledge,2}
+
+mc_tool_skills
+  = {selectLeaves:skills.tools,2}
+
+mc_vehicle_skills
+  = {selectLeaves:skills.vehicles,1}
+
+// Relationships
+mc_romance_orientation
+  = {selectLeaf:relationships.romance.orientation}
+
+mc_romance_status
+  = {selectLeaf:relationships.romance.status}
+
+mc_romance_history
+  = {selectLeaf:relationships.romance.history}
+
+// Equipment
+mc_equipment_clothing
+  = {selectLeaf:equipment.clothing}
+
+mc_equipment_weapons
+  = {selectLeaves:equipment.weapons,2}
+
+mc_equipment_items
+  = {selectLeaves:equipment.items,3}
+
+mc_equipment_valuables
+  = {selectLeaves:equipment.valuables,2}
+
+mc_equipment_mounts
+  = {selectLeaf:equipment.mounts}
+
+// Portrait
+mc_portrait_style
+  = {selectLeaf:portrait.style}
+
+mc_portrait_pose
+  = {selectLeaf:portrait.pose}
+
+mc_portrait_clothing
+  = {selectLeaf:portrait.clothing}
+
+mc_portrait_accessories
+  = {selectLeaves:portrait.accessories,2}
+
+mc_portrait_lighting
+  = {selectLeaf:portrait.lighting}
+
+mc_portrait_background
+  = {selectLeaf:portrait.background}

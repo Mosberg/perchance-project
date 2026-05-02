@@ -2,6 +2,7 @@
 // Comprehensive Character List Structure for Perchance
 
 selectLeaf = {import:select-leaf-plugin}
+selectLeafV2 = {import:select-leaf-plugin-v2}
 selectLeaves = {import:select-leaves-plugin}
 selectAllLeaves = {import:select-all-leaves-plugin}
 
@@ -3089,5 +3090,4 @@ character_personality_trait_positive
   observant
   thoughtful
 
-output
-  [character_first_name_male] [character_last_name_fantasy] is a [character_age_young_adult] [character_gender_female_pronouns] [character_species_elf] with [character_hair_color_silver] hair and [character_personality_trait_positive] personality. Random leaf: [selectLeaf(character_first_name_male)] 5 unique leaves: [selectLeaves(character_first_name_male, 5).joinItems(", ")] 5-10 random unique leaves: [selectLeaves(character, 5, 10).joinItems(", ")]
+  [character_first_name_male] [character_last_name_fantasy] is a [character_age_young_adult] [character_gender_female_pronouns] [character_species_elf] with [character_hair_color_silver] hair and [character_personality_trait_positive] personality. Random leaf: [selectLeaf(character_first_name_male)] | V2: [selectLeafV2(character_first_name_male)] 5 unique leaves: [selectLeaves(character_first_name_male, 5).joinItems(", ")] 5-10 random unique leaves: [selectLeaves(character, 5, 10).joinItems(", ")]

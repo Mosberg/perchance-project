@@ -1,0 +1,98 @@
+<style>
+  .plugins {
+    margin: 20px auto;
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    border-radius: 20px;
+    padding: 1.5em;
+    box-sizing: border-box;
+    border: 2px solid #333;
+  }
+
+  body {
+    background: #f5f5f5;
+  }
+
+  code {
+    background-color: #eee;
+    padding: 0.1em 0.2em;
+  }
+
+  pre {
+    text-align: left;
+    background: #222;
+    color: #fff;
+    padding: 1em;
+    border-radius: 4px;
+    tab-size: 2;
+    -moz-tab-size: 2;
+    -o-tab-size: 2;
+    -webkit-tab-size: 2;
+    font-size: 1em;
+    overflow-x: auto;
+  }
+
+  ul li {
+    margin-top: 0.4em;
+  }
+</style>
+
+<div class="plugins">
+  <h1>📋 Select ListX Plugin 📋</h1>
+  <div>
+    <p>Import in Perchance code panel:</p>
+    <pre>selectListX = \{import:select-listx-plugin\}</pre>
+    <p>
+      This plugin provides a comprehensive, hierarchical, and extensible set of
+      lists for character generation, covering identity, appearance,
+      personality, background, skills, relationships, adult content, and more.
+    </p>
+    <ul>
+      <li>All standard and extended character attributes</li>
+      <li>Supports leaf selection, random sampling, and unique draws</li>
+    </ul>
+    <p>Example usage:</p>
+<p>
+  Combine different single lists:
+</p>
+<pre>
+[character.identity.name.first.male.selectOne] [character.identity.name.last.common.selectOne]
+</pre>
+
+<p>
+  Select many from the same list in this example 3 names:
+</p>
+<pre>
+[character.identity.name.first.male.selectMany(3).joinItems(", ")]
+</pre>
+
+<p>
+  Select all from the same list:
+</p>
+<pre>
+[character.joinItems(", ")]
+</pre>
+    >
+    <p><b>Sections included:</b></p>
+    <ul>
+      <li>Identity (name, age, gender, species, sexuality, pronouns, etc.)</li>
+      <li>
+        Appearance (skin, eyes, hair, height, build, genitals, modifications,
+        etc.)
+      </li>
+      <li>Personality (traits, quirks, alignment, values, etc.)</li>
+      <li>Background (origin, culture, occupation, education, wealth, etc.)</li>
+      <li>Skills & Abilities (combat, magic, talents, languages, etc.)</li>
+      <li>Relationships (family, friends, rivals, romance, etc.)</li>
+      <li>Equipment (clothing, weapons, items, etc.)</li>
+      <li>Adult Content (kinks, fetishes, acts, power dynamics, etc.)</li>
+      <li>Portrait (style, pose, clothing, accessories, lighting, etc.)</li>
+      <li>Custom/Extensible fields</li>
+    </ul>
+    <p>
+      For more info, see
+      <a href="https://perchance.org/plugins">perchance.org/plugins</a>.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<h1>The List Plugin</h1>
+
+<div style="margin:0 auto;width:100%;max-width:750px;background:white;border-radius:2px;padding:1em; box-sizing:border-box;">
+  <p style="margin-top:0;">The List Plugin combines select/list utilities from all the select-plugin helpers into a single importable module. It exposes list selection, filtering, joining, consumable list behavior, range utilities, and lockable/locker state controls.</p>
+
+  <p>Import it in your lists editor like this:</p>
+  <pre class="custom">
+listUtils = \{import:the-list-plugin\}
+  </pre>
+
+  <p>Once imported, you can use it directly as a weighted selector, or access its helper methods.</p>
+
+  <h2>Examples</h2>
+  <pre class="custom">
+select = \{import:the-list-plugin\}
+
+a =
+  apple
+  banana
+  cherry
+
+b =
+  red
+  blue
+  green
+
+x = \[select(a, b, null, 1, 2)\]
+  </pre>
+  <p>This chooses either <code>a</code> or <code>b</code>, with odds 1:2.</p>
+
+  <p>Helper methods include:</p>
+  <ul class="dot-list">
+    <li><code>select.selectLeaf(list)</code>: choose a leaf node from a nested list</li>
+    <li><code>select.selectLeaves(list, count)</code>: choose multiple leaves</li>
+    <li><code>select.selectAllLeaves(list)</code>: flatten list to all leaves</li>
+    <li><code>select.selectRange(list, start, end)</code>: slice a list range</li>
+    <li><code>select.selectUntil(list, predicate)</code>: select until a condition matches</li>
+    <li><code>select.joinLists(a, b, ...)</code>: concatenate several lists</li>
+    <li><code>select.filterList(list, fn)</code>: keep items that pass a callback</li>
+    <li><code>select.excludeItems(list, item1, item2, ...)</code>: remove named items</li>
+    <li><code>select.consumableList(list)</code>: create a consumable list that replenishes when exhausted</li>
+    <li><code>select.consumableLeafList(list)</code>: consume leaves without repeating</li>
+    <li><code>select.lockable(list)</code>: lock list output with an inline toggle</li>
+    <li><code>select.locker(name, value)</code>: store a value across render passes</li>
+    <li><code>select.lockButton(name)</code>: render a locker toggle button</li>
+  </ul>
+
+  <p>For example, to exclude unwanted terms:</p>
+  <pre class="custom">
+remaining = \[select.excludeItems(myList, "skipMe", anotherItem)\]
+  </pre>
+
+  <p>To create a locked list output:</p>
+  <pre class="custom">
+locked = \[select.lockable(myList)\]
+button = \[select.lockButton("session")\]
+  </pre>
+
+  <p>This plugin is intended as a single combination point for all the select-plugin features in the <code>select-plugin</code> directory.</p>
+
+  <br>
+  <p><b>Notes:</b></p>
+  <ul class="dot-list">
+    <li>Use <code>select = \{import:the-list-plugin\}</code> to index every helper from one import.</li>
+    <li>Direct function call <code>select(...)</code> uses the random select behavior.</li>
+    <li>See the method names above for list-specific helpers.</li>
+  </ul>
+</div>
+<br><br><br>
+
+<style>
+  p {
+    text-align:left;
+  }
+  body {
+    background:#eee;
+  }
+  code {
+    background-color:#eee;
+    padding: 0.05em 0.2em;
+  }
+  ul.dot-list li {
+    margin-top:0.5em;
+  }
+  pre.custom {
+    text-align:left;
+    background: #333;
+    color: white;
+    padding: 1em;
+    border-radius: 2px;
+    tab-size: 2;
+    -moz-tab-size: 2;
+    -o-tab-size: 2;
+    -webkit-tab-size: 2;
+  }
+</style>
