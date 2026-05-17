@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The AI HentaiHub v2</title>
+  <meta name="description" content="The AI HentaiHub v2 is an advanced prompt engineering and image gallery interface for adult AI generation. It includes prompt generation, tagging, history, collections, and offline placeholder rendering." />
+  <link rel="stylesheet" href="https://mosberg.github.io/src/styles/TAHH-v2.css" />
+    <link
+    rel="shortcut icon"
+    href="https://mosberg.github.io/src/img/TAHH.webp"
+    type="image/x-icon"
+  />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="panel panel-sidebar" aria-label="Sidebar navigation">
+      <div class="brand">
+        <div class="brand-mark">TAHH</div>
+        <div>
+          <h1>The AI HentaiHub</h1>
+          <p>v2 prompt studio · gallery · workflow</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main tabs">
+        <button class="nav-btn active" data-tab="builder">Prompt Builder</button>
+        <button class="nav-btn" data-tab="tags">Tag Library</button>
+        <button class="nav-btn" data-tab="history">History</button>
+        <button class="nav-btn" data-tab="settings">Settings</button>
+      </nav>
+
+      <div class="sidebar-panels">
+        <section id="panel-builder" class="sidebar-panel active">
+          <div class="section-header">
+            <h2>Quick Helper</h2>
+            <span id="helperStatus">Ready</span>
+          </div>
+          <textarea id="helperInput" placeholder="Enter a scene concept or leave blank for a random prompt..."></textarea>
+          <div class="button-group">
+            <button class="btn btn-primary" data-action="generate">Generate</button>
+            <button class="btn" data-action="random">Random</button>
+            <button class="btn" data-action="enhance">Enhance</button>
+          </div>
+          <div class="helper-actions">
+            <button class="btn" data-action="copy-helper">Copy</button>
+            <button class="btn" data-action="save-note">Save Note</button>
+            <button class="btn" data-action="inject-main">Inject</button>
+          </div>
+
+          <div class="section-divider"></div>
+          <div class="section-header">
+            <h2>Templates</h2>
+          </div>
+          <select id="templateSelect" aria-label="Choose a prompt template">
+            <option value="">Select a template...</option>
+          </select>
+          <button class="btn btn-secondary" id="loadTemplateBtn">Load Template</button>
+        </section>
+
+        <section id="panel-tags" class="sidebar-panel">
+          <div class="section-header">
+            <h2>Tag Library</h2>
+            <button class="btn btn-secondary" id="clearSelectedTags">Clear</button>
+          </div>
+          <div class="tag-controls">
+            <select id="tagCategorySelect" aria-label="Select tag category"></select>
+            <button class="btn btn-primary" id="appendTagsBtn">Add Selected</button>
+          </div>
+          <div id="tagGrid" class="tag-grid" aria-live="polite"></div>
+        </section>
+
+        <section id="panel-history" class="sidebar-panel">
+          <div class="section-header">
+            <h2>Prompt History</h2>
+            <button class="btn btn-secondary" id="clearHistoryBtn">Clear All</button>
+          </div>
+          <div id="historyList" class="list-group"></div>
+        </section>
+
+        <section id="panel-settings" class="sidebar-panel">
+          <div class="section-header">
+            <h2>Experience Settings</h2>
+          </div>
+          <div class="setting-row">
+            <label><input type="checkbox" id="autoSaveToggle"> Auto-save gallery</label>
+          </div>
+          <div class="setting-row">
+            <label><input type="checkbox" id="autoNegativeToggle"> Auto-generate negative prompt</label>
+          </div>
+          <div class="setting-row">
+            <label><input type="checkbox" id="darkModeToggle"> Dark mode</label>
+          </div>
+          <div class="setting-row">
+            <label>Engine</label>
+            <select id="engineSelect">
+              <option value="local">Local Prompt Engine</option>
+              <option value="perchance">Perchance Plugin</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label>Gallery Limit</label>
+            <input type="number" id="galleryLimitInput" min="10" max="500" value="120">
+          </div>
+        </section>
+      </div>
+    </aside>
+
+    <main class="panel panel-main">
+      <header class="main-header">
+        <div>
+          <p class="eyebrow">Ultimate Hentai Prompt Studio</p>
+          <h2>Build, refine, and manage explicit AI art prompts</h2>
+        </div>
+        <div class="header-actions">
+          <span class="status-pill">User: <strong id="userDisplay">guest</strong></span>
+          <button class="btn btn-secondary" id="accountBtn">Account</button>
+          <button class="btn btn-secondary" id="exportBtn">Export</button>
+          <input id="importFile" type="file" accept="application/json" hidden>
+          <button class="btn" id="importBtn">Import</button>
+        </div>
+      </header>
+
+      <section class="controls-panel">
+        <div class="prompt-panel">
+          <div class="prompt-column">
+            <label class="field-label">Positive Prompt</label>
+            <textarea id="posPromptInput" class="large-textarea" placeholder="Enter your positive prompt here..."></textarea>
+          </div>
+          <div class="prompt-column">
+            <label class="field-label">Negative Prompt</label>
+            <textarea id="negPromptInput" class="large-textarea" placeholder="Enter negative prompt details or use auto-generate..."></textarea>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="control-card">
+            <label>Batch</label>
+            <input type="number" id="batchInput" min="1" max="12" value="1">
+          </div>
+          <div class="control-card">
+            <label>Guidance Scale</label>
+            <input type="range" id="guidanceInput" min="1" max="20" step="0.5" value="7.5">
+            <span id="guidanceValue">7.5</span>
+          </div>
+          <div class="control-card">
+            <label>Steps</label>
+            <input type="range" id="stepsInput" min="10" max="120" value="30">
+            <span id="stepsValue">30</span>
+          </div>
+          <div class="control-card">
+            <label>Seed</label>
+            <div class="seed-row">
+              <input type="number" id="seedInput" value="-1">
+              <button class="btn btn-tertiary" id="randomSeedBtn">🎲</button>
+            </div>
+          </div>
+          <div class="control-card">
+            <label>Resolution</label>
+            <select id="ratioSelect">
+              <option value="768x768">1:1</option>
+              <option value="512x768">2:3</option>
+              <option value="768x512">3:2</option>
+              <option value="1024x512">2:1</option>
+            </select>
+          </div>
+          <div class="control-card">
+            <label>Prompt Intensity</label>
+            <select id="promptIntensitySelect">
+              <option value="balanced">Balanced</option>
+              <option value="vivid">Vivid</option>
+              <option value="raw">Raw Explicit</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn-action" id="generateBtn">⚡ Generate Images</button>
+          <button class="btn btn-secondary" id="previewBtn">Preview Prompt</button>
+          <span id="galleryCount" class="status-pill">Gallery: 0</span>
+        </div>
+      </section>
+
+      <section class="preview-panel">
+        <div class="preview-card">
+          <div class="section-header"><h3>Prompt Preview</h3></div>
+          <pre id="previewOutput" class="preview-output"></pre>
+        </div>
+      </section>
+
+      <section class="gallery-panel">
+        <div class="gallery-topbar">
+          <div>
+            <label>Search</label>
+            <input id="searchInput" placeholder="Search prompts or tags...">
+          </div>
+          <div class="gallery-actions">
+            <select id="folderSelect">
+              <option value="all">All</option>
+              <option value="favorites">Favorites</option>
+            </select>
+            <select id="sortSelect">
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+            <button class="btn" id="bulkDeleteBtn">Bulk Delete</button>
+          </div>
+        </div>
+        <div id="galleryGrid" class="gallery-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="imageDialog" class="dialog-card">
+    <form method="dialog" class="dialog-content">
+      <div class="dialog-header">
+        <h3>Image Details</h3>
+        <button class="btn btn-tertiary">Close</button>
+      </div>
+      <div class="dialog-body">
+        <div class="dialog-preview">
+          <img id="dialogImage" alt="Generated image detail" />
+        </div>
+        <div class="dialog-info">
+          <div class="info-block">
+            <label>Prompt</label>
+            <textarea id="dialogPrompt" readonly></textarea>
+          </div>
+          <div class="info-meta" id="dialogMeta"></div>
+          <div class="dialog-actions">
+            <button type="button" class="btn btn-primary" id="downloadImageBtn">Download</button>
+            <button type="button" class="btn" id="favoriteImageBtn">Favorite</button>
+            <button type="button" class="btn btn-secondary" id="regenerateBtn">Regenerate</button>
+            <button type="button" class="btn btn-danger" id="deleteImageBtn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="accountDialog" class="dialog-card">
+    <form method="dialog" class="dialog-content">
+      <div class="dialog-header">
+        <h3>Account & Storage</h3>
+        <button class="btn btn-tertiary">Close</button>
+      </div>
+      <div class="dialog-body">
+        <div class="info-block">
+          <label>Username</label>
+          <input id="usernameInput" placeholder="Enter username to save profile" />
+        </div>
+        <div class="info-block">
+          <button type="button" class="btn btn-primary" id="saveUserBtn">Save User</button>
+        </div>
+        <div class="info-block">
+          <button type="button" class="btn btn-secondary" id="clearStorageBtn">Clear Local Storage</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module">
+    const TAGS = {
+      style: [
+        "Anime", "Hentai", "Manga", "Digital Painting", "Watercolor", "Oil Painting", "Sketch", "Cel-Shaded", "Cyberpunk", "Noir", "Surreal", "Hyper-Realistic", "Pixel Art", "Vector Art", "3D Render"
+      ],
+      category: [
+        "Vanilla", "BDSM", "Futanari", "Yuri", "Yaoi", "Furry", "Monster", "Tentacle", "Incest", "Mind Control", "Transformation", "Gender Bender", "Harem", "School Life", "Fantasy"
+      ],
+      character: [
+        "Catgirl", "Bunny girl", "Demon girl", "Demon boy", "Angel", "Elf", "Orc", "Goblin", "Slime girl", "Dragon girl", "Vampire", "Werewolf", "Cyborg", "Kitsune", "Nurse"
+      ],
+      action: [
+        "Teasing", "Riding", "Dominating", "Submitting", "Kissing", "Licking", "Fucking", "Spanking", "Bondage", "Cumming", "Masturbating", "Stripping", "Showering", "Fighting", "Dancing"
+      ],
+      setting: [
+        "Neon-lit alley", "Futuristic bed", "Enchanted forest", "Ancient temple", "Space station", "Dark room", "Luxury penthouse", "Abandoned castle", "School hallway", "Steam-powered laboratory"
+      ],
+      lighting: [
+        "Volumetric lighting", "Cinematic rim light", "Soft morning light", "Neon glow", "Moonlight", "Spotlight", "Warm ambient light", "Dramatic shadows"
+      ],
+      mood: [
+        "intense", "sensual", "dangerous", "seductive", "dreamlike", "forbidden", "intimate", "mystical"
+      ],
+      props: [
+        "silk ropes", "leather harness", "magic crystal", "cybernetic implant", "floating candles", "glowing sigils", "ancient tome", "neon signs", "rose petals"
+      ]
+    };
+
+    const TEMPLATES = {
+      "Elegant Portrait": "A detailed portrait of [character], [style] art, [lighting], [expression], 8k, masterpiece, ultra-detailed",
+      "Cinematic Scene": "A cinematic scene of [character] in [setting], [style], [lighting], dramatic pose, high detail, film grain",
+      "Fantasy Ritual": "A fantasy ritual with [character] in [setting], glowing [props], [style], magical atmosphere, ornate details",
+      "Cyberpunk Encounter": "Cyberpunk city encounter with [character], neon signs, [lighting], [action], [style], gritty realism",
+      "Intimate Moment": "An intimate moment with [character] and [action], soft [lighting], [style], emotional expression, high fidelity"
+    };
+
+    const DEFAULT_SETTINGS = {
+      autoSave: true,
+      autoNegative: true,
+      theme: 'dark',
+      engine: 'local',
+      galleryLimit: 120,
+      promptIntensity: 'balanced'
+    };
+
+    const rootAvailable = typeof root !== 'undefined' && root;
+    const hasPerchancePlugin = rootAvailable && root.generateText && root.generateImage;
+
+    const helperInput = document.getElementById('helperInput');
+    const helperStatus = document.getElementById('helperStatus');
+    const posPromptInput = document.getElementById('posPromptInput');
+    const negPromptInput = document.getElementById('negPromptInput');
+    const batchInput = document.getElementById('batchInput');
+    const guidanceInput = document.getElementById('guidanceInput');
+    const guidanceValue = document.getElementById('guidanceValue');
+    const stepsInput = document.getElementById('stepsInput');
+    const stepsValue = document.getElementById('stepsValue');
+    const seedInput = document.getElementById('seedInput');
+    const ratioSelect = document.getElementById('ratioSelect');
+    const promptIntensitySelect = document.getElementById('promptIntensitySelect');
+    const searchInput = document.getElementById('searchInput');
+    const folderSelect = document.getElementById('folderSelect');
+    const sortSelect = document.getElementById('sortSelect');
+    const galleryGrid = document.getElementById('galleryGrid');
+    const galleryCount = document.getElementById('galleryCount');
+    const historyList = document.getElementById('historyList');
+    const templateSelect = document.getElementById('templateSelect');
+    const tagCategorySelect = document.getElementById('tagCategorySelect');
+    const tagGrid = document.getElementById('tagGrid');
+    const importFile = document.getElementById('importFile');
+    const accountDialog = document.getElementById('accountDialog');
+    const usernameInput = document.getElementById('usernameInput');
+    const userDisplay = document.getElementById('userDisplay');
+    const galleryLimitInput = document.getElementById('galleryLimitInput');
+    const autoSaveToggle = document.getElementById('autoSaveToggle');
+    const autoNegativeToggle = document.getElementById('autoNegativeToggle');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const engineSelect = document.getElementById('engineSelect');
+    const previewOutput = document.getElementById('previewOutput');
+    const imageDialog = document.getElementById('imageDialog');
+    const dialogImage = document.getElementById('dialogImage');
+    const dialogPrompt = document.getElementById('dialogPrompt');
+    const dialogMeta = document.getElementById('dialogMeta');
+    const favoriteImageBtn = document.getElementById('favoriteImageBtn');
+
+    const app = {
+      state: {
+        user: 'guest',
+        gallery: [],
+        history: [],
+        selectedTags: new Set(),
+        settings: { ...DEFAULT_SETTINGS },
+        currentImageId: null
+      },
+
+      init() {
+        this.bindElements();
+        this.loadSettings();
+        this.loadSession();
+        this.renderTagCategories();
+        this.renderTemplates();
+        this.renderGallery();
+        this.renderHistory();
+        this.applyTheme();
+        this.updateStatus();
+      },
+
+      bindElements() {
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', e => this.switchTab(e)));
+        document.querySelectorAll('[data-action="generate"]').forEach(btn => btn.addEventListener('click', () => this.generatePrompt('generate')));
+        document.querySelector('[data-action="random"]').addEventListener('click', () => this.generatePrompt('random'));
+        document.querySelector('[data-action="enhance"]').addEventListener('click', () => this.generatePrompt('enhance'));
+        document.querySelector('[data-action="copy-helper"]').addEventListener('click', () => this.copyToClipboard('helperInput'));
+        document.querySelector('[data-action="save-note"]').addEventListener('click', () => this.saveHelperNote());
+        document.querySelector('[data-action="inject-main"]').addEventListener('click', () => this.injectToMain());
+        document.getElementById('loadTemplateBtn').addEventListener('click', () => this.loadTemplate());
+        document.getElementById('appendTagsBtn').addEventListener('click', () => this.appendSelectedTags());
+        document.getElementById('clearSelectedTags').addEventListener('click', () => this.clearSelectedTags());
+        document.getElementById('previewBtn').addEventListener('click', () => this.previewPrompt());
+        document.getElementById('generateBtn').addEventListener('click', () => this.generateImages());
+        document.getElementById('searchInput').addEventListener('input', () => this.renderGallery());
+        document.getElementById('folderSelect').addEventListener('change', () => this.renderGallery());
+        document.getElementById('sortSelect').addEventListener('change', () => this.renderGallery());
+        document.getElementById('exportBtn').addEventListener('click', () => this.exportData());
+        document.getElementById('importBtn').addEventListener('click', () => importFile.click());
+        document.getElementById('importFile').addEventListener('change', e => this.importData(e.target.files[0]));
+        document.getElementById('accountBtn').addEventListener('click', () => accountDialog.showModal());
+        document.getElementById('saveUserBtn').addEventListener('click', () => this.saveUser());
+        document.getElementById('clearStorageBtn').addEventListener('click', () => this.clearStorage());
+        document.getElementById('randomSeedBtn').addEventListener('click', () => this.randomizeSeed());
+        galleryLimitInput.addEventListener('change', () => this.updateSetting('galleryLimit', parseInt(galleryLimitInput.value, 10)));
+        autoSaveToggle.addEventListener('change', () => this.updateSetting('autoSave', autoSaveToggle.checked));
+        autoNegativeToggle.addEventListener('change', () => this.updateSetting('autoNegative', autoNegativeToggle.checked));
+        darkModeToggle.addEventListener('change', () => this.updateSetting('theme', darkModeToggle.checked ? 'dark' : 'light'));
+        engineSelect.addEventListener('change', () => this.updateSetting('engine', engineSelect.value));
+        promptIntensitySelect.addEventListener('change', () => this.updateSetting('promptIntensity', promptIntensitySelect.value));
+        document.getElementById('clearHistoryBtn').addEventListener('click', () => this.clearHistory());
+        document.getElementById('downloadImageBtn').addEventListener('click', () => this.downloadDialogImage());
+        favoriteImageBtn.addEventListener('click', () => this.toggleDialogFavorite());
+        document.getElementById('regenerateBtn').addEventListener('click', () => this.regenerateCurrentImage());
+        document.getElementById('deleteImageBtn').addEventListener('click', () => this.deleteCurrentImage());
+        document.getElementById('bulkDeleteBtn').addEventListener('click', () => this.bulkDelete());
+        document.getElementById('galleryGrid').addEventListener('click', e => this.galleryClick(e));
+
+        guidanceInput.addEventListener('input', () => guidanceValue.textContent = guidanceInput.value);
+        stepsInput.addEventListener('input', () => stepsValue.textContent = stepsInput.value);
+      },
+
+      switchTab(event) {
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.sidebar-panel').forEach(panel => panel.classList.remove('active'));
+        const button = event.currentTarget;
+        button.classList.add('active');
+        document.getElementById(`panel-${button.dataset.tab}`).classList.add('active');
+      },
+
+      loadSettings() {
+        const saved = localStorage.TAHH_v2_settings;
+        if(saved) {
+          try { this.state.settings = { ...DEFAULT_SETTINGS, ...JSON.parse(saved) }; } catch (err) { console.warn(err); }
+        }
+        autoSaveToggle.checked = this.state.settings.autoSave;
+        autoNegativeToggle.checked = this.state.settings.autoNegative;
+        darkModeToggle.checked = this.state.settings.theme === 'dark';
+        engineSelect.value = this.state.settings.engine;
+        galleryLimitInput.value = this.state.settings.galleryLimit;
+        promptIntensitySelect.value = this.state.settings.promptIntensity;
+      },
+
+      saveSettings() {
+        localStorage.TAHH_v2_settings = JSON.stringify(this.state.settings);
+      },
+
+      updateSetting(key, value) {
+        this.state.settings[key] = value;
+        this.saveSettings();
+        if(key === 'theme') this.applyTheme();
+      },
+
+      applyTheme() {
+        document.documentElement.dataset.theme = this.state.settings.theme;
+      },
+
+      loadSession() {
+        const savedGallery = localStorage[`TAHH_v2_gallery_${this.state.user}`];
+        if(savedGallery) {
+          try { this.state.gallery = JSON.parse(savedGallery); } catch {} }
+        const savedHistory = localStorage[`TAHH_v2_history_${this.state.user}`];
+        if(savedHistory) {
+          try { this.state.history = JSON.parse(savedHistory); } catch {} }
+        if(localStorage.TAHH_v2_user) {
+          this.state.user = localStorage.TAHH_v2_user;
+          userDisplay.textContent = this.state.user;
+          usernameInput.value = this.state.user;
+        }
+      },
+
+      updateStatus(text = 'Ready') {
+        helperStatus.textContent = text;
+      },
+
+      copyToClipboard(id) {
+        const target = document.getElementById(id);
+        if(!target) return;
+        navigator.clipboard.writeText(target.value || target.textContent || '').catch(() => {});
+      },
+
+      persist() {
+        if(this.state.settings.autoSave) {
+          localStorage[`TAHH_v2_gallery_${this.state.user}`] = JSON.stringify(this.state.gallery.slice(0, this.state.settings.galleryLimit));
+          localStorage[`TAHH_v2_history_${this.state.user}`] = JSON.stringify(this.state.history.slice(0, 200));
+          localStorage.TAHH_v2_user = this.state.user;
+        }
+      },
+
+      renderTemplates() {
+        templateSelect.innerHTML = '<option value="">Select a template...</option>' + Object.keys(TEMPLATES).map(key => `<option value="${key}">${key}</option>`).join('');
+      },
+
+      renderTagCategories() {
+        tagCategorySelect.innerHTML = Object.keys(TAGS).map(key => `<option value="${key}">${key.toUpperCase()}</option>`).join('');
+        tagCategorySelect.addEventListener('change', () => this.renderTagChips(tagCategorySelect.value));
+        this.renderTagChips(tagCategorySelect.value);
+      },
+
+      renderTagChips(category) {
+        tagGrid.innerHTML = TAGS[category].map(tag => `<button class="tag-chip" data-tag="${tag}">${tag}</button>`).join('');
+        document.querySelectorAll('.tag-chip').forEach(chip => chip.addEventListener('click', e => this.toggleTag(e.currentTarget.dataset.tag, e.currentTarget)));
+      },
+
+      toggleTag(tag, button) {
+        if(this.state.selectedTags.has(tag)) {
+          this.state.selectedTags.delete(tag);
+          button.classList.remove('selected');
+        } else {
+          this.state.selectedTags.add(tag);
+          button.classList.add('selected');
+        }
+      },
+
+      appendSelectedTags() {
+        if(!this.state.selectedTags.size) return;
+        const text = Array.from(this.state.selectedTags).join(', ');
+        posPromptInput.value = posPromptInput.value.trim() ? posPromptInput.value.trim() + ', ' + text : text;
+        this.clearSelectedTags();
+      },
+
+      clearSelectedTags() {
+        this.state.selectedTags.clear();
+        document.querySelectorAll('.tag-chip').forEach(chip => chip.classList.remove('selected'));
+      },
+
+      loadTemplate() {
+        const key = templateSelect.value;
+        if(!key) return;
+        helperInput.value = TEMPLATES[key];
+      },
+
+      saveHelperNote() {
+        const text = helperInput.value.trim();
+        if(!text) return;
+        this.state.history.unshift({ id: Date.now(), prompt: text, type: 'note', created: Date.now() });
+        this.state.history = this.state.history.slice(0, 200);
+        this.renderHistory();
+        this.persist();
+      },
+
+      injectToMain() {
+        posPromptInput.value = helperInput.value;
+        this.addHistoryItem(helperInput.value, 'injected');
+      },
+
+      generatePrompt(mode) {
+        const input = helperInput.value.trim();
+        const engine = this.state.settings.engine;
+        if(engine === 'perchance' && hasPerchancePlugin) {
+          return this.generatePromptViaPlugin(mode, input);
+        }
+        this.generatePromptLocally(mode, input);
+      },
+
+      async generatePromptViaPlugin(mode, input) {
+        helperStatus.textContent = 'Generating...';
+        helperInput.disabled = true;
+        try {
+          let instruction = '';
+          if(mode === 'generate') instruction = `Create a detailed explicit hentai prompt from: ${input}`;
+          if(mode === 'random') instruction = `Create a random explicit hentai prompt with vivid style and action.`;
+          if(mode === 'enhance') instruction = `Enhance this prompt for explicit AI output: ${input}`;
+          const result = await root.generateText({ instruction });
+          helperInput.value = result;
+          this.addHistoryItem(result, 'generated');
+        } catch (err) {
+          helperInput.value = `Plugin error: ${err.message}`;
+        }
+        helperInput.disabled = false;
+        helperStatus.textContent = 'Ready';
+      },
+
+      generatePromptLocally(mode, input) {
+        helperStatus.textContent = 'Generating locally...';
+        const quality = promptIntensitySelect.value;
+        const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+        if(mode === 'random' || !input) {
+          const prompt = `${pick(TAGS.category)}, ${pick(TAGS.character)}, ${pick(TAGS.action)}, ${pick(TAGS.setting)}, ${pick(TAGS.style)}, ${pick(TAGS.lighting)}, ${pick(TAGS.mood)}, ${pick(TAGS.props)}. ${quality === 'raw' ? 'Explicit detail, high intensity, uncensored.' : quality === 'vivid' ? 'Vivid colors, cinematic detail, polished finish.' : 'High detail, balanced composition.'}`;
+          helperInput.value = prompt;
+        } else if(mode === 'generate') {
+          helperInput.value = `${input}, ${pick(TAGS.style)}, ${pick(TAGS.lighting)}, ${pick(TAGS.mood)}, ${pick(TAGS.props)}, ${quality === 'raw' ? 'uncensored explicit detail' : 'polished rendering'}`;
+        } else if(mode === 'enhance') {
+          helperInput.value = `${input}, ultra-detailed, cinematic lighting, high resolution, ${pick(TAGS.style)}, ${pick(TAGS.mood)}`;
+        }
+        this.addHistoryItem(helperInput.value, 'generated');
+        helperStatus.textContent = 'Ready';
+      },
+
+      previewPrompt() {
+        const prompt = this.buildPrompt();
+        previewOutput.textContent = prompt.positive + '\n\n---\n\n' + prompt.negative;
+      },
+
+      buildPrompt() {
+        let positive = posPromptInput.value.trim();
+        let negative = negPromptInput.value.trim();
+        if(this.state.settings.autoNegative && !negative) {
+          negative = 'lowres, bad anatomy, blurry, text, watermark, poorly drawn';
+        }
+        if(this.state.settings.promptIntensity === 'raw') {
+          positive += positive ? ', raw explicit details, adult exposure, intense action' : 'raw explicit details, adult exposure, intense action';
+        }
+        return { positive, negative };
+      },
+
+      async generateImages() {
+        const promptData = this.buildPrompt();
+        if(!promptData.positive) {
+          alert('Please provide a positive prompt before generating.');
+          return;
+        }
+        const count = Math.min(12, Math.max(1, parseInt(batchInput.value, 10) || 1));
+        const seed = parseInt(seedInput.value, 10) || -1;
+        const steps = parseInt(stepsInput.value, 10) || 30;
+        const guidance = parseFloat(guidanceInput.value) || 7.5;
+        const resolution = ratioSelect.value;
+        const engine = this.state.settings.engine;
+        this.setGenerateState(true, count);
+
+        const generationTasks = [];
+        for(let i = 0; i < count; i++) {
+          const useSeed = seed === -1 ? Math.floor(Math.random() * 999999999) : seed + i;
+          generationTasks.push(this.createImage(promptData, useSeed, resolution, steps, guidance, engine));
+        }
+
+        const images = await Promise.all(generationTasks);
+        images.forEach(img => this.state.gallery.unshift(img));
+        this.state.gallery = this.state.gallery.slice(0, this.state.settings.galleryLimit);
+        this.persist();
+        this.renderGallery();
+        this.setGenerateState(false, count);
+      },
+
+      async createImage(promptData, seed, resolution, steps, guidance, engine) {
+        const promptText = `${promptData.positive} | negative: ${promptData.negative}`;
+        const id = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+        let url;
+        if(engine === 'perchance' && hasPerchancePlugin) {
+          try {
+            url = await root.generateImage(promptText, { resolution });
+          } catch (err) {
+            console.warn('Perchance image plugin failed, falling back:', err);
+            url = this.createPlaceholderImage(promptText, seed, resolution);
+          }
+        } else {
+          url = this.createPlaceholderImage(promptText, seed, resolution);
+        }
+        const imageData = { id, prompt: promptText, negative: promptData.negative, seed, steps, guidance, resolution, created: Date.now(), favorite: false, url };
+        return imageData;
+      },
+
+      createPlaceholderImage(prompt, seed, resolution) {
+        const [w, h] = resolution.split('x').map(Number);
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        const hash = Array.from(prompt + seed).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        const angle = (hash % 360) * Math.PI / 180;
+        const gradient = ctx.createLinearGradient(0, 0, w * Math.cos(angle), h * Math.sin(angle));
+        gradient.addColorStop(0, `hsl(${hash % 360}, 80%, 20%)`);
+        gradient.addColorStop(1, `hsl(${(hash + 120) % 360}, 70%, 30%)`);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.font = `${Math.max(18, w / 28)}px Inter, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('TAHH v2 Preview', w / 2, h / 2 - 10);
+        ctx.font = `${Math.max(12, w / 42)}px Inter, sans-serif`;
+        ctx.fillText(`Seed ${seed}`, w / 2, h / 2 + 24);
+        return canvas.toDataURL('image/png');
+      },
+
+      setGenerateState(active, count) {
+        generateBtn.disabled = active;
+        generateBtn.textContent = active ? `Generating ${count} image${count > 1 ? 's' : ''}…` : '⚡ Generate Images';
+      },
+
+      renderGallery() {
+        const search = searchInput.value.trim().toLowerCase();
+        const folder = folderSelect.value;
+        const sort = sortSelect.value;
+        let items = [...this.state.gallery];
+
+        if(folder === 'favorites') items = items.filter(item => item.favorite);
+        if(search) items = items.filter(item => item.prompt.toLowerCase().includes(search));
+        items.sort((a, b) => sort === 'oldest' ? a.created - b.created : b.created - a.created);
+
+        galleryGrid.innerHTML = '';
+        if(items.length === 0) {
+          galleryGrid.innerHTML = '<div class="empty-state">No images found. Generate something wild.</div>';
+          galleryCount.textContent = `Gallery: ${items.length}`;
+          return;
+        }
+
+        items.forEach(item => {
+          const card = document.createElement('article');
+          card.className = 'gallery-card';
+          card.innerHTML = `
+            <img src="${item.url}" alt="Image preview" loading="lazy" />
+            <div class="gallery-card-footer">
+              <small>${new Date(item.created).toLocaleString()}</small>
+              <button class="icon-btn favorite-btn ${item.favorite ? 'active' : ''}" data-action="favorite" data-id="${item.id}">${item.favorite ? '❤' : '🤍'}</button>
+            </div>
+          `;
+          card.addEventListener('click', event => {
+            if(event.target.dataset.action === 'favorite') return;
+            this.openImageDialog(item.id);
+          });
+          card.querySelector('.favorite-btn').addEventListener('click', event => {
+            event.stopPropagation();
+            this.toggleFavorite(item.id);
+          });
+          galleryGrid.appendChild(card);
+        });
+
+        galleryCount.textContent = `Gallery: ${items.length}`;
+      },
+
+      galleryClick(event) {
+        const button = event.target.closest('.gallery-card button');
+        if(button && button.dataset.action === 'favorite') {
+          const id = button.dataset.id;
+          this.toggleFavorite(id);
+        }
+      },
+
+      toggleFavorite(id) {
+        const item = this.state.gallery.find(image => image.id === id);
+        if(!item) return;
+        item.favorite = !item.favorite;
+        this.persist();
+        this.renderGallery();
+      },
+
+      getCurrentImage() {
+        return this.state.gallery.find(item => item.id === this.state.currentImageId);
+      },
+
+      downloadDialogImage() {
+        const item = this.getCurrentImage();
+        if(!item) return;
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.download = `TAHH-${item.id}.png`;
+        link.click();
+      },
+
+      toggleDialogFavorite() {
+        const item = this.getCurrentImage();
+        if(!item) return;
+        item.favorite = !item.favorite;
+        favoriteImageBtn.textContent = item.favorite ? 'Unfavorite' : 'Favorite';
+        this.persist();
+        this.renderGallery();
+      },
+
+      regenerateCurrentImage() {
+        const item = this.getCurrentImage();
+        if(!item) return;
+        this.createImage({ positive: item.prompt.replace(/\s*\| negative:.+$/, ''), negative: item.negative }, item.seed, item.resolution, item.steps, item.guidance, this.state.settings.engine)
+          .then(newImage => {
+            const index = this.state.gallery.findIndex(image => image.id === item.id);
+            if(index !== -1) {
+              this.state.gallery[index] = newImage;
+              this.state.currentImageId = newImage.id;
+              dialogImage.src = newImage.url;
+              dialogPrompt.value = newImage.prompt;
+              dialogMeta.innerHTML = `Seed: ${newImage.seed}<br>Steps: ${newImage.steps} · Guidance: ${newImage.guidance}<br>Resolution: ${newImage.resolution}`;
+              this.persist();
+              this.renderGallery();
+            }
+          });
+      },
+
+      deleteCurrentImage() {
+        const item = this.getCurrentImage();
+        if(!item) return;
+        if(!confirm('Delete this image permanently?')) return;
+        this.state.gallery = this.state.gallery.filter(image => image.id !== item.id);
+        this.state.currentImageId = null;
+        imageDialog.close();
+        this.persist();
+        this.renderGallery();
+      },
+
+      openImageDialog(id) {
+        const item = this.state.gallery.find(image => image.id === id);
+        if(!item) return;
+        this.state.currentImageId = id;
+        dialogImage.src = item.url;
+        dialogPrompt.value = item.prompt;
+        dialogMeta.innerHTML = `Seed: ${item.seed}<br>Steps: ${item.steps} · Guidance: ${item.guidance}<br>Resolution: ${item.resolution}`;
+        favoriteImageBtn.textContent = item.favorite ? 'Unfavorite' : 'Favorite';
+        imageDialog.showModal();
+      },
+
+      saveUser() {
+        const name = usernameInput.value.trim();
+        if(!name) return alert('Enter a username first.');
+        this.state.user = name.replace(/[^a-zA-Z0-9_\-]/g, '_');
+        userDisplay.textContent = this.state.user;
+        localStorage.TAHH_v2_user = this.state.user;
+        this.persist();
+        accountDialog.close();
+      },
+
+      exportData() {
+        const payload = {
+          user: this.state.user,
+          settings: this.state.settings,
+          gallery: this.state.gallery,
+          history: this.state.history
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `TAHH-v2-backup-${this.state.user}.json`;
+        link.click();
+      },
+
+      importData(file) {
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const data = JSON.parse(reader.result);
+            if(data.gallery && Array.isArray(data.gallery)) {
+              this.state.gallery = [...data.gallery, ...this.state.gallery].slice(0, this.state.settings.galleryLimit);
+            }
+            if(data.history && Array.isArray(data.history)) {
+              this.state.history = [...data.history, ...this.state.history].slice(0, 200);
+            }
+            if(data.settings) {
+              this.state.settings = { ...this.state.settings, ...data.settings };
+              this.loadSettings();
+            }
+            this.persist();
+            this.renderGallery();
+            this.renderHistory();
+            alert('Import completed successfully.');
+          } catch (err) {
+            alert('Unable to import backup: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      },
+
+      addHistoryItem(prompt, type = 'prompt') {
+        this.state.history.unshift({ id: Date.now(), prompt, type, created: Date.now() });
+        this.state.history = this.state.history.slice(0, 200);
+        this.renderHistory();
+        this.persist();
+      },
+
+      renderHistory() {
+        historyList.innerHTML = this.state.history.length ? this.state.history.map(entry => `
+          <div class="history-item" data-id="${entry.id}">
+            <button class="history-copy">Copy</button>
+            <div>
+              <div class="history-prompt">${entry.prompt}</div>
+              <small>${new Date(entry.created).toLocaleString()}</small>
+            </div>
+          </div>
+        `).join('') : '<div class="empty-state">No prompt history yet.</div>';
+        document.querySelectorAll('.history-copy').forEach(btn => btn.addEventListener('click', event => {
+          const entry = this.state.history.find(item => item.id === Number(event.target.closest('.history-item').dataset.id));
+          if(entry) { navigator.clipboard.writeText(entry.prompt); }
+        }));
+      },
+
+      clearHistory() {
+        if(!confirm('Clear all prompt history?')) return;
+        this.state.history = [];
+        this.renderHistory();
+        this.persist();
+      },
+
+      clearStorage() {
+        if(!confirm('Clear all local data including gallery and history?')) return;
+        localStorage.clear();
+        location.reload();
+      },
+
+      randomizeSeed() {
+        seedInput.value = Math.floor(Math.random() * 999999999);
+      },
+
+      bulkDelete() {
+        if(!confirm('Delete all gallery entries currently visible?')) return;
+        const search = searchInput.value.trim().toLowerCase();
+        const folder = folderSelect.value;
+        this.state.gallery = this.state.gallery.filter(item => {
+          const matchesSearch = !search || item.prompt.toLowerCase().includes(search);
+          const matchesFolder = folder !== 'favorites' || item.favorite;
+          return !(matchesSearch && matchesFolder);
+        });
+        this.persist();
+        this.renderGallery();
+      }
+    };
+
+    app.init();
+  </script>
+</body>
+</html>
