@@ -1,0 +1,879 @@
+<!--
+The AI HentaiHub - Fully Functioning Unrestricted AI Explicit Adult Pornography Perchance Generator Hentai Image Gallery Homepage
+
+Core Updates:
+  [x] Expanded Perchance Lists: Added detailed lists for Art Styles, Categories, Characters, Actions, Settings, Props, Tropes, and Narrative Prompts.
+  [x] Enhanced UI: Implemented a tabbed sidebar system for Prompt Helper, Scratchpad, and Tag Builders.
+  [x] Tag Management: Added "Positive" and "Negative" prompt areas with dedicated tag selection tools.
+  [x] Gallery Improvements: Search, Filter by Folder (including Favorites), Sort, and detailed Modal view with "Regenerate" capability.
+  [x] Data Persistence: Uses LocalStorage and 'kv' namespaces for user-specific galleries and scratchpads.
+  [x] Import/Export: Full JSON backup and restore functionality.
+  [x] Responsive Design: Mobile-friendly layout with flex/grid adjustments.
+-->
+
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --panel: #141419;
+    --panel-header: #1f1f26;
+    --accent: #ff0055;
+    --accent-hover: #d60047;
+    --accent-2: #00e5ff;
+    --text: #e0e0e0;
+    --text-dim: #888;
+    --border: #2a2a35;
+    --input-bg: #0f0f13;
+  }
+
+  body {
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin:0;
+    display:flex;
+    height:100vh;
+    overflow:hidden;
+    font-size:14px;
+  }
+
+  /* Typography & Basics */
+  h1, h2, h3 { margin:0; font-weight:600; }
+  h1 { color:var(--accent); font-size:1.4rem; letter-spacing:-0.5px; }
+  .label { font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; display:block; }
+  .row { display:flex; gap:8px; align-items:center; }
+  .col { display:flex; flex-direction:column; gap:10px; }
+
+  /* Form Elements */
+  input, select, textarea, button {
+    background:var(--input-bg);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:8px 12px;
+    border-radius:6px;
+    font-family:inherit;
+    outline:none;
+    transition:border-color 0.2s;
+  }
+
+  input:focus, select:focus, textarea:focus { border-color:var(--accent); }
+  button { background:var(--panel); cursor:pointer; font-weight:500; transition:0.2s; display:inline-flex; align-items:center; justify-content:center; gap:5px; }
+  button:hover:not(:disabled) { background:var(--panel-header); border-color:var(--accent); color:var(--accent); }
+  button:active:not(:disabled) { transform:translateY(1px); }
+  button:disabled { opacity:0.5; cursor:not-allowed; }
+
+  button.primary { background:var(--accent); color:white; border:none; }
+  button.primary:hover:not(:disabled) { background:var(--accent-hover); }
+  button.danger { background:#2a0a10; color:#ff4d4d; border:1px solid #4a1a20; }
+  button.danger:hover { background:#3a1520; }
+
+  /* Scrollbars */
+  ::-webkit-scrollbar { width:8px; height:8px; }
+  ::-webkit-scrollbar-track { background:var(--bg); }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+  ::-webkit-scrollbar-thumb:hover { background:var(--text-dim); }
+
+  /* Layout Structure */
+  #sidebar { width:320px; border-right:1px solid var(--border); display:flex; flex-direction:column; background:var(--panel); flex-shrink:0; }
+  #mainContent { flex:1; display:flex; flex-direction:column; min-width:0; background:var(--bg); }
+
+  /* Sidebar Tabs */
+  .tabs { display:flex; border-bottom:1px solid var(--border); background:var(--panel-header); }
+  .tab-btn { flex:1; padding:12px; text-align:center; cursor:pointer; color:var(--text-dim); border-bottom:2px solid transparent; font-size:0.9rem; transition:0.2s; }
+  .tab-btn:hover { color:var(--text); background:rgba(255,255,255,0.02); }
+  .tab-btn.active { color:var(--accent); border-color:var(--accent); background:rgba(255,0,85,0.05); }
+
+  .tab-content { display:none; flex:1; flex-direction:column; padding:15px; overflow-y:auto; gap:15px; }
+  .tab-content.active { display:flex; }
+
+  /* Prompt Helper Area */
+  .prompt-box { display:flex; flex-direction:column; gap:8px; flex:1; min-height:0; }
+  .prompt-box textarea { flex:1; resize:none; line-height:1.4; }
+  .chip-container { display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
+  .chip { font-size:0.75rem; padding:3px 8px; background:var(--panel-header); border-radius:12px; border:1px solid var(--border); cursor:pointer; white-space:nowrap; user-select:none; }
+  .chip:hover { border-color:var(--accent); color:var(--accent); }
+
+  /* Scratchpad */
+  .scratchpad-controls { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+  .scratchpad-pages { display:flex; gap:2px; }
+  .page-btn { padding:4px 8px; font-size:0.8rem; min-width:24px; }
+  .page-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
+
+  /* Main Generation Area */
+  header { padding:15px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; background:var(--panel); }
+
+  .controls-panel { padding:15px; border-bottom:1px solid var(--border); display:flex; flex-direction:column; gap:15px; background:var(--bg); }
+
+  .advanced-options { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:15px; padding:10px 0; border-top:1px dashed var(--border); }
+
+  .slider-group { display:flex; flex-direction:column; gap:5px; }
+  .slider-row { display:flex; align-items:center; gap:10px; }
+  input[type="range"] { flex:1; cursor:pointer; accent-color:var(--accent); height:4px; padding:0; background:transparent; border:none; }
+
+  /* Gallery */
+  .gallery-toolbar { padding:10px 15px; display:flex; gap:10px; align-items:center; border-bottom:1px solid var(--border); flex-wrap:wrap; background:var(--panel-header); }
+  .gallery-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap:15px;
+    padding:15px;
+    overflow-y:auto;
+    flex:1;
+    align-content:start;
+  }
+
+  .img-card {
+    position:relative;
+    aspect-ratio:1;
+    background:#000;
+    border-radius:8px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    group:card;
+    transition:transform 0.2s, box-shadow 0.2s;
+  }
+  .img-card:hover { transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.5); border-color:var(--accent-2); }
+
+  .img-card img { width:100%; height:100%; object-fit:cover; transition:0.3s; }
+  .img-card:hover img { transform:scale(1.05); }
+
+  .img-overlay {
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 50%);
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:10px;
+    opacity:0;
+    transition:0.2s;
+  }
+  .img-card:hover .img-overlay { opacity:1; }
+
+  .img-actions { display:flex; gap:5px; margin-top:5px; }
+  .img-actions button { padding:4px 8px; font-size:0.75rem; flex:1; }
+
+  /* Modal */
+  dialog {
+    background:var(--panel);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:0;
+    max-width:900px;
+    width:90%;
+    max-height:90vh;
+    box-shadow:0 0 50px rgba(0,0,0,0.8);
+  }
+  dialog::backdrop { background:rgba(0,0,0,0.8); backdrop-filter:blur(5px); }
+
+  .modal-content { display:flex; flex-direction:column; height:90vh; }
+  .modal-body { display:flex; flex:1; overflow:hidden; }
+  .modal-preview { flex:1; background:#000; display:flex; align-items:center; justify-content:center; padding:20px; overflow:hidden; }
+  .modal-preview img { max-width:100%; max-height:100%; object-fit:contain; box-shadow:0 0 20px rgba(0,0,0,0.5); }
+
+  .modal-sidebar { width:350px; border-left:1px solid var(--border); display:flex; flex-direction:column; background:var(--panel-header); overflow-y:auto; }
+  .modal-section { padding:15px; border-bottom:1px solid var(--border); }
+
+  .tag-display { font-size:0.8rem; color:var(--text-dim); display:flex; flex-wrap:wrap; gap:4px; margin-top:5px; }
+  .tag-display span { background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; }
+
+  .loader {
+    border:2px solid var(--panel-header);
+    border-top:2px solid var(--accent);
+    border-radius:50%;
+    width:16px;
+    height:16px;
+    animation:spin 1s linear infinite;
+    display:inline-block;
+  }
+  @keyframes spin { 0% { transform:rotate(0deg); } 100% { transform:rotate(360deg); } }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    body { flex-direction:column; overflow:auto; }
+    #sidebar { width:100%; height:auto; max-height:40vh; border-right:none; border-bottom:1px solid var(--border); }
+    #mainContent { height:auto; }
+    .modal-body { flex-direction:column; }
+    .modal-sidebar { width:100%; border-left:none; border-top:1px solid var(--border); height:auto; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="tabs">
+    <div class="tab-btn active" onclick="app.switchTab('prompts')">Prompts</div>
+    <div class="tab-btn" onclick="app.switchTab('scratchpad')">Notes</div>
+    <div class="tab-btn" onclick="app.switchTab('tags')">Tags</div>
+  </div>
+
+  <!-- Prompts Tab -->
+  <div id="tab-prompts" class="tab-content active">
+    <div class="panel" style="display:flex; flex-direction:column; gap:10px; height:100%;">
+      <div class="row" style="justify-content:space-between;">
+        <div class="label">AI Helper</div>
+        <div style="font-size:0.7rem; color:var(--text-dim);" id="helperStatus">Ready</div>
+      </div>
+
+      <div class="prompt-box">
+        <textarea id="helperInput" placeholder="Describe a scene or concept... (AI will generate prompt)"></textarea>
+        <div class="row" style="flex-wrap:wrap;">
+          <button class="primary" onclick="app.generatePrompt('generate')" style="flex:1;">Generate</button>
+          <button onclick="app.generatePrompt('random')" style="flex:1;">Random</button>
+          <button onclick="app.generatePrompt('enhance')" style="flex:1;">Enhance</button>
+        </div>
+        <div class="row">
+          <button onclick="app.copyToClipboard('helperInput')">Copy</button>
+          <button onclick="app.saveToScratchpadFromHelper()">Save to Notes</button>
+          <button onclick="app.injectToMain()">Inject to Main</button>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="label">Quick Templates</div>
+        <select id="templateSelect" onchange="app.loadTemplate()" style="width:100%;">
+          <option value="">-- Select Template --</option>
+          <option value="portrait">Detailed Character Portrait</option>
+          <option value="landscape">Atmospheric Landscape</option>
+          <option value="action">Dynamic Action Scene</option>
+          <option value="cyberpunk">Cyberpunk City Night</option>
+          <option value="fantasy">High Fantasy Ritual</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scratchpad Tab -->
+  <div id="tab-scratchpad" class="tab-content">
+    <div class="scratchpad-controls">
+      <div class="label">Notebook</div>
+      <div class="scratchpad-pages">
+        <button class="page-btn active" onclick="app.setNotePage(0)">1</button>
+        <button class="page-btn" onclick="app.setNotePage(1)">2</button>
+        <button class="page-btn" onclick="app.setNotePage(2)">3</button>
+      </div>
+      <button onclick="app.clearNotePage()" style="padding:4px 8px; font-size:0.7rem;">Clear</button>
+    </div>
+    <textarea id="scratchpadInput" style="flex:1; resize:none; font-family:monospace;" placeholder="Save prompt ideas here..."></textarea>
+    <button onclick="app.saveScratchpadToMain()" class="primary">Load to Main Prompt</button>
+  </div>
+
+  <!-- Tags Tab -->
+  <div id="tab-tags" class="tab-content">
+    <div class="col">
+      <div class="row">
+        <button onclick="app.showTagCategory('style')" style="flex:1;">Art Style</button>
+        <button onclick="app.showTagCategory('character')" style="flex:1;">Character</button>
+        <button onclick="app.showTagCategory('action')" style="flex:1;">Action</button>
+      </div>
+      <div class="row">
+        <button onclick="app.showTagCategory('setting')" style="flex:1;">Setting</button>
+        <button onclick="app.showTagCategory('category')" style="flex:1;">Category</button>
+        <button onclick="app.showTagCategory('props')" style="flex:1;">Props</button>
+      </div>
+
+      <div id="tagListContainer" style="flex:1; overflow-y:auto; border:1px solid var(--border); border-radius:6px; padding:10px; background:var(--input-bg);">
+        <div class="label" style="text-align:center; margin-top:20px;">Select a category above</div>
+      </div>
+
+      <button onclick="app.appendSelectedTags()" class="primary">Add Selected to Positive</button>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<div id="mainContent">
+  <header>
+    <div class="row">
+      <h1>The AI HentaiHub</h1>
+    </div>
+    <div class="row">
+      <div class="row" style="background:var(--input-bg); border:1px solid var(--border); border-radius:20px; padding:2px 10px;">
+        <div style="width:8px; height:8px; background:#00ff00; border-radius:50%; margin-right:5px;"></div>
+        <span id="userDisplayEl" style="font-size:0.8rem;">Guest</span>
+      </div>
+      <button onclick="document.getElementById('accountModal').showModal()">Account</button>
+    </div>
+  </header>
+
+  <div class="controls-panel">
+    <!-- Prompt Inputs -->
+    <div class="row" style="gap:20px;">
+      <div style="flex:2; display:flex; flex-direction:column; gap:5px;">
+        <div class="label">Positive Prompt</div>
+        <textarea id="posPromptInput" style="height:60px; resize:none;" placeholder="Describe what you want to see..."></textarea>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; gap:5px;">
+        <div class="label">Negative Prompt</div>
+        <textarea id="negPromptInput" style="height:60px; resize:none;" placeholder="What to avoid (e.g. blur, low quality)..."></textarea>
+      </div>
+    </div>
+
+    <!-- Settings & Generation -->
+    <div class="advanced-options">
+      <div class="slider-group">
+        <div class="row"><span class="label">Batch Size</span> <span id="batchVal" style="font-size:0.8rem; color:var(--accent);">1</span></div>
+        <input type="range" id="batchInput" min="1" max="12" value="1" oninput="document.getElementById('batchVal').innerText=this.value">
+      </div>
+
+      <div class="slider-group">
+        <div class="row"><span class="label">Guidance Scale</span> <span id="guidanceVal" style="font-size:0.8rem; color:var(--accent);">7.0</span></div>
+        <input type="range" id="guidanceInput" min="1" max="20" step="0.5" value="7.0" oninput="document.getElementById('guidanceVal').innerText=this.value">
+      </div>
+
+      <div class="slider-group">
+        <div class="row"><span class="label">Steps</span> <span id="stepsVal" style="font-size:0.8rem; color:var(--accent);">30</span></div>
+        <input type="range" id="stepsInput" min="10" max="100" value="30" oninput="document.getElementById('stepsVal').innerText=this.value">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div class="label">Seed (-1 = Random)</div>
+        <div class="row">
+          <input type="number" id="seedInput" value="-1" style="width:80px;">
+          <button onclick="document.getElementById('seedInput').value = Math.floor(Math.random()*999999999)" style="padding:4px 8px;">🎲</button>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div class="label">Aspect Ratio</div>
+        <select id="ratioSelect">
+          <option value="768x768">Square (1:1)</option>
+          <option value="512x768">Portrait (2:3)</option>
+          <option value="768x512">Landscape (3:2)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row" style="justify-content:flex-end; padding-top:10px;">
+      <button id="generateBtn" class="primary" onclick="app.generateImages()" style="padding:10px 30px; font-size:1rem;">
+        ⚡ Generate
+      </button>
+    </div>
+  </div>
+
+  <!-- Gallery -->
+  <div style="flex:1; display:flex; flex-direction:column; min-height:0;">
+    <div class="gallery-toolbar">
+      <div class="label" style="margin:0;">Gallery</div>
+      <input id="searchInput" placeholder="Search prompts..." style="width:200px;" onkeyup="app.renderGallery()">
+      <select id="folderSelect" onchange="app.renderGallery()" style="width:120px;">
+        <option value="all">All Images</option>
+        <option value="favorites">❤ Favorites</option>
+        <option value="generated">Generated</option>
+      </select>
+      <select id="sortSelect" onchange="app.renderGallery()" style="width:120px;">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+      </select>
+      <div style="flex:1;"></div>
+      <button onclick="app.exportData()" style="padding:5px 10px; font-size:0.8rem;">Export</button>
+      <label class="row" style="cursor:pointer; padding:5px 10px; font-size:0.8rem; border:1px solid var(--border); border-radius:4px;">
+        Import <input type="file" id="importInput" hidden onchange="app.importData(this)">
+      </label>
+    </div>
+
+    <div id="galleryGrid" class="gallery-grid">
+      <!-- Images Injected Here -->
+    </div>
+  </div>
+</div>
+
+<!-- Image Detail Modal -->
+<dialog id="imageModal">
+  <div class="modal-content">
+    <div style="padding:15px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+      <h2 style="font-size:1.1rem; color:var(--accent);">Image Details</h2>
+      <button onclick="imageModal.close()" style="padding:4px 8px;">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-preview">
+        <img id="modalImg" src="" alt="Generated Content">
+      </div>
+      <div class="modal-sidebar">
+        <div class="modal-section">
+          <div class="label">Prompt</div>
+          <textarea id="modalPrompt" style="width:100%; height:100px; font-size:0.85rem; resize:none;"></textarea>
+        </div>
+
+        <div class="modal-section">
+          <div class="row" style="justify-content:space-between; margin-bottom:10px;">
+            <div class="label">Parameters</div>
+            <div id="modalMeta" style="font-size:0.8rem; color:var(--text-dim); text-align:right;"></div>
+          </div>
+          <div class="row" style="flex-wrap:wrap;">
+            <button onclick="app.downloadImage()" style="flex:1;">⬇ Download</button>
+            <button onclick="app.toggleFavorite()" id="favBtn" style="flex:1;">🤍 Favorite</button>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <div class="label">Actions</div>
+          <div class="col" style="gap:8px;">
+            <button onclick="app.useAsNegative()" style="font-size:0.85rem;">Use Prompt as Negative</button>
+            <button onclick="app.regenerate()" class="primary" style="font-size:0.85rem;">🔄 Regenerate Variation</button>
+            <button onclick="app.deleteImage()" class="danger" style="font-size:0.85rem;">🗑 Delete Image</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- Account Modal -->
+<dialog id="accountModal" style="padding:20px; border-radius:8px;">
+  <h2 style="color:var(--accent); margin-bottom:15px;">User Account</h2>
+  <div class="col" style="gap:10px;">
+    <div class="label">Username (for saving gallery)</div>
+    <div class="row">
+      <input id="usernameInput" placeholder="Enter username..." style="flex:1;">
+      <button class="primary" onclick="app.login()">Login / Switch</button>
+    </div>
+    <div style="font-size:0.8rem; color:var(--text-dim);">Your gallery is saved locally under this username.</div>
+    <div style="margin-top:10px; border-top:1px solid var(--border); padding-top:10px;">
+      <div class="label">Current User</div>
+      <div id="currentUserDisplay" style="color:var(--accent); font-size:1.1rem; margin-bottom:10px;">Guest</div>
+      <button onclick="accountModal.close()">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<script type="module">
+  // --- Data Definitions ---
+  const TAGS = {
+    style: ["Anime (Retro/Modern)", "Hentai (Vanilla/Hardcore)", "Kemonomimi", "Cel-Shaded", "Noir", "Pastel Goth", "Cybernetic", "Hyper-Realistic", "Ink Wash", "Pixel Art", "Vector Art", "Watercolor", "Oil Painting", "Digital Painting", "Sketch", "Line Art", "Surreal", "Pop Art", "Graffiti", "CGI", "3D", "2D", "Isometric", "Low Poly", "High Poly", "Voxel", "Retro", "Bishoujo", "Bishonen"],
+    category: ["Vanilla+", "Soft Dom/Sub", "Aftercare", "Edgeplay", "CNC", "Predator/Prey", "Body Mod", "BDSM", "Futanari", "Yuri", "Yaoi", "Furry", "Monster", "Tentacle", "Mind Control", "Transformation", "Gender Bender", "Harem", "School Life", "Fantasy", "Sci-Fi", "Cyberpunk", "Steampunk", "Magical Girl", "Mecha", "Supernatural", "Vampire", "Werewolf", "Ghost"],
+    character: ["Catgirl", "Bunny girl", "Tentacle monster", "Femboy", "Futa", "Monster girl", "Demon girl", "Demon boy", "Angel", "Elf", "Orc", "Goblin", "Slime girl", "Dragon girl", "Vampire girl", "Alien girl", "Cyborg Elf", "Kitsune", "Oni", "Yandere", "Tsundere", "Kuudere", "Dandere", "Maid", "Nurse", "Teacher", "Student"],
+    action: ["Consent Play", "Teasing", "Begging", "Environment Interaction", "Ritualistic", "Transgressive", "Riding", "Embracing", "Dominating", "Submitting", "Kissing", "Licking", "Fucking", "Cumming", "Masturbating", "Groping", "Spanking", "Bondage", "Dancing", "Stripping", "Showering", "Fighting", "Floating"],
+    setting: ["Cyberpunk Rooftop", "Fantasy Enchanted Library", "Dystopian Abandoned Dome", "Neon-lit Alley", "Futuristic Bed", "Dark Room", "Beach", "Forest", "Dungeon", "Castle", "Spaceship", "City", "School", "Office", "Hospital", "Brothel", "Club", "Temple", "Shrine", "Church"],
+    props: ["Leather Harnesses", "Silk Ropes", "Neural Collars", "Cursed Jewelry", "Soulbound Cuffs", "Blindfold", "Whip", "Sword", "Gun", "Magic Wand", "Cybernetic Implant", "Tentacle Vine"]
+  };
+
+  const TEMPLATES = {
+    portrait: "Detailed portrait of [character], [style] art style, intricate eyes, [expression], [lighting], 8k resolution, masterpiece",
+    landscape: "Wide shot of [setting], [style], atmospheric, [time of day], highly detailed, cinematic lighting, epic scale",
+    action: "Action shot, [character] performing [action], dynamic pose, motion blur, [setting], [style], intense composition",
+    cyberpunk: "Cyberpunk city street, neon lights, rain, [character], holograms, high tech low life, [style], volumetric lighting",
+    fantasy: "Magical fantasy scene, [character], [setting], glowing magic particles, ethereal atmosphere, [style], intricate details"
+  };
+
+  // --- Application Logic ---
+  window.app = {
+    state: {
+      user: 'guest',
+      notes: ['', '', ''],
+      activeNote: 0,
+      gallery: [],
+      selectedTags: new Set(),
+      currentModalImgId: null
+    },
+
+    async init() {
+      // Load user
+      let lastUser = localStorage.hentaiHubUser || 'guest';
+      this.login(lastUser, false);
+
+      // Load notes
+      let savedNotes = localStorage.hentaiHubNotes;
+      if(savedNotes) this.state.notes = JSON.parse(savedNotes);
+      this.updateNoteUI();
+
+      // Initialize helper
+      this.setupHelper();
+
+      // Render empty gallery
+      this.renderGallery();
+    },
+
+    // --- Authentication & Persistence ---
+    async login(name, save = true) {
+      if(!name) name = usernameInput.value.trim() || 'guest';
+      // Sanitize username
+      this.state.user = name.replace(/[^a-z0-9]/gi, '_');
+
+      if(save) {
+        localStorage.hentaiHubUser = this.state.user;
+        usernameInput.value = this.state.user;
+      }
+
+      userDisplayEl.innerText = this.state.user;
+      currentUserDisplay.innerText = this.state.user;
+
+      // Load Gallery
+      try {
+        if(root.kv) {
+          this.state.gallery = await root.kv.hentaiHub_gallery.get(this.state.user) || [];
+        }
+      } catch(e) { console.error(e); }
+
+      // Fallback to local if KV fails or doesn't exist
+      if(!this.state.gallery.length) {
+        let localData = localStorage[`hentaiHub_gallery_${this.state.user}`];
+        if(localData) this.state.gallery = JSON.parse(localData);
+      }
+
+      this.renderGallery();
+      if(save) accountModal.close();
+    },
+
+    saveGallery() {
+      // Save to KV
+      if(root.kv) root.kv.hentaiHub_gallery.set(this.state.user, this.state.gallery);
+      // Local Fallback
+      localStorage[`hentaiHub_gallery_${this.state.user}`] = JSON.stringify(this.state.gallery);
+    },
+
+    // --- UI Navigation ---
+    switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      // Activate clicked
+      event.target.classList.add('active');
+      document.getElementById(`tab-${tabId}`).classList.add('active');
+    },
+
+    // --- Note / Scratchpad ---
+    setNotePage(index) {
+      this.state.notes[this.state.activeNote] = scratchpadInput.value; // Save current
+      this.state.activeNote = index;
+      this.updateNoteUI();
+    },
+
+    updateNoteUI() {
+      scratchpadInput.value = this.state.notes[this.state.activeNote];
+      document.querySelectorAll('.page-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === this.state.activeNote);
+      });
+      localStorage.hentaiHubNotes = JSON.stringify(this.state.notes);
+    },
+
+    clearNotePage() {
+      if(confirm("Clear this page?")) {
+        this.state.notes[this.state.activeNote] = "";
+        this.updateNoteUI();
+      }
+    },
+
+    saveScratchpadToMain() {
+      posPromptInput.value = scratchpadInput.value;
+      this.switchTabVisible('prompts'); // Not a direct method, implies logic
+      document.querySelector('.tab-btn').click(); // Reset to first tab logic if needed, simpler:
+      this.switchTab('prompts'); // Go back to prompts to see it
+      // Hacky trigger of first tab visually
+      document.querySelectorAll('.tab-btn')[0].click();
+    },
+
+    // --- Tag System ---
+    showTagCategory(cat) {
+      const container = document.getElementById('tagListContainer');
+      container.innerHTML = `<div class="label" style="margin-bottom:8px;">${cat.toUpperCase()} (Click to select)</div>`;
+
+      const chipBox = document.createElement('div');
+      chipBox.className = 'chip-container';
+
+      TAGS[cat].forEach(tag => {
+        let chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.innerText = tag;
+        chip.onclick = () => {
+          chip.classList.toggle('active');
+          if(this.state.selectedTags.has(tag)) this.state.selectedTags.delete(tag);
+          else this.state.selectedTags.add(tag);
+          // Visual feedback
+          chip.style.borderColor = this.state.selectedTags.has(tag) ? 'var(--accent)' : 'var(--border)';
+          chip.style.color = this.state.selectedTags.has(tag) ? 'var(--accent)' : 'var(--text)';
+        };
+        chipBox.appendChild(chip);
+      });
+
+      container.appendChild(chipBox);
+    },
+
+    appendSelectedTags() {
+      if(this.state.selectedTags.size === 0) return;
+      let current = posPromptInput.value.trim();
+      let tags = Array.from(this.state.selectedTags).join(", ");
+      posPromptInput.value = current ? `${current}, ${tags}` : tags;
+      this.state.selectedTags.clear();
+      // Clear visuals
+      document.querySelectorAll('.chip').forEach(c => {
+        c.style.borderColor = 'var(--border)';
+        c.style.color = 'var(--text)';
+      });
+    },
+
+    // --- Prompt Helper ---
+    setupHelper() {
+      // Just basic setup for now
+    },
+
+    async generatePrompt(mode) {
+      let input = helperInput.value.trim();
+      let instruction = "";
+
+      if(mode === 'generate') instruction = `Generate a highly detailed, explicit NSFW hentai image generation prompt based on this concept: ${input}. Include artistic style tags and lighting.`;
+      if(mode === 'random') instruction = `Generate a completely random, explicit, creative NSFW hentai image generation prompt. Be specific about subject, style, and action.`;
+      if(mode === 'enhance') instruction = `Enhance this NSFW hentai prompt to be more visually detailed and higher quality for AI generation: ${input}`;
+
+      helperInput.value = "";
+      helperInput.disabled = true;
+      helperStatus.innerText = "Generating...";
+
+      try {
+        let p = root.generateText({ instruction, onChunk: d => { helperInput.value += d.textChunk; }});
+        await p;
+      } catch(e) {
+        helperInput.value = "Error: " + e.message;
+      }
+
+      helperInput.disabled = false;
+      helperStatus.innerText = "Done";
+    },
+
+    loadTemplate() {
+      let t = templateSelect.value;
+      if(!t) return;
+      helperInput.value = TEMPLATES[t];
+    },
+
+    injectToMain() {
+      posPromptInput.value = helperInput.value;
+    },
+
+    saveToScratchpadFromHelper() {
+      this.state.notes[this.state.activeNote] += (this.state.notes[this.state.activeNote] ? "\n\n" : "") + helperInput.value;
+      this.updateNoteUI();
+    },
+
+    copyToClipboard(elemId) {
+      navigator.clipboard.writeText(document.getElementById(elemId).value);
+    },
+
+    // --- Image Generation ---
+    async generateImages() {
+      let prompt = posPromptInput.value.trim();
+      if(!prompt) { alert("Please enter a positive prompt"); return; }
+
+      let count = parseInt(batchInput.value);
+      let seed = parseInt(seedInput.value);
+      let steps = parseInt(stepsInput.value);
+      let guidance = parseFloat(guidanceInput.value);
+      let resolution = ratioSelect.value;
+      let negative = negPromptInput.value.trim();
+
+      generateBtn.disabled = true;
+      generateBtn.innerHTML = `<div class="loader"></div> Generating ${count} Image${count>1?'s':''}...`;
+
+      let promises = [];
+      for(let i=0; i<count; i++) {
+        let currentSeed = seed === -1 ? Math.floor(Math.random()*999999999) : (seed + i);
+
+        // Create promise for generation
+        let p = root.generateImage(`${prompt}`, { resolution: resolution }).then(url => {
+          return {
+            id: Date.now() + "_" + i + "_" + Math.random().toString(36).substr(2, 5),
+            url: url,
+            prompt: prompt,
+            negative: negative,
+            seed: currentSeed,
+            steps: steps,
+            guidance: guidance,
+            resolution: resolution,
+            timestamp: Date.now(),
+            favorite: false
+          };
+        }).catch(e => {
+          console.error("Gen failed", e);
+          return null;
+        });
+        promises.push(p);
+      }
+
+      let results = await Promise.all(promises);
+      results.forEach(img => {
+        if(img) this.state.gallery.unshift(img);
+      });
+
+      this.saveGallery();
+      this.renderGallery();
+
+      generateBtn.disabled = false;
+      generateBtn.innerHTML = `⚡ Generate`;
+    },
+
+    // --- Gallery Logic ---
+    renderGallery() {
+      let search = searchInput.value.toLowerCase();
+      let filter = folderSelect.value;
+      let sort = sortSelect.value;
+
+      let filtered = this.state.gallery.filter(img => {
+        let matchesSearch = img.prompt.toLowerCase().includes(search) || img.id.includes(search);
+        let matchesFolder = filter === 'all' ||
+                            (filter === 'favorites' && img.favorite) ||
+                            (filter === 'generated' && true); // Currently all are generated, could add 'uploaded' later
+        return matchesSearch && matchesFolder;
+      });
+
+      filtered.sort((a,b) => sort === 'newest' ? b.timestamp - a.timestamp : a.timestamp - b.timestamp);
+
+      galleryGrid.innerHTML = "";
+
+      if(filtered.length === 0) {
+        galleryGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:var(--text-dim); padding:50px;">No images found. Generate some!</div>`;
+        return;
+      }
+
+      filtered.forEach(img => {
+        let el = document.createElement('div');
+        el.className = "img-card";
+        el.innerHTML = `
+          <img src="${img.url}" loading="lazy" onclick="app.openModal('${img.id}')">
+          <div class="img-overlay">
+            <div style="font-size:0.7rem; color:white; margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${img.prompt.substring(0,30)}...</div>
+            <div class="img-actions">
+              <button onclick="app.openModal('${img.id}')">Edit/View</button>
+              <button onclick="app.toggleFavoriteById('${img.id}', this)" style="background:${img.favorite ? 'var(--accent)' : 'transparent'}; color:${img.favorite ? 'white' : 'var(--text)'}; border-color:var(--border);">❤</button>
+            </div>
+          </div>
+        `;
+        galleryGrid.appendChild(el);
+      });
+    },
+
+    toggleFavoriteById(id, btn) {
+      let img = this.state.gallery.find(i => i.id === id);
+      if(img) {
+        img.favorite = !img.favorite;
+        this.saveGallery();
+        this.renderGallery(); // Re-render to update UI state everywhere
+      }
+    },
+
+    // --- Modal Operations ---
+    openModal(id) {
+      let img = this.state.gallery.find(i => i.id === id);
+      if(!img) return;
+      this.state.currentModalImgId = id;
+
+      modalImg.src = img.url;
+      modalPrompt.value = img.prompt;
+
+      // Set Parameters Display
+      document.getElementById('modalMeta').innerHTML = `
+        Seed: ${img.seed}<br>
+        Steps: ${img.steps} | CFG: ${img.guidance}<br>
+        Res: ${img.resolution}
+      `;
+
+      // Update Favorite Button
+      let favBtn = document.getElementById('favBtn');
+      favBtn.innerHTML = img.favorite ? "❤ Unfavorite" : "🤍 Favorite";
+      favBtn.style.color = img.favorite ? "var(--accent)" : "var(--text)";
+
+      imageModal.showModal();
+    },
+
+    async toggleFavorite() {
+      let img = this.state.gallery.find(i => i.id === this.state.currentModalImgId);
+      if(img) {
+        img.favorite = !img.favorite;
+        this.saveGallery();
+        this.openModal(img.id); // Refresh modal
+        this.renderGallery(); // Refresh grid
+      }
+    },
+
+    downloadImage() {
+      let img = this.state.gallery.find(i => i.id === this.state.currentModalImgId);
+      if(img) {
+        let a = document.createElement('a');
+        a.href = img.url;
+        a.download = `hentaihub_${img.id}.png`;
+        a.click();
+      }
+    },
+
+    useAsNegative() {
+      let img = this.state.gallery.find(i => i.id === this.state.currentModalImgId);
+      if(img) {
+        negPromptInput.value = img.prompt;
+        imageModal.close();
+      }
+    },
+
+    regenerate() {
+      let img = this.state.gallery.find(i => i.id === this.state.currentModalImgId);
+      if(img) {
+        imageModal.close();
+        // Load settings back into main controls
+        posPromptInput.value = img.prompt;
+        negPromptInput.value = img.negative || "";
+        seedInput.value = img.seed;
+        stepsInput.value = img.steps;
+        guidanceInput.value = img.guidance;
+        ratioSelect.value = img.resolution;
+
+        // Update UI labels
+        document.getElementById('stepsVal').innerText = img.steps;
+        document.getElementById('guidanceVal').innerText = img.guidance;
+
+        this.generateImages();
+      }
+    },
+
+    deleteImage() {
+      if(!confirm("Are you sure you want to delete this image? This cannot be undone.")) return;
+      this.state.gallery = this.state.gallery.filter(i => i.id !== this.state.currentModalImgId);
+      this.saveGallery();
+      this.renderGallery();
+      imageModal.close();
+    },
+
+    // --- Import / Export ---
+    exportData() {
+      let data = JSON.stringify({
+        user: this.state.user,
+        gallery: this.state.gallery,
+        notes: this.state.notes
+      }, null, 2);
+      let blob = new Blob([data], {type: 'application/json'});
+      let url = URL.createObjectURL(blob);
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = `hentaihub_backup_${Date.now()}.json`;
+      a.click();
+    },
+
+    importData(input) {
+      let file = input.files[0];
+      if(!file) return;
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          let data = JSON.parse(e.target.result);
+          if(data.gallery && Array.isArray(data.gallery)) {
+            if(confirm(`Found backup for user: ${data.user || 'Unknown'}\nImport ${data.gallery.length} images?`)) {
+              // Merge strategy: Append new images
+              let existingIds = new Set(this.state.gallery.map(i => i.id));
+              let newImages = data.gallery.filter(i => !existingIds.has(i.id));
+
+              this.state.gallery = [...newImages, ...this.state.gallery];
+              this.saveGallery();
+              this.renderGallery();
+              alert(`Imported ${newImages.length} new images.`);
+            }
+          } else {
+            alert("Invalid backup file.");
+          }
+        } catch(err) {
+          alert("Error parsing file: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  // Initialize App
+  await app.init();
+</script>
