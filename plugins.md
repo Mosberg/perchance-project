@@ -1,0 +1,131 @@
+# Make everything possible using all possible perchance.org plugins with all their features, functions, methods, logics, mechanics, options, settings and configs.
+
+- As you know, you can import other generators into your project using {import:generator-name}.
+- This is good, it means we can create small, reusable, sharable "modules" so that we don't have to keep re-inventing the wheel.
+
+- As it turns out, though, we can use import for some other cool stuff.
+- For example, if someone writes a handy HTML snippet, they might make a "plugin" which allows you to import that snippet into your HTML panel.
+
+# Here's a growing list of handy plugins:
+
+[Official Perchance Plugins](https://perchance.org/plugins)
+
+- text-to-image-plugin: generate an image from a text description using AI
+- ai-text-plugin: generate text (stories, poems, etc) based on an instruction
+- comments-plugin: allows you to embed a little comments/feedback section in your generator
+- docs-plugin: easily create multi-page docs using markdown
+- create-instance-plugin: allows you to define "blueprints" of things, and then create random instances of them
+- create-instances-plugin: create a list of random instances based on a given blueprint
+- image-layer-combiner-plugin: randomly combine/overlay sets of images (like picrew/pokefusion)
+- pattern-maker-plugin: random procedurally-generated images that look like your input image
+- tap-plugin: randomize specific outputs by tapping/clicking them
+- favicon-plugin: allows you to change the browser tab icon for your generator
+- layout-maker-plugin: allows you to create your own visual layouts for your generators without knowing how to code
+- select-range-plugin: allows you select a certain range of items from an existing list
+- dice-plugin: do dice rolls with notation like "2d8" (roll two 8-sided dice)
+- wheel-plugin: make a "spinning wheel" to make your generator more exciting
+- upload-plugin: programmatically upload files to perchance's file storage server
+- secret-plugin: allows you to encrypt and decrypt data, with a (useful) twist
+- kv-plugin: allows you to store data in a way that will remain accessible after page reload/close
+- random-integer-plugin: generate a random integer (whole number) between two other integers
+- random-decimal-plugin: generate a random decimal between two other (dynamically generated) numbers
+- seeder-plugin: allows you to use copy-and-pastable random "seeds". same seed = same output
+- url-params-plugin: detect and use URL parameters in your code - i.e. customize output based on the URL
+- remember-plugin: allows you to save variables so they're not lost when the page is reloaded
+- tooltip-plugin: generate nice little tooltips/popups when you hover over some text
+- generator-stats-plugin: allows you to add a page view counter and get other stats about your generator
+- tldraw-plugin: collaborative canvas to draw with your friends
+- rpg-icon-plugin: gives you access to a set of ~500 RPG-themed icons
+- font-plugin: easily change fonts (typeface, size, color, etc.) using Google Fonts (use this for custom fonts)
+- google-sheets-plugin: import lists from Google Sheets
+- sum-odds-plugin: sum up all the odds of a particular list (useful for merging lists and preserving odds)
+- background-image-plugin: allows you to easily set a background image for your generator
+- background-audio-plugin: play background audio when people visit your generator
+- press-enter-plugin: trigger randomization with the enter/return key
+- tap-anywhere-plugin: trigger randomization with a tap/click anywhere on the page
+- select-until-plugin: keep trying to selectOne from a list until the resulting item meets your requirements
+- select-leaf-plugin: select a "leaf" node from your hierarchy (see discussion)
+- select-leaves-plugin: the selectMany version of selectLeaf
+- select-all-leaves-plugin: the selectAll version of selectLeaf
+- random-select-plugin: randomly chooses between the inputs that you pass it, with specifiable odds
+- consumable-leaf-list-plugin: create a consumableList of the leaf items in your hierarchy
+- typewriter-plugin: type out your text character-by-character (experimental)
+- make-table-plugin: a plugin to help you create HTML tables easily
+- lockable-list-plugin: add "lock" buttons so you can keep certain list selections and randomize the rest
+- locker-plugin: a more powerful version of lockable-list (but slightly more complicated)
+- fixed-until-reload-plugin: make it so certain values only randomize again when the page is reloaded
+- number-set-plugin: generate a set of numbers which add up to some other number
+- numerals-to-words-plugin: convert numerals like "453" to "four hundred and fifty three"
+- numerals-to-ordinal-words-plugin: convert numerals like "453" to "four hundred and fifty third"
+- numerals-to-ordinals-plugin: convert numerals like "453" to "453rd"
+- roman-numerals-plugin: convert a number into roman numerals form
+- text-to-speech-plugin: get the browser to speak out your generated text
+- join-lists-plugin: join two or more lists or items into a single list
+- exclude-items-plugin: exclude certain items from a list during random selection
+- filter-list-plugin: a somewhat advanced plugin for dynamically filtering lists
+- markov-chain-plugin: generate random text based on a large input corpus
+- roll-table-plugin: use dice ranges for the items in your list instead of normal perchance odds notation
+- goto-plugin: easily make simple text adventures with perchance
+- nested-plugin: build hierarchical random "worlds" with perchance
+- navbar-plugin: easily add a nav-bar to your generators, so people can see all your stuff
+- markdown-plugin: an easier alternative to html (it converts text to html, like this site)
+- literal-plugin: automatically put backslashes in front of curly/square brackets in some text
+- super-fetch-plugin: download any webpage/content/data and use it in your gen (bypasses 'CORs' issues)
+- consumable-list-loop-plugin: sometimes you want a consumable list that never runs out (i.e. resets when its empty)
+- download-button-plugin: make it easy for others to download your generator so they can use it offline
+- dynamic-import-plugin: import hundreds of generators without increasing page load time
+- print-button-plugin: make it easy for others to print the stuff that they've generated using your generator
+- copy-text-plugin: easily allow people to copy generated output text to their clipboard
+- fullscreen-button-plugin: add a button that, when clicked, makes your generator's page fill the screen completely
+- tabs-plugin: allows you to create little tabbed viewer things
+- conjugate-plugin: allows you to generate verb conjugations beyond the simple ones like past/present/future
+- title-case-plugin: a "smarter" title case than the default one
+- random-image-plugin: allows you generate a random image based on a topic/keyword you provide
+- image-plugin: an easy way to add images to your generator
+- pride-plugin: displays a little a rainbow flag on your generator if it's June (pride month!)
+- tornado-plugin: very useful if you need your page elements to rotate randomly
+- flat-avatar-plugin: generate an avatar with random clothes, expression, hair, etc.
+- a-an-plugin: a replacement for {a} that works better with plugins which dynamically update specific parts of the page (like tap-plugin)
+- be-plugin: automatically replaces itself with is/are based on the context (i.e. the pronoun that comes before it)
+- plural-plugin: a pluralForm replacement that allows you to specify custom plurals
+- date-plugin: manipulate dates, and output them in specific formats
+- bug-report-plugin: uses the secret-plugin to encrypt browser debug data to help with bug reports
+
+# Not on official Plugin page (missing plugins):
+
+[Perchance Missing Plugins](<https://perchance.fandom.com/wiki/Plugins#Not_on_official_Plugin_page_(missing_plugins)>)
+
+- wiki-plugin: load a perchance wiki logo that links to the perchance wiki
+- power-spoiler-plugin: easily make "spoiler text"
+- power-tabs-plugin: modern version of the tabs-plugin
+- power-footer-plugin: have a footer
+- power-shaker-plugin: shakes the page. based off the tornado-plugin
+- power-tagger-plugin: allows you to wrap text with various HTML tags
+- raw-generator-stats-plugin: original generator-stats-plugin but with the raw values
+- power-acronym-plugin: abbreviates phrases into acronyms
+- power-letter-sense-plugin: power-letter-sense-plugin
+- color-palette-plugin: customizable color palette
+- ukraine-plugin: shows a ukraine flag with customizable size
+- dice-average-plugin: return the average roll for a set of dice, based off dice-plugin (NOTE: this plugin does not use standard naming, its page is dice-average)
+- icon-plugin: allows you to use icons from Font Awesome.
+- pi-plugin: shows a pie at March 14th (Pi Day) Based off pride-plugin
+- to-array-plugin: convert lists to JavaScript Arrays
+- perchance-logo-plugin: shows a perchance logo with customizable size
+- link-plugin: make custom links easily without needing to learn html
+- random-dice-icon-plugin: lets you roll dice like dice-plugin, but displays the dice
+- pronoun-plugin: gives you a few pronouns that you can plug into your generator
+- gender-plugin: gives you a gender, with different probabilities
+- nested-plugin-v2: an improved version of the original nested-plugin
+- perchance-callouts: HTML and CSS based callouts derived and inspired by the Obsidian Callouts
+- random-unicode-playing-card: Get a Random Animated Unicode Playing Card
+- class-plugin: Apply a css class to a section of text. Note: this plugin has no documentation.
+- filter-list-ext-plugin: Filter List Plugin but allows to define what is returned if the filtering leaves no results.
+- filter-by-checkboxes-plugin: Filters a list according to the tags on entries and the checkboxes checked in the ui.
+- glow-plugin: allows you to have glowing text
+- mermaid-graph-plugin: Allows you to make "mermaid graphs"
+- button-plugin: make buttons
+- embed-generator-plugin: embed generators without knowing html
+- iframe-plugin: allows you to iframe generators, similar to embed-generator-plugin except with more options
+- unforkable-plugin: prevents people from copying your entire generator
+- range-generator-plugin: generates an array of items based on the given range.
+- smart-join-items-plugin: takes the joinItems method into the next level.

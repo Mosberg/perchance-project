@@ -1,0 +1,1157 @@
+<div id="app" style="min-height:100vh; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f0f23 100%); color:#f8f8ff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
+<style>:root{--primary:#ff66b2;--secondary:#8a2be2;--accent:#ff6b9e;--dark:#1a1a2e;--darker:#0f0f23;--light:#f8f8ff;--surface:rgba(255,255,255,0.05);--surface-hover:rgba(255,255,255,0.1)}*{box-sizing:border-box}body{margin:0; text-align:left}input,select,textarea,button{font-family:inherit}.btn{background:linear-gradient(135deg,var(--primary),var(--secondary)); border:none; color:white; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:600; transition:all 0.3s; display:inline-flex; align-items:center; gap:8px}.btn:hover{transform:translateY(-2px); box-shadow:0 4px 15px rgba(255,102,178,0.4)}.btn:disabled{opacity:0.5; cursor:not-allowed; transform:none}.btn-secondary{background:rgba(255,255,255,0.1)}.btn-secondary:hover{background:rgba(255,255,255,0.2)}.btn-danger{background:linear-gradient(135deg,#ff4757,#ff6b81)}.card{background:var(--surface); border-radius:12px; padding:20px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px)}.input-field{background:rgba(0,0,0,0.3); border:1px solid rgba(255,102,178,0.3); color:white; padding:12px; border-radius:8px; width:100%; transition:border-color 0.3s}.input-field:focus{outline:none; border-color:var(--primary)}.slider-container{display:flex; align-items:center; gap:10px}.slider{flex:1; -webkit-appearance:none; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; cursor:pointer}.slider::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; background:var(--primary); border-radius:50%; cursor:pointer}.tag{background:rgba(255,102,178,0.2); color:var(--primary); padding:4px 10px; border-radius:20px; font-size:12px; display:inline-flex; align-items:center; gap:5px; cursor:pointer; transition:all 0.2s}.tag:hover{background:rgba(255,102,178,0.4)}.tag-remove{cursor:pointer; opacity:0.7}.tag-remove:hover{opacity:1}.loading-overlay{position:fixed; inset:0; background:rgba(0,0,0,0.8); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:1000}.spinner{width:50px; height:50px; border:3px solid rgba(255,102,178,0.3); border-top-color:var(--primary); border-radius:50%; animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.modal-overlay{position:fixed; inset:0; background:rgba(0,0,0,0.8); display:flex; align-items:center; justify-content:center; z-index:900}.modal{background:var(--dark); border-radius:12px; padding:24px; max-width:600px; width:90%; max-height:90vh; overflow-y:auto; border:1px solid var(--primary)}.tab{padding:10px 20px; cursor:pointer; border-bottom:2px solid transparent; color:rgba(255,255,255,0.6); transition:all 0.3s}.tab:hover{color:white}.tab.active{border-bottom-color:var(--primary); color:var(--primary)}.gallery-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px}.gallery-item{background:var(--surface); border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); transition:all 0.3s; position:relative}.gallery-item:hover{transform:translateY(-5px); border-color:var(--primary); box-shadow:0 10px 30px rgba(255,102,178,0.2)}.gallery-img{width:100%; aspect-ratio:2/3; object-fit:cover; background:#1a1a2e}.gallery-overlay{position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,0.9),transparent); opacity:0; transition:opacity 0.3s; display:flex; flex-direction:column; justify-content:flex-end; padding:15px}.gallery-item:hover .gallery-overlay{opacity:1}.gallery-actions{display:flex; gap:8px; flex-wrap:wrap}.gallery-title{font-size:14px; font-weight:600; color:white; margin-bottom:5px}.gallery-prompt{font-size:11px; color:rgba(255,255,255,0.7); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}.empty-state{text-align:center; padding:60px 20px; color:rgba(255,255,255,0.5)}.empty-state-icon{font-size:48px; margin-bottom:20px}.notification{position:fixed; bottom:20px; right:20px; padding:15px 25px; background:var(--dark); border-radius:8px; border-left:4px solid var(--primary); box-shadow:0 5px 20px rgba(0,0,0,0.3); animation:slideIn 0.3s ease; z-index:1001}@keyframes slideIn{from{transform:translateX(100%); opacity:0}to{transform:translateX(0); opacity:1}}.hidden{display:none!important}</style>
+
+<!-- Header -->
+<header style="background:rgba(0,0,0,0.3); backdrop-filter:blur(10px); padding:15px 30px; border-bottom:1px solid rgba(255,255,255,0.1); position:sticky; top:0; z-index:100">
+  <div style="display:flex; justify-content:space-between; align-items:center; max-width:1400px; margin:0 auto">
+    <div style="display:flex; align-items:center; gap:15px">
+      <span style="font-size:28px; font-weight:bold; background:linear-gradient(135deg,var(--primary),var(--secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent">🎨 AI HentaiHub</span>
+      <span class="tag" style="font-size:11px">BETA</span>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center">
+      <input type="text" id="userInput" placeholder="Username..." class="input-field" style="width:150px; padding:8px 12px" value="Guest">
+      <button class="btn btn-secondary" id="loginBtn" onclick="handleLogin()">Login</button>
+      <button class="btn" onclick="showImportModal()">📥 Import</button>
+      <button class="btn btn-secondary" onclick="exportGallery()">📤 Export</button>
+    </div>
+  </div>
+</header>
+
+<!-- Navigation Tabs -->
+<nav style="background:rgba(0,0,0,0.2); padding:0 30px; border-bottom:1px solid rgba(255,255,255,0.05)">
+  <div style="max-width:1400px; margin:0 auto; display:flex; gap:5px">
+    <div class="tab active" data-tab="generator" onclick="switchTab('generator')">🎯 Generator</div>
+    <div class="tab" data-tab="scratchpad" onclick="switchTab('scratchpad')">📝 Scratchpad</div>
+    <div class="tab" data-tab="gallery" onclick="switchTab('gallery')">🖼️ Gallery</div>
+    <div class="tab" data-tab="settings" onclick="switchTab('settings')">⚙️ Settings</div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main style="max-width:1400px; margin:20px auto; padding:0 20px">
+
+<!-- Generator Tab -->
+<div id="generatorTab" class="tab-content">
+  <div style="display:grid; grid-template-columns:350px 1fr; gap:20px">
+
+    <!-- Left Panel - Prompt Generator -->
+    <div class="card" style="height:fit-content">
+      <h2 style="margin:0 0 15px; color:var(--primary)">🔮 Prompt Engine</h2>
+
+      <div class="tabs" style="display:flex; gap:10px; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1)">
+        <div class="tab active" style="padding:8px 15px; font-size:13px" data-prompt-tab="create" onclick="switchPromptTab('create')">Create</div>
+        <div class="tab" style="padding:8px 15px; font-size:13px" data-prompt-tab="random" onclick="switchPromptTab('random')">Random</div>
+        <div class="tab" style="padding:8px 15px; font-size:13px" data-prompt-tab="enhance" onclick="switchPromptTab('enhance')">Enhance</div>
+      </div>
+
+      <!-- Create Tab -->
+      <div id="createPromptTabEl">
+        <textarea id="promptInput" class="input-field" rows="5" placeholder="Describe your fantasy scene... (e.g., 'anime girl, pink hair, school uniform, shy expression')"></textarea>
+      </div>
+
+      <!-- Random Tab -->
+      <div id="randomPromptTabEl" class="hidden">
+        <div style="margin-bottom:15px">
+          <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Style</label>
+          <select id="randomStyle" class="input-field">
+            <option value="any">Any Style</option>
+            <option value="anime">Anime</option>
+            <option value="manga">Manga</option>
+            <option value="hyperrealistic">Hyperrealistic</option>
+            <option value="chibi">Chibi</option>
+            <option value="western">Western</option>
+            <option value="watercolor">Watercolor</option>
+            <option value="oil painting">Oil Painting</option>
+          </select>
+        </div>
+        <div style="margin-bottom:15px">
+          <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Category</label>
+          <select id="randomCategory" class="input-field">
+            <option value="any">Any Category</option>
+            <option value="vanilla">Vanilla</option>
+            <option value="ecchi">Ecchi</option>
+            <option value="hardcore">Hardcore</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="sci-fi">Sci-Fi</option>
+            <option value="romance">Romance</option>
+          </select>
+        </div>
+        <button class="btn" style="width:100%" onclick="generateRandomPrompt()">🎲 Generate Random</button>
+      </div>
+
+      <!-- Enhance Tab -->
+      <div id="enhancePromptTabEl" class="hidden">
+        <textarea id="enhanceInput" class="input-field" rows="3" placeholder="Enter prompt to enhance..."></textarea>
+        <div style="margin:15px 0">
+          <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Enhancement Level</label>
+          <input type="range" id="enhanceLevel" class="slider" min="1" max="5" value="3" style="width:100%">
+          <div style="display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.5)">
+            <span>Light</span><span>Intense</span>
+          </div>
+        </div>
+        <button class="btn" style="width:100%" onclick="enhancePrompt()">✨ Enhance Prompt</button>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:15px">
+        <button class="btn btn-secondary" style="flex:1" onclick="copyPrompt()">📋 Copy</button>
+        <button class="btn btn-secondary" style="flex:1" onclick="clearPrompt()">🗑️ Clear</button>
+        <button class="btn" style="flex:1" onclick="savePromptToScratchpad()">💾 Save</button>
+      </div>
+    </div>
+
+    <!-- Right Panel - Image Generation -->
+    <div>
+      <div class="card">
+        <h2 style="margin:0 0 20px; color:var(--primary)">🎨 Image Generator</h2>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-bottom:20px">
+          <div>
+            <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Number of Images</label>
+            <select id="imageCount" class="input-field">
+              <option value="1">1 Image</option>
+              <option value="2">2 Images</option>
+              <option value="4" selected>4 Images</option>
+              <option value="6">6 Images</option>
+              <option value="8">8 Images</option>
+              <option value="12">12 Images</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Resolution</label>
+            <select id="resolution" class="input-field">
+              <option value="512x512">512x512</option>
+              <option value="512x768" selected>512x768 (Portrait)</option>
+              <option value="768x512">768x512 (Landscape)</option>
+              <option value="768x768">768x768</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Style</label>
+            <select id="imageStyle" class="input-field">
+              <option value="anime">Anime</option>
+              <option value="manga">Manga</option>
+              <option value="realistic">Realistic</option>
+              <option value="painting">Painting</option>
+              <option value="sketch">Sketch</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px">
+          <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Negative Prompt (what to avoid)</label>
+          <input type="text" id="negativePrompt" class="input-field" placeholder="ugly, blurry, low quality, distorted...">
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; margin-bottom:20px">
+          <div>
+            <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Guidance Scale: <span id="guidanceValue">7.5</span></label>
+            <input type="range" id="guidanceScale" class="slider" min="1" max="20" step="0.5" value="7.5" oninput="guidanceValue.textContent=this.value">
+          </div>
+          <div>
+            <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Steps: <span id="stepsValue">28</span></label>
+            <input type="range" id="steps" class="slider" min="10" max="50" step="1" value="28" oninput="stepsValue.textContent=this.value">
+          </div>
+          <div>
+            <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Seed (optional)</label>
+            <input type="number" id="seedInput" class="input-field" placeholder="Random if empty">
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px">
+          <button class="btn" style="flex:1; font-size:16px; padding:15px" id="generateBtn" onclick="generateImages()">🚀 Generate Images</button>
+          <button class="btn btn-secondary" onclick="surpriseMe()">🎲 Surprise Me</button>
+        </div>
+      </div>
+
+      <!-- Generation Results -->
+      <div id="resultsArea" class="card" style="margin-top:20px; min-height:200px">
+        <div id="emptyResults" class="empty-state">
+          <div class="empty-state-icon">🖼️</div>
+          <h3>Ready to Generate</h3>
+          <p>Create a prompt and click generate to start creating artwork</p>
+        </div>
+        <div id="resultsGrid" class="gallery-grid" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scratchpad Tab -->
+<div id="scratchpadTab" class="tab-content hidden">
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+      <h2 style="margin:0; color:var(--primary)">📝 Prompt Scratchpad</h2>
+      <div style="display:flex; gap:10px">
+        <button class="btn btn-secondary" onclick="createNewScratchpadPage()">+ New Page</button>
+        <button class="btn btn-danger" onclick="clearCurrentScratchpad()">🗑️ Clear Page</button>
+      </div>
+    </div>
+
+    <div class="tabs" style="display:flex; gap:5px; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); overflow-x:auto; padding-bottom:5px" id="scratchpadTabs">
+      <!-- Tabs will be dynamically added -->
+    </div>
+
+    <div id="scratchpadContent">
+      <div id="emptyScratchpad" class="empty-state">
+        <div class="empty-state-icon">📝</div>
+        <h3>No Saved Prompts</h3>
+        <p>Save prompts from the generator to build your collection</p>
+      </div>
+      <div id="scratchpadList" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Gallery Tab -->
+<div id="galleryTab" class="tab-content hidden">
+  <div class="card" style="margin-bottom:20px">
+    <div style="display:flex; flex-wrap:wrap; gap:15px; align-items:center; justify-content:space-between">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; flex:1">
+        <input type="text" id="gallerySearch" class="input-field" placeholder="Search prompts..." style="max-width:300px" oninput="filterGallery()">
+        <select id="galleryFilterStyle" class="input-field" style="width:auto" onchange="filterGallery()">
+          <option value="">All Styles</option>
+          <option value="anime">Anime</option>
+          <option value="manga">Manga</option>
+          <option value="realistic">Realistic</option>
+          <option value="painting">Painting</option>
+        </select>
+        <select id="galleryFilterSort" class="input-field" style="width:auto" onchange="filterGallery()">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="prompt">By Prompt</option>
+        </select>
+      </div>
+      <div style="display:flex; gap:10px">
+        <button class="btn btn-secondary" onclick="toggleFavoritesOnly()">❤️ Favorites Only</button>
+        <select id="galleryFolder" class="input-field" style="width:auto" onchange="filterGallery()">
+          <option value="">All Folders</option>
+        </select>
+        <button class="btn btn-secondary" onclick="createNewFolder()">+ New Folder</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="galleryContent">
+    <div id="galleryGrid" class="gallery-grid"></div>
+    <div id="emptyGallery" class="empty-state">
+      <div class="empty-state-icon">🖼️</div>
+      <h3>No Images Yet</h3>
+      <p>Generate some images to fill your gallery!</p>
+    </div>
+  </div>
+
+  <div id="galleryPagination" style="display:flex; justify-content:center; gap:10px; margin-top:30px"></div>
+</div>
+
+<!-- Settings Tab -->
+<div id="settingsTab" class="tab-content hidden">
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:20px">
+
+    <div class="card">
+      <h2 style="margin:0 0 20px; color:var(--primary)">👤 Account Settings</h2>
+      <div style="margin-bottom:15px">
+        <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Username</label>
+        <input type="text" id="settingsUsername" class="input-field">
+      </div>
+      <div style="margin-bottom:15px">
+        <label style="display:block; margin-bottom:8px; font-size:13px; color:rgba(255,255,255,0.7)">Default Style</label>
+        <select id="defaultStyle" class="input-field">
+          <option value="anime">Anime</option>
+          <option value="manga">Manga</option>
+          <option value="realistic">Realistic</option>
+        </select>
+      </div>
+      <button class="btn" onclick="saveSettings()">💾 Save Settings</button>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0:20px; color:var(--primary)">🗂️ Data Management</h2>
+      <div style="display:grid; gap:10px">
+        <button class="btn btn-secondary" onclick="exportGallery()">📤 Export All Data</button>
+        <button class="btn btn-secondary" onclick="showImportModal()">📥 Import Data</button>
+        <button class="btn btn-danger" onclick="confirmClearAll()">⚠️ Clear All Data</button>
+      </div>
+      <p style="margin-top:15px; font-size:12px; color:rgba(255,255,255,0.5)">Exported data includes all gallery images, saved prompts, and settings.</p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0:20px; color:var(--primary)">📊 Statistics</h2>
+      <div id="statsContent">
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:15px">
+          <div class="stat-item">
+            <div style="font-size:32px; font-weight:bold; color:var(--primary)" id="statImages">0</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.7)">Total Images</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size:32px; font-weight:bold; color:var(--primary)" id="statPrompts">0</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.7)">Saved Prompts</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size:32px; font-weight:bold; color:var(--primary)" id="statFavorites">0</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.7)">Favorites</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size:32px; font-weight:bold; color:var(--primary)" id="statFolders">0</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.7)">Folders</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="spinner"></div>
+  <h3 style="margin-top:20px; color:var(--primary)">Generating...</h3>
+  <p id="loadingText" style="color:rgba(255,255,255,0.7)">Creating your masterpiece...</p>
+</div>
+
+<!-- Image Modal -->
+<div id="imageModal" class="modal-overlay hidden" onclick="if(event.target===this)closeImageModal()">
+  <div class="modal" style="max-width:900px">
+    <img id="modalImage" src="" style="width:100%; border-radius:8px; margin-bottom:15px">
+    <div style="display:flex; flex-direction:column; gap:15px">
+      <div>
+        <h3 id="modalTitle" style="margin:0 0 10px; color:var(--primary)">Image Title</h3>
+        <p id="modalPrompt" style="margin:0; font-size:14px; color:rgba(255,255,255,0.8)"></p>
+      </div>
+      <div id="modalTags" style="display:flex; flex-wrap:wrap; gap:5px"></div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; font-size:12px; color:rgba(255,255,255,0.6)">
+        <div><span>Seed:</span> <span id="modalSeed"></span></div>
+        <div><span>Steps:</span> <span id="modalSteps"></span></div>
+        <div><span>Guidance:</span> <span id="modalGuidance"></span></div>
+        <div><span>Style:</span> <span id="modalStyle"></span></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn" onclick="downloadCurrentImage()">⬇️ Download</button>
+        <button class="btn btn-secondary" onclick="editCurrentPrompt()">✏️ Edit Prompt</button>
+        <button class="btn btn-secondary" onclick="toggleFavorite()">❤️ Favorite</button>
+        <button class="btn btn-secondary" onclick="regenerateVariation()">🔄 Regenerate</button>
+        <button class="btn btn-danger" onclick="deleteCurrentImage()">🗑️ Delete</button>
+      </div>
+      <div>
+        <label style="display:block; margin-bottom:5px; font-size:12px; color:rgba(255,255,255,0.7)">Move to Folder:</label>
+        <select id="modalFolderSelect" class="input-field" onchange="moveToFolder()">
+          <option value="">No Folder</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Import Modal -->
+<div id="importModal" class="modal-overlay hidden" onclick="if(event.target===this)closeImportModal()">
+  <div class="modal">
+    <h3 style="margin:0 0 15px; color:var(--primary)">📥 Import Data</h3>
+    <p style="color:rgba(255,255,255,0.7); margin-bottom:15px">Paste your exported JSON data below to import your gallery and settings.</p>
+    <textarea id="importData" class="input-field" rows="10" placeholder="Paste JSON data here..."></textarea>
+    <div style="display:flex; gap:10px; margin-top:15px">
+      <button class="btn" onclick="importData()">Import</button>
+      <button class="btn btn-secondary" onclick="closeImportModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div id="confirmModal" class="modal-overlay hidden">
+  <div class="modal" style="max-width:400px">
+    <h3 id="confirmTitle" style="margin:0 0 15px; color:var(--primary)">Confirm Action</h3>
+    <p id="confirmMessage" style="color:rgba(255,255,255,0.7); margin-bottom:20px"></p>
+    <div style="display:flex; gap:10px; justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+      <button class="btn btn-danger" id="confirmBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+// Access globals via root for modules
+let kv = root.kv;
+let generateImage = root.generateImage;
+let generateText = root.generateText;
+
+// Application State
+let state = {
+  user: 'Guest',
+  currentTab: 'generator',
+  currentPromptTab: 'create',
+  currentScratchpadPage: 0,
+  scratchpadPages: [{name: 'Page 1', prompts: []}],
+  gallery: [],
+  folders: [],
+  currentImage: null,
+  favoritesOnly: false,
+  settings: {
+    defaultStyle: 'anime',
+    defaultResolution: '512x768',
+    defaultCount: 4
+  }
+};
+
+// Tag presets for categorization
+let tagPresets = ['anime', 'manga', 'realistic', 'portrait', 'landscape', 'nsfw', 'ecchi', 'fantasy', 'sci-fi', 'romance', 'action', 'character', 'original'];
+
+// Initialize app
+async function init() {
+  await loadPersistedData();
+  renderScratchpadTabs();
+  renderScratchpadContent();
+  renderGallery();
+  renderFolderOptions();
+  updateStats();
+  populateSettings();
+}
+
+// Load data from kv storage
+async function loadPersistedData() {
+  try {
+    let savedState = await kv.hentaiHub.get('state');
+    if (savedState) {
+      state = {...state, ...savedState};
+      userInput.value = state.user;
+    }
+
+    let gallery = await kv.hentaiHubGallery.values();
+    if (gallery && gallery.length > 0) {
+      state.gallery = gallery;
+    }
+
+    let folders = await kv.hentaiHubFolders.values();
+    if (folders) {
+      state.folders = folders;
+    }
+  } catch (e) {
+    console.log('No saved data found');
+  }
+}
+
+// Save state to kv
+async function saveState() {
+  try {
+    await kv.hentaiHub.set('state', {
+      user: state.user,
+      scratchpadPages: state.scratchpadPages,
+      currentScratchpadPage: state.currentScratchpadPage,
+      settings: state.settings
+    });
+  } catch (e) {
+    console.error('Error saving state:', e);
+  }
+}
+
+// Tab switching
+window.switchTab = function(tabName) {
+  state.currentTab = tabName;
+
+  // Update tab styles
+  document.querySelectorAll('.tab[data-tab]').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.tab === tabName);
+  });
+
+  // Show/hide content
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.add('hidden');
+  });
+  document.getElementById(tabName + 'Tab').classList.remove('hidden');
+
+  if (tabName === 'gallery') {
+    renderGallery();
+  } else if (tabName === 'settings') {
+    updateStats();
+    populateSettings();
+  }
+};
+
+// Prompt tab switching
+window.switchPromptTab = function(tabName) {
+  state.currentPromptTab = tabName;
+
+  document.querySelectorAll('[data-prompt-tab]').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.promptTab === tabName);
+  });
+
+  createPromptTabEl.classList.toggle('hidden', tabName !== 'create');
+  randomPromptTabEl.classList.toggle('hidden', tabName !== 'random');
+  enhancePromptTabEl.classList.toggle('hidden', tabName !== 'enhance');
+
+  if (tabName === 'enhance') {
+    enhanceInput.value = promptInput.value;
+  }
+};
+
+// Generate random prompt
+window.generateRandomPrompt = async function() {
+  try {
+    let style = randomStyle.value;
+    let category = randomCategory.value;
+
+    let prompt = await generateText(`Generate a detailed hentai/anime image prompt. ${style !== 'any' ? `Style: ${style}.` : ''} ${category !== 'any' ? `Category: ${category}.` : ''} Include character description, pose, setting, and mood. Be descriptive but concise.`);
+
+    promptInput.value = prompt.trim();
+    showNotification('Random prompt generated!');
+  } catch (e) {
+    showNotification('Error generating prompt', 'error');
+  }
+};
+
+// Enhance prompt
+window.enhancePrompt = async function() {
+  let basePrompt = enhanceInput.value || promptInput.value;
+  if (!basePrompt) {
+    showNotification('Enter a prompt to enhance', 'error');
+    return;
+  }
+
+  try {
+    let level = enhanceLevel.value;
+    let enhancements = await generateText(`Enhance this hentai/anime image prompt by adding ${level} levels of detail and quality tags. Keep the core concept but add: lighting, composition, artistic style, and quality boosters. Prompt: "${basePrompt}"`);
+
+    promptInput.value = enhancements.trim();
+    showNotification('Prompt enhanced!');
+  } catch (e) {
+    showNotification('Error enhancing prompt', 'error');
+  }
+};
+
+// Copy prompt
+window.copyPrompt = function() {
+  let prompt = promptInput.value;
+  if (!prompt) return;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    showNotification('Prompt copied to clipboard!');
+  });
+};
+
+// Clear prompt
+window.clearPrompt = function() {
+  promptInput.value = '';
+  showNotification('Prompt cleared');
+};
+
+// Save prompt to scratchpad
+window.savePromptToScratchpad = function() {
+  let prompt = promptInput.value.trim();
+  if (!prompt) {
+    showNotification('Enter a prompt to save', 'error');
+    return;
+  }
+
+  state.scratchpadPages[state.currentScratchpadPage].prompts.push({
+    id: Date.now(),
+    text: prompt,
+    created: new Date().toISOString()
+  });
+
+  saveState();
+  renderScratchpadContent();
+  showNotification('Prompt saved to scratchpad!');
+};
+
+// Generate images
+window.generateImages = async function() {
+  let prompt = promptInput.value.trim();
+  if (!prompt) {
+    showNotification('Please enter a prompt', 'error');
+    return;
+  }
+
+  let count = parseInt(imageCount.value);
+  let resolution = resolution.value;
+  let style = imageStyle.value;
+  let negative = negativePrompt.value;
+  let guidance = parseFloat(guidanceScale.value);
+  let steps = parseInt(steps.value);
+  let seed = seedInput.value ? parseInt(seedInput.value) : null;
+
+  showLoading(true, `Generating ${count} image${count > 1 ? 's' : ''}...`);
+  generateBtn.disabled = true;
+
+  try {
+    let results = [];
+    let [width, height] = resolution.split('x').map(Number);
+
+    for (let i = 0; i < count; i++) {
+      let currentSeed = seed ? seed + i : Math.floor(Math.random() * 999999);
+      let dataUrl = await generateImage(`${prompt}, ${style} style, high quality, detailed${negative ? ', ' + negative : ''}`, {resolution});
+
+      results.push({
+        id: Date.now() + i,
+        prompt: prompt,
+        image: dataUrl,
+        seed: currentSeed,
+        steps: steps,
+        guidance: guidance,
+        style: style,
+        resolution: resolution,
+        negative: negative,
+        created: new Date().toISOString(),
+        folder: '',
+        favorite: false,
+        tags: [style, ...extractTags(prompt)]
+      });
+    }
+
+    // Add to gallery
+    for (let item of results) {
+      state.gallery.unshift(item);
+      await kv.hentaiHubGallery.set(item.id.toString(), item);
+    }
+
+    renderResults(results);
+    showNotification(`Generated ${count} image${count > 1 ? 's' : ''}!`);
+  } catch (e) {
+    showNotification('Error generating images: ' + e.message, 'error');
+  } finally {
+    showLoading(false);
+    generateBtn.disabled = false;
+  }
+};
+
+// Extract tags from prompt
+function extractTags(prompt) {
+  let tags = [];
+  let lowerPrompt = prompt.toLowerCase();
+
+  tagPresets.forEach(tag => {
+    if (lowerPrompt.includes(tag)) {
+      tags.push(tag);
+    }
+  });
+
+  return tags;
+}
+
+// Surprise me
+window.surpriseMe = async function() {
+  showLoading(true, 'Creating surprise prompt...');
+
+  try {
+    let prompt = await generateText('Generate a creative and detailed hentai/anime image prompt. Include character type, outfit, pose, setting, and mood. Make it unique and interesting.');
+    promptInput.value = prompt.trim();
+    showNotification('Surprise prompt ready!');
+  } catch (e) {
+    showNotification('Error creating surprise', 'error');
+  } finally {
+    showLoading(false);
+  }
+};
+
+// Render generation results
+function renderResults(results) {
+  emptyResults.classList.add('hidden');
+  resultsGrid.classList.remove('hidden');
+  resultsGrid.innerHTML = '';
+
+  results.forEach(item => {
+    let card = createGalleryCard(item, true);
+    resultsGrid.appendChild(card);
+  });
+}
+
+// Create gallery card
+function createGalleryCard(item, isResult = false) {
+  let card = document.createElement('div');
+  card.className = 'gallery-item';
+  card.dataset.id = item.id;
+
+  card.innerHTML = `
+    <img src="${item.image}" class="gallery-img" alt="Generated image" loading="lazy">
+    <div class="gallery-overlay">
+      <div class="gallery-title">${item.prompt.slice(0, 50)}${item.prompt.length > 50 ? '...' : ''}</div>
+      <div class="gallery-prompt">${item.prompt}</div>
+      <div class="gallery-actions" style="margin-top:10px">
+        <button class="btn btn-secondary" style="padding:5px 10px; font-size:12px" onclick="viewImage(${item.id})">👁️ View</button>
+        <button class="btn btn-secondary" style="padding:5px 10px; font-size:12px" onclick="downloadImage(${item.id})">⬇️</button>
+        <button class="btn btn-secondary" style="padding:5px 10px; font-size:12px" onclick="quickFavorite(${item.id})">❤️</button>
+        ${isResult ? `<button class="btn" style="padding:5px 10px; font-size:12px" onclick="saveToGallery(${item.id})">💾 Save</button>` : ''}
+      </div>
+    </div>
+  `;
+
+  return card;
+}
+
+// Save image to gallery (from results)
+window.saveToGallery = async function(id) {
+  let card = document.querySelector(`.gallery-item[data-id="${id}"]`);
+  if (card) {
+    card.querySelector('button[onclick*="saveToGallery"]').textContent = '✅ Saved';
+    card.querySelector('button[onclick*="saveToGallery"]').disabled = true;
+    showNotification('Image saved to gallery!');
+    updateStats();
+  }
+};
+
+// Scratchpad functions
+window.createNewScratchpadPage = function() {
+  let name = `Page ${state.scratchpadPages.length + 1}`;
+  state.scratchpadPages.push({name, prompts: []});
+  state.currentScratchpadPage = state.scratchpadPages.length - 1;
+  saveState();
+  renderScratchpadTabs();
+  renderScratchpadContent();
+};
+
+window.clearCurrentScratchpad = function() {
+  state.scratchpadPages[state.currentScratchpadPage].prompts = [];
+  saveState();
+  renderScratchpadContent();
+  showNotification('Page cleared');
+};
+
+function renderScratchpadTabs() {
+  scratchpadTabs.innerHTML = state.scratchpadPages.map((page, index) => `
+    <div class="tab ${index === state.currentScratchpadPage ? 'active' : ''}"
+         style="padding:8px 15px; font-size:13px; white-space:nowrap"
+         onclick="switchScratchpadPage(${index})">
+      ${page.name} (${page.prompts.length})
+    </div>
+  `).join('');
+}
+
+window.switchScratchpadPage = function(index) {
+  state.currentScratchpadPage = index;
+  saveState();
+  renderScratchpadTabs();
+  renderScratchpadContent();
+};
+
+function renderScratchpadContent() {
+  let page = state.scratchpadPages[state.currentScratchpadPage];
+
+  if (page.prompts.length === 0) {
+    emptyScratchpad.classList.remove('hidden');
+    scratchpadList.classList.add('hidden');
+  } else {
+    emptyScratchpad.classList.add('hidden');
+    scratchpadList.classList.remove('hidden');
+
+    scratchpadList.innerHTML = page.prompts.map((item, index) => `
+      <div style="background:rgba(255,255,255,0.05); border-radius:8px; padding:15px; margin-bottom:10px; border:1px solid rgba(255,255,255,0.1)">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px">
+          <span style="font-size:11px; color:rgba(255,255,255,0.5)">#${index + 1} • ${new Date(item.created).toLocaleDateString()}</span>
+          <div style="display:flex; gap:5px">
+            <button class="btn btn-secondary" style="padding:5px 10px; font-size:11px" onclick="loadScratchpadPrompt(${index})">📋 Load</button>
+            <button class="btn btn-secondary" style="padding:5px 10px; font-size:11px" onclick="deleteScratchpadPrompt(${index})">🗑️</button>
+          </div>
+        </div>
+        <p style="margin:0; font-size:14px; color:rgba(255,255,255,0.9); white-space:pre-wrap">${item.text}</p>
+      </div>
+    `).join('');
+  }
+}
+
+window.loadScratchpadPrompt = function(index) {
+  let prompt = state.scratchpadPages[state.currentScratchpadPage].prompts[index].text;
+  promptInput.value = prompt;
+  switchTab('generator');
+  showNotification('Prompt loaded!');
+};
+
+window.deleteScratchpadPrompt = function(index) {
+  state.scratchpadPages[state.currentScratchpadPage].prompts.splice(index, 1);
+  saveState();
+  renderScratchpadTabs();
+  renderScratchpadContent();
+  showNotification('Prompt deleted');
+};
+
+// Gallery functions
+function renderGallery() {
+  let filteredGallery = [...state.gallery];
+
+  // Apply search filter
+  let searchTerm = gallerySearch.value.toLowerCase();
+  if (searchTerm) {
+    filteredGallery = filteredGallery.filter(item =>
+      item.prompt.toLowerCase().includes(searchTerm) ||
+      item.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+    );
+  }
+
+  // Apply style filter
+  let styleFilter = galleryFilterStyle.value;
+  if (styleFilter) {
+    filteredGallery = filteredGallery.filter(item => item.style === styleFilter);
+  }
+
+  // Apply folder filter
+  let folderFilter = galleryFolder.value;
+  if (folderFilter) {
+    filteredGallery = filteredGallery.filter(item => item.folder === folderFilter);
+  }
+
+  // Apply favorites filter
+  if (state.favoritesOnly) {
+    filteredGallery = filteredGallery.filter(item => item.favorite);
+  }
+
+  // Apply sort
+  let sortBy = galleryFilterSort.value;
+  if (sortBy === 'newest') {
+    filteredGallery.sort((a, b) => new Date(b.created) - new Date(a.created));
+  } else if (sortBy === 'oldest') {
+    filteredGallery.sort((a, b) => new Date(a.created) - new Date(b.created));
+  } else if (sortBy === 'prompt') {
+    filteredGallery.sort((a, b) => a.prompt.localeCompare(b.prompt));
+  }
+
+  if (filteredGallery.length === 0) {
+    galleryGrid.innerHTML = '';
+    emptyGallery.classList.remove('hidden');
+  } else {
+    emptyGallery.classList.add('hidden');
+    galleryGrid.innerHTML = filteredGallery.map(item => createGalleryCard(item).outerHTML).join('');
+
+    // Re-attach event listeners
+    galleryGrid.querySelectorAll('.gallery-item').forEach(card => {
+      let id = parseInt(card.dataset.id);
+      card.querySelector('button[onclick*="viewImage"]').onclick = () => viewImage(id);
+      card.querySelector('button[onclick*="downloadImage"]').onclick = () => downloadImage(id);
+      card.querySelector('button[onclick*="quickFavorite"]').onclick = () => quickFavorite(id);
+    });
+  }
+}
+
+window.filterGallery = function() {
+  renderGallery();
+};
+
+window.toggleFavoritesOnly = function() {
+  state.favoritesOnly = !state.favoritesOnly;
+  showNotification(state.favoritesOnly ? 'Showing favorites only' : 'Showing all images');
+  filterGallery();
+};
+
+// Image viewing
+window.viewImage = function(id) {
+  let item = state.gallery.find(i => i.id === id);
+  if (!item) return;
+
+  state.currentImage = item;
+
+  modalImage.src = item.image;
+  modalTitle.textContent = item.prompt.slice(0, 100) + (item.prompt.length > 100 ? '...' : '');
+  modalPrompt.textContent = item.prompt;
+  modalSeed.textContent = item.seed;
+  modalSteps.textContent = item.steps;
+  modalGuidance.textContent = item.guidance;
+  modalStyle.textContent = item.style;
+
+  // Render tags
+  modalTags.innerHTML = item.tags.map(tag => `
+    <span class="tag">${tag}</span>
+  `).join('');
+
+  // Set folder select
+  modalFolderSelect.innerHTML = '<option value="">No Folder</option>' +
+    state.folders.map(f => `<option value="${f}" ${item.folder === f ? 'selected' : ''}>${f}</option>`).join('');
+
+  imageModal.classList.remove('hidden');
+};
+
+window.closeImageModal = function() {
+  imageModal.classList.add('hidden');
+  state.currentImage = null;
+};
+
+window.downloadCurrentImage = function() {
+  if (!state.currentImage) return;
+  downloadImage(state.currentImage.id);
+};
+
+window.downloadImage = function(id) {
+  let item = state.gallery.find(i => i.id === id);
+  if (!item) return;
+
+  let link = document.createElement('a');
+  link.href = item.image;
+  link.download = `hentaihub_${item.id}_${item.seed}.png`;
+  link.click();
+
+  showNotification('Image downloaded!');
+};
+
+window.quickFavorite = async function(id) {
+  let item = state.gallery.find(i => i.id === id);
+  if (!item) return;
+
+  item.favorite = !item.favorite;
+  await kv.hentaiHubGallery.set(id.toString(), item);
+
+  if (state.currentTab === 'gallery') {
+    renderGallery();
+  }
+
+  showNotification(item.favorite ? 'Added to favorites!' : 'Removed from favorites');
+  updateStats();
+};
+
+window.toggleFavorite = async function() {
+  if (!state.currentImage) return;
+  await quickFavorite(state.currentImage.id);
+  viewImage(state.currentImage.id); // Refresh modal
+};
+
+window.editCurrentPrompt = function() {
+  if (!state.currentImage) return;
+
+  promptInput.value = state.currentImage.prompt;
+  switchTab('generator');
+  closeImageModal();
+  showNotification('Prompt loaded! Edit and regenerate to create variations.');
+};
+
+window.regenerateVariation = async function() {
+  if (!state.currentImage) return;
+
+  let item = state.currentImage;
+  promptInput.value = item.prompt;
+  seedInput.value = item.seed;
+  imageStyle.value = item.style;
+  steps.value = item.steps;
+  guidanceScale.value = item.guidance;
+
+  closeImageModal();
+  switchTab('generator');
+
+  showNotification('Parameters loaded! Click Generate to create variations.');
+};
+
+window.deleteCurrentImage = async function() {
+  if (!state.currentImage) return;
+
+  showConfirm('Delete Image', 'Are you sure you want to delete this image? This cannot be undone.', async () => {
+    let id = state.currentImage.id;
+    state.gallery = state.gallery.filter(i => i.id !== id);
+    await kv.hentaiHubGallery.delete(id.toString());
+
+    closeImageModal();
+    renderGallery();
+    updateStats();
+    showNotification('Image deleted');
+  });
+};
+
+window.moveToFolder = async function() {
+  if (!state.currentImage) return;
+
+  let folder = modalFolderSelect.value;
+  state.currentImage.folder = folder;
+
+  // Update in gallery
+  let index = state.gallery.findIndex(i => i.id === state.currentImage.id);
+  if (index !== -1) {
+    state.gallery[index] = state.currentImage;
+  }
+
+  await kv.hentaiHubGallery.set(state.currentImage.id.toString(), state.currentImage);
+  renderGallery();
+  showNotification(folder ? `Moved to "${folder}"` : 'Removed from folder');
+};
+
+// Folder management
+window.createNewFolder = function() {
+  let name = prompt('Enter folder name:');
+  if (name && name.trim()) {
+    name = name.trim();
+    if (!state.folders.includes(name)) {
+      state.folders.push(name);
+      kv.hentaiHubFolders.set('folders', state.folders);
+      renderFolderOptions();
+      showNotification(`Folder "${name}" created!`);
+    } else {
+      showNotification('Folder already exists', 'error');
+    }
+  }
+};
+
+function renderFolderOptions() {
+  let options = '<option value="">All Folders</option>' +
+    state.folders.map(f => `<option value="${f}">${f}</option>`).join('');
+
+  galleryFolder.innerHTML = options;
+  if (modalFolderSelect) {
+    modalFolderSelect.innerHTML = '<option value="">No Folder</option>' +
+      state.folders.map(f => `<option value="${f}">${f}</option>`).join('');
+  }
+}
+
+// User management
+window.handleLogin = function() {
+  let username = userInput.value.trim();
+  if (username) {
+    state.user = username;
+    saveState();
+    showNotification(`Welcome, ${username}!`);
+  }
+};
+
+// Settings
+function populateSettings() {
+  settingsUsername.value = state.user;
+  defaultStyle.value = state.settings.defaultStyle || 'anime';
+}
+
+window.saveSettings = async function() {
+  state.user = settingsUsername.value.trim() || 'Guest';
+  state.settings.defaultStyle = defaultStyle.value;
+
+  userInput.value = state.user;
+  await saveState();
+  showNotification('Settings saved!');
+};
+
+function updateStats() {
+  statImages.textContent = state.gallery.length;
+  statPrompts.textContent = state.scratchpadPages.reduce((sum, page) => sum + page.prompts.length, 0);
+  statFavorites.textContent = state.gallery.filter(i => i.favorite).length;
+  statFolders.textContent = state.folders.length;
+}
+
+// Import/Export
+window.exportGallery = async function() {
+  let data = {
+    gallery: state.gallery,
+    scratchpad: state.scratchpadPages,
+    folders: state.folders,
+    settings: state.settings,
+    exported: new Date().toISOString()
+  };
+
+  let blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  let url = URL.createObjectURL(blob);
+
+  let link = document.createElement('a');
+  link.href = url;
+  link.download = `hentaihub_export_${Date.now()}.json`;
+  link.click();
+
+  URL.revokeObjectURL(url);
+  showNotification('Data exported!');
+};
+
+window.showImportModal = function() {
+  importModal.classList.remove('hidden');
+};
+
+window.closeImportModal = function() {
+  importModal.classList.add('hidden');
+  importData.value = '';
+};
+
+window.importData = async function() {
+  let json = importData.value.trim();
+  if (!json) {
+    showNotification('Please paste JSON data', 'error');
+    return;
+  }
+
+  try {
+    let data = JSON.parse(json);
+
+    if (data.gallery) {
+      for (let item of data.gallery) {
+        state.gallery.push(item);
+        await kv.hentaiHubGallery.set(item.id.toString(), item);
+      }
+    }
+
+    if (data.scratchpad) {
+      state.scratchpadPages = data.scratchpad;
+    }
+
+    if (data.folders) {
+      state.folders = [...new Set([...state.folders, ...data.folders])];
+      await kv.hentaiHubFolders.set('folders', state.folders);
+    }
+
+    if (data.settings) {
+      state.settings = {...state.settings, ...data.settings};
+    }
+
+    await saveState();
+    closeImportModal();
+    renderScratchpadTabs();
+    renderScratchpadContent();
+    renderGallery();
+    renderFolderOptions();
+    updateStats();
+
+    showNotification('Data imported successfully!');
+  } catch (e) {
+    showNotification('Invalid JSON data', 'error');
+  }
+};
+
+window.confirmClearAll = function() {
+  showConfirm('Clear All Data', 'This will permanently delete all images, prompts, and settings. Are you sure?', async () => {
+    state.gallery = [];
+    state.scratchpadPages = [{name: 'Page 1', prompts: []}];
+    state.folders = [];
+
+    await kv.hentaiHub.clear();
+    await kv.hentaiHubGallery.clear();
+    await kv.hentaiHubFolders.clear();
+
+    renderScratchpadTabs();
+    renderScratchpadContent();
+    renderGallery();
+    renderFolderOptions();
+    updateStats();
+
+    showNotification('All data cleared');
+  });
+};
+
+// UI Helpers
+function showLoading(show, text = 'Loading...') {
+  loadingOverlay.classList.toggle('hidden', !show);
+  loadingText.textContent = text;
+}
+
+function showNotification(message, type = 'success') {
+  let notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.style.borderLeftColor = type === 'error' ? '#ff4757' : 'var(--primary)';
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = 'slideIn 0.3s ease reverse';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+let confirmCallback = null;
+
+function showConfirm(title, message, callback) {
+  confirmTitle.textContent = title;
+  confirmMessage.textContent = message;
+  confirmCallback = callback;
+  confirmModal.classList.remove('hidden');
+}
+
+window.closeConfirmModal = function() {
+  confirmModal.classList.add('hidden');
+  confirmCallback = null;
+};
+
+confirmBtn.onclick = function() {
+  if (confirmCallback) {
+    confirmCallback();
+  }
+  closeConfirmModal();
+};
+
+// Export functions to window for onclick handlers
+window.loadPersistedData = loadPersistedData;
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</div>

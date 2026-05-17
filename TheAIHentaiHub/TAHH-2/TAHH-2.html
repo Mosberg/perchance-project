@@ -1,0 +1,444 @@
+<!--
+Project: The AI HentaiHub
+Status: Single File HTML5/JS/CSS
+Fixed: Initialization order - moved Init block to bottom of script to prevent ReferenceError.
+-->
+
+<style>
+  :root { --bg:#111; --panel:#1a1a1a; --accent:#ff007f; --text:#eee; --border:#333; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Segoe UI', sans-serif; display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+  h1, h2, h3 { margin:0; font-weight:300; }
+  header { background:var(--panel); padding:15px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+  h1 { color:var(--accent); letter-spacing:1px; }
+
+  /* Layout */
+  #mainLayout { display:flex; flex:1; overflow:hidden; }
+  aside { width:250px; background:var(--panel); border-right:1px solid var(--border); padding:10px; display:flex; flex-direction:column; gap:10px; overflow-y:auto; }
+  main { flex:1; padding:20px; overflow-y:auto; position:relative; }
+
+  /* UI Elements */
+  button { background:#333; color:white; border:1px solid #444; padding:8px 12px; cursor:pointer; border-radius:4px; transition:0.2s; }
+  button:hover { background:#444; border-color:var(--accent); }
+  button.primary { background:var(--accent); border:none; font-weight:bold; }
+  button.primary:hover { opacity:0.9; }
+  input, select, textarea { background:#222; border:1px solid var(--border); color:white; padding:8px; border-radius:4px; width:100%; box-sizing:border-box; margin-bottom:5px; }
+  textarea { resize:vertical; min-height:100px; }
+
+  /* Tabs */
+  .tabs { display:flex; gap:2px; margin-bottom:10px; border-bottom:1px solid var(--border); }
+  .tabBtn { background:transparent; border:none; border-bottom:2px solid transparent; border-radius:0; }
+  .tabBtn.active { border-bottom-color:var(--accent); color:var(--accent); }
+
+  /* Gallery Grid */
+  .galleryGrid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:15px; }
+  .imgCard { background:var(--panel); border:1px solid var(--border); border-radius:8px; overflow:hidden; position:relative; }
+  .imgCard img { width:100%; height:200px; object-fit:cover; display:block; }
+  .imgInfo { padding:10px; font-size:0.8rem; max-height:100px; overflow:hidden; text-overflow:ellipsis; }
+  .imgActions { padding:5px 10px; border-top:1px solid var(--border); display:flex; gap:5px; justify-content:space-between; }
+
+  /* Utility */
+  .hidden { display:none !important; }
+  .flex-row { display:flex; gap:10px; align-items:center; }
+  .spinner { border:4px solid #333; border-top:4px solid var(--accent); border-radius:50%; width:30px; height:30px; animation:spin 1s linear infinite; margin:20px auto; }
+  @keyframes spin { 0% { transform:rotate(0deg); } 100% { transform:rotate(360deg); } }
+
+  /* Scratchpad */
+  .scratch-item { background:#222; padding:10px; border-radius:4px; margin-bottom:5px; border-left:3px solid var(--accent); cursor:pointer; }
+  .scratch-item:hover { background:#2a2a2a; }
+</style>
+
+<header>
+  <h1>❤️ The AI HentaiHub</h1>
+  <div id="userDisplayEl" style="font-size:0.9rem; color:#aaa;"></div>
+</header>
+
+<div id="mainLayout">
+  <aside>
+    <button class="primary" onclick="showView('generator')">🎨 Generator</button>
+    <button onclick="showView('scratchpad')">📝 Scratchpad</button>
+    <button onclick="showView('gallery')">🖼️ Gallery</button>
+    <button onclick="showView('settings')">⚙️ Settings / Data</button>
+    <div style="flex:1;"></div>
+    <div style="font-size:0.8rem; color:#666;">v1.0.0</div>
+  </aside>
+
+  <main id="mainContent">
+    <!-- View: Generator -->
+    <div id="generatorView">
+      <h2>AI Image Generator</h2>
+      <div class="flex-row">
+        <textarea id="promptInput" placeholder="Describe your scene... (e.g., 'A cyberpunk anime girl in neon city, detailed, 4k')"></textarea>
+        <div style="width:200px; display:flex; flex-direction:column; gap:5px;">
+          <button onclick="enhancePrompt()">✨ Enhance Prompt</button>
+          <button onclick="randomPrompt()">🎲 Random Prompt</button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap:10px; margin:15px 0;">
+        <div>
+          <label>Style</label>
+          <select id="styleSelect">
+            <option>Anime</option>
+            <option>Realistic</option>
+            <option>3D Render</option>
+            <option>Oil Painting</option>
+            <option>Sketch</option>
+            <option>Cyberpunk</option>
+          </select>
+        </div>
+        <div>
+          <label>Category</label>
+          <select id="categorySelect">
+            <option>Portrait</option>
+            <option>Landscape</option>
+            <option>Action</option>
+            <option>NSFW</option>
+            <option>Fantasy</option>
+          </select>
+        </div>
+        <div>
+          <label>Batch Size (1-12)</label>
+          <input type="number" id="batchInput" min="1" max="12" value="1">
+        </div>
+        <div>
+          <label>Steps</label>
+          <input type="number" id="stepsInput" value="30">
+        </div>
+        <div>
+          <label>Guidance</label>
+          <input type="number" id="guidanceInput" value="7.5" step="0.1">
+        </div>
+        <div>
+          <label>Seed (Random)</label>
+          <input type="number" id="seedInput" placeholder="-1">
+        </div>
+      </div>
+
+      <div style="margin:10px 0;">
+        <label>Modifiers:</label>
+        <input type="text" id="modifiersInput" placeholder="e.g. masterpiece, best quality, soft lighting">
+      </div>
+
+      <button id="generateBtn" class="primary" onclick="startGeneration()">🚀 Generate Images</button>
+      <div id="loadingEl" class="spinner hidden"></div>
+      <div id="statusMsgEl" style="text-align:center; margin-top:10px; color:var(--accent);"></div>
+    </div>
+
+    <!-- View: Scratchpad -->
+    <div id="scratchpadView" class="hidden">
+      <h2>Scratchpad</h2>
+      <div class="flex-row" style="margin-bottom:10px;">
+        <input type="text" id="scratchTabNameInput" placeholder="New Note Name" style="width:200px;">
+        <button onclick="createScratchNote()">+ New Note</button>
+      </div>
+      <div style="display:flex; gap:20px; height:60vh;">
+        <div id="scratchListCtn" style="width:250px; overflow-y:auto; border-right:1px solid var(--border); padding-right:10px;"></div>
+        <div style="flex:1;">
+          <input id="currentNoteTitle" placeholder="Note Title" style="font-weight:bold; margin-bottom:5px;">
+          <textarea id="currentNoteContent" style="height:100%; resize:none;" placeholder="Write or paste prompts here..."></textarea>
+          <div style="margin-top:5px; text-align:right;">
+            <button onclick="saveCurrentNote()">💾 Save Note</button>
+            <button onclick="deleteCurrentNote()" style="background:#500;">🗑️ Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View: Gallery -->
+    <div id="galleryView" class="hidden">
+      <div class="flex-row" style="justify-content:space-between; margin-bottom:15px;">
+        <h2>My Gallery</h2>
+        <div class="flex-row">
+          <input type="text" id="searchGalleryInput" placeholder="Search prompts..." onkeyup="renderGallery()">
+          <select id="folderFilterSelect" onchange="renderGallery()">
+            <option value="all">All Folders</option>
+            <option value="Favorites">Favorites</option>
+            <option value="Concepts">Concepts</option>
+            <option value="Exports">Exports</option>
+          </select>
+        </div>
+      </div>
+      <div id="galleryGrid" class="galleryGrid"></div>
+    </div>
+
+    <!-- View: Settings -->
+    <div id="settingsView" class="hidden">
+      <h2>Settings & Data</h2>
+      <div style="max-width:600px;">
+        <div style="background:#222; padding:15px; border-radius:8px; margin-bottom:15px;">
+          <h3>Data Management</h3>
+          <p style="color:#aaa; font-size:0.9rem;">Export your gallery to JSON or Import from a backup.</p>
+          <div class="flex-row">
+            <button onclick="exportData()">📤 Export Data</button>
+            <button onclick="importData()">📥 Import Data</button>
+            <input type="file" id="importFileInput" hidden accept=".json">
+          </div>
+        </div>
+        <div style="background:#222; padding:15px; border-radius:8px;">
+          <h3>Account (Local Simulation)</h3>
+          <p>Logged in as: <strong id="usernameDisplay">User</strong></p>
+          <p style="font-size:0.8rem; color:#666;">Data is stored locally in your browser's IndexedDB under the 'hentaiHub' namespace.</p>
+          <button onclick="localStorage.clear(); location.reload();" style="background:#500; margin-top:10px;">Reset All Data</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script type="module">
+  // --- Globals & State ---
+  window.root = window; // Ensure root is available
+  let activeNoteId = null;
+  let currentFolder = "all"; // For gallery filtering
+
+  // --- View Switching ---
+  window.showView = (viewName) => {
+    ['generator', 'scratchpad', 'gallery', 'settings'].forEach(v => {
+      document.getElementById(v + 'View').classList.add('hidden');
+    });
+    document.getElementById(viewName + 'View').classList.remove('hidden');
+    if(viewName === 'gallery') renderGallery();
+  };
+
+  // --- Generator Logic ---
+  window.enhancePrompt = async () => {
+    let current = promptInput.value;
+    if(!current) return alert("Enter a prompt first.");
+    promptInput.value = "Enhancing...";
+    try {
+      let enhanced = await root.generateText(`Rewrite this AI image generation prompt to be much more detailed, descriptive, and high quality. Add keywords related to lighting, composition, and art style: ${current}`);
+      promptInput.value = enhanced;
+    } catch(e) {
+      promptInput.value = current;
+      alert("Enhancement failed.");
+    }
+  };
+
+  window.randomPrompt = async () => {
+    promptInput.value = "Generating random idea...";
+    let categories = ["Cyberpunk", "Fantasy", "Horror", "Sci-Fi", "Romance", "School Life"];
+    let cat = categories[Math.floor(Math.random()*categories.length)];
+    try {
+      let random = await root.generateText(`Generate a highly detailed, creative, and evocative AI image prompt for a NSFW hentai image in the ${cat} genre. Include specific character descriptions, setting, and atmosphere.`);
+      promptInput.value = random;
+    } catch(e) {
+      promptInput.value = "";
+    }
+  };
+
+  window.startGeneration = async () => {
+    let prompt = promptInput.value.trim();
+    if(!prompt) return alert("Please enter a prompt.");
+
+    let batchSize = parseInt(batchInput.value) || 1;
+    let steps = stepsInput.value;
+    let guidance = guidanceInput.value;
+    let seed = seedInput.value ? parseInt(seedInput.value) : -1;
+    let style = styleSelect.value;
+    let category = categorySelect.value;
+    let modifiers = modifiersInput.value;
+
+    // UI Updates
+    generateBtn.hidden = true;
+    loadingEl.classList.remove('hidden');
+    statusMsgEl.textContent = "Initializing...";
+
+    let finalPrompt = `${prompt}, ${style} style, ${category}, ${modifiers}`;
+
+    try {
+      for(let i=0; i<batchSize; i++) {
+        statusMsgEl.textContent = `Generating image ${i+1}/${batchSize}...`;
+        // Resolution defaults to 768x768 for quality
+        let dataUrl = await root.generateImage(finalPrompt, {resolution:"768x768"});
+
+        // Metadata Object
+        let imgData = {
+          id: Date.now() + "_" + i,
+          url: dataUrl,
+          prompt: finalPrompt,
+          style: style,
+          category: category,
+          seed: seed + i, // Increment seed for batch
+          timestamp: Date.now(),
+          folder: "All"
+        };
+
+        // Save to KV
+        await root.kv.hentaiHub.set(imgData.id, imgData);
+      }
+      statusMsgEl.textContent = "Generation Complete!";
+      setTimeout(() => {
+        showView('gallery');
+      }, 1000);
+    } catch(e) {
+      console.error(e);
+      statusMsgEl.textContent = "Error: " + e.message;
+    } finally {
+      generateBtn.hidden = false;
+      loadingEl.classList.add('hidden');
+    }
+  };
+
+  // --- Scratchpad Logic ---
+  window.createScratchNote = async () => {
+    let name = scratchTabNameInput.value || "Untitled";
+    let id = Date.now().toString();
+    let note = { id, title: name, content: "" };
+    await root.kv.scratchpad.set(id, note);
+    scratchTabNameInput.value = "";
+    loadScratchList();
+    loadNote(id);
+  };
+
+  window.loadScratchList = async () => {
+    let keys = await root.kv.scratchpad.keys();
+    let notes = await root.kv.scratchpad.getMany(keys);
+    let html = "";
+    notes.forEach(n => {
+      html += `<div class="scratch-item" onclick="loadNote('${n.id}')">${n.title}</div>`;
+    });
+    scratchListCtn.innerHTML = html;
+  };
+
+  window.loadNote = async (id) => {
+    activeNoteId = id;
+    let note = await root.kv.scratchpad.get(id);
+    if(note) {
+      currentNoteTitle.value = note.title;
+      currentNoteContent.value = note.content || "";
+    }
+  };
+
+  window.saveCurrentNote = async () => {
+    if(!activeNoteId) return;
+    let note = {
+      id: activeNoteId,
+      title: currentNoteTitle.value,
+      content: currentNoteContent.value
+    };
+    await root.kv.scratchpad.set(activeNoteId, note);
+    loadScratchList(); // Refresh list titles
+  };
+
+  window.deleteCurrentNote = async () => {
+    if(!activeNoteId) return;
+    if(confirm("Delete this note?")) {
+      await root.kv.scratchpad.delete(activeNoteId);
+      activeNoteId = null;
+      currentNoteTitle.value = "";
+      currentNoteContent.value = "";
+      loadScratchList();
+    }
+  };
+
+  // --- Gallery Logic ---
+  window.renderGallery = async () => {
+    let grid = galleryGrid;
+    grid.innerHTML = "";
+    let filter = searchGalleryInput.value.toLowerCase();
+    let folder = folderFilterSelect.value;
+
+    let keys = await root.kv.hentaiHub.keys();
+    // Reverse for newest first
+    keys.reverse();
+
+    let items = await root.kv.hentaiHub.getMany(keys);
+
+    items.forEach(item => {
+      // Filter Logic
+      if(filter && !item.prompt.toLowerCase().includes(filter)) return;
+      if(folder !== 'all' && item.folder !== folder) return;
+
+      let el = document.createElement('div');
+      el.className = 'imgCard';
+      el.innerHTML = `
+        <img src="${item.url}" loading="lazy">
+        <div class="imgInfo" title="${item.prompt}">
+          <strong>${item.style}</strong> - ${item.category}<br>
+          <span style="color:#888;">Seed: ${item.seed}</span>
+        </div>
+        <div class="imgActions">
+          <button onclick="downloadImage('${item.url}', '${item.id}')" title="Download">⬇️</button>
+          <button onclick="editPrompt('${item.id}')" title="Edit Prompt">📝</button>
+          <button onclick="setFolder('${item.id}')" title="Move to Folder">📁</button>
+          <button onclick="deleteImage('${item.id}')" title="Delete" style="color:red;">✖️</button>
+        </div>
+      `;
+      grid.appendChild(el);
+    });
+
+    if(items.length === 0) {
+      grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#666;">Gallery is empty. Generate some images!</div>`;
+    }
+  };
+
+  window.downloadImage = (url, id) => {
+    let a = document.createElement('a');
+    a.href = url;
+    a.download = `hentaihub_${id}.png`;
+    a.click();
+  };
+
+  window.deleteImage = async (id) => {
+    if(confirm("Delete this image from gallery?")) {
+      await root.kv.hentaiHub.delete(id);
+      renderGallery();
+    }
+  };
+
+  window.setFolder = async (id) => {
+    let item = await root.kv.hentaiHub.get(id);
+    let newFolder = prompt("Enter folder name (e.g., Favorites, Concepts):", item.folder || "All");
+    if(newFolder) {
+      item.folder = newFolder;
+      await root.kv.hentaiHub.set(id, item);
+      renderGallery();
+    }
+  };
+
+  window.editPrompt = async (id) => {
+    let item = await root.kv.hentaiHub.get(id);
+    promptInput.value = item.prompt;
+    seedInput.value = item.seed;
+    styleSelect.value = item.style;
+    categorySelect.value = item.category;
+    showView('generator');
+  };
+
+  // --- Import/Export ---
+  window.exportData = async () => {
+    let keys = await root.kv.hentaiHub.keys();
+    let items = await root.kv.hentaiHub.getMany(keys);
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(items));
+    let a = document.createElement('a');
+    a.href = dataStr;
+    a.download = "hentaihub_backup.json";
+    a.click();
+  };
+
+  window.importData = () => {
+    importFileInput.click();
+  };
+
+  importFileInput.onchange = async (e) => {
+    let file = e.target.files[0];
+    if(!file) return;
+    let text = await file.text();
+    try {
+      let items = JSON.parse(text);
+      for(let item of items) {
+        await root.kv.hentaiHub.set(item.id, item);
+      }
+      alert("Import successful!");
+      renderGallery();
+    } catch(err) {
+      alert("Invalid JSON file.");
+    }
+  };
+
+  // --- Init (Moved to bottom to ensure all functions are defined) ---
+  usernameDisplay.textContent = "User_" + Math.floor(Math.random()*10000);
+  loadScratchList();
+  renderGallery();
+
+</script>
