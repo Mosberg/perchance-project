@@ -1,0 +1,11 @@
+const partsData = [
+  { key: 'filterMouth', label: 'Filter Mouth', desc: 'Herbivore feeding; eat plant matter.', unlock: 'start' },
+  { key: 'jaw', label: 'Jaw', desc: 'Eat meat chunks and damage enemies with bites.', unlock: 'shard' },
+  { key: 'proboscis', label: 'Proboscis', desc: 'Omnivore feeding and slow drain attacks.', unlock: 'shard' },
+  { key: 'spike', label: 'Spike', desc: 'Stab enemies and trigger meat chunk drops.', unlock: 'shard' },
+  { key: 'cilia', label: 'Cilia', desc: 'Faster turning and improved control.', unlock: 'shard' },
+  { key: 'electric', label: 'Electric', desc: 'Shock enemies for extra damage.', unlock: 'shard' },
+  { key: 'poison', label: 'Poison', desc: 'Area denial and immunity to poison clouds.', unlock: 'shard' },
+];
+
+export default partsData;

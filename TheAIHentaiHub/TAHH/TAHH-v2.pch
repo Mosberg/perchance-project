@@ -1,3 +1,7 @@
+kv = {import:kv-plugin}
+generateText = {import:ai-text-plugin}
+generateImage = {import:text-to-image-plugin}
+
 meta
   title: The AI HentaiHub v2
   description: Next-generation Perchance prompt generator for explicit adult image creation, with templates, dynamic tags, and prompt output automation.

@@ -1,0 +1,1418 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Neon MIDI v3 – SubZero CommandKey49 Ready</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      body {
+        background: #050505;
+        color: white;
+        font-family: system-ui, sans-serif;
+      }
+      #appCtn {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* --- Start Overlay --- */
+      #startOverlayEl {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.88);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        text-align: center;
+      }
+      #startOverlayEl h1 {
+        font-size: 3rem;
+        text-shadow: 0 0 20px cyan;
+        margin-bottom: 12px;
+      }
+      #startOverlayEl p {
+        color: #aaa;
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+
+      /* --- HUD / Score / Chord / Velocity --- */
+      #hudEl {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+        pointer-events: none;
+        text-shadow: 0 2px 4px black;
+        font-weight: bold;
+      }
+      #hudEl div {
+        margin-bottom: 4px;
+        font-size: 1.1rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+      }
+      #streakEl {
+        color: cyan;
+        text-shadow: 0 0 6px cyan;
+      }
+      #accuracyEl,
+      #bestStreakEl {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      #chordOverlay {
+        display: none;
+        position: absolute;
+        top: 100px;
+        left: 20px;
+        z-index: 10;
+        font-size: 2.3rem;
+        text-shadow: 0 2px 15px black;
+        color: white;
+        font-weight: bold;
+        pointer-events: none;
+        background: rgba(0, 0, 0, 0.55);
+        padding: 10px 18px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      #velocityMeterEl {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 42px;
+        height: 120px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 10px;
+        overflow: hidden;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      .velocityBar {
+        width: 100%;
+        height: 2px;
+        background: #0ff;
+        border-radius: 1px;
+        opacity: 0.7;
+        transform-origin: bottom;
+      }
+
+      /* --- Settings button & panel --- */
+      #settingsBtn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: white;
+        padding: 10px 18px;
+        border-radius: 22px;
+        cursor: pointer;
+        backdrop-filter: blur(6px);
+        opacity: 0.9;
+      }
+      #settingsPanel {
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        width: 360px;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        background: rgba(16, 16, 16, 0.96);
+        border: 1px solid #444;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 16px 44px rgba(0, 0, 0, 0.55);
+        z-index: 11;
+        pointer-events: auto;
+      }
+      #settingsPanel h3 {
+        margin-top: 0;
+        border-bottom: 1px solid #444;
+        padding-bottom: 10px;
+      }
+
+      .settingRow {
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+      }
+      .settingRow label {
+        display: block;
+        font-size: 0.84rem;
+        color: #aaa;
+        margin-bottom: 5px;
+      }
+      .settingRow input[type="range"],
+      .settingRow select {
+        width: 100%;
+        background: #111;
+        color: white;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 8px 10px;
+      }
+      .settingRow button {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #444;
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+        cursor: pointer;
+      }
+      .settingRow .rowSpaced {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .settingRow .rowSpaced input[type="checkbox"] {
+        margin-left: 8px;
+        transform: scale(1.1);
+      }
+      .settingRow .statusBlock {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .statusBlock span {
+        flex: 1 1 48%;
+        font-size: 0.82rem;
+        color: #ccc;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 8px;
+      }
+      .smallText {
+        font-size: 0.8rem;
+        color: #999;
+      }
+      #midiLogEl {
+        max-height: 120px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 0.82rem;
+        line-height: 1.4;
+        color: #ddd;
+        white-space: pre-wrap;
+      }
+
+      #midiDeviceRow select,
+      #channelRow select,
+      #instrumentSelect,
+      #modeSelect,
+      #velocityCurveSelect {
+        width: 100%;
+      }
+
+      /* --- Key Styles --- */
+      #keyboardCtn {
+        position: relative;
+        height: 100%;
+      }
+      .white-key {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+        border: 1px solid #999;
+        border-radius: 0 0 5px 5px;
+        z-index: 1;
+        cursor: pointer;
+        box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.25);
+        user-select: none;
+      }
+      .white-key:active,
+      .white-key.active {
+        transform: scaleY(0.98);
+        transform-origin: top;
+        background: #ddd;
+        box-shadow: 0 0 16px cyan;
+        border-color: cyan;
+      }
+      .black-key {
+        position: absolute;
+        top: 0;
+        height: 58%;
+        background: linear-gradient(to bottom, #222 0%, #000 100%);
+        border: 1px solid #000;
+        border-radius: 0 0 3px 3px;
+        z-index: 2;
+        cursor: pointer;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+        user-select: none;
+      }
+      .black-key:active,
+      .black-key.active {
+        transform: scaleY(0.96);
+        transform-origin: top;
+        background: #111;
+        box-shadow: 0 0 18px magenta;
+        border-color: magenta;
+      }
+
+      .keyLabel {
+        color: rgba(0, 0, 0, 0.72);
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+        pointer-events: none;
+        font-size: 0.62rem;
+        text-align: center;
+        position: absolute;
+        bottom: 4px;
+        left: 0;
+        width: 100%;
+      }
+
+      .hit-green {
+        background: #0f0 !important;
+        box-shadow: 0 0 20px #0f0 !important;
+      }
+      .hit-red {
+        background: #f00 !important;
+        box-shadow: 0 0 20px #f00 !important;
+      }
+      .hit-blue {
+        background: #0ff !important;
+        box-shadow: 0 0 20px #0ff !important;
+      }
+      .note-trail {
+        position: absolute;
+        pointer-events: none;
+        border-radius: 50%;
+        opacity: 0.7;
+        mix-blend-mode: screen;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="appCtn">
+      <div id="startOverlayEl">
+        <h1>NEON MIDI v3</h1>
+        <p>Click anywhere to enable Audio &amp; MIDI for SubZero CommandKey49</p>
+      </div>
+
+      <div id="hudEl">
+        <div>Streak: <span id="streakEl">0</span></div>
+        <div style="font-size: 0.9rem">
+          Accuracy: <span id="accuracyEl">0%</span> | Best:
+          <span id="bestStreakEl">0</span>
+        </div>
+        <div id="velocityMeterEl"></div>
+      </div>
+
+      <div id="chordOverlay">Poly</div>
+
+      <button id="settingsBtn">⚙️ Settings</button>
+
+      <div id="settingsPanel" hidden>
+        <h3>Settings</h3>
+
+        <div id="midiDeviceRow" class="settingRow">
+          <label>MIDI Device</label>
+          <select id="midiSelect">
+            <option value="auto">Auto-detect</option>
+          </select>
+        </div>
+
+        <div class="settingRow">
+          <div class="statusBlock">
+            <span id="midiStatusEl">Device: waiting...</span>
+            <span id="channelStatusEl">Channel: 1</span>
+            <span id="pitchBendStatusEl">Pitch Bend: 0</span>
+            <span id="modWheelStatusEl">Mod Wheel: 0</span>
+            <span id="expressionStatusEl">Expression: 0</span>
+            <span id="sustainStatusEl">Sustain: off</span>
+          </div>
+        </div>
+
+        <div id="channelRow" class="settingRow">
+          <label>MIDI Channel</label>
+          <select id="channelSelect">
+            <option value="0" selected>All Channels</option>
+            <option value="1">Channel 1</option>
+            <option value="2">Channel 2</option>
+            <option value="3">Channel 3</option>
+            <option value="4">Channel 4</option>
+            <option value="5">Channel 5</option>
+            <option value="6">Channel 6</option>
+            <option value="7">Channel 7</option>
+            <option value="8">Channel 8</option>
+            <option value="9">Channel 9</option>
+            <option value="10">Channel 10</option>
+            <option value="11">Channel 11</option>
+            <option value="12">Channel 12</option>
+            <option value="13">Channel 13</option>
+            <option value="14">Channel 14</option>
+            <option value="15">Channel 15</option>
+            <option value="16">Channel 16</option>
+          </select>
+        </div>
+
+        <div class="settingRow">
+          <div class="rowSpaced">
+            <span>Play Mode</span>
+            <select id="modeSelect">
+              <option value="free">Free-play</option>
+              <option value="song" selected>Song</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settingRow">
+          <div class="rowSpaced">
+            <span>Chord Detector</span>
+            <input type="checkbox" id="chordToggle" checked />
+          </div>
+        </div>
+
+        <div class="settingRow">
+          <label>Instrument</label>
+          <select id="instrumentSelect">
+            <option value="0" selected>Grand Piano</option>
+            <option value="4">Electric Piano</option>
+            <option value="3">Honky-tonk</option>
+            <option value="19">Organ</option>
+            <option value="48">Strings</option>
+            <option value="80">Synth Lead</option>
+            <option value="88">Synth Pad</option>
+            <option value="6">Harpsichord</option>
+            <option value="11">Vibraphone</option>
+            <option value="10">Music Box</option>
+          </select>
+        </div>
+
+        <div class="settingRow">
+          <label>Master Volume</label>
+          <input type="range" id="volumeInput" min="-40" max="6" value="-10" />
+        </div>
+
+        <div class="settingRow">
+          <label>Transpose (Semitones)</label>
+          <input type="range" id="transposeInput" min="-24" max="24" value="0" />
+          <div id="transposeVal" class="smallText">0</div>
+        </div>
+
+        <div class="settingRow">
+          <div class="rowSpaced">
+            <span>Octave Offset</span>
+            <input type="range" id="octaveInput" min="-2" max="2" value="0" />
+          </div>
+          <div id="octaveVal" class="smallText">C2</div>
+        </div>
+
+        <div class="settingRow" id="velocityCurveRow">
+          <label>Velocity Curve</label>
+          <select id="velocityCurveSelect">
+            <option value="linear">Linear</option>
+            <option value="soft">Soft</option>
+            <option value="hard" selected>Hard</option>
+            <option value="expressive">Expressive</option>
+          </select>
+        </div>
+
+        <div class="settingRow">
+          <div class="rowSpaced">
+            <span>Visual Feedback</span>
+            <input type="checkbox" id="showFeedbackToggle" checked />
+          </div>
+        </div>
+
+        <div id="sustainLedRow" class="settingRow">
+          <div class="rowSpaced">
+            <span>Sustain LED</span>
+            <div id="sustainLedEl" style="width: 20px; height: 20px; border-radius: 50%; background: #f00;"></div>
+          </div>
+        </div>
+
+        <div class="settingRow">
+          <label>MIDI Activity</label>
+          <div id="midiLogEl">Waiting for MIDI messages...</div>
+        </div>
+
+        <div class="settingRow">
+          <div class="rowSpaced">
+            <button id="exportSessionBtn">Export JSON</button>
+            <button id="loadSessionBtn">Load Session</button>
+          </div>
+        </div>
+      </div>
+
+      <canvas id="visualizerCanvasEl" style="flex: 1; width: 100%; height: 100%"></canvas>
+
+      <div id="trailsContainerEl" style="position: absolute; pointer-events: none; inset: 0; z-index: 8"></div>
+
+      <div id="keyboardWrapperEl" style="height: 25vh; position: relative; background: #111; border-top: 4px solid #333;">
+        <div id="keyboardCtn"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import * as Tone from "https://esm.sh/tone@15.0.4";
+
+      // --- Globals / state ---
+      let synth;
+      let midiAccess = null;
+      const midiInputs = new Map();
+      let selectedInputId = "auto";
+      let midiChannel = 1;
+      let transpose = 0;
+      let octaveOffset = 0;
+      let isSustained = false;
+      const sustainPedalNotes = new Set();
+      const sessionLog = [];
+      const currentChordNotes = new Set();
+      const fallingNotes = [];
+      const keyTrails = new Map();
+      let score = { hits: 0, misses: 0, streak: 0, bestStreak: 0 };
+      const velocityCurves = {
+        linear: (v) => v,
+        soft: (v) => Math.pow(v, 2),
+        hard: (v) => Math.sqrt(v),
+        expressive: (v) => (v < 0.5 ? v * 0.8 : v > 0.8 ? v * 1.2 : v),
+      };
+      let velocityCurve = "hard";
+      let playMode = "song";
+      let isRecordingSession = false;
+      let sessionStartTime = 0;
+      let pitchBendValue = 0;
+      let modWheelValue = 0;
+      let expressionValue = 0;
+      let currentMidiDeviceName = "waiting...";
+      let activeSongTimer = null;
+
+      const SUBZERO_DEVICE_HINTS = [
+        "subzero commandkey49",
+        "commandkey 49",
+        "subzero commandkey",
+        "commandkey49",
+        "subzero",
+      ];
+
+      // --- Keyboard range (49 keys) ---
+      const START_NOTE = 36; // C2 range for SubZero CommandKey49
+      const TOTAL_KEYS = 49;
+      const MAX_KEY = START_NOTE + TOTAL_KEYS - 1;
+      const DEFAULT_OCTAVE = 2;
+
+      // --- Note names ---
+      const noteNamesSharp = [
+        "C",
+        "C#",
+        "D",
+        "D#",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "G#",
+        "A",
+        "A#",
+        "B",
+      ];
+
+      // --- DOM elements ---
+      const startOverlay = document.getElementById("startOverlayEl");
+      const canvas = document.getElementById("visualizerCanvasEl");
+      const ctx = canvas.getContext("2d");
+      const streakEl = document.getElementById("streakEl");
+      const accuracyEl = document.getElementById("accuracyEl");
+      const bestStreakEl = document.getElementById("bestStreakEl");
+      const midiSelect = document.getElementById("midiSelect");
+      const channelSelect = document.getElementById("channelSelect");
+      const modeSelect = document.getElementById("modeSelect");
+      const chordToggle = document.getElementById("chordToggle");
+      const chordNameEl = document.getElementById("chordOverlay");
+      const instrumentSelect = document.getElementById("instrumentSelect");
+      const volumeInput = document.getElementById("volumeInput");
+      const transposeInput = document.getElementById("transposeInput");
+      const transposeVal = document.getElementById("transposeVal");
+      const octaveInput = document.getElementById("octaveInput");
+      const octaveVal = document.getElementById("octaveVal");
+      const velocityCurveSelect = document.getElementById("velocityCurveSelect");
+      const showFeedbackToggle = document.getElementById("showFeedbackToggle");
+      const velocityMeterEl = document.getElementById("velocityMeterEl");
+      const sustainLedEl = document.getElementById("sustainLedEl");
+      const settingsBtn = document.getElementById("settingsBtn");
+      const settingsPanel = document.getElementById("settingsPanel");
+      const keyboardCtn = document.getElementById("keyboardCtn");
+      const exportSessionBtn = document.getElementById("exportSessionBtn");
+      const loadSessionBtn = document.getElementById("loadSessionBtn");
+      const trailsContainer = document.getElementById("trailsContainerEl");
+      const midiStatusEl = document.getElementById("midiStatusEl");
+      const channelStatusEl = document.getElementById("channelStatusEl");
+      const pitchBendStatusEl = document.getElementById("pitchBendStatusEl");
+      const modWheelStatusEl = document.getElementById("modWheelStatusEl");
+      const expressionStatusEl = document.getElementById("expressionStatusEl");
+      const sustainStatusEl = document.getElementById("sustainStatusEl");
+      const midiLogEl = document.getElementById("midiLogEl");
+
+      window.toggleSettings = () => (settingsPanel.hidden = !settingsPanel.hidden);
+
+      function updateMidiDiagnostics() {
+        midiStatusEl.textContent = `Device: ${currentMidiDeviceName}`;
+        channelStatusEl.textContent = `Channel: ${midiChannel === 0 ? "All" : midiChannel}`;
+        pitchBendStatusEl.textContent = `Pitch Bend: ${pitchBendValue.toFixed(3)}`;
+        modWheelStatusEl.textContent = `Mod Wheel: ${modWheelValue}`;
+        expressionStatusEl.textContent = `Expression: ${expressionValue}`;
+        sustainStatusEl.textContent = `Sustain: ${isSustained ? "on" : "off"}`;
+      }
+
+      function logMidiMessage(message) {
+        const now = new Date().toLocaleTimeString();
+        const line = `[${now}] ${message}`;
+        const existing = midiLogEl.textContent.trim();
+        const lines = existing ? existing.split("\n") : [];
+        lines.unshift(line);
+        midiLogEl.textContent = lines.slice(0, 20).join("\n");
+      }
+
+      function getNoteName(note) {
+        const n = note % 12;
+        const o = Math.floor(note / 12);
+        return noteNamesSharp[n] + o;
+      }
+
+      function detectChord() {
+        const notes = Array.from(currentChordNotes).sort((a, b) => a - b);
+        if (notes.length < 2) return "Poly";
+        const mod = notes[0] % 12;
+        const bits = notes
+          .map((n) => 1 << ((n - mod) % 12))
+          .reduce((a, b) => a | b, 0);
+        const offset = mod % 12;
+        const root = offset < 0 ? offset + 12 : offset;
+        const r = noteNamesSharp[root];
+        if (notes.length === 2) return r + "5";
+        const hasM3 = bits & 0b000000000100;
+        const hasP5 = bits & 0b000000001000;
+        if (hasM3 && hasP5) return r + "m";
+        if (!hasM3 && hasP5) return r;
+        if (!hasM3 && !hasP5) return r + "sus2";
+        if (hasM3 && !hasP5) return r + "m5";
+        return "Poly";
+      }
+
+      function updateChordDisplay() {
+        if (!chordToggle.checked) {
+          chordNameEl.style.display = "none";
+          return;
+        }
+        const chord = detectChord();
+        chordNameEl.textContent = chord;
+        chordNameEl.style.display = "block";
+      }
+
+      startOverlay.onclick = async () => {
+        try {
+          await Tone.start();
+          await Tone.context.resume();
+        } catch (e) {
+          console.warn("Tone init error", e);
+        }
+        startOverlay.hidden = true;
+        initAudio();
+        await initMIDI();
+        generateKeyboard();
+        resize();
+        requestAnimationFrame(loop);
+        if (playMode === "song") startSong();
+        startSession();
+      };
+
+      function startSession() {
+        sessionLog.length = 0;
+        sessionStartTime = performance.now();
+        isRecordingSession = true;
+      }
+
+      function pushEvent(type, extra = {}) {
+        if (!isRecordingSession) return;
+        const now = performance.now();
+        sessionLog.push({ time: now - sessionStartTime, type, ...extra });
+      }
+
+      function initAudio() {
+        synth = new Tone.PolySynth(Tone.Synth, {
+          oscillator: { type: "triangle" },
+          envelope: { attack: 0.02, decay: 0.1, sustain: 0.3, release: 1 },
+        }).toDestination();
+        synth.volume.value = parseFloat(volumeInput.value);
+        loadInstrument(instrumentSelect.value);
+      }
+
+      function applyPitchBend() {
+        if (!synth) return;
+        const detune = pitchBendValue * 200;
+        synth.set({ detune });
+      }
+
+      function loadInstrument(gmId) {
+        if (!synth) return;
+        const id = parseInt(gmId, 10);
+        let opts = {
+          oscillator: { type: "triangle" },
+          envelope: { attack: 0.02, decay: 0.1, sustain: 0.3, release: 1 },
+        };
+        switch (id) {
+          case 0:
+            opts = {
+              oscillator: { type: "custom", partials: [1, 0.5, 0.25] },
+              envelope: { attack: 0.01, decay: 0.3, sustain: 0.2, release: 1.5 },
+            };
+            break;
+          case 4:
+            opts = {
+              oscillator: { type: "sine" },
+              envelope: { attack: 0.01, decay: 0.5, sustain: 0.4, release: 1 },
+            };
+            break;
+          case 3:
+            opts = {
+              oscillator: { type: "triangle" },
+              envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.5 },
+            };
+            break;
+          case 19:
+            opts = {
+              oscillator: { type: "square" },
+              envelope: { attack: 0.05, decay: 0.0, sustain: 0.8, release: 0.1 },
+            };
+            break;
+          case 48:
+            opts = {
+              oscillator: { type: "sawtooth" },
+              envelope: { attack: 0.5, decay: 0.2, sustain: 0.6, release: 1.5 },
+            };
+            break;
+          case 80:
+            opts = {
+              oscillator: { type: "sawtooth" },
+              envelope: { attack: 0.01, decay: 0.2, sustain: 0.5, release: 0.5 },
+            };
+            break;
+          case 88:
+            opts = {
+              oscillator: { type: "sine" },
+              envelope: { attack: 1.0, decay: 0.5, sustain: 0.8, release: 2.0 },
+            };
+            break;
+          case 6:
+            opts = {
+              oscillator: { type: "square" },
+              envelope: { attack: 0.001, decay: 0.5, sustain: 0.0, release: 0.5 },
+            };
+            break;
+          case 11:
+            opts = {
+              oscillator: { type: "sine" },
+              envelope: { attack: 0.001, decay: 1.5, sustain: 0.0, release: 1.5 },
+            };
+            break;
+          case 10:
+            opts = {
+              oscillator: { type: "sine" },
+              envelope: { attack: 0.005, decay: 0.8, sustain: 0.0, release: 1.0 },
+            };
+            break;
+        }
+        synth.set(opts);
+      }
+
+      async function initMIDI() {
+        if (!navigator.requestMIDIAccess) {
+          console.warn("Web MIDI not supported.");
+          currentMidiDeviceName = "Web MIDI unavailable";
+          updateMidiDiagnostics();
+          return;
+        }
+
+        try {
+          midiAccess = await navigator.requestMIDIAccess({ sysex: false });
+          midiAccess.inputs.forEach(registerInput);
+          midiAccess.onstatechange = (e) => {
+            if (e.port && e.port.type === "input") {
+              if (e.port.state === "connected") registerInput(e.port);
+              if (e.port.state === "disconnected") unregisterInput(e.port);
+            }
+          };
+          populateMIDIDevices();
+        } catch (err) {
+          console.warn("MIDI access error", err);
+          currentMidiDeviceName = "MIDI access denied";
+          updateMidiDiagnostics();
+        }
+      }
+
+      function registerInput(port) {
+        midiInputs.set(port.id, port);
+        port.onmidimessage = (msg) => midiMessageHandler(port.id, msg);
+        populateMIDIDevices();
+        if (selectedInputId === "auto") {
+          if (isPreferredMidiDevice(port.name || "")) {
+            selectMIDIInput(port.id);
+          } else if (midiInputs.size === 1) {
+            selectMIDIInput(port.id);
+          }
+        }
+      }
+
+      function unregisterInput(port) {
+        midiInputs.delete(port.id);
+        if (selectedInputId === port.id) {
+          selectedInputId = "auto";
+        }
+        populateMIDIDevices();
+      }
+
+      function isPreferredMidiDevice(name) {
+        const lower = (name || "").toLowerCase();
+        return SUBZERO_DEVICE_HINTS.some((hint) => lower.includes(hint));
+      }
+
+      function populateMIDIDevices() {
+        const previousSelection = midiSelect.value;
+        midiSelect.innerHTML = "";
+        const autoOpt = document.createElement("option");
+        autoOpt.value = "auto";
+        autoOpt.text = "Auto-detect";
+        midiSelect.add(autoOpt);
+        midiInputs.forEach((port, id) => {
+          const opt = document.createElement("option");
+          opt.value = id;
+          opt.text = `${port.name || id}`;
+          midiSelect.add(opt);
+        });
+        if (selectedInputId === "auto" || !Array.from(midiInputs.keys()).includes(selectedInputId)) {
+          const preferred = Array.from(midiInputs.values()).find((port) => isPreferredMidiDevice(port.name));
+          if (preferred) {
+            selectedInputId = preferred.id;
+          }
+        }
+        midiSelect.value = selectedInputId;
+        if (midiSelect.value !== previousSelection) {
+          updateMidiDeviceName();
+        }
+      }
+
+      function updateMidiDeviceName() {
+        if (selectedInputId === "auto") {
+          currentMidiDeviceName = midiInputs.size === 1 ? midiInputs.values().next().value.name : "Auto-detect";
+        } else {
+          const port = midiInputs.get(selectedInputId);
+          currentMidiDeviceName = port ? port.name || selectedInputId : "Unknown";
+        }
+        updateMidiDiagnostics();
+      }
+
+      function selectMIDIInput(id) {
+        selectedInputId = id;
+        midiSelect.value = id;
+        updateMidiDeviceName();
+      }
+
+      function midiMessageHandler(inputId, message) {
+        if (selectedInputId !== "auto" && selectedInputId !== inputId) return;
+
+        const data = message.data;
+        const [status, data1, data2] = data;
+        const cmd = status & 0xf0;
+        const chan = (status & 0x0f) + 1;
+        const note = data1;
+        const vel = data2;
+
+        const ch = midiChannel;
+        if (ch !== 0 && chan !== ch) return;
+
+        if (cmd === 0xb0) {
+          if (note === 64) {
+            isSustained = vel >= 64;
+            sustainLedEl.style.background = isSustained ? "#0f0" : "#f00";
+            sustainStatusEl.textContent = `Sustain: ${isSustained ? "on" : "off"}`;
+            logMidiMessage(`CC 64 Sustain ${isSustained ? "on" : "off"}`);
+            if (!isSustained) releaseSustainedNotes();
+            pushEvent("cc", { cc: note, value: vel });
+            updateMidiDiagnostics();
+            return;
+          }
+
+          switch (note) {
+            case 1:
+              modWheelValue = vel;
+              modWheelStatusEl.textContent = `Mod Wheel: ${modWheelValue}`;
+              logMidiMessage(`CC 1 Mod Wheel ${vel}`);
+              break;
+            case 7:
+              expressionValue = vel;
+              expressionStatusEl.textContent = `Expression: ${expressionValue}`;
+              const scaled = -40 + (vel / 127) * 46;
+              volumeInput.value = scaled;
+              setVolume(scaled);
+              logMidiMessage(`CC 7 Volume ${vel}`);
+              break;
+            case 11:
+              expressionValue = vel;
+              expressionStatusEl.textContent = `Expression: ${expressionValue}`;
+              logMidiMessage(`CC 11 Expression ${vel}`);
+              break;
+            case 74:
+              logMidiMessage(`CC 74 Brightness ${vel}`);
+              break;
+            case 71:
+              logMidiMessage(`CC 71 Resonance ${vel}`);
+              break;
+            default:
+              logMidiMessage(`CC ${note} = ${vel}`);
+          }
+          pushEvent("cc", { cc: note, value: vel });
+          updateMidiDiagnostics();
+          return;
+        }
+
+        if (cmd === 0xe0) {
+          const value = data1 + data2 * 128;
+          pitchBendValue = (value - 8192) / 8192;
+          pitchBendStatusEl.textContent = `Pitch Bend: ${pitchBendValue.toFixed(3)}`;
+          applyPitchBend();
+          logMidiMessage(`Pitch Bend ${pitchBendValue.toFixed(3)}`);
+          pushEvent("pitchBend", { value: pitchBendValue });
+          updateMidiDiagnostics();
+          return;
+        }
+
+        if (cmd === 0x90 && vel > 0) {
+          const noteNum = note + transpose + octaveOffset * 12;
+          pushEvent("noteOn", { note: noteNum, velocity: vel / 127, channel: chan });
+          handleNoteOn(noteNum, vel / 127);
+          logMidiMessage(`Note On ${getNoteName(noteNum)} (${noteNum}) vel ${vel} ch ${chan}`);
+          return;
+        }
+
+        if (cmd === 0x80 || (cmd === 0x90 && vel === 0)) {
+          const noteNum = note + transpose + octaveOffset * 12;
+          pushEvent("noteOff", { note: noteNum, channel: chan });
+          if (isSustained) {
+            sustainPedalNotes.add(noteNum);
+            logMidiMessage(`Note Off (sustained) ${getNoteName(noteNum)} (${noteNum}) ch ${chan}`);
+            return;
+          }
+          handleNoteOff(noteNum);
+          logMidiMessage(`Note Off ${getNoteName(noteNum)} (${noteNum}) ch ${chan}`);
+          return;
+        }
+      }
+
+      function handleNoteOn(note, velocity) {
+        const curve = velocityCurves[velocityCurve] || ((x) => x);
+        const v = Math.max(0, Math.min(1, curve(velocity)));
+
+        if (synth) {
+          synth.triggerAttack(Tone.Frequency(note, "midi").toFrequency(), undefined, v);
+        }
+        pushEvent("noteOn", { note, velocity: v });
+
+        const keyEl = getKeyEl(note);
+        if (keyEl) {
+          const brightness = 0.5 + v * 0.5;
+          const blur = 5 + v * 22;
+          const color = getNoteColor(note);
+          keyEl.classList.add("active");
+          keyEl.style.boxShadow = `0 0 ${blur}px ${color}`;
+          keyEl.style.filter = `brightness(${brightness})`;
+        }
+
+        const bar = velocityMeterEl.querySelector(".velocityBar");
+        if (!bar) {
+          const b = document.createElement("div");
+          b.className = "velocityBar";
+          velocityMeterEl.appendChild(b);
+          requestAnimationFrame(() => {
+            b.style.transform = `scaleY(${v}) translateY(${120 * (1 - v)}px)`;
+          });
+        } else {
+          bar.style.transform = `scaleY(${v}) translateY(${120 * (1 - v)}px)`;
+        }
+
+        if (keyEl && showFeedbackToggle.checked) {
+          const t = document.createElement("div");
+          t.className = "note-trail";
+          const w = keyEl.offsetWidth;
+          const t0 = keyEl.offsetTop;
+          const l = keyEl.offsetLeft;
+          t.style.width = `${w}px`;
+          t.style.height = "18px";
+          t.style.left = `${l}px`;
+          t.style.top = `${t0}px`;
+          t.style.background = getNoteColor(note);
+          t.style.opacity = `${0.7 * v}`;
+          t.style.transform = `scale(${0.55 + v * 0.45})`;
+          trailsContainer.appendChild(t);
+          keyTrails.set(note, { el: t, startTime: performance.now() });
+        }
+
+        currentChordNotes.add(note);
+        updateChordDisplay();
+
+        if (playMode === "song" && note >= START_NOTE && note <= MAX_KEY) {
+          checkHit(note);
+        }
+      }
+
+      function handleNoteOff(note) {
+        if (synth) {
+          synth.triggerRelease(Tone.Frequency(note, "midi").toFrequency());
+        }
+        pushEvent("noteOff", { note });
+
+        const keyEl = getKeyEl(note);
+        if (keyEl) {
+          keyEl.classList.remove("active");
+          keyEl.style.boxShadow = "";
+          keyEl.style.filter = "";
+        }
+
+        const trail = keyTrails.get(note);
+        if (trail && trailsContainer.contains(trail.el)) {
+          trail.el.style.opacity = "0";
+          setTimeout(() => {
+            if (trailsContainer.contains(trail.el)) {
+              trailsContainer.removeChild(trail.el);
+            }
+          }, 220);
+        }
+
+        currentChordNotes.delete(note);
+        updateChordDisplay();
+      }
+
+      function releaseSustainedNotes() {
+        sustainPedalNotes.forEach((note) => handleNoteOff(note));
+        sustainPedalNotes.clear();
+      }
+
+      function generateKeyboard() {
+        keyboardCtn.innerHTML = "";
+        const whiteNotes = [0, 2, 4, 5, 7, 9, 11];
+        const blackNotes = [1, 3, 6, 8, 10];
+        const whiteKeyPositions = [];
+
+        for (let i = 0; i < TOTAL_KEYS; i++) {
+          const midiNote = START_NOTE + i;
+          const noteInOctave = midiNote % 12;
+          if (whiteNotes.includes(noteInOctave)) {
+            whiteKeyPositions.push(midiNote);
+          }
+        }
+
+        const whiteKeyWidth = 100 / whiteKeyPositions.length;
+        let whiteKeyCount = 0;
+
+        for (let i = 0; i < TOTAL_KEYS; i++) {
+          const midiNote = START_NOTE + i;
+          const noteInOctave = midiNote % 12;
+          const isBlack = blackNotes.includes(noteInOctave);
+          const el = document.createElement("div");
+          const textEl = document.createElement("div");
+          el.dataset.note = midiNote;
+          textEl.className = "keyLabel";
+          textEl.textContent = `${noteNamesSharp[noteInOctave]}${Math.floor(midiNote / 12)}`;
+          textEl.style.pointerEvents = "none";
+
+          if (!isBlack) {
+            el.className = "white-key";
+            el.style.left = `${whiteKeyCount * whiteKeyWidth}%`;
+            el.style.width = `${whiteKeyWidth - 0.28}%`;
+            whiteKeyCount++;
+          } else {
+            el.className = "black-key";
+            el.style.width = `${whiteKeyWidth * 0.65}%`;
+            el.style.left = `${(whiteKeyCount - 1) * whiteKeyWidth + whiteKeyWidth * 0.62}%`;
+          }
+
+          el.appendChild(textEl);
+          bindKeyHandlers(el, midiNote);
+          keyboardCtn.appendChild(el);
+        }
+      }
+
+      function bindKeyHandlers(el, keyNote) {
+        el.onpointerdown = (e) => {
+          e.preventDefault();
+          const pointer = e.pointerId;
+          el.__pointerId = pointer;
+          const v = 0.75 + 0.25 * Math.random();
+          handleNoteOn(keyNote, v);
+        };
+        el.onpointerup = (e) => {
+          e.preventDefault();
+          if (el.__pointerId === e.pointerId) {
+            delete el.__pointerId;
+            handleNoteOff(keyNote);
+          }
+        };
+        el.onpointerleave = (e) => {
+          if (e.pressure === 0 && el.__pointerId === e.pointerId) {
+            delete el.__pointerId;
+            handleNoteOff(keyNote);
+          }
+        };
+      }
+
+      function getKeyEl(note) {
+        return keyboardCtn.querySelector(`[data-note="${note}"]`);
+      }
+
+      function startSong() {
+        if (activeSongTimer) clearInterval(activeSongTimer);
+        activeSongTimer = setInterval(() => {
+          const note = START_NOTE + Math.floor(Math.random() * TOTAL_KEYS);
+          fallingNotes.push({ note, y: -80, hit: false, missed: false, color: getNoteColor(note) });
+        }, 340);
+      }
+
+      function getNoteColor(note) {
+        const hue = ((note - START_NOTE) % 12) * 30;
+        return `hsl(${hue}, 100%, 55%)`;
+      }
+
+      function checkHit(playedNote) {
+        const hitLineY = canvas.height * 0.85;
+        const hitWindow = 52;
+        let targetIndex = -1;
+        for (let i = 0; i < fallingNotes.length; i++) {
+          const n = fallingNotes[i];
+          if (n.note === playedNote && !n.hit && !n.missed && Math.abs(n.y - hitLineY) < hitWindow) {
+            targetIndex = i;
+            break;
+          }
+        }
+
+        const keyEl = getKeyEl(playedNote);
+        if (!keyEl) return;
+
+        if (targetIndex !== -1) {
+          fallingNotes[targetIndex].hit = true;
+          score.hits++;
+          score.streak++;
+          score.bestStreak = Math.max(score.bestStreak, score.streak);
+          updateHUD();
+          keyEl.classList.add("hit-green");
+          setTimeout(() => keyEl.classList.remove("hit-green"), 220);
+        } else {
+          keyEl.classList.add("hit-blue");
+          setTimeout(() => keyEl.classList.remove("hit-blue"), 220);
+        }
+      }
+
+      function updateHUD() {
+        streakEl.textContent = score.streak;
+        const total = score.hits + score.misses;
+        const acc = total ? Math.round((score.hits / total) * 100) : 0;
+        accuracyEl.textContent = `${acc}%`;
+        bestStreakEl.textContent = score.bestStreak;
+        pushEvent("score", { score: { ...score } });
+      }
+
+      function exportSession() {
+        const data = { version: "neon-midi-subzero-0.1", timestamp: new Date().toISOString(), score, notes: sessionLog };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `neon-midi-session-${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function loadSession() {
+        const inp = document.createElement("input");
+        inp.type = "file";
+        inp.accept = ".json";
+        inp.onchange = async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const text = await file.text();
+          const data = JSON.parse(text);
+          replaySession(data.notes);
+        };
+        inp.click();
+      }
+
+      function replaySession(events) {
+        clearCurrentVisuals();
+        isRecordingSession = false;
+        for (const ev of events) {
+          const delay = Math.max(0, ev.time - 50);
+          setTimeout(() => {
+            if (ev.type === "noteOn") {
+              handleNoteOnNoSound(ev.note, ev.velocity || 0.7);
+            } else if (ev.type === "noteOff") {
+              handleNoteOffNoSound(ev.note);
+            } else if (ev.type === "score") {
+              score = ev.score;
+              updateHUD();
+            }
+          }, delay);
+        }
+      }
+
+      function handleNoteOnNoSound(note) {
+        const keyEl = getKeyEl(note);
+        if (keyEl) {
+          const color = getNoteColor(note);
+          keyEl.classList.add("active");
+          keyEl.style.boxShadow = `0 0 18px ${color}`;
+        }
+
+        const trail = keyTrails.get(note);
+        if (trail && trailsContainer.contains(trail.el)) {
+          trailsContainer.removeChild(trail.el);
+        }
+        if (keyEl && showFeedbackToggle.checked) {
+          const t = document.createElement("div");
+          t.className = "note-trail";
+          const w = keyEl.offsetWidth;
+          const l = keyEl.offsetLeft;
+          const t0 = keyEl.offsetTop;
+          t.style.width = `${w}px`;
+          t.style.height = "18px";
+          t.style.left = `${l}px`;
+          t.style.top = `${t0}px`;
+          t.style.background = getNoteColor(note);
+          t.style.opacity = "0.5";
+          t.style.transform = "scale(0.8)";
+          trailsContainer.appendChild(t);
+          keyTrails.set(note, { el: t, startTime: performance.now() });
+        }
+      }
+
+      function handleNoteOffNoSound(note) {
+        const keyEl = getKeyEl(note);
+        if (keyEl) {
+          keyEl.classList.remove("active");
+          keyEl.style.boxShadow = "";
+        }
+
+        const trail = keyTrails.get(note);
+        if (trail && trailsContainer.contains(trail.el)) {
+          trail.el.style.opacity = "0";
+          setTimeout(() => {
+            if (trailsContainer.contains(trail.el)) {
+              trailsContainer.removeChild(trail.el);
+            }
+          }, 220);
+        }
+      }
+
+      function clearCurrentVisuals() {
+        fallingNotes.length = 0;
+        score.hits = 0;
+        score.misses = 0;
+        score.streak = 0;
+        for (const keyEl of keyboardCtn.querySelectorAll(".active")) {
+          keyEl.classList.remove("active");
+          keyEl.style.boxShadow = "";
+        }
+        for (const [note, trail] of keyTrails.entries()) {
+          if (trailsContainer.contains(trail.el)) {
+            trailsContainer.removeChild(trail.el);
+          }
+        }
+        keyTrails.clear();
+        currentChordNotes.clear();
+        updateChordDisplay();
+      }
+
+      function loop() {
+        if (!canvas.width) resize();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const hitLineY = canvas.height * 0.85;
+
+        for (let i = fallingNotes.length - 1; i >= 0; i--) {
+          const n = fallingNotes[i];
+          const keyEl = getKeyEl(n.note);
+          n.y += 4;
+
+          if (!n.hit && !n.missed && n.y > hitLineY + 60) {
+            n.missed = true;
+            score.misses++;
+            score.streak = 0;
+            updateHUD();
+            if (keyEl) {
+              keyEl.classList.add("hit-red");
+              setTimeout(() => keyEl.classList.remove("hit-red"), 220);
+            }
+          }
+
+          if (n.y < canvas.height + 80) {
+            if (keyEl) {
+              const keyRect = keyEl.getBoundingClientRect();
+              const containerRect = keyboardCtn.getBoundingClientRect();
+              const keyCenterX = (keyRect.left + keyRect.right) / 2 - containerRect.left;
+              const x = (keyCenterX / containerRect.width) * canvas.width;
+              const w = (keyRect.width / containerRect.width) * canvas.width;
+              ctx.fillStyle = n.color;
+              ctx.shadowBlur = 14;
+              ctx.shadowColor = n.color;
+              const h = 56;
+              roundRect(ctx, x - w / 2, n.y, Math.max(8, w), h, 8);
+              ctx.fill();
+              ctx.shadowBlur = 0;
+              ctx.fillStyle = "rgba(255,255,255,0.22)";
+              ctx.fillRect(x - w / 2 + 2, n.y + 2, Math.max(2, w - 4), 10);
+            }
+          } else {
+            fallingNotes.splice(i, 1);
+          }
+
+          if (!n.hit && !n.missed && keyEl) {
+            const dist = Math.abs(n.y - hitLineY);
+            if (dist < 150) {
+              const opacity = 1 - dist / 150;
+              keyEl.style.boxShadow = `0 0 ${10 + opacity * 20}px ${n.color}`;
+              keyEl.style.borderColor = n.color;
+            } else {
+              keyEl.style.boxShadow = "";
+              keyEl.style.borderColor = "";
+            }
+          }
+        }
+
+        const now = performance.now();
+        for (const [note, trail] of keyTrails.entries()) {
+          const dt = now - trail.startTime;
+          if (dt > 620) {
+            trail.el.style.opacity = "0";
+            setTimeout(() => {
+              if (trailsContainer.contains(trail.el)) {
+                trailsContainer.removeChild(trail.el);
+              }
+              keyTrails.delete(note);
+            }, 220);
+          }
+        }
+
+        ctx.strokeStyle = "rgba(255,255,255,0.5)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, hitLineY);
+        ctx.lineTo(canvas.width, hitLineY);
+        ctx.stroke();
+
+        requestAnimationFrame(loop);
+      }
+
+      function roundRect(ctx, x, y, w, h, r) {
+        const min = Math.min(w, h) / 2;
+        if (r > min) r = min;
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+
+      function resize() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+      }
+
+      window.addEventListener("resize", resize);
+
+      function setVolume(val) {
+        if (!synth) return;
+        synth.volume.value = parseFloat(val);
+      }
+
+      settingsBtn.addEventListener("click", () => {
+        settingsPanel.hidden = !settingsPanel.hidden;
+      });
+
+      midiSelect.addEventListener("change", () => {
+        selectMIDIInput(midiSelect.value);
+      });
+
+      channelSelect.addEventListener("change", () => {
+        midiChannel = parseInt(channelSelect.value, 10);
+        updateMidiDiagnostics();
+      });
+
+      modeSelect.addEventListener("change", () => {
+        playMode = modeSelect.value;
+        if (playMode === "song") {
+          startSong();
+        } else if (activeSongTimer) {
+          clearInterval(activeSongTimer);
+          activeSongTimer = null;
+        }
+      });
+
+      chordToggle.addEventListener("change", () => {
+        updateChordDisplay();
+      });
+
+      instrumentSelect.addEventListener("change", () => {
+        loadInstrument(instrumentSelect.value);
+      });
+
+      volumeInput.addEventListener("input", () => {
+        setVolume(volumeInput.value);
+      });
+
+      transposeInput.addEventListener("input", () => {
+        transpose = parseInt(transposeInput.value, 10);
+        transposeVal.textContent = transpose;
+      });
+
+      octaveInput.addEventListener("input", () => {
+        octaveOffset = parseInt(octaveInput.value, 10);
+        const base = DEFAULT_OCTAVE + octaveOffset;
+        octaveVal.textContent = `C${base}`;
+      });
+
+      velocityCurveSelect.addEventListener("change", () => {
+        velocityCurve = velocityCurveSelect.value;
+      });
+
+      showFeedbackToggle.addEventListener("change", () => {
+        if (!showFeedbackToggle.checked) {
+          for (const trail of keyTrails.values()) {
+            if (trailsContainer.contains(trail.el)) {
+              trailsContainer.removeChild(trail.el);
+            }
+          }
+          keyTrails.clear();
+        }
+      });
+
+      exportSessionBtn.addEventListener("click", exportSession);
+      loadSessionBtn.addEventListener("click", loadSession);
+
+      updateMidiDiagnostics();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cell Stage | Phaser 4</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="game-container"></div>
+    <div id="hud">
+      <div class="hud-row"><span class="hud-label">DNA</span><span id="dnaValue">0</span></div>
+      <div class="hud-row"><span class="hud-label">Health</span><span id="healthValue">10 / 10</span></div>
+      <div class="hud-row"><span class="hud-label">Progress</span><span id="progressValue">0%</span></div>
+      <div class="hud-row"><span class="hud-label">Diet</span><span id="dietValue">Herbivore</span></div>
+      <div class="hud-row"><span class="hud-label">Difficulty</span><span id="difficultyValue">Normal</span></div>
+      <div class="hud-row"><span class="hud-label">Parts</span><span id="partsValue">Filter Mouth</span></div>
+      <div class="hud-row"><span class="hud-label">Goal</span><span id="goalValue">Find DNA, grow, and evolve.</span></div>
+      <div class="hud-row hud-action-row"><button id="menuToggleBtn">Part Loadout</button></div>
+    </div>
+    <div id="partMenu" hidden>
+      <div class="menuHeader">
+        <div>
+          <h3>Part Selection</h3>
+          <p>Toggle unlocked parts to equip them. Equipped parts affect feeding, attack, and movement.</p>
+        </div>
+        <button id="closeMenuBtn">Close</button>
+      </div>
+      <div id="partMenuList"></div>
+      <div class="menuSection">
+        <h4>Game Settings</h4>
+        <div class="optionRow">
+          <label for="difficultySelect" class="optionLabel">Difficulty</label>
+          <select id="difficultySelect">
+            <option value="Easy">Easy</option>
+            <option value="Normal" selected>Normal</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+        <div class="optionRow">
+          <label class="optionLabel">Sound</label>
+          <button id="soundToggleBtn">Mute</button>
+        </div>
+        <div class="optionRow rangeRow">
+          <label for="volumeSlider" class="optionLabel">Volume</label>
+          <input id="volumeSlider" type="range" min="0" max="1" step="0.05" value="0.22" />
+        </div>
+        <div class="optionRow">
+          <label class="optionLabel">Show Currents</label>
+          <button id="currentsToggleBtn">Hide</button>
+        </div>
+        <div class="optionRow">
+          <label class="optionLabel">Auto-Attack</label>
+          <button id="autoAttackToggleBtn">Off</button>
+        </div>
+      </div>
+    </div>
+    <div id="messagePanel" hidden>
+      <div id="messageTitle">Cell Stage Complete</div>
+      <div id="messageText"></div>
+      <button id="restartBtn">Play Again</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@4/dist/phaser.min.js"></script>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

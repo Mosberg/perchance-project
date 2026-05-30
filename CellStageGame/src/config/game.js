@@ -1,0 +1,21 @@
+const gameConfig = {
+  worldWidth: 2520,
+  worldHeight: 1580,
+  initialPlants: 35,
+  initialMeat: 14,
+  initialEnemies: 10,
+  initialShards: 2,
+  defaults: {
+    difficulty: 'Normal',
+    muted: false,
+    volume: 0.22,
+    showCurrents: true,
+    autoAttack: false,
+  },
+  renderer: {
+    width: 1280,
+    height: 720,
+  },
+};
+
+export default gameConfig;
