@@ -1,0 +1,69 @@
+{
+  "$schema": "ultra‑detailed-character-metadata.schema.json",
+  "$id": "Ultra Detailed Character Metadata Schema",
+  "version": "1.0",
+  "character": [
+    {
+      "identity": {
+        "name": "",
+        "aliases": [],
+        "universe": "",
+        "origin": "",
+        "type": ""
+      },
+      "appearance": {
+        "species": "",
+        "gender": "",
+        "age": "",
+        "height": "",
+        "build": "",
+        "hair": "",
+        "eyes": "",
+        "skin": "",
+        "markings": [],
+        "clothing_style": []
+      },
+      "personality": {
+        "traits_positive": [],
+        "traits_negative": [],
+        "traits_neutral": [],
+        "archetype": "",
+        "temperament": "",
+        "motivations": [],
+        "fears": [],
+        "values": []
+      },
+      "background": {
+        "role": "",
+        "alignment": "",
+        "occupation": "",
+        "faction": "",
+        "homeworld": "",
+        "backstory_summary": ""
+      },
+      "skills": {
+        "combat_style": [],
+        "abilities": [],
+        "magic_type": "",
+        "power_level": "",
+        "specializations": []
+      },
+      "relationships": {
+        "allies": [],
+        "rivals": [],
+        "enemies": [],
+        "family": []
+      },
+      "equipment": {
+        "weapons": [],
+        "items": [],
+        "armor": [],
+        "signature_item": ""
+      },
+      "meta": {
+        "genre": [],
+        "tags": []
+      }
+    }
+  ]
+}

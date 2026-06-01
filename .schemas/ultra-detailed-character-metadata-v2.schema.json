@@ -1,0 +1,183 @@
+{
+  "$schema": "ultra-detailed-character-metadata-v2.schema.json",
+  "$id": "Enhanced_Ultra_Detailed_Character_Metadata_Schema",
+  "version": "2.3",
+  "source": "",
+  "character_id": "",
+  "character": [
+    {
+      "identity": {
+        "name": "",
+        "aliases": [],
+        "universe": "",
+        "origin": "",
+        "type": "",
+        "pronouns": [],
+        "title": "",
+        "birth_date": "",
+        "death_date": "",
+        "languages": [],
+        "voice_actor": "",
+        "concept_artist": ""
+      },
+      "appearance": {
+        "species": "",
+        "subspecies": "",
+        "gender": "",
+        "sex": "",
+        "age": "",
+        "height": "",
+        "weight": "",
+        "build": "",
+        "posture": "",
+        "hair": {
+          "color": "",
+          "length": "",
+          "style": "",
+          "texture": ""
+        },
+        "eyes": {
+          "color": "",
+          "shape": "",
+          "expression": ""
+        },
+        "skin": {
+          "color": "",
+          "texture": "",
+          "temperature": "",
+          "scars": []
+        },
+        "distinctive_features": [],
+        "markings": [],
+        "mutations": [],
+        "body_modifications": [],
+        "clothing_style": [],
+        "scent": "",
+        "voice": ""
+      },
+      "personality": {
+        "traits_positive": [],
+        "traits_negative": [],
+        "traits_neutral": [],
+        "archetype": "",
+        "temperament": "",
+        "moral_alignment": "",
+        "motivations": [],
+        "fears": [],
+        "values": [],
+        "quirks": [],
+        "cognitive_biases": [],
+        "emotional_triggers": [],
+        "mental_illnesses": [],
+        "coping_mechanisms": []
+      },
+      "background": {
+        "role": "",
+        "alignment": "",
+        "occupation": "",
+        "previous_occupations": [],
+        "education": "",
+        "faction": "",
+        "homeworld": "",
+        "current_residence": "",
+        "economic_status": "",
+        "notable_events": [],
+        "backstory_summary": "",
+        "secrets": []
+      },
+      "skills": {
+        "combat_style": [],
+        "abilities": [],
+        "magic_type": "",
+        "power_level": "",
+        "specializations": [],
+        "weaknesses": [],
+        "training": [],
+        "learning_style": "",
+        "iq": "",
+        "eq": "",
+        "adaptability": ""
+      },
+      "relationships": {
+        "allies": [],
+        "rivals": [],
+        "enemies": [],
+        "family": [],
+        "romantic_history": [],
+        "current_partners": [],
+        "friends": [],
+        "acquaintances": [],
+        "mentors": [],
+        "students": [],
+        "favor_status": "",
+        "trust_level": ""
+      },
+      "equipment": {
+        "weapons": [],
+        "items": [],
+        "armor": [],
+        "signature_item": "",
+        "inventory": [],
+        "wealth": "",
+        "technology_access": ""
+      },
+      "meta": {
+        "genre": [],
+        "tags": [],
+        "inspiration": [],
+        "tropes": [],
+        "archetypes": [],
+        "symbolism": [],
+        "leith_motif": "",
+        "themes": []
+      },
+      "physiology": {
+        "metabolism": "",
+        "sleep_patterns": "",
+        "eating_habits": "",
+        "immune_system": "",
+        "healing_factor": "",
+        "pain_tolerance": "",
+        "drug_resistance": "",
+        "poison_resistance": "",
+        "disease_resistance": "",
+        "temperature_tolerance": "",
+        "radiation_resistance": "",
+        "biological_rhythms": []
+      },
+      "psychology": {
+        "intelligence_type": "",
+        "memory_capacity": "",
+        "attention_span": "",
+        "learning_rate": "",
+        "decision_making_style": "",
+        "problem_solving_approach": "",
+        "creativity_level": "",
+        "empathy_level": "",
+        "psychic_defenses": []
+      },
+      "game_stats": {
+        "charisma": "",
+        "strength": "",
+        "intelligence": "",
+        "dexterity": "",
+        "constitution": "",
+        "wisdom": "",
+        "luck": "",
+        "perception": "",
+        "willpower": ""
+      },
+      "misc": {
+        "theme_song": "",
+        "catchphrase": "",
+        "signature_move": "",
+        "hobbies": [],
+        "pet_peeves": [],
+        "guilty_pleasures": [],
+        "bucket_list": [],
+        "unusual_habits": [],
+        "collection": []
+      }
+    }
+  ]
+}
