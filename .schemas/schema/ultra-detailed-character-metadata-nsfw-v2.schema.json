@@ -1,6 +1,7 @@
 {
   "$schema": "ultra-detailed-character-metadata-nsfw-v2.schema.json",
   "$id": "Enhanced_Ultra_Detailed_Character_Metadata_NSFW_Schema",
+  "description": "An enhanced schema for ultra-detailed character metadata, version 2.3, with expanded fields for comprehensive character profiling, including NSFW content.",
   "version": "2.3",
   "character": [
     {

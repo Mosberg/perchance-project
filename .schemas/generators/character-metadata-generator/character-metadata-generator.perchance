@@ -12,5 +12,5 @@ async compressBlobWithGzip(blob) =>
 	return new Blob([outputBlob], { type: "application/gzip" });
 
 $meta
-	title = Generate Character Metadata From URL v1
-	description = Extracts ultra-detailed character metadata from one or more URLs and outputs JSON conforming to the selected schema.
+	title = Character Metadata Generator
+	description = Generate metadata for your AI character, including name, description, and traits. This metadata can be used to enhance your character's profile and interactions.

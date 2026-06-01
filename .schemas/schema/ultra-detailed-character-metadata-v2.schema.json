@@ -1,6 +1,7 @@
 {
   "$schema": "ultra-detailed-character-metadata-v2.schema.json",
   "$id": "Enhanced_Ultra_Detailed_Character_Metadata_Schema",
+  "description": "An enhanced schema for ultra-detailed character metadata, version 2.3, with expanded fields for comprehensive character profiling.",
   "version": "2.3",
   "character": [
     {
