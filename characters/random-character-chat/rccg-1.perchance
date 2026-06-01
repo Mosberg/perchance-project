@@ -1,0 +1,148 @@
+generateText = {import:ai-text-plugin}
+ai = {import:ai-text-plugin}
+
+title = Random Character Chat
+
+// ---------- Core data ----------
+
+characters_list
+  Rayman
+  Master Chief
+  Lara Croft
+  Max Payne
+  Sub-Zero
+  Scorpion
+  Cloud Strife
+  Mario
+  John Marston
+  Sam Fisher
+  Jill Valentine
+  Geralt of Rivia
+  Crash Bandicoot
+  Bella Goth
+  Glados
+  Garrus Vakarian
+  Alduin
+  Kratos
+  Cayde-6
+  Donkey Kong
+  Sonic The Hedgehog
+  Spyro
+  Tom Nook
+  Ash Ketchum
+  Gordon Freeman
+  Chloe Price
+  Link
+  Ratchet
+  Minecraft Steve
+  Dorian Pavus
+  Joel Miller
+  Sylvanas Windrunner
+  Pikachu
+  Agent 47
+  Solid Snake
+  Commander Shepard
+  Duke Nukem
+
+// ---------- UI controls ----------
+
+// Character dropdowns (with "Random" option)
+c1Select
+  [c1Choice]
+
+c2Select
+  [c2Choice]
+
+c1Choice
+  [c1Options]
+
+c2Choice
+  [c2Options]
+
+c1Options
+  [dropdown("Random", "Random", characters_list)]
+
+c2Options
+  [dropdown("Random", "Random", characters_list)]
+
+// Tone, genre, length, dynamic
+
+toneSelect
+  [dropdown("Silly", "Silly", "Serious", "Angsty", "Deadpan")]
+
+genreSelect
+  [dropdown("Slice-of-life", "Slice-of-life", "Fantasy", "Sci-fi", "Horror", "Comedy", "Action")]
+
+lengthSelect
+  [dropdown("Short (~6 msgs)", "Short (~6 msgs)", "Medium (~10 msgs)", "Long (~16 msgs)")]
+
+dynamicSelect
+  [dropdown("Strangers", "Strangers", "Rivals", "Best friends", "Reluctant allies", "Mentor & student", "Enemies-to-lovers (light, playful)")]
+
+// Setting free text
+settingInput
+  [textbox("A weird crossover location (e.g. space mall, haunted arcade, cozy tavern)")]
+
+// Emoji toggle
+emojiToggle
+  [checkbox("Yes", "Yes")]
+
+// ---------- Derived values ----------
+
+// Resolve characters (avoid duplicates if both random)
+resolvedC1
+  [if c1Choice == "Random"
+    then [characters_list.random]
+    else [c1Choice]
+  ]
+
+resolvedC2
+  [if c2Choice == "Random"
+    then [characters_list.randomExcept(resolvedC1)]
+    else [c2Choice]
+  ]
+
+// Map length label to approximate message count
+messageCount
+  [if lengthSelect == "Short (~6 msgs)"
+    then 6
+    else [if lengthSelect == "Medium (~10 msgs)"
+      then 10
+      else 16
+    ]
+  ]
+
+// Emoji style hint
+emojiHint
+  [if emojiToggle == "Yes"
+    then "You may sprinkle in a few fitting emojis, but do not overuse them."
+    else "Avoid using emojis."
+  ]
+
+// Setting text
+settingText
+  [if settingInput == ""
+    then "There is no specific setting given; you can invent a fun backdrop."
+    else "The scene takes place in this setting: " + settingInput + "."
+  ]
+
+// Summary text for UI
+summaryText
+  [resolvedC1] & " + " & [resolvedC2] & " | Tone: " & [toneSelect] & " | Genre: " & [genreSelect] & " | Length: " & [lengthSelect] & " | Dynamic: " & [dynamicSelect]
+
+// ---------- Prompt construction ----------
+
+chatPrompt
+  instruction =
+    Write a [toneSelect.toLowerCase] roleplay dialogue in the [genreSelect.toLowerCase] genre between [resolvedC1] and [resolvedC2].
+    Use asterisks around actions in typical text roleplay style.
+    The relationship dynamic between them is: [dynamicSelect].
+    [settingText]
+    Write about [messageCount] alternating messages total (counting both characters).
+    This is only a segment of a longer roleplay, so you do not need to wrap it up or resolve everything.
+    Keep each message snappy and characterful.
+    [emojiHint]
+  startWith = <b>[resolvedC1]</b>:
+
+output
+  [ai(chatPrompt)]

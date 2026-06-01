@@ -1,0 +1,108 @@
+<h1 class="title">🎭 Random Character Chat Generator</h1>
+
+<p class="subtitle">
+  Generate silly crossover roleplay dialogues between iconic characters.
+</p>
+
+<div class="character-controls">
+  <label>Choose Characters</label>
+
+  <div class="picker-row">
+    <select id="character-1"></select>
+    <select id="character-2"></select>
+  </div>
+
+  <div class="picker-row">
+    <button onclick="randomizePair()">🎲 Random Pair</button>
+    <button onclick="swap()">🔄 Swap</button>
+  </div>
+
+  <details class="advanced">
+    <summary>Advanced Options</summary>
+
+    <label>
+      <input type="checkbox" id="allow-same"> Allow same character
+    </label>
+
+    <label>
+      <input type="checkbox" id="chaos-mode"> Chaos Mode (wild prompts)
+    </label>
+
+    <label>
+      Custom Character:
+      <input id="custom-char" placeholder="Enter any name">
+    </label>
+  </details>
+</div>
+
+<div class="controls">
+  <button onclick="startGen()">▶ Start</button>
+  <button onclick="stopGen()">⏹ Stop</button>
+</div>
+
+<script>
+function startGen() {
+  // Example: reload output
+  perchance.run();
+}
+
+function stopGen() {
+  // Example: clear output
+  document.querySelector("#output").innerHTML = "";
+}
+</script>
+
+<p id="output" class="output-box"></p>
+
+<style>
+  .title { text-align:center; margin-top:1rem; }
+  .subtitle { text-align:center; opacity:0.8; margin-bottom:1.5rem; }
+  .character-controls, .controls {
+    width:95%; max-width:700px; margin:1rem auto; text-align:center;
+  }
+  .picker-row { margin:0.5rem 0; }
+  select, button, input {
+    padding:0.5rem; margin:0.25rem; font-size:1rem;
+  }
+  .advanced { margin-top:1rem; text-align:left; }
+  .output-box {
+    width:95%; max-width:700px; margin:1rem auto; white-space:pre-wrap;
+  }
+</style>
+
+<script>
+const characters = [
+  "Rayman","Master Chief","Lara Croft","Max Payne","Sub-Zero","Scorpion",
+  "Cloud Strife","Mario","John Marston","Sam Fisher","Jill Valentine",
+  "Geralt of Rivia","Crash Bandicoot","Bella Goth","Glados","Garrus Vakarian",
+  "Alduin","Kratos","Cayde-6","Donkey Kong","Sonic The Hedgehog","Spyro",
+  "Tom Nook","Ash Ketchum","Gordon Freeman","Chloe Price","Link","Ratchet",
+  "Minecraft Steve","Dorian Pavus","Joel Miller","Sylvanas Windrunner",
+  "Pikachu","Agent 47","Solid Snake","Commander Shepard","Duke Nukem"
+];
+
+function populate() {
+  const selects = [document.getElementById("character-1"), document.getElementById("character-2")];
+  selects.forEach(sel => {
+    sel.innerHTML = `<option value="">--Select--</option>` +
+      characters.map(c => `<option value="${c}">${c}</option>`).join("");
+  });
+}
+populate();
+
+function randomizePair() {
+  const c1 = characters[Math.floor(Math.random()*characters.length)];
+  let c2 = characters[Math.floor(Math.random()*characters.length)];
+  if (!document.getElementById("allow-same").checked) {
+    while (c1 === c2) c2 = characters[Math.floor(Math.random()*characters.length)];
+  }
+  document.getElementById("character-1").value = c1;
+  document.getElementById("character-2").value = c2;
+}
+
+function swap() {
+  const a = document.getElementById("character-1");
+  const b = document.getElementById("character-2");
+  [a.value, b.value] = [b.value, a.value];
+}
+</script>

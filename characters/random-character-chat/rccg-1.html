@@ -1,0 +1,269 @@
+<h1>🎭 Random Character Chat Generator</h1>
+
+<div
+  style="
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    font-family: system-ui, sans-serif;
+  "
+>
+  <p style="opacity: 0.8; margin-bottom: 1rem">
+    Generate a fun little crossover roleplay snippet between two random (or
+    chosen) characters. Tweak tone, genre, and length to your liking, then hit
+    the button.
+  </p>
+
+  <!-- Controls -->
+  <div
+    style="
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #fafafa;
+    "
+  >
+    <h3 style="margin-top: 0">Chat settings</h3>
+
+    <!-- Character selection -->
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      "
+    >
+      <div style="flex: 1 1 180px">
+        <label><strong>Character 1:</strong></label
+        ><br />
+        <select id="c1Select" style="width: 100%"></select>
+      </div>
+      <div style="flex: 1 1 180px">
+        <label><strong>Character 2:</strong></label
+        ><br />
+        <select id="c2Select" style="width: 100%"></select>
+      </div>
+    </div>
+
+    <!-- Tone & genre -->
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      "
+    >
+      <div style="flex: 1 1 180px">
+        <label><strong>Tone:</strong></label
+        ><br />
+        <select id="toneSelect" style="width: 100%">
+          <option>Silly</option>
+          <option>Serious</option>
+          <option>Angsty</option>
+          <option>Deadpan</option>
+        </select>
+      </div>
+      <div style="flex: 1 1 180px">
+        <label><strong>Genre:</strong></label
+        ><br />
+        <select id="genreSelect" style="width: 100%">
+          <option>Slice-of-life</option>
+          <option>Fantasy</option>
+          <option>Sci-fi</option>
+          <option>Horror</option>
+          <option>Comedy</option>
+          <option>Action</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Length & extras -->
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      "
+    >
+      <div style="flex: 1 1 180px">
+        <label><strong>Length:</strong></label
+        ><br />
+        <select id="lengthSelect" style="width: 100%">
+          <option>Short (~6 msgs)</option>
+          <option>Medium (~10 msgs)</option>
+          <option>Long (~16 msgs)</option>
+        </select>
+      </div>
+      <div style="flex: 1 1 220px">
+        <label><strong>Relationship dynamic:</strong></label
+        ><br />
+        <select id="dynamicSelect" style="width: 100%">
+          <option>Strangers</option>
+          <option>Rivals</option>
+          <option>Best friends</option>
+          <option>Reluctant allies</option>
+          <option>Mentor & student</option>
+          <option>Enemies-to-lovers (light, playful)</option>
+        </select>
+      </div>
+    </div>
+
+    <div
+      style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center"
+    >
+      <div style="flex: 1 1 220px">
+        <label><strong>Setting:</strong></label
+        ><br />
+        <input
+          id="settingInput"
+          placeholder="A weird crossover location (e.g. space mall, haunted arcade, cozy tavern)"
+          style="width: 100%"
+        />
+      </div>
+      <div style="flex: 0 0 auto; margin-top: 0.5rem">
+        <label>
+          <input type="checkbox" id="emojiToggle" />
+          <strong>Allow emojis</strong>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem">
+    <strong>Current config:</strong>
+    <span id="summaryEl">Select options and click generate</span>
+  </p>
+
+  <!-- Output -->
+  <button
+    id="startBtn"
+    onclick="startChat()"
+    style="
+      margin: 0 0 1rem 0;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: 1px solid #444;
+      background: #222;
+      color: #fff;
+      cursor: pointer;
+    "
+  >
+    🎲 Start new random chat
+  </button>
+
+  <div
+    style="
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      background: #fff;
+    "
+  >
+    <h2 style="margin-top: 0" id="titleEl">Chat will appear here</h2>
+    <div id="outputEl" style="white-space: pre-wrap; line-height: 1.5"></div>
+  </div>
+</div>
+
+<script>
+  let charList = [
+    "Mario",
+    "Luigi",
+    "Peach",
+    "Bowser",
+    "Link",
+    "Zelda",
+    "Ganon",
+    "Samus",
+    "Pikachu",
+    "Kirby",
+    "Fox",
+    "Sonic",
+    "Tails",
+    "Knuckles",
+    "Mega Man",
+    "Pac-Man",
+    "Cloud",
+    "Snake",
+    "Geralt",
+    "Master Chief",
+    "Kratos",
+    "Lara Croft",
+    "Doomguy",
+    "Dante",
+    "Bayonetta",
+  ];
+
+  // Populate character dropdowns
+  let optionsHtml =
+    '<option value="Random">Random</option>' +
+    charList.map((c) => `<option>${c}</option>`).join("");
+  c1Select.innerHTML = optionsHtml;
+  c2Select.innerHTML = optionsHtml;
+
+  function pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function updateSummary() {
+    let c1 = c1Select.value === "Random" ? "Random" : c1Select.value;
+    let c2 = c2Select.value === "Random" ? "Random" : c2Select.value;
+    summaryEl.textContent = `${c1} + ${c2} | ${toneSelect.value} | ${genreSelect.value} | ${lengthSelect.value} | ${dynamicSelect.value} | ${settingInput.value || "Default setting"}`;
+  }
+
+  [
+    c1Select,
+    c2Select,
+    toneSelect,
+    genreSelect,
+    lengthSelect,
+    dynamicSelect,
+    settingInput,
+  ].forEach((el) => (el.onchange = updateSummary));
+
+  async function startChat() {
+    startBtn.disabled = true;
+    startBtn.textContent = "⏳ Generating...";
+
+    let c1 =
+      c1Select.value === "Random" ? pickRandom(charList) : c1Select.value;
+    let c2 =
+      c2Select.value === "Random" ? pickRandom(charList) : c2Select.value;
+    if (c1 === c2) c2 = pickRandom(charList.filter((x) => x !== c1)); // Ensure distinct characters
+
+    let tone = toneSelect.value;
+    let genre = genreSelect.value;
+    let lengthVal = lengthSelect.value;
+    let dynamic = dynamicSelect.value;
+    let setting = settingInput.value || "an unusual neutral location";
+    let allowEmojis = emojiToggle.checked;
+
+    updateSummary();
+
+    let msgCount = lengthVal.includes("Short")
+      ? 6
+      : lengthVal.includes("Medium")
+        ? 10
+        : 16;
+
+    titleEl.textContent = `${c1} & ${c2} — ${genre} ${tone.toLowerCase()} chat`;
+
+    let prompt = `Write a ${tone.toLowerCase()} ${genre.toLowerCase()} roleplay chat between ${c1} and ${c2}.
+Dynamic: ${dynamic}.
+Setting: ${setting}.
+${allowEmojis ? "Include emojis in dialogue naturally." : "Do not use emojis."}
+Write approximately ${msgCount} short messages, alternating between the two characters.
+Format: CharacterName: message
+No narration, no out-of-character text.`;
+
+    let streamPromise = generateText({ instruction: prompt });
+    outputEl.innerHTML = streamPromise; // Perchance streams promises automatically
+    await streamPromise;
+    startBtn.disabled = false;
+    startBtn.textContent = "🎲 Start new random chat";
+  }
+</script>

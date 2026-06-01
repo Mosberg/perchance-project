@@ -1,0 +1,77 @@
+<h1>🎭 Random Character Chat Generator</h1>
+
+<div style="max-width:800px; margin:0 auto; text-align:left; font-family:system-ui, sans-serif;">
+
+  <p style="opacity:0.8; margin-bottom:1rem;">
+    Generate a fun little crossover roleplay snippet between two random (or chosen) characters.
+    Tweak tone, genre, and length to your liking, then hit the button.
+  </p>
+
+  <!-- Controls -->
+  <div style="border:1px solid #ccc; border-radius:8px; padding:1rem; margin-bottom:1rem; background:#fafafa;">
+    <h3 style="margin-top:0;">Chat settings</h3>
+
+    <!-- Character selection -->
+    <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-bottom:0.75rem;">
+      <div style="flex:1 1 180px;">
+        <label><strong>Character 1:</strong></label><br>
+        [c1Select]
+      </div>
+      <div style="flex:1 1 180px;">
+        <label><strong>Character 2:</strong></label><br>
+        [c2Select]
+      </div>
+    </div>
+
+    <!-- Tone & genre -->
+    <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-bottom:0.75rem;">
+      <div style="flex:1 1 180px;">
+        <label><strong>Tone:</strong></label><br>
+        [toneSelect]
+      </div>
+      <div style="flex:1 1 180px;">
+        <label><strong>Genre:</strong></label><br>
+        [genreSelect]
+      </div>
+    </div>
+
+    <!-- Length & extras -->
+    <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-bottom:0.75rem;">
+      <div style="flex:1 1 180px;">
+        <label><strong>Length:</strong></label><br>
+        [lengthSelect]
+      </div>
+      <div style="flex:1 1 220px;">
+        <label><strong>Relationship dynamic:</strong></label><br>
+        [dynamicSelect]
+      </div>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+      <div style="flex:1 1 220px;">
+        <label><strong>Setting:</strong></label><br>
+        [settingInput]
+      </div>
+      <div style="flex:0 0 auto; margin-top:0.5rem;">
+        <label>
+          [emojiToggle] <strong>Allow emojis</strong>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <p style="font-size:0.9rem; opacity:0.8; margin-bottom:1rem;">
+    <strong>Current config:</strong> [summaryText]
+  </p>
+
+  <!-- Output -->
+  <button onclick="update()" style="margin:0 0 1rem 0; padding:0.5rem 1rem; border-radius:6px; border:1px solid #444; background:#222; color:#fff; cursor:pointer;">
+    🎲 Start new random chat
+  </button>
+
+  <div style="border:1px solid #ddd; border-radius:8px; padding:1rem; background:#fff;">
+    <h2 style="margin-top:0;">[title]</h2>
+    <div style="white-space:pre-wrap; line-height:1.5;">[output]</div>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+ai = {import:ai-text-plugin}
+
+title = Random Character Chat
+
+// -----------------------------
+// Character List (tagged)
+// -----------------------------
+characters
+  Rayman | tags: mascot, platformer
+  Master Chief | tags: sci-fi, shooter
+  Lara Croft | tags: adventure
+  Max Payne | tags: noir, shooter
+  Sub-Zero | tags: fighter
+  Scorpion | tags: fighter
+  Cloud Strife | tags: fantasy, jrpg
+  Mario | tags: mascot, platformer
+  John Marston | tags: western
+  Sam Fisher | tags: stealth
+  Jill Valentine | tags: horror
+  Geralt of Rivia | tags: fantasy
+  Crash Bandicoot | tags: mascot, platformer
+  Bella Goth | tags: sim
+  Glados | tags: ai, sci-fi
+  Garrus Vakarian | tags: sci-fi
+  Alduin | tags: dragon, fantasy
+  Kratos | tags: god, action
+  Cayde-6 | tags: sci-fi
+  Donkey Kong | tags: mascot
+  Sonic The Hedgehog | tags: mascot, speed
+  Spyro | tags: dragon, fantasy
+  Tom Nook | tags: sim
+  Ash Ketchum | tags: anime
+  Gordon Freeman | tags: sci-fi
+  Chloe Price | tags: drama
+  Link | tags: fantasy
+  Ratchet | tags: sci-fi
+  Minecraft Steve | tags: sandbox
+  Dorian Pavus | tags: fantasy
+  Joel Miller | tags: drama
+  Sylvanas Windrunner | tags: fantasy
+  Pikachu | tags: mascot, anime
+  Agent 47 | tags: stealth
+  Solid Snake | tags: stealth
+  Commander Shepard | tags: sci-fi
+  Duke Nukem | tags: shooter
+
+// -----------------------------
+// Style Presets
+// -----------------------------
+stylePresets
+  silly
+  dramatic
+  chaotic
+  wholesome
+  sarcastic
+
+// -----------------------------
+// Tone slider (optional)
+// -----------------------------
+tone = {random: serious, goofy, neutral}
+
+// -----------------------------
+// Chaos Mode (optional)
+// -----------------------------
+chaosLine
+  They suddenly switch weapons for no reason.
+  A random NPC walks in and screams.
+  A portal opens and closes instantly.
+  Someone starts breakdancing aggressively.
+  A mysterious narrator interrupts.
+
+// -----------------------------
+// Chat Prompt
+// -----------------------------
+chatPrompt
+  instruction =
+    Write a [tone] roleplay dialogue between [c1] and [c2].
+    Use asterisks around actions in typical text roleplay style.
+    Keep it short — about 6 messages.
+    Style preset: [style=stylePresets.selectOne].
+
+    {if:chaosMode == "true"}
+      Add chaotic elements like: [chaosLine].
+    {endif}
+
+  startWith = <b>[c1]</b>:
+
+output
+  [ai(chatPrompt)]
+
+// -----------------------------
+// Character Selection Logic
+// -----------------------------
+c1 = {characters.selectOne}
+c2 = {characters.selectOneExcept:c1}
+
+// External override support
+c1 = {if:input.c1 != ""}[input.c1]{else}{characters.selectOne}{endif}
+c2 = {if:input.c2 != ""}[input.c2]{else}{characters.selectOneExcept:c1}{endif}
+
+chaosMode = {input.chaos}

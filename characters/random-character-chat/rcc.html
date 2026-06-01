@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[title]</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-hover: #334155;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --border: #334155;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1.title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .controls-panel {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px var(--shadow);
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .control-group label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .control-group select,
+    .control-group input[type="number"],
+    .control-group textarea {
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .control-group select:focus,
+    .control-group input:focus,
+    .control-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .control-group textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: inherit;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .checkbox-group label {
+      font-size: 0.9rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      padding: 0.875rem 1.75rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 2px 4px var(--shadow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px var(--shadow);
+    }
+
+    .btn-secondary {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .output-section {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .output-header h2 {
+      font-size: 1.5rem;
+      color: var(--text-primary);
+    }
+
+    .chat-output {
+      background: var(--bg-dark);
+      border-radius: 8px;
+      padding: 1.5rem;
+      min-height: 300px;
+      max-height: 600px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .chat-message {
+      margin-bottom: 1.25rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background: var(--bg-hover);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message-author {
+      font-weight: 700;
+      color: var(--primary-light);
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .message-content {
+      color: var(--text-primary);
+    }
+
+    .message-content em {
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-light);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .character-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      background: var(--primary);
+      color: white;
+      padding: 0.375rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .settings-toggle {
+      background: none;
+      border: none;
+      color: var(--primary-light);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    .settings-toggle:hover {
+      color: var(--primary);
+    }
+
+    .advanced-settings {
+      display: none;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .advanced-settings.show {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .info-box {
+      background: rgba(99, 102, 241, 0.1);
+      border-left: 4px solid var(--primary);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+
+      h1.title {
+        font-size: 1.8rem;
+      }
+
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .output-section {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">[title]</h1>
+
+    <div class="controls-panel">
+      <div class="controls-grid">
+        <div class="control-group">
+          <label for="char1">Character 1</label>
+          <select id="char1"></select>
+        </div>
+
+        <div class="control-group">
+          <label for="char2">Character 2</label>
+          <select id="char2"></select>
+        </div>
+
+        <div class="control-group">
+          <label for="messageCount">Number of Messages</label>
+          <input type="number" id="messageCount" min="2" max="20" value="6">
+        </div>
+
+        <div class="control-group">
+          <label for="tone">Tone/Style</label>
+          <select id="tone">
+            <option value="silly">Silly & Funny</option>
+            <option value="serious">Serious & Dramatic</option>
+            <option value="sarcastic">Sarcastic & Witty</option>
+            <option value="romantic">Romantic & Flirty</option>
+            <option value="adventurous">Adventurous & Exciting</option>
+            <option value="mysterious">Mysterious & Dark</option>
+            <option value="casual">Casual & Friendly</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="customPrompt">Custom Prompt (optional)</label>
+        <textarea id="customPrompt" placeholder="Enter your custom prompt here... Leave empty to use default based on selected tone."></textarea>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="includeActions" checked>
+        <label for="includeActions">Include asterisk actions (*action*)</label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="keepOpen">
+        <label for="keepOpen">Don't wrap up the story (keep open-ended)</label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="showStats">
+        <label for="showStats">Show statistics bar</label>
+      </div>
+
+      <button class="settings-toggle" id="toggleAdvanced">
+        ▼ Advanced Settings
+      </button>
+
+      <div class="advanced-settings" id="advancedSettings">
+        <div class="controls-grid">
+          <div class="control-group">
+            <label for="temperature">Creativity (Temperature)</label>
+            <input type="number" id="temperature" min="0" max="2" step="0.1" value="0.8">
+          </div>
+
+          <div class="control-group">
+            <label for="maxTokens">Max Tokens</label>
+            <input type="number" id="maxTokens" min="100" max="4000" step="100" value="1000">
+          </div>
+
+          <div class="control-group">
+            <label for="topP">Top P</label>
+            <input type="number" id="topP" min="0" max="1" step="0.05" value="0.9">
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>Tip:</strong> Higher temperature = more creative/random. Lower = more focused/consistent.
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-primary" id="generateBtn">
+          🎲 Generate Chat
+        </button>
+        <button class="btn btn-secondary" id="newChatBtn">
+          🔄 New Random Chat
+        </button>
+        <button class="btn btn-secondary" id="copyBtn">
+          📋 Copy Output
+        </button>
+        <button class="btn btn-danger" id="clearBtn">
+          🗑️ Clear
+        </button>
+      </div>
+    </div>
+
+    <div class="output-section">
+      <div class="output-header">
+        <h2>Chat Output</h2>
+        <div class="character-tags" id="charTags"></div>
+      </div>
+
+      <div class="chat-output" id="output">
+        <div class="loading">
+          <div class="spinner"></div>
+          <span>Click "Generate Chat" to start!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-bar" id="statsBar" style="display: none;">
+      <div class="stat-item">
+        <div class="stat-value" id="msgCount">0</div>
+        <div class="stat-label">Messages</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="wordCount">0</div>
+        <div class="stat-label">Words</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="charCount">0</div>
+        <div class="stat-label">Characters</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="genTime">0s</div>
+        <div class="stat-label">Gen Time</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Character list
+    const characters = [
+      "Rayman", "Master Chief", "Lara Croft", "Max Payne", "Sub-Zero",
+      "Scorpion", "Cloud Strife", "Mario", "John Marston", "Sam Fisher",
+      "Jill Valentine", "Geralt of Rivia", "Crash Bandicoot", "Bella Goth",
+      "Glados", "Garrus Vakarian", "Alduin", "Kratos", "Cayde-6",
+      "Donkey Kong", "Sonic The Hedgehog", "Spyro", "Tom Nook",
+      "Ash Ketchum", "Gordon Freeman", "Chloe Price", "Link", "Ratchet",
+      "Minecraft Steve", "Dorian Pavus", "Joel Miller", "Sylvanas Windrunner",
+      "Pikachu", "Agent 47", "Solid Snake", "Commander Shepard", "Duke Nukem"
+    ];
+
+    // Tone instructions
+    const toneInstructions = {
+      silly: "Write a silly roleplay dialogue",
+      serious: "Write a serious and dramatic roleplay dialogue",
+      sarcastic: "Write a sarcastic and witty roleplay dialogue",
+      romantic: "Write a romantic and flirty roleplay dialogue",
+      adventurous: "Write an adventurous and exciting roleplay dialogue",
+      mysterious: "Write a mysterious and dark roleplay dialogue",
+      casual: "Write a casual and friendly roleplay dialogue"
+    };
+
+    // DOM elements
+    const char1Select = document.getElementById('char1');
+    const char2Select = document.getElementById('char2');
+    const messageCountInput = document.getElementById('messageCount');
+    const toneSelect = document.getElementById('tone');
+    const customPromptInput = document.getElementById('customPrompt');
+    const includeActionsCheckbox = document.getElementById('includeActions');
+    const keepOpenCheckbox = document.getElementById('keepOpen');
+    const showStatsCheckbox = document.getElementById('showStats');
+    const toggleAdvancedBtn = document.getElementById('toggleAdvanced');
+    const advancedSettingsDiv = document.getElementById('advancedSettings');
+    const temperatureInput = document.getElementById('temperature');
+    const maxTokensInput = document.getElementById('maxTokens');
+    const topPInput = document.getElementById('topP');
+    const generateBtn = document.getElementById('generateBtn');
+    const newChatBtn = document.getElementById('newChatBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const outputDiv = document.getElementById('output');
+    const charTagsDiv = document.getElementById('charTags');
+    const statsBarDiv = document.getElementById('statsBar');
+    const msgCountSpan = document.getElementById('msgCount');
+    const wordCountSpan = document.getElementById('wordCount');
+    const charCountSpan = document.getElementById('charCount');
+    const genTimeSpan = document.getElementById('genTime');
+
+    // Populate character selects
+    function populateCharacterSelects() {
+      char1Select.innerHTML = '';
+      char2Select.innerHTML = '';
+
+      characters.forEach(char => {
+        const option1 = document.createElement('option');
+        option1.value = char;
+        option1.textContent = char;
+        char1Select.appendChild(option1);
+
+        const option2 = document.createElement('option');
+        option2.value = char;
+        option2.textContent = char;
+        char2Select.appendChild(option2);
+      });
+
+      // Random selection
+      randomizeCharacters();
+    }
+
+    function randomizeCharacters() {
+      const randomChar1 = characters[Math.floor(Math.random() * characters.length)];
+      let randomChar2 = characters[Math.floor(Math.random() * characters.length)];
+
+      // Ensure different characters
+      while (randomChar2 === randomChar1) {
+        randomChar2 = characters[Math.floor(Math.random() * characters.length)];
+      }
+
+      char1Select.value = randomChar1;
+      char2Select.value = randomChar2;
+    }
+
+    function buildPrompt() {
+      const char1 = char1Select.value;
+      const char2 = char2Select.value;
+      const messageCount = messageCountInput.value;
+      const tone = toneSelect.value;
+      const customPrompt = customPromptInput.value.trim();
+      const includeActions = includeActionsCheckbox.checked;
+      const keepOpen = keepOpenCheckbox.checked;
+
+      let instruction;
+
+      if (customPrompt) {
+        instruction = customPrompt;
+      } else {
+        instruction = `${toneInstructions[tone]} between <b>${char1}</b> and <b>${char2}</b>.`;
+
+        if (includeActions) {
+          instruction += " Use asterisks around actions in typical text roleplay style (e.g., *laughs*, *draws weapon*).";
+        }
+
+        instruction += ` Keep it short - about ${messageCount} messages.`;
+
+        if (keepOpen) {
+          instruction += " This is only a segment of the full roleplay, so you don't need to wrap it up.";
+        }
+      }
+
+      const startWith = `<b>${char1}</b>:`;
+
+      return {
+        instruction,
+        startWith,
+        char1,
+        char2,
+        messageCount,
+        tone,
+        temperature: temperatureInput.value,
+        maxTokens: maxTokensInput.value,
+        topP: topPInput.value
+      };
+    }
+
+    async function generateChat() {
+      const startTime = Date.now();
+      generateBtn.disabled = true;
+      generateBtn.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> Generating...';
+
+      outputDiv.innerHTML = '<div class="loading"><div class="spinner"></div><span>Generating your chat...</span></div>';
+
+      const promptData = buildPrompt();
+
+      try {
+        // Using Perchance AI plugin
+        const instruction = promptData.instruction;
+        const startWith = promptData.startWith;
+
+        // Build the AI prompt
+        const aiPrompt = `instruction = ${instruction}\nstartWith = ${startWith}`;
+
+        // Call Perchance AI
+        const response = await fetch(`https://perchance.org/api/eval`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            code: `ai = {import:ai-text-plugin}\noutput = [ai(${aiPrompt})]`,
+            inputs: {}
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('AI request failed');
+        }
+
+        const result = await response.json();
+        const chatText = result.result || result.output || 'Error generating chat';
+
+        // Parse and display the chat
+        displayChat(chatText, promptData.char1, promptData.char2);
+
+        // Update statistics
+        const genTime = ((Date.now() - startTime) / 1000).toFixed(1);
+        updateStatistics(chatText, genTime);
+
+      } catch (error) {
+        console.error('Error generating chat:', error);
+        outputDiv.innerHTML = `<div class="chat-message" style="background: rgba(239, 68, 68, 0.2); border: 1px solid var(--danger);">
+          <div class="message-content" style="color: var(--danger);">
+            ❌ Error generating chat: ${error.message}<br><br>
+            <strong>Alternative:</strong> Try again or check your internet connection.
+          </div>
+        </div>`;
+      } finally {
+        generateBtn.disabled = false;
+        generateBtn.innerHTML = '🎲 Generate Chat';
+      }
+    }
+
+    function displayChat(chatText, char1, char2) {
+      // Parse the chat into messages
+      const lines = chatText.split('\n').filter(line => line.trim());
+      let html = '';
+
+      // Parse messages
+      const messages = [];
+      let currentAuthor = null;
+      let currentContent = [];
+
+      lines.forEach(line => {
+        const match = line.match(/^<b>(.+?)<\/b>:\s*(.*)$/);
+
+        if (match) {
+          // Save previous message
+          if (currentAuthor) {
+            messages.push({
+              author: currentAuthor,
+              content: currentContent.join(' ').trim()
+            });
+          }
+
+          currentAuthor = match[1];
+          currentContent = [match[2]];
+        } else if (currentAuthor) {
+          currentContent.push(line);
+        }
+      });
+
+      // Save last message
+      if (currentAuthor) {
+        messages.push({
+          author: currentAuthor,
+          content: currentContent.join(' ').trim()
+        });
+      }
+
+      // Display messages
+      if (messages.length === 0) {
+        html = `<div class="chat-message">
+          <div class="message-content">No messages generated. Try again!</div>
+        </div>`;
+      } else {
+        messages.forEach(msg => {
+          // Format asterisk actions
+          const formattedContent = msg.content
+            .replace(/\*(.*?)\*/g, '<em>*$1*</em>');
+
+          html += `<div class="chat-message">
+            <div class="message-author">${msg.author}</div>
+            <div class="message-content">${formattedContent}</div>
+          </div>`;
+        });
+      }
+
+      outputDiv.innerHTML = html;
+
+      // Update character tags
+      charTagsDiv.innerHTML = `
+        <span class="tag">${char1}</span>
+        <span class="tag">${char2}</span>
+        <span class="tag">${messages.length} messages</span>
+      `;
+    }
+
+    function updateStatistics(chatText, genTime) {
+      const words = chatText.trim().split(/\s+/).length;
+      const chars = chatText.length;
+      const messages = (chatText.match(/<b>/g) || []).length;
+
+      msgCountSpan.textContent = messages;
+      wordCountSpan.textContent = words;
+      charCountSpan.textContent = chars;
+      genTimeSpan.textContent = genTime + 's';
+
+      // Show/hide stats bar
+      statsBarDiv.style.display = showStatsCheckbox.checked ? 'flex' : 'none';
+    }
+
+    function copyOutput() {
+      const text = outputDiv.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '✅ Copied!';
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+        copyBtn.innerHTML = '❌ Failed';
+        setTimeout(() => {
+          copyBtn.innerHTML = '📋 Copy Output';
+        }, 2000);
+      });
+    }
+
+    function clearOutput() {
+      outputDiv.innerHTML = '<div class="loading"><div class="spinner"></div><span>Click "Generate Chat" to start!</span></div>';
+      charTagsDiv.innerHTML = '';
+      msgCountSpan.textContent = '0';
+      wordCountSpan.textContent = '0';
+      charCountSpan.textContent = '0';
+      genTimeSpan.textContent = '0s';
+    }
+
+    function toggleAdvanced() {
+      advancedSettingsDiv.classList.toggle('show');
+      const isShow = advancedSettingsDiv.classList.contains('show');
+      toggleAdvancedBtn.innerHTML = isShow ? '▲ Advanced Settings' : '▼ Advanced Settings';
+    }
+
+    // Event listeners
+    generateBtn.addEventListener('click', generateChat);
+    newChatBtn.addEventListener('click', () => {
+      randomizeCharacters();
+      generateChat();
+    });
+    copyBtn.addEventListener('click', copyOutput);
+    clearBtn.addEventListener('click', clearOutput);
+    toggleAdvancedBtn.addEventListener('click', toggleAdvanced);
+
+    showStatsCheckbox.addEventListener('change', () => {
+      statsBarDiv.style.display = showStatsCheckbox.checked ? 'flex' : 'none';
+    });
+
+    // Initialize
+    populateCharacterSelects();
+  </script>
+</body>
+</html>
