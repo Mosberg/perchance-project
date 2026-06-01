@@ -2,8 +2,6 @@
   "$schema": "ultra-detailed-character-metadata-v2.schema.json",
   "$id": "Enhanced_Ultra_Detailed_Character_Metadata_Schema",
   "version": "2.3",
-  "source": "",
-  "character_id": "",
   "character": [
     {
       "identity": {

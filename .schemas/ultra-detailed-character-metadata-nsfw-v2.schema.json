@@ -2,8 +2,6 @@
   "$schema": "ultra-detailed-character-metadata-nsfw-v2.schema.json",
   "$id": "Enhanced_Ultra_Detailed_Character_Metadata_NSFW_Schema",
   "version": "2.3",
-  "source": "",
-  "character_id": "",
   "character": [
     {
       "identity": {
