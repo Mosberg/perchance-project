@@ -1,0 +1,42 @@
+{
+  "nsfw": {
+    "sexual_orientation": "",
+    "relationship_status": "",
+    "partner_preferences": {
+      "gender": [],
+      "species": [],
+      "personality_traits": [],
+      "physical_traits": []
+    },
+    "kinks": [],
+    "fetishes": [],
+    "turn_offs": [],
+    "sexual_experience": "",
+    "libido": "",
+    "attitude_toward_sex": "",
+    "sexual_health": {
+      "std_status": "",
+      "contraception": "",
+      "fertility": ""
+    },
+    "explicit_content": {
+      "allowed_scenarios": [],
+      "limits": [],
+      "aftercare_preferences": []
+    },
+    "bodily_fluids": {
+      "blood": "",
+      "sweat": "",
+      "saliva": "",
+      "semen": "",
+      "vaginal_fluids": "",
+      "urine": "",
+      "feces": ""
+    },
+    "consent_dynamics": {
+      "initiation_style": "",
+      "power_exchange": "",
+      "safeword": ""
+    }
+  }
+}
